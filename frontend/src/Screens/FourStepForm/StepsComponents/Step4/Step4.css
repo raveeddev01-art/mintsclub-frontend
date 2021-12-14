@@ -1,0 +1,100 @@
+.step4-container {
+
+}
+.metamask-container {
+    border-bottom: 1px solid #001d43;
+    padding-bottom: 2rem;
+}
+.step-4-input {
+    background-color: #001d43;
+    border: none !important;
+    padding: 0.5rem;
+    /* max-width: 30%; */
+    border-radius: 10px;
+    color:#aaabab !important;
+    padding: 0.7rem 1rem;
+}
+.details-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+
+}
+.details-box {
+    width: 34vw;
+    height: 28vh;
+    min-width: 28rem;
+    background-color: #001d43;
+    border-radius: 8px;
+}
+.info {
+    font-size: 1rem;
+    /* font-weight: 600; */
+    color: white;
+}
+.step4-label {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #FFFFFF !important;
+    opacity: 0.8; /* Firefox */
+  }
+.step4-btn {
+    padding: 0.55rem 5rem !important;
+    background-color: #001d43 !important;
+    /* background-color: #FCD70D !important ; */
+    border: none !important;
+    outline: none !important;
+    border-radius: 0.7rem !important;
+    /* color: black !important; */
+    color:#aaabab !important;
+ 
+}
+.connect-btn {
+    padding: 0.55rem 5rem !important;
+    /* background-color: #001d43 !important; */
+    /* background-color: #FCD70D !important ; */
+    border: none !important;
+    outline: none !important;
+    border-radius: 0.7rem !important;
+    /* color: black !important; */
+    /* color:#aaabab !important; */
+}
+.network-dropdown  {
+    background-color: #001d43 !important;
+    color: "white" !important;
+}
+.network-dropdown .option  {
+    background-color: #001d43 !important;
+    /* color: "white" !important; */
+}
+.network-option {
+    color: white !important;
+}
+.step-4-wrapper {
+    display: flex;
+}
+.mintbtn {
+    padding: 0.55rem 4rem !important;
+    background-color: #02142E !important;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0.7rem !important;
+    color:white !important;
+}
+
+@media (max-width:876px) {
+    .step-4-wrapper {
+        display:block !important;
+     
+    }
+    .discord-container {
+        margin-top: 2rem !important;
+    }
+}
+@media screen and (max-height: 868px){
+
+    .details-box{
+      height: 35vh !important;
+  }
+  }

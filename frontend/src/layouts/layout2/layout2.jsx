@@ -9,7 +9,7 @@ class Layout2 extends Component {
     render() {
         return (
             <div className="main">
-                <Header />
+                {/* <Header /> */}
                 {this.props.children}
                 <Footer />
                 <ModalSearch />

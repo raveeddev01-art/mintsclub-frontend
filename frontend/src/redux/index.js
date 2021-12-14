@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import homeReducer from './../components/home/home.reducer'
+import mintsReducer from '../redux/reducer/reducer'
 import auctionReducer from './../components/auctions/auctions.reducer'
 import nftReducer from './../components/nfts/nfts.reducer'
 import userReducer from './../components/user/user.reducer'
@@ -15,6 +16,7 @@ import contactReducer from '../components/contact/contact.reducer'
 
 export default combineReducers({
     home: homeReducer,
+    dashboard:mintsReducer,
     auction: auctionReducer,
     nft: nftReducer,
     user: userReducer,

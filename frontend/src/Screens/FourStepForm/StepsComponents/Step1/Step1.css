@@ -1,0 +1,49 @@
+.upload-img-title {
+    font-size:20px;
+    font-weight: bold;
+}
+.file-container {
+  background-color: #001d43;
+  width: 14vw;
+  min-width: 18rem;
+  height: 15rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.upload-icon {
+    /* font-size: 5rem; */
+    color: #aaabab !important;
+    margin-right: 0.6rem;
+}
+.selected-file {
+    width: 14vw;
+    height: 25vh;
+    border-radius: 8px;
+    min-width: 15rem;
+}
+.selected-file:hover {
+    opacity: 0.7 !important;
+}
+.label-parent:hover .upload-img-icon {
+    display: block !important;
+}
+.testingkkk {
+    margin: 0rem 0rem !important;
+}
+.upload-img-icon {
+    color: rgb(170, 171, 171);
+    font-size: 1.2rem;
+    top: 4;
+    left: 100px;
+    right: 4;
+
+    top: 5.4rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    display: none;
+    cursor: pointer;
+
+}
+/* @media (max-width:600px) {
+
+} */
