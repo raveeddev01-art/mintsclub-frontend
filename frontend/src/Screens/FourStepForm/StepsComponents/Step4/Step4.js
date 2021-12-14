@@ -226,7 +226,7 @@ const Step4 = (props) => {
                 )}
                 <p
                   className="position-absolute"
-                  style={{ color: "red", top: "0", left: "3.4rem" }}
+                  style={{ color: "red", top: "0", left: "3.9rem" }}
                 >
                   *
                 </p>
@@ -309,7 +309,7 @@ const Step4 = (props) => {
                     </label>
                     <p
                       className="position-absolute"
-                      style={{ color: "red", top: "0", left: "9.5rem" }}
+                      style={{ color: "red", top: "0", left: "10.4rem" }}
                     >
                       *
                     </p>

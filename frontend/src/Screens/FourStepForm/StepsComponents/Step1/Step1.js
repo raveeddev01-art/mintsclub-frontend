@@ -156,7 +156,7 @@ const onDrop=(e)=>{
       {!img ? (
         <>
           {!videoUrl && !img && (
-            <label className="text-center d-flex" style={{cursor:"pointer",width:"14vw"}}>
+            <label className="text-center d-flex mt-2" style={{cursor:"pointer",width:"14vw"}}>
             <div className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
             onDrop={(e) => onDrop(e)}
             onDragOver={(e) => dragOver(e)}
@@ -164,7 +164,7 @@ const onDrop=(e)=>{
             onDragLeave={(e) => dragLeave(e)}
             >
               <div
-                className="d-flex h-100 justify-content-center align-items-center"
+                className="d-flex h-100 justify-content-center align-items-center "
                 style={{ flexDirection: "column",cursor:"pointer" }}
                 
               >
@@ -217,7 +217,7 @@ const onDrop=(e)=>{
           )}
         </>
       ) : (
-        <div className="text-white d-flex  mt-2 mb-5" style={{cursor:"pointer"}}     onDrop={(e) => onDrop(e)}
+        <div className="text-white d-flex  mt-4 mb-5" style={{cursor:"pointer"}}     onDrop={(e) => onDrop(e)}
         onDragOver={(e) => dragOver(e)}
         onDragEnter={(e) => dragEnter(e)}
         onDragLeave={(e) => dragLeave(e)}>

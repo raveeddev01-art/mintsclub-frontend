@@ -62,7 +62,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
     },
   };
 
-  let url = `${ENV.url}/user/create`;
+  let url = `${ENV.url}/createUser`;
   // console.log(url);
   axios
     .post(url, data, config)
@@ -278,7 +278,7 @@ const handleEmailRequest = (email) => {
     },
   };
 
-  let url = `${ENV.url}/user/addEmail`;
+  let url = `${ENV.url}/addEmail`;
   // console.log(url);
   axios
     .post(url,data, config)

@@ -17,6 +17,12 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+const genStyle = {
+ row:{
+   display: 'grid'
+ }
+};
 // let array = [1];
 
 const PreviewModal = (props) => {
@@ -99,14 +105,14 @@ const PreviewModal = (props) => {
                     style={{ flexDirection: "column" }}
                   >
                     <input
-                      className="preview-input mt-1"
+                      className=" mt-1 w-100 externalLink-input"
                       type="url"
                       value={
                         (info.externalLink && info.externalLink.trim()) ||
                         "- externalLink -"
                       }
                       placeholder="- externalLink -"
-                      style={{ margin: "0" }}
+                      style={{ margin: "0" ,width:"100%"}}
                       maxLength="50"
                       disabled={true}
                     />
@@ -138,7 +144,7 @@ const PreviewModal = (props) => {
                     disabled={true}
                   />
                   <textarea
-                    className="preview-description p-3 mt-4"
+                    className="preview-description p-3 mt-4 w-100"
                     placeholder="- Description -"
                     value={
                       (info.description && info.description.trim()) ||
@@ -159,7 +165,7 @@ const PreviewModal = (props) => {
                 </div>
               </div>
             ) : (
-              <div className="row preview-modal-info d-block ">
+              <div className=" preview-modal-info rowCust" >
                 <div className="w-100 text-center">
                   <p className="text-white preview-text">Preview</p>
                 </div>
@@ -170,16 +176,16 @@ const PreviewModal = (props) => {
                 </p>
               
                 <div
-                  className="row"
+                  className="rowCust"
                   style={{ overflowY: "auto", height: "5rem",overflowX:"hidden" }}
                 >
                   {info.properties && info.properties.length > 0 ? (
                     info.properties.map((item, index) => {
                       return (
-                        <div className="row" key={index}>
-                          <div className="col-6  mt-4" key={index}>
+                        <div className="row col-md-12" key={index}>
+                          <div className="col-6  mt-4 centerCls" key={index}>
                             <input
-                              className="preview-input "
+                              className="preview-input-step-2  "
                               type="url"
                               value={item.name || ""}
                               maxLength="50"
@@ -188,9 +194,9 @@ const PreviewModal = (props) => {
                             />
                           </div>
 
-                          <div className="col-6  mt-4">
+                          <div className="col-6  mt-4 centerCls">
                             <input
-                              className="preview-input "
+                              className="preview-input-step-2 value-input-preview "
                               style={{maxWidth:"91%"}}
                               type="url"
                               value={item.value || ""}
@@ -211,7 +217,7 @@ const PreviewModal = (props) => {
 
                 {/* ////////////////////////////////////////////// */}
                 <div
-                  className="row mt-5"
+                  className="rowCust mt-5"
                   style={{
                     overflowY: "auto",
                     overflowX: "hidden",
@@ -219,14 +225,13 @@ const PreviewModal = (props) => {
                   }}
                 >
                   <p className="text-white preview-levels-title">Levels </p>
-
-                  {info.levels && info.levels.length > 0 ? (
+                {info.levels && info.levels.length > 0 ? (
                     info.levels.map((item, index) => {
                       return (
-                        <div className="row" key={index}>
-                          <div className="col-6 mt-2" key={index}>
+                        <div className="row col-md-12" key={index}>
+                          <div className="col-6 mt-2 centerCls" key={index}>
                             <input
-                              className="preview-input "
+                              className="preview-input-step-2  "
                               type="url"
                               value={item.name || ""}
                               placeholder="Levels"
@@ -248,7 +253,7 @@ const PreviewModal = (props) => {
                               }}
                             >
                               <input
-                                className="preview-input first-value  mt-2 "
+                                className="preview-input-step-2  first-value  mt-2 "
                                 type="number"
                                 pattern="[0-9]+"
                                 // maxlength="4"
@@ -264,7 +269,7 @@ const PreviewModal = (props) => {
 
                               <p className="text-white mb-0 of-text">Of</p>
                               <input
-                                className="preview-input first-value mt-2 "
+                                className="preview-input-step-2  first-value mt-2 "
                                 type="number"
                                 min="1"
                                 max="5"
