@@ -28,7 +28,7 @@ class Layout1 extends Component {
         const { title } = this.props
         return (
             <div className="main">
-                {/* <Header /> */}
+                <Header />
                 <Breadcrumb title={title} banner={this.state.banner || bannerImg}/>
                 {this.props.children}
                 <Footer />

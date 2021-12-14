@@ -9,31 +9,24 @@ export const ENV = {
     web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
 
     // process variables
-    // url: process.env.REACT_APP_BASE_URL,
-    // url:"http://3.142.91.8/v1/front/",
-    // url:process.env.REACT_APP_BASE_URL,
-    // url:"https://backend.ariswap.co/v1/front/",
-    // url:"https://backend.ariswap.co/v1/front/",
-    url:"http://localhost:5000/v1/front/",
-
+    url: process.env.REACT_APP_BASE_URL,
     assetUrl: process.env.REACT_APP_BASE_URL,
     currency: process.env.REACT_APP_CURRENCY,
     appName: process.env.REACT_APP_NAME,
     requiredChainName: process.env.REACT_APP_REQUIRED_CHAIN_NAME,
     currencies: [
         {
-            name: 'CELO',
-            symbol: 'CELO',
-            icon: '/img/celo.svg',
-        },
-        {
             name: 'Binance',
             symbol: 'BNB',
             icon: '/img/binance.svg',
+        },
+        {
+            name: 'Ethereum',
+            symbol: 'ETH',
+            icon: '/img/ethereum.svg',
         }
-       
     ],
-    serviceFee: 2,
+    serviceFee: 2.5,
 
     // Headers
     Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION}`,
@@ -87,7 +80,6 @@ export const ENV = {
 
     //Object to query string
     objectToQueryString: function (body) {
-        // console.log("body", body)
         const qs = Object.keys(body).map(key => `${key}=${body[key]}`).join('&');
         return qs;
     },

@@ -1,0 +1,25 @@
+.first-value {
+    width: 38% !important;
+}
+.value-label{
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+.levels-scroll {
+    overflow-y: auto;
+    height: 22vh;
+
+}
+.levels-value{
+    border: 2px solid red !important;
+    outline: red !important;
+}
+@media (max-width:690px) {
+
+    .css-1i2drx0 {
+        width: 500px !important;
+    }
+    .levels-cross-icon {
+        right:-8px !important;
+    }
+}

@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import liveAuctionsAbi from './abis/ARISwapToken.json'
-import {ENV} from './../config/config';
+import {ENV} from '../config/config';
 // const web3 = new Web3(
 //   new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
 // );

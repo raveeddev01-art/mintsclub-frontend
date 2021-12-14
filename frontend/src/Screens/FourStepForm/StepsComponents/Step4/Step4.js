@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import MetamaskImg from "../../../../assets/images/metamask.svg";
-import RefreshImg from "../../../../assets/images/Refresh.svg";
-import DetailsImg from "../../../../assets/images/Details.svg";
-import DiscordImg from "../../../../assets/images/Discord.svg";
+import MetamaskImg from "../../../../Assets/Images/metamask.svg";
+import RefreshImg from "../../../../Assets/Images/Refresh.svg";
+import DetailsImg from "../../../../Assets/Images/Details.svg";
+import DiscordImg from "../../../../Assets/Images/Discord.svg";
 import ReactCaptcha from "../../../../components/Captcha/Captcha";
 // import { connectMetamaskCopy } from "../../../../Utils/web3";
 import PreviewModal from "../../../../components/PreviewModal/PreviewModal";
@@ -361,7 +361,7 @@ const Step4 = (props) => {
             <p className="" style={{ color: "#aaabab" }}>
               Join the Discord Community
             </p>
-            <button className="btn btn-primary step4-btn">Join</button>
+            <button className="btn btn-primary step4-btn mt-2">Join</button>
           </div>
         </div>
         {props.walletAddress && (
@@ -452,6 +452,7 @@ const Step4 = (props) => {
                           width: "1.3rem",
                           height: "1.3rem",
                           cursor: "pointer",
+                          marginTop:"1.4rem"
                         }}
                       />
                     </div>

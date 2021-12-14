@@ -159,17 +159,19 @@ const PreviewModal = (props) => {
                 </div>
               </div>
             ) : (
-              <div className="row preview-modal-info ">
+              <div className="row preview-modal-info d-block ">
                 <div className="w-100 text-center">
                   <p className="text-white preview-text">Preview</p>
                 </div>
+            
 
                 <p className="text-white preview-properties-title">
                   Properties{" "}
                 </p>
+              
                 <div
                   className="row"
-                  style={{ overflowY: "auto", height: "5rem" }}
+                  style={{ overflowY: "auto", height: "5rem",overflowX:"hidden" }}
                 >
                   {info.properties && info.properties.length > 0 ? (
                     info.properties.map((item, index) => {
@@ -189,6 +191,7 @@ const PreviewModal = (props) => {
                           <div className="col-6  mt-4">
                             <input
                               className="preview-input "
+                              style={{maxWidth:"91%"}}
                               type="url"
                               value={item.value || ""}
                               placeholder="Value"
@@ -215,7 +218,7 @@ const PreviewModal = (props) => {
                     height: "6rem",
                   }}
                 >
-                  <p className="text-white preview-properties-title">Levels </p>
+                  <p className="text-white preview-levels-title">Levels </p>
 
                   {info.levels && info.levels.length > 0 ? (
                     info.levels.map((item, index) => {

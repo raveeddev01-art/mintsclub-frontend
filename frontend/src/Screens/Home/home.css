@@ -6,7 +6,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     /* background-image:linear-gradient(to top ,rgba(0, 14, 41, 1),rgba(0, 14, 41, 0.51)), url('../../Assets/Images/Background.svg'); */
-    background-image:linear-gradient(to top ,rgba(5, 1, 33, 0.78),rgba(5, 1, 33, 0.18)), url('../../assets/images/Background.svg');
+    background-image:linear-gradient(to top ,rgba(5, 1, 33, 0.78),rgba(5, 1, 33, 0.18)), url('../../Assets/Images/Background.svg');
 }
 /* background: linear-gradient(182deg, #44D2FA 0%, #2353EA 100%); */
 

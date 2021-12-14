@@ -11,10 +11,10 @@ class Layout2 extends Component {
             <div className="main">
                 {/* <Header /> */}
                 {this.props.children}
-                <Footer />
+                {/* <Footer />
                 <ModalSearch />
                 <ModalMenu />
-                <Scrollup />
+                <Scrollup /> */}
             </div>
         );
     }

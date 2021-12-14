@@ -3,7 +3,7 @@ import "./Step1.css";
 // import { RiFolderUploadLine} from "react-icons/ri";
 import { currentStepAction } from "../../../../redux/actions/actions";
 import {BsImageFill} from 'react-icons/bs'
-import uploadIcon from "../../../../assets/images/uploadIcon.png";
+import uploadIcon from "../../../../Assets/Images/uploadIcon.png";
 import { connect } from "react-redux";
 import { BsUpload } from "react-icons/bs";
 

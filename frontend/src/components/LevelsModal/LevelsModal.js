@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 // import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import LevelsImage from "../../assets/images/Levels.svg";
+import LevelsImage from "../../Assets/Images/Levels.svg";
 import "./LevelModal.css";
 import { connect } from "react-redux";
 import { currentStepAction } from "../../redux/actions/actions";
@@ -152,7 +152,7 @@ filtered in you collection’s sidebar.
                         </label>
 
                         <input
-                          className="step-2-input mt-3 "
+                          className="step3-input mt-3 "
                           type="text"
                           name="name"
                           onChange={(e) => handleChange(i, e)}
@@ -185,7 +185,7 @@ filtered in you collection’s sidebar.
                         <div className="d-flex align-items-center  w-100">
 
                           <input
-                            className={`step-2-input first-value mt-2 ${validate && item.value > item.total ? "levels-value":""}`}
+                            className={`step3-input first-value mt-2 ${validate && item.value > item.total ? "levels-value":""}`}
                             type="number"      
                             min="1"
                             max={item.total ?item.total :"1"}
@@ -204,7 +204,7 @@ filtered in you collection’s sidebar.
                           
                           <p className="text-white mb-0 value-label">Of</p>
                           <input
-                            className={`step-2-input first-value mt-2 ${validate && item.total < item.value ? "levels-value":""}`}
+                            className={`step3-input first-value mt-2 ${validate && item.total < item.value ? "levels-value":""}`}
                             type="number"
                             min={item.value ?item.value :"1"}
                             max="9999"
@@ -239,7 +239,7 @@ filtered in you collection’s sidebar.
 
               <p
                 className=" mt-4"
-                style={{ color: "#00d3f3" ,cursor:"pointer"}}
+                style={{ color: "#00d3f3" ,cursor:"pointer",marginLeft:"0.8rem"}}
                 onClick={() => addMoreValues()}
               >
                 {" "}

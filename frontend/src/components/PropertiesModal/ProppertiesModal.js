@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 // import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import PropertiesMOdal from "../../assets/images/Properties.svg";
+import PropertiesMOdal from "../../Assets/Images/Properties.svg";
 import "./ProppertiesModal.css";
 import { connect } from "react-redux";
 import { currentStepAction } from "../../redux/actions/actions";
@@ -87,7 +87,7 @@ const BasicModal = (props) => {
             <div className="title-container d-flex w-100 justify-content-center ">
               <img src={PropertiesMOdal} style={{ height: "2rem" }} />
               <p
-                className="text-white"
+                className="text-white mt-0"
                 style={{
                   fontSize: "1.3rem",
                   fontWeight: "bold",
@@ -122,13 +122,14 @@ const BasicModal = (props) => {
                     ? " 22vh"
                     : "14vh"
                 }`,
+             
               }}
             >
               {propertiesValues &&
                 propertiesValues.length > 0 &&
                 propertiesValues.map((item, i) => {
                   return (
-                    <div className="d-flex" key={i}>
+                    <div className="d-flex" style={{width:"558px"}} key={i}>
                       <div className="col-6 mt-4" key={i}>
                         <div
                           className="d-flex"
@@ -141,7 +142,7 @@ const BasicModal = (props) => {
                             Name
                           </label>
                           <input
-                            className="step-2-input mt-2 "
+                            className="step3-input mt-2 "
                             type="text"
                             name="name"
                             onChange={(e) => handleChange(i, e)}
@@ -173,7 +174,7 @@ const BasicModal = (props) => {
                             Value
                           </label>
                           <input
-                            className="step-2-input  mt-2"
+                            className="step3-input  mt-2"
                             type="text"
                             name="value"
                             onChange={(e) => handleChange(i, e)}

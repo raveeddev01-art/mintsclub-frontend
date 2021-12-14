@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/images/logo.png'
+import logo from '../../Assets/Images/logo.png'
 import { connect } from 'react-redux'
 import { getFooter } from './footer.action'
 import {ENV} from './../../config/config';
