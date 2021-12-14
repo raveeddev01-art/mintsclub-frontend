@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 // import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import LevelsImage from "../../Assets/Images/Levels.svg";
+import LevelsImage from "../../assets/images/Levels.svg";
 import "./LevelModal.css";
 import { connect } from "react-redux";
 import { currentStepAction } from "../../Redux/actions/actions";

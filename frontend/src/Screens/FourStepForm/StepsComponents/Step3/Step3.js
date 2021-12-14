@@ -1,7 +1,7 @@
 import { useState } from "react";
-import PropertiesImage from "../../../../Assets/Images/Properties.svg";
-import AddBtnImage from "../../../../Assets/Images/Add Button.svg";
-import LevelsBtn from "../../../../Assets/Images/Levels.svg";
+import PropertiesImage from "../../../../assets/images/Properties.svg";
+import AddBtnImage from "../../../../assets/images/Add Button.svg";
+import LevelsBtn from "../../../../assets/images/Levels.svg";
 import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import PropertiesModal from "../../../../components/PropertiesModal/ProppertiesModal";

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import MetamaskImg from "../../../../Assets/Images/metamask.svg";
-import RefreshImg from "../../../../Assets/Images/Refresh.svg";
-import DetailsImg from "../../../../Assets/Images/Details.svg";
-import DiscordImg from "../../../../Assets/Images/Discord.svg";
+import MetamaskImg from "../../../../assets/images/metamask.svg";
+import RefreshImg from "../../../../assets/images/Refresh.svg";
+import DetailsImg from "../../../../assets/images/Details.svg";
+import DiscordImg from "../../../../assets/images/Discord.svg";
 import ReactCaptcha from "../../../../components/Captcha/Captcha";
 // import { connectMetamaskCopy } from "../../../../Utils/web3";
 import PreviewModal from "../../../../components/PreviewModal/PreviewModal";

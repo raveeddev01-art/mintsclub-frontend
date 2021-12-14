@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 // import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import PropertiesMOdal from "../../Assets/Images/Properties.svg";
+import PropertiesMOdal from "../../assets/images/Properties.svg";
 import "./ProppertiesModal.css";
 import { connect } from "react-redux";
 import { currentStepAction } from "../../redux/actions/actions";

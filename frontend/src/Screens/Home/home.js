@@ -4,20 +4,20 @@ import { connect } from "react-redux";
 // import { hometest } from "../../Redux/actions/actions";
 import Navbar from "../../components/Navbar/navbar";
 import SimpleSlider from "../../components/Slider/slider";
-// import image from "../../Assets/Images/test.jpg";
-import Polygon from "../../Assets/Images/icon 2.svg";
-// import Ethereum from "../../Assets/Images/Ethereum.svg";
-import Cardano from "../../Assets/Images/icon 3.svg";
-import Binance from "../../Assets/Images/icon4.svg";
-import Ethereum from "../../Assets/Images/icon1.png";
-// import nft2 from "../../Assets/Images/icon4.svg";
-// import nft3 from "../../Assets/Images/icon 2.svg";
+// import image from "../../assets/images/test.jpg";
+import Polygon from "../../assets/images/icon 2.svg";
+// import Ethereum from "../../assets/images/Ethereum.svg";
+import Cardano from "../../assets/images/icon 3.svg";
+import Binance from "../../assets/images/icon4.svg";
+import Ethereum from "../../assets/images/icon1.png";
+// import nft2 from "../../assets/images/icon4.svg";
+// import nft3 from "../../assets/images/icon 2.svg";
 ////////////////////////
-import nft1 from "../../Assets/Images/nft1.jpg";
-import nft2 from "../../Assets/Images/nft2.webp";
-import nft3 from "../../Assets/Images/nft3.jpeg";
-import nft4 from "../../Assets/Images/nft4.webp";
-import nft5 from "../../Assets/Images/nft5.jpg";
+import nft1 from "../../assets/images/nft1.jpg";
+import nft2 from "../../assets/images/nft2.webp";
+import nft3 from "../../assets/images/nft3.jpeg";
+import nft4 from "../../assets/images/nft4.webp";
+import nft5 from "../../assets/images/nft5.jpg";
 
 import "./home.css";
 
