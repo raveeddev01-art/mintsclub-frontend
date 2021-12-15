@@ -97,8 +97,9 @@ const Step3 = (props) => {
   return (
     <div className="step3-container " style={{ height: "45vh" }}>
       {/* ///////////////////// */}
-      <Accordion>
+      <Accordion className="transBG" style={{backgroundColor:'unset !important'}}>
         <AccordionSummary
+          className="transBG"
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
@@ -131,7 +132,7 @@ const Step3 = (props) => {
         </div> */}
           </div>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails className="transBG">
           {
             propertiesValues && propertiesValues.length >0 &&
           <ListItem>
@@ -167,8 +168,9 @@ const Step3 = (props) => {
       </Accordion>
 
       {/* /////////////////// */}
-      <Accordion>
+      <Accordion className="transBG">
         <AccordionSummary
+          className="transBG"
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"

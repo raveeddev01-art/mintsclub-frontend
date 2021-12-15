@@ -23,8 +23,12 @@
     justify-content: center;
     align-items: center;
 }
-.css-15v22id-MuiAccordionDetails-root{
+.MuiPaper-root{
     background-color: #011D43 !important;
+}
+.MuiCollapse-root{
+    background-color: #000e29 !important;
+   padding: 0 !important;
 }
 .list-title {
     font-size: 1.2rem;
@@ -32,4 +36,7 @@
 }
 .list-item {
     font-size: 1.2rem !important;
+}
+.transBG {
+    background-color: transparent;
 }
