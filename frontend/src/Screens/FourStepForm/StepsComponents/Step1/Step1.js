@@ -2,10 +2,12 @@ import { useState } from "react";
 import "./Step1.css";
 // import { RiFolderUploadLine} from "react-icons/ri";
 import { currentStepAction } from "../../../../redux/actions/actions";
-import {BsImageFill} from 'react-icons/bs'
+import { BsImageFill} from 'react-icons/bs'
 import uploadIcon from "../../../../assets/images/uploadIcon.png";
 import { connect } from "react-redux";
 import { BsUpload } from "react-icons/bs";
+import { CgRemove } from "react-icons/cg";
+import {IconButton} from '@mui/material';
 
 const Step1 = (props) => {
   const [file, setFile] = useState("");
@@ -137,7 +139,19 @@ const onDrop=(e)=>{
       setErrorMessage("File not supported!");
     }
   }
-}
+};
+
+const removeVideo = (event) =>{
+  event.preventDefault();
+  event.stopPropagation();
+  setVideoUrl("");
+};
+
+const removeImage = (event) =>{
+  event.preventDefault();
+  event.stopPropagation();
+  setImage("");
+};
 
   // console.log(props,"props==>")
   return (
@@ -185,11 +199,14 @@ const onDrop=(e)=>{
                 </label>
           )}
           {videoUrl && (
-            <div     onDrop={(e) => onDrop(e)}
-            onDragOver={(e) => dragOver(e)}
-            onDragEnter={(e) => dragEnter(e)}
-            onDragLeave={(e) => dragLeave(e)}>
+            <div
+              onDrop={(e) => onDrop(e)}
+              onDragOver={(e) => dragOver(e)}
+              onDragEnter={(e) => dragEnter(e)}
+              onDragLeave={(e) => dragLeave(e)}
+            >
               <label>
+                <CgRemove color='#e33d0bc2' className="" onClick={removeVideo} style={{fontSize:"1.5rem",cursor:"pointer", top:0,right:0, position:'absolute',zIndex:99}}/>
                 <div
                   className="d-flex align-items-center justify-content-center mb-3"
                   style={{
@@ -217,12 +234,16 @@ const onDrop=(e)=>{
           )}
         </>
       ) : (
-        <div className="text-white d-flex  mt-4 mb-5" style={{cursor:"pointer"}}     onDrop={(e) => onDrop(e)}
-        onDragOver={(e) => dragOver(e)}
-        onDragEnter={(e) => dragEnter(e)}
-        onDragLeave={(e) => dragLeave(e)}>
+        <div className="text-white d-flex  mt-4 mb-5" style={{cursor:"pointer"}}
+          onDrop={(e) => onDrop(e)}
+          onDragOver={(e) => dragOver(e)}
+          onDragEnter={(e) => dragEnter(e)}
+          onDragLeave={(e) => dragLeave(e)}
+        >
           <label className="text-center position-relative label-parent">
+          <CgRemove color='#e33d0bc2' className="" onClick={removeImage} style={{fontSize:"1.5rem",cursor:"pointer", top:0,right:0, position:'absolute',zIndex:99}}/>
             <img className="selected-file " src={img} alt="uploaded image" style={{cursor:"pointer"}}     />
+            
                <BsImageFill className="position-absolute upload-img-icon" style={{fontSize:"1.2rem",cursor:"pointer"}}/>
             <input
               type="file"
