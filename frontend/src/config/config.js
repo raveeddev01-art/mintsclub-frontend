@@ -14,6 +14,9 @@ export const ENV = {
     currency: process.env.REACT_APP_CURRENCY,
     appName: process.env.REACT_APP_NAME,
     requiredChainName: process.env.REACT_APP_REQUIRED_CHAIN_NAME,
+    // tawkto
+    tawkToPropertyId: process.env.REACT_APP_TAWK_TO_PROPERTY_ID,
+    tawkToKey: process.env.REACT_APP_TAWK_TO_KEY,
     currencies: [
         {
             name: 'Binance',

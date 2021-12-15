@@ -4,12 +4,19 @@ import { PrivateRoute } from './privateRoute'
 import { Switch } from "react-router-dom"
 import FullPageLoader from './components/full-page-loader/full-page-loader';
 import GaTracker from './gaTracker/gaTracket'
+import tawkTo from 'tawkto-react';
+import { ENV } from './config/config';
 import './App.css';
 // import 'swiper/swiper-bundle.css';
 
 
 const App = () => {
   // GaTracker()
+  const tawkToPropertyId = ENV.tawkToPropertyId;
+  const tawkToKey = ENV.tawkToKey;
+  useEffect(() => {
+    tawkTo(tawkToPropertyId, tawkToKey);
+  }, [ENV]);
   
   return (
     <React.Fragment>
