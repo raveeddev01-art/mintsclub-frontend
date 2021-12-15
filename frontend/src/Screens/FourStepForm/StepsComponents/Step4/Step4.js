@@ -74,8 +74,8 @@ const Step4 = (props) => {
   const onChangeEmail = (e) => {
     setError(false);
     setEmailError(false);
-    setEmail(e.target.value);
-    props.handleStep4Info(e.target.value);
+    setEmail(e.target.value.trimStart());
+    props.handleStep4Info(e.target.value.trimStart());
   };
 
   const handleVisible = () => {
@@ -299,7 +299,8 @@ const Step4 = (props) => {
                   {captchaError && captchaMessage}
                 </p>
                 <button
-                  className="btn btn-primary step4-btn"
+                  // className="btn btn-primary step4-btn"
+                  className="btn btn-secondary start-btn"
                   style={{ marginTop: "0.8rem" }}
                   onClick={() => submitCaptcha()}
                 >
@@ -331,7 +332,7 @@ const Step4 = (props) => {
                 </p>
                 <div className="d-flex align-items-center">
                   <button
-                    className="btn btn-primary step4-btn"
+                    className={`btn btn-primary ${props.walletAddress ? 'step4-btn':'start-btn'}`}
                     style={{ marginTop: "0.8rem" }}
                     disabled={
                       props.contractReponse || props.walletAddress
@@ -371,7 +372,11 @@ const Step4 = (props) => {
             <p className="" style={{ color: "#aaabab" }}>
               Join the Discord Community
             </p>
-            <button className="btn btn-primary step4-btn mt-2">Join</button>
+            <button
+              className="btn btn-secondary start-btn mt-2"
+              >
+                Join
+              </button>
           </div>
         </div>
         {props.walletAddress && (
@@ -382,7 +387,7 @@ const Step4 = (props) => {
               disabled={props.contractReponse ? true : false}
               onClick={handlePreviewModal}
             >
-              Deploy
+              Preview
             </button>
           </div>
         )}

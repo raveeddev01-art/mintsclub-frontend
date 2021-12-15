@@ -15,11 +15,12 @@
     color: #aaabab !important;
     margin-right: 0.6rem;
 }
+
 .selected-file {
-    width: 14vw;
-    height: 25vh;
-    border-radius: 8px;
-    min-width: 15rem;
+    object-fit: cover;
+    min-width: 18rem !important;
+    height: 15rem;
+    border-radius: 10px;
 }
 .selected-file:hover {
     opacity: 0.7 !important;
@@ -43,6 +44,11 @@
     display: none;
     cursor: pointer;
 
+}
+.cover {
+    object-fit: cover;
+    width: 50px;
+    height: 100px;
 }
 /* @media (max-width:600px) {
 
