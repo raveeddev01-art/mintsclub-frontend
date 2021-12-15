@@ -4,4 +4,32 @@
 
 .properties-container {
     border-bottom: 1px solid #001d43;
+    width: 100%;
+}
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
+   background-color: #000e29 !important;
+   padding: 0 !important;
+}
+/* .add-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+.MuiSvgIcon-root {
+    color: white !important;
+}
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.css-15v22id-MuiAccordionDetails-root{
+    background-color: #011D43 !important;
+}
+.list-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.list-item {
+    font-size: 1.2rem !important;
 }
