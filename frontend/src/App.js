@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense,useEffect } from 'react'
 import routes from './routes'
 import { PrivateRoute } from './privateRoute'
 import { Switch } from "react-router-dom"
