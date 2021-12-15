@@ -83,7 +83,7 @@ const PreviewModal = (props) => {
                 <div className="w-100 text-center">
                   <p className="text-white preview-text">Preview</p>
                 </div>
-                <div className="col-md-6 col-sm-12 mt-4 d-flex justify-content-between flex-column">
+                <div className="col-md-6 col-sm-12 mt-4 d-flex justify-content-start flex-column">
                   {info.img && (
                     <img
                       src={info.img ? info.img : ""}
@@ -102,9 +102,10 @@ const PreviewModal = (props) => {
                   )}
 
                   <div
-                    className="d-flex  mt-4"
+                    className="d-flex mt-3 "
                     style={{ flexDirection: "column" }}
                   >
+                        <label className="text-white external-label ml-0 my-2">External Link</label>
                     <input
                       className=" mt-1 w-100 externalLink-input"
                       type="url"
@@ -121,6 +122,7 @@ const PreviewModal = (props) => {
                 </div>
 
                 <div className="col-md-6 col-sm-12 mt-4">
+                <label className="text-white preview-label my-2">Name</label>
                   <input
                     className="preview-input "
                     type="text"
@@ -129,23 +131,26 @@ const PreviewModal = (props) => {
                     maxLength="50"
                     disabled={true}
                   />
+                   <label className="text-white preview-label my-2">Email</label>
                   <input
-                    className="preview-input mt-4"
+                    className="preview-input mt-1"
                     type="email"
                     value={info.email || ""}
                     maxLength="50"
                     disabled={true}
                   />
+                     <label className="text-white preview-label my-2">Symbol</label>
                   <input
-                    className="preview-input mt-4"
+                    className="preview-input mt-1"
                     type="text"
                     value={(info.symbol && info.symbol.trim()) || "- symbol -"}
                     placeholder="- symbol -"
                     maxLength="50"
                     disabled={true}
                   />
+                        <label className="text-white preview-label my-2">Description</label>
                   <textarea
-                    className="preview-description p-3 mt-4 w-100"
+                    className="preview-description p-3 mt-1 w-100"
                     placeholder="- Description -"
                     value={
                       (info.description && info.description.trim()) ||
@@ -155,8 +160,9 @@ const PreviewModal = (props) => {
                     maxLength="600"
                     disabled={true}
                   />
+                        <label className="text-white preview-label my-2">Supply</label>
                   <input
-                    className="preview-input mt-4"
+                    className="preview-input mt-1"
                     type="number"
                     value={info.supply || "- supply -"}
                     disabled={true}

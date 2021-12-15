@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import PropertiesImage from "../../../../assets/images/Properties.svg";
 import AddBtnImage from "../../../../assets/images/Add Button.svg";
 import LevelsBtn from "../../../../assets/images/Levels.svg";
@@ -7,6 +8,16 @@ import { connect } from "react-redux";
 import PropertiesModal from "../../../../components/PropertiesModal/ProppertiesModal";
 import LevelsModal from "../../../../components/LevelsModal/LevelsModal";
 import "./Step3.css";
+////For Accordian
+import * as React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Grid, ListItem, ListItemText } from "@mui/material";
+import { Box } from "@mui/system";
+/////////////////
 
 const Step3 = (props) => {
   const [open, setOpen] = useState(false);
@@ -18,7 +29,7 @@ const Step3 = (props) => {
 
   //for properties Modal
   const [propertiesValues, setPropertiesValues] = useState(props.properties);
-  const [addMoreProperty,setAddMoreProperty]=useState(false)
+  const [addMoreProperty, setAddMoreProperty] = useState(false);
 
   ///////
   const handleOpen = () => setOpen(true);
@@ -26,9 +37,8 @@ const Step3 = (props) => {
 
   const handleOpenLevel = () => setOpenLevelModal(true);
   const handleCloseLevel = () => {
-  
     setOpenLevelModal(false);
-  }
+  };
   //levels Methods
 
   const addMoreValues = () => {
@@ -44,8 +54,8 @@ const Step3 = (props) => {
   };
 
   let removeFormFields = (i) => {
-      // let newFormValues = [...levelsInputs];
-      if ( levelsInputs.length> 1) {
+    // let newFormValues = [...levelsInputs];
+    if (levelsInputs.length > 1) {
       let newFormValues = [...levelsInputs];
       newFormValues.splice(i, 1);
       setlevelsInputs(newFormValues);
@@ -53,75 +63,190 @@ const Step3 = (props) => {
   };
 
   //propertiesMethods
-  const addMoreProperties=()=>{
-    setAddMoreProperty(!addMoreProperty)
-    setPropertiesValues([...propertiesValues, { name: "", value: "" }])
-  }
+  const addMoreProperties = () => {
+    setAddMoreProperty(!addMoreProperty);
+    setPropertiesValues([...propertiesValues, { name: "", value: "" }]);
+  };
   let handleChangeProperties = (i, e) => {
     let newFormValues = [...propertiesValues];
     // console.log(newFormValues,"new form values before")
     newFormValues[i][e.target.name] = e.target.value;
     // console.log(newFormValues,"properties handle change")
     setPropertiesValues(newFormValues);
- }
+  };
 
- let removeFormProperties = (i) => {
-      let newFormValues = [...propertiesValues];
-      newFormValues.splice(i, 1);
-      setPropertiesValues(newFormValues)
-  
-}
-const onSubmit =(propertiesField)=>{
-  setPropertiesValues(propertiesField)
-  props.handleStep3PropertiesInfo(propertiesField)
-  // props.currentStepAction()
-
-}
-const onSubmitLevels=(levelsFields)=>{
-  setlevelsInputs(levelsFields)
-  props.handleStep3LevelsInfo(levelsFields)
-}
+  let removeFormProperties = (i) => {
+    let newFormValues = [...propertiesValues];
+    newFormValues.splice(i, 1);
+    setPropertiesValues(newFormValues);
+  };
+  const onSubmit = (propertiesField) => {
+    setPropertiesValues(propertiesField);
+    props.handleStep3PropertiesInfo(propertiesField);
+    // props.currentStepAction()
+  };
+  const onSubmitLevels = (levelsFields) => {
+    setlevelsInputs(levelsFields);
+    props.handleStep3LevelsInfo(levelsFields);
+  };
+  function onClickDelete(event) {
+    event.stopPropagation();
+    // Handle click here
+  }
+  // const {propertiesValues}=props;
   return (
     <div className="step3-container " style={{ height: "45vh" }}>
-      <div className="properties-container d-flex justify-content-between ">
-        <div>
-          <div className="d-flex align-items-center ">
-            <img src={PropertiesImage} style={{ height: "2rem" }} />
-            <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-              Properties
-            </p>
-          </div>
-          <p className="text-white mt-1">
-         Textual traits that show up as a rectangles
-          </p>
-        </div>
+      {/* ///////////////////// */}
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          {/* <Typography>Accordion 1</Typography> */}
+          <div
+            className="properties-container d-flex justify-content-between "
+            onClick={onClickDelete}
+          >
+            <div>
+              <div className="d-flex align-items-center ">
+                <img src={PropertiesImage} style={{ height: "2rem" }} />
+                <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
+                  Properties
+                </p>
+                <img
+                  src={AddBtnImage}
+                  onClick={() => handleOpen()}
+                  className="ml-3"
+                  style={{ height: "1.5rem", cursor: "pointer" }}
+                />
+              </div>
+              <p className="text-white mt-1">
+                Textual traits that show up as a rectangles
+              </p>
+            </div>
 
-        <div onClick={() => handleOpen()}>
+            {/* <div className="content-center"  >
           <img src={AddBtnImage} style={{ height: "1.5rem",cursor:"pointer"  }} />
-        </div>
-      </div>
-
-      <div className="properties-container d-flex justify-content-between mt-4 ">
-        <div>
-          <div className="d-flex align-items-center ">
-            <img src={LevelsBtn} style={{ height: "2rem" }} />
-            <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-              Levels
-            </p>
+        </div> */}
           </div>
-          <p className="text-white mt-1">
-            Numerical traits that show as a progress bar
-          </p>
-        </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          {
+            propertiesValues && propertiesValues.length >0 &&
+          <ListItem>
+            <Grid className="mt-4 text-white list-title" item xs={6}>
+              {"Name"}
+            </Grid>
+            <Grid className="mt-4 text-white list-title" item xs={6}>
+              {"Value"}
+            </Grid>
+          </ListItem>
+          }
+          <ListItem>
+            <Grid container xs={12}>
+              {propertiesValues && propertiesValues.length > 0 ? (
+                propertiesValues.map((property, i) => {
+                  return (
+                    <>
+                      <Grid className="mt-4 text-white list-item" item xs={6}>
+                        {property.name}
+                      </Grid>
+                      <Grid className="mt-4 text-white list-item" item xs={6}>
+                        {property.value}
+                      </Grid>
+                    </>
+                  );
+                })
+              ) : (
+                <p className="text-white">{"No Properies Found"} </p>
+              )}
+            </Grid>
+          </ListItem>
+        </AccordionDetails>
+      </Accordion>
 
-        <div onClick={() => handleOpenLevel()}>
+      {/* /////////////////// */}
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          {/* <Typography>Accordion 1</Typography> */}
+          <div
+            className="properties-container d-flex justify-content-between mt-4 "
+            onClick={onClickDelete}
+          >
+            <div>
+              <div className="d-flex align-items-center ">
+                <img src={LevelsBtn} style={{ height: "2rem" }} />
+                <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
+                  Levels
+                </p>
+                <img
+                  src={AddBtnImage}
+                  onClick={() => handleOpenLevel()}
+                  className="ml-5"
+                  style={{ height: "1.5rem", cursor: "pointer" }}
+                />
+              </div>
+              <p className="text-white mt-1">
+                Numerical traits that show as a progress bar
+              </p>
+            </div>
+
+            {/* <div className="content-center" onClick={() => handleOpenLevel()}>
           <img src={AddBtnImage} style={{ height: "1.5rem",cursor:"pointer" }} />
-        </div>
-      </div>
+        </div> */}
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          {
+            levelsInputs && levelsInputs.length >0 &&
+          <ListItem>
+            <Grid className="mt-4 text-white list-title" item xs={4}>
+              {"Name"}
+            </Grid>
+            <Grid className="mt-4 text-white list-title" item xs={4}>
+              {"Value"}
+            </Grid>
+            <Grid className="mt-4 text-white list-title" item xs={4}>
+              {"Total"}
+            </Grid>
+          </ListItem>
+          }
+
+          <ListItem>
+            <Grid container xs={12}>
+              {levelsInputs && levelsInputs.length > 0 ? (
+                levelsInputs.map((level, i) => {
+                  return (
+                    <>
+                      <Grid className="mt-4 text-white list-item" item xs={4}>
+                        {level.name}
+                      </Grid>
+                      <Grid className="mt-4 text-white list-item" item xs={4}>
+                        {level.value}
+                      </Grid>
+                      <Grid className="mt-4 text-white list-item" item xs={4}>
+                        {level.total}
+                      </Grid>
+                    </>
+                  );
+                })
+              ) : (
+                <p className="text-white">{"No Levels Found"}</p>
+              )}
+            </Grid>
+          </ListItem>
+        </AccordionDetails>
+      </Accordion>
+
       <button
         type="button"
         className="btn btn-secondary start-btn mt-5 mb-5"
-        onClick={() =>  props.currentStepAction()}
+        onClick={() => props.currentStepAction()}
       >
         Next
       </button>
@@ -152,12 +277,11 @@ const onSubmitLevels=(levelsFields)=>{
   );
 };
 
-const mapStateToProps = (state) => (
+const mapStateToProps = (state) =>
   // console.log(state, "state"),
-  {
+  ({
     currentStep: state.dashboard.currentStep,
-  }
-);
+  });
 
 export default connect(mapStateToProps, {
   currentStepAction,
