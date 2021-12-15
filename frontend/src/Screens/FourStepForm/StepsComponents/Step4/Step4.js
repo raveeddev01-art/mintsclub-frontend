@@ -22,6 +22,7 @@ import "./Step4.css";
 import copy from "copy-to-clipboard";
 
 import { toast } from "react-toastify";
+import {getWalletAddress} from '../../../../utils/web3'
 // import Stepper from "../../../../Components/Stepper/Stepper";
 // import { propTypes } from "react-bootstrap/esm/Image";
 const Step4 = (props) => {
@@ -111,11 +112,15 @@ const Step4 = (props) => {
     } else {
       // alert("else")
     }
-    let count = localStorage.getItem(email);
-    if (count > 5) {
-      toast.error("Maximum Deployment Limit Reached with This Email!");
-      return "";
-    }
+    getWalletAddress().then((address)=>{
+
+      let count = localStorage.getItem(address);
+      console.log(count,"count")
+      if (+count > 5) {
+        toast.error("Maximum Deployment Limit Reached with This Wallet Address!");
+        return "";
+      }
+    })
 
     if (email === "") {
       setError(true);
