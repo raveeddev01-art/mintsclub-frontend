@@ -1,4 +1,4 @@
-// import { useState,useEffect } from "react";
+import {useEffect } from "react";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 // import { hometest } from "../../Redux/actions/actions";
@@ -18,30 +18,22 @@ import nft2 from "../../assets/images/nft2.webp";
 import nft3 from "../../assets/images/nft3.jpeg";
 import nft4 from "../../assets/images/nft4.webp";
 import nft5 from "../../assets/images/nft5.jpg";
+import GaTracker from '../../gaTracker/gaTracket'
 
 import "./home.css";
 
 const Home = (props) => {
-  // const [network, setNetwork] = useState("Ethereum");
-  // const [spinner,setSpinner]=useState(true)
-
-  // const [flag, setFlag] = useState(false);
+ 
+  //  useEffect(()=>{
+  // },[])
+  GaTracker()
   const networksData = [
     { name: "Ethereum", image: Ethereum },
     { name: "Polygon", image: Polygon },
     { name: "Cardano", image: Cardano },
     { name: " Binance SmartChain", image: Binance },
   ];
-  // const handleSpinner=()=>{
 
-  // return spinner
-  // }
-  // setTimeout(()=>{
-  //   setSpinner(false)
-  // },2000)
-  // useEffect(()=>{
-
-  // },[spinner])
   const history = useHistory();
   const wordsFamousNfts = [
     {

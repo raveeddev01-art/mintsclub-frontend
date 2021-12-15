@@ -4,6 +4,7 @@ import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 
 const Step2 = (props) => {
+  console.log(props,"props in step 2")
   const [name, setName] = useState(props.name);
   const [symbol, setSymbol] = useState(props.symbol);
   const [externalLink, setExternalLink] = useState(props.externalLink);
@@ -123,7 +124,7 @@ const Step2 = (props) => {
         return  ""
       }
     }
-
+    console.log(name,"nmae")
     props.handleStep2Info(name, symbol, externalLink, description, supply);
     props.currentStepAction();
   };

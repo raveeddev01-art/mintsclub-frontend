@@ -17,11 +17,13 @@ import Step4 from "./StepsComponents/Step4/Step4";
 import { ProgressBar } from "react-bootstrap";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import { connectMetamaskCopy,getNetworkNameByChainId } from "../../utils/web3";
+import GaTracker from '../../gaTracker/gaTracket'
 // import { toast } from "react-toastify";
 // import ProppertiesModal from "../../Components/PropertiesModal/ProppertiesModal";
 
 const FourStepForm = (props) => {
   // console.log(props, "currentStep==>");
+  GaTracker()
 
   //step 1 form
   const [imgFile, setImgFile] = useState({});

@@ -26,7 +26,14 @@ const initialState = {
   mintingResponse:false,
   loader:false,
   contractAddress:"",
-  tokenMinted:[]
+  tokenMinted:[],
+  formsInfo:{
+    name:'',
+    symbol:'',
+    externalUrl:'',
+    supply:1,
+    
+  }
 
 };
 

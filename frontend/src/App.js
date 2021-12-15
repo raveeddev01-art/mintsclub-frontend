@@ -9,7 +9,8 @@ import './App.css';
 
 
 const App = () => {
-  GaTracker()
+  // GaTracker()
+  
   return (
     <React.Fragment>
       <Suspense fallback={<FullPageLoader />}>

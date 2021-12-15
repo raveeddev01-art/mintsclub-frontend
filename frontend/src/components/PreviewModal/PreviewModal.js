@@ -26,6 +26,7 @@ const genStyle = {
 // let array = [1];
 
 const PreviewModal = (props) => {
+  console.log(props,"props")
   const {
     previewModal,
     handlePreviewModal,

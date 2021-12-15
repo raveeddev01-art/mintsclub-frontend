@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 // import Stepper from "../../../../Components/Stepper/Stepper";
 // import { propTypes } from "react-bootstrap/esm/Image";
 const Step4 = (props) => {
+  console.log(props,"props in setp 4")
   const [isVisible, setIsvisible] = useState(false);
   // const [isValidate, setIsvalidate] = useState(false);
   const [captchaStatus, setCaptchaStatus] = useState(false);
@@ -68,6 +69,7 @@ const Step4 = (props) => {
     //   setIsvalidate(true);
     // }
   };
+
   const onChangeEmail = (e) => {
     setError(false);
     setEmailError(false);
@@ -134,6 +136,7 @@ const Step4 = (props) => {
       props.handleDeployContract();
     }
   };
+
   const onMint = () => {
     if (email === "") {
       setError(true);
@@ -142,8 +145,9 @@ const Step4 = (props) => {
 
     getNetworkNameByChainId()
       .then((network) => {
-        // console.log(props,"props==>")
-        if (network === props.connectedNetwork) {
+        console.log(network,"network==>")
+        console.log(props,"props==>9")
+        if (network === props.connectedNetwork || !props.connectedNetwork) {
           setLoadingMessage("Please wait your NFT is Minting...");
 
           setDeploy(true);
