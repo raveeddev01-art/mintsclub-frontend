@@ -24,11 +24,12 @@
     align-items: center;
 }
 .MuiPaper-root{
-    background-color: #011D43 !important;
-}
-.MuiCollapse-root{
+    
     background-color: #000e29 !important;
    padding: 0 !important;
+}
+.MuiCollapse-root{
+    background-color: #011D43 !important;
 }
 .list-title {
     font-size: 1.2rem;
