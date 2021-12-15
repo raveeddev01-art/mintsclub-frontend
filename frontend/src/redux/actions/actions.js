@@ -231,11 +231,11 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
       .then((response) => {
         // console.log(response, "res of createNFT===>");
         handleEmailRequest(email);
-        let count = localStorage.getItem(email);
+        let count = localStorage.getItem(address);
         if (count) {
-          localStorage.setItem(email, count + 1);
+          localStorage.setItem(address, +count + 1);
         } else {
-          localStorage.setItem(email, 1);
+          localStorage.setItem(address, 1);
         }
         toast.success("Minting Successful");
         dispatch({
