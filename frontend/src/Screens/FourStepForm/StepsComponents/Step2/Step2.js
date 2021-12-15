@@ -16,81 +16,57 @@ const Step2 = (props) => {
   const patternValidation = val => {
     return /\s/g.test(val);
   };
+
+  const httpValidation = (val) => {
+    return /https|http:\/\/.*.com/g.test(val);
+  };
+
   const onChangeName = (e) => {
- if(!name)
- {
-
-   if (patternValidation(e.target.value)) {
-     e.preventDefault();
-   }
-   else {
-
-     setName(e.target.value);
-   }
- }
- else {
-  setName(e.target.value);
- }
+    if(!name) {
+      if (patternValidation(e.target.value.trimStart())) {
+      e.preventDefault();
+      } else {
+      setName(e.target.value.trimStart());
+      }
+    } else {
+      setName(e.target.value.trimStart());
+    }
   };
 
   const onChangeSymbol = (e) => {
-  
-
     if(!symbol)
     {
-   
-      if (patternValidation(e.target.value)) {
+      if (patternValidation(e.target.value.trimStart())) {
         e.preventDefault();
-      }
-      else {
-   
-        setSymbol(e.target.value);
+      } else {
+        setSymbol(e.target.value.trimStart());
       }
     }
     else {
-
-      setSymbol(e.target.value);
+      setSymbol(e.target.value.trimStart());
     }
-   
   };
 
   const onChangeExternalLink = (e) => {
-    if(!externalLink)
-    {
-   
-      if (patternValidation(e.target.value)) {
-        e.preventDefault();
-      }
-      else {
-        setLinkError(false)
-        setExternalLink(e.target.value);
-      }
-    }
-    else{
-
-      setLinkError(false)
-      setExternalLink(e.target.value);
+    const { value } = e.target;
+    if(value && value.length>0) {
+      setLinkError(false);
+      setExternalLink(value.trimStart());
     }
   };
 
   const onChangeDescription = (e) => {
-    
-    if(!description)
-    {
-   
-      if (patternValidation(e.target.value)) {
+    if(!description) {
+      if (patternValidation(e.target.value.trimStart())) {
         e.preventDefault();
+      }else {
+        setDescription(e.target.value.trimStart());
       }
-      else {
-   
-        setDescription(e.target.value);
-      }
-    }
-    else {
-
-      setDescription(e.target.value);
+    } else {
+      setDescription(e.target.value.trimStart());
     }
   };
+
   const onChangeSupply = (e) => {
     setSupply(e.target.value);
   };
