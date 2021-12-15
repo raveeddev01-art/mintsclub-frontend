@@ -151,6 +151,7 @@ const Step4 = (props) => {
 
           props.handleMinting(props.contractInfo, email);
         } else {
+          
           toast.error(`Please connect with ${props.connectedNetwork} network`);
         }
       })

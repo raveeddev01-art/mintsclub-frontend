@@ -3,10 +3,13 @@ import routes from './routes'
 import { PrivateRoute } from './privateRoute'
 import { Switch } from "react-router-dom"
 import FullPageLoader from './components/full-page-loader/full-page-loader';
+import GaTracker from './gaTracker/gaTracket'
 import './App.css';
 // import 'swiper/swiper-bundle.css';
 
+
 const App = () => {
+  GaTracker()
   return (
     <React.Fragment>
       <Suspense fallback={<FullPageLoader />}>
