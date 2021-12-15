@@ -233,7 +233,8 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
         handleEmailRequest(email);
         let count = localStorage.getItem(address);
         if (count) {
-          localStorage.setItem(address, +count + 1);
+          console.log(typeof (+count*1),"issueee")
+          localStorage.setItem(address, (+count*1) + 1);
         } else {
           localStorage.setItem(address, 1);
         }

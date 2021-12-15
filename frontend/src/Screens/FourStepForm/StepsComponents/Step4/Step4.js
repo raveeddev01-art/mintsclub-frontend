@@ -382,8 +382,8 @@ const Step4 = (props) => {
         {props.walletAddress && (
           <div className="w-100 text-center mt-4">
             <button
-              className="btn btn-primary step4-btn"
-              style={{ marginTop: "0.8rem" }}
+              className="btn btn-primary start-btn"
+              style={{ marginTop: '0.8rem', backgroundColor: '#FCD70D  !important', color:'black !important' }}
               disabled={props.contractReponse ? true : false}
               onClick={handlePreviewModal}
             >

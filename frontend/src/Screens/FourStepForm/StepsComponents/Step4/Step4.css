@@ -81,7 +81,7 @@
     border: none !important;
     outline: none !important;
     border-radius: 0.7rem !important;
-    color:white !important;
+    color:black !important;
 }
 
 @media (max-width:876px) {
