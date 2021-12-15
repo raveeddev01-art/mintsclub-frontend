@@ -56,7 +56,7 @@ const  SimpleSlider=(props)=>{
             {props.wordsFamousNfts.map((nft,index) => {
               return (
                 <div key={index} onClick={()=>window.open(nft.link)}>
-                  <img src={nft.img} className="slider-img" alt={nft} />
+                  <img src={nft.img} className="slider-img" alt={nft} style={{objectFit: 'cover'}} />
                 </div>
               );
             })}
