@@ -3,7 +3,6 @@ import layout1 from './layouts/layout1/layout1';
 import layout2 from './layouts/layout2/layout2';
 import layout3 from './layouts/layout3/layout3';
 import layout4 from './layouts/layout4/layout4';
-
 // components
 // import Home from './components/home/home';
 import Dashboard from './Screens/Home/home'
