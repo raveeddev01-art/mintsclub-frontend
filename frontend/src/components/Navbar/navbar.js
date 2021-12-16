@@ -1,6 +1,11 @@
 // import react from 'react'
 import './navbar.css'
 import {useHistory} from 'react-router-dom'
+import {BsTwitter} from 'react-icons/bs'
+import {SiDiscord} from 'react-icons/si'
+import {FaTelegramPlane} from 'react-icons/fa'
+import {GrReddit} from 'react-icons/gr'
+import  {AiFillHome} from 'react-icons/ai'
 
 const Navbar =()=>{
   const history=useHistory()
@@ -21,10 +26,15 @@ const Navbar =()=>{
   </div>
   
   <div className="nav-links">
+    <AiFillHome className="home-icon " />
     <a className="navbar-item" href="#" target="_blank" style={{color:"#ffd33e"}}>Home</a>
+    <BsTwitter className="home-icon " />
     <a className="navbar-item" href="#" target="_blank">Twitter</a>
+    <SiDiscord className="home-icon " />
     <a className="navbar-item" href="#" target="_blank">Discord</a>
+    <FaTelegramPlane className="home-icon " />
     <a className="navbar-item" href="#" target="_blank">Telegram</a>
+    <GrReddit className="home-icon " />
     <a className="navbar-item" href="#" target="_blank">Reddit</a>
   </div>
 </div>

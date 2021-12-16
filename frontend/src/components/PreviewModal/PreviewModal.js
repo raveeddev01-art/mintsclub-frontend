@@ -309,7 +309,7 @@ const PreviewModal = (props) => {
             <div className="w-100 text-center">
               <p className="text-white">{previewModalStep}/2</p>
               {
-                previewModalStep >1 &&
+                previewModalStep >1 && props.maxLimit &&
               <p className="text-danger mb-0 mt-2">{"Maximum deployment limit reached,Please contact support"}</p>
               }
               <button

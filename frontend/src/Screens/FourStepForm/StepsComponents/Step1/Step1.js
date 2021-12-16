@@ -165,9 +165,25 @@ const Step1 = (props) => {
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
       {videoUrl && (
-        <video width="210" controls>
+        <div className="position-relative" style={{width:"210px"}}>
+        <video className="mt-4" width="210" controls>
           <source src={videoUrl} />
         </video>
+          <MdClose
+                  color="#e33d0bc2"
+                  className=""
+                  onClick={removeVideo}
+                  style={{
+                    fontSize: "2.5rem",
+                    cursor: "pointer",
+                    top: "28px",
+                    right:"4px",
+                    position: "absolute",
+                    zIndex: 99,
+                  }}
+                />
+        </div>
+        
       )}
       <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
       {!img ? (
@@ -216,21 +232,10 @@ const Step1 = (props) => {
               onDragOver={(e) => dragOver(e)}
               onDragEnter={(e) => dragEnter(e)}
               onDragLeave={(e) => dragLeave(e)}
+     
             >
               <label>
-                <MdClose
-                  color="#e33d0bc2"
-                  className=""
-                  onClick={removeVideo}
-                  style={{
-                    fontSize: "1.5rem",
-                    cursor: "pointer",
-                    top: 0,
-                    right: 0,
-                    position: "absolute",
-                    zIndex: 99,
-                  }}
-                />
+              
                 <div
                   className="d-flex align-items-center justify-content-center mb-3"
                   style={{

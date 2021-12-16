@@ -117,7 +117,7 @@ const Step4 = (props) => {
 
       let count = localStorage.getItem(address);
       // console.log(count,"count")
-      if (+count > 5) {
+      if (+count > 100) {
         toast.error("Maximum Deployment Limit Reached with This Wallet Address! Please contact support.");
         setMaxLimit(true)
         return "";
