@@ -26,7 +26,7 @@ const genStyle = {
 // let array = [1];
 
 const PreviewModal = (props) => {
-  console.log(props,"props")
+  // console.log(props,"props")
   const {
     previewModal,
     handlePreviewModal,
@@ -81,16 +81,18 @@ const PreviewModal = (props) => {
             {previewModalStep === 1 ? (
               <div className="row  preview-modal-info">
                 <div className="w-100 text-center">
-                  <p className="text-white preview-text">Preview</p>
+                  <p className="text-white preview-text ">Preview</p>
                 </div>
                 <div className="col-md-6 col-sm-12 mt-4 d-flex justify-content-start flex-column">
                   {info.img && (
                     <img
                       src={info.img ? info.img : ""}
+                      className="mt-3"
                       style={{
                         width: "100%",
                         height: "33.6vh",
                         borderRadius: "10px",
+                        objectFit:"cover"
                       }}
                       alt="preview"
                     />
@@ -174,7 +176,7 @@ const PreviewModal = (props) => {
             ) : (
               <div className=" preview-modal-info rowCust" >
                 <div className="w-100 text-center">
-                  <p className="text-white preview-text">Preview</p>
+                  <p className="text-white preview-text mb-3">Preview</p>
                 </div>
             
 
@@ -306,9 +308,14 @@ const PreviewModal = (props) => {
 
             <div className="w-100 text-center">
               <p className="text-white">{previewModalStep}/2</p>
+              {
+                previewModalStep >1 &&
+              <p className="text-danger mb-0 mt-2">{"Maximum deployment limit reached,Please contact support"}</p>
+              }
               <button
                 type="button"
                 className="btn btn-secondary preview-btn mt-4"
+                disabled={props.maxLimit && previewModalStep >1  ?true:false}
                 onClick={() => handleNextStep()}
               >
                 {previewModalStep === 1 ? "Next" : "Deploy"}

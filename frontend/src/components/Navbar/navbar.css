@@ -96,5 +96,6 @@
     .nav > #nav-check:checked ~ .nav-links {
       height: 45vh;
       overflow-y: auto;
+      overflow-x: hidden;
     }
   }

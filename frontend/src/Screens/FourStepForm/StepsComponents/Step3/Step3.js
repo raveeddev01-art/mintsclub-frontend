@@ -136,12 +136,14 @@ const Step3 = (props) => {
           {
             propertiesValues && propertiesValues.length >0 &&
           <ListItem>
+            
             <Grid className="mt-4 text-white list-title" item xs={6}>
               {"Name"}
             </Grid>
             <Grid className="mt-4 text-white list-title" item xs={6}>
               {"Value"}
             </Grid>
+            
           </ListItem>
           }
           <ListItem>

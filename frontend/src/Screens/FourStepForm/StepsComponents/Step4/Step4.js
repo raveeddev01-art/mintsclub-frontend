@@ -26,7 +26,7 @@ import {getWalletAddress} from '../../../../utils/web3'
 // import Stepper from "../../../../Components/Stepper/Stepper";
 // import { propTypes } from "react-bootstrap/esm/Image";
 const Step4 = (props) => {
-  console.log(props,"props in setp 4")
+  // console.log(props,"props in setp 4")
   const [isVisible, setIsvisible] = useState(false);
   // const [isValidate, setIsvalidate] = useState(false);
   const [captchaStatus, setCaptchaStatus] = useState(false);
@@ -46,6 +46,7 @@ const Step4 = (props) => {
   //previewModal
   const [previewModal, setPreviewModal] = useState(false);
   const [previewModalStep, setPreviewModalStep] = useState(1);
+  const [maxLimit,setMaxLimit]=useState(false)
   // const [textCopy,setTextCopy]=useState(false)
 
   ///copy text ////////////////
@@ -115,10 +116,14 @@ const Step4 = (props) => {
     getWalletAddress().then((address)=>{
 
       let count = localStorage.getItem(address);
-      console.log(count,"count")
+      // console.log(count,"count")
       if (+count > 5) {
         toast.error("Maximum Deployment Limit Reached with This Wallet Address! Please contact support.");
+        setMaxLimit(true)
         return "";
+      }
+      else {
+        setMaxLimit(false)
       }
     })
 
@@ -150,8 +155,8 @@ const Step4 = (props) => {
 
     getNetworkNameByChainId()
       .then((network) => {
-        console.log(network,"network==>")
-        console.log(props,"props==>9")
+        // console.log(network,"network==>")
+        // console.log(props,"props==>9")
         if (network === props.connectedNetwork || !props.connectedNetwork) {
           setLoadingMessage("Please wait your NFT is Minting...");
 
@@ -512,6 +517,7 @@ const Step4 = (props) => {
         previewModalStep={previewModalStep}
         onDeploy={onDeploy}
         info={props.info}
+        maxLimit={maxLimit}
       />
     </div>
   );

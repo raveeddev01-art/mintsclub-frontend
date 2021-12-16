@@ -53,6 +53,9 @@ const Step2 = (props) => {
       setLinkError(false);
       setExternalLink(value.trimStart());
     }
+    else {
+      setExternalLink(value)
+    }
   };
 
   const onChangeDescription = (e) => {

@@ -254,11 +254,11 @@ filtered in you collection’s sidebar.
                 type="submit"
                 className="btn btn-secondary start-btn mt-5 text-center"
                 style={{ width: "9rem" }}
-                disabled={
-                  levelsInputs && levelsInputs?.length > 0
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   levelsInputs && levelsInputs?.length > 0
+                //     ? false
+                //     : true
+                // }
                 // onClick={() => {
                 //   handleSubmit()
                 // }}

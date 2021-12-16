@@ -219,11 +219,11 @@ const BasicModal = (props) => {
                 type="button"
                 className="btn btn-secondary start-btn mt-5 text-center"
                 style={{ width: "9rem" }}
-                disabled={
-                  propertiesValues && propertiesValues?.length > 0
-                    ? false
-                    : true
-                }
+                // disabled={
+                //   propertiesValues && propertiesValues?.length > 0
+                //     ? false
+                //     : true
+                // }
                 onClick={() => {
                   handleSubmit();
                 }}

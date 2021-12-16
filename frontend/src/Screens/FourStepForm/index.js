@@ -338,7 +338,7 @@ const FourStepForm = (props) => {
 const mapStateToProps = (state) =>
 
 (
-    console.log(state, "state"),
+    // console.log(state, "state"),
     {
     currentStep: state.dashboard.currentStep,
     contractInfo: state.dashboard.contractInfo,

@@ -2,12 +2,12 @@ import { useState } from "react";
 import "./Step1.css";
 // import { RiFolderUploadLine} from "react-icons/ri";
 import { currentStepAction } from "../../../../redux/actions/actions";
-import { BsImageFill} from 'react-icons/bs'
+import { BsImageFill } from "react-icons/bs";
 import uploadIcon from "../../../../assets/images/uploadIcon.png";
 import { connect } from "react-redux";
 import { BsUpload } from "react-icons/bs";
-import { CgRemove } from "react-icons/cg";
-import {IconButton} from '@mui/material';
+import { MdClose } from "react-icons/md";
+import { IconButton } from "@mui/material";
 
 const Step1 = (props) => {
   const [file, setFile] = useState("");
@@ -44,30 +44,31 @@ const Step1 = (props) => {
             // console.log(formatBytes(event.target.files[0].size).split(' ') ,"event.target.files[0]==>")
             setFile(event.target.files[0]);
           }
-        }  if (
-        type === "image/jpeg" ||
-        type === "image/png" ||
-        type === "image/gif" ||
-        type === "video/mp4"
-      ) {
-        let fileSize = formatBytes(event.target.files[0].size).split(" ");
-        if (+fileSize[0] > 100 && fileSize[1] === "MB") {
-          setErrorMessage("File size limit is exceeded");
-        } else {
-          let url = URL.createObjectURL(event.target.files[0]);
-          if (event.target.files[0].type === "video/mp4") {
-            setVideoUrl(url);
-            setImage("");
-          } else {
-            setImage(url);
-            setVideoUrl("");
-            // console.log(formatBytes(event.target.files[0].size).split(' ') ,"event.target.files[0]==>")
-            setFile(event.target.files[0]);
-          }
         }
-      } else {
-        setErrorMessage("File not supported!");
-      }
+        if (
+          type === "image/jpeg" ||
+          type === "image/png" ||
+          type === "image/gif" ||
+          type === "video/mp4"
+        ) {
+          let fileSize = formatBytes(event.target.files[0].size).split(" ");
+          if (+fileSize[0] > 100 && fileSize[1] === "MB") {
+            setErrorMessage("File size limit is exceeded");
+          } else {
+            let url = URL.createObjectURL(event.target.files[0]);
+            if (event.target.files[0].type === "video/mp4") {
+              setVideoUrl(url);
+              setImage("");
+            } else {
+              setImage(url);
+              setVideoUrl("");
+              // console.log(formatBytes(event.target.files[0].size).split(' ') ,"event.target.files[0]==>")
+              setFile(event.target.files[0]);
+            }
+          }
+        } else {
+          setErrorMessage("File not supported!");
+        }
       } else {
         setErrorMessage("File not supported!");
       }
@@ -97,68 +98,70 @@ const Step1 = (props) => {
   };
   const dragOver = (e) => {
     e.preventDefault();
-}
+  };
 
-const dragEnter = (e) => {
+  const dragEnter = (e) => {
     e.preventDefault();
-}
+  };
 
-const dragLeave = (e) => {
+  const dragLeave = (e) => {
     e.preventDefault();
-}
-const onDrop=(e)=>{
-  e.preventDefault();
-  setErrorMessage("");
-  const files = e.dataTransfer.files[0];
-  if(files){
-
-    const type=e.dataTransfer.files[0].type;
-    console.log(files);
-    if (
-      type === "image/jpeg" ||
-      type === "image/png" ||
-      type === "image/gif" ||
-      type === "video/mp4"
-    ) {
-      let fileSize = formatBytes(files.size).split(" ");
-      if (+fileSize[0] > 100 && fileSize[1] === "MB") {
-        setErrorMessage("File size limit is exceeded");
-      } else {
-        let url = URL.createObjectURL(files);
-        if (files.type === "video/mp4") {
-          setVideoUrl(url);
-          setImage("");
+  };
+  const onDrop = (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+    const files = e.dataTransfer.files[0];
+    if (files) {
+      const type = e.dataTransfer.files[0].type;
+      console.log(files);
+      if (
+        type === "image/jpeg" ||
+        type === "image/png" ||
+        type === "image/gif" ||
+        type === "video/mp4"
+      ) {
+        let fileSize = formatBytes(files.size).split(" ");
+        if (+fileSize[0] > 100 && fileSize[1] === "MB") {
+          setErrorMessage("File size limit is exceeded");
         } else {
-          setImage(url);
-          setVideoUrl("");
-          // console.log(formatBytes(e.target.files[0].size).split(' ') ,"e.target.files[0]==>")
-          setFile(files);
+          let url = URL.createObjectURL(files);
+          if (files.type === "video/mp4") {
+            setVideoUrl(url);
+            setImage("");
+          } else {
+            setImage(url);
+            setVideoUrl("");
+            // console.log(formatBytes(e.target.files[0].size).split(' ') ,"e.target.files[0]==>")
+            setFile(files);
+          }
         }
+      } else {
+        setErrorMessage("File not supported!");
       }
-    } else {
-      setErrorMessage("File not supported!");
     }
-  }
-};
+  };
 
-const removeVideo = (event) =>{
-  event.preventDefault();
-  event.stopPropagation();
-  setVideoUrl("");
-};
+  const removeVideo = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setVideoUrl("");
+  };
 
-const removeImage = (event) =>{
-  event.preventDefault();
-  event.stopPropagation();
-  setImage("");
-};
+  const removeImage = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setImage("");
+  };
 
   // console.log(props,"props==>")
   return (
     <div className="">
-      <p className="text-white upload-img-title mb-1" >Upload Image</p>
+      <p className="text-white upload-img-title mb-1">Upload Image</p>
 
-      <p className="text-white testingkkk " style={{fontSize:"14px",padding:"0rem",margin:"0rem"}}>
+      <p
+        className="text-white testingkkk "
+        style={{ fontSize: "14px", padding: "0rem", margin: "0rem" }}
+      >
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
       {videoUrl && (
@@ -170,22 +173,31 @@ const removeImage = (event) =>{
       {!img ? (
         <>
           {!videoUrl && !img && (
-            <label className="text-center d-flex mt-2" style={{cursor:"pointer",width:"14vw"}}>
-            <div className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
-            onDrop={(e) => onDrop(e)}
-            onDragOver={(e) => dragOver(e)}
-            onDragEnter={(e) => dragEnter(e)}
-            onDragLeave={(e) => dragLeave(e)}
+            <label
+              className="text-center d-flex mt-2"
+              style={{ cursor: "pointer", width: "14vw" }}
             >
               <div
-                className="d-flex h-100 justify-content-center align-items-center "
-                style={{ flexDirection: "column",cursor:"pointer" }}
-                
+                className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
+                onDrop={(e) => onDrop(e)}
+                onDragOver={(e) => dragOver(e)}
+                onDragEnter={(e) => dragEnter(e)}
+                onDragLeave={(e) => dragLeave(e)}
               >
+                <div
+                  className="d-flex h-100 justify-content-center align-items-center "
+                  style={{ flexDirection: "column", cursor: "pointer" }}
+                >
                   {/* <RiFolderUploadLine className="upload-icon" /> */}
                   <img className="upload-icon mb-3" src={uploadIcon} />
 
-                  <p style={{ color: "#aaabab",fontSize:"14px",margin:"0rem" }}>
+                  <p
+                    style={{
+                      color: "#aaabab",
+                      fontSize: "14px",
+                      margin: "0rem",
+                    }}
+                  >
                     Add photo or video <br /> or Drag and drop
                   </p>
                   <input
@@ -194,9 +206,9 @@ const removeImage = (event) =>{
                     onChange={onFileChange}
                     accept=".mp4, .png,.jpeg"
                   />
+                </div>
               </div>
-            </div>
-                </label>
+            </label>
           )}
           {videoUrl && (
             <div
@@ -206,7 +218,19 @@ const removeImage = (event) =>{
               onDragLeave={(e) => dragLeave(e)}
             >
               <label>
-                <CgRemove color='#e33d0bc2' className="" onClick={removeVideo} style={{fontSize:"1.5rem",cursor:"pointer", top:0,right:0, position:'absolute',zIndex:99}}/>
+                <MdClose
+                  color="#e33d0bc2"
+                  className=""
+                  onClick={removeVideo}
+                  style={{
+                    fontSize: "1.5rem",
+                    cursor: "pointer",
+                    top: 0,
+                    right: 0,
+                    position: "absolute",
+                    zIndex: 99,
+                  }}
+                />
                 <div
                   className="d-flex align-items-center justify-content-center mb-3"
                   style={{
@@ -234,17 +258,39 @@ const removeImage = (event) =>{
           )}
         </>
       ) : (
-        <div className="text-white d-flex  mt-4 mb-5" style={{cursor:"pointer"}}
+        <div
+          className="text-white d-flex  mt-4 mb-5"
+          style={{ cursor: "pointer" }}
           onDrop={(e) => onDrop(e)}
           onDragOver={(e) => dragOver(e)}
           onDragEnter={(e) => dragEnter(e)}
           onDragLeave={(e) => dragLeave(e)}
         >
           <label className="text-center position-relative label-parent">
-          <CgRemove color='#e33d0bc2' className="" onClick={removeImage} style={{fontSize:"1.5rem",cursor:"pointer", top:0,right:0, position:'absolute',zIndex:99}}/>
-            <img className="selected-file " src={img} alt="uploaded image" style={{cursor:"pointer"}}     />
-            
-               <BsImageFill className="position-absolute upload-img-icon" style={{fontSize:"1.2rem",cursor:"pointer"}}/>
+            <MdClose
+              color="#e33d0bc2"
+              className=""
+              onClick={removeImage}
+              style={{
+                fontSize: "2.5rem",
+                cursor: "pointer",
+                top: 0,
+                right: 0,
+                position: "absolute",
+                zIndex: 99,
+              }}
+            />
+            <img
+              className="selected-file "
+              src={img}
+              alt="uploaded image"
+              style={{ cursor: "pointer" }}
+            />
+
+            <BsImageFill
+              className="position-absolute upload-img-icon"
+              style={{ fontSize: "1.2rem", cursor: "pointer" }}
+            />
             <input
               type="file"
               style={{ display: "none" }}
@@ -265,7 +311,6 @@ const removeImage = (event) =>{
     </div>
   );
 };
-
 
 const mapStateToProps = (state) =>
   // console.log(state, "state"),

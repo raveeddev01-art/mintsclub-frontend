@@ -40,6 +40,7 @@
     font-size: 14px !important;
     background-image: none !important;
     line-height: normal !important;
+    font-weight: 500 !important;
 }
 .networks {
     margin-top: 5rem;
