@@ -115,16 +115,16 @@ const Step4 = (props) => {
     }
     getWalletAddress().then((address)=>{
 
-      let count = localStorage.getItem(address);
-      // console.log(count,"count")
-      if (+count > 100) {
-        toast.error("Maximum Deployment Limit Reached with This Wallet Address! Please contact support.");
-        setMaxLimit(true)
-        return "";
-      }
-      else {
-        setMaxLimit(false)
-      }
+      // let count = localStorage.getItem(address);
+      // // console.log(count,"count")
+      // if (+count > 100) {
+      //   toast.error("Maximum Deployment Limit Reached with This Wallet Address! Please contact support.");
+      //   setMaxLimit(true)
+      //   return "";
+      // }
+      // else {
+      //   setMaxLimit(false)
+      // }
     })
 
     if (email === "") {
