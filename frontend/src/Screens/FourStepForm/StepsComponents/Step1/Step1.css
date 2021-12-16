@@ -18,7 +18,8 @@
 
 .selected-file {
     object-fit: cover;
-    min-width: 18rem !important;
+    /* min-width: 18rem !important; */
+    width: 21rem !important;
     height: 15rem;
     border-radius: 10px;
 }
@@ -35,7 +36,7 @@
     color: rgb(170, 171, 171);
     font-size: 1.2rem;
     top: 4;
-    left: 100px;
+    left: 142px;
     right: 4;
 
     top: 5.4rem;

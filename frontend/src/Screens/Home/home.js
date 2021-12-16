@@ -31,7 +31,7 @@ const Home = (props) => {
     { name: "Ethereum", image: Ethereum },
     { name: "Polygon", image: Polygon },
     { name: "Cardano", image: Cardano },
-    { name: " Binance SmartChain", image: Binance },
+    { name: "Binance SmartChain", image: Binance },
   ];
 
   const history = useHistory();
@@ -127,7 +127,7 @@ const Home = (props) => {
                           }`}
                           style={{fontSize:"14px"}}
                         >
-                          {item.name}
+                          {item.name ==="Binance SmartChain"? (<p>{"Binance"} <br/> {"SmartChain"}</p>):(item.name)}
                         </p>
                       </div>
                     );

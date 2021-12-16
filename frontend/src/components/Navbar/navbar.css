@@ -54,7 +54,10 @@
   .home-icon {
     font-size: 1.8rem;
     color: #42CCF3 !important;
+    cursor: pointer !important;
   }
+   
+  
   
   
   @media (max-width:600px) {
@@ -102,5 +105,10 @@
       height: 45vh;
       overflow-y: auto;
       overflow-x: hidden;
+    }
+  }
+  @media screen and (max-width:948px){
+    .home-icon {
+      display: none !important;
     }
   }
