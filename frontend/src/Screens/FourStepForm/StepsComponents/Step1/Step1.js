@@ -156,8 +156,7 @@ const Step1 = (props) => {
   // console.log(props,"props==>")
   return (
     <div className="">
-      <p className="text-white upload-img-title mb-1">Upload Image</p>
-
+      <p className="text-white upload-img-title mb-1">Upload Asset</p>
       <p
         className="text-white testingkkk "
         style={{ fontSize: "14px", padding: "0rem", margin: "0rem" }}

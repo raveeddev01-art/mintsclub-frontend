@@ -70,6 +70,12 @@ const Home = (props) => {
                   >
                     Let's Mint Your NFT's
                   </p>
+                  <p
+                    className="text-white mint-title"
+                    style={{ fontSize: "30px", fontWeight: "bold" }}
+                  >
+                    Free..! Minting Always!!
+                  </p>
                   {/* <p className="text-white" style={{ fontSize: "20px" }}>
                     Lorem Ipsum is simply dummy text of the printing and
                     typesetting industry.{" "}
