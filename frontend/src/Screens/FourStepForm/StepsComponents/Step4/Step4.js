@@ -254,6 +254,7 @@ const Step4 = (props) => {
                 type="text"
                 onChange={(e) => onChangeEmail(e)}
                 disabled={false}
+                disabled={props.walletAddress ?true:false}
                 value={email}
                 placeholder="example@gmail.com"
                 style={{ maxWidth: "22rem", color: "white" }}

@@ -41,3 +41,9 @@
 .transBG {
     background-color: transparent;
 }
+.MuiButtonBase-root {
+    cursor: unset !important;
+}
+.MuiSvgIcon-root {
+    cursor: pointer !important;
+}
