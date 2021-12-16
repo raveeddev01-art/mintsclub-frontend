@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "https://frontend-testmints.invo.zone/static/css/main.2ce39a4a.chunk.css",
-    "main.js": "https://frontend-testmints.invo.zone/static/js/main.d96d6908.chunk.js",
-    "main.js.map": "https://frontend-testmints.invo.zone/static/js/main.d96d6908.chunk.js.map",
+    "main.css": "https://frontend-testmints.invo.zone/static/css/main.54d11d22.chunk.css",
+    "main.js": "https://frontend-testmints.invo.zone/static/js/main.56233ccd.chunk.js",
+    "main.js.map": "https://frontend-testmints.invo.zone/static/js/main.56233ccd.chunk.js.map",
     "runtime-main.js": "https://frontend-testmints.invo.zone/static/js/runtime-main.a146dd37.js",
     "runtime-main.js.map": "https://frontend-testmints.invo.zone/static/js/runtime-main.a146dd37.js.map",
     "static/css/2.4a0b6005.chunk.css": "https://frontend-testmints.invo.zone/static/css/2.4a0b6005.chunk.css",
-    "static/js/2.52eba3b5.chunk.js": "https://frontend-testmints.invo.zone/static/js/2.52eba3b5.chunk.js",
-    "static/js/2.52eba3b5.chunk.js.map": "https://frontend-testmints.invo.zone/static/js/2.52eba3b5.chunk.js.map",
+    "static/js/2.7bc34439.chunk.js": "https://frontend-testmints.invo.zone/static/js/2.7bc34439.chunk.js",
+    "static/js/2.7bc34439.chunk.js.map": "https://frontend-testmints.invo.zone/static/js/2.7bc34439.chunk.js.map",
     "index.html": "https://frontend-testmints.invo.zone/index.html",
     "static/css/2.4a0b6005.chunk.css.map": "https://frontend-testmints.invo.zone/static/css/2.4a0b6005.chunk.css.map",
-    "static/css/main.2ce39a4a.chunk.css.map": "https://frontend-testmints.invo.zone/static/css/main.2ce39a4a.chunk.css.map",
-    "static/js/2.52eba3b5.chunk.js.LICENSE.txt": "https://frontend-testmints.invo.zone/static/js/2.52eba3b5.chunk.js.LICENSE.txt",
+    "static/css/main.54d11d22.chunk.css.map": "https://frontend-testmints.invo.zone/static/css/main.54d11d22.chunk.css.map",
+    "static/js/2.7bc34439.chunk.js.LICENSE.txt": "https://frontend-testmints.invo.zone/static/js/2.7bc34439.chunk.js.LICENSE.txt",
     "static/media/Add Button.dcf4d64e.svg": "https://frontend-testmints.invo.zone/static/media/Add Button.dcf4d64e.svg",
     "static/media/home.css": "https://frontend-testmints.invo.zone/static/media/Background.1dcf0c16.svg",
     "static/media/Details.63c8b2fb.svg": "https://frontend-testmints.invo.zone/static/media/Details.63c8b2fb.svg",
@@ -34,8 +34,8 @@
   "entrypoints": [
     "static/js/runtime-main.a146dd37.js",
     "static/css/2.4a0b6005.chunk.css",
-    "static/js/2.52eba3b5.chunk.js",
-    "static/css/main.2ce39a4a.chunk.css",
-    "static/js/main.d96d6908.chunk.js"
+    "static/js/2.7bc34439.chunk.js",
+    "static/css/main.54d11d22.chunk.css",
+    "static/js/main.56233ccd.chunk.js"
   ]
 }
