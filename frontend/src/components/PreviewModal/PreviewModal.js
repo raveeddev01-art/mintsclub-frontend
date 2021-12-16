@@ -50,8 +50,9 @@ const PreviewModal = (props) => {
         onClose={handlePreviewModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        
       >
-        <Box sx={style}>
+        <Box sx={style}   >
           <div className="preview-modal-container ">
             <div className="w-100 d-flex justify-content-between ">
               {previewModalStep > 1 ? (

@@ -378,7 +378,8 @@ const Step4 = (props) => {
               Join the Discord Community
             </p>
             <button
-              className="btn btn-secondary start-btn mt-2"
+              className="btn btn-secondary discord-btn  mt-2"
+              style={{padding: "0.4rem 6rem !important"}}
               >
                 Join
               </button>

@@ -96,7 +96,7 @@ const LevelsModal = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} style={{maxHeight:"475px"}}>
           <div className="properties-modal-container position-relative">
             <IoMdClose
               className="text-white position-absolute"

@@ -51,6 +51,16 @@
     color:#aaabab !important;
  
 }
+.discord-btn {
+    padding: 0.4rem 6rem !important;
+    border-radius: 9px !important;
+    background-color: #FCD70D !important;
+    color: black !important;
+    font-size: 14px !important;
+    background-image: none !important;
+    line-height: normal !important;
+    font-weight: 500 !important;
+}
 .connect-btn {
     padding: 0.55rem 5rem !important;
     /* background-color: #001d43 !important; */
