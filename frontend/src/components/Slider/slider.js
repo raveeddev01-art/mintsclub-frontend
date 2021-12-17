@@ -1,15 +1,22 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import "./slider.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { WordsFamousNfts } from '../../utils/exportData';
 // import image from "../../assets/images/test.jpg";
 import nftBack from "../../assets/images/nftBack.png";
 // import nftImage from "../../assets/images/nftImage.png";
 
 const  SimpleSlider=(props)=>{
-
+ const [showSlider, setShowSlider] = useState(false);
+ useEffect(()=>{
+   if(showSlider==false){
+     setTimeout(()=>{
+      setShowSlider(true);
+     },300)
+   }
+ })
     const settings = {
       dots: true,
       infinite: true,
@@ -51,9 +58,9 @@ const  SimpleSlider=(props)=>{
             NFT's
           </p>
         </div>
-        <div className="position-relative slider-wrapper" style={{bottom:"22rem",right:"-2rem",cursor:"pointer"}} >
+        <div className="position-relative slider-wrapper" style={{bottom:"22rem",right:"-2rem",cursor:"pointer", display:showSlider?'block':'none'}} >
           <Slider {...settings}>
-            {props.wordsFamousNfts.map((nft,index) => {
+            {props.assetList.map((nft,index) => {
               return (
                 <div key={index} onClick={()=>window.open(nft.link)}>
                   <img src={nft.img} className="slider-img" alt={nft} style={{objectFit: 'cover'}} />
