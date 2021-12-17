@@ -254,7 +254,7 @@ const FourStepForm = (props) => {
     setIsvalidate(value);
   };
   return (
-    <div className="steps-container">
+    <div className="home-container steps-container">
       <div className="steps ">
         <div className="steps-menu py-5">
           {currentStep > 0 && (

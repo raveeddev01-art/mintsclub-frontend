@@ -46,7 +46,7 @@ const Step4 = (props) => {
   //previewModal
   const [previewModal, setPreviewModal] = useState(false);
   const [previewModalStep, setPreviewModalStep] = useState(1);
-  const [maxLimit,setMaxLimit]=useState(false)
+  const [maxLimit, setMaxLimit]=useState(false)
   // const [textCopy,setTextCopy]=useState(false)
 
   ///copy text ////////////////
@@ -85,11 +85,16 @@ const Step4 = (props) => {
 
   const submitCaptcha = () => {
     // console.log(captchaStatus, "captchaStatus");
-    if (captchaStatus) {
-      // setIsvalidate(true);
-      props.handleCaptchaValidation(true);
-    } else {
-      setCaptchaError(true);
+    if(email && emailValidate()) {
+      if (captchaStatus) {
+        // setIsvalidate(true);
+        props.handleCaptchaValidation(true);
+      } else {
+        setCaptchaError(true);
+      }
+    }else{
+      setEmailError(true);
+      setErrorMessage("Please proivde Email.");
     }
   };
 
@@ -99,20 +104,11 @@ const Step4 = (props) => {
       setEmailError(true);
       setErrorMessage("Email is required");
       return "";
+    }else{
+      const validate = emailValidate();
+      if(!validate) return ""
     }
-    if (
-      !String(email)
-        .toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )
-    ) {
-      setEmailError(true);
-      setErrorMessage("Email must be valid");
-      return "";
-    } else {
-      // alert("else")
-    }
+    
     getWalletAddress().then((address)=>{
 
       // let count = localStorage.getItem(address);
@@ -136,8 +132,32 @@ const Step4 = (props) => {
     // props.handleStep4Info(email, deployNetwork);
     props.handleDeployContract();
   };
+  const emailValidate = () => {
+    if (
+      !String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      setEmailError(true);
+      setErrorMessage("Email must be valid");
+      return false;
+    }
+    return true;
+  }
 
   const onReload = () => {
+    debugger;
+    if (!email) {
+      setEmailError(true);
+      setErrorMessage("Email is required");
+      return "";
+    }else{
+      const validate = emailValidate();
+      if(!validate) return ""
+    }
+
     if (!props.contractReponse) {
       setDeploy(true);
 
@@ -230,13 +250,13 @@ const Step4 = (props) => {
       {/* Metamask container */}
       <div className="metamask-container ">
         <div className=" justify-content-between w-100 step-4-wrapper">
-          <div>
+          <div class="col-md-4">
             <div className="d-flex " style={{ flexDirection: "column" }}>
               <div className="position-relative">
                 <label className="text-white step4-label">Email</label>
                 {error && (
                   <p className="mb-0" style={{ color: "red" }}>
-                    Please Enter Email
+                    {errorMessage}
                   </p>
                 )}
                 <p
@@ -253,6 +273,7 @@ const Step4 = (props) => {
                 className="step-4-input mt-2"
                 type="text"
                 onChange={(e) => onChangeEmail(e)}
+                onBlur={(e)=> emailValidate(e)}
                 disabled={false}
                 disabled={props.walletAddress ?true:false}
                 value={email}

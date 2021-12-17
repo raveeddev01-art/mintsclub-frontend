@@ -109,7 +109,7 @@ const Step3 = (props) => {
             className="properties-container d-flex justify-content-between "
             onClick={onClickDelete}
           >
-            <div>
+            <div className="ml-2">
               <div className="d-flex align-items-center ">
                 <img src={PropertiesImage} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
@@ -182,7 +182,7 @@ const Step3 = (props) => {
             className="properties-container d-flex justify-content-between mt-4 "
             onClick={onClickDelete}
           >
-            <div>
+            <div className="ml-2">
               <div className="d-flex align-items-center ">
                 <img src={LevelsBtn} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>

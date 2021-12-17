@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Step2.css";
 import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 
 const Step2 = (props) => {
   // console.log(props,"props in step 2")
@@ -75,45 +76,54 @@ const Step2 = (props) => {
   };
 
   const onSubmit = (e) => {
+    let validatePointer = true;
     e.preventDefault()
     // console.log(name, "name==>");
     if (name.trim() === "") {
       setErrorMessage("Please Fill required fields!");
+      toast.error("Please Fill required fields!");
       setName('')
       setError(true);
+      validatePointer=false;
       return "";
     }
     // console.log(name.trim().length <3)
     if(name.trim().length <3)
     {
       setErrorMessage("Name should have atleast 3 characters");
+      toast.error("Name should have atleast 3 characters.");
+      validatePointer=false;
       setError(true);
       return " "
 
     }
     if(externalLink){
-
+      // /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
       if (
         !externalLink.match(
-          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+          /^(http[s]?:\/\/){0,1}(w{3,3}\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/
         )
       ) {
         // alert("external link must be a valid uri")
+        validatePointer=false;
         setLinkError(true)
+        toast.error("Please provide a valid Url.");
         return  ""
       }
     }
     // console.log(name,"nmae")
-    props.handleStep2Info(name, symbol, externalLink, description, supply);
-    props.currentStepAction();
+    if(validatePointer){
+      props.handleStep2Info(name, symbol, externalLink, description, supply);
+      props.currentStepAction();
+    }
   };
   return (
     <div className="step2-container " style={{marginBottom:"14%"}}>
       <form onSubmit={onSubmit}>
         
       <div className="row">
-        <p style={{ color: "red" }}>{error && errorMessage} </p>
         <div className="col-md-6 col-sm-12">
+        <div className="d-flex" style={{ color: "red" }}>{error && errorMessage} </div>
           <div className="d-flex " style={{ flexDirection: "column" }}>
             <div className="position-relative">
               <label className="text-white step-2-label">Name</label>
@@ -130,7 +140,7 @@ const Step2 = (props) => {
               onChange={(e) => onChangeName(e)}
               value={name}
               placeholder="item name"
-              required={true}
+              // required={true}
               maxLength="50"
               minLength="3"
             />
@@ -163,7 +173,7 @@ const Step2 = (props) => {
             {/* <p style={{color:"red"}}>{linkError &&"External Link must be a valid Url"}</p> */}
             <input
               className="step-2-input mt-1"
-              type="url"
+              type="text"
               onChange={(e) => onChangeExternalLink(e)}
               value={externalLink}
               placeholder="https://yousite.com/item.1004"
