@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "https://mintsclub.io/static/css/main.a581e624.chunk.css",
-    "main.js": "https://mintsclub.io/static/js/main.65f82429.chunk.js",
-    "main.js.map": "https://mintsclub.io/static/js/main.65f82429.chunk.js.map",
+    "main.js": "https://mintsclub.io/static/js/main.f9bfae21.chunk.js",
+    "main.js.map": "https://mintsclub.io/static/js/main.f9bfae21.chunk.js.map",
     "runtime-main.js": "https://mintsclub.io/static/js/runtime-main.53dd1ae5.js",
     "runtime-main.js.map": "https://mintsclub.io/static/js/runtime-main.53dd1ae5.js.map",
     "static/css/2.e7cba208.chunk.css": "https://mintsclub.io/static/css/2.e7cba208.chunk.css",
@@ -39,6 +39,6 @@
     "static/css/2.e7cba208.chunk.css",
     "static/js/2.5c0cc098.chunk.js",
     "static/css/main.a581e624.chunk.css",
-    "static/js/main.65f82429.chunk.js"
+    "static/js/main.f9bfae21.chunk.js"
   ]
 }

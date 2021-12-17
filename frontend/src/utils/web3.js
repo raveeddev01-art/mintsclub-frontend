@@ -111,10 +111,12 @@ export const connectMetamaskCopy = async (address) => {
   };
   export const getWalletAddress=async ()=>{
     const web3 = new Web3(Web3.givenProvider);
-      // const network = await web3.eth.net.getNetworkType();
+    // const network = await web3.eth.net.getNetworkType();
+    if(window.ethereum){
       await window.ethereum.enable();
       let accounts = await web3.eth.getAccounts();
       return accounts[0]
+    }
   }
 export const connectMetamask = async ()=> {
     if(window.ethereum) {
