@@ -27,7 +27,7 @@
     border-radius: 10px;
 }
 .home-info-container {
-  margin-top: 23vh;
+  margin-top: 11vh;
 }
 .network {
     margin-right: 18px;
@@ -154,6 +154,7 @@ color:#FCD70D !important;
             margin-top: 6rem !important;
           }
     }
+   
     @media screen and (max-width: 1024px) {
       .home-info-container {
         margin-top: 5vh !important;
@@ -237,10 +238,13 @@ color:#FCD70D !important;
         }
  
 } */
-@media screen and (max-height: 868px){
+@media screen and (max-height: 668px){
 
-  .home-info-container {
+  /* .home-info-container {
     margin-top: 11vh !important;
+} */
+.home-container {
+  overflow-y: auto;
 }
 }
       
