@@ -3,6 +3,7 @@ import "./Step2.css";
 import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import InfoComp from '../../infoComp';
 
 const Step2 = (props) => {
   // console.log(props,"props in step 2")
@@ -14,6 +15,13 @@ const Step2 = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
   const [linkError,setLinkError]=useState(false)
+
+  const dataDescription = {
+    supply:"The number of copies that can be minted.",
+    externalLink: "A link to this item's detail page, so that users can click to learn more about it. You are welcome to link to your own webpage with more details.",
+    symbol: "Symbol for the NFT contract"
+  }
+
   const patternValidation = val => {
     return /\s/g.test(val);
   };
@@ -147,7 +155,8 @@ const Step2 = (props) => {
           </div>
 
           <div className="d-flex mt-4" style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label">Symbol</label>
+            <label className="text-white step-2-label ">Symbol <InfoComp text={dataDescription.symbol} /></label>
+            
 
             {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               {" "}
@@ -165,7 +174,8 @@ const Step2 = (props) => {
           </div>
 
           <div className="d-flex  mt-4" style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label">External Link</label>
+            <label className="text-white step-2-label">External Link <InfoComp text={dataDescription.externalLink} /></label>
+            
             {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.Printing and typesetting industry{" "}
@@ -191,7 +201,7 @@ const Step2 = (props) => {
 
         <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
           <div className="d-flex " style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label">Supply</label>
+            <label className="text-white step-2-label">Supply <InfoComp text={dataDescription.supply} /></label>
             <p className="mb-0" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               The number of copies that can be minted{" "}
             </p>

@@ -16,7 +16,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid, ListItem, ListItemText } from "@mui/material";
-import { Box } from "@mui/system";
+import InfoComp from '../../infoComp';
 /////////////////
 
 const Step3 = (props) => {
@@ -113,7 +113,7 @@ const Step3 = (props) => {
               <div className="d-flex align-items-center ">
                 <img src={PropertiesImage} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-                  Properties
+                  Properties <InfoComp text="Textual Traits of the NFTs"/>
                 </p>
                 <img
                   src={AddBtnImage}
@@ -186,7 +186,7 @@ const Step3 = (props) => {
               <div className="d-flex align-items-center ">
                 <img src={LevelsBtn} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-                  Levels
+                  Levels  <InfoComp text="Numerical traits that shows as a progress bar."/>
                 </p>
                 <img
                   src={AddBtnImage}

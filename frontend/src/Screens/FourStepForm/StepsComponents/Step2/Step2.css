@@ -26,3 +26,35 @@
     font-size: 20px !important;
     font-weight: 500;
 }
+.infoIcon{
+    font-size: 14px;
+}
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 99;
+  }
+  .infoIcon:hover .tooltiptext {
+    visibility: visible;
+  }
+  .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #FCD70D !important;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 99;
+  }

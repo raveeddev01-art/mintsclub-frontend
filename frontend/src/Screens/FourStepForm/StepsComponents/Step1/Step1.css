@@ -5,8 +5,9 @@
 .file-container {
   background-color: #001d43;
   width: 14vw;
-  min-width: 18rem;
-  height: 15rem;
+  min-width: 25rem;
+  max-width: 25rem;
+  height: 20rem;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -19,8 +20,10 @@
 .selected-file {
     object-fit: cover;
     /* min-width: 18rem !important; */
-    width: 21rem !important;
-    height: 15rem;
+    width: 25rem !important;
+    min-width: 25rem;
+    max-width: 25rem;
+    height: 20rem;
     border-radius: 10px;
 }
 .selected-file:hover {
