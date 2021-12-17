@@ -2,7 +2,7 @@
     background-color: #001d43 !important;
     border: none !important;
     padding: 0.5rem;
-    max-width: 60%;
+    max-width: 70%;
     border-radius: 10px;
     color:#FFFFFF;
     padding: 0.7rem 1rem;
@@ -25,6 +25,19 @@
 .step-2-label {
     font-size: 20px !important;
     font-weight: 500;
+}
+
+@media screen and (max-width: 1000px) {
+         
+    .step-2-input {
+      max-width: 80% !important;
+  }
+}
+@media screen and (max-width: 888px) {
+         
+    .step-2-input {
+      max-width: 85% !important;
+  }
 }
 .infoIcon{
     font-size: 14px;

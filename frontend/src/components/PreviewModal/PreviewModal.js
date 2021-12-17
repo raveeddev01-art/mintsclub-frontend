@@ -108,7 +108,7 @@ const PreviewModal = (props) => {
                     className="d-flex mt-3 "
                     style={{ flexDirection: "column" }}
                   >
-                        <label className="text-white external-label ml-0 my-2">External Link</label>
+                        <label className="text-white external-label ml-0 my-2 ml-0">External Link</label>
                     <input
                       className=" mt-1 w-100 externalLink-input"
                       type="url"
@@ -123,55 +123,69 @@ const PreviewModal = (props) => {
                     />
                   </div>
                 </div>
-
-                <div className="col-md-6 col-sm-12 mt-4">
-                <label className="text-white preview-label my-2">Name</label>
-                  <input
-                    className="preview-input "
-                    type="text"
-                    value={info.name || ""}
-                    placeholder="name"
-                    maxLength="50"
-                    disabled={true}
-                  />
-                   <label className="text-white preview-label my-2">Email</label>
-                  <input
-                    className="preview-input mt-1"
-                    type="email"
-                    value={info.email || ""}
-                    maxLength="50"
-                    disabled={true}
-                  />
-                     <label className="text-white preview-label my-2">Symbol</label>
-                  <input
-                    className="preview-input mt-1"
-                    type="text"
-                    value={(info.symbol && info.symbol.trim()) || "- symbol -"}
-                    placeholder="- symbol -"
-                    maxLength="50"
-                    disabled={true}
-                  />
-                        <label className="text-white preview-label my-2">Description</label>
-                  <textarea
-                    className="preview-description p-3 mt-1 w-100"
-                    placeholder="- Description -"
-                    value={
-                      (info.description && info.description.trim()) ||
-                      "- Description -"
-                    }
-                    style={{ color: "#aaabab", marginLeft: "2rem" }}
-                    maxLength="600"
-                    disabled={true}
-                  />
-                        <label className="text-white preview-label my-2">Supply</label>
-                  <input
-                    className="preview-input mt-1"
-                    type="number"
-                    value={info.supply || "- supply -"}
-                    disabled={true}
-                    placeholder="- supply -"
-                    maxLength="50"
-                  />
+                <div className="col-md-6 col-sm-12 mt-4 d-flex justify-content-start flex-column">
+                   <div className="d-flex mt-3 " style={{ flexDirection: "column" }}>
+                      <label className="text-white preview-label my-2 ml-0">Name</label>
+                      <input
+                        className=" mt-1 w-100 externalLink-input"
+                        type="text"
+                        value={info.name || ""}
+                        placeholder="name"
+                        style={{ margin: "0" ,width:"100%"}}
+                        maxLength="50"
+                        disabled={true}
+                      />
+                  </div>
+                  <div className="d-flex mt-3 " style={{ flexDirection: "column" }}>
+                    <label className="text-white preview-label my-2 ml-0">Email</label>
+                    <input
+                      className=" mt-1 w-100 externalLink-input"
+                      type="email"
+                      value={info.email || ""}
+                      style={{ margin: "0" ,width:"100%"}}
+                      maxLength="50"
+                      disabled={true}
+                    />
+                  </div>
+                  <div className="d-flex mt-3 " style={{ flexDirection: "column" }}>
+                    <label className="text-white preview-label my-2 ml-0">Symbol</label>
+                    <input
+                      className=" mt-1 w-100 externalLink-input"
+                      type="text"
+                      value={(info.symbol && info.symbol.trim()) || "- symbol -"}
+                      placeholder="- symbol -"
+                      style={{ margin: "0" ,width:"100%"}}
+                      maxLength="50"
+                      disabled={true}
+                    />
+                  </div>
+                  <div className="d-flex mt-3 " style={{ flexDirection: "column" }}>
+                    <label className="text-white preview-label my-2 ml-0">Description</label>
+                    <textarea
+                      className="p-3 mt-1 w-100 externalLink-input"
+                      placeholder="- Description -"
+                      value={
+                        (info.description && info.description.trim()) ||
+                        "- Description -"
+                      }
+                      style={{ color: "#aaabab", marginLeft: "2rem",margin: "0" ,width:"100%" }}
+                      maxLength="600"
+                      disabled={true}
+                    />
+                  </div>
+                  <div className="d-flex mt-3 " style={{ flexDirection: "column" }}>
+                    <label className="text-white preview-label my-2 ml-0">Supply</label>
+                    <input
+                      className=" mt-1 w-100 externalLink-input"
+                      type="number"
+                      value={info.supply || "- supply -"}
+                      disabled={true}
+                      style={{ margin: "0" ,width:"100%"}}
+                      placeholder="- supply -"
+                      maxLength="50"
+                    />
+                  </div>
+                  
                 </div>
               </div>
             ) : (
@@ -307,7 +321,9 @@ const PreviewModal = (props) => {
               </div>
             )}
 
-            <div className="w-100 text-center">
+            
+          </div>
+          <div className="w-100 text-center">
               <p className="text-white">{previewModalStep}/2</p>
               {
                 previewModalStep >1 && props.maxLimit &&
@@ -322,7 +338,6 @@ const PreviewModal = (props) => {
                 {previewModalStep === 1 ? "Next" : "Deploy"}
               </button>
             </div>
-          </div>
         </Box>
       </Modal>
     </div>

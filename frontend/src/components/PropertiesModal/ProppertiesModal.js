@@ -203,8 +203,9 @@ const BasicModal = (props) => {
                     </div>
                   );
                 })}
-
-              <p
+              <div className="W-100 text-center"></div>
+            </div>
+            <p
                 className=" mt-4 ml-2"
                 style={{ color: "#00d3f3", cursor: "pointer" }}
                 onClick={() => addMoreValues()}
@@ -212,8 +213,6 @@ const BasicModal = (props) => {
                 {" "}
                 Add Property
               </p>
-              <div className="W-100 text-center"></div>
-            </div>
             <div className="w-100 text-center">
               <button
                 type="button"

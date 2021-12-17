@@ -14,6 +14,11 @@ export const ENV = {
     currency: process.env.REACT_APP_CURRENCY,
     appName: process.env.REACT_APP_NAME,
     requiredChainName: process.env.REACT_APP_REQUIRED_CHAIN_NAME,
+    //Social media
+    twitterLink: process.env.REACT_APP_TWITTER_LINK,
+    discordLink: process.env.REACT_APP_DISCORD_LINK,
+    telegramLink: process.env.REACT_APP_TELEGRAM_LINK,
+    redditLink: process.env.REACT_APP_REDDIT_LINK,
     // tawkto
     tawkToPropertyId: process.env.REACT_APP_TAWK_TO_PROPERTY_ID,
     tawkToKey: process.env.REACT_APP_TAWK_TO_KEY,

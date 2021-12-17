@@ -109,7 +109,7 @@ const LevelsModal = (props) => {
               }}
               onClick={() => props.handleClose()}
             />
-            <div className="title-container d-flex w-100 justify-content-center ">
+            <div cla  ssName="title-container d-flex w-100 justify-content-center ">
               <img src={LevelsImage} alt={"levels"} style={{ height: "2rem" }} />
               <p
                 className="text-white"
@@ -137,7 +137,7 @@ filtered in you collection’s sidebar.
                 levelsInputs.length > 0 &&
               levelsInputs.map((item, i) => {
                 return (
-                  <div className="d-flex" key={i}>
+                  <div className="col-12 d-flex" key={i}>
                     <div className="col-6 mt-2 " key={i}>
                       <div
                         className="d-flex"
@@ -236,17 +236,16 @@ filtered in you collection’s sidebar.
                   </div>
                 );
               })}
-
-              <p
-                className=" mt-4"
+              <div className="W-100 text-center"></div>
+            </div>
+            <p
+                className=" col-8 mt-4"
                 style={{ color: "#00d3f3" ,cursor:"pointer",marginLeft:"0.8rem"}}
                 onClick={() => addMoreValues()}
               >
                 {" "}
                 Add Level
               </p>
-              <div className="W-100 text-center"></div>
-            </div>
             {/* <button type="submit" class="btn btn-primary">Submit</button> */}
         
             <div className="w-100 text-center">

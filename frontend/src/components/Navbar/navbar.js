@@ -8,11 +8,20 @@ import {GrReddit} from 'react-icons/gr'
 import  {AiFillHome} from 'react-icons/ai'
 import mintsLogoSmily from '../../assets/images/mintsClubSmilyLogo1.png'
 import MintsClub from '../../assets/images/MintsClub-White.png'
-
+import {ENV} from '../../config/config'
 import fullNavIcon from '../../assets/images/mintsClubLogo1.png'
 
 const Navbar =()=>{
   const history=useHistory()
+  const twitter = ENV.twitterLink;
+  const discordLink = ENV.discordLink;
+  const telegramLink = ENV.telegramLink;
+  const redditLink = ENV.redditLink;
+  
+  
+  
+  const tawkToPropertyId = ENV.tawkToPropertyId;
+  
     return (
         <div className="nav ">
   <input type="checkbox" id="nav-check"/>
@@ -33,14 +42,18 @@ const Navbar =()=>{
   <div className="nav-links">
     <AiFillHome className="home-icon " />
     <a className="navbar-item" href="#" target="_blank" style={{color:"#ffd33e"}}>Home</a>
-    <BsTwitter className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Twitter</a>
-    <SiDiscord className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Discord</a>
-    <FaTelegramPlane className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Telegram</a>
-    <GrReddit className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Reddit</a>
+
+    {twitter && twitter.length>0 &&<><BsTwitter className="home-icon " />
+   <a className="navbar-item" href="#" target="_blank">Twitter</a></>}
+
+    {discordLink && discordLink.length>0 && <><SiDiscord className="home-icon " />
+    <a className="navbar-item" href="#" target="_blank">Discord</a></>}
+
+    {telegramLink && telegramLink.length>0 && <><FaTelegramPlane className="home-icon " />
+    <a className="navbar-item" href="#" target="_blank">Telegram</a></>}
+
+    {redditLink && redditLink.length>0 && <><GrReddit className="home-icon " />
+    <a className="navbar-item" href="#" target="_blank">Reddit</a></>}
   </div>
 </div>
     )

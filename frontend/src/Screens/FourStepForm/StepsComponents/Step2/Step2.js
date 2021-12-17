@@ -190,13 +190,6 @@ const Step2 = (props) => {
               maxLength="50"
             />
           </div>
-          <button
-            type="submit"
-            className="btn btn-secondary start-btn mt-5"
-            // onClick={() => onSubmit()}
-          >
-            Next
-          </button>
         </div>
 
         <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
@@ -260,6 +253,15 @@ const Step2 = (props) => {
               maxLength="600"
             />
           </div>
+        </div>
+        <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
+        <button
+            type="submit"
+            className="btn btn-secondary start-btn mt-5"
+            // onClick={() => onSubmit()}
+          >
+            Next
+          </button>
         </div>
       </div>
 
