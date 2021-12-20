@@ -9,23 +9,20 @@ import PreviewModal from "../../../../components/PreviewModal/PreviewModal";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdContentCopy } from "react-icons/md";
 import { getNetworkNameByChainId} from "../../../../utils/web3";
-
-
 import {
   connectWallet,
   contractResponse,
 } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
-
-
 import "./Step4.css";
 import copy from "copy-to-clipboard";
-
 import { toast } from "react-toastify";
-import {getWalletAddress} from '../../../../utils/web3'
+import {getWalletAddress} from '../../../../utils/web3';
+import {ENV} from '../../../../config/config';
 // import Stepper from "../../../../Components/Stepper/Stepper";
 // import { propTypes } from "react-bootstrap/esm/Image";
 const Step4 = (props) => {
+  const { discordLink } = ENV;
   // console.log(props,"props in setp 4")
   const [isVisible, setIsvisible] = useState(false);
   // const [isValidate, setIsvalidate] = useState(false);
@@ -387,8 +384,8 @@ const Step4 = (props) => {
             )}
           </div>
 
-          <div className="discord-container  ">
-            <div className="d-flex align-items-center">
+          <div className=" col-md-4 discord-container discordJoinCls ">
+            <div className="d-flex align-items-center" style={{width: '100%'}}>
               <img
                 src={DiscordImg}
                 style={{ width: "2rem", marginRight: "1rem" }}
@@ -397,13 +394,16 @@ const Step4 = (props) => {
               <p className="step4-label text-white mb-0"> Join Discord</p>
             </div>
             <p className="" style={{ color: "#aaabab" }}>
-              Join the Discord Community
+            “NFTs are the next big disruptor, just as the internet and eCommerce was.”  — Gary Vaynerchuck, Investment guru
+            Mainstream community of digital celebrities and collectors awaits you on Discord!
             </p>
             <button
               className="btn btn-secondary discord-btn  mt-2"
               style={{padding: "0.4rem 6rem !important"}}
               >
+                <a className="navbar-item" href={discordLink} target="_blank">
                 Join
+                </a>
               </button>
           </div>
         </div>

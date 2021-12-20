@@ -7,7 +7,7 @@ import uploadIcon from "../../../../assets/images/uploadIcon.png";
 import { connect } from "react-redux";
 import { BsUpload } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
-import { IconButton } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 
 const Step1 = (props) => {
   const [file, setFile] = useState("");
@@ -185,12 +185,14 @@ const Step1 = (props) => {
         
       )}
       <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
+      <Grid container style={{justifyContent: 'space-between'}}>
+        <Grid item xs={6}>
       {!img ? (
         <>
           {!videoUrl && !img && (
             <label
               className="text-center d-flex mt-2"
-              style={{ cursor: "pointer", width: "14vw" }}
+              style={{ cursor: "pointer" }}
             >
               <div
                 className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
@@ -304,10 +306,18 @@ const Step1 = (props) => {
           </label>
         </div>
       )}
-
+      </Grid>
+      <Grid item xs={5}>
+        <Typography className="text-white" textAlign="justify"><strong>Do you know?  </strong> 
+10% of the world’s GDP will be tokenized by 2027. Source: World Economic Forum
+InvoBlox is your biggest cheerleader and empowers you to become part of the 24$ trillion token industry for FREE!
+Let’s be partners and create the digital awesomeness the world awaits …  (What’s your plan?)
+</Typography>
+      </Grid>
+      </Grid>
       <button
         type="button"
-        className="btn btn-secondary start-btn mt-5 mb-5"
+        className="btn btn-secondary start-btn mb-5"
         onClick={() => onFileUpload()}
       >
         Next

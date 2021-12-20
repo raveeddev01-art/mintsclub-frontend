@@ -109,3 +109,9 @@
       height: 35vh !important;
   }
   }
+.discordJoinCls{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

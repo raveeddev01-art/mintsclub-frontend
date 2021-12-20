@@ -44,16 +44,16 @@ const Navbar =()=>{
     <a className="navbar-item" href="#" target="_blank" style={{color:"#ffd33e"}}>Home</a>
 
     {twitter && twitter.length>0 &&<><BsTwitter className="home-icon " />
-   <a className="navbar-item" href="#" target="_blank">Twitter</a></>}
+   <a className="navbar-item" href={twitter} target="_blank">Twitter</a></>}
 
     {discordLink && discordLink.length>0 && <><SiDiscord className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Discord</a></>}
+    <a className="navbar-item" href={discordLink} target="_blank">Discord</a></>}
 
     {telegramLink && telegramLink.length>0 && <><FaTelegramPlane className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Telegram</a></>}
+    <a className="navbar-item" href={telegramLink} target="_blank">Telegram</a></>}
 
     {redditLink && redditLink.length>0 && <><GrReddit className="home-icon " />
-    <a className="navbar-item" href="#" target="_blank">Reddit</a></>}
+    <a className="navbar-item" href={redditLink} target="_blank">Reddit</a></>}
   </div>
 </div>
     )
