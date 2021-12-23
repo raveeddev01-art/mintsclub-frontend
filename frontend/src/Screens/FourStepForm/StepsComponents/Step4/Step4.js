@@ -502,7 +502,7 @@ const Step4 = (props) => {
                           width: "1.3rem",
                           height: "1.3rem",
                           cursor: "pointer",
-                          marginTop: "1.4rem",
+                          marginTop: "0rem",
                         }}
                       />
                     </div>
