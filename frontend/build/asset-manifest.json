@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "https://mintsclub.io/static/css/main.0c48b15d.chunk.css",
-    "main.js": "https://mintsclub.io/static/js/main.ffe6d4a8.chunk.js",
-    "main.js.map": "https://mintsclub.io/static/js/main.ffe6d4a8.chunk.js.map",
+    "main.css": "https://mintsclub.io/static/css/main.df290bff.chunk.css",
+    "main.js": "https://mintsclub.io/static/js/main.de45f53b.chunk.js",
+    "main.js.map": "https://mintsclub.io/static/js/main.de45f53b.chunk.js.map",
     "runtime-main.js": "https://mintsclub.io/static/js/runtime-main.53dd1ae5.js",
     "runtime-main.js.map": "https://mintsclub.io/static/js/runtime-main.53dd1ae5.js.map",
-    "static/css/2.e7cba208.chunk.css": "https://mintsclub.io/static/css/2.e7cba208.chunk.css",
-    "static/js/2.e88d37e8.chunk.js": "https://mintsclub.io/static/js/2.e88d37e8.chunk.js",
-    "static/js/2.e88d37e8.chunk.js.map": "https://mintsclub.io/static/js/2.e88d37e8.chunk.js.map",
+    "static/css/2.9bd8c4c0.chunk.css": "https://mintsclub.io/static/css/2.9bd8c4c0.chunk.css",
+    "static/js/2.7596b07b.chunk.js": "https://mintsclub.io/static/js/2.7596b07b.chunk.js",
+    "static/js/2.7596b07b.chunk.js.map": "https://mintsclub.io/static/js/2.7596b07b.chunk.js.map",
     "index.html": "https://mintsclub.io/index.html",
-    "static/css/2.e7cba208.chunk.css.map": "https://mintsclub.io/static/css/2.e7cba208.chunk.css.map",
-    "static/css/main.0c48b15d.chunk.css.map": "https://mintsclub.io/static/css/main.0c48b15d.chunk.css.map",
-    "static/js/2.e88d37e8.chunk.js.LICENSE.txt": "https://mintsclub.io/static/js/2.e88d37e8.chunk.js.LICENSE.txt",
+    "static/css/2.9bd8c4c0.chunk.css.map": "https://mintsclub.io/static/css/2.9bd8c4c0.chunk.css.map",
+    "static/css/main.df290bff.chunk.css.map": "https://mintsclub.io/static/css/main.df290bff.chunk.css.map",
+    "static/js/2.7596b07b.chunk.js.LICENSE.txt": "https://mintsclub.io/static/js/2.7596b07b.chunk.js.LICENSE.txt",
     "static/media/Add Button.dcf4d64e.svg": "https://mintsclub.io/static/media/Add Button.dcf4d64e.svg",
     "static/media/home.css": "https://mintsclub.io/static/media/Background.1dcf0c16.svg",
     "static/media/Details.63c8b2fb.svg": "https://mintsclub.io/static/media/Details.63c8b2fb.svg",
@@ -36,9 +36,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.53dd1ae5.js",
-    "static/css/2.e7cba208.chunk.css",
-    "static/js/2.e88d37e8.chunk.js",
-    "static/css/main.0c48b15d.chunk.css",
-    "static/js/main.ffe6d4a8.chunk.js"
+    "static/css/2.9bd8c4c0.chunk.css",
+    "static/js/2.7596b07b.chunk.js",
+    "static/css/main.df290bff.chunk.css",
+    "static/js/main.de45f53b.chunk.js"
   ]
 }
