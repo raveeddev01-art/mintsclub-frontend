@@ -16,14 +16,14 @@ import Step3 from "./StepsComponents/Step3/Step3";
 import Step4 from "./StepsComponents/Step4/Step4";
 import { ProgressBar } from "react-bootstrap";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
-import { connectMetamaskCopy,getNetworkNameByChainId } from "../../utils/web3";
-import GaTracker from '../../gaTracker/gaTracket'
+import { connectMetamaskCopy, getNetworkNameByChainId } from "../../utils/web3";
+import GaTracker from "../../gaTracker/gaTracket";
 // import { toast } from "react-toastify";
 // import ProppertiesModal from "../../Components/PropertiesModal/ProppertiesModal";
 
 const FourStepForm = (props) => {
   // console.log(props, "currentStep==>");
-  GaTracker()
+  GaTracker();
 
   //step 1 form
   const [imgFile, setImgFile] = useState({});
@@ -44,8 +44,8 @@ const FourStepForm = (props) => {
   const [email, setEmail] = useState("");
   // const [deployNetwork, setDeployNetwork] = useState("");
   const [isValidate, setIsvalidate] = useState(false);
-  const [walletAddress,setWalletAddress]=useState('');
-  const [connectedNetwork,setNetworkConnected]=useState('')
+  const [walletAddress, setWalletAddress] = useState("");
+  const [connectedNetwork, setNetworkConnected] = useState("");
 
   /////////
   const history = useHistory();
@@ -125,25 +125,25 @@ const FourStepForm = (props) => {
     //       email,
     //       address,
     //     };
-        // console.log(obj, "obj in the front end");
-        // console.log(properties,"properties")
-        // console.log(levels,"levels==>")
+    // console.log(obj, "obj in the front end");
+    // console.log(properties,"properties")
+    // console.log(levels,"levels==>")
 
-        // var test = new FormData();
+    // var test = new FormData();
 
-        // test.append("username", "Groucho");
-        // test.append("accountnum", 123456);
-        // for (const key in obj) {
-        //   if (obj[key]) formData.append(key, obj[key]);
-        // }
+    // test.append("username", "Groucho");
+    // test.append("accountnum", 123456);
+    // for (const key in obj) {
+    //   if (obj[key]) formData.append(key, obj[key]);
+    // }
 
-        // console.log("props contract info", props.contractInfo);
+    // console.log("props contract info", props.contractInfo);
 
-        // console.log(props.deployContract,"result==>")
-        props.mintToken(contractInfo, walletAddress, +supply, email);
-  
-      // })
-      // .catch((err) => console.log(err, "error"));
+    // console.log(props.deployContract,"result==>")
+    props.mintToken(contractInfo, walletAddress, +supply, email);
+
+    // })
+    // .catch((err) => console.log(err, "error"));
   };
 
   // const connectWalletAddress=()=>{
@@ -162,33 +162,28 @@ const FourStepForm = (props) => {
         //   email,
         //   address,
         // };
-        if(address){
-
+        if (address) {
           // props.deployContract(jsonToFormData(obj), address, +supply);
-          if(walletAddress){
-            
+          if (walletAddress) {
           }
-          setWalletAddress(address)
+          setWalletAddress(address);
         }
-
       })
       .catch((err) => console.log(err, "err1"));
 
-      handleNetwork()
-      
+    handleNetwork();
   };
 
+  const handleNetwork = () => {
+    getNetworkNameByChainId()
+      .then((network) => {
+        // console.log(network,"connected network==>")
+        setNetworkConnected(network);
+      })
+      .catch((err) => {});
+  };
 
-  const handleNetwork=()=>{
-    getNetworkNameByChainId().then((network)=>{
-      // console.log(network,"connected network==>")
-      setNetworkConnected(network)
-    }).catch((err)=>{
-
-    })
-  }
-
-  const handleDeployment=()=>{
+  const handleDeployment = () => {
     let obj = {
       name,
       description,
@@ -200,7 +195,7 @@ const FourStepForm = (props) => {
       walletAddress,
     };
     props.deployContract(jsonToFormData(obj), walletAddress, +supply);
-  }
+  };
 
   function buildFormData(formData, data, parentKey) {
     if (
@@ -313,14 +308,24 @@ const FourStepForm = (props) => {
             isValidate={isValidate}
             walletAddress={walletAddress}
             handleDeployment={handleDeployment}
-            info={{name,symbol,externalLink,description,properties,levels,img,videoUrl,email,supply}}
+            info={{
+              name,
+              symbol,
+              externalLink,
+              description,
+              properties,
+              levels,
+              img,
+              videoUrl,
+              email,
+              supply,
+            }}
             connectedNetwork={connectedNetwork}
-
           />
         ) : (
           ""
         )}
-        <div className="mt-5" style={{ width: "64%", margin: "auto" }}>
+        <div className="" style={{ width: "64%", margin: "6rem auto 0 auto" }}>
           <ProgressBar
             className={`${
               currentStep === 4 ? "progress-bar-green" : "progress-bar-yellow"
@@ -328,7 +333,6 @@ const FourStepForm = (props) => {
             now={currentStep * 25}
           />
           <p className="text-white text-center mt-2">{currentStep}/4</p>
-          
         </div>
       </div>
     </div>
@@ -336,10 +340,8 @@ const FourStepForm = (props) => {
 };
 
 const mapStateToProps = (state) =>
-
-(
-    // console.log(state, "state"),
-    {
+  // console.log(state, "state"),
+  ({
     currentStep: state.dashboard.currentStep,
     contractInfo: state.dashboard.contractInfo,
   });

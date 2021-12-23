@@ -16,7 +16,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid, ListItem, ListItemText } from "@mui/material";
-import InfoComp from '../../infoComp';
+import InfoComp from "../../infoComp";
 /////////////////
 
 const Step3 = (props) => {
@@ -97,7 +97,10 @@ const Step3 = (props) => {
   return (
     <div className="step3-container " style={{ height: "45vh" }}>
       {/* ///////////////////// */}
-      <Accordion className="transBG" style={{backgroundColor:'unset !important'}}>
+      <Accordion
+        className="transBG"
+        style={{ backgroundColor: "unset !important" }}
+      >
         <AccordionSummary
           className="transBG"
           expandIcon={<ExpandMoreIcon />}
@@ -113,7 +116,7 @@ const Step3 = (props) => {
               <div className="d-flex align-items-center ">
                 <img src={PropertiesImage} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-                  Properties <InfoComp text="Textual Traits of the NFTs"/>
+                  Properties <InfoComp text="Textual Traits of the NFTs" />
                 </p>
                 <img
                   src={AddBtnImage}
@@ -133,19 +136,16 @@ const Step3 = (props) => {
           </div>
         </AccordionSummary>
         <AccordionDetails className="transBG">
-          {
-            propertiesValues && propertiesValues.length >0 &&
-          <ListItem>
-            
-            <Grid className="mt-4 text-white list-title" item xs={6}>
-              {"Name"}
-            </Grid>
-            <Grid className="mt-4 text-white list-title" item xs={6}>
-              {"Value"}
-            </Grid>
-            
-          </ListItem>
-          }
+          {propertiesValues && propertiesValues.length > 0 && (
+            <ListItem>
+              <Grid className="mt-4 text-white list-title" item xs={6}>
+                {"Name"}
+              </Grid>
+              <Grid className="mt-4 text-white list-title" item xs={6}>
+                {"Value"}
+              </Grid>
+            </ListItem>
+          )}
           <ListItem>
             <Grid container xs={12}>
               {propertiesValues && propertiesValues.length > 0 ? (
@@ -186,7 +186,8 @@ const Step3 = (props) => {
               <div className="d-flex align-items-center ">
                 <img src={LevelsBtn} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-                  Levels  <InfoComp text="Numerical traits that shows as a progress bar."/>
+                  Levels{" "}
+                  <InfoComp text="Numerical traits that shows as a progress bar." />
                 </p>
                 <img
                   src={AddBtnImage}
@@ -206,20 +207,19 @@ const Step3 = (props) => {
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          {
-            levelsInputs && levelsInputs.length >0 &&
-          <ListItem>
-            <Grid className="mt-4 text-white list-title" item xs={4}>
-              {"Name"}
-            </Grid>
-            <Grid className="mt-4 text-white list-title" item xs={4}>
-              {"Value"}
-            </Grid>
-            <Grid className="mt-4 text-white list-title" item xs={4}>
-              {"Total"}
-            </Grid>
-          </ListItem>
-          }
+          {levelsInputs && levelsInputs.length > 0 && (
+            <ListItem>
+              <Grid className="mt-4 text-white list-title" item xs={4}>
+                {"Name"}
+              </Grid>
+              <Grid className="mt-4 text-white list-title" item xs={4}>
+                {"Value"}
+              </Grid>
+              <Grid className="mt-4 text-white list-title" item xs={4}>
+                {"Total"}
+              </Grid>
+            </ListItem>
+          )}
 
           <ListItem>
             <Grid container xs={12}>
@@ -249,7 +249,7 @@ const Step3 = (props) => {
 
       <button
         type="button"
-        className="btn btn-secondary start-btn mt-5 mb-5"
+        className="btn btn-secondary start-btn mt-3 mb-5"
         onClick={() => props.currentStepAction()}
       >
         Next

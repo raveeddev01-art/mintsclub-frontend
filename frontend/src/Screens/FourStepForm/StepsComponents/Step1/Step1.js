@@ -164,160 +164,162 @@ const Step1 = (props) => {
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
       {videoUrl && (
-        <div className="position-relative" style={{width:"210px"}}>
-        <video className="mt-4" width="210" controls>
-          <source src={videoUrl} />
-        </video>
+        <div className="position-relative" style={{ width: "210px" }}>
+          <video className="mt-4" width="210" controls>
+            <source src={videoUrl} />
+          </video>
           <MdClose
-                  color="#e33d0bc2"
-                  className=""
-                  onClick={removeVideo}
-                  style={{
-                    fontSize: "2.5rem",
-                    cursor: "pointer",
-                    top: "28px",
-                    right:"4px",
-                    position: "absolute",
-                    zIndex: 99,
-                  }}
-                />
+            color="#e33d0bc2"
+            className=""
+            onClick={removeVideo}
+            style={{
+              fontSize: "2.5rem",
+              cursor: "pointer",
+              top: "28px",
+              right: "4px",
+              position: "absolute",
+              zIndex: 99,
+            }}
+          />
         </div>
-        
       )}
       <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
-      <Grid container style={{justifyContent: 'space-between'}}>
-        <Grid item xs={6}>
-      {!img ? (
-        <>
-          {!videoUrl && !img && (
-            <label
-              className="text-center d-flex mt-2"
-              style={{ cursor: "pointer" }}
-            >
-              <div
-                className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
-                onDrop={(e) => onDrop(e)}
-                onDragOver={(e) => dragOver(e)}
-                onDragEnter={(e) => dragEnter(e)}
-                onDragLeave={(e) => dragLeave(e)}
-              >
-                <div
-                  className="d-flex h-100 justify-content-center align-items-center "
-                  style={{ flexDirection: "column", cursor: "pointer" }}
+      <Grid container style={{ justifyContent: "space-between" }}>
+        <Grid item md={6}>
+          {!img ? (
+            <>
+              {!videoUrl && !img && (
+                <label
+                  className="text-center d-flex mt-2"
+                  style={{ cursor: "pointer" }}
                 >
-                  {/* <RiFolderUploadLine className="upload-icon" /> */}
-                  <img className="upload-icon mb-3" src={uploadIcon} />
-
-                  <p
-                    style={{
-                      color: "#aaabab",
-                      fontSize: "14px",
-                      margin: "0rem",
-                    }}
+                  <div
+                    className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
+                    onDrop={(e) => onDrop(e)}
+                    onDragOver={(e) => dragOver(e)}
+                    onDragEnter={(e) => dragEnter(e)}
+                    onDragLeave={(e) => dragLeave(e)}
                   >
-                    Add photo or video <br /> or Drag and drop
-                  </p>
-                  <input
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={onFileChange}
-                    accept=".mp4, .png,.jpeg"
-                  />
+                    <div
+                      className="d-flex h-100 justify-content-center align-items-center "
+                      style={{ flexDirection: "column", cursor: "pointer" }}
+                    >
+                      {/* <RiFolderUploadLine className="upload-icon" /> */}
+                      <img className="upload-icon mb-3" src={uploadIcon} />
+
+                      <p
+                        style={{
+                          color: "#aaabab",
+                          fontSize: "14px",
+                          margin: "0rem",
+                        }}
+                      >
+                        Add photo or video <br /> or Drag and drop
+                      </p>
+                      <input
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={onFileChange}
+                        accept=".mp4, .png,.jpeg"
+                      />
+                    </div>
+                  </div>
+                </label>
+              )}
+              {videoUrl && (
+                <div
+                  onDrop={(e) => onDrop(e)}
+                  onDragOver={(e) => dragOver(e)}
+                  onDragEnter={(e) => dragEnter(e)}
+                  onDragLeave={(e) => dragLeave(e)}
+                >
+                  <label>
+                    <div
+                      className="d-flex align-items-center justify-content-center mb-3"
+                      style={{
+                        backgroundColor: "#001d43",
+                        width: "13.2rem",
+                        height: "3rem",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <BsUpload
+                        style={{ fontSize: "1.4rem", color: "white" }}
+                      />
+                    </div>
+                    <input
+                      type="file"
+                      style={{ display: "none" }}
+                      onChange={onFileChange}
+                      accept=".mp4, .png,.jpeg"
+                      onDrop={(e) => onFileChange(e)}
+                      onDragOver={(e) => onFileChange(e)}
+                      onDragEnter={(e) => onFileChange(e)}
+                      onDragLeave={(e) => onFileChange(e)}
+                    />
+                  </label>
                 </div>
-              </div>
-            </label>
-          )}
-          {videoUrl && (
+              )}
+            </>
+          ) : (
             <div
+              className="text-white d-flex  mt-4 mb-5"
+              style={{ cursor: "pointer" }}
               onDrop={(e) => onDrop(e)}
               onDragOver={(e) => dragOver(e)}
               onDragEnter={(e) => dragEnter(e)}
               onDragLeave={(e) => dragLeave(e)}
-     
             >
-              <label>
-              
-                <div
-                  className="d-flex align-items-center justify-content-center mb-3"
+              <label className="text-center position-relative label-parent">
+                <MdClose
+                  color="#e33d0bc2"
+                  className=""
+                  onClick={removeImage}
                   style={{
-                    backgroundColor: "#001d43",
-                    width: "13.2rem",
-                    height: "3rem",
-                    borderRadius: "10px",
+                    fontSize: "2.5rem",
                     cursor: "pointer",
+                    top: 0,
+                    right: 0,
+                    position: "absolute",
+                    zIndex: 99,
                   }}
-                >
-                  <BsUpload style={{ fontSize: "1.4rem", color: "white" }} />
-                </div>
+                />
+                <img
+                  className="selected-file "
+                  src={img}
+                  alt="uploaded image"
+                  style={{ cursor: "pointer" }}
+                />
+
+                <BsImageFill
+                  className="position-absolute upload-img-icon"
+                  style={{ fontSize: "1.2rem", cursor: "pointer" }}
+                />
                 <input
                   type="file"
                   style={{ display: "none" }}
                   onChange={onFileChange}
                   accept=".mp4, .png,.jpeg"
-                  onDrop={(e) => onFileChange(e)}
-                  onDragOver={(e) => onFileChange(e)}
-                  onDragEnter={(e) => onFileChange(e)}
-                  onDragLeave={(e) => onFileChange(e)}
                 />
               </label>
             </div>
           )}
-        </>
-      ) : (
-        <div
-          className="text-white d-flex  mt-4 mb-5"
-          style={{ cursor: "pointer" }}
-          onDrop={(e) => onDrop(e)}
-          onDragOver={(e) => dragOver(e)}
-          onDragEnter={(e) => dragEnter(e)}
-          onDragLeave={(e) => dragLeave(e)}
-        >
-          <label className="text-center position-relative label-parent">
-            <MdClose
-              color="#e33d0bc2"
-              className=""
-              onClick={removeImage}
-              style={{
-                fontSize: "2.5rem",
-                cursor: "pointer",
-                top: 0,
-                right: 0,
-                position: "absolute",
-                zIndex: 99,
-              }}
-            />
-            <img
-              className="selected-file "
-              src={img}
-              alt="uploaded image"
-              style={{ cursor: "pointer" }}
-            />
-
-            <BsImageFill
-              className="position-absolute upload-img-icon"
-              style={{ fontSize: "1.2rem", cursor: "pointer" }}
-            />
-            <input
-              type="file"
-              style={{ display: "none" }}
-              onChange={onFileChange}
-              accept=".mp4, .png,.jpeg"
-            />
-          </label>
-        </div>
-      )}
-      </Grid>
-      <Grid item xs={5}>
-        <Typography className="text-white" textAlign="justify"><strong>Do you know?  </strong> 
-10% of the world’s GDP will be tokenized by 2027. Source: World Economic Forum
-InvoBlox is your biggest cheerleader and empowers you to become part of the 24$ trillion token industry for FREE!
-Let’s be partners and create the digital awesomeness the world awaits …  (What’s your plan?)
-</Typography>
-      </Grid>
+        </Grid>
+        <Grid item md={5}>
+          <Typography className="text-white" textAlign="justify">
+            <strong>Do you know? </strong>
+            10% of the world’s GDP will be tokenized by 2027. Source: World
+            Economic Forum InvoBlox is your biggest cheerleader and empowers you
+            to become part of the 24$ trillion token industry for FREE! Let’s be
+            partners and create the digital awesomeness the world awaits …
+            (What’s your plan?)
+          </Typography>
+        </Grid>
       </Grid>
       <button
         type="button"
-        className="btn btn-secondary start-btn mb-5"
+        className="btn btn-secondary start-btn mt-5 mt-md-3 mt-lg-0 mb-5"
         onClick={() => onFileUpload()}
       >
         Next

@@ -1,61 +1,62 @@
-import { useEffect } from 'react';
-import { useHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { useEffect } from "react";
+import { useHistory } from "react-router";
+import { connect } from "react-redux";
 // import { hometest } from "../../Redux/actions/actions";
-import Navbar from '../../components/Navbar/navbar';
-import SimpleSlider from '../../components/Slider/slider';
+import Navbar from "../../components/Navbar/navbar";
+import SimpleSlider from "../../components/Slider/slider";
 // import image from "../../assets/images/test.jpg";
-import Polygon from '../../assets/images/icon 2.svg';
+import Polygon from "../../assets/images/icon 2.svg";
 // import Ethereum from "../../assets/images/Ethereum.svg";
-import Cardano from '../../assets/images/icon 3.svg';
-import Binance from '../../assets/images/icon4.svg';
-import Ethereum from '../../assets/images/icon1.png';
+import Cardano from "../../assets/images/icon 3.svg";
+import Binance from "../../assets/images/icon4.svg";
+import Ethereum from "../../assets/images/icon1.png";
 // import nft2 from "../../assets/images/icon4.svg";
 // import nft3 from "../../assets/images/icon 2.svg";
 ////////////////////////
-import nft1 from '../../assets/images/nft1.jpg';
-import nft2 from '../../assets/images/nft2.webp';
-import nft3 from '../../assets/images/nft3.jpeg';
-import nft4 from '../../assets/images/nft4.webp';
-import nft5 from '../../assets/images/nft5.jpg';
-import GaTracker from '../../gaTracker/gaTracket';
-import { WordsFamousNfts } from '../../utils/exportData';
+import nft1 from "../../assets/images/nft1.jpg";
+import nft2 from "../../assets/images/nft2.webp";
+import nft3 from "../../assets/images/nft3.jpeg";
+import nft4 from "../../assets/images/nft4.webp";
+import nft5 from "../../assets/images/nft5.jpg";
+import GaTracker from "../../gaTracker/gaTracket";
+import { WordsFamousNfts } from "../../utils/exportData";
+import { Container } from "react-bootstrap";
 
-import './home.css';
+import "./home.css";
 
 const Home = (props) => {
   //  useEffect(()=>{
   // },[])
   GaTracker();
   const networksData = [
-    { name: 'Ethereum', image: Ethereum },
-    { name: 'Polygon', image: Polygon },
-    { name: 'Cardano', image: Cardano },
-    { name: 'Binance SmartChain', image: Binance },
+    { name: "Ethereum", image: Ethereum },
+    { name: "Polygon", image: Polygon },
+    { name: "Cardano", image: Cardano },
+    { name: "Binance SmartChain", image: Binance },
   ];
 
   const history = useHistory();
 
   return (
-    <div className='home-container p-1'>
-      <div className='content'>
-        <div className='home-navbar'>
+    <div className="home-container">
+      <div className="container">
+        <div className="pt-3">
           <Navbar />
         </div>
-        <div className='mt-4 details-container'>
-          <div className=' d-flex justify-content-between home-info-container'>
-            <div className=' '>
-              <div className='details'>
-                <div className='' style={{ maxWidth: '31rem' }}>
+        <div className="mt-4 details-container">
+          <div className=" d-flex justify-content-between home-info-container">
+            <div className=" ">
+              <div className="details">
+                <div className="" style={{ maxWidth: "31rem" }}>
                   <p
-                    className='text-white mint-title'
-                    style={{ fontSize: '46px', fontWeight: 'bold' }}
+                    className="text-white mint-title"
+                    style={{ fontSize: "46px", fontWeight: "bold" }}
                   >
                     Let's Mint Your NFTs
                   </p>
                   <p
-                    className='text-white mint-title'
-                    style={{ fontSize: '30px', fontWeight: 'bold' }}
+                    className="text-white mint-title"
+                    style={{ fontSize: "30px", fontWeight: "bold" }}
                   >
                     Free..! Minting Always!!
                   </p>
@@ -66,18 +67,18 @@ const Home = (props) => {
                 </div>
               </div>
 
-              <div className='networks '>
+              <div className="networks ">
                 <p
-                  className='text-white select-network-heading'
-                  style={{ fontSize: '36px' }}
+                  className="text-white select-network-heading"
+                  style={{ fontSize: "36px" }}
                 >
                   Select Network
                 </p>
-                <div className='networks-list-container mt-4 d-flex '>
+                <div className="networks-list-container mt-4 d-flex ">
                   {networksData.map((item, index) => {
                     return (
                       <div
-                        className='network'
+                        className="network"
                         disabled={true}
                         key={index}
                         // onClick={() => {
@@ -98,31 +99,31 @@ const Home = (props) => {
                         > */}
                         <img
                           src={item.image}
-                          alt='coming soon'
+                          alt="coming soon"
                           style={{
-                            width: '4rem',
-                            cursor: 'pointer',
+                            width: "4rem",
+                            cursor: "pointer",
                             // padding: "0rem 0rem 0rem 1rem",
                           }}
                           className={`network-img ${
-                            'Ethereum' === item.name ? '' : 'selected-network'
+                            "Ethereum" === item.name ? "" : "selected-network"
                           }`}
                         />
-                        {'Ethereum' !== item.name && (
-                          <span className='tooltiptext'>Coming soon</span>
+                        {"Ethereum" !== item.name && (
+                          <span className="tooltiptext">Coming soon</span>
                         )}
                         {/* </div> */}
                         <p
                           className={`ml-1 mt-2 ${
-                            'Ethereum' === item.name
-                              ? 'network-title-yellow'
-                              : 'network-title-white'
+                            "Ethereum" === item.name
+                              ? "network-title-yellow"
+                              : "network-title-white"
                           }`}
-                          style={{ fontSize: '14px' }}
+                          style={{ fontSize: "14px" }}
                         >
-                          {item.name === 'Binance SmartChain' ? (
+                          {item.name === "Binance SmartChain" ? (
                             <p>
-                              {'Binance'} <br /> {'SmartChain'}
+                              {"Binance"} <br /> {"SmartChain"}
                             </p>
                           ) : (
                             item.name
@@ -134,18 +135,18 @@ const Home = (props) => {
                 </div>
               </div>
               <button
-                type='button'
-                className='btn btn-secondary start-btn mt-4'
-                onClick={() => history.push('/fourStepForm')}
+                type="button"
+                className="btn btn-secondary start-btn mt-4"
+                onClick={() => history.push("/fourStepForm")}
               >
                 Lets Start
               </button>
             </div>
 
-            <div className='d-flex  home-slider-wrapper '>
+            <div className="d-flex  home-slider-wrapper ">
               <div
-                className='home-slider-container'
-                style={{ marginLeft: '2rem' }}
+                className="home-slider-container"
+                style={{ marginLeft: "2rem" }}
               >
                 <SimpleSlider assetList={WordsFamousNfts} />
                 {/* {
