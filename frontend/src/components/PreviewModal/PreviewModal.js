@@ -362,7 +362,7 @@ const PreviewModal = (props) => {
               </div>
             )}
             <div className="w-100 text-center">
-              <p className="text-white my-5">{previewModalStep}/2</p>
+              <p className="text-white my-3">{previewModalStep}/2</p>
               {previewModalStep > 1 && props.maxLimit && (
                 <p className="text-danger">
                   {"Maximum deployment limit reached,Please contact support"}
@@ -370,7 +370,7 @@ const PreviewModal = (props) => {
               )}
               <button
                 type="button"
-                className="btn btn-secondary preview-btn mb-2"
+                className="btn btn-secondary preview-btn mb-4"
                 disabled={props.maxLimit && previewModalStep > 1 ? true : false}
                 onClick={() => handleNextStep()}
               >
