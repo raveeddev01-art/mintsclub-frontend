@@ -262,3 +262,13 @@
     margin-top: 70px !important;
   }
 }
+
+@media (min-width: 345px) and (max-width: 445px) {
+  .home-container {
+    width: 125% !important;
+    overflow-x: hidden !important;
+  }
+  .container {
+    width: 100% !important;
+  }
+}

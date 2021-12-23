@@ -18,7 +18,7 @@
 }
 
 .selected-file {
-  object-fit: contain;
+  object-fit: cover;
   /* min-width: 18rem !important; */
   width: 25rem !important;
   max-width: 25rem;
