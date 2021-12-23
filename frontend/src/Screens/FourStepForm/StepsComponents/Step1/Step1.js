@@ -164,7 +164,11 @@ const Step1 = (props) => {
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
       {videoUrl && (
-        <div className="position-relative" style={{ width: "210px" }}>
+        <div className="position-relative" style={{ width: "210px" }}  
+         onDrop={(e) => onDrop(e)}
+        onDragOver={(e) => dragOver(e)}
+        onDragEnter={(e) => dragEnter(e)}
+        onDragLeave={(e) => dragLeave(e)}>
           <video className="mt-4" width="210" controls>
             <source src={videoUrl} />
           </video>
@@ -189,6 +193,7 @@ const Step1 = (props) => {
           {!img ? (
             <>
               {!videoUrl && !img && (
+                <>
                 <label
                   className="text-center d-flex mt-2"
                   style={{ cursor: "pointer" }}
@@ -225,6 +230,41 @@ const Step1 = (props) => {
                     </div>
                   </div>
                 </label>
+                <div
+                onDrop={(e) => onDrop(e)}
+                onDragOver={(e) => dragOver(e)}
+                onDragEnter={(e) => dragEnter(e)}
+                onDragLeave={(e) => dragLeave(e)}
+                className="mb-4"
+              >
+                <label>
+                  <div
+                    className="d-flex align-items-center justify-content-center mb-3"
+                    style={{
+                      backgroundColor: "#001d43",
+                      width: "13.2rem",
+                      height: "3rem",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <BsUpload
+                      style={{ fontSize: "1.4rem", color: "white" }}
+                    />
+                  </div>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={onFileChange}
+                    accept=".mp4, .png,.jpeg"
+                    onDrop={(e) => onFileChange(e)}
+                    onDragOver={(e) => onFileChange(e)}
+                    onDragEnter={(e) => onFileChange(e)}
+                    onDragLeave={(e) => onFileChange(e)}
+                  />
+                </label>
+              </div>
+              </>
               )}
               {videoUrl && (
                 <div
@@ -263,6 +303,7 @@ const Step1 = (props) => {
               )}
             </>
           ) : (
+            <>
             <div
               className="text-white d-flex  mt-4 mb-5"
               style={{ cursor: "pointer" }}
@@ -304,6 +345,41 @@ const Step1 = (props) => {
                 />
               </label>
             </div>
+               <div
+               onDrop={(e) => onDrop(e)}
+               onDragOver={(e) => dragOver(e)}
+               onDragEnter={(e) => dragEnter(e)}
+               onDragLeave={(e) => dragLeave(e)}
+               className="mb-4"
+             >
+               <label>
+                 <div
+                   className="d-flex align-items-center justify-content-center mb-3"
+                   style={{
+                     backgroundColor: "#001d43",
+                     width: "13.2rem",
+                     height: "3rem",
+                     borderRadius: "10px",
+                     cursor: "pointer",
+                   }}
+                 >
+                   <BsUpload
+                     style={{ fontSize: "1.4rem", color: "white" }}
+                   />
+                 </div>
+                 <input
+                   type="file"
+                   style={{ display: "none" }}
+                   onChange={onFileChange}
+                   accept=".mp4, .png,.jpeg"
+                   onDrop={(e) => onFileChange(e)}
+                   onDragOver={(e) => onFileChange(e)}
+                   onDragEnter={(e) => onFileChange(e)}
+                   onDragLeave={(e) => onFileChange(e)}
+                 />
+               </label>
+             </div>
+             </>
           )}
         </Grid>
         <Grid item md={5}>

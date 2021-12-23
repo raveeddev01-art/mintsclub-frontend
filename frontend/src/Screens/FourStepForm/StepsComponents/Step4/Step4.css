@@ -32,6 +32,13 @@
   font-size: 1.3rem;
   font-weight: bold;
 }
+.navbar-item {
+  text-decoration: none !important;
+  color: black;
+}
+.navbar-item:hover {
+  text-decoration: none !important;
+}
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #ffffff !important;
