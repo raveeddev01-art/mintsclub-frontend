@@ -3,7 +3,7 @@ import "./Step2.css";
 import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-import InfoComp from '../../infoComp';
+import InfoComp from "../../infoComp";
 
 const Step2 = (props) => {
   // console.log(props,"props in step 2")
@@ -14,15 +14,16 @@ const Step2 = (props) => {
   const [supply, setSupply] = useState(props.supply);
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
-  const [linkError,setLinkError]=useState(false)
+  const [linkError, setLinkError] = useState(false);
 
   const dataDescription = {
-    supply:"The number of copies that can be minted.",
-    externalLink: "A link to this item's detail page, so that users can click to learn more about it. You are welcome to link to your own webpage with more details.",
-    symbol: "Symbol for the NFT contract"
-  }
+    supply: "The number of copies that can be minted.",
+    externalLink:
+      "A link to this item's detail page, so that users can click to learn more about it. You are welcome to link to your own webpage with more details.",
+    symbol: "Symbol for the NFT contract",
+  };
 
-  const patternValidation = val => {
+  const patternValidation = (val) => {
     return /\s/g.test(val);
   };
 
@@ -31,11 +32,11 @@ const Step2 = (props) => {
   };
 
   const onChangeName = (e) => {
-    if(!name) {
+    if (!name) {
       if (patternValidation(e.target.value.trimStart())) {
-      e.preventDefault();
+        e.preventDefault();
       } else {
-      setName(e.target.value.trimStart());
+        setName(e.target.value.trimStart());
       }
     } else {
       setName(e.target.value.trimStart());
@@ -43,35 +44,32 @@ const Step2 = (props) => {
   };
 
   const onChangeSymbol = (e) => {
-    if(!symbol)
-    {
+    if (!symbol) {
       if (patternValidation(e.target.value.trimStart())) {
         e.preventDefault();
       } else {
         setSymbol(e.target.value.trimStart());
       }
-    }
-    else {
+    } else {
       setSymbol(e.target.value.trimStart());
     }
   };
 
   const onChangeExternalLink = (e) => {
     const { value } = e.target;
-    if(value && value.length>0) {
+    if (value && value.length > 0) {
       setLinkError(false);
       setExternalLink(value.trimStart());
-    }
-    else {
-      setExternalLink(value)
+    } else {
+      setExternalLink(value);
     }
   };
 
   const onChangeDescription = (e) => {
-    if(!description) {
+    if (!description) {
       if (patternValidation(e.target.value.trimStart())) {
         e.preventDefault();
-      }else {
+      } else {
         setDescription(e.target.value.trimStart());
       }
     } else {
@@ -85,27 +83,25 @@ const Step2 = (props) => {
 
   const onSubmit = (e) => {
     let validatePointer = true;
-    e.preventDefault()
+    e.preventDefault();
     // console.log(name, "name==>");
     if (name.trim() === "") {
       setErrorMessage("Please Fill required fields!");
       toast.error("Please Fill required fields!");
-      setName('')
+      setName("");
       setError(true);
-      validatePointer=false;
+      validatePointer = false;
       return "";
     }
     // console.log(name.trim().length <3)
-    if(name.trim().length <3)
-    {
+    if (name.trim().length < 3) {
       setErrorMessage("Name should have atleast 3 characters");
       toast.error("Name should have atleast 3 characters.");
-      validatePointer=false;
+      validatePointer = false;
       setError(true);
-      return " "
-
+      return " ";
     }
-    if(externalLink){
+    if (externalLink) {
       // /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
       if (
         !externalLink.match(
@@ -113,101 +109,107 @@ const Step2 = (props) => {
         )
       ) {
         // alert("external link must be a valid uri")
-        validatePointer=false;
-        setLinkError(true)
+        validatePointer = false;
+        setLinkError(true);
         toast.error("Please provide a valid Url.");
-        return  ""
+        return "";
       }
     }
     // console.log(name,"nmae")
-    if(validatePointer){
+    if (validatePointer) {
       props.handleStep2Info(name, symbol, externalLink, description, supply);
       props.currentStepAction();
     }
   };
   return (
-    <div className="step2-container " style={{marginBottom:"14%"}}>
+    <div className="step2-container " style={{ marginBottom: "14%" }}>
       <form onSubmit={onSubmit}>
-        
-      <div className="row">
-        <div className="col-md-6 col-sm-12">
-        <div className="d-flex" style={{ color: "red" }}>{error && errorMessage} </div>
-          <div className="d-flex " style={{ flexDirection: "column" }}>
-            <div className="position-relative">
-              <label className="text-white step-2-label">Name</label>
-              <p
-                className="position-absolute"
-                style={{ color: "red", top: "0", left: "3.8rem" }}
-              >
-                *
-              </p>
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <div className="d-flex" style={{ color: "red" }}>
+              {error && errorMessage}{" "}
             </div>
-            <input
-              className="step-2-input mt-2"
-              type="text"
-              onChange={(e) => onChangeName(e)}
-              value={name}
-              placeholder="item name"
-              // required={true}
-              maxLength="50"
-              minLength="3"
-            />
-          </div>
+            <div className="d-flex " style={{ flexDirection: "column" }}>
+              <div className="position-relative">
+                <label className="text-white step-2-label">Name</label>
+                <p
+                  className="position-absolute"
+                  style={{ color: "red", top: "0", left: "3.8rem" }}
+                >
+                  *
+                </p>
+              </div>
+              <input
+                className="step-2-input mt-2"
+                type="text"
+                onChange={(e) => onChangeName(e)}
+                value={name}
+                placeholder="item name"
+                // required={true}
+                maxLength="50"
+                minLength="3"
+              />
+            </div>
 
-          <div className="d-flex mt-4" style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label ">Symbol <InfoComp text={dataDescription.symbol} /></label>
-            
+            <div className="d-flex mt-4" style={{ flexDirection: "column" }}>
+              <label className="text-white step-2-label ">
+                Symbol <InfoComp text={dataDescription.symbol} />
+              </label>
 
-            {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
+              {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               {" "}
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.Printing and typesetting industry{" "}
             </p> */}
-            <input
-              className="step-2-input mt-2"
-              type="text"
-              onChange={(e) => onChangeSymbol(e)}
-              value={symbol}
-              placeholder="NFT Symbol"
-              maxLength="50"
-            />
-          </div>
+              <input
+                className="step-2-input mt-2"
+                type="text"
+                onChange={(e) => onChangeSymbol(e)}
+                value={symbol}
+                placeholder="NFT Symbol"
+                maxLength="50"
+              />
+            </div>
 
-          <div className="d-flex  mt-4" style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label">External Link <InfoComp text={dataDescription.externalLink} /></label>
-            
-            {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
+            <div className="d-flex  mt-4" style={{ flexDirection: "column" }}>
+              <label className="text-white step-2-label">
+                External Link <InfoComp text={dataDescription.externalLink} />
+              </label>
+
+              {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.Printing and typesetting industry{" "}
             </p> */}
-            {/* <p style={{color:"red"}}>{linkError &&"External Link must be a valid Url"}</p> */}
-            <input
-              className="step-2-input mt-1"
-              type="text"
-              onChange={(e) => onChangeExternalLink(e)}
-              value={externalLink}
-              placeholder="https://yousite.com/item.1004"
-              maxLength="50"
-            />
+              {/* <p style={{color:"red"}}>{linkError &&"External Link must be a valid Url"}</p> */}
+              <input
+                className="step-2-input mt-1"
+                type="text"
+                onChange={(e) => onChangeExternalLink(e)}
+                value={externalLink}
+                placeholder="https://yousite.com/item.1004"
+                maxLength="50"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
-          <div className="d-flex " style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label">Supply <InfoComp text={dataDescription.supply} /></label>
-            <p className="mb-0" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
-              The number of copies that can be minted{" "}
-            </p>
-            <input
-              className="step-2-input mt-2"
-              type="number"
-              onChange={(e) => onChangeSupply(e)}
-              value={supply}
-              placeholder="supply"
-              max="100"
-              min="1"
-            />
-            {/* <select
+          <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
+            <div className="d-flex " style={{ flexDirection: "column" }}>
+              <label className="text-white step-2-label">
+                Supply <InfoComp text={dataDescription.supply} />
+              </label>
+              <p className="mb-0" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
+                The number of copies that can be minted{" "}
+              </p>
+              <input
+                className="step-2-input mt-2"
+                type="number"
+                onChange={(e) => onChangeSupply(e)}
+                value={supply}
+                placeholder="supply"
+                max="100"
+                min="1"
+              />
+              {/* <select
               className="form-select mt-2 network-dropdown"
               style={{
                 color: "white",
@@ -235,36 +237,35 @@ const Step2 = (props) => {
                 5
               </option>
             </select> */}
-          </div>
-          {/* //////////////////////// */}
-          <div className="d-flex  mt-4" style={{ flexDirection: "column" }}>
-            <label className="text-white step-2-label">Description</label>
+            </div>
+            {/* //////////////////////// */}
+            <div className="d-flex  mt-4" style={{ flexDirection: "column" }}>
+              <label className="text-white step-2-label">Description</label>
 
-            {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
+              {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.Printing and typesetting industry{" "}
             </p> */}
-            <textarea
-              className="description p-3 mt-2"
-              placeholder="Add Description"
-              onChange={onChangeDescription}
-              value={description}
-              style={{ color: "white" }}
-              maxLength="600"
-            />
+              <textarea
+                className="description p-3 mt-2"
+                placeholder="Add Description"
+                onChange={onChangeDescription}
+                value={description}
+                style={{ color: "white" }}
+                maxLength="600"
+              />
+            </div>
+          </div>
+          <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
+            <button
+              type="submit"
+              className="btn btn-secondary start-btn mt-5"
+              // onClick={() => onSubmit()}
+            >
+              Next
+            </button>
           </div>
         </div>
-        <div className="col-md-6 col-sm-12 mt-5 mt-md-0">
-        <button
-            type="submit"
-            className="btn btn-secondary start-btn mt-5"
-            // onClick={() => onSubmit()}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-
       </form>
     </div>
   );

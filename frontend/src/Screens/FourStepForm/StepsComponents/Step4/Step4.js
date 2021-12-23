@@ -8,7 +8,7 @@ import ReactCaptcha from "../../../../components/Captcha/Captcha";
 import PreviewModal from "../../../../components/PreviewModal/PreviewModal";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdContentCopy } from "react-icons/md";
-import { getNetworkNameByChainId} from "../../../../utils/web3";
+import { getNetworkNameByChainId } from "../../../../utils/web3";
 import {
   connectWallet,
   contractResponse,
@@ -17,8 +17,8 @@ import { connect } from "react-redux";
 import "./Step4.css";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-import {getWalletAddress} from '../../../../utils/web3';
-import {ENV} from '../../../../config/config';
+import { getWalletAddress } from "../../../../utils/web3";
+import { ENV } from "../../../../config/config";
 // import Stepper from "../../../../Components/Stepper/Stepper";
 // import { propTypes } from "react-bootstrap/esm/Image";
 const Step4 = (props) => {
@@ -43,7 +43,7 @@ const Step4 = (props) => {
   //previewModal
   const [previewModal, setPreviewModal] = useState(false);
   const [previewModalStep, setPreviewModalStep] = useState(1);
-  const [maxLimit, setMaxLimit]=useState(false)
+  const [maxLimit, setMaxLimit] = useState(false);
   // const [textCopy,setTextCopy]=useState(false)
 
   ///copy text ////////////////
@@ -82,14 +82,14 @@ const Step4 = (props) => {
 
   const submitCaptcha = () => {
     // console.log(captchaStatus, "captchaStatus");
-    if(email && emailValidate()) {
+    if (email && emailValidate()) {
       if (captchaStatus) {
         // setIsvalidate(true);
         props.handleCaptchaValidation(true);
       } else {
         setCaptchaError(true);
       }
-    }else{
+    } else {
       setEmailError(true);
       setErrorMessage("Please proivde Email.");
     }
@@ -101,13 +101,12 @@ const Step4 = (props) => {
       setEmailError(true);
       setErrorMessage("Email is required");
       return "";
-    }else{
+    } else {
       const validate = emailValidate();
-      if(!validate) return ""
+      if (!validate) return "";
     }
-    
-    getWalletAddress().then((address)=>{
 
+    getWalletAddress().then((address) => {
       // let count = localStorage.getItem(address);
       // // console.log(count,"count")
       // if (+count > 100) {
@@ -118,7 +117,7 @@ const Step4 = (props) => {
       // else {
       //   setMaxLimit(false)
       // }
-    })
+    });
 
     if (email === "") {
       setError(true);
@@ -142,7 +141,7 @@ const Step4 = (props) => {
       return false;
     }
     return true;
-  }
+  };
 
   const onReload = () => {
     debugger;
@@ -150,9 +149,9 @@ const Step4 = (props) => {
       setEmailError(true);
       setErrorMessage("Email is required");
       return "";
-    }else{
+    } else {
       const validate = emailValidate();
-      if(!validate) return ""
+      if (!validate) return "";
     }
 
     if (!props.contractReponse) {
@@ -182,7 +181,6 @@ const Step4 = (props) => {
 
           props.handleMinting(props.contractInfo, email);
         } else {
-          
           toast.error(`Please connect with ${props.connectedNetwork} network`);
         }
       })
@@ -235,19 +233,18 @@ const Step4 = (props) => {
       // } else if (+props.supply === 5) {
       //   return "1,2,3,4,5";
       // }
-      if(+props.supply >1) {
-        return ` 1-${props.supply}`
+      if (+props.supply > 1) {
+        return ` 1-${props.supply}`;
       }
     }
   };
   // console.log(props);
   return (
-
     <div className="step4-container w-80">
       {/* Metamask container */}
       <div className="metamask-container ">
-        <div className=" justify-content-between w-100 step-4-wrapper">
-          <div class="col-md-4">
+        <div className="d-md-flex justify-content-between w-100 step-4-wrapper">
+          <div class="form-container w-50">
             <div className="d-flex " style={{ flexDirection: "column" }}>
               <div className="position-relative">
                 <label className="text-white step4-label">Email</label>
@@ -270,9 +267,9 @@ const Step4 = (props) => {
                 className="step-4-input mt-2"
                 type="text"
                 onChange={(e) => onChangeEmail(e)}
-                onBlur={(e)=> emailValidate(e)}
+                onBlur={(e) => emailValidate(e)}
                 disabled={false}
-                disabled={props.walletAddress ?true:false}
+                disabled={props.walletAddress ? true : false}
                 value={email}
                 placeholder="example@gmail.com"
                 style={{ maxWidth: "22rem", color: "white" }}
@@ -356,7 +353,9 @@ const Step4 = (props) => {
                 </p>
                 <div className="d-flex align-items-center">
                   <button
-                    className={`btn btn-primary ${props.walletAddress ? 'step4-btn':'start-btn'}`}
+                    className={`btn btn-primary ${
+                      props.walletAddress ? "step4-btn" : "start-btn"
+                    }`}
                     style={{ marginTop: "0.8rem" }}
                     disabled={
                       props.contractReponse || props.walletAddress
@@ -383,9 +382,11 @@ const Step4 = (props) => {
               </div>
             )}
           </div>
-
-          <div className=" col-md-4 discord-container discordJoinCls ">
-            <div className="d-flex align-items-center" style={{width: '100%'}}>
+          <div className="discord-container discordJoinCls w-50">
+            <div
+              className="d-flex align-items-center"
+              style={{ width: "100%" }}
+            >
               <img
                 src={DiscordImg}
                 style={{ width: "2rem", marginRight: "1rem" }}
@@ -394,24 +395,30 @@ const Step4 = (props) => {
               <p className="step4-label text-white mb-0"> Join Discord</p>
             </div>
             <p className="" style={{ color: "#aaabab" }}>
-            “NFTs are the next big disruptor, just as the internet and eCommerce was.”  — Gary Vaynerchuck, Investment guru
-            Mainstream community of digital celebrities and collectors awaits you on Discord!
+              “NFTs are the next big disruptor, just as the internet and
+              eCommerce was.” — Gary Vaynerchuck, Investment guru Mainstream
+              community of digital celebrities and collectors awaits you on
+              Discord!
             </p>
             <button
               className="btn btn-secondary discord-btn  mt-2"
-              style={{padding: "0.4rem 6rem !important"}}
-              >
-                <a className="navbar-item" href={discordLink} target="_blank">
+              style={{ padding: "0.4rem 6rem !important" }}
+            >
+              <a className="navbar-item" href={discordLink} target="_blank">
                 Join
-                </a>
-              </button>
+              </a>
+            </button>
           </div>
         </div>
         {props.walletAddress && (
           <div className="w-100 text-center mt-4">
             <button
               className="btn btn-primary start-btn"
-              style={{ marginTop: '0.8rem', backgroundColor: '#FCD70D  !important', color:'black !important' }}
+              style={{
+                marginTop: "0.8rem",
+                backgroundColor: "#FCD70D  !important",
+                color: "black !important",
+              }}
               disabled={props.contractReponse ? true : false}
               onClick={handlePreviewModal}
             >
@@ -452,15 +459,15 @@ const Step4 = (props) => {
                 <div className="d-flex justify-content-between flex-row p-4 mt-4">
                   <div>
                     <p className="info">Contract Address</p>
-              
-                      
-                          {props.tokenMinted && props.tokenMinted.length >0  ?
-                           <p className="info">   {"Token ID's"} </p>
-                            : props.tokenId ?
-                            <p className="info">   {"Token ID"} </p>
-                            : ""}
-                       
-                    
+
+                    {props.tokenMinted && props.tokenMinted.length > 0 ? (
+                      <p className="info"> {"Token ID's"} </p>
+                    ) : props.tokenId ? (
+                      <p className="info"> {"Token ID"} </p>
+                    ) : (
+                      ""
+                    )}
+
                     <p className="info">Token Standard</p>
                     <p className="info">Blockchain</p>
                   </div>
@@ -495,7 +502,7 @@ const Step4 = (props) => {
                           width: "1.3rem",
                           height: "1.3rem",
                           cursor: "pointer",
-                          marginTop:"1.4rem"
+                          marginTop: "1.4rem",
                         }}
                       />
                     </div>
@@ -546,9 +553,9 @@ const Step4 = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
+const mapStateToProps = (state) =>
   // console.log(state, "state"),
-  {
+  ({
     connectedAddress: state.dashboard.connectedAddress,
     connectedAddressFlag: state.dashboard.connectedAddressFlag,
     contractReponse: state.dashboard.contractReponse,
@@ -559,8 +566,7 @@ const mapStateToProps = (state) => (
     tokenId: state.dashboard.tokenId,
     contractAddress: state.dashboard.contractAddress,
     tokenMinted: state.dashboard.tokenMinted,
-  }
-);
+  });
 
 export default connect(mapStateToProps, {
   connectWallet,

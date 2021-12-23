@@ -15,7 +15,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 630,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -72,7 +71,7 @@ const BasicModal = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} style={{maxHeight:"475px"}}>
+        <Box sx={style} style={{ maxHeight: "475px", width: "60%" }}>
           <div className="properties-modal-container position-relative">
             <IoMdClose
               className=" position-absolute"
@@ -122,82 +121,84 @@ const BasicModal = (props) => {
                     ? " 22vh"
                     : "14vh"
                 }`,
-             
               }}
             >
               {propertiesValues &&
                 propertiesValues.length > 0 &&
                 propertiesValues.map((item, i) => {
                   return (
-                    <div className="d-flex" style={{width:"558px"}} key={i}>
-                      <div className="col-6 mt-4" key={i}>
+                    <div className="d-flex" style={{ width: "558px" }} key={i}>
+                      <div className="row">
                         <div
-                          className="d-flex"
-                          style={{ flexDirection: "column" }}
+                          className="col-9 col-sm-5 col-md-5 col-lg-5 mt-4"
+                          key={i}
                         >
-                          <label
-                            className="text-white"
-                            style={{ fontSize: "1.2rem", fontWeight: "bold" }}
+                          <div
+                            className="d-flex"
+                            style={{ flexDirection: "column" }}
                           >
-                            Name
-                          </label>
-                          <input
-                            className="step3-input mt-2 "
-                            type="text"
-                            name="name"
-                            onChange={(e) => handleChange(i, e)}
-                            placeholder="Name"
-                            value={item.name || ""}
-                            maxLength="40"
-                            style={{
-                              backgroundColor: "#000e29 !important",
-                              maxWidth: "84%",
-                              padding: "0.6rem 1rem",
-                            }}
-                          />
+                            <label
+                              className="text-white"
+                              style={{ fontSize: "1.2rem", fontWeight: "bold" }}
+                            >
+                              Name
+                            </label>
+                            <input
+                              className="step3-input mt-2 "
+                              type="text"
+                              name="name"
+                              onChange={(e) => handleChange(i, e)}
+                              placeholder="Name"
+                              value={item.name || ""}
+                              maxLength="40"
+                              style={{
+                                backgroundColor: "#000e29 !important",
+                                maxWidth: "84%",
+                                padding: "0.6rem 1rem",
+                              }}
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="col-6 mt-4">
-                        <div
-                          className="d-flex position-relative"
-                          style={{ flexDirection: "column" }}
-                        >
-                          <label
-                            className="text-white"
-                            style={{
-                              fontSize: "1.2rem",
-                              fontWeight: "bold",
-                              marginLeft: "2rem",
-                            }}
+                        <div className="col-9 col-sm-5 col-md-5 col-lg-5 mt-4 ml-0 ml-md-4">
+                          <div
+                            className="d-flex position-relative"
+                            style={{ flexDirection: "column" }}
                           >
-                            Value
-                          </label>
-                          <input
-                            className="step3-input  mt-2"
-                            type="text"
-                            name="value"
-                            onChange={(e) => handleChange(i, e)}
-                            placeholder="Value"
-                            value={item.value || ""}
-                            maxLength="40"
-                            style={{
-                              backgroundColor: "#000e29 ",
-                              maxWidth: "84%",
-                              marginLeft: "2rem",
-                              padding: "0.6rem 1rem",
-                            }}
-                          />
-                          <BsFillXCircleFill
-                            className="position-absolute cross-icon"
-                            style={{
-                              color: "#00d3f3",
-                              top: "3rem",
-                              left: "15.8rem",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => removeFormFields(i)}
-                          />
+                            <label
+                              className="text-white"
+                              style={{
+                                fontSize: "1.2rem",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Value
+                            </label>
+                            <input
+                              className="step3-input  mt-2"
+                              type="text"
+                              name="value"
+                              onChange={(e) => handleChange(i, e)}
+                              placeholder="Value"
+                              value={item.value || ""}
+                              maxLength="40"
+                              style={{
+                                backgroundColor: "#000e29 ",
+                                maxWidth: "84%",
+                                padding: "0.6rem 1rem",
+                              }}
+                            />
+                            <BsFillXCircleFill
+                              className="position-absolute cross-icon"
+                              style={{
+                                color: "#00d3f3",
+                                top: "3rem",
+                                left: "15.8rem",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => removeFormFields(i)}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -206,13 +207,13 @@ const BasicModal = (props) => {
               <div className="W-100 text-center"></div>
             </div>
             <p
-                className=" mt-4 ml-2"
-                style={{ color: "#00d3f3", cursor: "pointer" }}
-                onClick={() => addMoreValues()}
-              >
-                {" "}
-                Add Property
-              </p>
+              className=" mt-4 ml-2"
+              style={{ color: "#00d3f3", cursor: "pointer" }}
+              onClick={() => addMoreValues()}
+            >
+              {" "}
+              Add Property
+            </p>
             <div className="w-100 text-center">
               <button
                 type="button"
