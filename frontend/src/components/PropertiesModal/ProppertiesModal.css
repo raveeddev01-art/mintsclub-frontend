@@ -31,16 +31,49 @@ width:  33vw !important;
     width: 500px !important;
   }
   .cross-icon {
-    left: 10.2rem !important;
+    left: 7.2rem !important;
+  }
+}
+@media (max-width: 600px) {
+  .cross-icon {
+    left: 5.2rem !important;
   }
 }
 @media (max-width: 576px) {
   .cross-icon {
-    left: 15.2rem !important;
+    left: 13.2rem !important;
   }
 }
 @media (max-width: 440px) {
   .cross-icon {
     left: 11.2rem !important;
+  }
+}
+@media (max-width: 1440px) {
+  .leads-modal {
+    width: 45% !important;
+  }
+}
+@media (max-width: 1250px) {
+  .leads-modal {
+    width: 50% !important;
+  }
+  .cross-icon {
+    left: 10.8rem !important;
+  }
+}
+
+@media (max-width: 876px) {
+  .cross-icon {
+    left: 13.8rem !important;
+  }
+}
+
+@media (max-width: 556px) {
+  .cross-icon {
+    left: 10.8rem !important;
+  }
+  .start-btn {
+    margin-top: 0px !important;
   }
 }

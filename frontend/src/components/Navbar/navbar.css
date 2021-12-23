@@ -57,11 +57,14 @@
 }
 
 @media (max-width: 600px) {
+  .nav-header {
+    width: 50% !important;
+  }
   .nav > .nav-btn {
     display: inline-block;
     position: absolute;
     right: 0px;
-    top: 0px;
+    top: 19px;
   }
   .nav > .nav-btn > label {
     display: inline-block;
@@ -99,6 +102,7 @@
     height: 0px;
   }
   .nav > #nav-check:checked ~ .nav-links {
+    margin-top: 25px;
     height: 45vh;
     overflow-y: auto;
     overflow-x: hidden;

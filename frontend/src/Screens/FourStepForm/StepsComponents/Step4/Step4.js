@@ -351,7 +351,7 @@ const Step4 = (props) => {
                   {" "}
                   Connect Wallet with Metamask
                 </p>
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center w-100">
                   <button
                     className={`btn btn-primary ${
                       props.walletAddress ? "step4-btn" : "start-btn"

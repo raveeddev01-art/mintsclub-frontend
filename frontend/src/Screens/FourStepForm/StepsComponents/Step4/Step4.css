@@ -38,7 +38,7 @@
   opacity: 0.8; /* Firefox */
 }
 .step4-btn {
-  padding: 0.55rem 5rem !important;
+  padding: 0.55rem 1rem !important;
   background-color: #001d43 !important;
   /* background-color: #FCD70D !important ; */
   border: none !important;
@@ -46,6 +46,7 @@
   border-radius: 0.7rem !important;
   /* color: black !important; */
   color: #aaabab !important;
+  width: 100%;
 }
 .discord-btn {
   padding: 0.4rem 6rem !important;
@@ -92,13 +93,16 @@
 .discord-container {
   padding-left: 20px;
 }
-@media (max-width: 786px) {
+@media (max-width: 768px) {
   .discord-container.discordJoinCls.w-50 {
     width: 100% !important;
     margin-top: 2rem !important;
   }
   .discord-container {
     padding-left: 0;
+  }
+  .form-container.w-50 {
+    width: 90% !important;
   }
 }
 
@@ -121,5 +125,16 @@
 @media (max-width: 556px) {
   .rnc-canvas {
     width: 80% !important;
+  }
+}
+@media (max-width: 1050px) {
+  .step4-btn {
+    overflow-wrap: break-word !important;
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .form-containe {
+    width: 100% !important;
   }
 }

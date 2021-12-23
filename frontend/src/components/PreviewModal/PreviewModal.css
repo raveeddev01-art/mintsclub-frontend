@@ -53,6 +53,11 @@
 .of-text {
   margin-left: 1.5rem !important;
 }
+.previewModal-img {
+  max-width: 300px;
+  width: 100%;
+  height: 225px;
+}
 
 @media (max-width: 876px) {
   .preview-input {
@@ -147,10 +152,21 @@
   border: none !important;
   padding: 0.5rem;
   /* max-width: 30%; */
-  border-radius: 10px;
+  border-radius: 10px !important;
   color: #aaabab !important;
   padding: 0.7rem 1rem;
   margin-left: 1rem;
+}
+.value-input-preview {
+  background-color: #050121;
+  border: none !important;
+  padding: 0.5rem;
+  /* max-width: 30%; */
+  border-radius: 10px !important;
+  color: #aaabab !important;
+  padding: 0.7rem 1rem;
+  margin-left: 1rem;
+  border-radius: 10px !important;
 }
 .preview-label {
   font-size: 20px !important;
@@ -160,4 +176,12 @@
 .external-label {
   font-size: 20px !important;
   font-weight: 500;
+}
+@media (min-width: 768px) and (max-width: 877px) {
+  .preview-input-step-2 {
+    width: 75% !important;
+  }
+  .value-input-preview {
+    width: 75% !important;
+  }
 }

@@ -21,7 +21,7 @@ const Navbar = () => {
   const tawkToPropertyId = ENV.tawkToPropertyId;
 
   return (
-    <div className="nav">
+    <div className="nav align-items-center">
       <input type="checkbox" id="nav-check" />
       {/* <div className="nav-icon" ><img src={fullNavIcon} width="20%" /></div> */}
       <div className="nav-header" style={{ width: "25%" }}>

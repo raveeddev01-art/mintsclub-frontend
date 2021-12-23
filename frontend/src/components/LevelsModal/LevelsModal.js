@@ -91,7 +91,11 @@ const LevelsModal = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} style={{ maxHeight: "475px", width: "60%" }}>
+        <Box
+          sx={style}
+          style={{ maxHeight: "550px", width: "35%" }}
+          className="leads-modal"
+        >
           <div className="properties-modal-container position-relative">
             <IoMdClose
               className="text-white position-absolute"
@@ -104,25 +108,24 @@ const LevelsModal = (props) => {
               }}
               onClick={() => props.handleClose()}
             />
-            <div
-              cla
-              ssName="title-container d-flex w-100 justify-content-center "
-            >
-              <img
-                src={LevelsImage}
-                alt={"levels"}
-                style={{ height: "2rem" }}
-              />
-              <p
-                className="text-white"
-                style={{
-                  fontSize: "1.3rem",
-                  fontWeight: "bold",
-                  marginLeft: "1rem",
-                }}
-              >
-                Add Levels
-              </p>
+            <div className="title-container d-flex w-100 mx-auto justify-content-center">
+              <div className="d-flex">
+                <img
+                  src={LevelsImage}
+                  alt={"levels"}
+                  style={{ height: "2rem" }}
+                />
+                <p
+                  className="text-white"
+                  style={{
+                    fontSize: "1.3rem",
+                    fontWeight: "bold",
+                    marginLeft: "1rem",
+                  }}
+                >
+                  Add Levels
+                </p>
+              </div>
             </div>
             {/* <p style={{color:"red"}}>{"Value should be less then total"}</p> */}
 
@@ -143,10 +146,10 @@ const LevelsModal = (props) => {
             </p>
             <form onSubmit={handleSubmit}>
               <div
-                className="row levels-scroll p-3"
+                className="row levels-scroll p-3 "
                 style={{
                   height: `${
-                    levelsInputs && levelsInputs.length > 0 ? " 22vh" : "14vh"
+                    levelsInputs && levelsInputs.length > 0 ? "15vh" : "7vh"
                   }`,
                 }}
               >
@@ -242,7 +245,7 @@ const LevelsModal = (props) => {
                               style={{
                                 color: "#00d3f3",
                                 top: "3rem",
-                                right: "0",
+                                right: "-1rem",
                                 cursor: "pointer",
                               }}
                               onClick={() => removeFormFields(i)}

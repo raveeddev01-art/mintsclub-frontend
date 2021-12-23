@@ -58,7 +58,6 @@ const PreviewModal = (props) => {
                   className="text-white "
                   style={{
                     fontSize: "1.8rem",
-                    marginLeft: "2rem",
                     cursor: "pointer",
                   }}
                   onClick={() => handlePreviewModalSteps("back")}
@@ -70,7 +69,6 @@ const PreviewModal = (props) => {
                 className="text-white"
                 style={{
                   fontSize: "1.8rem",
-                  marginRight: "2rem",
                   cursor: "pointer",
                 }}
                 onClick={() => handlePreviewModal()}
@@ -83,25 +81,26 @@ const PreviewModal = (props) => {
                   <p className="text-white preview-text ">Preview</p>
                 </div>
                 <div className="col-md-6 col-sm-12 mt-4 d-flex justify-content-start flex-column">
-                  {info.img && (
-                    <img
-                      src={info.img ? info.img : ""}
-                      className="mt-3"
-                      style={{
-                        width: "100%",
-                        height: "33.6vh",
-                        borderRadius: "10px",
-                        objectFit: "contain",
-                      }}
-                      alt="preview"
-                    />
-                  )}
-                  {info.videoUrl && (
-                    <video width="260" controls>
-                      <source src={info.videoUrl} />
-                    </video>
-                  )}
-
+                  <div className="previewModal-img">
+                    {info.img && (
+                      <img
+                        src={info.img ? info.img : ""}
+                        className="mt-3"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "10px",
+                          objectFit: "cover",
+                        }}
+                        alt="preview"
+                      />
+                    )}
+                    {info.videoUrl && (
+                      <video width="260" controls>
+                        <source src={info.videoUrl} />
+                      </video>
+                    )}
+                  </div>
                   <div
                     className="d-flex mt-3 "
                     style={{ flexDirection: "column" }}
@@ -128,7 +127,7 @@ const PreviewModal = (props) => {
                     className="d-flex mt-3 "
                     style={{ flexDirection: "column" }}
                   >
-                    <label className="text-white preview-label my-2 ml-0">
+                    <label className="text-white preview-label mb-2 ml-0">
                       Name
                     </label>
                     <input
@@ -230,7 +229,7 @@ const PreviewModal = (props) => {
                 </p>
 
                 <div
-                  className="rowCust"
+                  className="rowCust px-3"
                   style={{
                     overflowY: "auto",
                     height: "5rem",
@@ -246,7 +245,7 @@ const PreviewModal = (props) => {
                         >
                           <div className="col-12  col-md-6 mt-4" key={index}>
                             <input
-                              className="preview-input-step-2  "
+                              className="preview-input-step-2 "
                               type="url"
                               value={item.name || ""}
                               maxLength="50"
@@ -255,10 +254,10 @@ const PreviewModal = (props) => {
                             />
                           </div>
 
-                          <div className="col-12 col-md-4  mt-4">
+                          <div className="col-12 col-md-6 pr-lg-0 mt-4">
                             <input
-                              className="preview-input-step-2 value-input-preview "
-                              style={{ maxWidth: "51%" }}
+                              className="preview-input-step-2 value-input-preview w-100"
+                              style={{ maxWidth: "90%" }}
                               type="url"
                               value={item.value || ""}
                               placeholder="Value"
@@ -278,19 +277,24 @@ const PreviewModal = (props) => {
 
                 {/* ////////////////////////////////////////////// */}
                 <div
-                  className="rowCust mt-5"
+                  className="rowCust mt-5 px-3"
                   style={{
                     overflowY: "auto",
                     overflowX: "hidden",
                     height: "6rem",
                   }}
                 >
-                  <p className="text-white preview-levels-title">Levels </p>
+                  <p className="text-white preview-levels-title ml-3">
+                    Levels{" "}
+                  </p>
                   {info.levels && info.levels.length > 0 ? (
                     info.levels.map((item, index) => {
                       return (
                         <div className="row" key={index}>
-                          <div className="col-12 col-md-6 mt-2 " key={index}>
+                          <div
+                            className="col-12 col-md-6 mt-2 w-sm-75 w-md-100"
+                            key={index}
+                          >
                             <input
                               className="preview-input-step-2  "
                               type="url"
@@ -304,7 +308,7 @@ const PreviewModal = (props) => {
                             />
                           </div>
 
-                          <div className="col-12 col-md-6">
+                          <div className="col-12 col-md-6 w-sm-75 w-md-100">
                             <div
                               className="d-flex align-items-center  w-100 "
                               style={{
@@ -357,22 +361,22 @@ const PreviewModal = (props) => {
                 </div>
               </div>
             )}
-          </div>
-          <div className="w-100 text-center">
-            <p className="text-white mb-0">{previewModalStep}/2</p>
-            {previewModalStep > 1 && props.maxLimit && (
-              <p className="text-danger mb-0 mt-2">
-                {"Maximum deployment limit reached,Please contact support"}
-              </p>
-            )}
-            <button
-              type="button"
-              className="btn btn-secondary preview-btn mb-2"
-              disabled={props.maxLimit && previewModalStep > 1 ? true : false}
-              onClick={() => handleNextStep()}
-            >
-              {previewModalStep === 1 ? "Next" : "Deploy"}
-            </button>
+            <div className="w-100 text-center">
+              <p className="text-white my-5">{previewModalStep}/2</p>
+              {previewModalStep > 1 && props.maxLimit && (
+                <p className="text-danger">
+                  {"Maximum deployment limit reached,Please contact support"}
+                </p>
+              )}
+              <button
+                type="button"
+                className="btn btn-secondary preview-btn mb-2"
+                disabled={props.maxLimit && previewModalStep > 1 ? true : false}
+                onClick={() => handleNextStep()}
+              >
+                {previewModalStep === 1 ? "Next" : "Deploy"}
+              </button>
+            </div>
           </div>
         </Box>
       </Modal>

@@ -71,7 +71,11 @@ const BasicModal = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} style={{ maxHeight: "475px", width: "60%" }}>
+        <Box
+          sx={style}
+          style={{ maxHeight: "500px", width: "35%" }}
+          className="leads-modal"
+        >
           <div className="properties-modal-container position-relative">
             <IoMdClose
               className=" position-absolute"
@@ -118,8 +122,8 @@ const BasicModal = (props) => {
               style={{
                 height: `${
                   propertiesValues && propertiesValues.length > 0
-                    ? " 22vh"
-                    : "14vh"
+                    ? " 15vh"
+                    : "7vh"
                 }`,
               }}
             >
@@ -193,7 +197,7 @@ const BasicModal = (props) => {
                               style={{
                                 color: "#00d3f3",
                                 top: "3rem",
-                                left: "15.8rem",
+                                left: "13.8rem",
                                 cursor: "pointer",
                               }}
                               onClick={() => removeFormFields(i)}
