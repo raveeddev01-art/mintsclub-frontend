@@ -49,6 +49,7 @@ const BasicModal = (props) => {
   };
 
   const handleSubmit = () => {
+
     var errorFlag = false;
     propertiesValues.map((item) => {
       if (item.name.trim() === "" || item.value.trim() === "") {

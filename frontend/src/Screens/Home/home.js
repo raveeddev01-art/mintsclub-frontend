@@ -75,28 +75,15 @@ const Home = (props) => {
                   Select Network
                 </p>
                 <div className="networks-list-container mt-4 d-flex ">
-                  {networksData.map((item, index) => {
+                  {/* {networksData.map((item, index) => {
                     return (
                       <div
                         className="network"
                         disabled={true}
                         key={index}
-                        // onClick={() => {
-                        //   if (item.name === "Ethereum") {
-                        //     setNetwork(item.name);
-                        //     // setFlag(true);
-                        //   }
-                        // }}
+                     
                       >
-                        {/* <div
-                        className="position-relative network-image"
-                          style={{
-                            backgroundColor: "white",
-                            width: "4.7rem",
-                            borderRadius: "10px",
-                            cursor: "pointer",
-                          }}
-                        > */}
+                      
                         <img
                           src={item.image}
                           alt="coming soon"
@@ -112,7 +99,7 @@ const Home = (props) => {
                         {"Ethereum" !== item.name && (
                           <span className="tooltiptext">Coming soon</span>
                         )}
-                        {/* </div> */}
+                      
                         <p
                           className={`ml-1 mt-2 ${
                             "Ethereum" === item.name
@@ -131,7 +118,122 @@ const Home = (props) => {
                         </p>
                       </div>
                     );
-                  })}
+                  })} */}
+                  {
+                    <div
+                      className="network d-flex"
+                      disabled={true}
+                      //  key={index}
+                    >
+                      {/* {networksData.map((item, index) => {
+                        return (
+                          <div>
+                            <img
+                              src={item.image}
+                              alt="coming soon"
+                              style={{
+                                width: "4rem",
+                                cursor: "pointer",
+                              }}
+                              className={`network-img  ${
+                                "Ethereum" === item.name
+                                  ? ""
+                                  : "selected-network"
+                              } ${index !== 0 ? "ml-3" : "ml-0"}`}
+                            />
+                            <p
+                              className={`text-white mt-1  ${
+                                index !== 0 ? "ml-3" : "ml-0"
+                              }`}
+                            >
+                              {item.name}
+                            </p>
+                            {"Ethereum" !== item.name && (
+                              <span
+                                className="tooltiptext"
+                                style={{
+                                  display: `${
+                                    "Ethereum" === item.name ? "none" : "block"
+                                  }`,
+                                }}
+                              >
+                                Coming soon
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })} */}
+                      <div className="">
+                        <img
+                          src={networksData[0].image}
+                          alt="coming soon"
+                          style={{
+                            width: "4rem",
+                            cursor: "pointer",
+                            // padding: "0rem 0rem 0rem 1rem",
+                          }}
+                          className={`network-img ${
+                            "Ethereum" === networksData[0].name
+                              ? ""
+                              : "selected-network"
+                          }`}
+                        />
+                        <p className="text-white mt-2">
+                          {networksData[0].name}
+                        </p>
+                      </div>
+                      <div className=" ml-3 polygon position-relative">
+                        <span className="tooltiptext1 tooltiptext">Coming soon</span>
+                        <img
+                          src={networksData[1].image}
+                          alt="coming soon"
+                          style={{
+                            width: "4rem",
+                            cursor: "pointer",
+                            // padding: "0rem 0rem 0rem 1rem",
+                          }}
+                          className={`network-img ${"selected-network"}`}
+                        />
+                        <p className="text-white mt-2">
+                          {networksData[1].name}
+                        </p>
+                      </div>
+
+                      <div className=" ml-3 cardano position-relative" >
+                        <span className="tooltiptext2 tooltiptext">Coming soon</span>
+                        <img
+                          src={networksData[2].image}
+                          alt="coming soon"
+                          style={{
+                            width: "4rem",
+                            cursor: "pointer",
+                            // padding: "0rem 0rem 0rem 1rem",
+                          }}
+                          className={`network-img ${"selected-network"}`}
+                        />
+                        <p className="text-white mt-2">
+                          {networksData[2].name}
+                        </p>
+                      </div>
+
+                      <div className=" ml-3 binance position-relative">
+                        <span className="tooltiptext3 tooltiptext">Coming soon</span>
+                        <img
+                          src={networksData[3].image}
+                          alt="coming soon"
+                          style={{
+                            width: "4rem",
+                            cursor: "pointer",
+                            // padding: "0rem 0rem 0rem 1rem",
+                          }}
+                          className={`network-img   ${"selected-network"}`}
+                        />
+                        <p className="text-white mt-2">
+                        {"Binance"} <br /> {"SmartChain"}
+                        </p>
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
               <button

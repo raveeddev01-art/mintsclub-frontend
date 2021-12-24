@@ -24,12 +24,12 @@ const Step3 = (props) => {
   const [openLevelModal, setOpenLevelModal] = useState(false);
 
   //for levels Modal
-  const [levelsInputs, setlevelsInputs] = useState(props.levels);
-  const [addMore, setAddMore] = useState(false);
+  // const [levelsInputs, setlevelsInputs] = useState(props.levels);
+
 
   //for properties Modal
-  const [propertiesValues, setPropertiesValues] = useState(props.properties);
-  const [addMoreProperty, setAddMoreProperty] = useState(false);
+  // const [propertiesValues, setPropertiesValues] = useState(props.properties);
+
 
   ///////
   const handleOpen = () => setOpen(true);
@@ -39,61 +39,25 @@ const Step3 = (props) => {
   const handleCloseLevel = () => {
     setOpenLevelModal(false);
   };
-  //levels Methods
+ 
 
-  const addMoreValues = () => {
-    setAddMore(!addMore);
-    setlevelsInputs([...levelsInputs, { name: "", value: "", total: "" }]);
-  };
 
-  let handleChange = (i, e) => {
-    let newFormValues = [...levelsInputs];
-    newFormValues[i][e.target.name] = e.target.value;
-    // console.log(newFormValues,"levels handle change")
-    setlevelsInputs(newFormValues);
-  };
-
-  let removeFormFields = (i) => {
-    // let newFormValues = [...levelsInputs];
-    if (levelsInputs.length > 1) {
-      let newFormValues = [...levelsInputs];
-      newFormValues.splice(i, 1);
-      setlevelsInputs(newFormValues);
-    }
-  };
-
-  //propertiesMethods
-  const addMoreProperties = () => {
-    setAddMoreProperty(!addMoreProperty);
-    setPropertiesValues([...propertiesValues, { name: "", value: "" }]);
-  };
-  let handleChangeProperties = (i, e) => {
-    let newFormValues = [...propertiesValues];
-    // console.log(newFormValues,"new form values before")
-    newFormValues[i][e.target.name] = e.target.value;
-    // console.log(newFormValues,"properties handle change")
-    setPropertiesValues(newFormValues);
-  };
-
-  let removeFormProperties = (i) => {
-    let newFormValues = [...propertiesValues];
-    newFormValues.splice(i, 1);
-    setPropertiesValues(newFormValues);
-  };
   const onSubmit = (propertiesField) => {
-    setPropertiesValues(propertiesField);
+  //  console.log("onSUbmit propterites")
+    // setPropertiesValues(propertiesField);
     props.handleStep3PropertiesInfo(propertiesField);
-    // props.currentStepAction()
+
   };
   const onSubmitLevels = (levelsFields) => {
-    setlevelsInputs(levelsFields);
+    // setlevelsInputs(levelsFields);
     props.handleStep3LevelsInfo(levelsFields);
   };
   function onClickDelete(event) {
     event.stopPropagation();
     // Handle click here
   }
-  // const {propertiesValues}=props;
+
+  console.log(props.properties,"props.properties==>")
   return (
     <div className="step3-container " style={{ height: "45vh" }}>
       {/* ///////////////////// */}
@@ -130,13 +94,11 @@ const Step3 = (props) => {
               </p>
             </div>
 
-            {/* <div className="content-center"  >
-          <img src={AddBtnImage} style={{ height: "1.5rem",cursor:"pointer"  }} />
-        </div> */}
+   
           </div>
         </AccordionSummary>
         <AccordionDetails className="transBG">
-          {propertiesValues && propertiesValues.length > 0 && (
+          {props.properties && props.properties.length > 0 && (
             <ListItem>
               <Grid className="mt-4 text-white list-title" item xs={6}>
                 {"Name"}
@@ -148,8 +110,8 @@ const Step3 = (props) => {
           )}
           <ListItem>
             <Grid container xs={12}>
-              {propertiesValues && propertiesValues.length > 0 ? (
-                propertiesValues.map((property, i) => {
+              {props.properties && props.properties.length > 0 ? (
+                props.properties.map((property, i) => {
                   return (
                     <>
                       <Grid className="mt-4 text-white list-item" item xs={6}>
@@ -201,13 +163,10 @@ const Step3 = (props) => {
               </p>
             </div>
 
-            {/* <div className="content-center" onClick={() => handleOpenLevel()}>
-          <img src={AddBtnImage} style={{ height: "1.5rem",cursor:"pointer" }} />
-        </div> */}
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          {levelsInputs && levelsInputs.length > 0 && (
+          {props.levels && props.levels.length > 0 && (
             <ListItem>
               <Grid className="mt-4 text-white list-title" item xs={4}>
                 {"Name"}
@@ -223,8 +182,8 @@ const Step3 = (props) => {
 
           <ListItem>
             <Grid container xs={12}>
-              {levelsInputs && levelsInputs.length > 0 ? (
-                levelsInputs.map((level, i) => {
+              {props.levels && props.levels.length > 0 ? (
+                props.levels.map((level, i) => {
                   return (
                     <>
                       <Grid className="mt-4 text-white list-item" item xs={4}>
@@ -259,22 +218,14 @@ const Step3 = (props) => {
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
-        addMoreProperties={addMoreProperties}
-        handleChangeProperties={handleChangeProperties}
-        removeFormProperties={removeFormProperties}
-        propertiesValues={propertiesValues}
-        addMoreProperty={addMoreProperty}
+        propertiesValues={props.properties}   
         onSubmit={onSubmit}
       />
       <LevelsModal
         open={openLevelModal}
         handleOpen={handleOpenLevel}
-        handleClose={handleCloseLevel}
-        addMoreValues={addMoreValues}
-        handleChange={handleChange}
-        removeFormFields={removeFormFields}
-        levelsInputs={levelsInputs}
-        addMore={addMore}
+        handleClose={handleCloseLevel}  
+        levelsInputs={props.levels }   
         onSubmitLevels={onSubmitLevels}
       />
     </div>
