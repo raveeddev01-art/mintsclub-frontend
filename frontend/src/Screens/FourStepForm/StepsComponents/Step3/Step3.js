@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Grid, ListItem, ListItemText } from "@mui/material";
 import InfoComp from "../../infoComp";
+import { BsFillInfoCircleFill } from "react-icons/bs";
 /////////////////
 
 const Step3 = (props) => {
@@ -115,8 +116,14 @@ const Step3 = (props) => {
             <div className="ml-2">
               <div className="d-flex align-items-center ">
                 <img src={PropertiesImage} style={{ height: "2rem" }} />
-                <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
-                  Properties <InfoComp text="Textual Traits of the NFTs" />
+                <p className="mb-0 text-white " style={{ marginLeft: "1rem" }}>
+                  Properties{" "}
+                  <span className="infoIcon position-relative">
+                    <BsFillInfoCircleFill />{" "}
+                    <span className="tooltiptext properties-tooltip">
+                      Textual Traits of the NFTs
+                    </span>
+                  </span>
                 </p>
                 <img
                   src={AddBtnImage}
@@ -138,24 +145,24 @@ const Step3 = (props) => {
         <AccordionDetails className="transBG">
           {propertiesValues && propertiesValues.length > 0 && (
             <ListItem>
-              <Grid className="mt-4 text-white list-title" item xs={6}>
+              <Grid className="text-white list-title py-0" item xs={6}>
                 {"Name"}
               </Grid>
-              <Grid className="mt-4 text-white list-title" item xs={6}>
+              <Grid className="text-white list-title py-0" item xs={6}>
                 {"Value"}
               </Grid>
             </ListItem>
           )}
           <ListItem>
-            <Grid container xs={12}>
+            <Grid container xs={12} className="properties-grid">
               {propertiesValues && propertiesValues.length > 0 ? (
                 propertiesValues.map((property, i) => {
                   return (
                     <>
-                      <Grid className="mt-4 text-white list-item" item xs={6}>
+                      <Grid className="py-2 text-white list-item" item xs={6}>
                         {property.name}
                       </Grid>
-                      <Grid className="mt-4 text-white list-item" item xs={6}>
+                      <Grid className="py-2 text-white list-item" item xs={6}>
                         {property.value}
                       </Grid>
                     </>
@@ -187,7 +194,12 @@ const Step3 = (props) => {
                 <img src={LevelsBtn} style={{ height: "2rem" }} />
                 <p className="mb-0 text-white" style={{ marginLeft: "1rem" }}>
                   Levels{" "}
-                  <InfoComp text="Numerical traits that shows as a progress bar." />
+                  <span className="infoIcon position-relative">
+                    <BsFillInfoCircleFill />{" "}
+                    <span className="tooltiptext properties-tooltip">
+                      Textual Traits of the NFTs
+                    </span>
+                  </span>
                 </p>
                 <img
                   src={AddBtnImage}
@@ -209,31 +221,31 @@ const Step3 = (props) => {
         <AccordionDetails>
           {levelsInputs && levelsInputs.length > 0 && (
             <ListItem>
-              <Grid className="mt-4 text-white list-title" item xs={4}>
+              <Grid className="text-white list-title py-0" item xs={4}>
                 {"Name"}
               </Grid>
-              <Grid className="mt-4 text-white list-title" item xs={4}>
+              <Grid className="text-white list-title py-0" item xs={4}>
                 {"Value"}
               </Grid>
-              <Grid className="mt-4 text-white list-title" item xs={4}>
+              <Grid className="text-white list-title py-0" item xs={4}>
                 {"Total"}
               </Grid>
             </ListItem>
           )}
 
           <ListItem>
-            <Grid container xs={12}>
+            <Grid container xs={12} className="properties-grid ">
               {levelsInputs && levelsInputs.length > 0 ? (
                 levelsInputs.map((level, i) => {
                   return (
                     <>
-                      <Grid className="mt-4 text-white list-item" item xs={4}>
+                      <Grid className="py-2 text-white list-item" item xs={4}>
                         {level.name}
                       </Grid>
-                      <Grid className="mt-4 text-white list-item" item xs={4}>
+                      <Grid className="py-2 text-white list-item" item xs={4}>
                         {level.value}
                       </Grid>
-                      <Grid className="mt-4 text-white list-item" item xs={4}>
+                      <Grid className="py-2 text-white list-item" item xs={4}>
                         {level.total}
                       </Grid>
                     </>

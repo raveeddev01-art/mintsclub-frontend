@@ -319,7 +319,7 @@ const Step1 = (props) => {
       </Grid>
       <button
         type="button"
-        className="btn btn-secondary start-btn mt-5 mt-md-3 mt-lg-0 mb-5"
+        className="btn btn-secondary start-btn mt-5 mt-md-3 mt-lg-0"
         onClick={() => onFileUpload()}
       >
         Next

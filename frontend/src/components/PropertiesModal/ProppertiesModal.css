@@ -30,22 +30,22 @@ width:  33vw !important;
   .css-1i2drx0 {
     width: 500px !important;
   }
-  .cross-icon {
+  .properties-cross-icon {
     left: 7.2rem !important;
   }
 }
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .cross-icon {
     left: 5.2rem !important;
   }
-}
+} */
 @media (max-width: 576px) {
-  .cross-icon {
+  .properties-cross-icon {
     left: 13.2rem !important;
   }
 }
 @media (max-width: 440px) {
-  .cross-icon {
+  .properties-cross-icon {
     left: 11.2rem !important;
   }
 }
@@ -58,19 +58,19 @@ width:  33vw !important;
   .leads-modal {
     width: 50% !important;
   }
-  .cross-icon {
+  .properties-cross-icon {
     left: 10.8rem !important;
   }
 }
 
 @media (max-width: 876px) {
-  .cross-icon {
+  .properties-cross-icon {
     left: 13.8rem !important;
   }
 }
 
 @media (max-width: 556px) {
-  .cross-icon {
+  .properties-cross-icon {
     left: 10.8rem !important;
   }
   .start-btn {
