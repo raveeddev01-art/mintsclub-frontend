@@ -96,7 +96,7 @@ const FourStepForm = (props) => {
   };
 
   const handleStep3PropertiesInfo = (propertiesValues) => {
-    console.log("hanlde step 3 info")
+    // console.log("hanlde step 3 info")
     setProperties(propertiesValues);
   };
   const handleStep3LevelsInfo = (levelsInputs) => {
@@ -249,7 +249,7 @@ const FourStepForm = (props) => {
   const handleCaptchaValidation = (value) => {
     setIsvalidate(value);
   };
-  console.log(properties,"properteis in index.js")
+  // console.log(properties,"properteis in index.js")
   return (
     <div className="home-container steps-container">
       <div className="steps ">
@@ -329,7 +329,7 @@ const FourStepForm = (props) => {
         )}
         <div
           className="progress-bar-custom"
-          style={{ width: "64%", margin: "16rem auto 0 auto" }}
+          style={{ width: "64%", margin: "14rem auto 0 auto" }}
         >
           <ProgressBar
             className={`${
