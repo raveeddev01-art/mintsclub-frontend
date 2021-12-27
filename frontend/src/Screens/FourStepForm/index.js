@@ -327,7 +327,10 @@ const FourStepForm = (props) => {
         ) : (
           ""
         )}
-        <div className="" style={{ width: "64%", margin: "6rem auto 0 auto" }}>
+        <div
+          className="progress-bar-custom"
+          style={{ width: "64%", margin: "16rem auto 0 auto" }}
+        >
           <ProgressBar
             className={`${
               currentStep === 4 ? "progress-bar-green" : "progress-bar-yellow"

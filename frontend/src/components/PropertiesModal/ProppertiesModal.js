@@ -156,6 +156,7 @@ const BasicModal = (props) => {
                               placeholder="Name"
                               value={item.name || ""}
                               maxLength="40"
+                              autocomplete="off"
                               style={{
                                 backgroundColor: "#000e29 !important",
                                 maxWidth: "84%",
@@ -179,30 +180,33 @@ const BasicModal = (props) => {
                             >
                               Value
                             </label>
-                            <input
-                              className="step3-input  mt-2"
-                              type="text"
-                              name="value"
-                              onChange={(e) => handleChange(i, e)}
-                              placeholder="Value"
-                              value={item.value || ""}
-                              maxLength="40"
-                              style={{
-                                backgroundColor: "#000e29 ",
-                                maxWidth: "84%",
-                                padding: "0.6rem 1rem",
-                              }}
-                            />
-                            <BsFillXCircleFill
-                              className="position-absolute cross-icon"
-                              style={{
-                                color: "#00d3f3",
-                                top: "3rem",
-                                left: "13.8rem",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => removeFormFields(i)}
-                            />
+                            <div className="d-flex align-items-center w-100">
+                              <input
+                                className="step3-input  mt-2"
+                                type="text"
+                                name="value"
+                                onChange={(e) => handleChange(i, e)}
+                                placeholder="Value"
+                                value={item.value || ""}
+                                maxLength="40"
+                                autocomplete="off"
+                                style={{
+                                  backgroundColor: "#000e29 ",
+                                  maxWidth: "84%",
+                                  padding: "0.6rem 1rem",
+                                }}
+                              />
+                              <BsFillXCircleFill
+                                className="ml-1 ml-sm-2"
+                                style={{
+                                  color: "#00d3f3",
+                                  top: "3rem",
+                                  left: "13.8rem",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => removeFormFields(i)}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -222,7 +226,7 @@ const BasicModal = (props) => {
             <div className="w-100 text-center">
               <button
                 type="button"
-                className="btn btn-secondary start-btn mt-5 text-center"
+                className="btn btn-secondary start-btn mt-2 mt-md-5 text-center"
                 style={{ width: "9rem" }}
                 // disabled={
                 //   propertiesValues && propertiesValues?.length > 0
