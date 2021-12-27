@@ -14,6 +14,8 @@ import {
   MINTING_RESPONSE,
   LOADER,
   CONTRACT_ADDRESS,
+  SET_PROPERTIES,
+  SET_LEVELS
 } from "../types/types";
 
 
@@ -42,6 +44,19 @@ export const clearCurrentStep = () => (dispatch) => {
 export const contractResponse = () => (dispatch) => {
   dispatch({
     type: CONTRACT_REPONSE,
+  });
+};
+export const setProperties = (data) => (dispatch) => {
+  alert("callled")
+  dispatch({
+    type: SET_PROPERTIES,
+    payload:data
+  });
+};
+export const setLevels = (data) => (dispatch) => {
+  dispatch({
+    type: SET_LEVELS,
+    payload:data
   });
 };
 

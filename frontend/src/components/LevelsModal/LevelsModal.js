@@ -232,7 +232,7 @@ const LevelsModal = (props) => {
                                 min={item.value ? item.value : "1"}
                                 max="9999"
                                 name="total"
-                                placeholder="total"
+                                placeholder="Total"
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.total || ""}
                                 style={{

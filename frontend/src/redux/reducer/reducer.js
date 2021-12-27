@@ -10,7 +10,10 @@ import {
   TOKEN_ID,
   MINTING_RESPONSE,
   LOADER,
-  CONTRACT_ADDRESS
+  CONTRACT_ADDRESS,
+  SET_PROPERTIES,
+  SET_LEVELS
+
 } from "../types/types";
 
 const initialState = {
@@ -33,7 +36,9 @@ const initialState = {
     externalUrl:'',
     supply:1,
     
-  }
+  },
+  properties:[],
+  levels:[],
 
 };
 
@@ -114,7 +119,17 @@ export default function (state = initialState, action) {
                 ...state,
                 contractAddress:action.payload
               }
-            
+              case  SET_PROPERTIES:
+                console.log(action.payload,"kk")
+                return {
+                  ...state,
+                  properties:action.payload
+                }
+                case SET_LEVELS:
+                  return {
+                    ...state,
+                    levels:action.payload
+                  }
 
     default:
       // need this for default case
