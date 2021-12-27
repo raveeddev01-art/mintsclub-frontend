@@ -12,7 +12,9 @@ import {
   LOADER,
   CONTRACT_ADDRESS,
   SET_PROPERTIES,
-  SET_LEVELS
+  SET_LEVELS,
+  SET_OTP_STATUS
+
 
 } from "../types/types";
 
@@ -39,6 +41,7 @@ const initialState = {
   },
   properties:[],
   levels:[],
+  otpVerification:false,
 
 };
 
@@ -120,7 +123,6 @@ export default function (state = initialState, action) {
                 contractAddress:action.payload
               }
               case  SET_PROPERTIES:
-                console.log(action.payload,"kk")
                 return {
                   ...state,
                   properties:action.payload
@@ -130,6 +132,12 @@ export default function (state = initialState, action) {
                     ...state,
                     levels:action.payload
                   }
+                  case SET_OTP_STATUS:
+                    alert(action.payload)
+                    return {
+                      ...state,
+                      otpVerification:action.payload
+                    }
 
     default:
       // need this for default case

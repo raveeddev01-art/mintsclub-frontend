@@ -15,7 +15,8 @@ import {
   LOADER,
   CONTRACT_ADDRESS,
   SET_PROPERTIES,
-  SET_LEVELS
+  SET_LEVELS,
+  SET_OTP_STATUS
 } from "../types/types";
 
 
@@ -60,6 +61,67 @@ export const setLevels = (data) => (dispatch) => {
   });
 };
 
+export const sendOtp=(data)=>(dispatch)=>{
+  const config = {
+    headers: {
+      // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
+    },
+  };
+
+  let url = `${ENV.url}otpVerification/sendVerficationEmail`;
+  
+     axios
+    .post(url, data, config)
+    .then(
+      (res) => {
+          //  alert("email sent")
+           console.log(res)
+           if(res.status===200){
+            //  toast.success("Otp Verification Code sent to ")
+           }
+      },
+      (err)=>{
+        console.log(err,"error")
+        alert("error while sending email")
+      }
+    )
+}
+
+export const verifyOtp=(email,otp)=>(dispatch)=>{
+  let data={
+    email,
+    otp
+  }
+  const config = {
+    headers: {
+      // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
+    },
+  };
+
+  let url = `${ENV.url}otpVerification/verify`;
+  console.log(url);
+
+     axios
+    .post(url, data, config)
+    .then(
+      (res) => {
+        console.log(res,"verify")
+        if(res.data.status===true){
+
+          dispatch({
+            type:SET_OTP_STATUS,
+            payload:true
+          });
+        }
+        toast.success(res.data.message)
+        
+      },
+      (err)=>{
+
+      }
+    )
+}
+
 export const deployContract = (data, address, supply) => (dispatch) => {
   // dispatch({
   //   type: CONNECT_WELLET,
@@ -77,7 +139,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
     },
   };
 
-  let url = `${ENV.url}/createUser`;
+  let url = `${ENV.url}/users/createUser`;
   // console.log(url);
   axios
     .post(url, data, config)
@@ -87,6 +149,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
         const abi = res.data.data.abi;
         if (res.data.status === true) {
           let metaDataList = [];
+
           for (let i = 1; i <= supply; i++) {
             metaDataList.push(res.data.data.metaData);
             dispatch({

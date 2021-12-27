@@ -22,3 +22,6 @@ export const CONTRACT_ADDRESS="CONTRACT_ADDRESS"
 //Step 3 form
 export const SET_PROPERTIES='SET_PROPERTIES'
 export const SET_LEVELS='SET_LEVELS'
+
+//otp verificaiton 
+export const SET_OTP_STATUS='SET_OTP_STATUS'
