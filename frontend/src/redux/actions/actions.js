@@ -86,6 +86,16 @@ export const sendOtp=(data)=>(dispatch)=>{
       }
     )
 }
+function msToTime(ms) {
+  let seconds = (ms / 1000).toFixed(1);
+  let minutes = (ms / (1000 * 60)).toFixed(1);
+  let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+  let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+  if (seconds < 60) return seconds + " Sec";
+  else if (minutes < 60) return minutes + " Min";
+  else if (hours < 24) return hours + " Hrs";
+  else return days + " Days"
+}
 
 export const verifyOtp=(email,otp)=>(dispatch)=>{
   let data={
@@ -106,14 +116,20 @@ export const verifyOtp=(email,otp)=>(dispatch)=>{
     .then(
       (res) => {
         console.log(res,"verify")
-        if(res.data.status===true){
+        if(res.data.status===true){   
 
-          dispatch({
-            type:SET_OTP_STATUS,
-            payload:true
-          });
-        }
-        toast.success(res.data.message)
+          if(res.data.diffMins < -10){
+            toast.error("Token is  Expired ,Please resend token & try again");
+            return " "
+          }
+          else {
+            dispatch({
+              type:SET_OTP_STATUS,
+              payload:true
+            });
+          }
+          toast.success(res.data.message)
+          }
         
       },
       (err)=>{
@@ -357,7 +373,7 @@ const handleEmailRequest = (email) => {
     },
   };
 
-  let url = `${ENV.url}/addEmail`;
+  let url = `${ENV.url}addEmail`;
   // console.log(url);
   axios
     .post(url,data, config)

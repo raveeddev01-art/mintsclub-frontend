@@ -232,7 +232,7 @@ const Step3 = (props) => {
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
-        propertiesValues={props.propertiesState}   
+        propertiesValues={props.properties}   
         onSubmit={onSubmit}
       />
       <LevelsModal

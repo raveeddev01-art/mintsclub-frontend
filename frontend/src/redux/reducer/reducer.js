@@ -133,7 +133,7 @@ export default function (state = initialState, action) {
                     levels:action.payload
                   }
                   case SET_OTP_STATUS:
-                    alert(action.payload)
+      
                     return {
                       ...state,
                       otpVerification:action.payload

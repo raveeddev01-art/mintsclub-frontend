@@ -255,6 +255,16 @@ const Step4 = (props) => {
       props.verifyOtp(email, otp);
     }
   };
+  const sendEmailOtp=()=>{
+    if(emailValidate()){
+
+      let data = {
+        email,
+      };
+      toast.success(`Verification OTP code is sent to ${email}`)
+      props.sendOtp(data);
+    }
+  }
   // console.log(props);
   return (
     <div className="step4-container w-80">
@@ -287,7 +297,7 @@ const Step4 = (props) => {
                 onChange={(e) => onChangeEmail(e)}
                 onBlur={(e) => emailValidate(e)}
                 disabled={false}
-                disabled={props.walletAddress ? true : false}
+                disabled={props.walletAddress||props.otpVerification  ? true : false}
                 value={email}
                 placeholder="example@gmail.com"
                 style={{ maxWidth: "22rem", color: "white" }}
@@ -370,6 +380,17 @@ const Step4 = (props) => {
                   onClick={() => handleOtpVerification()}
                 >
                   Verify
+                  {/* <div class="spinner-border verify-spinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div> */}
+                </button>
+                <button
+                  // className="btn btn-primary step4-btn"
+                  className="btn btn-secondary verify-otp-btn mt-4"
+                  style={{ marginTop: "0.8rem", maxWidth: "22rem" }}
+                  onClick={() => sendEmailOtp()}
+                >
+                 Resend OTP
                   {/* <div class="spinner-border verify-spinner" role="status">
                     <span class="sr-only">Loading...</span>
                   </div> */}

@@ -52,6 +52,10 @@ const FourStepForm = (props) => {
   const { currentStep } = props;
 
   const handleGoBack = () => {
+    if(props.contractReponse){
+      history.push("/");
+      return ""
+    }
     if (currentStep === 1) {
       history.push("/");
     } else {
@@ -264,10 +268,10 @@ const FourStepForm = (props) => {
                 style={{ marginRight: "0.4rem" }}
                 color="#44D1F9"
               />
-              <p className="mb-0 mt-0">Go Back</p>
+              <p className="mb-0 mt-0">{props.contractReponse?"Home":" Go Back"}</p>
             </div>
           )}
-          {currentStep === 4 && (
+          {currentStep === 4 && !props.contractReponse && (
             <div
               className="text-white"
               style={{ cursor: "pointer" }}
@@ -349,6 +353,7 @@ const mapStateToProps = (state) =>
   ({
     currentStep: state.dashboard.currentStep,
     contractInfo: state.dashboard.contractInfo,
+    contractReponse:state.dashboard.contractReponse
   });
 
 export default connect(mapStateToProps, {
