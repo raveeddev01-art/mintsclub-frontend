@@ -296,8 +296,8 @@ const FourStepForm = (props) => {
           <Step3
             handleStep3PropertiesInfo={handleStep3PropertiesInfo}
             handleStep3LevelsInfo={handleStep3LevelsInfo}
-            // properties={properties}
-            // levels={levels}
+            properties={properties}
+            levels={levels}
           />
         ) : currentStep === 4 ? (
           <Step4
