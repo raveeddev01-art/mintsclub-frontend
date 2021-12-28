@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { BsUpload } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { Grid, IconButton, Typography } from "@mui/material";
+import { ProgressBar } from "react-bootstrap";
 
 const Step1 = (props) => {
   const [file, setFile] = useState("");
@@ -164,12 +165,23 @@ const Step1 = (props) => {
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
       {videoUrl && (
-        <div className="position-relative" style={{ width: "210px" }}  
-         onDrop={(e) => onDrop(e)}
-        onDragOver={(e) => dragOver(e)}
-        onDragEnter={(e) => dragEnter(e)}
-        onDragLeave={(e) => dragLeave(e)}>
-          <video className="mt-4" width="210" controls>
+        <div
+          className="position-relative"
+          style={{ width: "210px" }}
+          onDrop={(e) => onDrop(e)}
+          onDragOver={(e) => dragOver(e)}
+          onDragEnter={(e) => dragEnter(e)}
+          onDragLeave={(e) => dragLeave(e)}
+        >
+          <video
+            className="mt-4"
+            width="210"
+            controls
+            onDrop={(e) => onDrop(e)}
+            onDragOver={(e) => dragOver(e)}
+            onDragEnter={(e) => dragEnter(e)}
+            onDragLeave={(e) => dragLeave(e)}
+          >
             <source src={videoUrl} />
           </video>
           <MdClose
@@ -194,77 +206,77 @@ const Step1 = (props) => {
             <>
               {!videoUrl && !img && (
                 <>
-                <label
-                  className="text-center d-flex mt-2"
-                  style={{ cursor: "pointer" }}
-                >
+                  <label
+                    className="text-center d-flex mt-2"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div
+                      className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
+                      onDrop={(e) => onDrop(e)}
+                      onDragOver={(e) => dragOver(e)}
+                      onDragEnter={(e) => dragEnter(e)}
+                      onDragLeave={(e) => dragLeave(e)}
+                    >
+                      <div
+                        className="d-flex h-100 justify-content-center align-items-center "
+                        style={{ flexDirection: "column", cursor: "pointer" }}
+                      >
+                        {/* <RiFolderUploadLine className="upload-icon" /> */}
+                        <img className="upload-icon mb-3" src={uploadIcon} />
+
+                        <p
+                          style={{
+                            color: "#aaabab",
+                            fontSize: "14px",
+                            margin: "0rem",
+                          }}
+                        >
+                          Add photo or video <br /> or Drag and drop
+                        </p>
+                        <input
+                          type="file"
+                          style={{ display: "none" }}
+                          onChange={onFileChange}
+                          accept=".mp4, .png,.jpeg"
+                        />
+                      </div>
+                    </div>
+                  </label>
                   <div
-                    className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
                     onDrop={(e) => onDrop(e)}
                     onDragOver={(e) => dragOver(e)}
                     onDragEnter={(e) => dragEnter(e)}
                     onDragLeave={(e) => dragLeave(e)}
+                    className="mb-4"
                   >
-                    <div
-                      className="d-flex h-100 justify-content-center align-items-center "
-                      style={{ flexDirection: "column", cursor: "pointer" }}
-                    >
-                      {/* <RiFolderUploadLine className="upload-icon" /> */}
-                      <img className="upload-icon mb-3" src={uploadIcon} />
-
-                      <p
+                    <label>
+                      <div
+                        className="d-flex align-items-center justify-content-center mb-3"
                         style={{
-                          color: "#aaabab",
-                          fontSize: "14px",
-                          margin: "0rem",
+                          backgroundColor: "#001d43",
+                          width: "13.2rem",
+                          height: "3rem",
+                          borderRadius: "10px",
+                          cursor: "pointer",
                         }}
                       >
-                        Add photo or video <br /> or Drag and drop
-                      </p>
+                        <BsUpload
+                          style={{ fontSize: "1.4rem", color: "white" }}
+                        />
+                      </div>
                       <input
                         type="file"
                         style={{ display: "none" }}
                         onChange={onFileChange}
                         accept=".mp4, .png,.jpeg"
+                        onDrop={(e) => onFileChange(e)}
+                        onDragOver={(e) => onFileChange(e)}
+                        onDragEnter={(e) => onFileChange(e)}
+                        onDragLeave={(e) => onFileChange(e)}
                       />
-                    </div>
+                    </label>
                   </div>
-                </label>
-                <div
-                onDrop={(e) => onDrop(e)}
-                onDragOver={(e) => dragOver(e)}
-                onDragEnter={(e) => dragEnter(e)}
-                onDragLeave={(e) => dragLeave(e)}
-                className="mb-4"
-              >
-                <label>
-                  <div
-                    className="d-flex align-items-center justify-content-center mb-3"
-                    style={{
-                      backgroundColor: "#001d43",
-                      width: "13.2rem",
-                      height: "3rem",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <BsUpload
-                      style={{ fontSize: "1.4rem", color: "white" }}
-                    />
-                  </div>
-                  <input
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={onFileChange}
-                    accept=".mp4, .png,.jpeg"
-                    onDrop={(e) => onFileChange(e)}
-                    onDragOver={(e) => onFileChange(e)}
-                    onDragEnter={(e) => onFileChange(e)}
-                    onDragLeave={(e) => onFileChange(e)}
-                  />
-                </label>
-              </div>
-              </>
+                </>
               )}
               {videoUrl && (
                 <div
@@ -304,82 +316,80 @@ const Step1 = (props) => {
             </>
           ) : (
             <>
-            <div
-              className="text-white d-flex  mt-4 mb-5"
-              style={{ cursor: "pointer" }}
-              onDrop={(e) => onDrop(e)}
-              onDragOver={(e) => dragOver(e)}
-              onDragEnter={(e) => dragEnter(e)}
-              onDragLeave={(e) => dragLeave(e)}
-            >
-              <label className="text-center position-relative label-parent">
-                <MdClose
-                  color="#e33d0bc2"
-                  className=""
-                  onClick={removeImage}
-                  style={{
-                    fontSize: "2.5rem",
-                    cursor: "pointer",
-                    top: 0,
-                    right: 0,
-                    position: "absolute",
-                    zIndex: 99,
-                  }}
-                />
-                <img
-                  className="selected-file "
-                  src={img}
-                  alt="uploaded image"
-                  style={{ cursor: "pointer" }}
-                />
+              <div
+                className="text-white d-flex  mt-4 mb-5"
+                style={{ cursor: "pointer" }}
+                onDrop={(e) => onDrop(e)}
+                onDragOver={(e) => dragOver(e)}
+                onDragEnter={(e) => dragEnter(e)}
+                onDragLeave={(e) => dragLeave(e)}
+              >
+                <label className="text-center position-relative label-parent">
+                  <MdClose
+                    color="#e33d0bc2"
+                    className=""
+                    onClick={removeImage}
+                    style={{
+                      fontSize: "2.5rem",
+                      cursor: "pointer",
+                      top: 0,
+                      right: 0,
+                      position: "absolute",
+                      zIndex: 99,
+                    }}
+                  />
+                  <img
+                    className="selected-file "
+                    src={img}
+                    alt="uploaded image"
+                    style={{ cursor: "pointer" }}
+                  />
 
-                <BsImageFill
-                  className="position-absolute upload-img-icon"
-                  style={{ fontSize: "1.2rem", cursor: "pointer" }}
-                />
-                <input
-                  type="file"
-                  style={{ display: "none" }}
-                  onChange={onFileChange}
-                  accept=".mp4, .png,.jpeg"
-                />
-              </label>
-            </div>
-               <div
-               onDrop={(e) => onDrop(e)}
-               onDragOver={(e) => dragOver(e)}
-               onDragEnter={(e) => dragEnter(e)}
-               onDragLeave={(e) => dragLeave(e)}
-               className="mb-4"
-             >
-               <label>
-                 <div
-                   className="d-flex align-items-center justify-content-center mb-3"
-                   style={{
-                     backgroundColor: "#001d43",
-                     width: "13.2rem",
-                     height: "3rem",
-                     borderRadius: "10px",
-                     cursor: "pointer",
-                   }}
-                 >
-                   <BsUpload
-                     style={{ fontSize: "1.4rem", color: "white" }}
-                   />
-                 </div>
-                 <input
-                   type="file"
-                   style={{ display: "none" }}
-                   onChange={onFileChange}
-                   accept=".mp4, .png,.jpeg"
-                   onDrop={(e) => onFileChange(e)}
-                   onDragOver={(e) => onFileChange(e)}
-                   onDragEnter={(e) => onFileChange(e)}
-                   onDragLeave={(e) => onFileChange(e)}
-                 />
-               </label>
-             </div>
-             </>
+                  <BsImageFill
+                    className="position-absolute upload-img-icon"
+                    style={{ fontSize: "1.2rem", cursor: "pointer" }}
+                  />
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={onFileChange}
+                    accept=".mp4, .png,.jpeg"
+                  />
+                </label>
+              </div>
+              <div
+                onDrop={(e) => onDrop(e)}
+                onDragOver={(e) => dragOver(e)}
+                onDragEnter={(e) => dragEnter(e)}
+                onDragLeave={(e) => dragLeave(e)}
+                className="mb-4"
+              >
+                <label>
+                  <div
+                    className="d-flex align-items-center justify-content-center mb-3"
+                    style={{
+                      backgroundColor: "#001d43",
+                      width: "13.2rem",
+                      height: "3rem",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <BsUpload style={{ fontSize: "1.4rem", color: "white" }} />
+                  </div>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={onFileChange}
+                    accept=".mp4, .png,.jpeg"
+                    onDrop={(e) => onFileChange(e)}
+                    onDragOver={(e) => onFileChange(e)}
+                    onDragEnter={(e) => onFileChange(e)}
+                    onDragLeave={(e) => onFileChange(e)}
+                  />
+                </label>
+              </div>
+            </>
           )}
         </Grid>
         <Grid item md={5}>
@@ -400,6 +410,20 @@ const Step1 = (props) => {
       >
         Next
       </button>
+      <div
+        className="progress-bar-custom"
+        style={{ width: "64%", margin: "4rem auto 0 auto" }}
+      >
+        <ProgressBar
+          className={`${
+            props.currentStep === 4
+              ? "progress-bar-green"
+              : "progress-bar-yellow"
+          }`}
+          now={props.currentStep * 25}
+        />
+        <p className="text-white text-center mt-2">{props.currentStep}/4</p>
+      </div>
     </div>
   );
 };

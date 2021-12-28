@@ -31,8 +31,3 @@
     width: 85% !important;
   }
 }
-@media (max-width: 500px) {
-  .progress-bar-custom {
-    margin-top: 20rem !important;
-  }
-}

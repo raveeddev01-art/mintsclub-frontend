@@ -21,6 +21,7 @@ import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
 import { getWalletAddress } from "../../../../utils/web3";
 import { ENV } from "../../../../config/config";
+import { ProgressBar } from "react-bootstrap";
 // import Stepper from "../../../../Components/Stepper/Stepper";
 // import { propTypes } from "react-bootstrap/esm/Image";
 const Step4 = (props) => {
@@ -94,7 +95,7 @@ const Step4 = (props) => {
         let data = {
           email,
         };
-        toast.success(`Verification OTP code is sent to ${email}`)
+        toast.success(`Verification OTP code is sent to ${email}`);
         props.sendOtp(data);
       } else {
         setCaptchaError(true);
@@ -346,36 +347,37 @@ const Step4 = (props) => {
                   Submit
                 </button>
               </div>
-            ) : // <>
-            !props.otpVerification ? (
-              <div className="d-flex flex-column">
-                <label className="text-white step4-label mt-4">OTP</label>
-                {otpError && (
-                  <p className="text-danger  my-1">Please Enter OTP</p>
-                )}
-                <input
-                  className="step-4-input mt-2"
-                  type="Number"
-                  onChange={(e) => {
-                    setOtpError(false);
-                    setOtp(e.target.value);
-                  }}
-                  placeholder="Enter OTP"
-                  style={{ maxWidth: "22rem", color: "white" }}
-                />
-                <button
-                  // className="btn btn-primary step4-btn"
-                  className="btn btn-secondary verify-otp-btn mt-4"
-                  style={{ marginTop: "0.8rem", maxWidth: "22rem" }}
-                  onClick={() => handleOtpVerification()}
-                >
-                  Verify
-                  {/* <div class="spinner-border verify-spinner" role="status">
-                    <span class="sr-only">Loading...</span>
-                  </div> */}
-                </button>
-              </div>
             ) : (
+              // <>
+              // !props.otpVerification ? (
+              //   <div className="d-flex flex-column">
+              //     <label className="text-white step4-label mt-4">OTP</label>
+              //     {otpError && (
+              //       <p className="text-danger  my-1">Please Enter OTP</p>
+              //     )}
+              //     <input
+              //       className="step-4-input mt-2"
+              //       type="Number"
+              //       onChange={(e) => {
+              //         setOtpError(false);
+              //         setOtp(e.target.value);
+              //       }}
+              //       placeholder="Enter OTP"
+              //       style={{ maxWidth: "22rem", color: "white" }}
+              //     />
+              //     <button
+              //       // className="btn btn-primary step4-btn"
+              //       className="btn btn-secondary verify-otp-btn mt-4"
+              //       style={{ marginTop: "0.8rem", maxWidth: "22rem" }}
+              //       onClick={() => handleOtpVerification()}
+              //     >
+              //       Verify
+              //       {/* <div class="spinner-border verify-spinner" role="status">
+              //         <span class="sr-only">Loading...</span>
+              //       </div> */}
+              //     </button>
+              //   </div>
+              // ) :
               <div className="d-flex mt-4" style={{ flexDirection: "column" }}>
                 <div>
                   <img
@@ -447,14 +449,14 @@ const Step4 = (props) => {
               community of digital celebrities and collectors awaits you on
               Discord!
             </p>
-            <button
-              className="btn btn-secondary discord-btn  mt-2"
+            <a
+              className="btn btn-secondary discord-btn  mt-2 navbar-item"
               style={{ padding: "0.4rem 6rem !important" }}
+              href={discordLink}
+              target="_blank"
             >
-              <a className="navbar-item" href={discordLink} target="_blank">
-                Join
-              </a>
-            </button>
+              Join
+            </a>
           </div>
         </div>
         {props.walletAddress && (
@@ -596,6 +598,20 @@ const Step4 = (props) => {
         info={props.info}
         maxLimit={maxLimit}
       />
+      <div
+        className="progress-bar-custom"
+        style={{ width: "64%", margin: "3rem auto 0 auto" }}
+      >
+        <ProgressBar
+          className={`${
+            props.currentStep === 4
+              ? "progress-bar-green"
+              : "progress-bar-yellow"
+          }`}
+          now={props.currentStep * 25}
+        />
+        <p className="text-white text-center mt-2">{props.currentStep}/4</p>
+      </div>
     </div>
   );
 };

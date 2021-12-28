@@ -4,6 +4,7 @@ import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import InfoComp from "../../infoComp";
+import { ProgressBar } from "react-bootstrap";
 
 const Step2 = (props) => {
   // console.log(props,"props in step 2")
@@ -264,6 +265,20 @@ const Step2 = (props) => {
             >
               Next
             </button>
+          </div>
+          <div
+            className="progress-bar-custom"
+            style={{ width: "64%", margin: "3rem auto 0 auto" }}
+          >
+            <ProgressBar
+              className={`${
+                props.currentStep === 4
+                  ? "progress-bar-green"
+                  : "progress-bar-yellow"
+              }`}
+              now={props.currentStep * 25}
+            />
+            <p className="text-white text-center mt-2">{props.currentStep}/4</p>
           </div>
         </div>
       </form>

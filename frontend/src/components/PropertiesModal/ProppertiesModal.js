@@ -49,7 +49,6 @@ const BasicModal = (props) => {
   };
 
   const handleSubmit = () => {
-
     var errorFlag = false;
     propertiesValues.map((item) => {
       if (item.name.trim() === "" || item.value.trim() === "") {
@@ -135,7 +134,7 @@ const BasicModal = (props) => {
                     <div className="d-flex" style={{ width: "558px" }} key={i}>
                       <div className="row">
                         <div
-                          className="col-9 col-sm-5 col-md-5 col-lg-5 mt-4"
+                          className="col-9 col-sm-5 col-md-5 col-lg-5 mt-4 mb-1"
                           key={i}
                         >
                           <div
@@ -166,7 +165,7 @@ const BasicModal = (props) => {
                           </div>
                         </div>
 
-                        <div className="col-9 col-sm-5 col-md-5 col-lg-5 mt-4 ml-0 ml-md-4">
+                        <div className="col-9 col-sm-5 col-md-5 col-lg-5 mt-4 mb-1 ml-0 ml-md-4">
                           <div
                             className="d-flex position-relative"
                             style={{ flexDirection: "column" }}

@@ -3,7 +3,11 @@ import { useState } from "react";
 import PropertiesImage from "../../../../assets/images/Properties.svg";
 import AddBtnImage from "../../../../assets/images/Add Button.svg";
 import LevelsBtn from "../../../../assets/images/Levels.svg";
-import { currentStepAction ,setProperties,setLevels} from "../../../../redux/actions/actions";
+import {
+  currentStepAction,
+  setProperties,
+  setLevels,
+} from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import PropertiesModal from "../../../../components/PropertiesModal/ProppertiesModal";
 import LevelsModal from "../../../../components/LevelsModal/LevelsModal";
@@ -19,6 +23,7 @@ import { Grid, ListItem, ListItemText } from "@mui/material";
 import InfoComp from "../../infoComp";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 /////////////////
+import { ProgressBar } from "react-bootstrap";
 
 const Step3 = (props) => {
   const [open, setOpen] = useState(false);
@@ -27,10 +32,8 @@ const Step3 = (props) => {
   //for levels Modal
   // const [levelsInputs, setlevelsInputs] = useState(props.levels);
 
-
   //for properties Modal
   // const [propertiesValues, setPropertiesValues] = useState(props.properties);
-
 
   ///////
   const handleOpen = () => setOpen(true);
@@ -40,16 +43,13 @@ const Step3 = (props) => {
   const handleCloseLevel = () => {
     setOpenLevelModal(false);
   };
- 
-
 
   const onSubmit = (propertiesField) => {
-  //  console.log("onSUbmit propterites")
+    //  console.log("onSUbmit propterites")
     // setPropertiesValues(propertiesField);
-    
-    props.setProperties(propertiesField)
-    props.handleStep3PropertiesInfo(propertiesField);
 
+    props.setProperties(propertiesField);
+    props.handleStep3PropertiesInfo(propertiesField);
   };
   const onSubmitLevels = (levelsFields) => {
     // setlevelsInputs(levelsFields);
@@ -102,8 +102,6 @@ const Step3 = (props) => {
                 Textual traits that show up as a rectangles
               </p>
             </div>
-
-   
           </div>
         </AccordionSummary>
         <AccordionDetails className="transBG">
@@ -176,7 +174,6 @@ const Step3 = (props) => {
                 Numerical traits that show as a progress bar
               </p>
             </div>
-
           </div>
         </AccordionSummary>
         <AccordionDetails>
@@ -227,37 +224,50 @@ const Step3 = (props) => {
       >
         Next
       </button>
+      <div
+        className="progress-bar-custom"
+        style={{ width: "64%", margin: "3rem auto 0 auto" }}
+      >
+        <ProgressBar
+          className={`${
+            props.currentStep === 4
+              ? "progress-bar-green"
+              : "progress-bar-yellow"
+          }`}
+          now={props.currentStep * 25}
+        />
+        <p className="text-white text-center mt-2">{props.currentStep}/4</p>
+      </div>
 
       <PropertiesModal
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
-        propertiesValues={props.propertiesState}   
+        propertiesValues={props.properties}
         onSubmit={onSubmit}
       />
       <LevelsModal
         open={openLevelModal}
         handleOpen={handleOpenLevel}
-        handleClose={handleCloseLevel}  
-        levelsInputs={props.levels }   
+        handleClose={handleCloseLevel}
+        levelsInputs={props.levels}
         onSubmitLevels={onSubmitLevels}
       />
     </div>
   );
 };
 
-const mapStateToProps = (state) =>
-(
-    console.log(state, "state"),
-    {
+const mapStateToProps = (state) => (
+  console.log(state, "state"),
+  {
     currentStep: state.dashboard.currentStep,
     // levels:state.dashboard.levels,
     // propertiesState:state.dashboard.properties,
-  });
+  }
+);
 
 export default connect(mapStateToProps, {
   currentStepAction,
   setLevels,
-  setProperties
-  
+  setProperties,
 })(Step3);
