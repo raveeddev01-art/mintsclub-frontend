@@ -39,11 +39,12 @@
 .navbar-item:hover {
   text-decoration: none !important;
 }
-::placeholder {
+/* ::placeholder { */
   /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #ffffff !important;
-  opacity: 0.8; /* Firefox */
-}
+  /* color: #ffffff !important;
+  opacity: 0.8;  */
+  /* Firefox */
+/* } */
 .step4-btn {
   padding: 0.55rem 1rem !important;
   background-color: #001d43 !important;
