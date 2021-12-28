@@ -101,20 +101,20 @@ const Step2 = (props) => {
       setError(true);
       return " ";
     }
-    if (externalLink) {
-      // /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-      if (
-        !externalLink.match(
-          /^(http[s]?:\/\/){0,1}(w{3,3}\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/
-        )
-      ) {
-        // alert("external link must be a valid uri")
-        validatePointer = false;
-        setLinkError(true);
-        toast.error("Please provide a valid Url.");
-        return "";
-      }
-    }
+    // if (externalLink) {
+    //   // /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+    //   if (
+    //     !externalLink.match(
+    //       /^(http[s]?:\/\/){0,1}(w{3,3}\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/
+    //     )
+    //   ) {
+    //     // alert("external link must be a valid uri")
+    //     validatePointer = false;
+    //     setLinkError(true);
+    //     toast.error("Please provide a valid Url.");
+    //     return "";
+    //   }
+    // }
     // console.log(name,"nmae")
     if (validatePointer) {
       props.handleStep2Info(name, symbol, externalLink, description, supply);
@@ -183,7 +183,7 @@ const Step2 = (props) => {
               {/* <p style={{color:"red"}}>{linkError &&"External Link must be a valid Url"}</p> */}
               <input
                 className="step-2-input mt-1"
-                type="text"
+                type="url"
                 onChange={(e) => onChangeExternalLink(e)}
                 value={externalLink}
                 placeholder="https://yousite.com/item.1004"

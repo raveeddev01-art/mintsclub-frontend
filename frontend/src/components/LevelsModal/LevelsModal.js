@@ -149,7 +149,7 @@ const LevelsModal = (props) => {
                 className="row levels-scroll p-3 "
                 style={{
                   height: `${
-                    levelsInputs && levelsInputs.length > 0 ? "15vh" : "7vh"
+                    levelsInputs && levelsInputs.length > 0 ? "12.5vh" : "7vh"
                   }`,
                 }}
               >
@@ -207,8 +207,8 @@ const LevelsModal = (props) => {
                                     : ""
                                 }`}
                                 type="number"
-                                min="1"
-                                max={item.total ? item.total : "1"}
+                                min="0"
+                                max={item.total ? item.total : "0"}
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.value || ""}
                                 placeholder="Value"
@@ -232,7 +232,7 @@ const LevelsModal = (props) => {
                                 min={item.value ? item.value : "1"}
                                 max="9999"
                                 name="total"
-                                placeholder="total"
+                                placeholder="Total"
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.total || ""}
                                 style={{

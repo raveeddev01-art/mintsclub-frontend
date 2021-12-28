@@ -39,11 +39,12 @@
 .navbar-item:hover {
   text-decoration: none !important;
 }
-::placeholder {
+/* ::placeholder { */
   /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #ffffff !important;
-  opacity: 0.8; /* Firefox */
-}
+  /* color: #ffffff !important;
+  opacity: 0.8;  */
+  /* Firefox */
+/* } */
 .step4-btn {
   padding: 0.55rem 1rem !important;
   background-color: #001d43 !important;
@@ -88,6 +89,20 @@
 }
 .step-4-wrapper {
   display: flex;
+}
+.verify-otp-btn {
+  padding: 0.6rem 1.4rem !important;
+  border-radius: 9px !important;
+  background-color: #fcd70d !important;
+  color: black !important;
+  font-size: 14px !important;
+  background-image: none !important;
+  line-height: normal !important;
+  font-weight: 500 !important;
+}
+.verify-spinner {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
 }
 .mintbtn {
   padding: 0.55rem 4rem !important;

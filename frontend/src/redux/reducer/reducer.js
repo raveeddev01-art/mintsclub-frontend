@@ -10,7 +10,12 @@ import {
   TOKEN_ID,
   MINTING_RESPONSE,
   LOADER,
-  CONTRACT_ADDRESS
+  CONTRACT_ADDRESS,
+  SET_PROPERTIES,
+  SET_LEVELS,
+  SET_OTP_STATUS
+
+
 } from "../types/types";
 
 const initialState = {
@@ -33,7 +38,10 @@ const initialState = {
     externalUrl:'',
     supply:1,
     
-  }
+  },
+  properties:[],
+  levels:[],
+  otpVerification:false,
 
 };
 
@@ -114,7 +122,22 @@ export default function (state = initialState, action) {
                 ...state,
                 contractAddress:action.payload
               }
-            
+              case  SET_PROPERTIES:
+                return {
+                  ...state,
+                  properties:action.payload
+                }
+                case SET_LEVELS:
+                  return {
+                    ...state,
+                    levels:action.payload
+                  }
+                  case SET_OTP_STATUS:
+                    alert(action.payload)
+                    return {
+                      ...state,
+                      otpVerification:action.payload
+                    }
 
     default:
       // need this for default case

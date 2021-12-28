@@ -3,7 +3,7 @@ import { useState } from "react";
 import PropertiesImage from "../../../../assets/images/Properties.svg";
 import AddBtnImage from "../../../../assets/images/Add Button.svg";
 import LevelsBtn from "../../../../assets/images/Levels.svg";
-import { currentStepAction } from "../../../../redux/actions/actions";
+import { currentStepAction ,setProperties,setLevels} from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import PropertiesModal from "../../../../components/PropertiesModal/ProppertiesModal";
 import LevelsModal from "../../../../components/LevelsModal/LevelsModal";
@@ -46,7 +46,9 @@ const Step3 = (props) => {
   const onSubmit = (propertiesField) => {
   //  console.log("onSUbmit propterites")
     // setPropertiesValues(propertiesField);
-    props.handleStep3PropertiesInfo(propertiesField);
+    alert("onSubmit")
+    props.setProperties(propertiesField)
+    // props.handleStep3PropertiesInfo(propertiesField);
 
   };
   const onSubmitLevels = (levelsFields) => {
@@ -58,7 +60,7 @@ const Step3 = (props) => {
     // Handle click here
   }
 
-  console.log(props.properties,"props.properties==>")
+  console.log(props.propertiesState,"props.properties==>")
   return (
     <div className="step3-container " style={{ height: "45vh" }}>
       {/* ///////////////////// */}
@@ -105,7 +107,7 @@ const Step3 = (props) => {
           </div>
         </AccordionSummary>
         <AccordionDetails className="transBG">
-          {props.properties && props.properties.length > 0 && (
+          {props.propertiesState && props.propertiesState.length > 0 && (
             <ListItem>
               <Grid className="text-white list-title py-0" item xs={6}>
                 {"Name"}
@@ -117,8 +119,8 @@ const Step3 = (props) => {
           )}
           <ListItem>
             <Grid container xs={12} className="properties-grid">
-              {props.properties && props.properties.length > 0 ? (
-                props.properties.map((property, i) => {
+              {props.propertiesState && props.propertiesState.length > 0 ? (
+                props.propertiesState.map((property, i) => {
                   return (
                     <>
                       <Grid className="py-2 text-white list-item" item xs={6}>
@@ -230,7 +232,7 @@ const Step3 = (props) => {
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
-        propertiesValues={props.properties}   
+        propertiesValues={props.propertiesState}   
         onSubmit={onSubmit}
       />
       <LevelsModal
@@ -245,11 +247,17 @@ const Step3 = (props) => {
 };
 
 const mapStateToProps = (state) =>
-  // console.log(state, "state"),
-  ({
+(
+    console.log(state, "state"),
+    {
     currentStep: state.dashboard.currentStep,
+    levels:state.dashboard.levels,
+    propertiesState:state.dashboard.properties,
   });
 
 export default connect(mapStateToProps, {
   currentStepAction,
+  setLevels,
+  setProperties
+  
 })(Step3);

@@ -12,6 +12,8 @@ import { getNetworkNameByChainId } from "../../../../utils/web3";
 import {
   connectWallet,
   contractResponse,
+  sendOtp,
+  verifyOtp,
 } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
 import "./Step4.css";
@@ -39,6 +41,9 @@ const Step4 = (props) => {
   const [error, setError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  //otp verification
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState(false);
 
   //previewModal
   const [previewModal, setPreviewModal] = useState(false);
@@ -86,6 +91,11 @@ const Step4 = (props) => {
       if (captchaStatus) {
         // setIsvalidate(true);
         props.handleCaptchaValidation(true);
+        let data = {
+          email,
+        };
+        toast.success(`Verification OTP code is sent to ${email}`)
+        props.sendOtp(data);
       } else {
         setCaptchaError(true);
       }
@@ -238,6 +248,13 @@ const Step4 = (props) => {
       }
     }
   };
+  const handleOtpVerification = () => {
+    if (!otp.trim()) {
+      setOtpError(true);
+    } else {
+      props.verifyOtp(email, otp);
+    }
+  };
   // console.log(props);
   return (
     <div className="step4-container w-80">
@@ -263,6 +280,7 @@ const Step4 = (props) => {
                   {emailError && errorMessage}
                 </p>
               </div>
+
               <input
                 className="step-4-input mt-2"
                 type="text"
@@ -326,6 +344,35 @@ const Step4 = (props) => {
                   onClick={() => submitCaptcha()}
                 >
                   Submit
+                </button>
+              </div>
+            ) : // <>
+            !props.otpVerification ? (
+              <div className="d-flex flex-column">
+                <label className="text-white step4-label mt-4">OTP</label>
+                {otpError && (
+                  <p className="text-danger  my-1">Please Enter OTP</p>
+                )}
+                <input
+                  className="step-4-input mt-2"
+                  type="Number"
+                  onChange={(e) => {
+                    setOtpError(false);
+                    setOtp(e.target.value);
+                  }}
+                  placeholder="Enter OTP"
+                  style={{ maxWidth: "22rem", color: "white" }}
+                />
+                <button
+                  // className="btn btn-primary step4-btn"
+                  className="btn btn-secondary verify-otp-btn mt-4"
+                  style={{ marginTop: "0.8rem", maxWidth: "22rem" }}
+                  onClick={() => handleOtpVerification()}
+                >
+                  Verify
+                  {/* <div class="spinner-border verify-spinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div> */}
                 </button>
               </div>
             ) : (
@@ -566,9 +613,12 @@ const mapStateToProps = (state) =>
     tokenId: state.dashboard.tokenId,
     contractAddress: state.dashboard.contractAddress,
     tokenMinted: state.dashboard.tokenMinted,
+    otpVerification: state.dashboard.otpVerification,
   });
 
 export default connect(mapStateToProps, {
   connectWallet,
   contractResponse,
+  sendOtp,
+  verifyOtp,
 })(Step4);

@@ -8,8 +8,8 @@
     padding: 0.7rem 1rem;
 }
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #FFFFFF !important;
-    opacity: 0.8; /* Firefox */
+    color: lightgray !important;
+    opacity: 0.75; /* Firefox */
   }
 .step2-container {
     height: 100%;
