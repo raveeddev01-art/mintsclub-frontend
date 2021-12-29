@@ -47,7 +47,7 @@ const HomeUi = (props) => {
           <Col lg="6">
             <div className="hero-content">
               <div className="hero-content-heading">
-                <h1>Let's Mint Your NFTs</h1>
+                <h1>Let's Mint Your NFTss</h1>
                 <h6>
                   All You Can Mint For{" "}
                   <span>
