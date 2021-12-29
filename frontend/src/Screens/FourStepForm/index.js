@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
   currentStepAction,
@@ -18,8 +18,7 @@ import { ProgressBar } from "react-bootstrap";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import { connectMetamaskCopy, getNetworkNameByChainId } from "../../utils/web3";
 import GaTracker from "../../gaTracker/gaTracket";
-// import { toast } from "react-toastify";
-// import ProppertiesModal from "../../Components/PropertiesModal/ProppertiesModal";
+
 
 const FourStepForm = (props) => {
   // console.log(props, "currentStep==>");
@@ -52,7 +51,8 @@ const FourStepForm = (props) => {
   const { currentStep } = props;
 
   const handleGoBack = () => {
-    if(props.contractReponse){
+    if(props.mintingResponse){
+      props.clearCurrentStep();
       history.push("/");
       return ""
     }
@@ -62,6 +62,9 @@ const FourStepForm = (props) => {
       props.currentStepDecrement();
     }
   };
+  useEffect(()=>{
+
+  },[videoUrl])
 
   const handleBackHome = () => {
     history.push("/");
@@ -113,42 +116,10 @@ const FourStepForm = (props) => {
   };
 
   const handleMinting = async (contractInfo, email) => {
-    // alert("deploying contract");
-    // console.log(properties, "properties");
-    // console.log(levels, "levels==>");
-    // let result=await props.connectWallet()
-    // connectMetamaskCopy()
-    //   .then((address) => {
-    //     let obj = {
-    //       name,
-    //       description,
-    //       symbol,
-    //       externalLink,
-    //       supply,
-    //       image: imgFile,
-    //       deployNetwork: "test",
-    //       email,
-    //       address,
-    //     };
-    // console.log(obj, "obj in the front end");
-    // console.log(properties,"properties")
-    // console.log(levels,"levels==>")
 
-    // var test = new FormData();
-
-    // test.append("username", "Groucho");
-    // test.append("accountnum", 123456);
-    // for (const key in obj) {
-    //   if (obj[key]) formData.append(key, obj[key]);
-    // }
-
-    // console.log("props contract info", props.contractInfo);
-
-    // console.log(props.deployContract,"result==>")
     props.mintToken(contractInfo, walletAddress, +supply, email);
 
-    // })
-    // .catch((err) => console.log(err, "error"));
+
   };
 
   // const connectWalletAddress=()=>{
@@ -157,18 +128,9 @@ const FourStepForm = (props) => {
   const handleDeployContract = async () => {
     connectMetamaskCopy(walletAddress)
       .then((address) => {
-        // let obj = {
-        //   name,
-        //   description,
-        //   symbol,
-        //   externalLink,
-        //   supply,
-        //   image: imgFile,
-        //   email,
-        //   address,
-        // };
+      
         if (address) {
-          // props.deployContract(jsonToFormData(obj), address, +supply);
+     
           if (walletAddress) {
           }
           setWalletAddress(address);
@@ -227,33 +189,18 @@ const FourStepForm = (props) => {
 
     buildFormData(formData, data);
 
-    // for (var key of formData.entries()) {
-    //   // console.log(key[0] + ', ' + key[1]);
-    // }
-    // let attributesDummy=[{
-    //   type:"type",
-    //   name:"name"
-    // }]
-
-    // let levelsDummy=[{
-    //   name:"name",
-    //   total:3,
-    //   value:5,
-    // }]
     formData.append("attributes", JSON.stringify(properties));
     formData.append("levels", JSON.stringify(levels));
 
     return formData;
   }
 
-  // const handleEmail = (value) => {
-  //   setEmail(value);
-  // };
+
 
   const handleCaptchaValidation = (value) => {
     setIsvalidate(value);
   };
-  // console.log(properties,"properteis in index.js")
+
   return (
     <div className="home-container steps-container">
       <div className="steps ">
@@ -268,10 +215,10 @@ const FourStepForm = (props) => {
                 style={{ marginRight: "0.4rem" }}
                 color="#44D1F9"
               />
-              <p className="mb-0 mt-0">{props.contractReponse?"Home":" Go Back"}</p>
+              <p className="mb-0 mt-0">{props.mintingResponse?"Home":" Go Back"}</p>
             </div>
           )}
-          {currentStep === 4 && !props.contractReponse && (
+          {currentStep === 4 && !props.mintingResponse && (
             <div
               className="text-white"
               style={{ cursor: "pointer" }}
@@ -349,11 +296,13 @@ const FourStepForm = (props) => {
 };
 
 const mapStateToProps = (state) =>
-  // console.log(state, "state"),
-  ({
+(
+    console.log(state, "state"),
+    {
     currentStep: state.dashboard.currentStep,
     contractInfo: state.dashboard.contractInfo,
-    contractReponse:state.dashboard.contractReponse
+    contractReponse:state.dashboard.contractReponse,
+    mintingResponse:state.dashboard.mintingResponse
   });
 
 export default connect(mapStateToProps, {

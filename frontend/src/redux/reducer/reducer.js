@@ -62,6 +62,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         currentStep: 1,
+        contractInfo: [],
+        contractErrorMessage: "",
+        contractError: false,
+        connectedAddress: "",
+        connectedAddressFlag: false,
+        contractReponse: false,
+        tokenId:'',
+        mintingResponse:false,
+        loader:false,
+        contractAddress:"",
+        tokenMinted:[],
       };
     case SET_CONTRACT_INFO:
    
