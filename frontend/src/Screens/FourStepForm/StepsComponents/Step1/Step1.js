@@ -9,8 +9,8 @@ import { BsUpload } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { Grid, IconButton, Typography } from "@mui/material";
 import { ProgressBar } from "react-bootstrap";
+import VideoView from "../../../../components/videoComponent/videoComponent";
 
-import VideoComponent from "../../../../components/videoComponent/videoComponent";
 const Step1 = (props) => {
   const [file, setFile] = useState("");
   const [img, setImage] = useState(props.imageURl);
@@ -113,9 +113,11 @@ const Step1 = (props) => {
     e.preventDefault();
   };
   const onDrop = (e) => {
-    alert("onDrag video");
+    // alert("onDrag video")
+
     e.preventDefault();
     setErrorMessage("");
+    setVideoUrl("");
     const files = e.dataTransfer.files[0];
     if (files) {
       const type = e.dataTransfer.files[0].type;
@@ -135,11 +137,14 @@ const Step1 = (props) => {
           let url = URL.createObjectURL(files);
           if (files.type === "video/mp4") {
             console.log("setting video url");
+
             setVideoUrl(url);
-            setTimeout(() => {
-              // setVideoUrl(url);
-              props.handleStep1Info(file, videoUrl, img);
-            }, 1000);
+            props.handleStep1Info(file, videoUrl, img);
+
+            // setTimeout(()=>{
+
+            //   // setVideoUrl(url);
+            // },1000)
             setImage("");
           } else {
             setImage(url);
@@ -166,7 +171,6 @@ const Step1 = (props) => {
     setImage("");
   };
 
-  console.log(videoUrl, "videoUrl==>");
   return (
     <>
       <p className="text-white upload-img-title mb-1">Upload Asset</p>
@@ -185,7 +189,7 @@ const Step1 = (props) => {
           onDragEnter={(e) => dragEnter(e)}
           onDragLeave={(e) => dragLeave(e)}
         >
-          <VideoComponent videoUrl={videoUrl} />
+          <VideoView videoUrl={videoUrl} />
 
           <MdClose
             color="#e33d0bc2"

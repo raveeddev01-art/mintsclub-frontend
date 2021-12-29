@@ -29,12 +29,6 @@ const Step3 = (props) => {
   const [open, setOpen] = useState(false);
   const [openLevelModal, setOpenLevelModal] = useState(false);
 
-  //for levels Modal
-  // const [levelsInputs, setlevelsInputs] = useState(props.levels);
-
-  //for properties Modal
-  // const [propertiesValues, setPropertiesValues] = useState(props.properties);
-
   ///////
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,22 +39,16 @@ const Step3 = (props) => {
   };
 
   const onSubmit = (propertiesField) => {
-    //  console.log("onSUbmit propterites")
-    // setPropertiesValues(propertiesField);
-
     props.setProperties(propertiesField);
-    props.handleStep3PropertiesInfo(propertiesField);
   };
   const onSubmitLevels = (levelsFields) => {
-    // setlevelsInputs(levelsFields);
-    props.handleStep3LevelsInfo(levelsFields);
+    props.setLevels(levelsFields);
   };
   function onClickDelete(event) {
     event.stopPropagation();
     // Handle click here
   }
 
-  // console.log(props.propertiesState,"props.properties==>")
   return (
     <div className="step3-container " style={{ height: "45vh" }}>
       {/* ///////////////////// */}
@@ -261,8 +249,8 @@ const mapStateToProps = (state) => (
   console.log(state, "state"),
   {
     currentStep: state.dashboard.currentStep,
-    // levels:state.dashboard.levels,
-    // propertiesState:state.dashboard.properties,
+    levels: state.dashboard.levels,
+    properties: state.dashboard.properties,
   }
 );
 

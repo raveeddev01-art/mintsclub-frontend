@@ -1,5 +1,5 @@
-import { toast } from "react-toastify";
-import Web3 from "web3";
+import { toast } from 'react-toastify';
+import Web3 from 'web3';
 import {
   // HOME_TEST,
   CURRENT_STEP,
@@ -16,17 +16,16 @@ import {
   CONTRACT_ADDRESS,
   SET_PROPERTIES,
   SET_LEVELS,
-  SET_OTP_STATUS
-} from "../types/types";
+  SET_OTP_STATUS,
+} from '../types/types';
 
-
-import { ENV } from "../../config/config";
-import { connectMetamaskCopy } from "../../utils/web3";
-import axios from "axios";
-import dotenv from "dotenv";
+import { ENV } from '../../config/config';
+import { connectMetamaskCopy } from '../../utils/web3';
+import axios from 'axios';
+import dotenv from 'dotenv';
 export const currentStepAction = () => (dispatch) => {
   // alert("called")
-  
+
   dispatch({
     type: CURRENT_STEP,
   });
@@ -48,20 +47,20 @@ export const contractResponse = () => (dispatch) => {
   });
 };
 export const setProperties = (data) => (dispatch) => {
-  alert("callled")
+  // alert("callled")
   dispatch({
     type: SET_PROPERTIES,
-    payload:data
+    payload: data,
   });
 };
 export const setLevels = (data) => (dispatch) => {
   dispatch({
     type: SET_LEVELS,
-    payload:data
+    payload: data,
   });
 };
 
-export const sendOtp=(data)=>(dispatch)=>{
+export const sendOtp = (data) => (dispatch) => {
   const config = {
     headers: {
       // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
@@ -69,39 +68,37 @@ export const sendOtp=(data)=>(dispatch)=>{
   };
 
   let url = `${ENV.url}otpVerification/sendVerficationEmail`;
-  
-     axios
-    .post(url, data, config)
-    .then(
-      (res) => {
-          //  alert("email sent")
-           console.log(res)
-           if(res.status===200){
-            //  toast.success("Otp Verification Code sent to ")
-           }
-      },
-      (err)=>{
-        console.log(err,"error")
-        alert("error while sending email")
+
+  axios.post(url, data, config).then(
+    (res) => {
+      //  alert("email sent")
+      console.log(res);
+      if (res.status === 200) {
+        //  toast.success("Otp Verification Code sent to ")
       }
-    )
-}
+    },
+    (err) => {
+      console.log(err, 'error');
+      alert('error while sending email');
+    }
+  );
+};
 function msToTime(ms) {
   let seconds = (ms / 1000).toFixed(1);
   let minutes = (ms / (1000 * 60)).toFixed(1);
   let hours = (ms / (1000 * 60 * 60)).toFixed(1);
   let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-  if (seconds < 60) return seconds + " Sec";
-  else if (minutes < 60) return minutes + " Min";
-  else if (hours < 24) return hours + " Hrs";
-  else return days + " Days"
+  if (seconds < 60) return seconds + ' Sec';
+  else if (minutes < 60) return minutes + ' Min';
+  else if (hours < 24) return hours + ' Hrs';
+  else return days + ' Days';
 }
 
-export const verifyOtp=(email,otp)=>(dispatch)=>{
-  let data={
+export const verifyOtp = (email, otp) => (dispatch) => {
+  let data = {
     email,
-    otp
-  }
+    otp,
+  };
   const config = {
     headers: {
       // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
@@ -111,32 +108,25 @@ export const verifyOtp=(email,otp)=>(dispatch)=>{
   let url = `${ENV.url}otpVerification/verify`;
   console.log(url);
 
-     axios
-    .post(url, data, config)
-    .then(
-      (res) => {
-        console.log(res,"verify")
-        if(res.data.status===true){   
-
-          if(res.data.diffMins < -10){
-            toast.error("Token is  Expired ,Please resend token & try again");
-            return " "
-          }
-          else {
-            dispatch({
-              type:SET_OTP_STATUS,
-              payload:true
-            });
-          }
-          toast.success(res.data.message)
-          }
-        
-      },
-      (err)=>{
-
+  axios.post(url, data, config).then(
+    (res) => {
+      console.log(res, 'verify');
+      if (res.data.status === true) {
+        if (res.data.diffMins < -10) {
+          toast.error('Token is  Expired ,Please resend token & try again');
+          return ' ';
+        } else {
+          dispatch({
+            type: SET_OTP_STATUS,
+            payload: true,
+          });
+        }
+        toast.success(res.data.message);
       }
-    )
-}
+    },
+    (err) => {}
+  );
+};
 
 export const deployContract = (data, address, supply) => (dispatch) => {
   // dispatch({
@@ -193,7 +183,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
                 // gas: gasPrice,
               })
               .then((contractInstance) => {
-                toast.success("Contract Deployed Successfully!");
+                toast.success('Contract Deployed Successfully!');
                 dispatch({
                   type: LOADER,
                   payload: false,
@@ -215,7 +205,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
                 });
                 const contractData = {
                   contractadd: contractInstance.options.address,
-                  Network: "Etherium",
+                  Network: 'Etherium',
                   Deployed: true,
                 };
 
@@ -230,14 +220,14 @@ export const deployContract = (data, address, supply) => (dispatch) => {
                   type: LOADER,
                   payload: false,
                 });
-                toast.error("Transaction Failed please check wallet history!");
+                toast.error('Transaction Failed please check wallet history!');
               });
           } catch (err) {
             dispatch({
               type: LOADER,
               payload: false,
             });
-            toast.error("Transaction Failed please check wallet history!");
+            toast.error('Transaction Failed please check wallet history!');
           }
         } else {
           dispatch({
@@ -255,7 +245,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
         // console.log(res);
       },
       (error) => {
-        console.log(error,"error handle")
+        console.log(error, 'error handle');
         toast.error(error.response.data.data);
         dispatch({
           type: LOADER,
@@ -275,7 +265,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
       }
     )
     .catch((err) => {
-      console.log(err, "error later==>");
+      console.log(err, 'error later==>');
     });
 };
 
@@ -291,7 +281,7 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
   });
   let metaDataList = [];
   // console.log(data, "data=====>");
-  let metaData = "";
+  let metaData = '';
   if (!data.data) {
     metaData = data;
   } else {
@@ -327,12 +317,12 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
         handleEmailRequest(email);
         let count = localStorage.getItem(address);
         if (count) {
-          console.log(typeof (+count*1),"issueee")
-          localStorage.setItem(address, (+count*1) + 1);
+          console.log(typeof (+count * 1), 'issueee');
+          localStorage.setItem(address, +count * 1 + 1);
         } else {
           localStorage.setItem(address, 1);
         }
-        toast.success("Minting Successful");
+        toast.success('Minting Successful');
         dispatch({
           type: LOADER,
           payload: false,
@@ -347,19 +337,19 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
         });
       })
       .catch((err) => {
-        console.log(err, "error==>");
+        console.log(err, 'error==>');
         dispatch({
           type: LOADER,
           payload: false,
         });
-        toast.error("Transaction Failed please check wallet history!");
+        toast.error('Transaction Failed please check wallet history!');
       });
   } catch (err) {
     dispatch({
       type: LOADER,
       payload: false,
     });
-    toast.error("Transaction Failed please check wallet history!");
+    toast.error('Transaction Failed please check wallet history!');
   }
 };
 const handleEmailRequest = (email) => {
@@ -373,10 +363,10 @@ const handleEmailRequest = (email) => {
     },
   };
 
-  let url = `${ENV.url}addEmail`;
+  let url = `${ENV.url}/users/addEmail`;
   // console.log(url);
   axios
-    .post(url,data, config)
+    .post(url, data, config)
     .then((res) => {
       // console.log(res, "email response==>");
     })
@@ -397,7 +387,7 @@ export const connectWallet = () => (dispatch) => {
         payload: address,
       })
     )
-    .catch((err) => console.log(err, "error"));
+    .catch((err) => console.log(err, 'error'));
 };
 
 export const hometest = () => (dispatch) => {

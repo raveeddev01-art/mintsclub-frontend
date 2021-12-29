@@ -4,7 +4,7 @@ const VideoComponent=({videoUrl})=>{
     const refElement=useRef(null)
     useEffect(()=>{
        if(refElement.current){
-           debugger
+          //  debugger
        }
     },[videoUrl])
     return(
@@ -19,3 +19,9 @@ const VideoComponent=({videoUrl})=>{
 )}
 
 export default VideoComponent
+
+
+
+
+
+
