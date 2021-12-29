@@ -56,6 +56,7 @@
 .network-img p {
   font-size: 14px;
 }
+
 .btn.btn-start {
   color: #050121;
   font-size: 14px;
@@ -125,6 +126,13 @@
   }
   .carousel-heading {
     left: 5px;
+  }
+  .navbar-collapse {
+    background-color: #001d43 !important;
+    padding: 0.2rem !important;
+  }
+  .navbar-nav {
+    padding: 0.6rem !important;
   }
   .hero-slider-conatiner {
     width: 70%;
