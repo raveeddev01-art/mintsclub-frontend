@@ -49,10 +49,11 @@ const HomeUi = (props) => {
               <div className="hero-content-heading">
                 <h1>Let's Mint Your NFTs</h1>
                 <h6>
-                  All You Can Mint For{" "}
+                  "Mint As Much You Can For{" "}
                   <span>
                     <b>Free</b>
                   </span>
+                  "
                 </h6>
               </div>
               <div className="hero-network">
@@ -60,7 +61,11 @@ const HomeUi = (props) => {
                 <div className="hero-network-options d-flex flex-wrap">
                   {networksData.map((item, index) => {
                     return (
-                      <div className="network-img" disabled={true} key={index}>
+                      <div
+                        className="network-img my-4"
+                        disabled={true}
+                        key={index}
+                      >
                         <img
                           src={item.image}
                           alt="coming soon"
@@ -68,9 +73,9 @@ const HomeUi = (props) => {
                             "Ethereum" === item.name ? "" : "selected-network"
                           }`}
                         />
-                        {/* {"Ethereum" !== item.name && (
-                          <span className="text-hover">Coming soon</span>
-                        )} */}
+                        {"Ethereum" !== item.name && (
+                          <span className="custom-tooltip">Coming soon</span>
+                        )}
                         <p
                           className={`ml-1 mt-2 ${
                             "Ethereum" === item.name

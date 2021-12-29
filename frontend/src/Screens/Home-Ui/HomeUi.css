@@ -13,7 +13,9 @@
   background-size: cover;
 }
 .home-row.row {
-  margin-top: 8%;
+  height: calc(100vh - 76px);
+  display: flex;
+  align-items: center;
 }
 .hero-content-heading {
   color: #ffffff;
@@ -42,8 +44,14 @@
 .hero-network-options img {
   width: 60px;
   height: 60px;
-  margin-right: 5px;
+  margin-right: 10px;
   cursor: pointer;
+}
+.hero-network-options .network-img {
+  position: relative;
+}
+.selected-network {
+  opacity: 0.3;
 }
 .network-img p {
   font-size: 14px;
@@ -56,9 +64,6 @@
   width: 150px;
   border-radius: 0.5rem;
   background-image: linear-gradient(182deg, #fedb19 0%, #feaf17 100%);
-}
-.btn.btn-start:hover {
-  color: #ffffff !important;
 }
 .hero-slider {
   position: relative;
@@ -97,7 +102,28 @@
   line-height: normal !important;
   font-weight: 500 !important;
 }
+.custom-tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: #fcd70d !important;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 5px;
+  position: absolute;
+  z-index: 10;
+  top: -35px;
+  left: 20px;
+}
+.network-img:hover .custom-tooltip {
+  visibility: visible;
+}
 @media (max-width: 991.9px) {
+  .home-row.row {
+    height: 100%;
+    display: unset;
+    align-items: unset;
+  }
   .carousel-heading {
     left: 5px;
   }
@@ -115,5 +141,8 @@
 @media (max-width: 767.9px) {
   .hero-slider-conatiner {
     width: 80%;
+  }
+  .custom-tooltip {
+    width: 70px;
   }
 }

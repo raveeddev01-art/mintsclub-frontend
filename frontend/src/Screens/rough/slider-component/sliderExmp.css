@@ -18,6 +18,8 @@
 .carousel-inner {
   position: absolute;
   top: 90px;
+  left: 0;
+  right: 0;
   width: 70% !important;
   height: 65% !important;
   margin: 0 auto !important;
@@ -87,6 +89,11 @@
 .hero-slider-conatiner .carousel .carousel-indicators {
   bottom: -60px;
 }
+@media (max-width: 1199.9px) {
+  .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
+    padding: 0 10px;
+  }
+}
 
 @media (max-width: 992px) {
   .carousel-heading {
@@ -119,19 +126,33 @@
     padding: 0 10px;
   }
   .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
-    padding: 0 20px;
+    padding: 0 10px;
+  }
+  .carousel-inner {
+    width: 75% !important;
   }
 }
 
 @media (max-width: 470px) {
   .carousel-inner {
     width: 80% !important;
+    height: 60% !important;
   }
   .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
     padding: 0;
   }
   .hero-slider-conatiner .carousel .carousel-indicators {
     bottom: -50px;
+  }
+  .hero-slider-conatiner
+    .carousel
+    .carousel-inner
+    .carousel-item
+    .carousel-img {
+    padding-top: 10px;
+  }
+  .hero-slider-conatiner .carousel .carousel-control-prev {
+    left: 75%;
   }
 }
 
