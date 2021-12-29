@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "https://frontend-testmints.invo.zone/static/css/main.cfdf6053.chunk.css",
-    "main.js": "https://frontend-testmints.invo.zone/static/js/main.3c4b6888.chunk.js",
-    "main.js.map": "https://frontend-testmints.invo.zone/static/js/main.3c4b6888.chunk.js.map",
+    "main.js": "https://frontend-testmints.invo.zone/static/js/main.cc3ab18e.chunk.js",
+    "main.js.map": "https://frontend-testmints.invo.zone/static/js/main.cc3ab18e.chunk.js.map",
     "runtime-main.js": "https://frontend-testmints.invo.zone/static/js/runtime-main.a146dd37.js",
     "runtime-main.js.map": "https://frontend-testmints.invo.zone/static/js/runtime-main.a146dd37.js.map",
     "static/css/2.0b35e438.chunk.css": "https://frontend-testmints.invo.zone/static/css/2.0b35e438.chunk.css",
@@ -39,6 +39,6 @@
     "static/css/2.0b35e438.chunk.css",
     "static/js/2.a395f489.chunk.js",
     "static/css/main.cfdf6053.chunk.css",
-    "static/js/main.3c4b6888.chunk.js"
+    "static/js/main.cc3ab18e.chunk.js"
   ]
 }
