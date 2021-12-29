@@ -209,7 +209,7 @@ const LevelsModal = (props) => {
                                 }`}
                                 type="number"
                                 min="1"
-                                max={item.total ? item.total : "0"}
+                                max={item.total=="0"?"1":item.total ? item.total : "1"}
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.value || ""}
                                 placeholder="Value"

@@ -157,6 +157,9 @@
   .form-containe {
     width: 100% !important;
   }
+  .discord-container {
+    display: none !important;
+  }
 }
 
 @media (max-width: 380px) {

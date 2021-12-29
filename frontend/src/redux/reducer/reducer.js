@@ -134,7 +134,7 @@ export default function (state = initialState, action) {
                 contractAddress:action.payload
               }
               case  SET_PROPERTIES:
-                alert("kdjkfdfk")
+                // alert("kdjkfdfk")
                 return {
                   ...state,
                   properties:action.payload
