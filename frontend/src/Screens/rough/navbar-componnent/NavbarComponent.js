@@ -35,18 +35,18 @@ const NavbarComponent = () => {
             <Nav.Link href="#" className="active">
               <AiFillHome className="home-icon " /> Home
             </Nav.Link>
-            <Nav.Link href={twitter}>
+            <Nav.Link href={twitter} target="_blank">
               <BsTwitter className="home-icon " /> Twitter
             </Nav.Link>
-            <Nav.Link href={discordLink}>
+            <Nav.Link href={discordLink} target="_blank">
               <SiDiscord className="home-icon " />
               Discord
             </Nav.Link>
-            <Nav.Link href={telegramLink}>
+            <Nav.Link href={telegramLink} target="_blank">
               <FaTelegramPlane className="home-icon " />
               Telegram
             </Nav.Link>
-            <Nav.Link href={redditLink}>
+            <Nav.Link href={redditLink} target="_blank">
               <GrReddit className="home-icon " />
               Reddit
             </Nav.Link>
