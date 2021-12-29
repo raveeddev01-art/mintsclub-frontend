@@ -24,19 +24,21 @@ import InfoComp from "../../infoComp";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 /////////////////
 import { ProgressBar } from "react-bootstrap";
+import PropertyModal from './PropertyModal';
+import LevelModal from './LevelsModal';
 
 const Step3 = (props) => {
-  const [open, setOpen] = useState(false);
-  const [openLevelModal, setOpenLevelModal] = useState(false);
+  // const [open, setOpen] = useState(false);
+  // const [openLevelModal, setOpenLevelModal] = useState(false);
 
   ///////
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
 
-  const handleOpenLevel = () => setOpenLevelModal(true);
-  const handleCloseLevel = () => {
-    setOpenLevelModal(false);
-  };
+  // const handleOpenLevel = () => setOpenLevelModal(true);
+  // const handleCloseLevel = () => {
+  //   setOpenLevelModal(false);
+  // };
 
   const onSubmit = (propertiesField) => {
     props.setProperties(propertiesField);
@@ -79,12 +81,13 @@ const Step3 = (props) => {
                     </span>
                   </span>
                 </p>
-                <img
+                {/* <img
                   src={AddBtnImage}
                   onClick={() => handleOpen()}
                   className="ml-3"
                   style={{ height: "1.5rem", cursor: "pointer" }}
-                />
+                /> */}
+                <PropertyModal propertiesValues={props.properties} onSubmit={onSubmit}/>
               </div>
               <p className="text-white mt-1">
                 Textual traits that show up as a rectangles
@@ -151,12 +154,7 @@ const Step3 = (props) => {
                     </span>
                   </span>
                 </p>
-                <img
-                  src={AddBtnImage}
-                  onClick={() => handleOpenLevel()}
-                  className="ml-5"
-                  style={{ height: "1.5rem", cursor: "pointer" }}
-                />
+                <LevelModal levels={props.levels} onSubmitLevels={onSubmitLevels} />
               </div>
               <p className="text-white mt-1">
                 Numerical traits that show as a progress bar
@@ -227,20 +225,20 @@ const Step3 = (props) => {
         <p className="text-white text-center mt-2">{props.currentStep}/4</p>
       </div>
 
-      <PropertiesModal
+      {/* <PropertiesModal
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
         propertiesValues={props.properties}
         onSubmit={onSubmit}
-      />
-      <LevelsModal
+      /> */}
+      {/* <LevelsModal
         open={openLevelModal}
         handleOpen={handleOpenLevel}
         handleClose={handleCloseLevel}
         levelsInputs={props.levels}
         onSubmitLevels={onSubmitLevels}
-      />
+      /> */}
     </div>
   );
 };
