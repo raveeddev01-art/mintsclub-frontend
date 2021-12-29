@@ -5,7 +5,7 @@ import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
 // components
 // import Home from './components/home/home';
-import Dashboard from "./Screens/Home/home.js";
+import Dashboard from "./Screens/Home-Ui/HomeUi.js";
 import FourStepForm from "./Screens/FourStepForm/index";
 // import ExploreAll from './components/explore/explore-all';
 // import LiveAuctions from './components/auctions/live-auctions-list';

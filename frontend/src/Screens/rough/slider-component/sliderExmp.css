@@ -12,6 +12,7 @@
 .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
   height: 100%;
   width: 100%;
+  padding: 0 20px;
 }
 
 .carousel-inner {
@@ -42,9 +43,100 @@
 }
 
 .hero-slider-conatiner .carousel .carousel-control-next {
+  width: 29px;
+  height: 29px;
+  background-color: #43cff6;
+  opacity: 1;
+  border-radius: 50%;
+  align-items: start;
+}
+.hero-slider-conatiner
+  .carousel
+  .carousel-control-prev
+  .carousel-control-prev-icon {
+  background-image: url("../../../assets/images/left-icon.svg");
+}
+.hero-slider-conatiner
+  .carousel
+  .carousel-control-next
+  .carousel-control-next-icon {
+  background-image: url("../../../assets/images/right-icon.svg");
+}
+.hero-slider-conatiner .carousel .carousel-control-prev {
+  width: 29px;
+  height: 29px;
+  background-color: #43cff6;
+  opacity: 1;
+  border-radius: 50%;
+  left: 85%;
   align-items: start;
 }
 
-.hero-slider-conatiner .carousel .carousel-control-prev {
-  align-items: start;
+.hero-slider-conatiner .carousel .carousel-control-next span {
+  margin: auto auto;
+  width: 7px;
+  height: 12px;
+}
+
+.hero-slider-conatiner .carousel .carousel-control-prev span {
+  margin: auto auto;
+  width: 7px;
+  height: 12px;
+}
+
+.hero-slider-conatiner .carousel .carousel-indicators {
+  bottom: -60px;
+}
+
+@media (max-width: 992px) {
+  .carousel-heading {
+    left: 10px;
+  }
+  .hero-slider-conatiner .carousel .carousel-control-prev {
+    left: 85%;
+  }
+  .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
+    padding: 0 40px;
+  }
+  .hero-slider-conatiner
+    .carousel
+    .carousel-inner
+    .carousel-item
+    .carousel-img {
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-slider-conatiner .carousel .carousel-control-prev {
+    left: 80%;
+  }
+  .hero-slider-conatiner
+    .carousel
+    .carousel-inner
+    .carousel-item
+    .carousel-img {
+    padding: 0 10px;
+  }
+  .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 470px) {
+  .carousel-inner {
+    width: 80% !important;
+  }
+  .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
+    padding: 0;
+  }
+  .hero-slider-conatiner .carousel .carousel-indicators {
+    bottom: -50px;
+  }
+}
+
+@media (min-width: 1399.9px) {
+  .hero-slider-conatiner .carousel .carousel-inner .carousel-item {
+    padding: 0 50px;
+  }
 }

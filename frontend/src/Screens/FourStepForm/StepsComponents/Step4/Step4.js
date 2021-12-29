@@ -50,22 +50,7 @@ const Step4 = (props) => {
   const [previewModal, setPreviewModal] = useState(false);
   const [previewModalStep, setPreviewModalStep] = useState(1);
   const [maxLimit, setMaxLimit] = useState(false);
-  // const [textCopy,setTextCopy]=useState(false)
 
-  ///copy text ////////////////
-
-  // const [copySuccess, setCopySuccess] = useState('');
-  // const textAreaRef = useRef(null);
-
-  // function copyToClipboard(e) {
-  //   textAreaRef.current.select();
-  //   document.execCommand('copy');
-  //   // This is just personal preference.
-  //   // I prefer to not show the the whole text area selected.
-  //   e.target.focus();
-  //   setCopySuccess('Copied!');
-  // };
-  ////////////
   const handleCaptcha = (value) => {
     // console.log(value);
     setCaptchaStatus(value);
@@ -134,9 +119,7 @@ const Step4 = (props) => {
       setError(true);
       return "";
     }
-    // setLoadingMessage("Please wait your contract is Deploying!");
-    // setDeploy(true);
-    // props.handleStep4Info(email, deployNetwork);
+
     props.handleDeployContract();
   };
   const emailValidate = () => {
@@ -204,10 +187,6 @@ const Step4 = (props) => {
     // console.log('response for contract ', props.contractResponse)
   }, [props.contractResponse]);
 
-  // if (props.contractInfo) {
-  //   var { contractAddress } = props?.contractInfo;
-  //   // console.log(typeof(contractAddress),"type=============>")
-  // }
   const handlePreviewModal = () => {
     // if(!email)
     setPreviewModalStep(1);
@@ -235,15 +214,6 @@ const Step4 = (props) => {
       return props.tokenId;
     }
     if (props.tokenMinted) {
-      // if (+props.supply === 2) {
-      //   return "1,2";
-      // } else if (+props.supply === 3) {
-      //   return "1,2,3";
-      // } else if (+props.supply === 4) {
-      //   return "1,2,3,4";
-      // } else if (+props.supply === 5) {
-      //   return "1,2,3,4,5";
-      // }
       if (+props.supply > 1) {
         return ` 1-${props.supply}`;
       }
@@ -254,6 +224,15 @@ const Step4 = (props) => {
       setOtpError(true);
     } else {
       props.verifyOtp(email, otp);
+    }
+  };
+  const sendEmailOtp = () => {
+    if (emailValidate()) {
+      let data = {
+        email,
+      };
+      toast.success(`Verification OTP code is sent to ${email}`);
+      props.sendOtp(data);
     }
   };
   // console.log(props);
@@ -288,42 +267,14 @@ const Step4 = (props) => {
                 onChange={(e) => onChangeEmail(e)}
                 onBlur={(e) => emailValidate(e)}
                 disabled={false}
-                disabled={props.walletAddress ? true : false}
+                disabled={
+                  props.walletAddress || props.otpVerification ? true : false
+                }
                 value={email}
                 placeholder="example@gmail.com"
                 style={{ maxWidth: "22rem", color: "white" }}
               />
             </div>
-            {/* <div className="position-relative mt-3">
-              <label className="text-white step4-label">Network</label>
-              <p
-                className="position-absolute"
-                style={{ color: "red", top: "0", left: "5.4rem" }}
-              >
-                *
-              </p>
-            </div>
-            <select
-              class="form-select mt-2 network-dropdown"
-              style={{
-                color: "white",
-                border: "none",
-                outline: "none",
-                maxWidth: "22rem",
-              }}
-              aria-label="Default select example"
-              onChange={(e) => setDeployNetwork(e.target.value)}
-            >
-              <option className="network-option" selected>
-                Select Network
-              </option>
-              <option className="network-option" value="TestNet">
-                TestNet
-              </option>
-              <option className="network-option" value="MainNet">
-                MainNet
-              </option>
-            </select> */}
 
             {props.isValidate === false ? (
               <div className="mt-4">
@@ -345,6 +296,45 @@ const Step4 = (props) => {
                   onClick={() => submitCaptcha()}
                 >
                   Submit
+                </button>
+              </div>
+            ) : // <>
+            !props.otpVerification ? (
+              <div className="d-flex flex-column">
+                <label className="text-white step4-label mt-4">OTP</label>
+                {otpError && (
+                  <p className="text-danger  my-1">Please Enter OTP</p>
+                )}
+                <input
+                  className="step-4-input mt-2"
+                  type="Number"
+                  onChange={(e) => {
+                    setOtpError(false);
+                    setOtp(e.target.value);
+                  }}
+                  placeholder="Enter OTP"
+                  style={{ maxWidth: "22rem", color: "white" }}
+                />
+                <button
+                  className="btn btn-secondary verify-otp-btn mt-4"
+                  style={{ marginTop: "0.8rem", maxWidth: "22rem" }}
+                  onClick={() => handleOtpVerification()}
+                >
+                  Verify
+                  {/* <div class="spinner-border verify-spinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div> */}
+                </button>
+                <button
+                  // className="btn btn-primary step4-btn"
+                  className="btn btn-secondary verify-otp-btn mt-4"
+                  style={{ marginTop: "0.8rem", maxWidth: "22rem" }}
+                  onClick={() => sendEmailOtp()}
+                >
+                  Resend OTP
+                  {/* <div class="spinner-border verify-spinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div> */}
                 </button>
               </div>
             ) : (

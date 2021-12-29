@@ -59,7 +59,43 @@
 .btn.btn-start:hover {
   color: #ffffff !important;
 }
+.hero-slider {
+  position: relative;
+}
+.carousel-heading {
+  font-family: Manrope;
+  position: absolute;
+  top: -35px;
+  left: 40px;
+  z-index: 10;
+}
+.carousel-heading h3 {
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 0;
+}
+.carousel-heading h2 {
+  font-size: 80px;
+  background: -webkit-linear-gradient(0deg, #1946b0, #42ccf3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
 .hero-slider-conatiner {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
+}
+@media (max-width: 991.9px) {
+  .carousel-heading {
+    left: 5px;
+  }
+  .hero-slider-conatiner {
+    width: 70%;
+  }
+}
+@media (max-width: 767.9px) {
+  .hero-slider-conatiner {
+    width: 80%;
+  }
 }

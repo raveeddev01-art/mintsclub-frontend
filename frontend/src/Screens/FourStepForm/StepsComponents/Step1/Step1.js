@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 // import { RiFolderUploadLine} from "react-icons/ri";
 import { currentStepAction } from "../../../../redux/actions/actions";
@@ -10,6 +10,7 @@ import { MdClose } from "react-icons/md";
 import { Grid, IconButton, Typography } from "@mui/material";
 import { ProgressBar } from "react-bootstrap";
 
+import VideoComponent from "../../../../components/videoComponent/videoComponent";
 const Step1 = (props) => {
   const [file, setFile] = useState("");
   const [img, setImage] = useState(props.imageURl);
@@ -17,6 +18,9 @@ const Step1 = (props) => {
   const [videoUrl, setVideoUrl] = useState(props.videoURL);
   // console.log(process.env,"config.baseurl===>")
 
+  useEffect(() => {
+    console.log(videoUrl);
+  }, [videoUrl]);
   const onFileChange = (event) => {
     setErrorMessage("");
 
@@ -109,6 +113,7 @@ const Step1 = (props) => {
     e.preventDefault();
   };
   const onDrop = (e) => {
+    alert("onDrag video");
     e.preventDefault();
     setErrorMessage("");
     const files = e.dataTransfer.files[0];
@@ -125,9 +130,16 @@ const Step1 = (props) => {
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
           setErrorMessage("File size limit is exceeded");
         } else {
+          console.log(files.type, "files.type");
+
           let url = URL.createObjectURL(files);
           if (files.type === "video/mp4") {
+            console.log("setting video url");
             setVideoUrl(url);
+            setTimeout(() => {
+              // setVideoUrl(url);
+              props.handleStep1Info(file, videoUrl, img);
+            }, 1000);
             setImage("");
           } else {
             setImage(url);
@@ -154,9 +166,9 @@ const Step1 = (props) => {
     setImage("");
   };
 
-  // console.log(props,"props==>")
+  console.log(videoUrl, "videoUrl==>");
   return (
-    <div className="">
+    <>
       <p className="text-white upload-img-title mb-1">Upload Asset</p>
       <p
         className="text-white testingkkk "
@@ -173,17 +185,8 @@ const Step1 = (props) => {
           onDragEnter={(e) => dragEnter(e)}
           onDragLeave={(e) => dragLeave(e)}
         >
-          <video
-            className="mt-4"
-            width="210"
-            controls
-            onDrop={(e) => onDrop(e)}
-            onDragOver={(e) => dragOver(e)}
-            onDragEnter={(e) => dragEnter(e)}
-            onDragLeave={(e) => dragLeave(e)}
-          >
-            <source src={videoUrl} />
-          </video>
+          <VideoComponent videoUrl={videoUrl} />
+
           <MdClose
             color="#e33d0bc2"
             className=""
@@ -199,6 +202,7 @@ const Step1 = (props) => {
           />
         </div>
       )}
+
       <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
       <Grid container style={{ justifyContent: "space-between" }}>
         <Grid item md={6}>
@@ -424,7 +428,7 @@ const Step1 = (props) => {
         />
         <p className="text-white text-center mt-2">{props.currentStep}/4</p>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -44,12 +44,15 @@ const HomeUi = (props) => {
       <Container>
         <NavbarComponent className="mt-1" />
         <Row className="home-row">
-          <Col md="6">
+          <Col lg="6">
             <div className="hero-content">
               <div className="hero-content-heading">
                 <h1>Let's Mint Your NFTs</h1>
                 <h6>
-                  All You Can Mint For <span>Free</span>
+                  All You Can Mint For{" "}
+                  <span>
+                    <b>Free</b>
+                  </span>
                 </h6>
               </div>
               <div className="hero-network">
@@ -97,8 +100,12 @@ const HomeUi = (props) => {
               </button>
             </div>
           </Col>
-          <Col md="6">
-            <div className="hero-slider">
+          <Col lg="6">
+            <div className="hero-slider my-5 my-lg-0">
+              <div className="carousel-heading">
+                <h3>World’s Famous</h3>
+                <h2>NFT's</h2>
+              </div>
               <div className="hero-slider-conatiner">
                 <SliderExmp assetList={WordsFamousNfts} />
               </div>

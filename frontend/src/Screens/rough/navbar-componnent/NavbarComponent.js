@@ -24,7 +24,7 @@ const NavbarComponent = () => {
         bg="light"
         expand="lg"
         variant="dark"
-        className="navbar-custom align-items-center navbar-sticky"
+        className="navbar-custom align-items-center"
       >
         <Navbar.Brand href="#" className="navbar-brand-logo">
           <img src={MintsClub} alt="logo" />
