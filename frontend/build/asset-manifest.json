@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "https://frontend-testmints.invo.zone/static/css/main.7eab4a70.chunk.css",
-    "main.js": "https://frontend-testmints.invo.zone/static/js/main.7a367c2e.chunk.js",
-    "main.js.map": "https://frontend-testmints.invo.zone/static/js/main.7a367c2e.chunk.js.map",
+    "main.css": "https://frontend-testmints.invo.zone/static/css/main.e108b7bb.chunk.css",
+    "main.js": "https://frontend-testmints.invo.zone/static/js/main.3c573d56.chunk.js",
+    "main.js.map": "https://frontend-testmints.invo.zone/static/js/main.3c573d56.chunk.js.map",
     "runtime-main.js": "https://frontend-testmints.invo.zone/static/js/runtime-main.a146dd37.js",
     "runtime-main.js.map": "https://frontend-testmints.invo.zone/static/js/runtime-main.a146dd37.js.map",
     "static/css/2.0b35e438.chunk.css": "https://frontend-testmints.invo.zone/static/css/2.0b35e438.chunk.css",
-    "static/js/2.baec0038.chunk.js": "https://frontend-testmints.invo.zone/static/js/2.baec0038.chunk.js",
-    "static/js/2.baec0038.chunk.js.map": "https://frontend-testmints.invo.zone/static/js/2.baec0038.chunk.js.map",
+    "static/js/2.a395f489.chunk.js": "https://frontend-testmints.invo.zone/static/js/2.a395f489.chunk.js",
+    "static/js/2.a395f489.chunk.js.map": "https://frontend-testmints.invo.zone/static/js/2.a395f489.chunk.js.map",
     "index.html": "https://frontend-testmints.invo.zone/index.html",
     "static/css/2.0b35e438.chunk.css.map": "https://frontend-testmints.invo.zone/static/css/2.0b35e438.chunk.css.map",
-    "static/css/main.7eab4a70.chunk.css.map": "https://frontend-testmints.invo.zone/static/css/main.7eab4a70.chunk.css.map",
-    "static/js/2.baec0038.chunk.js.LICENSE.txt": "https://frontend-testmints.invo.zone/static/js/2.baec0038.chunk.js.LICENSE.txt",
+    "static/css/main.e108b7bb.chunk.css.map": "https://frontend-testmints.invo.zone/static/css/main.e108b7bb.chunk.css.map",
+    "static/js/2.a395f489.chunk.js.LICENSE.txt": "https://frontend-testmints.invo.zone/static/js/2.a395f489.chunk.js.LICENSE.txt",
     "static/media/Add Button.dcf4d64e.svg": "https://frontend-testmints.invo.zone/static/media/Add Button.dcf4d64e.svg",
-    "static/media/home.css": "https://frontend-testmints.invo.zone/static/media/Background.1dcf0c16.svg",
+    "static/media/HomeUi.css": "https://frontend-testmints.invo.zone/static/media/Background.1dcf0c16.svg",
     "static/media/Details.63c8b2fb.svg": "https://frontend-testmints.invo.zone/static/media/Details.63c8b2fb.svg",
     "static/media/Discord.d95b383e.svg": "https://frontend-testmints.invo.zone/static/media/Discord.d95b383e.svg",
     "static/media/Levels.816c575a.svg": "https://frontend-testmints.invo.zone/static/media/Levels.816c575a.svg",
@@ -23,6 +23,7 @@
     "static/media/icon 2.9736a20c.svg": "https://frontend-testmints.invo.zone/static/media/icon 2.9736a20c.svg",
     "static/media/icon 3.6c692d37.svg": "https://frontend-testmints.invo.zone/static/media/icon 3.6c692d37.svg",
     "static/media/icon4.b481bd61.svg": "https://frontend-testmints.invo.zone/static/media/icon4.b481bd61.svg",
+    "static/media/sliderExmp.css": "https://frontend-testmints.invo.zone/static/media/right-icon.6ea18984.svg",
     "static/media/metamask.3f142083.svg": "https://frontend-testmints.invo.zone/static/media/metamask.3f142083.svg",
     "static/media/mintsClubLogo1.7b19d6d7.png": "https://frontend-testmints.invo.zone/static/media/mintsClubLogo1.7b19d6d7.png",
     "static/media/mintsClubSmilyLogo1.16871a85.png": "https://frontend-testmints.invo.zone/static/media/mintsClubSmilyLogo1.16871a85.png",
@@ -31,14 +32,13 @@
     "static/media/nft3.75f7e9b8.jpeg": "https://frontend-testmints.invo.zone/static/media/nft3.75f7e9b8.jpeg",
     "static/media/nft4.609facc3.webp": "https://frontend-testmints.invo.zone/static/media/nft4.609facc3.webp",
     "static/media/nft5.be062a0f.jpg": "https://frontend-testmints.invo.zone/static/media/nft5.be062a0f.jpg",
-    "static/media/nftBack.539afe80.png": "https://frontend-testmints.invo.zone/static/media/nftBack.539afe80.png",
     "static/media/slick-theme.css": "https://frontend-testmints.invo.zone/static/media/slick.c94f7671.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.a146dd37.js",
     "static/css/2.0b35e438.chunk.css",
-    "static/js/2.baec0038.chunk.js",
-    "static/css/main.7eab4a70.chunk.css",
-    "static/js/main.7a367c2e.chunk.js"
+    "static/js/2.a395f489.chunk.js",
+    "static/css/main.e108b7bb.chunk.css",
+    "static/js/main.3c573d56.chunk.js"
   ]
 }
