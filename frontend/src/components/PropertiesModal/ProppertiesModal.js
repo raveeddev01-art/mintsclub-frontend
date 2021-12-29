@@ -23,7 +23,7 @@ const style = {
 
 const BasicModal = (props) => {
   const [propertiesValues, setPropertiesValues] = React.useState(
-    props.propertiesValues
+  props.properties
   );
   const [addMore, setAddMore] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -34,6 +34,8 @@ const BasicModal = (props) => {
     setAddMore(!addMore);
     setPropertiesValues([...propertiesValues, { name: "", value: "" }]);
   };
+
+  
   let handleChange = (i, e) => {
     setError(false);
     let newFormValues = [...propertiesValues];
@@ -250,6 +252,8 @@ const mapStateToProps = (state) =>
   // console.log(state, "state"),
   ({
     currentStep: state.dashboard.currentStep,
+    levels:state.dashboard.levels,
+    properties:state.dashboard.properties,
   });
 
 export default connect(mapStateToProps, {

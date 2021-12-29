@@ -48,7 +48,7 @@ export const contractResponse = () => (dispatch) => {
   });
 };
 export const setProperties = (data) => (dispatch) => {
-  alert("callled")
+  // alert("callled")
   dispatch({
     type: SET_PROPERTIES,
     payload:data
