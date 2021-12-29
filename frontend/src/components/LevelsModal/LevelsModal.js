@@ -208,7 +208,7 @@ const LevelsModal = (props) => {
                                     : ""
                                 }`}
                                 type="number"
-                                min="0"
+                                min="1"
                                 max={item.total ? item.total : "0"}
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.value || ""}
