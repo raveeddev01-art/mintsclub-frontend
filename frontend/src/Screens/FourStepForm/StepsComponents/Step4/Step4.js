@@ -484,7 +484,7 @@ const Step4 = (props) => {
         (props.contractReponse || props.mintingResponse) &&
         !props.contractError && (
           <div className="step4-details-container mb-2 d-flex justify-content-center w-100">
-            <div>
+            <div className="w-100 d-flex flex-column justify-content-center align-items-center">
               <div className=" w-100 d-flex justify-content-center mt-4">
                 <div className="d-flex align-items-center">
                   <img
@@ -496,7 +496,7 @@ const Step4 = (props) => {
               </div>
 
               <div className="details-box py-4 mt-4">
-                <div className="details-box-content d-flex justify-content-between flex-row p-4">
+                <div className="details-box-content d-flex justify-content-between flex-row p-2 p-sm-4">
                   <div>
                     <p className="info">Contract Address</p>
 
