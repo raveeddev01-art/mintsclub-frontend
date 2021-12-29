@@ -58,7 +58,8 @@ const Home = (props) => {
                     className="text-white mint-title"
                     style={{ fontSize: "30px", fontWeight: "bold" }}
                   >
-                    Free..! Minting Always!!
+                    All you can Mint for {" "}
+                    <span style={{color: "#fcd70d"}}>Free !</span> 
                   </p>
                   {/* <p className="text-white" style={{ fontSize: "20px" }}>
                     Lorem Ipsum is simply dummy text of the printing and

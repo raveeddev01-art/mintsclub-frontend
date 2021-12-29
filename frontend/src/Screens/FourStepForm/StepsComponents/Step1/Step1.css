@@ -52,6 +52,9 @@
   width: 50px;
   height: 100px;
 }
+.video-react-video {
+  width: 300px !important;
+}
 /* @media (max-width:600px) {
 
 } */
