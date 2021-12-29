@@ -483,7 +483,7 @@ const Step4 = (props) => {
       ) : (
         (props.contractReponse || props.mintingResponse) &&
         !props.contractError && (
-          <div className="step4-details-container mb-2 d-flex  w-100 justify-content-center w-100">
+          <div className="step4-details-container mb-2 d-flex justify-content-center w-100">
             <div>
               <div className=" w-100 d-flex justify-content-center mt-4">
                 <div className="d-flex align-items-center">
@@ -494,8 +494,9 @@ const Step4 = (props) => {
                   <p className="text-white details-title mb-0">Details</p>
                 </div>
               </div>
-              <div className="details-box ">
-                <div className="d-flex justify-content-between flex-row p-4 mt-4">
+
+              <div className="details-box py-4 mt-4">
+                <div className="details-box-content d-flex justify-content-between flex-row p-4">
                   <div>
                     <p className="info">Contract Address</p>
 
@@ -546,22 +547,16 @@ const Step4 = (props) => {
                       />
                     </div>
 
-                    {
-                      props.tokenId ? (
-                        <p className="info"> {displayToken()} </p>
-                      ) : props.tokenMinted && props.tokenMinted.length > 0 ? (
-                        <p className="info"> {displayToken()} </p>
-                      ) : (
-                        ""
-                      )
-                      // props.tokenId ||(props.tokenMinted && props.tokenMinted.length >0) && (
-                      //   <p className="info"> {displayToken()} </p>
-                      // )
-                    }
+                    {props.tokenId ? (
+                      <p className="info"> {displayToken()} </p>
+                    ) : props.tokenMinted && props.tokenMinted.length > 0 ? (
+                      <p className="info"> {displayToken()} </p>
+                    ) : (
+                      ""
+                    )}
 
                     <p className="info ">ERC-721</p>
                     <p className="info ">Ethereum</p>
-                    {/* //if mint successfull */}
                   </div>
                 </div>
                 <div className="w-100 text-center ">
