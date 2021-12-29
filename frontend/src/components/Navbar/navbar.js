@@ -38,20 +38,20 @@ const Navbar = () => {
       </div>
 
       <div className="nav-links">
-        <AiFillHome className="home-icon " />
         <a
           className="navbar-item"
           href="#"
           target="_blank"
           style={{ color: "#ffd33e" }}
         >
+          <AiFillHome className="home-icon " />
           Home
         </a>
 
         {twitter && twitter.length > 0 && (
           <>
-            <BsTwitter className="home-icon " />
             <a className="navbar-item" href={twitter} target="_blank">
+              <BsTwitter className="home-icon " />
               Twitter
             </a>
           </>
@@ -59,8 +59,8 @@ const Navbar = () => {
 
         {discordLink && discordLink.length > 0 && (
           <>
-            <SiDiscord className="home-icon " />
             <a className="navbar-item" href={discordLink} target="_blank">
+              <SiDiscord className="home-icon " />
               Discord
             </a>
           </>
@@ -68,8 +68,8 @@ const Navbar = () => {
 
         {telegramLink && telegramLink.length > 0 && (
           <>
-            <FaTelegramPlane className="home-icon " />
             <a className="navbar-item" href={telegramLink} target="_blank">
+              <FaTelegramPlane className="home-icon " />
               Telegram
             </a>
           </>
@@ -77,8 +77,8 @@ const Navbar = () => {
 
         {redditLink && redditLink.length > 0 && (
           <>
-            <GrReddit className="home-icon " />
             <a className="navbar-item" href={redditLink} target="_blank">
+              <GrReddit className="home-icon " />
               Reddit
             </a>
           </>

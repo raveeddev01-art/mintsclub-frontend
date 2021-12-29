@@ -1,0 +1,23 @@
+.navbar-custom.navbar {
+  padding-left: 0;
+}
+.navbar-custom .navbar-brand-logo img {
+  width: 182px;
+  height: 50px;
+}
+.navbar-custom.bg-light {
+  background-color: transparent !important;
+}
+.navbar-custom .nav-link {
+  font-size: 14px;
+  font-weight: bold;
+}
+.navbar-custom .navbar-nav .nav-link.active {
+  color: #fcd70d !important;
+}
+
+@media (max-width: 992px) {
+  .home-icon {
+    display: none;
+  }
+}

@@ -198,6 +198,7 @@ const LevelsModal = (props) => {
                             >
                               Value
                             </label>
+
                             {/* <p style={{color:"red"}}>{"value should be less then total"}</p> */}
                             <div className="d-flex align-items-center  w-100">
                               <input

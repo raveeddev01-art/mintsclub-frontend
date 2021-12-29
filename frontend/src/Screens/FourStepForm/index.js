@@ -278,7 +278,7 @@ const FourStepForm = (props) => {
         ) : (
           ""
         )}
-        <div
+        {/* <div
           className="progress-bar-custom"
           style={{ width: "64%", margin: "14rem auto 0 auto" }}
         >
@@ -289,7 +289,7 @@ const FourStepForm = (props) => {
             now={currentStep * 25}
           />
           <p className="text-white text-center mt-2">{currentStep}/4</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

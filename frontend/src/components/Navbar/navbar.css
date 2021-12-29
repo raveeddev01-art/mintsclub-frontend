@@ -55,6 +55,7 @@
   font-size: 1.8rem;
   color: #42ccf3 !important;
   cursor: pointer !important;
+  margin-right: 10px;
 }
 
 @media (max-width: 600px) {
@@ -104,7 +105,7 @@
   }
   .nav > #nav-check:checked ~ .nav-links {
     margin-top: 25px;
-    height: 45vh;
+    height: 37vh;
     overflow-y: auto;
     overflow-x: hidden;
   }
