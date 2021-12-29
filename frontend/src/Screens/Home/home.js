@@ -58,7 +58,7 @@ const Home = (props) => {
                     className="text-white mint-title"
                     style={{ fontSize: "30px", fontWeight: "bold" }}
                   >
-                    Free..! Minting Always!!
+                    All you can Mint For <b>Free</b>
                   </p>
                   {/* <p className="text-white" style={{ fontSize: "20px" }}>
                     Lorem Ipsum is simply dummy text of the printing and
@@ -183,7 +183,9 @@ const Home = (props) => {
                         </p>
                       </div>
                       <div className=" ml-3 polygon position-relative">
-                        <span className="tooltiptext1 tooltiptext">Coming soon</span>
+                        <span className="tooltiptext1 tooltiptext">
+                          Coming soon
+                        </span>
                         <img
                           src={networksData[1].image}
                           alt="coming soon"
@@ -199,8 +201,10 @@ const Home = (props) => {
                         </p>
                       </div>
 
-                      <div className=" ml-3 cardano position-relative" >
-                        <span className="tooltiptext2 tooltiptext">Coming soon</span>
+                      <div className=" ml-3 cardano position-relative">
+                        <span className="tooltiptext2 tooltiptext">
+                          Coming soon
+                        </span>
                         <img
                           src={networksData[2].image}
                           alt="coming soon"
@@ -217,7 +221,9 @@ const Home = (props) => {
                       </div>
 
                       <div className=" ml-3 binance position-relative">
-                        <span className="tooltiptext3 tooltiptext">Coming soon</span>
+                        <span className="tooltiptext3 tooltiptext">
+                          Coming soon
+                        </span>
                         <img
                           src={networksData[3].image}
                           alt="coming soon"
@@ -229,7 +235,7 @@ const Home = (props) => {
                           className={`network-img   ${"selected-network"}`}
                         />
                         <p className="text-white mt-2">
-                        {"Binance"} <br /> {"SmartChain"}
+                          {"Binance"} <br /> {"SmartChain"}
                         </p>
                       </div>
                     </div>

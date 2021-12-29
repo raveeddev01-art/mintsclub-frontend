@@ -630,6 +630,7 @@ const mapStateToProps = (state) =>
     contractAddress: state.dashboard.contractAddress,
     tokenMinted: state.dashboard.tokenMinted,
     otpVerification: state.dashboard.otpVerification,
+    currentStep: state.dashboard.currentStep,
   });
 
 export default connect(mapStateToProps, {

@@ -40,10 +40,10 @@
   text-decoration: none !important;
 }
 /* ::placeholder { */
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  /* color: #ffffff !important;
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+/* color: #ffffff !important;
   opacity: 0.8;  */
-  /* Firefox */
+/* Firefox */
 /* } */
 .step4-btn {
   padding: 0.55rem 1rem !important;
@@ -114,6 +114,9 @@
 }
 .discord-container {
   padding-left: 20px;
+}
+.progress-bar-green .progress-bar {
+  background-color: green !important;
 }
 @media (max-width: 768px) {
   .discord-container.discordJoinCls.w-50 {

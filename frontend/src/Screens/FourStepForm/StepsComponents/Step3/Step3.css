@@ -51,6 +51,6 @@
   overflow-y: auto;
 }
 .properties-tooltip.tooltiptext {
-  bottom: 26px !important;
+  top: -58px !important;
   left: 0 !important;
 }

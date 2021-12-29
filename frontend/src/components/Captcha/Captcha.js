@@ -9,15 +9,12 @@ class ReactCaptcha extends Component {
     super(props, ...args);
     this.state = {
       isValidate: false,
-      isVisible: false
+      isVisible: false,
     };
   }
-onRefresh=()=>{
-
-}
+  onRefresh = () => {};
 
   render() {
-
     return (
       <div className="App">
         <ReCAPTCHA
@@ -26,16 +23,19 @@ onRefresh=()=>{
           onloadCallback={this.props.handleVisible}
           verifyCallback={this.props.handleCaptcha}
           onRefresh={this.onRefresh}
-          
         />
         {this.props.isVisible ? null : (
-          <Captcha onChange={this.props.handleCaptcha} onRefresh={this.onRefresh}  placeholder="Enter captcha" />
+          <Captcha
+            onChange={this.props.handleCaptcha}
+            onRefresh={this.onRefresh}
+            placeholder="Enter captcha"
+          />
         )}
       </div>
     );
   }
 }
 
-export default  ReactCaptcha
+export default ReactCaptcha;
 // const rootElement = document.getElementById("root");
 // ReactDOM.render(<ReactCaptcha />, rootElement);

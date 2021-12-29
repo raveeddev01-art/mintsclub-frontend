@@ -6,7 +6,7 @@
 * Version  : 1.0
 * Author   : Themeland
 * Support  : hridoy1272@gmail.com
-* 
+*
 ----------------------------------------------*/
 
 /*----------------------------------------------
@@ -28,8 +28,8 @@
 1. Import
 2. Root
 3. Reset
-4. General 
-5. Section 
+4. General
+5. Section
 6. Helper Class
 7. Header
 8. Feature
@@ -40,7 +40,6 @@
 13. All Media Queries
 
 ----------------------------------------------*/
-
 
 /*----------------------------------------------
 1. Import
@@ -68,7 +67,7 @@
 
     --h1-size: 4rem;
     --h1-weight: 900;
-    
+
     --h2-size: 3rem;
     --h2-weight: 700;
 
@@ -83,7 +82,7 @@
 
     --h6-size: 1rem;
     --h6-weight: 600;
-    
+
     --p-size: 1rem;
     --p-weight: 400;
 
@@ -1107,17 +1106,17 @@ header {
     position: relative;
     z-index: 999;
     .navbar-sticky {
-        top: 0;
-        background-color: var(--header-bg-color);
-        box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.09);
-        transition: all .15s ease-out 0s!important;
-        &.hidden {
-            transform: translate3d(0, -101%, 0)!important;
-        }
-        &.visible {
-            transform: translate3d(0,0,0)!important;
-        }
-    }
+    //     top: 0;
+    //     background-color: var(--header-bg-color);
+    //     box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.09);
+    //     transition: all .15s ease-out 0s!important;
+    //     &.hidden {
+    //         transform: translate3d(0, -101%, 0)!important;
+    //     }
+    //     &.visible {
+    //         transform: translate3d(0,0,0)!important;
+    //     }
+    // }
     .navbar-expand {
         position: fixed;
         top: 0;
@@ -2967,3 +2966,4 @@ header {
 }
 
 /* #endregion All Media Queries */
+}

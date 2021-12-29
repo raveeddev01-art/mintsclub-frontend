@@ -105,7 +105,7 @@
   }
   .nav > #nav-check:checked ~ .nav-links {
     margin-top: 25px;
-    height: 45vh;
+    height: 37vh;
     overflow-y: auto;
     overflow-x: hidden;
   }

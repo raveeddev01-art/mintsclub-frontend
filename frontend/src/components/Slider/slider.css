@@ -149,6 +149,8 @@
     width: 77vw !important;
   }
 }
+@media (max-width: 470px) {
+}
 
 @media (max-width: 460px) {
   .nfts-title-container {
@@ -176,4 +178,12 @@
     right: 0 !important;
     margin-left: -50px !important;
   }
+  /* .slick-prev {
+    left: 12rem !important;
+    top: -4.3rem !important;
+  }
+  .slick-next {
+    left: 14.5rem !important;
+    top: -4.3rem !important;
+  } */
 }
