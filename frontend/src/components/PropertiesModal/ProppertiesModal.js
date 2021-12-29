@@ -124,8 +124,8 @@ const BasicModal = (props) => {
               style={{
                 height: `${
                   propertiesValues && propertiesValues.length > 0
-                    ? " 12vh"
-                    : "7vh"
+                    ? " 7.95rem"
+                    : "7.95rem"
                 }`,
               }}
             >

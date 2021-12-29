@@ -149,7 +149,7 @@ const LevelsModal = (props) => {
                 className="row levels-scroll p-3 "
                 style={{
                   height: `${
-                    levelsInputs && levelsInputs.length > 0 ? "12.5vh" : "7vh"
+                    levelsInputs && levelsInputs.length > 0 ? "7.95rem" : "7.95rem"
                   }`,
                 }}
               >
