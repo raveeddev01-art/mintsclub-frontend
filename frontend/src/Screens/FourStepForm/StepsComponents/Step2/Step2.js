@@ -84,6 +84,7 @@ const Step2 = (props) => {
   };
 
   const onSubmit = (e) => {
+    // props.scrollToTop()
     let validatePointer = true;
     e.preventDefault();
     // console.log(name, "name==>");
