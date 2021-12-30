@@ -166,7 +166,7 @@ const BasicModal = (props) => {
                               placeholder="Name"
                               value={item.name || ""}
                               maxLength="40"
-                              autocomplete="off"
+                              autoComplete="off"
                               style={{
                                 backgroundColor: "#000e29 !important",
                                 maxWidth: "84%",
@@ -209,7 +209,7 @@ const BasicModal = (props) => {
                                 placeholder="Value"
                                 value={item.value || ""}
                                 maxLength="40"
-                                autocomplete="off"
+                                autoComplete="off"
                                 style={{
                                   backgroundColor: "#000e29 ",
                                   maxWidth: "84%",

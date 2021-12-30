@@ -23,5 +23,7 @@ export const CONTRACT_ADDRESS="CONTRACT_ADDRESS"
 export const SET_PROPERTIES='SET_PROPERTIES'
 export const SET_LEVELS='SET_LEVELS'
 
+export const SET_OTP_EMAIL='SET_OTP_EMAIL'
+
 //otp verificaiton 
 export const SET_OTP_STATUS='SET_OTP_STATUS'

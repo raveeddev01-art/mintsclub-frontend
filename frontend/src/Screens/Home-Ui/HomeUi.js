@@ -49,11 +49,11 @@ const HomeUi = (props) => {
               <div className="hero-content-heading">
                 <h1>Let's Mint Your NFTs</h1>
                 <h6>
-                  "Mint As Much You Can For{" "}
+                  Mint As Much You Can For{" "}
                   <span>
                     <b>Free</b>
                   </span>
-                  "
+                  
                 </h6>
               </div>
               <div className="hero-network">

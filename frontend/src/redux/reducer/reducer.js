@@ -42,6 +42,7 @@ const initialState = {
   properties:[],
   levels:[],
   otpVerification:false,
+  otpEmail:''
 
 };
 
@@ -73,6 +74,9 @@ export default function (state = initialState, action) {
         loader:false,
         contractAddress:"",
         tokenMinted:[],
+        properties:[],
+        levels:[],
+        otpVerification:false,
       };
     case SET_CONTRACT_INFO:
    

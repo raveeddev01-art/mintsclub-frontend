@@ -190,7 +190,7 @@ const LevelsModal = (props) => {
                               value={item.name || ""}
                               placeholder="Name"
                               maxLength="50"
-                              autocomplete="off"
+                              autoComplete="off"
                               style={{
                                 backgroundColor: "#000e29",
                                 maxWidth: "84%",
@@ -241,7 +241,7 @@ const LevelsModal = (props) => {
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.value || ""}
                                 placeholder="Value"
-                                autocomplete="off"
+                                autoComplete="off"
                                 name="value"
                                 style={{
                                   backgroundColor: "#000e29",
