@@ -244,7 +244,7 @@ const Step3 = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
+  // console.log(state, "state"),
   {
     currentStep: state.dashboard.currentStep,
     levels: state.dashboard.levels,

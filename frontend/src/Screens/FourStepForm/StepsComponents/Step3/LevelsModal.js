@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AddBtnImage from "../../../../assets/images/Add Button.svg";
 import LevelsModal from "../../../../components/LevelsModal/LevelsModal";
 const LevelModal = (props)=>{
-debugger
+
 const [openLevelModal, setOpenLevelModal] = useState(false);
 
   const handleOpenLevel = () => setOpenLevelModal(true);

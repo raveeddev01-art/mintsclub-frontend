@@ -220,6 +220,8 @@ const Step4 = (props) => {
     }
   };
   const handleOtpVerification = () => {
+
+
     if (!otp.trim()) {
       setOtpError(true);
     } else {
@@ -621,6 +623,7 @@ const mapStateToProps = (state) =>
     currentStep: state.dashboard.currentStep,
     levels: state.dashboard.levels,
     properties: state.dashboard.properties,
+    otpEmail: state.dashboard.otpEmail,
   });
 
 export default connect(mapStateToProps, {

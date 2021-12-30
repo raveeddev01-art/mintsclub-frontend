@@ -17,6 +17,7 @@ import {
   SET_PROPERTIES,
   SET_LEVELS,
   SET_OTP_STATUS,
+  SET_OTP_EMAIL
 } from '../types/types';
 
 import { ENV } from '../../config/config';
@@ -59,6 +60,12 @@ export const setLevels = (data) => (dispatch) => {
     payload: data,
   });
 };
+export const setOtpEmail=(data)=>(dispatch)=>{
+  dispatch({
+    type: SET_OTP_EMAIL,
+    payload: data,
+  });
+}
 
 export const sendOtp = (data) => (dispatch) => {
   const config = {
@@ -72,7 +79,7 @@ export const sendOtp = (data) => (dispatch) => {
   axios.post(url, data, config).then(
     (res) => {
       //  alert("email sent")
-      console.log(res);
+      // console.log(res);
       if (res.status === 200) {
         //  toast.success("Otp Verification Code sent to ")
       }
@@ -110,6 +117,14 @@ export const verifyOtp = (email, otp) => (dispatch) => {
 
   axios.post(url, data, config).then(
     (res) => {
+      console.log(res,"res")
+      if(res.data.email){
+
+        if(res.data.email!==email){
+          toast.error('Invalid Email or OTP');
+          return " "
+        }
+      }
 
     if(res.data.status==false){
       toast.error(res.data.message);
@@ -117,7 +132,8 @@ export const verifyOtp = (email, otp) => (dispatch) => {
     }
 
       if (res.data.status === true) {
-        console.log("true")
+        
+        setOtpEmail(res.data.data[0].email)
         toast.success(res.data.message);
         if (res.data.diffMins < -10) {
           toast.error('Token is  Expired ,Please resend token & try again');
@@ -135,15 +151,14 @@ export const verifyOtp = (email, otp) => (dispatch) => {
         toast.error(res.data.message);
       }
     },
-    (err) => {}
+    (err) => {
+     toast.error("Invalid OTP or Email")
+    }
   );
 };
 
 export const deployContract = (data, address, supply) => (dispatch) => {
-  // dispatch({
-  //   type: CONNECT_WELLET,
-  //   payload: address,
-  // });
+
 
   dispatch({
     type: LOADER,
@@ -256,7 +271,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
         // console.log(res);
       },
       (error) => {
-        console.log(error, 'error handle');
+        // console.log(error, 'error handle');
         toast.error(error.response.data.data);
         dispatch({
           type: LOADER,

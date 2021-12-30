@@ -19,7 +19,7 @@ const Step1 = (props) => {
   // console.log(process.env,"config.baseurl===>")
 
   useEffect(() => {
-    console.log(videoUrl);
+    // console.log(videoUrl);
   }, [videoUrl]);
   const onFileChange = (event) => {
     setErrorMessage("");
@@ -132,11 +132,11 @@ const Step1 = (props) => {
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
           setErrorMessage("File size limit is exceeded");
         } else {
-          console.log(files.type, "files.type");
+        
 
           let url = URL.createObjectURL(files);
           if (files.type === "video/mp4") {
-            console.log("setting video url");
+       
 
             setVideoUrl(url);
             props.handleStep1Info(file, videoUrl, img);

@@ -42,6 +42,7 @@ const initialState = {
   properties:[],
   levels:[],
   otpVerification:false,
+  otpEmail:''
 
 };
 
