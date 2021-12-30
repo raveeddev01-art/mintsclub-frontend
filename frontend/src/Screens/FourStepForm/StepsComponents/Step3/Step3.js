@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import PropertiesImage from "../../../../assets/images/Properties.svg";
 import AddBtnImage from "../../../../assets/images/Add Button.svg";
@@ -40,6 +40,7 @@ const Step3 = (props) => {
   //   setOpenLevelModal(false);
   // };
 
+
   const onSubmit = (propertiesField) => {
     props.setProperties(propertiesField);
   };
@@ -52,7 +53,7 @@ const Step3 = (props) => {
   }
 
   return (
-    <div className="step3-container " style={{ height: "45vh" }}>
+    <div className="step3-container "  style={{ height: "45vh" }}>
       {/* ///////////////////// */}
       <Accordion
         className="transBG"

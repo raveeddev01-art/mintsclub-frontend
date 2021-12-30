@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 import { useHistory } from "react-router-dom";
 import {
   currentStepAction,
@@ -53,6 +53,10 @@ const FourStepForm = (props) => {
    
   const [visible, setVisible] = useState(false)
   const { currentStep } = props;
+  const scrollRef=useRef()
+  useEffect(()=>{
+    scrollRef.current.scrollTo(0, 0);
+   },[currentStep])
 
   const handleGoBack = () => {
     if(props.mintingResponse){
@@ -225,7 +229,7 @@ const FourStepForm = (props) => {
 
   // window.addEventListener('scroll', toggleVisible);
   return (
-    <div className="home-container steps-container">
+    <div className="home-container steps-container" ref={scrollRef} >
       <div className="steps ">
         <div className="steps-menu py-5">
           {currentStep > 0 && (
