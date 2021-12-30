@@ -207,7 +207,7 @@ const Step1 = (props) => {
         </div>
       )}
 
-      <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
+      {/* <p style={{ color: "red" }}>{errorMessage && errorMessage}</p> */}
       <Grid container style={{ justifyContent: "space-between" }}>
         <Grid item md={6}>
           {!img ? (
@@ -250,6 +250,7 @@ const Step1 = (props) => {
                       </div>
                     </div>
                   </label>
+                  <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
                   <div
                     onDrop={(e) => onDrop(e)}
                     onDragOver={(e) => dragOver(e)}
@@ -400,7 +401,7 @@ const Step1 = (props) => {
             </>
           )}
         </Grid>
-        <Grid item md={5}>
+        <Grid item md={5} className="d-none d-md-block">
           <Typography className="text-white" textAlign="justify">
             <strong>Do you know? </strong>
             10% of the world’s GDP will be tokenized by 2027. Source: World

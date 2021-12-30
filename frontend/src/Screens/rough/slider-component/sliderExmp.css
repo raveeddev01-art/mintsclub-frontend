@@ -153,6 +153,19 @@
   }
   .hero-slider-conatiner .carousel .carousel-control-prev {
     left: 75%;
+    z-index: 10;
+  }
+}
+
+@media (max-width: 410px) {
+  .hero-slider-conatiner .carousel .carousel-control-next {
+    top: 30px;
+    z-index: 10;
+  }
+  .hero-slider-conatiner .carousel .carousel-control-prev {
+    top: 30px;
+    left: 75%;
+    z-index: 10;
   }
 }
 

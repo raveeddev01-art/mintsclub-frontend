@@ -18,10 +18,11 @@ const Step2 = (props) => {
   const [linkError, setLinkError] = useState(false);
 
   const dataDescription = {
-    supply: "The number of copies that can be minted.",
-    externalLink:
-      "A link to this item's detail page, so that users can click to learn more about it. You are welcome to link to your own webpage with more details.",
-    symbol: "Symbol for the NFT contract",
+    name: "Name of NFT contract",
+    supply: "Number of NFTs to mint",
+    externalLink: "Link of NFT details page",
+    symbol: "Symbol for NFT contract",
+    description: "Description of NFT",
   };
 
   const patternValidation = (val) => {
@@ -132,10 +133,12 @@ const Step2 = (props) => {
             </div>
             <div className="d-flex " style={{ flexDirection: "column" }}>
               <div className="position-relative">
-                <label className="text-white step-2-label">Name</label>
+                <label className="text-white step-2-label">
+                  Name <InfoComp text={dataDescription.name} />
+                </label>
                 <p
                   className="position-absolute"
-                  style={{ color: "red", top: "0", left: "3.8rem" }}
+                  style={{ color: "red", bottom: "-6px", left: "52px" }}
                 >
                   *
                 </p>
@@ -241,7 +244,9 @@ const Step2 = (props) => {
             </div>
             {/* //////////////////////// */}
             <div className="d-flex  mt-4" style={{ flexDirection: "column" }}>
-              <label className="text-white step-2-label">Description</label>
+              <label className="text-white step-2-label">
+                Description <InfoComp text={dataDescription.description} />
+              </label>
 
               {/* <p className="" style={{ maxWidth: "80%", color: "#A9A9A9" }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting

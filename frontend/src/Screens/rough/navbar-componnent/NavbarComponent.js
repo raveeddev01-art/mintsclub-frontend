@@ -31,8 +31,8 @@ const NavbarComponent = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link href="#" className="active">
+          <Nav className="ms-auto" activeKey="/">
+            <Nav.Link href="/">
               <AiFillHome className="home-icon " /> Home
             </Nav.Link>
             <Nav.Link href={twitter} target="_blank">

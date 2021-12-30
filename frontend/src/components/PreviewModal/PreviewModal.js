@@ -370,7 +370,7 @@ const PreviewModal = (props) => {
               )}
               <button
                 type="button"
-                className="btn btn-secondary preview-btn mb-4"
+                className="btn btn-secondary preview-btn mb-3"
                 disabled={props.maxLimit && previewModalStep > 1 ? true : false}
                 onClick={() => handleNextStep()}
               >

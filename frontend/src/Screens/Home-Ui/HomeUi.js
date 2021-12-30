@@ -34,7 +34,7 @@ const HomeUi = (props) => {
     { name: "Ethereum", image: Ethereum },
     { name: "Polygon", image: Polygon },
     { name: "Cardano", image: Cardano },
-    { name: "Binance SmartChain", image: Binance },
+    { name: "BinanceSC", image: Binance },
   ];
 
   const history = useHistory();
@@ -83,13 +83,7 @@ const HomeUi = (props) => {
                               : "network-title-white"
                           }`}
                         >
-                          {item.name === "Binance SmartChain" ? (
-                            <p>
-                              {"Binance"} <br /> {"SmartChain"}
-                            </p>
-                          ) : (
-                            item.name
-                          )}
+                          {item.name}
                         </p>
                       </div>
                     );

@@ -23,7 +23,7 @@ const style = {
 
 const BasicModal = (props) => {
   const [propertiesValues, setPropertiesValues] = React.useState(
-  props.properties
+    props.properties
   );
   const [addMore, setAddMore] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -35,7 +35,6 @@ const BasicModal = (props) => {
     setPropertiesValues([...propertiesValues, { name: "", value: "" }]);
   };
 
-  
   let handleChange = (i, e) => {
     setError(false);
     let newFormValues = [...propertiesValues];
@@ -144,10 +143,20 @@ const BasicModal = (props) => {
                             style={{ flexDirection: "column" }}
                           >
                             <label
-                              className="text-white"
+                              className="text-white position-relative"
                               style={{ fontSize: "1.2rem", fontWeight: "bold" }}
                             >
-                              Name
+                              Name{" "}
+                              <span
+                                className="position-absolute"
+                                style={{
+                                  color: "red",
+                                  bottom: "3px",
+                                  left: "53px",
+                                }}
+                              >
+                                *
+                              </span>
                             </label>
                             <input
                               className="step3-input mt-2 "
@@ -173,13 +182,23 @@ const BasicModal = (props) => {
                             style={{ flexDirection: "column" }}
                           >
                             <label
-                              className="text-white"
+                              className="text-white position-relative"
                               style={{
                                 fontSize: "1.2rem",
                                 fontWeight: "bold",
                               }}
                             >
-                              Value
+                              Value{" "}
+                              <span
+                                className="position-absolute"
+                                style={{
+                                  color: "red",
+                                  bottom: "3px",
+                                  left: "52px",
+                                }}
+                              >
+                                *
+                              </span>
                             </label>
                             <div className="d-flex align-items-center w-100">
                               <input
@@ -251,8 +270,8 @@ const mapStateToProps = (state) =>
   // console.log(state, "state"),
   ({
     currentStep: state.dashboard.currentStep,
-    levels:state.dashboard.levels,
-    properties:state.dashboard.properties,
+    levels: state.dashboard.levels,
+    properties: state.dashboard.properties,
   });
 
 export default connect(mapStateToProps, {

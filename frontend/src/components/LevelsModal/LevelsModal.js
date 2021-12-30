@@ -149,7 +149,9 @@ const LevelsModal = (props) => {
                 className="row levels-scroll p-3 "
                 style={{
                   height: `${
-                    levelsInputs && levelsInputs.length > 0 ? "7.95rem" : "7.95rem"
+                    levelsInputs && levelsInputs.length > 0
+                      ? "7.95rem"
+                      : "7.95rem"
                   }`,
                 }}
               >
@@ -164,10 +166,20 @@ const LevelsModal = (props) => {
                             style={{ flexDirection: "column" }}
                           >
                             <label
-                              className="text-white"
+                              className="text-white position-relative"
                               style={{ fontSize: "1.2rem", fontWeight: "bold" }}
                             >
                               Name
+                              <span
+                                className="position-absolute"
+                                style={{
+                                  color: "red",
+                                  bottom: "3px",
+                                  left: "53px",
+                                }}
+                              >
+                                *
+                              </span>
                             </label>
 
                             <input
@@ -193,10 +205,20 @@ const LevelsModal = (props) => {
                             style={{ flexDirection: "column" }}
                           >
                             <label
-                              className="text-white"
+                              className="text-white position-relative"
                               style={{ fontSize: "1.2rem", fontWeight: "bold" }}
                             >
-                              Value
+                              Value{" "}
+                              <span
+                                className="position-absolute"
+                                style={{
+                                  color: "red",
+                                  bottom: "3px",
+                                  left: "52px",
+                                }}
+                              >
+                                *
+                              </span>
                             </label>
 
                             {/* <p style={{color:"red"}}>{"value should be less then total"}</p> */}
@@ -209,7 +231,13 @@ const LevelsModal = (props) => {
                                 }`}
                                 type="number"
                                 min="1"
-                                max={item.total=="0"?"1":item.total ? item.total : "1"}
+                                max={
+                                  item.total == "0"
+                                    ? "1"
+                                    : item.total
+                                    ? item.total
+                                    : "1"
+                                }
                                 onChange={(e) => handleChange(i, e)}
                                 value={item.value || ""}
                                 placeholder="Value"
