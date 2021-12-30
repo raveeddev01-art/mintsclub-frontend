@@ -59,6 +59,15 @@ const Step4 = (props) => {
     //   setIsvalidate(true);
     // }
   };
+  const checkInternetConnection = () => {
+    var ifConnected = window.navigator.onLine;
+    if (!ifConnected) {
+      toast.error("Internet Connection not available!");
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const onChangeEmail = (e) => {
     setError(false);
@@ -73,6 +82,7 @@ const Step4 = (props) => {
 
   const submitCaptcha = () => {
     // console.log(captchaStatus, "captchaStatus");
+    if (checkInternetConnection()) {
     if (email && emailValidate()) {
       if (captchaStatus) {
         // setIsvalidate(true);
@@ -89,6 +99,7 @@ const Step4 = (props) => {
       setEmailError(true);
       setErrorMessage("Please proivde Email.");
     }
+  }
   };
 
   const onConnect = () => {
@@ -138,7 +149,7 @@ const Step4 = (props) => {
   };
 
   const onReload = () => {
-    debugger;
+ 
     if (!email) {
       setEmailError(true);
       setErrorMessage("Email is required");
@@ -158,27 +169,31 @@ const Step4 = (props) => {
   };
 
   const onMint = () => {
-    if (email === "") {
-      setError(true);
-      return "";
+    if (checkInternetConnection()) {
+      if (email === "") {
+        setError(true);
+        return "";
+      }
+
+      getNetworkNameByChainId()
+        .then((network) => {
+          // console.log(network,"network==>")
+          // console.log(props,"props==>9")
+          if (network === props.connectedNetwork || !props.connectedNetwork) {
+            setLoadingMessage("Please wait your NFT is Minting...");
+
+            setDeploy(true);
+            props.handleStep4Info(email, deployNetwork);
+
+            props.handleMinting(props.contractInfo, email);
+          } else {
+            toast.error(
+              `Please connect with ${props.connectedNetwork} network`
+            );
+          }
+        })
+        .catch((err) => {});
     }
-
-    getNetworkNameByChainId()
-      .then((network) => {
-        // console.log(network,"network==>")
-        // console.log(props,"props==>9")
-        if (network === props.connectedNetwork || !props.connectedNetwork) {
-          setLoadingMessage("Please wait your NFT is Minting...");
-
-          setDeploy(true);
-          props.handleStep4Info(email, deployNetwork);
-
-          props.handleMinting(props.contractInfo, email);
-        } else {
-          toast.error(`Please connect with ${props.connectedNetwork} network`);
-        }
-      })
-      .catch((err) => {});
   };
   useEffect(() => {}, [props.connectedAddressFlag]);
 
@@ -202,11 +217,13 @@ const Step4 = (props) => {
   };
 
   const onDeploy = () => {
-    setPreviewModal(false);
-    setLoadingMessage("Please wait your contract is Deploying...");
-    setDeploy(true);
-    props.handleStep4Info(email, deployNetwork);
-    props.handleDeployment();
+    if (checkInternetConnection()) {
+      setPreviewModal(false);
+      setLoadingMessage("Please wait your contract is Deploying...");
+      setDeploy(true);
+      props.handleStep4Info(email, deployNetwork);
+      props.handleDeployment();
+    }
   };
   // console.log(props,"tokenId===>")
   const displayToken = () => {
@@ -220,15 +237,17 @@ const Step4 = (props) => {
     }
   };
   const handleOtpVerification = () => {
-
-
-    if (!otp.trim()) {
-      setOtpError(true);
-    } else {
-      props.verifyOtp(email, otp);
+    if (checkInternetConnection()) {
+      if (!otp.trim()) {
+        setOtpError(true);
+      } else {
+        props.verifyOtp(email, otp);
+      }
     }
   };
   const sendEmailOtp = () => {
+    if (checkInternetConnection()) {
+      console.log(checkInternetConnection())
     if (emailValidate()) {
       let data = {
         email,
@@ -236,6 +255,7 @@ const Step4 = (props) => {
       toast.success(`Verification OTP code is sent to ${email}`);
       props.sendOtp(data);
     }
+  }
   };
   // console.log(props);
   return (
@@ -538,7 +558,7 @@ const Step4 = (props) => {
                       <MdContentCopy
                         onClick={() => {
                           copy(props?.contractAddress);
-                          toast.success("Address Copied!")
+                          toast.success("Address Copied!");
                         }}
                         style={{
                           color: "white",
