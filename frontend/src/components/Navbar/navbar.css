@@ -110,8 +110,3 @@
     overflow-x: hidden;
   }
 }
-@media screen and (max-width: 948px) {
-  .home-icon {
-    display: none !important;
-  }
-}
