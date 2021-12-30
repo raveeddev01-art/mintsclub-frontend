@@ -216,7 +216,7 @@ const Step1 = (props) => {
                 <>
                   <label
                     className="text-center d-flex mt-2"
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer",maxWidth:"25rem" }}
                   >
                     <div
                       className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
