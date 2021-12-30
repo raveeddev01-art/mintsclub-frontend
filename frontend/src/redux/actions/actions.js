@@ -110,8 +110,15 @@ export const verifyOtp = (email, otp) => (dispatch) => {
 
   axios.post(url, data, config).then(
     (res) => {
-      toast.success(res.data.message);
+
+    if(res.data.status==false){
+      toast.error(res.data.message);
+      return " "
+    }
+
       if (res.data.status === true) {
+        console.log("true")
+        toast.success(res.data.message);
         if (res.data.diffMins < -10) {
           toast.error('Token is  Expired ,Please resend token & try again');
           return ' ';
@@ -122,6 +129,10 @@ export const verifyOtp = (email, otp) => (dispatch) => {
             payload: true,
           });
         }
+      }
+      else {
+        // console.log("error")
+        toast.error(res.data.message);
       }
     },
     (err) => {}

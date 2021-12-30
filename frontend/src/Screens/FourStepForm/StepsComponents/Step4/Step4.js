@@ -536,6 +536,7 @@ const Step4 = (props) => {
                       <MdContentCopy
                         onClick={() => {
                           copy(props?.contractAddress);
+                          toast.success("Address Copied!")
                         }}
                         style={{
                           color: "white",
@@ -580,6 +581,8 @@ const Step4 = (props) => {
         handlePreviewModalSteps={handlePreviewModalSteps}
         previewModalStep={previewModalStep}
         onDeploy={onDeploy}
+        properties={props.properties}
+        levels={props.levels}
         info={props.info}
         maxLimit={maxLimit}
       />
@@ -616,6 +619,8 @@ const mapStateToProps = (state) =>
     tokenMinted: state.dashboard.tokenMinted,
     otpVerification: state.dashboard.otpVerification,
     currentStep: state.dashboard.currentStep,
+    levels: state.dashboard.levels,
+    properties: state.dashboard.properties,
   });
 
 export default connect(mapStateToProps, {

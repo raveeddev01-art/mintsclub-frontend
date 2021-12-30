@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import AddBtnImage from "../../../../assets/images/Add Button.svg";
 import PropertiesModal from "../../../../components/PropertiesModal/ProppertiesModal";
 const PropertyModal = (props)=>{
-debugger
+// debugger
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

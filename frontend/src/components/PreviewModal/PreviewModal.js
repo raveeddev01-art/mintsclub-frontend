@@ -236,8 +236,8 @@ const PreviewModal = (props) => {
                     overflowX: "hidden",
                   }}
                 >
-                  {info.properties && info.properties.length > 0 ? (
-                    info.properties.map((item, index) => {
+                  {props.properties && props.properties.length > 0 ? (
+                    props.properties.map((item, index) => {
                       return (
                         <div
                           className="row justify-content-between"
@@ -287,8 +287,8 @@ const PreviewModal = (props) => {
                   <p className="text-white preview-levels-title ml-3">
                     Levels{" "}
                   </p>
-                  {info.levels && info.levels.length > 0 ? (
-                    info.levels.map((item, index) => {
+                  {props.levels && props.levels.length > 0 ? (
+                    props.levels.map((item, index) => {
                       return (
                         <div className="row" key={index}>
                           <div
