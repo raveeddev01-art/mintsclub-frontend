@@ -22,11 +22,31 @@
   color: #ffffff;
   padding: 0.7rem 1rem;
 }
+.values-total-inp {
+  align-items: center;
+}
 @media (max-width: 690px) {
   .css-1i2drx0 {
     width: 500px !important;
   }
   .levels-cross-icon {
     right: -8px !important;
+  }
+}
+@media (max-width: 469.9px) {
+  .values-total-inp {
+    flex-direction: column;
+    align-items: normal !important;
+    justify-content: normal !important;
+  }
+  .name-inp {
+    max-width: 100% !important;
+    width: 100%;
+  }
+  .values-total-inp .values-inp {
+    width: 100% !important;
+  }
+  .values-total-inp .total-inp {
+    width: 100% !important;
   }
 }

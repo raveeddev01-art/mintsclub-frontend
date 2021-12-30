@@ -24,8 +24,8 @@ import InfoComp from "../../infoComp";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 /////////////////
 import { ProgressBar } from "react-bootstrap";
-import PropertyModal from './PropertyModal';
-import LevelModal from './LevelsModal';
+import PropertyModal from "./PropertyModal";
+import LevelModal from "./LevelsModal";
 
 const Step3 = (props) => {
   // const [open, setOpen] = useState(false);
@@ -78,7 +78,7 @@ const Step3 = (props) => {
                   <span className="infoIcon position-relative">
                     <BsFillInfoCircleFill />{" "}
                     <span className="tooltiptext properties-tooltip">
-                      Textual Traits of the NFTs
+                      Textual Traits Of NFTs
                     </span>
                   </span>
                 </p>
@@ -88,7 +88,10 @@ const Step3 = (props) => {
                   className="ml-3"
                   style={{ height: "1.5rem", cursor: "pointer" }}
                 /> */}
-                <PropertyModal propertiesValues={props.properties} onSubmit={onSubmit}/>
+                <PropertyModal
+                  propertiesValues={props.properties}
+                  onSubmit={onSubmit}
+                />
               </div>
               <p className="text-white mt-1">
                 Textual traits that show up as a rectangles
@@ -113,12 +116,23 @@ const Step3 = (props) => {
                 props.properties.map((property, i) => {
                   return (
                     <>
-                      <Grid className="py-2 text-white list-item" item xs={6}>
-                        {property.name}
-                      </Grid>
-                      <Grid className="py-2 text-white list-item" item xs={6}>
-                        {property.value}
-                      </Grid>
+                      <>
+                        <Grid
+                          className="py-2 text-white list-item break-word pr-1"
+                          item
+                          xs={6}
+                        >
+                          {property.name}
+                        </Grid>
+                        <Grid
+                          className="py-2 text-white list-item break-word pl-1"
+                          item
+                          xs={6}
+                        >
+                          {property.value}
+                        </Grid>
+                      </>
+                      <span className="grid-divider"></span>
                     </>
                   );
                 })
@@ -151,11 +165,14 @@ const Step3 = (props) => {
                   <span className="infoIcon position-relative">
                     <BsFillInfoCircleFill />{" "}
                     <span className="tooltiptext properties-tooltip">
-                      Textual Traits of the NFTs
+                      Numerical Traits Of NFTs
                     </span>
                   </span>
                 </p>
-                <LevelModal levels={props.levels} onSubmitLevels={onSubmitLevels} />
+                <LevelModal
+                  levels={props.levels}
+                  onSubmitLevels={onSubmitLevels}
+                />
               </div>
               <p className="text-white mt-1">
                 Numerical traits that show as a progress bar
@@ -184,15 +201,22 @@ const Step3 = (props) => {
                 props.levels.map((level, i) => {
                   return (
                     <>
-                      <Grid className="py-2 text-white list-item" item xs={4}>
-                        {level.name}
-                      </Grid>
-                      <Grid className="py-2 text-white list-item" item xs={4}>
-                        {level.value}
-                      </Grid>
-                      <Grid className="py-2 text-white list-item" item xs={4}>
-                        {level.total}
-                      </Grid>
+                      <>
+                        <Grid
+                          className="py-2 text-white list-item break-word"
+                          item
+                          xs={4}
+                        >
+                          {level.name}
+                        </Grid>
+                        <Grid className="py-2 text-white list-item" item xs={4}>
+                          {level.value}
+                        </Grid>
+                        <Grid className="py-2 text-white list-item" item xs={4}>
+                          {level.total}
+                        </Grid>
+                      </>
+                      <span className="grid-divider"></span>
                     </>
                   );
                 })
@@ -244,14 +268,13 @@ const Step3 = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
+const mapStateToProps = (state) =>
   // console.log(state, "state"),
-  {
+  ({
     currentStep: state.dashboard.currentStep,
     levels: state.dashboard.levels,
     properties: state.dashboard.properties,
-  }
-);
+  });
 
 export default connect(mapStateToProps, {
   currentStepAction,

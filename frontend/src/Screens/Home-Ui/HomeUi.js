@@ -34,7 +34,7 @@ const HomeUi = (props) => {
     { name: "Ethereum", image: Ethereum },
     { name: "Polygon", image: Polygon },
     { name: "Cardano", image: Cardano },
-    { name: "BinanceSC", image: Binance },
+    { name: "BSC", image: Binance },
   ];
 
   const history = useHistory();
@@ -53,7 +53,6 @@ const HomeUi = (props) => {
                   <span>
                     <b>Free</b>
                   </span>
-                  
                 </h6>
               </div>
               <div className="hero-network">

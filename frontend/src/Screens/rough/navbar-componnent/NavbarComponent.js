@@ -26,7 +26,7 @@ const NavbarComponent = () => {
         variant="dark"
         className="navbar-custom align-items-center"
       >
-        <Navbar.Brand href="#" className="navbar-brand-logo">
+        <Navbar.Brand href="/" className="navbar-brand-logo">
           <img src={MintsClub} alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

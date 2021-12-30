@@ -26,6 +26,26 @@
   font-size: 20px !important;
   font-weight: 500;
 }
+.infoIcon {
+  font-size: 14px;
+}
+.tooltiptext {
+  visibility: hidden;
+  width: 125px;
+  background-color: rgba(252, 215, 13, 0.9) !important;
+  color: #001d43;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 5px;
+  font-size: 10px;
+  position: absolute;
+  bottom: 13px;
+  left: 10px;
+  z-index: 99;
+}
+.infoIcon:hover .tooltiptext {
+  visibility: visible;
+}
 
 @media screen and (max-width: 1000px) {
   .step-2-input {
@@ -36,39 +56,4 @@
   .step-2-input {
     max-width: 85% !important;
   }
-}
-.infoIcon {
-  font-size: 14px;
-}
-.tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 99;
-}
-.infoIcon:hover .tooltiptext {
-  visibility: visible;
-}
-.tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: rgba(252, 215, 13, 0.9) !important;
-  color: black;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-
-  /* Position the tooltip */
-  position: absolute;
-  bottom: 13px;
-  left: 10px;
-  z-index: 99;
-  min-height: 50px;
 }
