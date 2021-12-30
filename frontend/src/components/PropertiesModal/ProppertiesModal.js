@@ -165,7 +165,7 @@ const BasicModal = (props) => {
                               onChange={(e) => handleChange(i, e)}
                               placeholder="Name"
                               value={item.name || ""}
-                              maxLength="40"
+                              maxLength="30"
                               autoComplete="off"
                               style={{
                                 backgroundColor: "#000e29 !important",
@@ -208,7 +208,7 @@ const BasicModal = (props) => {
                                 onChange={(e) => handleChange(i, e)}
                                 placeholder="Value"
                                 value={item.value || ""}
-                                maxLength="40"
+                                maxLength="30"
                                 autoComplete="off"
                                 style={{
                                   backgroundColor: "#000e29 ",

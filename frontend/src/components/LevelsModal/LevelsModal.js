@@ -183,13 +183,13 @@ const LevelsModal = (props) => {
                             </label>
 
                             <input
-                              className="step3-input mt-3 "
+                              className="step3-input mt-3 name-inp"
                               type="text"
                               name="name"
                               onChange={(e) => handleChange(i, e)}
                               value={item.name || ""}
                               placeholder="Name"
-                              maxLength="50"
+                              maxLength="30"
                               autoComplete="off"
                               style={{
                                 backgroundColor: "#000e29",
@@ -222,9 +222,9 @@ const LevelsModal = (props) => {
                             </label>
 
                             {/* <p style={{color:"red"}}>{"value should be less then total"}</p> */}
-                            <div className="d-flex align-items-center  w-100">
+                            <div className="values-total-inp d-flex  w-100">
                               <input
-                                className={`step3-input first-value mt-2 ${
+                                className={`step3-input first-value mt-2 values-inp ${
                                   validate && item.value > item.total
                                     ? "levels-value"
                                     : ""
@@ -252,7 +252,7 @@ const LevelsModal = (props) => {
 
                               <p className="text-white mb-0 value-label">Of</p>
                               <input
-                                className={`step3-input first-value mt-2 ${
+                                className={`step3-input first-value values-inp mt-2 ${
                                   validate && item.total < item.value
                                     ? "levels-value"
                                     : ""

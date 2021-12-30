@@ -21,7 +21,7 @@ const Step2 = (props) => {
     name: "Name of NFT contract",
     supply: "Number of NFTs to mint",
     externalLink: "Link of NFT details page",
-    symbol: "Symbol for NFT contract",
+    symbol: "Symbol of NFT contract",
     description: "Description of NFT",
   };
 
