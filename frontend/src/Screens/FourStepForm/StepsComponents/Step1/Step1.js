@@ -412,6 +412,7 @@ const Step1 = (props) => {
           </Typography>
         </Grid>
       </Grid>
+  
       <button
         type="button"
         className="btn btn-secondary start-btn mt-5 mt-md-3 mt-lg-0"

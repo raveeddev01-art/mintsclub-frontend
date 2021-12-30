@@ -263,7 +263,7 @@ const Step4 = (props) => {
       {/* Metamask container */}
       <div className="metamask-container ">
         <div className="d-md-flex justify-content-between w-100 step-4-wrapper">
-          <div class="form-container w-50">
+          <div className="form-container w-50">
             <div className="d-flex " style={{ flexDirection: "column" }}>
               <div className="position-relative">
                 <label className="text-white step4-label">Email</label>
@@ -414,7 +414,7 @@ const Step4 = (props) => {
                 </p>
                 <div className="d-flex align-items-center w-100">
                   <button
-                    className={`btn btn-primary ${
+                    className={`btn btn-primary my-3 ${
                       props.walletAddress ? "step4-btn" : "start-btn"
                     }`}
                     style={{ marginTop: "0.8rem" }}

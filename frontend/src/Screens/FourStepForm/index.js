@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 import { useHistory } from "react-router-dom";
 import {
   currentStepAction,
@@ -48,7 +48,15 @@ const FourStepForm = (props) => {
 
   /////////
   const history = useHistory();
+
+  ////
+   
+  const [visible, setVisible] = useState(false)
   const { currentStep } = props;
+  const scrollRef=useRef()
+  useEffect(()=>{
+    scrollRef.current.scrollTo(0, 0);
+   },[currentStep])
 
   const handleGoBack = () => {
     if(props.mintingResponse){
@@ -200,9 +208,28 @@ const FourStepForm = (props) => {
   const handleCaptchaValidation = (value) => {
     setIsvalidate(value);
   };
+  // const scrollToTop = () =>{
+  //   window.scrollTo({
+  //     top: 0, 
+  //     behavior: 'smooth'
+  //     /* you can also use 'auto' behaviour
+  //        in place of 'smooth' */
+  //   });
 
+  // };
+  // const toggleVisible = () => {
+  //   const scrolled = document.documentElement.scrollTop;
+  //   if (scrolled > 300){
+  //     setVisible(true)
+  //   } 
+  //   else if (scrolled <= 300){
+  //     setVisible(false)
+  //   }
+  // };
+
+  // window.addEventListener('scroll', toggleVisible);
   return (
-    <div className="home-container steps-container">
+    <div className="home-container steps-container" ref={scrollRef} >
       <div className="steps ">
         <div className="steps-menu py-5">
           {currentStep > 0 && (
@@ -233,6 +260,7 @@ const FourStepForm = (props) => {
             handleStep1Info={handleStep1Info}
             imageURl={img}
             videoURL={videoUrl}
+         
           />
         ) : currentStep === 2 ? (
           <Step2
@@ -242,6 +270,7 @@ const FourStepForm = (props) => {
             externalLink={externalLink}
             description={description}
             supply={supply}
+       
           />
         ) : currentStep === 3 ? (
           <Step3
@@ -249,6 +278,7 @@ const FourStepForm = (props) => {
             handleStep3LevelsInfo={handleStep3LevelsInfo}
             properties={properties}
             levels={levels}
+      
           />
         ) : currentStep === 4 ? (
           <Step4
@@ -274,6 +304,7 @@ const FourStepForm = (props) => {
               supply,
             }}
             connectedNetwork={connectedNetwork}
+         
           />
         ) : (
           ""
