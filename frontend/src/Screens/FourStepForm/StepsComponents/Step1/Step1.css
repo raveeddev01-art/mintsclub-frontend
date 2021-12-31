@@ -18,7 +18,7 @@
 }
 
 .selected-file {
-  object-fit: cover;
+  object-fit: contain;
   /* min-width: 18rem !important; */
   width: 25rem !important;
   max-width: 25rem;
@@ -34,18 +34,31 @@
 .testingkkk {
   margin: 0rem 0rem !important;
 }
+.label-parent {
+  border: 2px dashed rgb(128,128,128,.6);
+  padding: 5px;
+  border-radius: 10px;
+}
 .upload-img-icon {
   color: rgb(170, 171, 171);
   font-size: 1.2rem;
-  top: 4;
-  left: 142px;
-  right: 4;
+
+  left: 181px;
+    /* right: 4; */
+    top: 8.4rem;
 
   top: 5.4rem;
   width: 3.2rem;
   height: 3.2rem;
   display: none;
   cursor: pointer;
+}
+.video-container {
+  width: 25rem !important;
+  border: 2px dashed rgb(128,128,128,.6);
+  padding: 5px;
+  border-radius: 10px;
+  margin-top: 2rem !important;
 }
 .cover {
   object-fit: cover;
@@ -61,5 +74,12 @@
 @media (max-width: 450px) {
   .selected-file {
     max-width: 300px;
+  }
+}
+
+@media (max-width: 464px) {
+ 
+  .video-container {
+      width: 18rem !important;
   }
 }

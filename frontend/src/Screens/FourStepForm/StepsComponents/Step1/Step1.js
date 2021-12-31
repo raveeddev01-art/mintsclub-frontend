@@ -132,12 +132,8 @@ const Step1 = (props) => {
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
           setErrorMessage("File size limit is exceeded");
         } else {
-        
-
           let url = URL.createObjectURL(files);
           if (files.type === "video/mp4") {
-       
-
             setVideoUrl(url);
             props.handleStep1Info(file, videoUrl, img);
 
@@ -180,43 +176,41 @@ const Step1 = (props) => {
       >
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
-      {videoUrl && (
-        <div
-          className="position-relative"
-          style={{ width: "210px" }}
-          onDrop={(e) => onDrop(e)}
-          onDragOver={(e) => dragOver(e)}
-          onDragEnter={(e) => dragEnter(e)}
-          onDragLeave={(e) => dragLeave(e)}
-        >
-          <VideoView videoUrl={videoUrl} />
 
-          <MdClose
-            color="#e33d0bc2"
-            className=""
-            onClick={removeVideo}
-            style={{
-              fontSize: "2.5rem",
-              cursor: "pointer",
-              top: "28px",
-              right: "4px",
-              position: "absolute",
-              zIndex: 99,
-            }}
-          />
-        </div>
-      )}
-
-      {/* <p style={{ color: "red" }}>{errorMessage && errorMessage}</p> */}
       <Grid container style={{ justifyContent: "space-between" }}>
         <Grid item md={6}>
+          {videoUrl && (
+            <div
+              className="position-relative video-container"
+              onDrop={(e) => onDrop(e)}
+              onDragOver={(e) => dragOver(e)}
+              onDragEnter={(e) => dragEnter(e)}
+              onDragLeave={(e) => dragLeave(e)}
+            >
+              <VideoView videoUrl={videoUrl} />
+                  
+              <MdClose
+                color="#e33d0bc2"
+                className=""
+                onClick={removeVideo}
+                style={{
+                  fontSize: "2.5rem",
+                  cursor: "pointer",
+                  top: "28px",
+                  right: "2rem",
+                  position: "absolute",
+                  zIndex: 99,
+                }}
+              />
+            </div>
+          )}
           {!img ? (
             <>
               {!videoUrl && !img && (
                 <>
                   <label
                     className="text-center d-flex mt-2"
-                    style={{ cursor: "pointer",maxWidth:"25rem" }}
+                    style={{ cursor: "pointer", maxWidth: "25rem" }}
                   >
                     <div
                       className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
@@ -250,7 +244,7 @@ const Step1 = (props) => {
                       </div>
                     </div>
                   </label>
-                  <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
+               
                   <div
                     onDrop={(e) => onDrop(e)}
                     onDragOver={(e) => dragOver(e)}
@@ -288,6 +282,8 @@ const Step1 = (props) => {
                 </>
               )}
               {videoUrl && (
+                <>
+                 <p className="mb-0 mt-4" style={{ color: "red" }}>{errorMessage && errorMessage}</p>
                 <div
                   onDrop={(e) => onDrop(e)}
                   onDragOver={(e) => dragOver(e)}
@@ -296,7 +292,7 @@ const Step1 = (props) => {
                 >
                   <label>
                     <div
-                      className="d-flex align-items-center justify-content-center mb-3"
+                      className="d-flex align-items-center justify-content-center mb-5 my-4"
                       style={{
                         backgroundColor: "#001d43",
                         width: "13.2rem",
@@ -321,13 +317,13 @@ const Step1 = (props) => {
                     />
                   </label>
                 </div>
+                </>
               )}
             </>
           ) : (
             <>
               <div
                 className="text-white d-flex  mt-4 mb-5"
-                style={{ cursor: "pointer" }}
                 onDrop={(e) => onDrop(e)}
                 onDragOver={(e) => dragOver(e)}
                 onDragEnter={(e) => dragEnter(e)}
@@ -366,6 +362,8 @@ const Step1 = (props) => {
                   />
                 </label>
               </div>
+
+              <p  style={{ color: "red" }}>{errorMessage && errorMessage}</p>
               <div
                 onDrop={(e) => onDrop(e)}
                 onDragOver={(e) => dragOver(e)}
@@ -401,6 +399,7 @@ const Step1 = (props) => {
             </>
           )}
         </Grid>
+
         <Grid item md={5} className="d-none d-md-block">
           <Typography className="text-white" textAlign="justify">
             <strong>Do you know? </strong>
@@ -412,7 +411,7 @@ const Step1 = (props) => {
           </Typography>
         </Grid>
       </Grid>
-  
+
       <button
         type="button"
         className="btn btn-secondary start-btn mt-5 mt-md-3 mt-lg-0"
