@@ -13,7 +13,12 @@
   margin-left: 2rem;
   width: 100%;
 }
-
+.preview-video-view {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  
+}
 .preview-description {
   background-color: #050121;
   border: none !important;

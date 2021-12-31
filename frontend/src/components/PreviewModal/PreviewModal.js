@@ -96,7 +96,7 @@ const PreviewModal = (props) => {
                       />
                     )}
                     {info.videoUrl && (
-                      <video width="260" controls>
+                      <video className="preview-video-view mt-3" controls>
                         <source src={info.videoUrl} />
                       </video>
                     )}
