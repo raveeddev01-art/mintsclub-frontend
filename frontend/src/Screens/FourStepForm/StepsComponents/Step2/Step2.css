@@ -46,7 +46,9 @@
 .infoIcon:hover .tooltiptext {
   visibility: visible;
 }
-
+.name-tooltip.tooltiptext {
+  width: 112px !important;
+}
 @media screen and (max-width: 1000px) {
   .step-2-input {
     max-width: 80% !important;

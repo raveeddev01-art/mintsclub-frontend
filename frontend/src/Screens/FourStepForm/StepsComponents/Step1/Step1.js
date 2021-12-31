@@ -132,12 +132,8 @@ const Step1 = (props) => {
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
           setErrorMessage("File size limit is exceeded");
         } else {
-        
-
           let url = URL.createObjectURL(files);
           if (files.type === "video/mp4") {
-       
-
             setVideoUrl(url);
             props.handleStep1Info(file, videoUrl, img);
 
@@ -213,13 +209,17 @@ const Step1 = (props) => {
           {!img ? (
             <>
               {!videoUrl && !img && (
-                <>
+                <div className="mt-4 mb-3">
                   <label
-                    className="text-center d-flex mt-2"
-                    style={{ cursor: "pointer",maxWidth:"25rem" }}
+                    className="text-center d-flex"
+                    style={{
+                      cursor: "pointer",
+                      maxWidth: "25rem",
+                      maxHeight: "20rem",
+                    }}
                   >
                     <div
-                      className="file-container text-white d-flex justify-content-center align-items-center mt-2 mb-5"
+                      className="file-container text-white d-flex justify-content-center align-items-center "
                       onDrop={(e) => onDrop(e)}
                       onDragOver={(e) => dragOver(e)}
                       onDragEnter={(e) => dragEnter(e)}
@@ -285,7 +285,7 @@ const Step1 = (props) => {
                       />
                     </label>
                   </div>
-                </>
+                </div>
               )}
               {videoUrl && (
                 <div
@@ -293,10 +293,11 @@ const Step1 = (props) => {
                   onDragOver={(e) => dragOver(e)}
                   onDragEnter={(e) => dragEnter(e)}
                   onDragLeave={(e) => dragLeave(e)}
+                  className="mb-3"
                 >
                   <label>
                     <div
-                      className="d-flex align-items-center justify-content-center mb-3"
+                      className="d-flex align-items-center justify-content-center"
                       style={{
                         backgroundColor: "#001d43",
                         width: "13.2rem",
@@ -326,7 +327,7 @@ const Step1 = (props) => {
           ) : (
             <>
               <div
-                className="text-white d-flex  mt-4 mb-5"
+                className="text-white d-flex  mt-4 mb-3"
                 style={{ cursor: "pointer" }}
                 onDrop={(e) => onDrop(e)}
                 onDragOver={(e) => dragOver(e)}
@@ -412,7 +413,7 @@ const Step1 = (props) => {
           </Typography>
         </Grid>
       </Grid>
-  
+
       <button
         type="button"
         className="btn btn-secondary start-btn mt-5 mt-md-3 mt-lg-0"
