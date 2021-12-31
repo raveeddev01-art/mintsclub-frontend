@@ -150,8 +150,8 @@ const LevelsModal = (props) => {
                 style={{
                   height: `${
                     levelsInputs && levelsInputs.length > 0
-                      ? "7.95rem"
-                      : "7.95rem"
+                      ? "8.3rem"
+                      : "7.3rem"
                   }`,
                 }}
               >
@@ -159,7 +159,17 @@ const LevelsModal = (props) => {
                   levelsInputs.length > 0 &&
                   levelsInputs.map((item, i) => {
                     return (
-                      <div className="row" key={i}>
+                      <div
+                        className="row"
+                        key={i}
+                        style={{
+                          marginBottom: `${
+                            levelsInputs && levelsInputs.length > 1
+                              ? "12px"
+                              : "0"
+                          }`,
+                        }}
+                      >
                         <div className="col-10 col-sm-6 mt-2 " key={i}>
                           <div
                             className="d-flex"
@@ -199,7 +209,7 @@ const LevelsModal = (props) => {
                             />
                           </div>
                         </div>
-                        <div className="col-12 col-sm-6 mt-3">
+                        <div className="col-12 col-sm-6 mt-2">
                           <div
                             className="d-flex position-relative"
                             style={{ flexDirection: "column" }}
@@ -222,9 +232,9 @@ const LevelsModal = (props) => {
                             </label>
 
                             {/* <p style={{color:"red"}}>{"value should be less then total"}</p> */}
-                            <div className="values-total-inp d-flex  w-100">
+                            <div className="values-total-inp w-100">
                               <input
-                                className={`step3-input first-value mt-2 values-inp ${
+                                className={`step3-input first-value mt-3 values-inp ${
                                   validate && item.value > item.total
                                     ? "levels-value"
                                     : ""
@@ -252,7 +262,7 @@ const LevelsModal = (props) => {
 
                               <p className="text-white mb-0 value-label">Of</p>
                               <input
-                                className={`step3-input first-value values-inp mt-2 ${
+                                className={`step3-input first-value values-inp mt-3 ${
                                   validate && item.total < item.value
                                     ? "levels-value"
                                     : ""

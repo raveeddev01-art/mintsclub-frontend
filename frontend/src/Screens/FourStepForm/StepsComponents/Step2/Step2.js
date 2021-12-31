@@ -1,4 +1,4 @@
-import { useState ,useEffect} from "react";
+import { useState } from "react";
 import "./Step2.css";
 import { currentStepAction } from "../../../../redux/actions/actions";
 import { connect } from "react-redux";
@@ -24,7 +24,6 @@ const Step2 = (props) => {
     symbol: "Symbol of NFT contract",
     description: "Description of NFT",
   };
-
 
   const patternValidation = (val) => {
     return /\s/g.test(val);
@@ -85,7 +84,6 @@ const Step2 = (props) => {
   };
 
   const onSubmit = (e) => {
-    // props.scrollToTop()
     let validatePointer = true;
     e.preventDefault();
     // console.log(name, "name==>");
@@ -126,7 +124,7 @@ const Step2 = (props) => {
     }
   };
   return (
-    <div className="step2-container "  style={{ marginBottom: "14%" }}>
+    <div className="step2-container " style={{ marginBottom: "14%" }}>
       <form onSubmit={onSubmit}>
         <div className="row">
           <div className="col-md-6 col-sm-12">
