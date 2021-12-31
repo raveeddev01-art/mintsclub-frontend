@@ -176,6 +176,7 @@ const Step1 = (props) => {
       >
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
+  
 
       <Grid container style={{ justifyContent: "space-between" }}>
         <Grid item md={6}>
@@ -244,7 +245,7 @@ const Step1 = (props) => {
                       </div>
                     </div>
                   </label>
-               
+                  <p  style={{ color: "red" }}>{errorMessage && errorMessage}</p>
                   <div
                     onDrop={(e) => onDrop(e)}
                     onDragOver={(e) => dragOver(e)}

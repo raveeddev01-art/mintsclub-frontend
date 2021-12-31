@@ -31,7 +31,8 @@
 }
 .tooltiptext {
   visibility: hidden;
-  width: 125px;
+  max-width: 125px;
+  width: max-content;
   background-color: rgba(252, 215, 13, 0.9) !important;
   color: #001d43;
   text-align: center;
