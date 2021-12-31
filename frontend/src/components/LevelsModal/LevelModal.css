@@ -23,6 +23,7 @@
   padding: 0.7rem 1rem;
 }
 .values-total-inp {
+  display: flex;
   align-items: center;
 }
 @media (max-width: 690px) {

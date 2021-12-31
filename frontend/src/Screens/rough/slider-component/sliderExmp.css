@@ -17,7 +17,7 @@
 
 .carousel-inner {
   position: absolute;
-  top: 90px;
+  top: 100px;
   left: 0;
   right: 0;
   width: 70% !important;
@@ -166,6 +166,10 @@
     top: 30px;
     left: 75%;
     z-index: 10;
+  }
+  .carousel-inner {
+    position: absolute;
+    top: 90px;
   }
 }
 

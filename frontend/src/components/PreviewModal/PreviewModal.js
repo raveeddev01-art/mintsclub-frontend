@@ -90,7 +90,7 @@ const PreviewModal = (props) => {
                           width: "100%",
                           height: "100%",
                           borderRadius: "10px",
-                          objectFit: "cover",
+                          objectFit: "contain",
                         }}
                         alt="preview"
                       />
