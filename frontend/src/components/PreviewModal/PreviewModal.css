@@ -16,8 +16,7 @@
 .preview-video-view {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
-  
+  object-fit: contain !important;
 }
 .preview-description {
   background-color: #050121;
@@ -29,11 +28,19 @@
 }
 
 .preview-btn {
-  padding: 0.8rem 7rem !important;
+  padding: 0.4rem 2.6rem !important;
   border-radius: 9px !important;
   background-color: #fcd70d !important;
   color: black !important;
-  font-size: 1.2rem;
+  font-size: 14px !important;
+  background-image: none !important;
+  line-height: normal !important;
+  font-weight: 500 !important;
+  /* padding: 0.8rem 7rem !important; */
+  /* border-radius: 9px !important;
+  background-color: #fcd70d !important;
+  color: black !important;
+  font-size: 1.2rem; */
   /* font-weight: bold; */
 }
 .preview-properties-title {
@@ -53,7 +60,7 @@
 }
 
 .preview-levels-title {
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 .of-text {
   margin-left: 1.5rem !important;
@@ -74,13 +81,15 @@
   height: 95%;
   overflow-x: hidden !important;
 }
+.preview-deplow-labels {
+  font-size: 20px !important;
+  font-weight: 500;
+}
 @media (max-width: 876px) {
   .preview-input {
     max-width: 82% !important;
   }
-  .first-value {
-    width: 29% !important;
-  }
+
   .externalLink-input {
     width: 100% !important;
   }
@@ -103,9 +112,9 @@
   .preview-properties-title {
     margin-left: 1rem !important ;
   }
-  .preview-levels-title {
+  /* .preview-levels-title {
     margin-left: 2rem !important;
-  }
+  } */
   .of-text {
     margin-left: 1rem !important;
     margin-right: 1rem !important;
@@ -117,6 +126,11 @@
 
     /* height: 540px !important; */
   }
+}
+.previewdivider {
+  height: 1px;
+  width: 97%;
+  background-color: rgba(67, 207, 246, 0.2);
 }
 
 @media screen and (max-height: 868px) {
@@ -172,6 +186,15 @@
   padding: 0.7rem 1rem;
   margin-left: 1rem;
 }
+.preview-modal-step {
+  background-color: #050121;
+  border: none !important;
+  padding: 0.5rem;
+  /* max-width: 30%; */
+  border-radius: 10px !important;
+  color: #aaabab !important;
+  padding: 0.7rem 1rem;
+}
 .value-input-preview {
   background-color: #050121;
   border: none !important;
@@ -196,7 +219,15 @@
   .preview-input-step-2 {
     width: 75% !important;
   }
+  /* .preview-modal-value-2 {
+    width: 100% !important;
+  } */
   .value-input-preview {
     width: 75% !important;
+  }
+}
+@media (max-width: 991.9px) {
+  .preview-modal-value-2 {
+    width: 90% !important;
   }
 }

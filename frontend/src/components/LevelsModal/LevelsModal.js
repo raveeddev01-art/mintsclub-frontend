@@ -260,7 +260,9 @@ const LevelsModal = (props) => {
                                 }}
                               />
 
-                              <p className="text-white mb-0 value-label">Of</p>
+                              <p className="text-white mb-0 value-label mt-3">
+                                Of
+                              </p>
                               <input
                                 className={`step3-input first-value values-inp mt-3 ${
                                   validate && item.total < item.value

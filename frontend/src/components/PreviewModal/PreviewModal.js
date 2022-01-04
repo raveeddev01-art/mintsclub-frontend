@@ -5,6 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 
 import "./PreviewModal.css";
+import { maxWidth } from "@mui/system";
 
 const style = {
   position: "absolute",
@@ -224,15 +225,15 @@ const PreviewModal = (props) => {
                   <p className="text-white preview-text mb-3">Preview</p>
                 </div>
 
-                <p className="text-white preview-properties-title">
+                <p className="text-white font-weight-bold preview-properties-title ">
                   Properties{" "}
                 </p>
 
                 <div
-                  className="rowCust px-3"
+                  className="rowCust px-3 mb-3"
                   style={{
                     overflowY: "auto",
-                    height: "5rem",
+                    height: "5.1rem",
                     overflowX: "hidden",
                   }}
                 >
@@ -243,18 +244,32 @@ const PreviewModal = (props) => {
                           className="row justify-content-between"
                           key={index}
                         >
-                          <div className="col-12  col-md-6 mt-4" key={index}>
+                          <div className="col-12  col-md-6" key={index}>
+                            <label
+                              className="text-white ml-3 mb-1 preview-deplow-labels"
+                              for="preview-name"
+                            >
+                              Name
+                            </label>
                             <input
-                              className="preview-input-step-2 "
+                              className="preview-input-step-2 value-input-preview w-100"
+                              style={{ maxWidth: "90%" }}
                               type="url"
                               value={item.name || ""}
                               maxLength="50"
                               placeholder="item name"
                               disabled={true}
+                              id="preview-name"
                             />
                           </div>
 
-                          <div className="col-12 col-md-6 pr-lg-0 mt-4">
+                          <div className="col-12 col-md-6 pr-lg-0">
+                            <label
+                              className="text-white ml-3 mb-1 preview-deplow-labels"
+                              for="preview-value"
+                            >
+                              Value
+                            </label>
                             <input
                               className="preview-input-step-2 value-input-preview w-100"
                               style={{ maxWidth: "90%" }}
@@ -263,6 +278,7 @@ const PreviewModal = (props) => {
                               placeholder="Value"
                               maxLength="50"
                               disabled={true}
+                              id="preview-value"
                             />
                           </div>
                         </div>
@@ -274,90 +290,105 @@ const PreviewModal = (props) => {
                     </p>
                   )}
                 </div>
-
+                <div className="previewdivider ml-3"></div>
                 {/* ////////////////////////////////////////////// */}
-                <div
-                  className="rowCust mt-5 px-3"
-                  style={{
-                    overflowY: "auto",
-                    overflowX: "hidden",
-                    height: "6rem",
-                  }}
-                >
-                  <p className="text-white preview-levels-title ml-3">
+                <div className="mt-3">
+                  <p className="text-white font-weight-bold preview-levels-title">
                     Levels{" "}
                   </p>
-                  {props.levels && props.levels.length > 0 ? (
-                    props.levels.map((item, index) => {
-                      return (
-                        <div className="row" key={index}>
-                          <div
-                            className="col-12 col-md-6 mt-2 w-sm-75 w-md-100"
-                            key={index}
-                          >
-                            <input
-                              className="preview-input-step-2  "
-                              type="url"
-                              value={item.name || ""}
-                              placeholder="Levels"
-                              style={{
-                                marginTop: `${index === 0 ? "0rem" : "1.2rem"}`,
-                              }}
-                              // maxLength="50"
-                              disabled={true}
-                            />
-                          </div>
-
-                          <div className="col-12 col-md-6 w-sm-75 w-md-100">
-                            <div
-                              className="d-flex align-items-center  w-100 "
-                              style={{
-                                marginTop: `${
-                                  index === 0 ? "0.3rem" : "1.2rem"
-                                }`,
-                              }}
-                            >
+                  <div
+                    className="rowCust px-3"
+                    style={{
+                      overflowY: "auto",
+                      overflowX: "hidden",
+                      height: "5.1rem",
+                    }}
+                  >
+                    {props.levels && props.levels.length > 0 ? (
+                      props.levels.map((item, index) => {
+                        return (
+                          <div className="row" key={index}>
+                            <div className="col-12 col-md-6 " key={index}>
+                              <label
+                                className="text-white ml-3 mb-1 preview-deplow-labels"
+                                for="preview-name"
+                              >
+                                Name
+                              </label>
                               <input
-                                className="preview-input-step-2  first-value  mt-2 "
-                                type="number"
-                                pattern="[0-9]+"
-                                // maxlength="4"
-                                value={item.value || ""}
-                                placeholder="Value"
-                                name="value"
-                                disabled={true}
+                                className="preview-input-step-2 value-input-preview w-100"
+                                type="url"
+                                value={item.name || ""}
+                                placeholder="Levels"
                                 style={{
-                                  maxWidth: "84%",
-                                  padding: "0.6rem 1rem",
+                                  marginTop: `${
+                                    index === 0 ? "0rem" : "1.2rem"
+                                  }`,
+                                  maxWidth: "90%",
                                 }}
-                              />
-
-                              <p className="text-white mb-0 of-text">Of</p>
-                              <input
-                                className="preview-input-step-2  first-value mt-2 "
-                                type="number"
-                                min="1"
-                                max="5"
-                                name="total"
-                                placeholder="total"
+                                // maxLength="50"
                                 disabled={true}
-                                // onInput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                value={item.total || ""}
-                                style={{
-                                  maxWidth: "84%",
-                                  padding: "0.6rem 1rem",
-                                }}
                               />
                             </div>
+
+                            <div className="col-12 col-md-6 ">
+                              <label
+                                className="text-white ml-3 mb-1 preview-deplow-labels"
+                                for="preview-name"
+                              >
+                                Value
+                              </label>
+                              <div
+                                className="d-flex align-items-center justify-content-between ml-3 preview-modal-value-2"
+                                style={{
+                                  marginTop: `${
+                                    index === 0 ? "0rem" : "1.2rem"
+                                  }`,
+                                  width: "93%",
+                                }}
+                              >
+                                <input
+                                  className="preview-modal-step"
+                                  type="number"
+                                  pattern="[0-9]+"
+                                  // maxlength="4"
+                                  value={item.value || ""}
+                                  placeholder="Value"
+                                  name="value"
+                                  disabled={true}
+                                  style={{
+                                    padding: "0.6rem 1rem",
+                                    width: "45%",
+                                  }}
+                                />
+
+                                <p className="text-white mb-0 mx-2">Of</p>
+                                <input
+                                  className="preview-modal-step"
+                                  type="number"
+                                  min="1"
+                                  max="5"
+                                  name="total"
+                                  placeholder="total"
+                                  disabled={true}
+                                  // onInput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                  value={item.total || ""}
+                                  style={{
+                                    padding: "0.6rem 1rem",
+                                    width: "45%",
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p className=" text-center" style={{ color: "#A9A9A9" }}>
-                      {"No levels Found"}
-                    </p>
-                  )}
+                        );
+                      })
+                    ) : (
+                      <p className=" text-center" style={{ color: "#A9A9A9" }}>
+                        {"No levels Found"}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
