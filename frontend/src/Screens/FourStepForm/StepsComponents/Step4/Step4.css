@@ -118,6 +118,9 @@
 .discord-container {
   padding-left: 20px;
 }
+/* .discord-container {
+  padding-left: 20px;
+} */
 .progress-bar-green .progress-bar {
   background-color: green !important;
 }
