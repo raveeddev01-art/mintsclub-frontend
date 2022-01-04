@@ -147,6 +147,7 @@ const Step2 = (props) => {
               <input
                 className="step-2-input mt-2"
                 type="text"
+                // pattern="[a-zA-Z]*"
                 onChange={(e) => onChangeName(e)}
                 value={name}
                 placeholder="item name"

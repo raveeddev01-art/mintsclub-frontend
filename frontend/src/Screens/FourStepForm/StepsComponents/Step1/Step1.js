@@ -176,7 +176,6 @@ const Step1 = (props) => {
       >
         File type supported:JPEG/PNG/GIF/MP4 max size 100 MB.{" "}
       </p>
-  
 
       <Grid container style={{ justifyContent: "space-between" }}>
         <Grid item md={6}>
@@ -189,7 +188,7 @@ const Step1 = (props) => {
               onDragLeave={(e) => dragLeave(e)}
             >
               <VideoView videoUrl={videoUrl} />
-                  
+
               <MdClose
                 color="#e33d0bc2"
                 className=""
@@ -245,7 +244,7 @@ const Step1 = (props) => {
                       </div>
                     </div>
                   </label>
-                  <p  style={{ color: "red" }}>{errorMessage && errorMessage}</p>
+                  <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
                   <div
                     onDrop={(e) => onDrop(e)}
                     onDragOver={(e) => dragOver(e)}
@@ -284,40 +283,42 @@ const Step1 = (props) => {
               )}
               {videoUrl && (
                 <>
-                 <p className="mb-0 mt-4" style={{ color: "red" }}>{errorMessage && errorMessage}</p>
-                <div
-                  onDrop={(e) => onDrop(e)}
-                  onDragOver={(e) => dragOver(e)}
-                  onDragEnter={(e) => dragEnter(e)}
-                  onDragLeave={(e) => dragLeave(e)}
-                >
-                  <label>
-                    <div
-                      className="d-flex align-items-center justify-content-center mb-5 my-4"
-                      style={{
-                        backgroundColor: "#001d43",
-                        width: "13.2rem",
-                        height: "3rem",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <BsUpload
-                        style={{ fontSize: "1.4rem", color: "white" }}
+                  <p className="mb-0 mt-4" style={{ color: "red" }}>
+                    {errorMessage && errorMessage}
+                  </p>
+                  <div
+                    onDrop={(e) => onDrop(e)}
+                    onDragOver={(e) => dragOver(e)}
+                    onDragEnter={(e) => dragEnter(e)}
+                    onDragLeave={(e) => dragLeave(e)}
+                  >
+                    <label>
+                      <div
+                        className="d-flex align-items-center justify-content-center mb-5 my-4"
+                        style={{
+                          backgroundColor: "#001d43",
+                          width: "13.2rem",
+                          height: "3rem",
+                          borderRadius: "10px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <BsUpload
+                          style={{ fontSize: "1.4rem", color: "white" }}
+                        />
+                      </div>
+                      <input
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={onFileChange}
+                        accept=".mp4, .png,.jpeg"
+                        onDrop={(e) => onFileChange(e)}
+                        onDragOver={(e) => onFileChange(e)}
+                        onDragEnter={(e) => onFileChange(e)}
+                        onDragLeave={(e) => onFileChange(e)}
                       />
-                    </div>
-                    <input
-                      type="file"
-                      style={{ display: "none" }}
-                      onChange={onFileChange}
-                      accept=".mp4, .png,.jpeg"
-                      onDrop={(e) => onFileChange(e)}
-                      onDragOver={(e) => onFileChange(e)}
-                      onDragEnter={(e) => onFileChange(e)}
-                      onDragLeave={(e) => onFileChange(e)}
-                    />
-                  </label>
-                </div>
+                    </label>
+                  </div>
                 </>
               )}
             </>
@@ -364,7 +365,7 @@ const Step1 = (props) => {
                 </label>
               </div>
 
-              <p  style={{ color: "red" }}>{errorMessage && errorMessage}</p>
+              <p style={{ color: "red" }}>{errorMessage && errorMessage}</p>
               <div
                 onDrop={(e) => onDrop(e)}
                 onDragOver={(e) => dragOver(e)}
