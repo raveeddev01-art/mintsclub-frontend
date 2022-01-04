@@ -12,6 +12,12 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.slider-nfts-title {
+  font-family: Manrope ExtraBold,sans-serif !important;
+}
+.home-font-family {
+  font-family: Manrope ExtraBold,sans-serif !important;
+}
 .home-row.row {
   height: calc(100vh - 76px);
   display: flex;

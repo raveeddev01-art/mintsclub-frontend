@@ -1615,7 +1615,8 @@ header {
   padding: 1.5rem;
   border: none;
   border-radius: 8px;
-  background-color: var(--card-bg-color);
+  background-color: var(--card-bg-color) !important;
+  
   box-shadow: 0 3px 20px 0px var(--primary-l-color);
   transition-timing-function: cubic-bezier(0.25, 0.25, 0.75, 0.75);
   transition-duration: 0.3s;
@@ -1950,7 +1951,7 @@ header {
         width: 0;
         bottom: 5px;
         left: 50%;
-        background-color: var(--primary-color);
+        background-color: var(--primary-color) !important;
         transform: translateX(-50%);
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;

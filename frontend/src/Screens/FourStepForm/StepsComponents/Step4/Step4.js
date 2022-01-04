@@ -414,7 +414,7 @@ const Step4 = (props) => {
                 </p>
                 <div className="d-flex align-items-center w-100">
                   <button
-                    className={`btn btn-primary my-3 ${
+                    className={`btn btn-primary my-3 address-btn ${
                       props.walletAddress ? "step4-btn" : "start-btn"
                     }`}
                     style={{ marginTop: "0.8rem" }}

@@ -47,8 +47,8 @@ const HomeUi = (props) => {
           <Col lg="6">
             <div className="hero-content">
               <div className="hero-content-heading">
-                <h1>Let's Mint Your NFTs</h1>
-                <h6>
+                <h1 className="home-font-family">Let's Mint Your NFTs</h1>
+                <h6 className="home-font-family">
                   Mint As Much You Can For{" "}
                   <span>
                     <b>Free</b>
@@ -56,7 +56,7 @@ const HomeUi = (props) => {
                 </h6>
               </div>
               <div className="hero-network">
-                <h5 className="mt-5 mb-2">Select Network</h5>
+                <h5 className="mt-5 mb-2 home-font-family">Select Network</h5>
                 <div className="hero-network-options d-flex flex-wrap">
                   {networksData.map((item, index) => {
                     return (
@@ -101,8 +101,8 @@ const HomeUi = (props) => {
           <Col lg="6">
             <div className="hero-slider my-5 my-lg-0">
               <div className="carousel-heading">
-                <h3>World’s Famous</h3>
-                <h2>NFT's</h2>
+                <h3 className="slider-nfts-title">World’s Famous</h3>
+                <h2 className="slider-nfts-title">NFT's</h2>
               </div>
               <div className="hero-slider-conatiner">
                 <SliderExmp assetList={WordsFamousNfts} />

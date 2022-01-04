@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connectMetamaskCopy } from '../../utils/web3';
 import {ENV} from './../../config/config';
+import './hero.css'
 
 const Hero = (props) => {
     const [connectedAddress, setConnectedAddress] = useState('');
@@ -18,7 +19,7 @@ const Hero = (props) => {
                     <div className="col-12 col-md-6 col-lg-7">
                         <span>{ENV.appName} NFT Marketplace</span>
                         <h1 className="mt-4">Discover, collect, and sell extraordinary NFTs</h1>
-                        <p>Explore on the world's best & largest NFT marketplace</p>
+                        <p className="mp-explore-text">Explore on the world's best & largest NFT marketplace</p>
                         {/* Buttons */}
                         <div className="button-group">
                             <Link className="btn btn-bordered-white" to="/explore-all"><i className="icon-rocket mr-2" />Explore</Link>

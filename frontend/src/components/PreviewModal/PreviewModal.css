@@ -34,6 +34,7 @@
   background-color: #fcd70d !important;
   color: black !important;
   font-size: 1.2rem;
+  background-image: none !important;
   /* font-weight: bold; */
 }
 .preview-properties-title {

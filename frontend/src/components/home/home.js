@@ -8,6 +8,7 @@ import MyCollections from '../collections/my-collections'
 import Explore from '../explore/explore-home';
 import Work from '../work/work';
 import Authors from '../authors/authors'
+import Header from '../header/header';
 
 function Home() {
   useEffect(() => {
@@ -16,6 +17,7 @@ function Home() {
 
   return (
     <>
+    <Header/>
       <Hero />
        {/* <button onClick={()=>Redirection('/explore-all')}>test cases</button>  */}
       <Auctions />

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {ENV} from './../../config/config';
 import {getTopSellers, beforeUser} from './../user/user.action';
+import './topseller.css'
 
 const TopSeller = (props) => {
     const [sellers, setSellers] = useState([]);

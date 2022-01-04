@@ -134,11 +134,11 @@ export const verifyOtp = (email, otp) => (dispatch) => {
       if (res.data.status === true) {
         
         setOtpEmail(res.data.data[0].email)
-        toast.success(res.data.message);
         if (res.data.diffMins < -10) {
           toast.error('Token is  Expired ,Please resend token & try again');
           return ' ';
         } else {
+          toast.success(res.data.message);
       
           dispatch({
             type: SET_OTP_STATUS,

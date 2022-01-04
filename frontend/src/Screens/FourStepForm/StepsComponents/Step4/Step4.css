@@ -3,7 +3,7 @@
   padding-bottom: 2rem;
 }
 .step-4-input {
-  background-color: #001d43;
+  background-color: #001d43 !important;
   border: none !important;
   padding: 0.5rem;
   /* max-width: 30%; */
@@ -14,6 +14,9 @@
 .details-title {
   font-size: 1.3rem;
   font-weight: bold;
+}
+.address-btn {
+  background-image: none !important;
 }
 .details-box {
   max-width: 610px;
@@ -110,12 +113,16 @@
   outline: none !important;
   border-radius: 0.7rem !important;
   color: black !important;
+  background-image: none !important;
 }
 .discord-container {
   padding-left: 20px;
 }
 .progress-bar-green .progress-bar {
   background-color: green !important;
+}
+.rnc-input {
+  background-color: white !important;
 }
 @media (max-width: 768px) {
   .discord-container.discordJoinCls.w-50 {

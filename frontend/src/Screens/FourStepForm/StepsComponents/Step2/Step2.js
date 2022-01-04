@@ -137,7 +137,8 @@ const Step2 = (props) => {
                   Name <InfoComp text={dataDescription.name} />
                 </label>
                 <p
-                  className="position-absolute"
+                  className="position-absolute required-field"
+
                   style={{ color: "red", bottom: "-6px", left: "52px" }}
                 >
                   *
