@@ -184,12 +184,12 @@ class CreateNFT extends Component {
 
     render() {
         const { nft, errors, loader, isSubmitted, collections } = this.state
-               if(!ENV.getUserKeys('_id')._id){
-                toast.error("Please login to create NFT")
-                this.props.history.push('/')
-                   return " "
-               }
-               else {
+            //    if(!ENV.getUserKeys('_id')._id){
+            //     toast.error("Please login to create NFT")
+            //     this.props.history.push('/')
+            //        return " "
+            //    }
+            //    else {
           
            return (
             <section className="author-area mt-5">
@@ -197,17 +197,18 @@ class CreateNFT extends Component {
                 <br />
                 {loader && <FullPageLoader />}
                 <div className="container">
-                    <div className="row justify-content-between">
-                        <div className="col-12 col-md-4">
-                            <NFTPreview {...nft} />
-                        </div>
-                        <div className="col-12 col-md-7">
-                            <div className="mt-5 mt-lg-0 mb-1 mb-lg-1">
+                    <div className="row ">
+  
+                            <div className="col-12">
+                                        <span className="get-started-text">Get Started</span>
+
+                            </div>
+                        <div className="col-12 col-md-6 col-sm-12 d-flex flex-column align-items-lg-start align-items-center">
+                            <div className="mt-lg-0 mb-1 mb-lg-1">
                                 {/* Intro */}
                                 <div className="intro">
                                     <div className="intro-content">
-                                        <span>Get Started</span>
-                                        <h3 className="mt-3 mb-0">Create Item</h3>
+                                        <h3 className="mt-3 mb-0 create-item-heading">Create Item</h3>
                                     </div>
                                 </div>
                                 {/* Form Error */}
@@ -221,7 +222,7 @@ class CreateNFT extends Component {
                                 }
                             </div>
                             {/* Item Form */}
-                            <form id="create-nft" className="item-form card no-hover">
+                            <form id="create-nft" className="item-form card preview-nft-form-card no-hover">
                                 {/* onClick={(e) => this.submit(e)} */}
                                 <div className="row">
                                     <div className="col-12">
@@ -278,7 +279,7 @@ class CreateNFT extends Component {
                                     </div>
                                     <div className="col-12">
                                         <div className="form-group select-wrapper">
-                                            <label htmlFor="collection">Select Collection *</label>
+                                            {/* <label htmlFor="collection">Select Collection *</label> */}
                                             <select className="form-control select-after" id="collection" name="collectionId" onChange={(e) => this.onChange(e)}>
                                                 <option value="">Select Collection</option>
                                                 {
@@ -308,17 +309,26 @@ class CreateNFT extends Component {
                                             </div>
                                         </div>
                                     </div> */}
-                                    <div className="col-12">
-                                        <button disabled={loader} className="btn w-100 mt-3 mt-sm-4" type="button" onClick={(e) => this.submit(e)}>Create Item</button>
+                                    <div className="col-12 d-flex align-items-center justify-content-center w-100">
+                                        <button disabled={loader} className="btn mt-3 mt-sm-4 create-item-btn" type="button" onClick={(e) => this.submit(e)}>Create Item</button>
                                     </div>
                                 </div>
                             </form>
+                        </div>
+
+
+                        {/* ////////////// */}
+                        <div className="col-12  preview-nft-wrapper col-md-6 col-sm-12 ">
+                        <span class="Top-Sellers-copy">
+  Preview
+</span>
+                            <NFTPreview {...nft} />
                         </div>
                     </div>
                 </div>
             </section>
         )
-                                }
+                                // }
     }
 }
 
