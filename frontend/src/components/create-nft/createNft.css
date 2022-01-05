@@ -22,3 +22,73 @@
 .select-wrapper .select-after::-ms-expand {
     display: none !important;
   }
+.preview-nft-form-card {
+  background-color: #08081b !important;
+  width: 525px !important;
+  height: 545px !important;
+}
+.create-item-heading {
+
+  /* margin: 29px 60px 49px 2px; */
+  object-fit: contain;
+  font-family: Manrope;
+  font-size: 36px;
+  font-weight: 800;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.61;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+}
+.Top-Sellers-copy {
+  
+  /* margin: 29px 366px 49px 85px; */
+  object-fit: contain;
+  font-family: Manrope;
+  font-size: 36px;
+  font-weight: 800;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.61;
+  letter-spacing: normal;
+  text-align: left;
+  color: #fff;
+}
+.create-item-btn {
+  width: 325px !important;
+  height: 40px !important;
+  margin: 32px 80px 0 !important;
+  /* padding: 13px 122px 15px 123px !important; */
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  background-image: linear-gradient(to top, #7800ff, #4abaf4) !important;
+}
+.preview-nft-wrapper {
+  padding: 1rem !important;
+}
+.get-started-text {
+
+  /* margin: 142px 190px 29px 2px; */
+  object-fit: contain;
+  /* background-image: linear-gradient(to top, #7800ff, #4abaf4), linear-gradient(to bottom, #43cff6, #43cff6); */
+  color: #43cff6;
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.57;
+  letter-spacing: normal;
+  text-align: left;
+  color: #43cff6;
+  /* -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; */
+}
+
+@media screen and (max-width: 767px) {
+  .preview-nft-wrapper  {
+    margin-top: 15rem !important;
+  }
+}
