@@ -13,10 +13,10 @@
   background-size: cover;
 }
 .slider-nfts-title {
-  font-family: Manrope ExtraBold,sans-serif !important;
+  font-family: Manrope ExtraBold, sans-serif !important;
 }
 .home-font-family {
-  font-family: Manrope ExtraBold,sans-serif !important;
+  font-family: Manrope ExtraBold, sans-serif !important;
 }
 .home-row.row {
   height: calc(100vh - 76px);
@@ -133,11 +133,11 @@
   .carousel-heading {
     left: 5px;
   }
-  .navbar-collapse {
+  .navbar-custom .navbar-collapse {
     background-color: #001d43 !important;
     padding: 0.2rem !important;
   }
-  .navbar-nav {
+  .navbar-custom .navbar-nav {
     padding: 0.6rem !important;
   }
   .hero-slider-conatiner {

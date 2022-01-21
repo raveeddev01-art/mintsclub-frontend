@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import WalletIcon from "../../assets/images/setup-wallet-icon.svg";
+import CollectionIcon from "../../assets/images/collection-icon.svg";
+import AddNftIcon from "../../assets/images/add-nft-icon.svg";
+import SaleIcon from "../../assets/images/sale-icon.svg";
 import axios from "axios";
 import { init } from "aos";
 
@@ -11,24 +15,28 @@ const initData = {
     {
       id: 1,
       icon: "icons icon-wallet text-effect",
+      img: WalletIcon,
       title: "Set up your wallet",
       text: "Once you've set up your Celo or BSC Metamask wallet, connect to ARI NFT Marketplace by Signing In and clicking Login.",
     },
     {
       id: 2,
       icon: "icons icon-grid text-effect",
+      img: CollectionIcon,
       title: "Create your collection",
       text: "Click Create and set up your collection. Add social links, a description, profile & banner images, and set a secondary sales fee.",
     },
     {
       id: 3,
       icon: "icons icon-drawer text-effect",
+      img: AddNftIcon,
       title: "Add your NFTs",
       text: "Upload your work (image, video, audio, or 3D art), add a title and description, and customize your NFTs with properties, stats, and unlockable content.",
     },
     {
       id: 4,
       icon: "icons icon-bag text-effect",
+      img: SaleIcon,
       title: "List them for sale",
       text: "Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to sell your NFTs!",
     },
@@ -57,7 +65,7 @@ class Work extends Component {
   }
   render() {
     return (
-      <section className="work-area">
+      <section className="work-area padding-wrapper">
         <div className="container">
           <div className="row">
             <div className="col-12">
@@ -65,7 +73,7 @@ class Work extends Component {
               <div className="intro mb-4">
                 <div className="intro-content">
                   <span>{this.state.data.preHeading}</span>
-                  <h3 className="mt-3 mb-0">{this.state.data.heading}</h3>
+                  <h3 className="mb-0">{this.state.data.heading}</h3>
                 </div>
               </div>
             </div>
@@ -79,7 +87,8 @@ class Work extends Component {
                 >
                   {/* Single Work */}
                   <div className="single-work">
-                    <i className={`${item.icon} mb-5`} />
+                    {/* <i className={`${item.icon} mb-5`} /> */}
+                    <img src={item.img} alt="icon" className="mb-3" />
                     <h4 className="mb-3">{item.title}</h4>
                     <p>{item.text}</p>
                   </div>

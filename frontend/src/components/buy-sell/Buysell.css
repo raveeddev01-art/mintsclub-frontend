@@ -1,0 +1,55 @@
+.buy-sell-section .buy-card {
+  background-color: #2c275b;
+  padding: 50px 0;
+  border-radius: 10px;
+}
+
+.buy-sell-section .sell-card {
+  background-color: #1e606a;
+  padding: 50px 0;
+  border-radius: 10px;
+}
+
+.buy-sell-section .buy-card-img {
+  width: 50%;
+}
+
+.buy-sell-section .buy-card-content {
+  width: 50%;
+  padding-right: 7%;
+}
+
+.buy-sell-section .buy-card-content h5 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.buy-sell-section .buy-card-content p {
+  font-size: 14px;
+  color: #fff;
+}
+
+@media (max-width: 991.9px) {
+  .buy-sell-section .buy-card-content {
+    padding-right: 5px;
+  }
+}
+
+@media (max-width: 767.9px) {
+  .buy-sell-section .buy-card,
+  .buy-sell-section .sell-card {
+    margin: 10px auto;
+  }
+  .buy-sell-section .buy-card-img {
+    width: 100%;
+  }
+
+  .buy-sell-section .buy-card-content {
+    width: 100%;
+    text-align: center;
+  }
+  .buy-sell-section .buy-card-content h5 {
+    margin-top: 10px;
+  }
+}

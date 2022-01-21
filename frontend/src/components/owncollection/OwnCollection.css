@@ -1,0 +1,98 @@
+/* Owncollection Css*/
+.owncollection-section .owncollection-left-content h3 {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.owncollection-section .owncollection-left-content p {
+  font-size: 14px;
+  font-weight: normal;
+  color: #fff;
+  width: 80%;
+}
+
+.owncollection-section .owncollection-right-bg {
+  background-image: url("../../assets/images/own-collection-bg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left;
+}
+
+.owncollection-section .owncollection-right-content {
+  width: 50%;
+}
+
+.owncollection-section .owncollection-right-content h5 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.owncollection-section .owncollection-right-content p {
+  font-size: 14px;
+  font-weight: normal;
+  color: #fff;
+}
+
+.owncollection-section .owcollection-icon-container span {
+  background-image: url("../../assets/images/dashboard-span-icon.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.owncollection-section .owcollection-icon-container span:hover {
+  background-image: url("../../assets/images/dashboard-span-hover.svg");
+}
+
+@media (max-width: 1199.9px) {
+  .owncollection-section .owncollection-right-content {
+    width: 70%;
+  }
+}
+
+@media (max-width: 991.9px) {
+  .owncollection-section .owncollection-right-bg {
+    width: 70%;
+    margin: 40px auto;
+  }
+  .owncollection-section .owncollection-left-content p {
+    width: 100%;
+  }
+  .owncollection-section .owncollection-left-content {
+    width: 60%;
+    margin: 0 auto;
+  }
+  .owncollection-section .owncollection-right-content {
+    width: 60%;
+  }
+}
+
+@media (max-width: 767.9px) {
+  .owncollection-section .owncollection-left-content {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .owncollection-section .owncollection-right-bg {
+    width: 80%;
+    margin: 40px auto;
+  }
+  .owncollection-section .owncollection-right-content {
+    width: 80%;
+  }
+}
+
+@media (max-width: 575.9px) {
+  .owncollection-section .owncollection-left-content {
+    width: 100%;
+  }
+  .owncollection-section .owncollection-right-bg {
+    width: 100%;
+    margin: 40px auto;
+  }
+  .owncollection-section .owncollection-right-content {
+    width: 100%;
+  }
+}
