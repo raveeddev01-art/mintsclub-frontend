@@ -13,6 +13,8 @@ import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import OwnCollection from "../owncollection/OwnCollection";
 import Buysell from "../buy-sell/Buysell";
 import Footer from "../footer/footer";
+import PopularCollections from "../collections/popular-collections";
+import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
 
 function Home() {
   useEffect(() => {
@@ -25,10 +27,13 @@ function Home() {
       <NavbarMain />
       <Hero />
       {/* <button onClick={()=>Redirection('/explore-all')}>test cases</button>  */}
-      {/* <Auctions /> */}
+      <Auctions />
+      {/* <AuctionsCards /> */}
       <Work />
       <TopSeller viewAll={"View All"} />
-      <Collections />
+      {/* <Collections /> */}
+      <PopularCollections />
+      {/* <CardSlider /> */}
       {/* <Authors /> */}
       {/* <MyCollections /> */}
       {/* <Explore /> */}

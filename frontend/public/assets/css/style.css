@@ -2304,7 +2304,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 
 .countdown-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
@@ -2588,6 +2588,19 @@ svg.svg-inline--fa.fa-users.fa-w-20 {
   color: var(--primary-color) !important;
 }
 
+.popular-collections-area .popular-collections-content-right button {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+}
+
+.popular-collections-area .popular-collections-content-right button.active {
+  background: -webkit-linear-gradient(#bf3cbd, #f54d3b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* color: linear-gradient(to top, #bf3cbd, #f54d3b),
+    linear-gradient(to bottom, #feffff, #feffff); */
+}
 .popular-collections-area .card .image-over {
   position: relative;
   overflow: visible;

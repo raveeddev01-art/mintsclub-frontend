@@ -1,21 +1,21 @@
-.slick-dots li button:before {
+/* .slick-dots li button:before {
   font-size: 18px !important;
   color: #fcd70d !important;
-}
-.slider-img {
+} */
+/* .slider-img {
   height: 22rem !important;
-  width: 21rem !important;
-  /* border-radius: 2.3rem; */
+  width: 21rem !important; */
+/* border-radius: 2.3rem; */
 
-  padding: 14px !important;
-}
+/* padding: 14px !important;
+} */
 
-.slick-slide img {
+/* .slick-slide img {
   height: 20vw;
   width: 70%;
-  border-radius: 2.3rem;
-  /* padding: 28px !important; */
-}
+  border-radius: 2.3rem; */
+/* padding: 28px !important; */
+/* }
 .slick-prev:before,
 .slick-next:before {
   color: #00d3f3 !important;
@@ -29,22 +29,22 @@
 .slick-next {
   position: absolute !important;
   /* top: 0rem; */
-  top: 0 !important;
+/*top: 0 !important;
   top: -6.3rem !important;
   left: 24.5rem !important;
 }
 .slick-dots {
-  position: absolute;
-  /* bottom: -41px !important; */
-  /* right: 4.2rem !important; */
-  bottom: -40px !important;
+  position: absolute; */
+/* bottom: -41px !important; */
+/* right: 4.2rem !important; */
+/*bottom: -40px !important;
   display: block;
   width: unset !important;
   padding: 0;
   margin: 0;
   list-style: none;
   /* text-align: center; */
-  left: 100px !important;
+/*left: 100px !important;
 }
 .worlds-famous {
   font-family: "Manrope", sans-serif;
@@ -73,13 +73,13 @@
   .slider-wrapper {
     right: -4rem !important;
   } */
-  /* .slick-dots {
+/* .slick-dots {
     bottom: -68px !important;
     right: -0.8rem !important;
-} */
-}
+} 
+}*/
 
-@media screen and (max-width: 1448px) {
+/* @media screen and (max-width: 1448px) {
   .nfts-title-container {
     top: -1rem !important;
     right: 5rem !important;
@@ -87,11 +87,11 @@
   .nfts-title {
     margin-top: -2rem !important;
   }
-  .slick-dots {
-    /* width: 100% !important; */
-    /* bottom: -44px !important; */
-    /* right: -0.8rem !important; */
-    left: 100px !important;
+  .slick-dots { */
+/* width: 100% !important; */
+/* bottom: -44px !important; */
+/* right: -0.8rem !important; */
+/* left: 100px !important;
   }
 }
 @media screen and (max-width: 1228px) {
@@ -177,13 +177,13 @@
     left: 0 !important;
     right: 0 !important;
     margin-left: -50px !important;
-  }
-  /* .slick-prev {
+  } */
+/* .slick-prev {
     left: 12rem !important;
     top: -4.3rem !important;
   }
   .slick-next {
     left: 14.5rem !important;
     top: -4.3rem !important;
-  } */
-}
+  } 
+}*/

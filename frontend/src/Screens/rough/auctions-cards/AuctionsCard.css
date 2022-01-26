@@ -1,0 +1,71 @@
+.card.auction-card {
+  padding: 20px;
+}
+.auction-card.card .card-img-top {
+  width: 100%;
+  border-radius: 10px;
+}
+.auction-card .auction-card-avatar-container .auction-card-avatar img {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+
+.auction-card .auction-card-avatar-container .auction-card-avatar .avatar-img1,
+.avatar-img2 {
+  margin-left: -10px;
+}
+
+.auction-card .auction-card-avatar-container span {
+  font-size: 14px;
+  font-weight: normal;
+  color: #feffff;
+}
+
+.auction-card .auction-card-avatar-container .options-icon img {
+  width: 25px;
+}
+
+.auction-card .card-body .card-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.auction-card .auction-card-owner-container .auction-owner-name p {
+  font-size: 14px;
+  font-weight: normal;
+  color: #feffff;
+}
+
+.auction-card .auction-card-owner-container img {
+  width: 13px;
+  height: 13px;
+}
+
+.auction-card .auction-card-owner-container span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.auction-card .card-body .auction-bit-btn {
+  background-color: black;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.auction-card .card-body .auction-bit-btn p {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.auction-card .card-body .auction-bit-btn img {
+  width: 15px;
+  height: 17px;
+}

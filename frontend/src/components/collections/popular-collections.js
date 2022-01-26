@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Collections from "./collections";
 import CollectionsCard from "../../Screens/rough/collections-cards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
+import CardSlider from "../card-slider/CardSlider";
+import { ENV } from "../../config/config";
 
 const initData = {
   pre_heading: "Most Popular",
@@ -28,7 +30,7 @@ const PopularCollections = (props) => {
       {collectionsLoader && <FullPageLoader />}
       <section className="popular-collections-area padding-wrapper">
         <div className="container">
-          <div className="row">
+          <div className="row mb-5">
             <div className="col-12 col-lg-5 col-xl-4">
               <div className="intro d-flex justify-content-between align-items-end m-0">
                 <div className="intro-content">
@@ -40,7 +42,7 @@ const PopularCollections = (props) => {
                     smile, success and future growth.
                   </p>
                 </div>
-                {collectionsRef.current?.colCount > 0 && (
+                {/* {collectionsRef.current?.colCount > 0 && (
                   <div className="intro-btn">
                     <Link
                       className="btn content-btn text-left"
@@ -49,11 +51,15 @@ const PopularCollections = (props) => {
                       {initData.btnText}
                     </Link>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
             <div className="col-12 col-lg-7 col-xl-8">
-              <div className="mt-lg-4 text-end">
+              <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
+                <button className="me-2 active">Arts</button>
+                <button className="me-2">Music</button>
+                <button className="me-2">Game</button>
+                <button className="me-5">Sport</button>
                 <div className="intro-btn">
                   <Link className="btn btn-rounded-bordered" to="/authors">
                     View Alll
@@ -63,7 +69,21 @@ const PopularCollections = (props) => {
               </div>
             </div>
           </div>
-          <CollectionsCard />
+          <CardSlider settings={ENV.popularCollectionsSettings}>
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+            <CollectionsCard />
+          </CardSlider>
+          {/* <CollectionsCard /> */}
           {/* <Collections
             popular={true}
             userId="61408000cef27850fdea272b"

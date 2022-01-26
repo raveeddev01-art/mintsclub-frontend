@@ -15,13 +15,19 @@ import SwiperCore, {
   Navigation,
   Pagination,
   Autoplay,
-  Virtual
+  Virtual,
 } from "swiper/core";
 import "swiper/swiper-bundle.css";
-import './auction.css'
-import { useTimer } from 'react-timer-hook';
-import {getCreators, beforeUser} from './../user/user.action';
-import image from '../../assets/images/placeholder.png'
+import "./auction.css";
+import { useTimer } from "react-timer-hook";
+import { getCreators, beforeUser } from "./../user/user.action";
+import image from "../../assets/images/placeholder.png";
+import DemoImg from "../../assets/images/cl-cr-mainimg.png";
+
+//CardSliders
+import CardSlider from "../card-slider/CardSlider";
+import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
+
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
 // Swiper.use([Navigation, Pagination]);
 const { globalPlaceholderImage, countDownRenderer } = ENV;
@@ -33,29 +39,29 @@ const initData = {
 function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
-  const [creators,setCreator]=useState([])
+  const [creators, setCreator] = useState([]);
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
     const qs = ENV.objectToQueryString({ all: true });
     props.getLiveAuctions(qs);
-    props.getCreators()
+    props.getCreators();
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     // console.log('auth', props.user.topSellersAuth)
-    if(props.user.topSellersAuth ){
-       setCreator(props.user.sellers)
-       setLoader(false);
+    if (props.user.topSellersAuth) {
+      setCreator(props.user.sellers);
+      setLoader(false);
     }
-  },[props.user.topSellersAuth])
+  }, [props.user.topSellersAuth]);
   // set live auctions
   useEffect(() => {
     // if (props.auction.getAuth) {
-      const { auctions, pagination } = props.auction;
-      if (auctions) {
-        setAuctions(auctions);
-        props.beforeAuction();
-      }
+    const { auctions, pagination } = props.auction;
+    if (auctions) {
+      setAuctions(auctions);
+      props.beforeAuction();
+    }
     // }
   }, [props.auction.getAuth]);
   // ready slides when auctions data is received
@@ -64,31 +70,79 @@ function AuctionsOne(props) {
       $(".swiper-wrapper").slick(ENV.slickSettings);
     }
   }, [auctions]);
-const filterCreator=(nft,field)=>{
-  // console.log('creators', creators)
-  // console.log('nft owner', nft)
-  const result= creators.find((item)=>item._id===nft.nftOwnerId)
-  // console.log('reuslt',result
-  if(result){
-    if(field==="userName"){
-     if(result?.username){
-         return result?.username
-     }
-     else {
-         return "no username found"
-     }
-    }
-    else if(field=="profileImage"){
-        if(result.profileImage)
-        {
-            return result?.profileImage
+  const filterCreator = (nft, field) => {
+    // console.log('creators', creators)
+    // console.log('nft owner', nft)
+    const result = creators.find((item) => item._id === nft.nftOwnerId);
+    // console.log('reuslt',result
+    if (result) {
+      if (field === "userName") {
+        if (result?.username) {
+          return result?.username;
+        } else {
+          return "no username found";
         }
-        else {
-            return image
+      } else if (field == "profileImage") {
+        if (result.profileImage) {
+          return result?.profileImage;
+        } else {
+          return image;
         }
+      }
     }
-  }
- }
+  };
+
+  const auctionDemoData = [
+    {
+      _id: 1,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 2,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 3,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 4,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 5,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 6,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 7,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+    {
+      _id: 8,
+      image: DemoImg,
+      auctionEndDate: new Date("2022/1/26 13:10:12"),
+      name: "Art",
+    },
+  ];
+
   return (
     <section className="live-auctions-area">
       {loader ? (
@@ -114,81 +168,112 @@ const filterCreator=(nft,field)=>{
             </div>
           </div>
           {/* //replace arraySample to auctions */}
-          {auctions && auctions.length > 0 ? (
+          {auctionDemoData && auctionDemoData.length > 0 ? (
             <div className="auctions-slides">
               <div className="">
                 {/* <div className="swiper-wrapper row"> */}
-                  <Swiper
-                    id="swiper"
-                    modules={[Navigation, Pagination, Autoplay, Virtual]}
-                    virtual
+                {/* <Swiper
+                  id="swiper"
+                  modules={[Navigation, Pagination, Autoplay, Virtual]}
+                  virtual
                   spaceBetween={50}
                   slidesPerView={3}
-                  onSlideChange={() => console.log('')}
+                  onSlideChange={() => console.log("")}
                   onSwiper={(swiper) => console.log(swiper)}
-                  pagination={{clickable: true}}
-                  scrollbar={{draggable: true}}
+                  pagination={{ clickable: true }}
+                  scrollbar={{ draggable: true }}
                 >
-                  {auctions.map((item, idx) => {
+                  {auctionDemoData.map((item, idx) => {
                     return (
                       <>
-                    <SwiperSlide>
-                      <div key={`auc_${idx}`} className="swiper-slide item" id={`#auc-${idx}`}>
-                        <div className="card m-3 ">
-                          <div className="image-over">
-                            <Link to={`/item-details?item=${window.btoa(item._id)}`}>
-                              <img
-                                className="card-img-top"
-                                src={item.image}
-                                // src="https://gateway.ipfs.io/ipfs/QmR8ye93PSLCQXppDUwtBChXNXavCj1HbFCs2DDac5KRnQ"
-                                alt="NFT image"
-                                width="600"
-                                height="600"
-                                style={{borderRadius:"none"}}
-                              />
-                            </Link>
-                          </div>
-                          <div className="card-caption col-12 p-0">
-                            <div className="card-body">
-                              <div className="mb-3">
-                                <Countdown
-                                  date={new Date(item.auctionEndDate) + 10000}
-                                  renderer={countDownRenderer}
-                                />
+                        <SwiperSlide>
+                          <div
+                            key={`auc_${idx}`}
+                            className="swiper-slide item"
+                            id={`#auc-${idx}`}
+                          >
+                            <div className="card m-3 ">
+                              <div className="image-over">
+                                <Link
+                                  to={`/item-details?item=${window.btoa(
+                                    item._id
+                                  )}`}
+                                >
+                                  <img
+                                    className="card-img-top"
+                                    src={item.image}
+                                    alt="NFT image"
+                                    width="600"
+                                    height="600"
+                                    style={{ borderRadius: "none" }}
+                                  />
+                                </Link>
                               </div>
-                              <Link to={`/item-details?item=${window.btoa(item._id)}`}>
-                                <h5 className="mb-0">{item.name}</h5>
-                              </Link>
-                              <Link
-                                className="seller d-flex align-items-center my-3"
-                                to={`/author`}
-                              >
-                                <img
-                                  className="avatar-sm rounded-circle"
-                                  // src={"https://gateway.ipfs.io/ipfs/QmR8ye93PSLCQXppDUwtBChXNXavCj1HbFCs2DDac5KRnQ"}
-                                  src={filterCreator(item,"profileImage")}
-                                  alt="User Avatar"
-                                />
-                                <span className="ml-2">{filterCreator(item,"userName")}</span>
-                              </Link>
-                              <div className="card-bottom d-flex justify-content-between">
-                                <span>{item.currentPrice}  {ENV.currency}</span>
-                                <span>
-                               {item.sold} of {item.copies}
-                      {/* {       "o of 4"} */}
-                                </span>
+                              <div className="card-caption col-12 p-0">
+                                <div className="card-body">
+                                  <div className="mb-3">
+                                    <Countdown
+                                      date={
+                                        new Date(item.auctionEndDate) + 10000
+                                      }
+                                      renderer={countDownRenderer}
+                                    />
+                                  </div>
+                                  <Link
+                                    to={`/item-details?item=${window.btoa(
+                                      item._id
+                                    )}`}
+                                  >
+                                    <h5 className="mb-0">{item.name}</h5>
+                                  </Link>
+                                  <Link
+                                    className="seller d-flex align-items-center my-3"
+                                    to={`/author`}
+                                  >
+                                    <img
+                                      className="avatar-sm rounded-circle"
+                                      // src={"https://gateway.ipfs.io/ipfs/QmR8ye93PSLCQXppDUwtBChXNXavCj1HbFCs2DDac5KRnQ"}
+                                      src={filterCreator(item, "profileImage")}
+                                      alt="User Avatar"
+                                    />
+                                    <span className="ml-2">
+                                      {filterCreator(item, "userName")}
+                                    </span>
+                                  </Link>
+                                  <div className="card-bottom d-flex justify-content-between">
+                                    <span>
+                                      {item.currentPrice} {ENV.currency}
+                                    </span>
+                                    <span>
+                                      {item.sold} of {item.copies}
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      </SwiperSlide>
+                        </SwiperSlide>
+
                       </>
                     );
                   })}
-                  </Swiper>
-                </div>
+                </Swiper> */}
+                <CardSlider settings={ENV.auctionCollectionsSettings}>
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                  <AuctionsCards />
+                </CardSlider>
               </div>
+            </div>
           ) : (
             <p className="text-center ml-3">No Live Auctions Found</p>
           )}
@@ -201,4 +286,8 @@ const mapStateToProps = (state) => ({
   auction: state.auction,
   user: state.user,
 });
-export default connect(mapStateToProps, { beforeAuction, getLiveAuctions ,getCreators})(AuctionsOne);
+export default connect(mapStateToProps, {
+  beforeAuction,
+  getLiveAuctions,
+  getCreators,
+})(AuctionsOne);

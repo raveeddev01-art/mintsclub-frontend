@@ -1,0 +1,95 @@
+.card.collection-cards-container {
+  padding: 20px;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+
+.collection-cards-container .card-body {
+  padding-top: 20px;
+}
+
+.collection-cards-container .card-title {
+  margin-bottom: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.collection-cards-container .card-title:hover {
+  background: -webkit-linear-gradient(#bf3cbd, #f54d3b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #f54d3b;
+}
+
+.collection-cards-container .card-text {
+  font-size: 14px;
+  font-weight: normal;
+  color: #feffff;
+  margin-bottom: 0;
+}
+
+.collection-cards-container .collection-subImg1 img {
+  width: 100%;
+  border-top-left-radius: 10px;
+}
+
+.collection-cards-container .collection-subImg2 img {
+  width: 100%;
+}
+
+.collection-cards-container .collection-subImg3 img {
+  width: 100%;
+  border-top-right-radius: 10px;
+}
+
+.collection-cards-container .collection-mainImg img {
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.collection-cards-container .card-body .collection-card-footer {
+  padding-top: 20px;
+}
+
+.collection-cards-container
+  .card-body
+  .collection-card-footer
+  .collection-footer-left
+  img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.collection-cards-container
+  .card-body
+  .collection-card-footer
+  .collection-footer-left
+  span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.collection-cards-container
+  .card-body
+  .collection-card-footer
+  .collection-footer-right
+  span {
+  font-size: 14px;
+  font-weight: normal;
+  color: #feffff;
+}
+
+.collection-cards-container
+  .card-body
+  .collection-card-footer
+  .collection-footer-right
+  img {
+  width: 15px;
+  height: 15px;
+}

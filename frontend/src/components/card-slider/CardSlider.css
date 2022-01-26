@@ -1,0 +1,15 @@
+.card-slider-btn {
+  background-color: #12122e;
+  border: none;
+  width: 31px;
+  height: 31px;
+  border-radius: 5px;
+}
+
+.card-slider-btn img {
+  background-color: white;
+}
+
+.card-slider-btn:hover img {
+  background: linear-gradient(to top, #bf3cbd, #f54d3b);
+}
