@@ -6,7 +6,8 @@ import CollectionsCard from "../../Screens/rough/collections-cards/CollectionsCa
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import CardSlider from "../card-slider/CardSlider";
 import { ENV } from "../../config/config";
-
+import { beforeCategory, getCategories } from '../categories/categories.action';
+import { connect } from 'react-redux';
 const initData = {
   pre_heading: "Most Popular",
   heading: "Popular Collections",
@@ -14,20 +15,44 @@ const initData = {
 };
 
 const PopularCollections = (props) => {
-  const [collectionsLoader, setColLoader] = useState(false); // collections loader
+  const [categories, setCategories] = useState(null)
+  const [categoriesLoader, setCatLoader] = useState(true) // categories loader
+  const [collectionsLoader, setColLoader] = useState(true) // collections loader
   const collectionsRef = useRef(null);
 
   useEffect(() => {
     window.scroll(0, 0);
+    props.getCategories()
   }, []);
 
+
+// when categories data is received
+useEffect(() => {
+    if (props.category.getAuth) {
+        const { categories } = props.category
+        // const allCat = { active: true, name: 'all' }
+        // setCategories([allCat, ...categories])
+        setCategories(categories)
+        props.beforeCategory()
+        setCatLoader(false)
+        setColLoader(false)
+
+    }
+}, [props.category.getAuth])
+
+
+const getCatCollections = (catId) => {
+    collectionsRef.current?.getCatCollections(catId)
+}
   const getColLoader = (loader) => {
     setColLoader(loader);
   };
 
+  console.log(categories,"categories123")
+
   return (
     <>
-      {collectionsLoader && <FullPageLoader />}
+      {collectionsLoader ? <FullPageLoader />:
       <section className="popular-collections-area padding-wrapper">
         <div className="container">
           <div className="row mb-5">
@@ -70,18 +95,17 @@ const PopularCollections = (props) => {
             </div>
           </div>
           <CardSlider settings={ENV.popularCollectionsSettings}>
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
-            <CollectionsCard />
+            {
+              categories.map((category)=>{
+                return (
+                  <>
+                  <CollectionsCard  category={category} />
+                  </>
+                  
+                )
+              })
+            }
+
           </CardSlider>
           {/* <CollectionsCard /> */}
           {/* <Collections
@@ -92,8 +116,15 @@ const PopularCollections = (props) => {
           /> */}
         </div>
       </section>
+}
     </>
   );
 };
+const mapStateToProps = state => ({
+  error: state.error,
+  category: state.category
+});
 
-export default PopularCollections;
+export default connect(mapStateToProps, { beforeCategory, getCategories })(PopularCollections);
+
+

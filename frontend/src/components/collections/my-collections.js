@@ -42,7 +42,7 @@ const MyCollections = (props) => {
         collectionsRef.current?.getCatCollections(catId)
     }
     // alert("cdskjfdkjf")
-
+  console.log(categories,"categories==>")
     return (
         <>
             {(categoriesLoader || collectionsLoader) && <FullPageLoader />}

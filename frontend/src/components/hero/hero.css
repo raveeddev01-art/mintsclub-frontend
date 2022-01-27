@@ -1,3 +1,9 @@
 .mp-explore-text {
     color: white !important;
 }
+.test-container {
+    margin: 0;
+    background: #EEE;
+    user-select: none;
+    font-family: sans-serif;
+}

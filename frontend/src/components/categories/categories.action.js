@@ -10,6 +10,7 @@ export const beforeCategory = () => {
 }
 
 export const getCategories = () => dispatch => {
+    console.log("called")
     dispatch(emptyError());
     const url = `${ENV.url}category/list`;
 
@@ -23,6 +24,7 @@ export const getCategories = () => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
+        console.log(data,"getting categories==>")
         if (data.success) {
             dispatch({
                 type: GET_CATEGORIES,
@@ -35,6 +37,8 @@ export const getCategories = () => dispatch => {
             })
         }
     }).catch(error => {
+        console.log(error,"error==>")
+        console.log("catch")
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)

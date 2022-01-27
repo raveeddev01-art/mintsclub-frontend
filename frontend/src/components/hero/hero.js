@@ -6,6 +6,7 @@ import "./hero.css";
 import CreateIcon from "../../assets/images/create-icon.svg";
 import ExploreIcon from "../../assets/images/explore-icon.svg";
 import PlayIcon from "../../assets/images/play-icon.svg";
+import Slider from './component/slider'
 
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
@@ -49,6 +50,8 @@ const Hero = (props) => {
               </span>
             </div>
           </div>
+            <Slider/>
+          
         </div>
       </div>
     </section>

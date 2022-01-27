@@ -1,155 +1,312 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { beforeCollection, upsertCollection } from '../collections/collections.actions';
-import { beforeCategory, getCategories } from '../categories/categories.action';
-import { getUser } from '../user/user.action';
-import { emptyError } from '../../redux/shared/error/error.action';
-import $ from 'jquery';
-import { ENV } from '../../config/config';
-import SimpleReactValidator from 'simple-react-validator'
-import FullPageLoader from '../../components/full-page-loader/full-page-loader';
-import { toast } from 'react-toastify'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  beforeCollection,
+  upsertCollection,
+} from "../collections/collections.actions";
+import { beforeCategory, getCategories } from "../categories/categories.action";
+import { getUser } from "../user/user.action";
+import { emptyError } from "../../redux/shared/error/error.action";
+import $ from "jquery";
+import { ENV } from "../../config/config";
+import SimpleReactValidator from "simple-react-validator";
+import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import { toast } from "react-toastify";
+import "./create-collection.css";
+import { Images } from "../../assets/assets.js";
 class CreateCollection extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            isSubmitted: false,
-            formValid: true,
-            loader: true,
-            errors: '',
-            collection: {
-                userId: '',
-                categoryId: '',
-                logo: '',
-                featuredImg: '',
-                banner: '',
-                name: '',
-                url: '',
-                description: ''
-            },
-            categories: null
-        }
-        this.validator = new SimpleReactValidator({
-            autoForceUpdate: this,
-            messages: {
-                required: 'This field is required.'  // will override all messages
-            },
-        })
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSubmitted: false,
+      formValid: true,
+      loader: true,
+      errors: "",
+      collection: {
+        userId: "",
+        categoryId: "",
+        logo: "",
+        featuredImg: "",
+        banner: "",
+        name: "",
+        url: "",
+        description: "",
+      },
+      categories: null,
+    };
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      messages: {
+        required: "This field is required.", // will override all messages
+      },
+    });
+  }
+
+  componentDidMount() {
+    window.scroll(0, 0);
+    this.props.getCategories();
+    // this.props.getUser()
+  }
+
+  componentDidUpdate() {
+    if (this.props.error) {
+      this.setState({ loader: false }, () => {
+        this.props.emptyError();
+      });
     }
 
-    componentDidMount() {
-        window.scroll(0, 0)
-        this.props.getCategories();
-        // this.props.getUser()
+    if (this.props.collection.upsertAuth) {
+      this.props.beforeCollection();
+      this.props.history.push("/collections");
     }
 
-    componentDidUpdate() {
-        if (this.props.error) {
-            this.setState({ loader: false }, () => {
-                this.props.emptyError()
-            })
-        }
-
-        if (this.props.collection.upsertAuth) {
-            this.props.beforeCollection()
-            this.props.history.push('/collections')
-        }
-
-        if (this.props.category.getAuth) {
-            const { categories } = this.props.category
-            this.setState({ categories, loader: false }, () => {
-                this.props.beforeCategory()
-            })
-        }
+    if (this.props.category.getAuth) {
+      const { categories } = this.props.category;
+      this.setState({ categories, loader: false }, () => {
+        this.props.beforeCategory();
+      });
     }
+  }
 
-    onFileChange(e) {
-        let file = e.target.files[0];
-        if (file)
-            if (file.type.includes('image')) {
-                let { collection } = this.state
-                collection = { ...collection, [e.target.name]: file }
-                if (e.target.name) {
-                    collection[`${e.target.name}Url`] = URL.createObjectURL(e.target.files[0])
-                    $(`#collection-${e.target.name}-label`).html('File selected')
-                }
-                this.setState({ collection })
-            }
-    }
-
-    onChange(e) {
-        let { name, value } = e.target
-        const userId = ENV.getUserKeys('_id')._id;
+  onFileChange(e) {
+    let file = e.target.files[0];
+    if (file)
+      if (file.type.includes("image")) {
         let { collection } = this.state;
-        collection = { ...collection, [name]: value , userId: userId}
-        this.setState({ collection })
-    }
-
-    reset = () => {
-        const collection = {
-            userId: '',
-            categoryId: '',
-            logo: '',
-            featuredImg: '',
-            banner: '',
-            name: '',
-            url: '',
-            description: '',
+        collection = { ...collection, [e.target.name]: file };
+        if (e.target.name) {
+          collection[`${e.target.name}Url`] = URL.createObjectURL(
+            e.target.files[0]
+          );
+          $(`#collection-${e.target.name}-label`).html("File selected");
         }
-        this.setState({ collection, isSubmitted: false })
-    }
-    
+        this.setState({ collection });
+      }
+  }
 
+  onChange(e) {
+    let { name, value } = e.target;
+    const userId = ENV.getUserKeys("_id")._id;
+    let { collection } = this.state;
+    collection = { ...collection, [name]: value, userId: userId };
+    this.setState({ collection });
+  }
 
-    submit = (e) => {
-        e.preventDefault();
-        const userId = ENV.getUserKeys('_id')._id;
-        this.setState({ isSubmitted: true, formValid: this.validator.allValid() ? true : false }, () => {
-            const { formValid } = this.state
-            if (formValid) {
-                this.setState({
-                    loader: true,
-                }, async () => {
-                    const { collection } = this.state
-                 
-                    var formData = new FormData();
-                    for (var val in collection)
-                    {
-                 
-                        if (collection[val])
-                        {
-                            formData.append(val, collection[val])
-                        }
-                
-                    }
-                          
-                    this.props.upsertCollection('collection/create', formData)
-             
-                })
-            } else {
-                this.validator.showMessages()
-                this.setState({
-                    errors: 'Please fill all required fields in valid format.',
-                    formValid: false
-                }, () => {
-                    $('#create-collection').scrollTop(0, 0)
-                })
+  reset = () => {
+    const collection = {
+      userId: "",
+      categoryId: "",
+      logo: "",
+      featuredImg: "",
+      banner: "",
+      name: "",
+      url: "",
+      description: "",
+    };
+    this.setState({ collection, isSubmitted: false });
+  };
+
+  submit = (e) => {
+    e.preventDefault();
+    const userId = ENV.getUserKeys("_id")._id;
+    this.setState(
+      {
+        isSubmitted: true,
+        formValid: this.validator.allValid() ? true : false,
+      },
+      () => {
+        const { formValid } = this.state;
+        if (formValid) {
+          this.setState(
+            {
+              loader: true,
+            },
+            async () => {
+              const { collection } = this.state;
+
+              var formData = new FormData();
+              for (var val in collection) {
+                if (collection[val]) {
+                  formData.append(val, collection[val]);
+                }
+              }
+
+              this.props.upsertCollection("collection/create", formData);
             }
-        })
-    }
+          );
+        } else {
+          this.validator.showMessages();
+          this.setState(
+            {
+              errors: "Please fill all required fields in valid format.",
+              formValid: false,
+            },
+            () => {
+              $("#create-collection").scrollTop(0, 0);
+            }
+          );
+        }
+      }
+    );
+  };
 
-    render() {
-        const { collection, errors, loader, isSubmitted, categories } = this.state
-        if(!ENV.getUserKeys('_id')._id){
-            toast.error("Please login to create Collection")
-            this.props.history.push('/')
-               return " "
-           }
-           else {
-        
-        return (
-            <section className="author-area padding-wrapper">
-                {loader && <FullPageLoader />}
+  render() {
+    const { collection, errors, loader, isSubmitted, categories } = this.state;
+    if (!ENV.getUserKeys("_id")._id) {
+      toast.error("Please login to create Collection");
+      this.props.history.push("/");
+      return " ";
+    } else {
+      return (
+        <section className="author-area padding-wrapper">
+          <div className="container">
+            <div className="row d-flex jusfity-content-center ">
+              <div className="col-lg-4 col-md-12 left-container ">
+                <p className="upload-title">Upload</p>
+                <div className="p-3">
+                  <div className="upload-image-container">
+                    <div className="upload-image-border p-4">
+                      <img
+                        className="upload-image"
+                        src={Images.uploadImage}
+                        alt="upload-image"
+                      />
+
+                      <div className="upload-details text-center mt-2">
+                        <p>Drag and drop you file</p>
+                        <p>PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+                      </div>
+                    </div>
+
+                    <div className="choose-file text-center mt-5 ">
+                      <p>or choose a file</p>
+                      <button className="browse-files-btn">Browse Files</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-8 col-md-12 create-collection-form-container mt-5 mt-lg-0 d-flex   flex-column justify-content-center align-items-center align-items-lg-start">
+                <p className="upload-title">Upload</p>
+                <div className="form-inputs-container ">
+                  <div className="row  p-3">
+                    <div className="col-12">
+                      <label className="create-collection-form-title mb-3">
+                        Title
+                      </label>
+                      <input
+                        className="create-collection-form-input "
+                        name="title"
+                        value=""
+                        placeholder="Type here"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row p-3">
+                    <div className="col-12">
+                      <label className="create-collection-form-title mb-3">
+                        Description
+                      </label>
+                      <input
+                        className="create-collection-form-input form-input-description"
+                        name="title"
+                        value=""
+                        placeholder="Type here"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row p-3">
+                    <div className="col-6">
+                      <label className="create-collection-form-title mb-3">
+                        Item Price
+                      </label>
+                      <input
+                        className="create-collection-form-input"
+                        name="title"
+                        value=""
+                        placeholder="Type here"
+                      />
+                    </div>
+                    <div className="col-6">
+                      <label className="create-collection-form-title mb-3">
+                        Category
+                      </label>
+                      <select
+                        className="create-collection-form-input"
+                        name="cars"
+                        id="cars"
+                      >
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="row p-3">
+                    <div className="col-6">
+                      <label className="create-collection-form-title mb-3">
+                        Size
+                      </label>
+                      <input
+                        className="create-collection-form-input"
+                        name="title"
+                        value=""
+                        placeholder="Type here"
+                      />
+                    </div>
+                    <div className="col-6">
+                      <label className="create-collection-form-title mb-3">
+                        No. of Copies
+                      </label>
+                      <input
+                        className="create-collection-form-input"
+                        name="title"
+                        value=""
+                        placeholder="Type here"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row  p-3">
+                    <div className="col-12">
+                      <label className="create-collection-form-title mb-3">
+                        Title
+                      </label>
+                      <select
+                        className="create-collection-form-input"
+                        name="cars"
+                        id="cars"
+                      >
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="text-center">
+                    <div className="mb-3">
+                      <a className="preview text-underline">Preview</a>
+                    </div>
+                    <button className="create-collection-btn">
+                      Create Collection
+                    </button>
+                    <div className="mt-3 mb-5">
+                      <a className="cancel text-white mt-4 text-underline">
+                        Cancel
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* {loader && <FullPageLoader />}
                 <div className="container">
                     <div className="row justify-content-between">
                         <div className="col-12 col-md-12">
@@ -258,18 +415,24 @@ class CreateCollection extends Component {
                             </form>
                         </div>
                     </div>
-                </div >
-            </section >
-        )
-                                                }
+                </div > */}
+        </section>
+      );
     }
+  }
 }
 
-const mapStateToProps = state => ({
-    collection: state.collection,
-    // user: state.user,
-    error: state.error,
-    category: state.category
+const mapStateToProps = (state) => ({
+  collection: state.collection,
+  // user: state.user,
+  error: state.error,
+  category: state.category,
 });
 
-export default connect(mapStateToProps, { beforeCollection, upsertCollection, emptyError, beforeCategory, getCategories })(CreateCollection);
+export default connect(mapStateToProps, {
+  beforeCollection,
+  upsertCollection,
+  emptyError,
+  beforeCategory,
+  getCategories,
+})(CreateCollection);
