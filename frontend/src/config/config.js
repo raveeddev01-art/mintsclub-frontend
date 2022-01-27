@@ -160,14 +160,14 @@ export const ENV = {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 556,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -186,21 +186,28 @@ export const ENV = {
     initialSlide: 0,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1200,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 992,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 556,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -224,24 +231,24 @@ export const ENV = {
   countDownRenderer: ({ days, hours, minutes, seconds }) => {
     return (
       <div
-        className="countdown-container d-flex"
+        className="countdown-container d-flex mx-auto"
         style={{ justifyContent: "space-between", width: "85%" }}
       >
         <div className="countdown-wrapper m-1">
-          <div>Days</div>
-          <div>{days}</div>
+          <div>D</div>
+          <div className="countdown-wrapper-time">{days}</div>
         </div>
         <div className="countdown-wrapper m-1">
-          <div>Hours</div>
-          <div>{hours}</div>
+          <div>H</div>
+          <div className="countdown-wrapper-time">{hours}</div>
         </div>
         <div className="countdown-wrapper m-1">
-          <div>Minutes</div>
-          <div>{minutes}</div>
+          <div>M</div>
+          <div className="countdown-wrapper-time">{minutes}</div>
         </div>
         <div className="countdown-wrapper m-1">
-          <div>Seconds</div>
-          <div>{seconds}</div>
+          <div>S</div>
+          <div className="countdown-wrapper-time">{seconds}</div>
         </div>
       </div>
     );

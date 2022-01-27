@@ -31,7 +31,7 @@ const PopularCollections = (props) => {
       <section className="popular-collections-area padding-wrapper">
         <div className="container">
           <div className="row mb-5">
-            <div className="col-12 col-lg-5 col-xl-4">
+            <div className="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
               <div className="intro d-flex justify-content-between align-items-end m-0">
                 <div className="intro-content">
                   <span>{initData.pre_heading}</span>
@@ -54,14 +54,17 @@ const PopularCollections = (props) => {
                 )} */}
               </div>
             </div>
-            <div className="col-12 col-lg-7 col-xl-8">
+            <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
               <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
-                <button className="me-2 active">Arts</button>
-                <button className="me-2">Music</button>
-                <button className="me-2">Game</button>
-                <button className="me-5">Sport</button>
+                <button className="me-1 me-sm-2 active">Arts</button>
+                <button className="me-1 me-sm-2">Music</button>
+                <button className="me-1 me-sm-2">Game</button>
+                <button className="me-1 me-sm-5">Sport</button>
                 <div className="intro-btn">
-                  <Link className="btn btn-rounded-bordered" to="/authors">
+                  <Link
+                    className="btn btn-rounded-bordered btn-viewAll"
+                    to="/authors"
+                  >
                     View Alll
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>

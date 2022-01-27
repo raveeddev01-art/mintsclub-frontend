@@ -116,7 +116,10 @@ const TopSeller = (props) => {
               </div>
               {props.viewAll ? (
                 <div className="intro-btn">
-                  <Link className="btn btn-rounded-bordered" to="/authors">
+                  <Link
+                    className="btn btn-rounded-bordered btn-viewAll"
+                    to="/authors"
+                  >
                     {props.viewAll}
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>

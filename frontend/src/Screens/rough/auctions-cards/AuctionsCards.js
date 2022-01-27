@@ -14,17 +14,19 @@ import "./AuctionsCard.css";
 const AuctionsCards = () => {
   const { countDownRenderer } = ENV;
   return (
-    <Card className="auction-card mx-1">
-      <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
-      <Card.Body>
-        <div className="mb-3">
+    <Card className="auction-card mx-2">
+      <div className="auction-img-wrapper">
+        <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
+        <div className="auction-countdown mb-3">
           <Countdown date="2022/1/26 13:10:12" renderer={countDownRenderer} />
         </div>
+      </div>
+      <Card.Body>
         <div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
           <div className="auction-card-avatar d-flex align-items-center">
             <img src={AvatarImg} alt="AvatarImg" />
-            <img src={AvatarImg} alt="AvatarImg" className="avatar-img1" />
-            <img src={AvatarImg} alt="AvatarImg" className="avatar-img2" />
+            <img src={AvatarImg} alt="AvatarImg" className="avatar-above-img" />
+            <img src={AvatarImg} alt="AvatarImg" className="avatar-above-img" />
             <span className="ms-4">9+ Place Bit</span>
           </div>
 

@@ -23,7 +23,7 @@ import { useTimer } from "react-timer-hook";
 import { getCreators, beforeUser } from "./../user/user.action";
 import image from "../../assets/images/placeholder.png";
 import DemoImg from "../../assets/images/cl-cr-mainimg.png";
-
+import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 //CardSliders
 import CardSlider from "../card-slider/CardSlider";
 import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
@@ -144,26 +144,48 @@ function AuctionsOne(props) {
   ];
 
   return (
-    <section className="live-auctions-area">
+    <section className="live-auctions-area padding-wrapper">
       {loader ? (
         <FullPageLoader />
       ) : (
         <div className="container">
-          <div className="row">
-            <div className="col-12">
+          <div className="row mb-5">
+            <div className="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
               {/* Intro */}
               <div className="intro d-flex justify-content-between align-items-end m-0">
                 <div className="intro-content">
                   <span>{initData.pre_heading}</span>
-                  <h3 className="mt-3 mb-0">{initData.heading}</h3>
+                  <h3 className="mb-0">{initData.heading}</h3>
+                  <p>
+                    Explore on the world's best & largest NFT marketplace with
+                    our beautiful NFT products. We want to be a part of your
+                    smile, success and future growth.
+                  </p>
                 </div>
-                {auctions && auctions.length > 0 && (
+                {/* {auctions && auctions.length > 0 && (
                   <div className="intro-btn">
                     <Link className="btn content-btn" to="/auctions">
                       {initData.btnText}
                     </Link>
                   </div>
-                )}
+                )} */}
+              </div>
+            </div>
+            <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
+              <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
+                <button className="me-1 me-sm-2 active">Arts</button>
+                <button className="me-1 me-sm-2">Music</button>
+                <button className="me-1 me-sm-2">Game</button>
+                <button className="me-1 me-sm-5">Sport</button>
+                <div className="intro-btn">
+                  <Link
+                    className="btn btn-rounded-bordered btn-viewAll"
+                    to="/authors"
+                  >
+                    View All
+                    <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

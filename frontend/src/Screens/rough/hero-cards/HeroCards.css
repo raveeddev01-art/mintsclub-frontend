@@ -1,0 +1,23 @@
+.auction-card.hero-card {
+  background: linear-gradient(to top, #10103c, #2a6285);
+  box-shadow: 6.5px 33.4px 57px 0 rgba(0, 0, 0, 0.31);
+  max-width: 350px;
+}
+
+.hero-card.card .card-body {
+  padding: 0;
+}
+
+.hero-card .card-body .card-title {
+  margin-top: 0;
+}
+
+.hero-card .hero-card-title-container .options-icon img {
+  width: 25px;
+}
+
+.hero-card .auction-card-avatar span {
+  font-size: 14px;
+  font-weight: normal;
+  color: #feffff;
+}

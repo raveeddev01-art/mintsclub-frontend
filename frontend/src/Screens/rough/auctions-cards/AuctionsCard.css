@@ -3,16 +3,16 @@
 }
 .auction-card.card .card-img-top {
   width: 100%;
+  min-height: 250px;
   border-radius: 10px;
 }
-.auction-card .auction-card-avatar-container .auction-card-avatar img {
+.auction-card-avatar img {
   border-radius: 50%;
   width: 32px;
   height: 32px;
 }
 
-.auction-card .auction-card-avatar-container .auction-card-avatar .avatar-img1,
-.avatar-img2 {
+.auction-card-avatar .avatar-above-img {
   margin-left: -10px;
 }
 
@@ -24,6 +24,16 @@
 
 .auction-card .auction-card-avatar-container .options-icon img {
   width: 25px;
+}
+
+.auction-card .auction-img-wrapper {
+  position: relative;
+}
+
+.auction-card .auction-countdown {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
 }
 
 .auction-card .card-body .card-title {

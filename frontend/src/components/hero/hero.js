@@ -6,6 +6,12 @@ import "./hero.css";
 import CreateIcon from "../../assets/images/create-icon.svg";
 import ExploreIcon from "../../assets/images/explore-icon.svg";
 import PlayIcon from "../../assets/images/play-icon.svg";
+import HeroSlider from "../hero-slider/HeroSlider";
+import CustomSlider from "../hero-slider/CustomSlider";
+
+import HeroSlickSlider from "../hero-slider/HeroSlickSlider";
+
+import HeroCards from "../../Screens/rough/hero-cards/HeroCards";
 
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
@@ -47,6 +53,15 @@ const Hero = (props) => {
                 <img src={PlayIcon} alt="playIcon" className="me-2" /> Watch
                 video to learn more
               </span>
+            </div>
+          </div>
+          <div className="col-12 col-lg-10 col-xl-7 ">
+            <div className="ms-auto d-flex">
+              {/* <HeroCards />
+              <HeroCards className="HeroCard-after" /> */}
+              {/* <HeroSlider /> */}
+              {/* <HeroSlickSlider /> */}
+              {/* <CustomSlider /> */}
             </div>
           </div>
         </div>

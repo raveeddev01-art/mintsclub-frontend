@@ -2,12 +2,14 @@
   background-color: #2c275b;
   padding: 50px 0;
   border-radius: 10px;
+  height: 100%;
 }
 
 .buy-sell-section .sell-card {
   background-color: #1e606a;
   padding: 50px 0;
   border-radius: 10px;
+  height: 100%;
 }
 
 .buy-sell-section .buy-card-img {

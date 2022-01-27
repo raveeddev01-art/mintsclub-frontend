@@ -23,7 +23,7 @@ const Buysell = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="mt-5 mt-md-0 col-md-6">
             <div className="sell-card d-md-flex align-items-center">
               <div className="buy-card-img d-flex">
                 <img src={SellIcon} alt="buy-logo" className="mx-auto" />
