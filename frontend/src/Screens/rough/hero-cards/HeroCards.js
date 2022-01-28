@@ -21,7 +21,7 @@ const HeroCards = () => {
           <Countdown date="2022/1/26 13:10:12" renderer={countDownRenderer} />
         </div> */}
       </div>
-      <Card.Body>
+      <Card.Body className="d-flex flex-column">
         <div className="hero-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title>Music</Card.Title>
           <div className="options-icon">

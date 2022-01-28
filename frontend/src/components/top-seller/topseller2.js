@@ -103,6 +103,8 @@ const TopSeller = (props) => {
   useEffect(() => {
     setSellers(props.user.sellers);
   }, [props.user.topSellersAuth]);
+
+  console.log(sellers,"sellers==>")
   return (
     <section className="top-seller-area padding-wrapper">
       <div className="container">
@@ -131,10 +133,9 @@ const TopSeller = (props) => {
           </div>
         </div>
         <div className="row items">
-          {/* {sellers && sellers.length ? (
-            sellers.map((author, idx) => { */}
-          {exmpData && exmpData.length ? (
-            exmpData.map((author, idx) => {
+          {sellers && sellers.length ? (
+            sellers.map((author, idx) => {
+        
               return (
                 <div
                   key={`ts_${idx}`}
@@ -152,11 +153,11 @@ const TopSeller = (props) => {
                             //       ? author.profileImage
                             //       : ENV.globalPlaceholderImage
                             //   }
-                            src={author.img}
+                            src={AvatarImg}
                             alt=""
                           />
                           <span className="seller-avatar-active">
-                            <img src={author.icon} alt="tick-icon" />
+                            <img src={SellerTickIcon} alt="tick-icon" />
                           </span>
                         </div>
                       </Link>
@@ -166,9 +167,9 @@ const TopSeller = (props) => {
                           className="seller mb-2"
                           to={`/author/${author._id}`}
                         >
-                          {author.authorName}
+                          {author.username}
                         </Link>
-                        <span className="text-end">{author.price}</span>
+                        <span className="text-end">{"256.6ETH"}</span>
                       </div>
                     </div>
                   </div>

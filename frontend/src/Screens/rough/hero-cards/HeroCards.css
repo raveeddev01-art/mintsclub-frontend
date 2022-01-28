@@ -1,7 +1,13 @@
 .auction-card.hero-card {
   background: linear-gradient(to top, #10103c, #2a6285);
   box-shadow: 6.5px 33.4px 57px 0 rgba(0, 0, 0, 0.31);
-  max-width: 350px;
+  max-width: 370px;
+}
+
+.auction-card.hero-card.card .card-img-top {
+  width: 100%;
+  min-height: 270px;
+  border-radius: 10px;
 }
 
 .hero-card.card .card-body {

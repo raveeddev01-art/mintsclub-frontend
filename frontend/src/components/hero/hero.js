@@ -12,6 +12,7 @@ import CustomSlider from "../hero-slider/CustomSlider";
 import HeroSlickSlider from "../hero-slider/HeroSlickSlider";
 
 import HeroCards from "../../Screens/rough/hero-cards/HeroCards";
+import Slider from "./component/slider";
 
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
@@ -25,7 +26,7 @@ const Hero = (props) => {
     <section className="hero-section padding-wrapper">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-12 col-lg-10 col-xl-5">
+          <div className="col-12 col-lg-6 col-xl-5">
             <h1 className="mt-4">
               Discover, collect, and sell extraordinary NFTs
             </h1>
@@ -55,14 +56,16 @@ const Hero = (props) => {
               </span>
             </div>
           </div>
-          <div className="col-12 col-lg-10 col-xl-7 ">
-            <div className="ms-auto d-flex">
+          <div className="col-12 col-lg-6 col-xl-7 ">
+            {/* <div className="ms-auto d-flex">
               {/* <HeroCards />
               <HeroCards className="HeroCard-after" /> */}
-              {/* <HeroSlider /> */}
-              {/* <HeroSlickSlider /> */}
-              {/* <CustomSlider /> */}
-            </div>
+            {/* <HeroSlider /> */}
+            {/* <HeroSlickSlider /> */}
+            {/* <CustomSlider /> */}
+            {/* </div> */}
+
+            <Slider />
           </div>
         </div>
       </div>

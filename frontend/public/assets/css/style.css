@@ -3775,6 +3775,9 @@ input.amount-btn {
   .blog .col-12.col-sm-6 {
     padding: 0;
   }
+  .hero-section h1 {
+    font-size: 43px;
+  }
 }
 
 @media (max-width: 575px) {
@@ -3845,7 +3848,7 @@ input.amount-btn {
   }
   /* #endregion Feature */
   .padding-wrapper {
-    padding: 75px 0 0 0;
+    padding: 50px 0 0 0;
   }
 }
 

@@ -1,155 +1,165 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { beforeCollection, upsertCollection } from '../collections/collections.actions';
-import { beforeCategory, getCategories } from '../categories/categories.action';
-import { getUser } from '../user/user.action';
-import { emptyError } from '../../redux/shared/error/error.action';
-import $ from 'jquery';
-import { ENV } from '../../config/config';
-import SimpleReactValidator from 'simple-react-validator'
-import FullPageLoader from '../../components/full-page-loader/full-page-loader';
-import { toast } from 'react-toastify'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  beforeCollection,
+  upsertCollection,
+} from "../collections/collections.actions";
+import { beforeCategory, getCategories } from "../categories/categories.action";
+import { getUser } from "../user/user.action";
+import { emptyError } from "../../redux/shared/error/error.action";
+import $ from "jquery";
+import { ENV } from "../../config/config";
+import SimpleReactValidator from "simple-react-validator";
+import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import { toast } from "react-toastify";
+import "./create-collection.css";
+import { Images } from "../../assets/assets.js";
 class CreateCollection extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            isSubmitted: false,
-            formValid: true,
-            loader: true,
-            errors: '',
-            collection: {
-                userId: '',
-                categoryId: '',
-                logo: '',
-                featuredImg: '',
-                banner: '',
-                name: '',
-                url: '',
-                description: ''
-            },
-            categories: null
-        }
-        this.validator = new SimpleReactValidator({
-            autoForceUpdate: this,
-            messages: {
-                required: 'This field is required.'  // will override all messages
-            },
-        })
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSubmitted: false,
+      formValid: true,
+      loader: true,
+      errors: "",
+      collection: {
+        userId: "",
+        categoryId: "",
+        logo: "",
+        featuredImg: "",
+        banner: "",
+        name: "",
+        url: "",
+        description: "",
+      },
+      categories: null,
+    };
+    this.validator = new SimpleReactValidator({
+      autoForceUpdate: this,
+      messages: {
+        required: "This field is required.", // will override all messages
+      },
+    });
+  }
+
+  componentDidMount() {
+    window.scroll(0, 0);
+    this.props.getCategories();
+    // this.props.getUser()
+  }
+
+  componentDidUpdate() {
+    if (this.props.error) {
+      this.setState({ loader: false }, () => {
+        this.props.emptyError();
+      });
     }
 
-    componentDidMount() {
-        window.scroll(0, 0)
-        this.props.getCategories();
-        // this.props.getUser()
+    if (this.props.collection.upsertAuth) {
+      this.props.beforeCollection();
+      this.props.history.push("/collections");
     }
 
-    componentDidUpdate() {
-        if (this.props.error) {
-            this.setState({ loader: false }, () => {
-                this.props.emptyError()
-            })
-        }
-
-        if (this.props.collection.upsertAuth) {
-            this.props.beforeCollection()
-            this.props.history.push('/collections')
-        }
-
-        if (this.props.category.getAuth) {
-            const { categories } = this.props.category
-            this.setState({ categories, loader: false }, () => {
-                this.props.beforeCategory()
-            })
-        }
+    if (this.props.category.getAuth) {
+      const { categories } = this.props.category;
+      this.setState({ categories, loader: false }, () => {
+        this.props.beforeCategory();
+      });
     }
+  }
 
-    onFileChange(e) {
-        let file = e.target.files[0];
-        if (file)
-            if (file.type.includes('image')) {
-                let { collection } = this.state
-                collection = { ...collection, [e.target.name]: file }
-                if (e.target.name) {
-                    collection[`${e.target.name}Url`] = URL.createObjectURL(e.target.files[0])
-                    $(`#collection-${e.target.name}-label`).html('File selected')
-                }
-                this.setState({ collection })
-            }
-    }
-
-    onChange(e) {
-        let { name, value } = e.target
-        const userId = ENV.getUserKeys('_id')._id;
+  onFileChange(e) {
+    let file = e.target.files[0];
+    if (file)
+      if (file.type.includes("image")) {
         let { collection } = this.state;
-        collection = { ...collection, [name]: value , userId: userId}
-        this.setState({ collection })
-    }
-
-    reset = () => {
-        const collection = {
-            userId: '',
-            categoryId: '',
-            logo: '',
-            featuredImg: '',
-            banner: '',
-            name: '',
-            url: '',
-            description: '',
+        collection = { ...collection, [e.target.name]: file };
+        if (e.target.name) {
+          collection[`${e.target.name}Url`] = URL.createObjectURL(
+            e.target.files[0]
+          );
+          $(`#collection-${e.target.name}-label`).html("File selected");
         }
-        this.setState({ collection, isSubmitted: false })
-    }
-    
+        this.setState({ collection });
+      }
+  }
 
+  onChange(e) {
+    let { name, value } = e.target;
+    const userId = ENV.getUserKeys("_id")._id;
+    let { collection } = this.state;
+    collection = { ...collection, [name]: value, userId: userId };
+    this.setState({ collection });
+  }
 
-    submit = (e) => {
-        e.preventDefault();
-        const userId = ENV.getUserKeys('_id')._id;
-        this.setState({ isSubmitted: true, formValid: this.validator.allValid() ? true : false }, () => {
-            const { formValid } = this.state
-            if (formValid) {
-                this.setState({
-                    loader: true,
-                }, async () => {
-                    const { collection } = this.state
-                 
-                    var formData = new FormData();
-                    for (var val in collection)
-                    {
-                 
-                        if (collection[val])
-                        {
-                            formData.append(val, collection[val])
-                        }
-                
-                    }
-                          
-                    this.props.upsertCollection('collection/create', formData)
-             
-                })
-            } else {
-                this.validator.showMessages()
-                this.setState({
-                    errors: 'Please fill all required fields in valid format.',
-                    formValid: false
-                }, () => {
-                    $('#create-collection').scrollTop(0, 0)
-                })
+  reset = () => {
+    const collection = {
+      userId: "",
+      categoryId: "",
+      logo: "",
+      featuredImg: "",
+      banner: "",
+      name: "",
+      url: "",
+      description: "",
+    };
+    this.setState({ collection, isSubmitted: false });
+  };
+
+  submit = (e) => {
+    e.preventDefault();
+    const userId = ENV.getUserKeys("_id")._id;
+    this.setState(
+      {
+        isSubmitted: true,
+        formValid: this.validator.allValid() ? true : false,
+      },
+      () => {
+        const { formValid } = this.state;
+        if (formValid) {
+          this.setState(
+            {
+              loader: true,
+            },
+            async () => {
+              const { collection } = this.state;
+
+              var formData = new FormData();
+              for (var val in collection) {
+                if (collection[val]) {
+                  formData.append(val, collection[val]);
+                }
+              }
+
+              this.props.upsertCollection("collection/create", formData);
             }
-        })
-    }
+          );
+        } else {
+          this.validator.showMessages();
+          this.setState(
+            {
+              errors: "Please fill all required fields in valid format.",
+              formValid: false,
+            },
+            () => {
+              $("#create-collection").scrollTop(0, 0);
+            }
+          );
+        }
+      }
+    );
+  };
 
-    render() {
-        const { collection, errors, loader, isSubmitted, categories } = this.state
-        if(!ENV.getUserKeys('_id')._id){
-            toast.error("Please login to create Collection")
-            this.props.history.push('/')
-               return " "
-           }
-           else {
-        
-        return (
-            <section className="author-area padding-wrapper">
-                {loader && <FullPageLoader />}
+  render() {
+    const { collection, errors, loader, isSubmitted, categories } = this.state;
+    if (ENV.getUserKeys("_id")._id) {
+      toast.error("Please login to create Collection");
+      this.props.history.push("/");
+      return " ";
+    } else {
+      return (
+        <section className="author-area padding-wrapper">
+          {/* {loader && <FullPageLoader />}
                 <div className="container">
                     <div className="row justify-content-between">
                         <div className="col-12 col-md-12">
@@ -258,18 +268,24 @@ class CreateCollection extends Component {
                             </form>
                         </div>
                     </div>
-                </div >
-            </section >
-        )
-                                                }
+                </div > */}
+        </section>
+      );
     }
+  }
 }
 
-const mapStateToProps = state => ({
-    collection: state.collection,
-    // user: state.user,
-    error: state.error,
-    category: state.category
+const mapStateToProps = (state) => ({
+  collection: state.collection,
+  // user: state.user,
+  error: state.error,
+  category: state.category,
 });
 
-export default connect(mapStateToProps, { beforeCollection, upsertCollection, emptyError, beforeCategory, getCategories })(CreateCollection);
+export default connect(mapStateToProps, {
+  beforeCollection,
+  upsertCollection,
+  emptyError,
+  beforeCategory,
+  getCategories,
+})(CreateCollection);

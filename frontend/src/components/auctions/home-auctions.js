@@ -143,6 +143,8 @@ function AuctionsOne(props) {
     },
   ];
 
+
+  console.log(auctions,"auctions==>")
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (

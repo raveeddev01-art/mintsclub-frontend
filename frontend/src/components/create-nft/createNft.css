@@ -1,10 +1,7 @@
- .select-after {
+/* .select-after {
     -webkit-appearance: none !important;
   appearance: none !important;
     
-}
-.select-wrapper {
-
 }
 
 .select-wrapper {
@@ -28,8 +25,6 @@
   height: 545px !important;
 }
 .create-item-heading {
-
-  /* margin: 29px 60px 49px 2px; */
   object-fit: contain;
   font-family: Manrope;
   font-size: 36px;
@@ -42,8 +37,6 @@
   color: #fff;
 }
 .Top-Sellers-copy {
-  
-  /* margin: 29px 366px 49px 85px; */
   object-fit: contain;
   font-family: Manrope;
   font-size: 36px;
@@ -59,7 +52,6 @@
   width: 325px !important;
   height: 40px !important;
   margin: 32px 80px 0 !important;
-  /* padding: 13px 122px 15px 123px !important; */
   object-fit: contain !important;
   border-radius: 8px !important;
   background-image: linear-gradient(to top, #7800ff, #4abaf4) !important;
@@ -68,10 +60,7 @@
   padding: 1rem !important;
 }
 .get-started-text {
-
-  /* margin: 142px 190px 29px 2px; */
   object-fit: contain;
-  /* background-image: linear-gradient(to top, #7800ff, #4abaf4), linear-gradient(to bottom, #43cff6, #43cff6); */
   color: #43cff6;
   font-family: Manrope;
   font-size: 14px;
@@ -82,13 +71,135 @@
   letter-spacing: normal;
   text-align: left;
   color: #43cff6;
-  /* -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent; */
 }
 
 @media screen and (max-width: 767px) {
   .preview-nft-wrapper  {
     margin-top: 15rem !important;
+  }
+} */
+
+.padding-form-wrapper {
+  padding: 75px 0;
+}
+
+.upload-title {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+.left-container div {
+  background-color: #2f2e3b;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.upload-image-container .upload-image-border {
+  border: 2px dashed white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+}
+.upload-image {
+  width: 199px;
+  height: 143px;
+}
+
+.upload-details p:nth-child(1) {
+  color: white;
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: bold;
+}
+.upload-details p {
+  color: #929090;
+  font-family: Manrope;
+  font-size: 12px;
+}
+.choose-file p {
+  color: #929090;
+  font-family: Manrope;
+  font-size: 12px;
+}
+
+.browse-files-btn {
+  background: transparent;
+  border: 1px solid #fff;
+  border-radius: 7px;
+  padding: 15px 30px;
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.create-nft-form-title {
+  font-size: 14px;
+  color: #fff;
+}
+
+.nft-inputs-container {
+  max-width: 90%;
+  background-color: #2f2e3b;
+  border-radius: 10px;
+}
+
+.nft-inputs-container input,
+.nft-inputs-container textarea,
+.nft-inputs-container select {
+  background-color: black;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+.nft-inputs-container select {
+  color: #929090;
+  display: inline-block;
+  background-image: linear-gradient(45deg, transparent 50%, white 50%),
+    linear-gradient(135deg, white 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+}
+
+.nft-inputs-container select:active {
+  background-image: linear-gradient(45deg, white 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, white 50%);
+  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+  border-color: grey;
+  outline: 0;
+}
+
+.nft-form-btns .btn-link a {
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.create-collection-btn {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-image: linear-gradient(to top, #bd48bc, #dd5b4d);
+  padding: 15px 80px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+}
+
+@media (max-width: 767.9px) {
+  .nft-inputs-container {
+    max-width: 100%;
+  }
+  .padding-form-wrapper {
+    padding: 50px 0;
   }
 }
