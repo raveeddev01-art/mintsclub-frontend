@@ -17,11 +17,14 @@ import {
   beforeCollection,
   getCollections,
 } from "../collections/collections.actions";
+import { setNftToken,createNFT } from "../nfts/nfts.action";
 import { getCurrentAddress } from "../../utils/web3";
 import { RiArrowDropDownLine } from "react";
 import "./createNft.css";
 
 import { Images } from "../../assets/assets.js";
+import Upload from "./components/upload";
+
 const placeholderImg = "";
 
 class CreateNFT extends Component {
@@ -36,6 +39,7 @@ class CreateNFT extends Component {
         userId: ENV.getUserKeys("_id")._id,
         nftOwnerId: ENV.getUserKeys("_id")._id,
         image: "",
+        videoURL: "",
         name: "",
         description: "",
         currentPrice: "",
@@ -46,8 +50,12 @@ class CreateNFT extends Component {
         ownerAddress: "",
         status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
       },
+      imageURL: "",
+      videoURL: "",
       collections: null,
       allcollections: null,
+      error: false,
+      errorMessage: "",
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -87,34 +95,34 @@ class CreateNFT extends Component {
     }
   }
 
-  onFileChange(e) {
-    let file = e.target.files[0];
-    let fileId = e.target.id;
-    if (file)
-      if (file.type.includes("image")) {
-        let { nft } = this.state;
-        nft = { ...nft, [e.target.name]: file };
-        this.setState(
-          {
-            nft,
-          },
-          () => {
-            if (file) {
-              var reader = new FileReader();
+  // onFileChange(e) {
+  //   let file = e.target.files[0];
+  //   let fileId = e.target.id;
+  //   if (file)
+  //     if (file.type.includes("image")) {
+  //       let { nft } = this.state;
+  //       nft = { ...nft, [e.target.name]: file };
+  //       this.setState(
+  //         {
+  //           nft,
+  //         },
+  //         () => {
+  //           if (file) {
+  //             var reader = new FileReader();
 
-              reader.onload = function (e) {
-                $(`#nft-${fileId}`).attr("src", e.target.result);
-                $("#nft-image-label").html("File selected");
-              };
-              reader.readAsDataURL(file);
-            }
-          }
-        );
-      } else {
-        $(`#nft-${fileId}`).attr("src", placeholderImg);
-        file = {};
-      }
-  }
+  //             reader.onload = function (e) {
+  //               $(`#nft-${fileId}`).attr("src", e.target.result);
+  //               $("#nft-image-label").html("File selected");
+  //             };
+  //             reader.readAsDataURL(file);
+  //           }
+  //         }
+  //       );
+  //     } else {
+  //       $(`#nft-${fileId}`).attr("src", placeholderImg);
+  //       file = {};
+  //     }
+  // }
 
   onChange(e, status = null) {
     let { name, value } = e.target;
@@ -147,6 +155,8 @@ class CreateNFT extends Component {
     e.preventDefault();
 
     const { nft } = this.state;
+    console.log(nft, "nft item");
+    // return ' '
     this.setState(
       {
         isSubmitted: true,
@@ -163,24 +173,49 @@ class CreateNFT extends Component {
               var formData = new FormData();
               for (const key in nft)
                 if (nft[key]) formData.append(key, nft[key]);
-
-              // this.props.createNFT(nft)
+           
               const res = await axiosPostFormData(
                 "nfts/create",
                 formData,
                 true
               );
+              console.log("response of create nft", res);
+
               if (res.success) {
-                this.reset();
+                // this.reset();
                 // toast.success(`Success! ${res.message}`)
+  
                 if (res.nft && res.nft.metaData) {
-                  await createNft(res.nft.metaData, res.nft._id);
+                  try {
+                    let nftId = res.nft._id;
+                    let createNftResult = await createNft(
+                      res.nft.metaData,
+                      res.nft._id
+                    );
+                    console.log(createNftResult, "createNftResult");
+
+                    if (createNftResult.events.Transfer.returnValues.tokenId) {
+                      let data = {
+                        nftToken:
+                          createNftResult.events.Transfer.returnValues.tokenId,
+                        nftId,
+                        data:this.state.nft,
+                        image:res.nft.image
+                      };
+                      this.props.setNftToken(data);
+                    }
+                  } catch (err) {
+      
+                   
+                    // alert(err.message);
+                  }
+
                   this.setState({
                     loader: true,
                   });
                   setTimeout(() => {
                     this.setState({ loader: false });
-                    this.props.history.push("/collections");
+                    // this.props.history.push("/collections");
                   }, 11000);
                 }
               } else this.setState({ errors: res.message, loader: false });
@@ -202,18 +237,154 @@ class CreateNFT extends Component {
     );
   };
 
+  onFileChange = (e, status) => {
+    if (this.handleFilesValidation(e, status) === "file matched") {
+      let file = "";
+      let url = "";
+      let fileId = "";
+      if (status === "onDrag") {
+        file = e.dataTransfer.files[0];
+        url = URL.createObjectURL(e.dataTransfer.files[0]);
+        fileId = e.dataTransfer.id;
+      } else {
+        file = e.target.files[0];
+        url = URL.createObjectURL(e.target.files[0]);
+        fileId = e.target.id;
+      }
+      if (file)
+        if (file.type.includes("image")) {
+          console.log(this.state, "this.state");
+          let { nft } = this.state;
+          nft = { ...nft, [e.target.name]: file };
+          nft = { ...nft, videoURL: "" };
+
+          this.setState(
+            {
+              nft,
+              imageURL: url,
+              videoURL: "",
+              error: false,
+              errorMessage: "",
+            },
+            () => {
+              if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                  $(`#nft-${fileId}`).attr("src", e.target.result);
+                  $("#nft-image-label").html("File selected");
+                };
+                reader.readAsDataURL(file);
+              }
+            }
+          );
+        } else if (file.type.includes("video")) {
+          let { nft } = this.state;
+          nft = { ...nft, videoURL: file };
+          nft = { ...nft, image: "" };
+          this.setState({
+            nft,
+            videoURL: url,
+            imageURL: "",
+            error: false,
+            errorMessage: "",
+          });
+        } else {
+          $(`#nft-${fileId}`).attr("src", placeholderImg);
+          file = {};
+        }
+    } else {
+      let message = this.handleFilesValidation(e, status);
+      this.setState({
+        error: true,
+        errorMessage: message,
+      });
+    }
+  };
+  dragOver = (e) => {
+    e.preventDefault();
+  };
+
+  dragEnter = (e) => {
+    e.preventDefault();
+  };
+
+  dragLeave = (e) => {
+    e.preventDefault();
+  };
+  onDrop = (e) => {
+    e.nativeEvent.preventDefault();
+    if (!e) return;
+
+    this.onFileChange(e, "onDrag");
+  };
+
+  handleFilesValidation = (e, status) => {
+    console.log(status, "status");
+    let files = "";
+    let type = "";
+    if (status === "onDrag") {
+      files = e.dataTransfer.files[0];
+      type = e.dataTransfer.files[0].type;
+    } else {
+      files = e.target.files[0];
+      type = e.target.files[0].type;
+    }
+    if (files) {
+      if (
+        type === "image/jpeg" ||
+        type === "image/png" ||
+        type === "image/gif" ||
+        type === "video/mp4"
+      ) {
+        let fileSize = this.formatBytes(files.size).split(" ");
+        if (+fileSize[0] > 100 && fileSize[1] === "MB") {
+          return "File size limit is exceeded";
+        } else {
+          return "file matched";
+        }
+      } else {
+        return "File not supported!";
+      }
+    }
+  };
+  formatBytes = (bytes, decimals = 2) => {
+    if (bytes === 0) return "0 Bytes";
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  };
+
   render() {
-    const { nft, errors, loader, isSubmitted, collections } = this.state;
+    const {
+      nft,
+      errors,
+      loader,
+      isSubmitted,
+      collections,
+      imageURL,
+      videoURL,
+      error,
+      errorMessage,
+    } = this.state;
+    // console.log(nft, "nft changed");
+    const { onDrop, dragOver, dragEnter, dragLeave } = this;
     //    if(!ENV.getUserKeys('_id')._id){
     //     toast.error("Please login to create NFT")
     //     this.props.history.push('/')
     //        return " "
     //    }
     //    else {
+    // console.log(nft, "nft");
 
     return (
       <section className="author-area padding-wrapper">
-        {/* {loader && <FullPageLoader />} */}
+        {loader && <FullPageLoader />}
         {/* <div className="container">
                     <div className="row ">
   
@@ -330,23 +501,46 @@ class CreateNFT extends Component {
             <div className="col-sm-5 col-md-4 col-lg-4 left-container">
               <p className="upload-title">Upload</p>
               <div className="p-3">
-                <div className="upload-image-container">
-                  <div className="upload-image-border p-4">
-                    <img
-                      className="upload-image"
-                      src={Images.uploadImage}
-                      alt="upload-image"
-                    />
+                <div
+                  className="upload-image-container"
+                  onDrop={(e) => onDrop(e)}
+                  onDragOver={(e) => dragOver(e)}
+                  onDragEnter={(e) => dragEnter(e)}
+                  onDragLeave={(e) => dragLeave(e)}
+                >
+                  <Upload
+                    onFileChange={(e, status) => this.onFileChange(e, status)}
+                    Images={Images}
+                    imageURL={imageURL}
+                    videoURL={videoURL}
+                    dragOver={dragOver}
+                    onDrop={onDrop}
+                    dragEnter={dragEnter}
+                    dragLeave={dragLeave}
+                  />
+                  <span className="text-danger text-center mt-3">
+                    {this.validator.message("image", nft.image, "required")}
+                  </span>
 
-                    <div className="upload-details text-center mt-2">
-                      <p>Drag and drop your file</p>
-                      <p>PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
-                    </div>
-                  </div>
+                  {error && (
+                    <p className="text-danger text-center mt-3">
+                      {errorMessage}
+                    </p>
+                  )}
 
                   <div className="choose-file text-center my-5 ">
-                    <p>or choose a file</p>
-                    <button className="browse-files-btn">Browse Files</button>
+                    <p className="mb-4">or choose a file</p>
+
+                    <label>
+                      <span className="browse-files-btn mt-2">browse file</span>
+                      <input
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={(e) => this.onFileChange(e, "onChange")}
+                        accept=".mp4, .png,.jpeg"
+                        name="image"
+                      />
+                    </label>
                   </div>
                 </div>
               </div>
@@ -358,7 +552,17 @@ class CreateNFT extends Component {
                 <div className="row g-4">
                   <div className="col-12">
                     <label className="create-nft-form-title mb-3">Title</label>
-                    <input name="title" placeholder="Type here" />
+                    <input
+                      name="name"
+                      placeholder="Type here"
+                      required="required"
+                      onChange={(e) => this.onChange(e)}
+                      value={nft.name}
+                      defaultValue={nft.name}
+                    />
+                    <span className="text-danger">
+                      {this.validator.message("name", nft.name, "required")}
+                    </span>
                   </div>
                   <div className="col-12">
                     <label className="create-nft-form-title mb-3">
@@ -368,14 +572,39 @@ class CreateNFT extends Component {
                       name="description"
                       rows="3"
                       placeholder="Type here"
+                      onChange={(e) => this.onChange(e)}
+                      value={nft.description}
+                      defaultValue={nft.description}
                     ></textarea>
+                    <span className="text-danger">
+                      {this.validator.message(
+                        "name",
+                        nft.description,
+                        "required"
+                      )}
+                    </span>
                   </div>
 
                   <div className="col-12 col-md-6">
                     <label className="create-nft-form-title mb-3">
                       Item Price
                     </label>
-                    <input name="title" placeholder="Type here" />
+                    <input
+                      name="currentPrice"
+                      placeholder="Type here"
+                      required="required"
+                      onChange={(e) => this.onChange(e)}
+                      onKeyDown={(e) => decimalNumberValidator(e)}
+                      value={nft.currentPrice}
+                      defaultValue={nft.currentPrice}
+                    />
+                    <span className="text-danger">
+                      {this.validator.message(
+                        "name",
+                        nft.currentPrice,
+                        "required"
+                      )}
+                    </span>
                   </div>
                   <div className="col-12 col-md-6">
                     <label className="create-nft-form-title mb-3">
@@ -394,34 +623,77 @@ class CreateNFT extends Component {
 
                   <div className="col-12 col-md-6">
                     <label className="create-nft-form-title mb-3">Size</label>
-                    <input name="title" value="" placeholder="Type here" />
+                    <input
+                      name="size"
+                      value=""
+                      placeholder="Type here"
+                      required="required"
+                      onChange={(e) => this.onChange(e)}
+                      value={nft.size}
+                      defaultValue={nft.size}
+                    />
+                    <span className="text-danger">
+                      {this.validator.message("name", nft.size, "required")}
+                    </span>
                   </div>
                   <div className="col-12 col-md-6">
                     <label className="create-nft-form-title mb-3">
                       No. of Copies
                     </label>
-                    <input name="title" value="" placeholder="Type here" />
+                    <input
+                      name="copies"
+                      value=""
+                      placeholder="Type here"
+                      required="required"
+                      onKeyDown={(e) => decimalNumberValidator(e)}
+                      onChange={(e) => this.onChange(e)}
+                      value={nft.copies}
+                      defaultValue={nft.copies}
+                    />
+                    <span className="text-danger">
+                      {this.validator.message("name", nft.copies, "required")}
+                    </span>
                   </div>
 
                   <div className="col-12">
                     <label className="create-nft-form-title mb-3">
                       Select Collection
                     </label>
-                    <select name="cars" id="cars">
-                      <option value="select" className="d-none"></option>
-                      <option value="volvo">Volvo</option>
-                      <option value="saab">Saab</option>
-                      <option value="opel">Opel</option>
-                      <option value="audi">Audi</option>
+                    <select
+                      id="collectionId"
+                      name="collectionId"
+                      onChange={(e) => this.onChange(e)}
+                    >
+                      <option value="">Select Collection</option>
+                      {collections &&
+                        collections.map((collection, index) => {
+                          return (
+                            <option key={index} value={collection._id}>
+                              {collection.name}
+                            </option>
+                          );
+                        })}
                     </select>
+                    <span className="text-danger">
+                      {this.validator.message(
+                        "name",
+                        nft.collectionId,
+                        "required"
+                      )}
+                    </span>
                   </div>
                   <div className="col-12">
                     <div className="nft-form-btns text-center ">
                       <div className="btn-link my-1 text-white">
                         <a>Preview</a>
                       </div>
-                      <button className="create-collection-btn my-1">
-                        Create Collection
+                      <button
+                        disabled={loader}
+                        className="create-collection-btn my-1"
+                        typ="submit"
+                        onClick={(e) => this.submit(e)}
+                      >
+                        Create Item
                       </button>
                       <div className="btn-link my-1 text-white">
                         <a>Cancel</a>
@@ -444,6 +716,9 @@ const mapStateToProps = (state) => ({
   collection: state.collection,
 });
 
-export default connect(mapStateToProps, { beforeCollection, getCollections })(
-  CreateNFT
-);
+export default connect(mapStateToProps, {
+  beforeCollection,
+  getCollections,
+  setNftToken,
+  createNFT
+})(CreateNFT);

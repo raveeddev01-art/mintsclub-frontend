@@ -4,7 +4,9 @@ const initialState = {
     nftsData: {},
     nftAll:{},
     nftsAuth: false,
-    upsertAuth: false
+    upsertAuth: false,
+    createNFTResult:[],
+    createNFTerror:false,
 }
 
 export default function (state = initialState, action) {

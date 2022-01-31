@@ -11,11 +11,13 @@ import { Redirect } from 'react-router-dom';
 
 let Contract = require('web3-eth-contract');
 
-const nftContractAddress = ENV.nftContractAddress;
+const nftContractAddress = ENV.ariswapContractAddress;
+console.log(nftContractAddress,"nftContractAddress")
 Contract.setProvider();
 console.log(window.web3?.currentProvider,"current provider")
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN)
+console.log(liveAuction,"liveAuction")
 
 //get web3
 var web3Provider=null;
@@ -283,6 +285,8 @@ export const ClaimFundsAfterBidding = (token) => {
 }
 
 export const createNft= async (metaData,nftId)=>{
+
+
     //getting accounts
     const web3 = new Web3(Web3.givenProvider);
     let accounts = await web3.eth.getAccounts();
@@ -293,64 +297,81 @@ export const createNft= async (metaData,nftId)=>{
     console.log(liveAuction,"liveAuction.==>")
     console.log(liveAuction.methods,"liveAuction.methods==>")
     //create NFT
-    liveAuction.methods.createNewNFT(address,metaData).send({
+
+    try{
+      let createNftResult=  await liveAuction.methods.createNewNFT(address,metaData).send({
             value: 1000000000000000,
             // value:0,
             from:address,
-            to:address,
          }
-        ).then((res)=>{
-            // console.log(res.events.Transfer.returnValues.tokenId,"res of createNFT===>")
-            let data={
-                nftToken:res.events.Transfer.returnValues.tokenId,
-                nftId
-            }
 
-            setNftToken(data)
-
-            toast.success("NFT created successfully")
-            // window.location.href= '/explore-all'
-    })
-    .catch((err)=>{
-        console.log('err', err)
-        if(err.code=== 4001){
-            let url = process.env.REACT_APP_BASE_URL + `nfts/update`;
-             var payload = {
-                 status: 0,
-                 _id:nftId
-             }
-            fetch(url, {
-             method: 'POST',
-             headers: {
-                'content-type': 'application/json',
-                'Authorization': ENV.Authorization,
-                'x-auth-token': ENV.x_auth_token,
-                'Access-Control-Allow-Origin': '*',
-                'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
-            },
-            body: JSON.stringify(payload)
-        }).then(res => res.json()).then(data => {
-          
-            console.log(data,"data==>")
-            if (data.success === false) {
-                toast.error(err.message)
-            } 
-        }).catch(error => {
-            // alert("in setting nft then")
-            console.log(error,"error in catch blcok")
-            if (error.response && error.response.data) {
-                toast.error(err.message)
-            
-            }
-            else {
-        toast.error("Transaction Failed Please check wallet history")
-
-            }
          
-        })
-        }
+        )
+        return createNftResult
+    }catch(err){
+       throw err
+    }
+    // liveAuction.methods.createNewNFT(address,metaData).send({
+    //         value: 1000000000000000,
+    //         // value:0,
+    //         from:address,
+    //      }
+
+         
+    //     ).then((res)=>{
+    //         // console.log(res.events.Transfer.returnValues.tokenId,"res of createNFT===>")
+    //         let data={
+    //             nftToken:res.events.Transfer.returnValues.tokenId,
+    //             nftId
+    //         }
+
+    //         setNftToken(data)
+
+    //         toast.success("NFT created successfully")
+    //         // window.location.href= '/explore-all'
+    //         return res
+    // })
+    // .catch((err)=>{
+   
+    //     console.log('err', err)
+    //     if(err.code=== 4001){
+    //         let url = process.env.REACT_APP_BASE_URL + `nfts/update`;
+    //          var payload = {
+    //              status: 0,
+    //              _id:nftId
+    //          }
+    //         fetch(url, {
+    //          method: 'POST',
+    //          headers: {
+    //             'content-type': 'application/json',
+    //             'Authorization': ENV.Authorization,
+    //             'x-auth-token': ENV.x_auth_token,
+    //             'Access-Control-Allow-Origin': '*',
+    //             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
+    //         },
+    //         body: JSON.stringify(payload)
+    //     }).then(res => res.json()).then(data => {
+          
+    //         console.log(data,"data==>")
+    //         if (data.success === false) {
+    //             toast.error(err.message)
+    //         } 
+    //     }).catch(error => {
+    //         // alert("in setting nft then")
+    //         console.log(error,"error in catch blcok")
+    //         if (error.response && error.response.data) {
+    //             toast.error(err.message)
+            
+    //         }
+    //         else {
+    //     toast.error("Transaction Failed Please check wallet history")
+
+    //         }
+         
+    //     })
+    //     }
         
-    })
+    // })
     // return res
 }
 

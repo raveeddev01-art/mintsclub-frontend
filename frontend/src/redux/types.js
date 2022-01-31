@@ -16,6 +16,10 @@ export const GET_NFTS = 'GET_NFTS';
 export const GET_NFT = 'GET_NFT';
 export const UPSERT_NFT = 'UPSERT_NFT';
 
+//CREATE NFT
+export const SET_NFT_TOKEN='SET_NFT_TOKEN';
+export const CREATE_NFT='CREATE_NFT';
+
 // WALLET
 export const BEFORE_WALLET = 'BEFORE_WALLET';
 export const SET_WALLET = 'SET_WALLET';
