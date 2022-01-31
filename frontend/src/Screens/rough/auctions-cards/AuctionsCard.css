@@ -1,5 +1,6 @@
 .card.auction-card {
   padding: 20px;
+  background-color: #212029;
 }
 .auction-card.card .card-img-top {
   width: 100%;

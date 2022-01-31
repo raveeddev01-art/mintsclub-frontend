@@ -46,7 +46,7 @@ const NavbarMain = () => {
               Collections
             </Nav.Link>
             <Nav.Link to="/" className="nav-main-link">
-              Conatct
+              Contact
             </Nav.Link>
             <Nav.Link to="/" className="nav-main-link">
               History
@@ -60,7 +60,7 @@ const NavbarMain = () => {
               <img src={LoginIcon} alt="loginIcon" className="me-2" />
               Login
             </Link>
-            <div class="search-box d-sm-none">
+            <div class="search-box mt-1 mt-sm-0 d-sm-none">
               <input
                 class="search-txt "
                 type="text"
@@ -74,7 +74,7 @@ const NavbarMain = () => {
           </Nav>
         </Navbar.Collapse>
         <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
-          <div class="search-box">
+          <div class="search-box ">
             <input
               class="search-txt"
               type="text"
