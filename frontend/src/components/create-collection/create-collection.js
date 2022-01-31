@@ -152,14 +152,14 @@ class CreateCollection extends Component {
 
   render() {
     const { collection, errors, loader, isSubmitted, categories } = this.state;
-    if (ENV.getUserKeys("_id")._id) {
+    if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");
       this.props.history.push("/");
       return " ";
     } else {
       return (
         <section className="author-area padding-wrapper">
-          {/* {loader && <FullPageLoader />}
+          {loader && <FullPageLoader />}
                 <div className="container">
                     <div className="row justify-content-between">
                         <div className="col-12 col-md-12">
@@ -268,7 +268,7 @@ class CreateCollection extends Component {
                             </form>
                         </div>
                     </div>
-                </div > */}
+                </div >
         </section>
       );
     }

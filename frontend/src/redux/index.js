@@ -13,6 +13,7 @@ import faqReducer from '../components/faq/faq.reducer'
 import offersReducer from '../components/offers/offers.reducer'
 import bidsReducer from '../components/bids/bids.reducer'
 import contactReducer from '../components/contact/contact.reducer'
+import createNftReducer from '../components/create-nft/create-nft-reducer'
 
 export default combineReducers({
     home: homeReducer,
@@ -28,5 +29,7 @@ export default combineReducers({
     faqs: faqReducer,
     offer: offersReducer,
     bid: bidsReducer,
-    contact: contactReducer
+    contact: contactReducer,
+    
+    
 })

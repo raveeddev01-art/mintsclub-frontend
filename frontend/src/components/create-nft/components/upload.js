@@ -1,0 +1,69 @@
+import VideoComponent from "../../videoComponent/videoComponent";
+import {IoMdCloudUpload} from 'react-icons/io'
+import './upload.css'
+const videoStyles={
+    width:"100%",
+    height:"100%"
+}
+
+const Upload = ({
+  Images,
+  onFileChange,
+  imageURL,
+  onDrop,
+  dragOver,
+  dragEnter,
+  dragLeave,
+  videoURL
+}) => {
+  return (
+    <label className="w-100"       onDrop={(e) => onDrop(e)}
+    onDragOver={(e) => dragOver(e)}
+    onDragEnter={(e) => dragEnter(e)}
+    onDragLeave={(e) => dragLeave(e)}
+    
+    >
+      <div
+        className="upload-image-border p-4"
+        
+  
+      >
+        {imageURL ? (
+          <div>
+            <img className="upload-image position-relative" src={imageURL} alt="upload-image" />
+            {/* <IoMdCloudUpload className="img-upload-icon"/> */}
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={onFileChange}
+              accept=".mp4, .png,.jpeg"
+              name="image"
+            />
+          </div>
+        ) : videoURL? <VideoComponent videoUrl={videoURL} videoStyles={videoStyles} videoWidth="300"/>:(
+          <>
+            {" "}
+            <img
+              className="upload-image"
+              src={Images.uploadImage}
+              alt="upload-image"
+            />
+            <div className="upload-details text-center mt-2">
+              <p>Drag and drop your file</p>
+              <p>PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+            </div>
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={(e)=>onFileChange(e,"onChange")}
+              accept=".mp4, .png,.jpeg"
+              name="image"
+            />
+          </>
+        )}
+      </div>
+    </label>
+  );
+};
+
+export default Upload;

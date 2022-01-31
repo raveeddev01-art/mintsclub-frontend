@@ -1,21 +1,19 @@
-import './videoComponent.css'
+import "./videoComponent.css";
 
-const VideoComponent=({videoUrl})=>{
- 
-    return(
-        <>
-        {videoUrl && 
-            <video className="mt-2 video-view" width="400"src={videoUrl} controls >
-     
-    
-          </video>
-              }
-        </>
-)}
+const VideoComponent = ({ videoUrl, videoStyles, videoWidth }) => {
+  return (
+    <>
+      {videoUrl && (
+        <video
+          className={`mt-2 ${videoStyles ? "" : "video-view"}`}
+          styles={{ ...videoStyles }}
+          width={videoWidth ? videoWidth : "400"}
+          src={videoUrl}
+          controls
+        ></video>
+      )}
+    </>
+  );
+};
 
-export default VideoComponent
-
-
-
-
-
+export default VideoComponent;
