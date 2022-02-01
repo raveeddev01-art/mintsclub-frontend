@@ -34,7 +34,7 @@ const Hero = (props) => {
               Explore on the world's best & largest NFT marketplace
             </p>
             {/* Buttons */}
-            <div className="button-group">
+            <div className="button-group mt-lg-5 d-flex">
               <Link
                 className="btn btn-linear-gradient "
                 to={connectedAddress ? "/create" : "/login"}
@@ -43,14 +43,17 @@ const Hero = (props) => {
                 <img src={CreateIcon} alt="createIcon" className="me-2" />
                 Create
               </Link>
-              <Link className="btn btn-rounded-bordered" to="/explore-all">
+              <Link
+                className="btn btn-rounded-bordered btn-hero-explore"
+                to="/explore-all"
+              >
                 {/* <i className="icon-rocket mr-2" /> */}
                 <img src={ExploreIcon} alt="exploreIcon" className="me-2" />
-                Explore
+                <p>Explore</p>
               </Link>
             </div>
             <div className="watch-video mt-5">
-              <span>
+              <span className="mt-lg-5">
                 <img src={PlayIcon} alt="playIcon" className="me-2" /> Watch
                 video to learn more
               </span>

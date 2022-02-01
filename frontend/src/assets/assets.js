@@ -1,7 +1,5 @@
-import uploadImage from  './images/vector-smart-object.png'
+import uploadImage from "./images/uploadImg.svg";
 
-
-export const Images={
-    uploadImage
-}
-
+export const Images = {
+  uploadImage,
+};

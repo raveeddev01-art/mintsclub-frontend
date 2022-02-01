@@ -4,6 +4,10 @@
   margin: 0 5px;
 }
 
+.card.collection-cards-container {
+  background: linear-gradient(to top, #10103c, #2a6285);
+}
+
 .collection-cards-container .card-body {
   padding-top: 20px;
 }
@@ -16,12 +20,10 @@
 }
 
 .collection-cards-container .card-title:hover {
-  background: -webkit-linear-gradient(#bf3cbd, #f54d3b);
+  background: -webkit-linear-gradient(#5666fe, #5666fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: #f54d3b;
 }
 
 .collection-cards-container .card-text {

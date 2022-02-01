@@ -1,10 +1,12 @@
 import VideoComponent from "../../videoComponent/videoComponent";
-import {IoMdCloudUpload} from 'react-icons/io'
-import './upload.css'
-const videoStyles={
-    width:"100%",
-    height:"100%"
-}
+import { IoMdCloudUpload } from "react-icons/io";
+import UploadIcon from "../../../assets/images/uploadIcon.png";
+import { MdClose } from "react-icons/md";
+import "./upload.css";
+const videoStyles = {
+  width: "100%",
+  height: "100%",
+};
 
 const Upload = ({
   Images,
@@ -14,23 +16,26 @@ const Upload = ({
   dragOver,
   dragEnter,
   dragLeave,
-  videoURL
+  videoURL,
 }) => {
   return (
-    <label className="w-100"       onDrop={(e) => onDrop(e)}
-    onDragOver={(e) => dragOver(e)}
-    onDragEnter={(e) => dragEnter(e)}
-    onDragLeave={(e) => dragLeave(e)}
-    
+    <label
+      className="w-100"
+      onDrop={(e) => onDrop(e)}
+      onDragOver={(e) => dragOver(e)}
+      onDragEnter={(e) => dragEnter(e)}
+      onDragLeave={(e) => dragLeave(e)}
     >
-      <div
-        className="upload-image-border p-4"
-        
-  
-      >
+      <div className="upload-image-border p-4">
         {imageURL ? (
-          <div>
-            <img className="upload-image position-relative" src={imageURL} alt="upload-image" />
+          <div className="nft-uploaded-img-container">
+            <MdClose color="#e33d0bc2" className="uploaded-cross-icon" />
+            <img className="upload-image" src={imageURL} alt="upload-image" />
+            <img
+              src={UploadIcon}
+              alt="upload-icon"
+              className="nft-upload-icon"
+            />
             {/* <IoMdCloudUpload className="img-upload-icon"/> */}
             <input
               type="file"
@@ -40,7 +45,21 @@ const Upload = ({
               name="image"
             />
           </div>
-        ) : videoURL? <VideoComponent videoUrl={videoURL} videoStyles={videoStyles} videoWidth="300"/>:(
+        ) : videoURL ? (
+          <div className="nft-uploaded-img-container">
+            <MdClose color="#e33d0bc2" className="uploaded-cross-icon" />
+            <VideoComponent
+              videoUrl={videoURL}
+              videoStyles={videoStyles}
+              videoWidth="100%"
+            />
+            <img
+              src={UploadIcon}
+              alt="upload-icon"
+              className="nft-upload-icon"
+            />
+          </div>
+        ) : (
           <>
             {" "}
             <img
@@ -55,7 +74,7 @@ const Upload = ({
             <input
               type="file"
               style={{ display: "none" }}
-              onChange={(e)=>onFileChange(e,"onChange")}
+              onChange={(e) => onFileChange(e, "onChange")}
               accept=".mp4, .png,.jpeg"
               name="image"
             />

@@ -4,7 +4,7 @@ import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
 import ThreeDots from "../../../assets/images/threeDots.svg";
-import ArrowUp from "../../../assets/images/arrowUp.png";
+import ArrowUp from "../../../assets/images/arrowUp.svg";
 import Bucket from "../../../assets/images/bucket.png";
 import Countdown from "react-countdown";
 import { ENV } from "../../../config/config";
@@ -39,7 +39,7 @@ const AuctionsCards = () => {
           <div className="auction-owner-name">
             <p>Owend by Jecica</p>
           </div>
-          <div className="d-flex align-items-center">
+          <div className="auction-owner-price d-flex align-items-center">
             <img src={ArrowUp} alt="" className="me-1" />
             <span>68.4 ETH</span>
           </div>

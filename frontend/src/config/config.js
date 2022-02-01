@@ -7,7 +7,7 @@ export const ENV = {
   // blockchain variables
   nftContractAddress: process.env.REACT_APP_NFT_CONTRACT_ADDRESS,
   web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
-  ariswapContractAddress:process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
+  ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
 
   // process variables
   url: process.env.REACT_APP_BASE_URL,
@@ -236,19 +236,19 @@ export const ENV = {
         style={{ justifyContent: "space-between", width: "85%" }}
       >
         <div className="countdown-wrapper m-1">
-          <div>D</div>
+          <div className="countdown-heading">D</div>
           <div className="countdown-wrapper-time">{days}</div>
         </div>
         <div className="countdown-wrapper m-1">
-          <div>H</div>
+          <div className="countdown-heading">H</div>
           <div className="countdown-wrapper-time">{hours}</div>
         </div>
         <div className="countdown-wrapper m-1">
-          <div>M</div>
+          <div className="countdown-heading">M</div>
           <div className="countdown-wrapper-time">{minutes}</div>
         </div>
         <div className="countdown-wrapper m-1">
-          <div>S</div>
+          <div className="countdown-heading">S</div>
           <div className="countdown-wrapper-time">{seconds}</div>
         </div>
       </div>

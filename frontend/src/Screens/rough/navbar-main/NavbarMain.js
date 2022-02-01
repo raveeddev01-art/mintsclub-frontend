@@ -8,94 +8,96 @@ import "./NavbarMain.css";
 
 const NavbarMain = () => {
   return (
-    <Container className="main-nav-container">
-      <Navbar
-        bg="light"
-        expand="xl"
-        variant="dark"
-        className="navbar-main-custom align-items-center px-0 py-4"
-      >
-        <Navbar.Brand href="#" className="navbar-brand-logo">
-          <img src={MintsClub} alt="logo" />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mx-xl-auto" activeKey="/user-dashboard">
-            <Nav.Link to="/user-dasboard" className="nav-main-link">
-              Home
-            </Nav.Link>
-            <NavDropdown
-              title="Explore"
-              id="navbarScrollingDropdown"
-              className="nav-main-link dropdown-bg"
-            >
-              <NavDropdown.Item
-                to="/explore-all"
-                className="nav-main-link main-nav-dd-items"
+    <div className="main-nav-section">
+      <Container className="main-nav-container">
+        <Navbar
+          bg="light"
+          expand="xl"
+          variant="dark"
+          className="navbar-main-custom align-items-center px-0 py-4"
+        >
+          <Navbar.Brand href="#" className="navbar-brand-logo">
+            <img src={MintsClub} alt="logo" />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mx-xl-auto" activeKey="/user-dashboard">
+              <Nav.Link to="/user-dasboard" className="nav-main-link">
+                Home
+              </Nav.Link>
+              <NavDropdown
+                title="Explore"
+                id="navbarScrollingDropdown"
+                className="nav-main-link dropdown-bg"
               >
-                Explore
-              </NavDropdown.Item>
-              <NavDropdown.Item to="/auctions" className="nav-main-link">
-                Live Auctions
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link to="/activity" className="nav-main-link">
-              Activity
-            </Nav.Link>
-            <Nav.Link to="/collections" className="nav-main-link">
-              Collections
-            </Nav.Link>
-            <Nav.Link to="/" className="nav-main-link">
-              Contact
-            </Nav.Link>
-            <Nav.Link to="/" className="nav-main-link">
-              History
-            </Nav.Link>
+                <NavDropdown.Item
+                  to="/explore-all"
+                  className="nav-main-link main-nav-dd-items"
+                >
+                  Explore
+                </NavDropdown.Item>
+                <NavDropdown.Item to="/auctions" className="nav-main-link">
+                  Live Auctions
+                </NavDropdown.Item>
+              </NavDropdown>
+              <Nav.Link to="/activity" className="nav-main-link">
+                Activity
+              </Nav.Link>
+              <Nav.Link to="/collections" className="nav-main-link">
+                Collections
+              </Nav.Link>
+              <Nav.Link to="/" className="nav-main-link">
+                Contact
+              </Nav.Link>
+              <Nav.Link to="/" className="nav-main-link">
+                History
+              </Nav.Link>
 
-            <Link
-              to="/"
-              id="wallet-address"
-              className="btn ml-lg-auto btn-linear-gradient d-sm-none"
-            >
-              <img src={LoginIcon} alt="loginIcon" className="me-2" />
-              Login
-            </Link>
-            <div class="search-box mt-1 mt-sm-0 d-sm-none">
+              <Link
+                to="/"
+                id="wallet-address"
+                className="btn ml-lg-auto btn-linear-gradient d-sm-none"
+              >
+                <img src={LoginIcon} alt="loginIcon" className="me-2" />
+                Login
+              </Link>
+              <div class="search-box mt-1 mt-sm-0 d-sm-none">
+                <input
+                  class="search-txt "
+                  type="text"
+                  name=""
+                  placeholder="Type to Search"
+                />
+                <a class="search-btn" href="#">
+                  <img src={SearchIcon} alt="search-icon" />
+                </a>
+              </div>
+            </Nav>
+          </Navbar.Collapse>
+          <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
+            <div class="search-box ">
               <input
-                class="search-txt "
+                class="search-txt"
                 type="text"
                 name=""
                 placeholder="Type to Search"
               />
-              <a class="search-btn" href="#">
+              <a class="search-btn me-1 mt-1" href="#">
                 <img src={SearchIcon} alt="search-icon" />
               </a>
             </div>
-          </Nav>
-        </Navbar.Collapse>
-        <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
-          <div class="search-box ">
-            <input
-              class="search-txt"
-              type="text"
-              name=""
-              placeholder="Type to Search"
-            />
-            <a class="search-btn me-1 mt-1" href="#">
-              <img src={SearchIcon} alt="search-icon" />
-            </a>
+            <Link
+              to="/"
+              id="wallet-address"
+              className="btn ml-lg-auto btn-linear-gradient"
+            >
+              <img src={LoginIcon} alt="loginIcon" className="me-2" />
+              Login
+            </Link>
           </div>
-          <Link
-            to="/"
-            id="wallet-address"
-            className="btn ml-lg-auto btn-linear-gradient"
-          >
-            <img src={LoginIcon} alt="loginIcon" className="me-2" />
-            Login
-          </Link>
-        </div>
-      </Navbar>
-    </Container>
+        </Navbar>
+      </Container>
+    </div>
   );
 };
 

@@ -32,7 +32,7 @@ function Home() {
       <Work />
       <TopSeller viewAll={"View All"} />
       {/* <Collections /> */}
-      {/* <PopularCollections /> */}
+      <PopularCollections />
       {/* <CardSlider /> */}
       {/* <Authors /> */}
       {/* <MyCollections /> */}

@@ -8,9 +8,8 @@ import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
 import "./CollectionsCard.css";
 
-const CollectionsCard = ({category}) => {
-
-  const {name,image}=category
+const CollectionsCard = () => {
+  // const { name, image } = category;
   return (
     <Card className="collection-cards-container">
       <div className="row">
@@ -26,11 +25,11 @@ const CollectionsCard = ({category}) => {
               <img src={Subimg3} alt="subImg" />
             </div>
             <div className="col-12 collection-mainImg">
-              <img src={image} alt="card-img" />
+              <img src={CardImg} alt="card-img" />
             </div>
           </div>
           <Card.Body>
-            <Card.Title>{name}</Card.Title>
+            <Card.Title>Moder Art Collections</Card.Title>
             <Card.Text>5 items</Card.Text>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">

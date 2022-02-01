@@ -104,7 +104,7 @@ const TopSeller = (props) => {
     setSellers(props.user.sellers);
   }, [props.user.topSellersAuth]);
 
-  console.log(sellers,"sellers==>")
+  console.log(sellers, "sellers==>");
   return (
     <section className="top-seller-area padding-wrapper">
       <div className="container">
@@ -135,14 +135,13 @@ const TopSeller = (props) => {
         <div className="row items">
           {sellers && sellers.length ? (
             sellers.map((author, idx) => {
-        
               return (
                 <div
                   key={`ts_${idx}`}
                   className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
                 >
                   {/* Single Seller */}
-                  <div className="card no-hover ">
+                  <div className="card">
                     <div className="single-seller d-flex align-items-center">
                       <Link to={`/author/${author._id}`}>
                         <div className="seller-avatar-container">

@@ -14,6 +14,8 @@ import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { toast } from "react-toastify";
 import "./create-collection.css";
 import { Images } from "../../assets/assets.js";
+import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import Footer from "../footer/footer";
 class CreateCollection extends Component {
   constructor(props) {
     super(props);
@@ -158,256 +160,267 @@ class CreateCollection extends Component {
       return " ";
     } else {
       return (
-        <section className="author-area padding-form-wrapper">
-          {loader && <FullPageLoader />}
-          <div className="container">
-            <div className="row justify-content-between">
-              <div className="col-12 col-md-12">
-                <div className="mt-5 mt-lg-0 mb-4 mb-lg-5">
-                  <div className="intro">
-                    <div className="intro-content">
-                      <span>Get Started</span>
-                      <h3 className="mt-3 mb-0">Create Collection</h3>
+        <div>
+          <NavbarMain />
+
+          <section className="author-area padding-form-wrapper">
+            {loader && <FullPageLoader />}
+            <div className="container">
+              <div className="row justify-content-between">
+                <div className="col-12 col-md-12">
+                  <div className="mt-5 mt-lg-0 mb-4 mb-lg-5">
+                    <div className="intro">
+                      <div className="intro-content">
+                        <span>Get Started</span>
+                        <h3 className="mb-0">Create Collection</h3>
+                      </div>
                     </div>
+                    {isSubmitted && errors && (
+                      <div className="row">
+                        <div className="col-12">
+                          <span
+                            id="create-collection-err"
+                            className="text-danger"
+                          >
+                            {errors}
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  {isSubmitted && errors && (
+                  <form
+                    id="create-collection"
+                    className="item-form card no-hover"
+                  >
                     <div className="row">
                       <div className="col-12">
-                        <span
-                          id="create-collection-err"
-                          className="text-danger"
-                        >
-                          {errors}
-                        </span>
+                        <div className="input-group form-group">
+                          <div className="custom-file">
+                            <input
+                              type="file"
+                              className="custom-file-input"
+                              id="logo"
+                              accept=".png,.jpeg,.jpg"
+                              onChange={(e) => this.onFileChange(e)}
+                              name="logo"
+                            />
+                            <label
+                              id="collection-logo-label"
+                              className="custom-file-label"
+                              htmlFor="logo"
+                            >
+                              Choose Logo *
+                            </label>
+                          </div>
+                          <span className="text-danger">
+                            {this.validator.message(
+                              "logo",
+                              collection.logo,
+                              "required"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-3">
+                        <div className="card no-hover text-center my-2 bg-transparent upload-image-border ">
+                          <div className="image-over ">
+                            <img
+                              id="logo-placeholder"
+                              className="card-img-top create-collection-placeholder"
+                              src={
+                                collection.logoUrl
+                                  ? collection.logoUrl
+                                  : Images.uploadImage
+                              }
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="input-group form-group">
+                          <div className="custom-file">
+                            <input
+                              type="file"
+                              className="custom-file-input"
+                              id="featuredImg"
+                              accept=".png,.jpeg,.jpg"
+                              onChange={(e) => this.onFileChange(e)}
+                              name="featuredImg"
+                            />
+                            <label
+                              id="collection-featuredImg-label"
+                              className="custom-file-label"
+                              htmlFor="featuredImg"
+                            >
+                              {" "}
+                              Choose Featured Image
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <div className="card no-hover text-center my-2 bg-transparent upload-image-border">
+                          <div className="image-over">
+                            <img
+                              id="featuredImg-placeholder"
+                              className="card-img-top create-collection-placeholder"
+                              src={
+                                collection.featuredImgUrl
+                                  ? collection.featuredImgUrl
+                                  : Images.uploadImage
+                              }
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-12 ">
+                        <div className="input-group form-group">
+                          <div className="custom-file">
+                            <input
+                              type="file"
+                              className="custom-file-input"
+                              id="banner"
+                              accept=".png,.jpeg,.jpg"
+                              onChange={(e) => this.onFileChange(e)}
+                              name="banner"
+                            />
+                            <label
+                              id="collection-banner-label"
+                              className="custom-file-label"
+                              htmlFor="banner"
+                            >
+                              Choose Banner
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-8">
+                        <div className="card no-hover text-center my-2 bg-transparent upload-image-border">
+                          <div className="image-over">
+                            <img
+                              id="banner-placeholder"
+                              className="card-img-top create-collection-placeholder"
+                              src={
+                                collection.bannerUrl
+                                  ? collection.bannerUrl
+                                  : Images.uploadImage
+                              }
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group mt-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="name"
+                            placeholder="Name *"
+                            onChange={(e) => this.onChange(e)}
+                            defaultValue={collection.name}
+                            maxLength="55"
+                            autoComplete="off"
+                          />
+                          <span className="text-danger">
+                            {this.validator.message(
+                              "name",
+                              collection.name,
+                              "required"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className="form-group mt-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="url"
+                            placeholder="URL"
+                            onChange={(e) => this.onChange(e)}
+                            defaultValue={collection.url}
+                            maxLength="70"
+                            autoComplete="off"
+                          />
+                          <span className="text-danger">
+                            {this.validator.message(
+                              "url",
+                              collection.url,
+                              "url"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
+                          {/* <label
+                            htmlFor="category"
+                            className="create-nft-form-title mb-3"
+                          >
+                            Select Category*
+                          </label> */}
+                          <select
+                            className="form-control p-0"
+                            id="category"
+                            name="categoryId"
+                            onChange={(e) => this.onChange(e)}
+                          >
+                            <option value="">Select Category</option>
+                            {categories &&
+                              categories.map((category, index) => {
+                                return (
+                                  <option key={index} value={category._id}>
+                                    {category.name}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                          <span className="text-danger">
+                            {this.validator.message(
+                              "category",
+                              collection.categoryId,
+                              "required"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
+                          <textarea
+                            className="form-control"
+                            name="description"
+                            placeholder="Description"
+                            cols={30}
+                            rows={3}
+                            onChange={(e) => this.onChange(e)}
+                            defaultValue={collection.description}
+                            maxLength="230"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="text-center">
+                          <button
+                            disabled={loader}
+                            className="create-collection-btn mx-auto mt-3 mt-sm-4"
+                            type="button"
+                            onClick={(e) => this.submit(e)}
+                          >
+                            Create Collection
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  )}
+                  </form>
                 </div>
-                <form
-                  id="create-collection"
-                  className="item-form card no-hover"
-                >
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="input-group form-group">
-                        <div className="custom-file">
-                          <input
-                            type="file"
-                            className="custom-file-input"
-                            id="logo"
-                            accept=".png,.jpeg,.jpg"
-                            onChange={(e) => this.onFileChange(e)}
-                            name="logo"
-                          />
-                          <label
-                            id="collection-logo-label"
-                            className="custom-file-label"
-                            htmlFor="logo"
-                          >
-                            Choose Logo *
-                          </label>
-                        </div>
-                        <span className="text-danger">
-                          {this.validator.message(
-                            "logo",
-                            collection.logo,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-3">
-                      <div className="card no-hover text-center my-2 bg-transparent upload-image-border ">
-                        <div className="image-over ">
-                          <img
-                            id="logo-placeholder"
-                            className="card-img-top create-collection-placeholder"
-                            src={
-                              collection.logoUrl
-                                ? collection.logoUrl
-                                : Images.uploadImage
-                            }
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="input-group form-group">
-                        <div className="custom-file">
-                          <input
-                            type="file"
-                            className="custom-file-input"
-                            id="featuredImg"
-                            accept=".png,.jpeg,.jpg"
-                            onChange={(e) => this.onFileChange(e)}
-                            name="featuredImg"
-                          />
-                          <label
-                            id="collection-featuredImg-label"
-                            className="custom-file-label"
-                            htmlFor="featuredImg"
-                          >
-                            {" "}
-                            Choose Featured Image
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="card no-hover text-center my-2 bg-transparent upload-image-border">
-                        <div className="image-over">
-                          <img
-                            id="featuredImg-placeholder"
-                            className="card-img-top create-collection-placeholder"
-                            src={
-                              collection.featuredImgUrl
-                                ? collection.featuredImgUrl
-                                : Images.uploadImage
-                            }
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="input-group form-group">
-                        <div className="custom-file">
-                          <input
-                            type="file"
-                            className="custom-file-input"
-                            id="banner"
-                            accept=".png,.jpeg,.jpg"
-                            onChange={(e) => this.onFileChange(e)}
-                            name="banner"
-                          />
-                          <label
-                            id="collection-banner-label"
-                            className="custom-file-label"
-                            htmlFor="banner"
-                          >
-                            Choose Banner
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="card no-hover text-center my-2 bg-transparent upload-image-border">
-                        <div className="image-over">
-                          <img
-                            id="banner-placeholder"
-                            className="card-img-top create-collection-placeholder"
-                            src={
-                              collection.bannerUrl
-                                ? collection.bannerUrl
-                                : Images.uploadImage
-                            }
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group mt-3">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="name"
-                          placeholder="Name *"
-                          onChange={(e) => this.onChange(e)}
-                          defaultValue={collection.name}
-                          maxLength="55"
-                        />
-                        <span className="text-danger">
-                          {this.validator.message(
-                            "name",
-                            collection.name,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group mt-3">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="url"
-                          placeholder="URL"
-                          onChange={(e) => this.onChange(e)}
-                          defaultValue={collection.url}
-                          maxLength="70"
-                        />
-                        <span className="text-danger">
-                          {this.validator.message("url", collection.url, "url")}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="category"
-                          className="create-nft-form-title mb-3"
-                        >
-                          Select Category*
-                        </label>
-                        <select
-                          className="form-control p-0"
-                          id="category"
-                          name="categoryId"
-                          onChange={(e) => this.onChange(e)}
-                        >
-                          <option value="">Select Category</option>
-                          {categories &&
-                            categories.map((category, index) => {
-                              return (
-                                <option key={index} value={category._id}>
-                                  {category.name}
-                                </option>
-                              );
-                            })}
-                        </select>
-                        <span className="text-danger">
-                          {this.validator.message(
-                            "category",
-                            collection.categoryId,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <textarea
-                          className="form-control"
-                          name="description"
-                          placeholder="Description"
-                          cols={30}
-                          rows={3}
-                          onChange={(e) => this.onChange(e)}
-                          defaultValue={collection.description}
-                          maxLength="230"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="text-center">
-                        <button
-                          disabled={loader}
-                          className="create-collection-btn mx-auto mt-3 mt-sm-4"
-                          type="button"
-                          onClick={(e) => this.submit(e)}
-                        >
-                          Create Collection
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+          <Footer />
+        </div>
       );
     }
   }

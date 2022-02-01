@@ -1,6 +1,7 @@
 .card.auction-card {
   padding: 20px;
-  background-color: #212029;
+  background: linear-gradient(to top, #10103c, #2a6285);
+  box-shadow: 6.5px 33.4px 57px 0 rgba(0, 0, 0, 0.31);
 }
 .auction-card.card .card-img-top {
   width: 100%;
@@ -58,7 +59,7 @@
 .auction-card .auction-card-owner-container span {
   font-size: 14px;
   font-weight: bold;
-  color: #fff;
+  color: #26bd29;
 }
 
 .auction-card .card-body .auction-bit-btn {
@@ -79,4 +80,8 @@
 .auction-card .card-body .auction-bit-btn img {
   width: 15px;
   height: 17px;
+}
+
+.auction-card .card-body .auction-bit-btn:hover {
+  background: linear-gradient(to top, #4355ff, #5695fd);
 }

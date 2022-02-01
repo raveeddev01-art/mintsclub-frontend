@@ -1,6 +1,46 @@
-.img-upload-icon {
-    position: absolute;
-    height: 4rem;
-    width: 4rem;
-    color:white !important;
+.nft-uploaded-img-container {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nft-uploaded-img-container .nft-upload-icon {
+  display: none;
+  width: 50px;
+  height: 50px;
+}
+
+.nft-uploaded-img-container .uploaded-cross-icon {
+  font-size: 45px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.nft-uploaded-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nft-uploaded-img-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nft-uploaded-img-container:hover .upload-img {
+  opacity: 0.8;
+}
+
+.nft-uploaded-img-container:hover .nft-upload-icon {
+  display: block;
+  position: absolute;
+  z-index: 10;
 }

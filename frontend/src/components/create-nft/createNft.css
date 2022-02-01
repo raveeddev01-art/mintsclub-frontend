@@ -89,21 +89,21 @@
   font-weight: bold;
 }
 
-.left-container div {
-  background-color: #2f2e3b;
+.left-container .nft-left-upload {
+  background: linear-gradient(to top, #10103c, #2a6285);
   border-radius: 10px;
   width: 100%;
 }
 
 .upload-image-container .upload-image-border {
-  border: 2px dashed white;
+  border: 3px dashed #5666fe;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
   cursor: pointer;
-  
+  height: 340px;
 }
 /* .upload-image {
   width: 199px;
@@ -111,25 +111,26 @@
 } */
 
 .upload-details p:nth-child(1) {
-  color: white;
+  color: #fff;
   font-family: Manrope;
   font-size: 14px;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 .upload-details p {
-  color: #929090;
+  color: #fff;
   font-family: Manrope;
   font-size: 12px;
 }
 .choose-file p {
-  color: #929090;
+  color: #fff;
   font-family: Manrope;
   font-size: 12px;
 }
 
 .browse-files-btn {
   background: transparent;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   border-radius: 7px;
   padding: 15px 30px;
   font-size: 14px;
@@ -138,29 +139,35 @@
   cursor: pointer;
 }
 
-.create-nft-form-title {
+/* .create-nft-form-title {
   font-size: 14px;
   color: #fff;
-}
+} */
 
 .nft-inputs-container {
   max-width: 90%;
-  background-color: #2f2e3b;
+  background: linear-gradient(to top, #10103c, #2a6285);
   border-radius: 10px;
 }
 
 .nft-inputs-container input,
 .nft-inputs-container textarea,
 .nft-inputs-container select {
-  background-color: black;
+  background-color: #101029;
   outline: none;
   border: none;
   box-shadow: none;
   border-radius: 10px;
 }
 
+.nft-inputs-container input::placeholder,
+.nft-inputs-container textarea::placeholder {
+  color: #fff !important;
+  opacity: 1;
+}
+
 .nft-inputs-container select {
-  color: #929090;
+  color: #fff;
   display: inline-block;
   background-image: linear-gradient(45deg, transparent 50%, white 50%),
     linear-gradient(135deg, white 50%, transparent 50%);
@@ -191,18 +198,28 @@
   font-size: 14px;
   font-weight: bold;
   color: #fff;
-  background-image: linear-gradient(to top, #bd48bc, #dd5b4d);
+  background: linear-gradient(to top, #4355ff, #5695fd);
   padding: 15px 80px;
   outline: none;
   border: none;
   border-radius: 8px;
 }
 
-@media (max-width: 767.9px) {
+.btn.btn-rounded-bordered.cancel-collection-btn {
+  padding: 12px 40px;
+}
+
+@media (max-width: 991.9px) {
   .nft-inputs-container {
     max-width: 100%;
   }
+}
+
+@media (max-width: 767.9px) {
   .padding-form-wrapper {
     padding: 50px 0;
+  }
+  .create-collection-btn {
+    padding: 15px 60px;
   }
 }

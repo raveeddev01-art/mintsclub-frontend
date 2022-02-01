@@ -78,7 +78,7 @@ class Work extends Component {
               </div>
             </div>
           </div>
-          <div className="row items">
+          <div className="row items mt-3 mt-lg-5">
             {this.state.workData.map((item, idx) => {
               return (
                 <div
