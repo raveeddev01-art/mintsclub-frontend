@@ -2,6 +2,7 @@ import VideoComponent from "../../videoComponent/videoComponent";
 import { IoMdCloudUpload } from "react-icons/io";
 import UploadIcon from "../../../assets/images/uploadIcon.png";
 import { MdClose } from "react-icons/md";
+import AudioPlayer from "../../audioPlayer/AudioPlayer";
 import "./upload.css";
 const videoStyles = {
   width: "100%",
@@ -17,6 +18,7 @@ const Upload = ({
   dragEnter,
   dragLeave,
   videoURL,
+  audioSrc,
 }) => {
   return (
     <label
@@ -51,8 +53,18 @@ const Upload = ({
             <VideoComponent
               videoUrl={videoURL}
               videoStyles={videoStyles}
-              videoWidth="100%"
+              videoWidth="300"
             />
+            <img
+              src={UploadIcon}
+              alt="upload-icon"
+              className="nft-upload-icon"
+            />
+          </div>
+        ) : audioSrc ? (
+          <div className="nft-uploaded-img-container">
+            <MdClose color="#e33d0bc2" className="uploaded-cross-icon" />
+            <AudioPlayer audioSrc={audioSrc} />
             <img
               src={UploadIcon}
               alt="upload-icon"

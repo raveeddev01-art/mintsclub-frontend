@@ -41,6 +41,7 @@ class CreateNFT extends Component {
         nftOwnerId: ENV.getUserKeys("_id")._id,
         image: "",
         videoURL: "",
+        audioUrl: "",
         name: "",
         description: "",
         currentPrice: "",
@@ -57,6 +58,7 @@ class CreateNFT extends Component {
       allcollections: null,
       error: false,
       errorMessage: "",
+      audioUrl: "",
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -252,7 +254,6 @@ class CreateNFT extends Component {
       }
       if (file)
         if (file.type.includes("image")) {
-          console.log(this.state, "this.state");
           let { nft } = this.state;
           nft = { ...nft, [e.target.name]: file };
           nft = { ...nft, videoURL: "" };
@@ -287,6 +288,19 @@ class CreateNFT extends Component {
             imageURL: "",
             error: false,
             errorMessage: "",
+          });
+        } else if (file.type.includes("audio")) {
+          let { nft } = this.state;
+          nft = { ...nft, videoURL: file, audioUrl: file, image: "" };
+          console.log(url, "url for audio");
+
+          this.setState({
+            nft,
+            videoURL: "",
+            imageURL: "",
+            error: false,
+            errorMessage: "",
+            audioUrl: url,
           });
         } else {
           $(`#nft-${fileId}`).attr("src", placeholderImg);
@@ -334,7 +348,8 @@ class CreateNFT extends Component {
         type === "image/jpeg" ||
         type === "image/png" ||
         type === "image/gif" ||
-        type === "video/mp4"
+        type === "video/mp4" ||
+        type === "audio/mpeg"
       ) {
         let fileSize = this.formatBytes(files.size).split(" ");
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
@@ -370,6 +385,7 @@ class CreateNFT extends Component {
       videoURL,
       error,
       errorMessage,
+      audioUrl,
     } = this.state;
     // console.log(nft, "nft changed");
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
@@ -511,6 +527,52 @@ class CreateNFT extends Component {
               </div>
               <div className="col-sm-6 col-md-6 col-lg-4 left-container">
                 <p className="upload-title">Upload</p>
+                {/* ffffffffffffffff */}
+                {/* <div
+                  className="upload-image-container"
+                  onDrop={(e) => onDrop(e)}
+                  onDragOver={(e) => dragOver(e)}
+                  onDragEnter={(e) => dragEnter(e)}
+                  onDragLeave={(e) => dragLeave(e)}
+                >
+                  <Upload
+                    onFileChange={(e, status) => this.onFileChange(e, status)}
+                    Images={Images}
+                    imageURL={imageURL}
+                    videoURL={videoURL}
+                    audioSrc={audioUrl}
+                    
+                    dragOver={dragOver}
+                    onDrop={onDrop}
+                    dragEnter={dragEnter}
+                    dragLeave={dragLeave}
+                  />
+                  <span className="text-danger text-center mt-3">
+                    {this.validator.message("image", nft.image, "required")}
+                  </span>
+
+                  {error && (
+                    <p className="text-danger text-center mt-3">
+                      {errorMessage}
+                    </p>
+                  )}
+
+                  <div className="choose-file text-center my-5 ">
+                    <p className="mb-4">or choose a file</p>
+
+                    <label>
+                      <span className="browse-files-btn mt-2">browse file</span>
+                      <input
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={(e) => this.onFileChange(e, "onChange")}
+                        accept=".mp4, .png,.jpeg"
+                        name="image"
+                      />
+                    </label>
+                  </div>
+                </div> */}
+                {/* cccccccccccc */}
                 <div className="nft-left-upload p-3">
                   <div
                     className="upload-image-container"
@@ -524,6 +586,7 @@ class CreateNFT extends Component {
                       Images={Images}
                       imageURL={imageURL}
                       videoURL={videoURL}
+                      audioSrc={audioUrl}
                       dragOver={dragOver}
                       onDrop={onDrop}
                       dragEnter={dragEnter}
@@ -544,7 +607,7 @@ class CreateNFT extends Component {
 
                       <label>
                         <span className="browse-files-btn mt-2">
-                          Browse file
+                          browse file
                         </span>
                         <input
                           type="file"
@@ -554,6 +617,18 @@ class CreateNFT extends Component {
                           name="image"
                         />
                       </label>
+                      {/* <label>
+                        <span className="browse-files-btn mt-2">
+                          browse file
+                        </span>
+                        <input
+                          type="file"
+                          style={{ display: "none" }}
+                          onChange={(e) => this.onFileChange(e, "onChange")}
+                          accept=".mp4, .png,.jpeg"
+                          name="image"
+                        />
+                      </label> */}
                     </div>
                   </div>
                 </div>
