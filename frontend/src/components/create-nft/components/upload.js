@@ -1,5 +1,6 @@
 import VideoComponent from "../../videoComponent/videoComponent";
 import {IoMdCloudUpload} from 'react-icons/io'
+import AudioPlayer from "../../audioPlayer/AudioPlayer";
 import './upload.css'
 const videoStyles={
     width:"100%",
@@ -14,7 +15,9 @@ const Upload = ({
   dragOver,
   dragEnter,
   dragLeave,
-  videoURL
+  videoURL,
+ 
+  audioSrc
 }) => {
   return (
     <label className="w-100"       onDrop={(e) => onDrop(e)}
@@ -40,7 +43,7 @@ const Upload = ({
               name="image"
             />
           </div>
-        ) : videoURL? <VideoComponent videoUrl={videoURL} videoStyles={videoStyles} videoWidth="300"/>:(
+        ) : videoURL? <VideoComponent videoUrl={videoURL} videoStyles={videoStyles} videoWidth="300"/>:audioSrc?<AudioPlayer audioSrc={audioSrc}/>:(
           <>
             {" "}
             <img

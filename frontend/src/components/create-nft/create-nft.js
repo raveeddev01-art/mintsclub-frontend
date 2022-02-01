@@ -17,7 +17,7 @@ import {
   beforeCollection,
   getCollections,
 } from "../collections/collections.actions";
-import { setNftToken,createNFT } from "../nfts/nfts.action";
+import { setNftToken, createNFT } from "../nfts/nfts.action";
 import { getCurrentAddress } from "../../utils/web3";
 import { RiArrowDropDownLine } from "react";
 import "./createNft.css";
@@ -40,6 +40,7 @@ class CreateNFT extends Component {
         nftOwnerId: ENV.getUserKeys("_id")._id,
         image: "",
         videoURL: "",
+        audioUrl: "",
         name: "",
         description: "",
         currentPrice: "",
@@ -56,6 +57,7 @@ class CreateNFT extends Component {
       allcollections: null,
       error: false,
       errorMessage: "",
+      audioUrl: "",
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -173,7 +175,7 @@ class CreateNFT extends Component {
               var formData = new FormData();
               for (const key in nft)
                 if (nft[key]) formData.append(key, nft[key]);
-           
+
               const res = await axiosPostFormData(
                 "nfts/create",
                 formData,
@@ -184,7 +186,7 @@ class CreateNFT extends Component {
               if (res.success) {
                 // this.reset();
                 // toast.success(`Success! ${res.message}`)
-  
+
                 if (res.nft && res.nft.metaData) {
                   try {
                     let nftId = res.nft._id;
@@ -199,14 +201,12 @@ class CreateNFT extends Component {
                         nftToken:
                           createNftResult.events.Transfer.returnValues.tokenId,
                         nftId,
-                        data:this.state.nft,
-                        image:res.nft.image
+                        data: this.state.nft,
+                        image: res.nft.image,
                       };
                       this.props.setNftToken(data);
                     }
                   } catch (err) {
-      
-                   
                     // alert(err.message);
                   }
 
@@ -238,6 +238,10 @@ class CreateNFT extends Component {
   };
 
   onFileChange = (e, status) => {
+
+
+  
+
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file = "";
       let url = "";
@@ -250,10 +254,11 @@ class CreateNFT extends Component {
         file = e.target.files[0];
         url = URL.createObjectURL(e.target.files[0]);
         fileId = e.target.id;
+     
       }
       if (file)
         if (file.type.includes("image")) {
-          console.log(this.state, "this.state");
+       
           let { nft } = this.state;
           nft = { ...nft, [e.target.name]: file };
           nft = { ...nft, videoURL: "" };
@@ -288,6 +293,19 @@ class CreateNFT extends Component {
             imageURL: "",
             error: false,
             errorMessage: "",
+          });
+        } else if (file.type.includes("audio")) {
+          let { nft } = this.state;
+          nft = { ...nft, videoURL: file, audioUrl: file, image: "" };
+          console.log(url,"url for audio")
+
+          this.setState({
+            nft,
+            videoURL: "",
+            imageURL: "",
+            error: false,
+            errorMessage: "",
+            audioUrl: url,
           });
         } else {
           $(`#nft-${fileId}`).attr("src", placeholderImg);
@@ -335,7 +353,8 @@ class CreateNFT extends Component {
         type === "image/jpeg" ||
         type === "image/png" ||
         type === "image/gif" ||
-        type === "video/mp4"
+        type === "video/mp4" ||
+        type === "audio/mpeg"
       ) {
         let fileSize = this.formatBytes(files.size).split(" ");
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
@@ -371,6 +390,7 @@ class CreateNFT extends Component {
       videoURL,
       error,
       errorMessage,
+      audioUrl
     } = this.state;
     // console.log(nft, "nft changed");
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
@@ -497,6 +517,7 @@ class CreateNFT extends Component {
                     </div>
                 </div> */}
         <div className="container">
+          {/* <AudioPlayer audioSrc="blob:http://localhost:3000/725f1faf-8e39-438a-b998-d1164fe42358"/> */}
           <div className="row">
             <div className="col-sm-5 col-md-4 col-lg-4 left-container">
               <p className="upload-title">Upload</p>
@@ -513,6 +534,8 @@ class CreateNFT extends Component {
                     Images={Images}
                     imageURL={imageURL}
                     videoURL={videoURL}
+                    audioSrc={audioUrl}
+                    
                     dragOver={dragOver}
                     onDrop={onDrop}
                     dragEnter={dragEnter}
@@ -720,5 +743,5 @@ export default connect(mapStateToProps, {
   beforeCollection,
   getCollections,
   setNftToken,
-  createNFT
+  createNFT,
 })(CreateNFT);
