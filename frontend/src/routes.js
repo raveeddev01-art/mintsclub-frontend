@@ -28,6 +28,7 @@ import SellNFT from "./components/nfts/sell-nft";
 import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
+import ExploreCollections from "./components/explore-collections/explore-collections";
 
 // routes
 const routes = [
@@ -176,6 +177,14 @@ const routes = [
     component: CollectionDetails,
   },
   {
+    path: "/collection/explorecollections",
+    access: true,
+    exact: true,
+    title: "Explore Collection",
+    layout: layout2,
+    component: ExploreCollections,
+  },
+  {
     path: "/login",
     access: true,
     exact: true,
@@ -215,6 +224,7 @@ const routes = [
     layout: layout1,
     component: PrivacyTerms,
   },
+
   {
     path: "/*",
     access: true,

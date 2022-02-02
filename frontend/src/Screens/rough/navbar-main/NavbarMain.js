@@ -4,6 +4,7 @@ import MintsClub from "../../../assets/images/main-logo.svg";
 import LoginIcon from "../../../assets/images/login-icon.svg";
 import SearchIcon from "../../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import "./NavbarMain.css";
 
 const NavbarMain = () => {
@@ -21,8 +22,8 @@ const NavbarMain = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mx-xl-auto" activeKey="/user-dashboard">
-              <Nav.Link to="/user-dasboard" className="nav-main-link">
+            <Nav className="mx-xl-auto" defaultActiveKey="/user-dashboard">
+              <Nav.Link href="/user-dashboard" className="nav-main-link">
                 Home
               </Nav.Link>
               <NavDropdown
@@ -43,7 +44,10 @@ const NavbarMain = () => {
               <Nav.Link to="/activity" className="nav-main-link">
                 Activity
               </Nav.Link>
-              <Nav.Link to="/collections" className="nav-main-link">
+              <Nav.Link
+                href="/collection/explorecollections"
+                className="nav-main-link"
+              >
                 Collections
               </Nav.Link>
               <Nav.Link to="/" className="nav-main-link">

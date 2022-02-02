@@ -8,7 +8,7 @@ import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
 import "./CollectionsCard.css";
 
-const CollectionsCard = () => {
+const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3 }) => {
   // const { name, image } = category;
   return (
     <Card className="collection-cards-container">
