@@ -48,14 +48,14 @@ const Wallet = (props) => {
             // console.log("userID", userId);
             let myCollections = collections.filter(el => el.userId === userId);
             // console.log("myCollections", myCollections);
-            // if(myCollections && myCollections.length > 0){
-            //     // history.push('/create')
-            //     history.push('/user-dashboard')
-            // }
-            // else {
-            //     // history.push('/collection/create');
-            //     history.push('/user-dashboard')
-            // }
+            if(myCollections && myCollections.length > 0){
+                // history.push('/create')
+                history.push('/user-dashboard')
+            }
+            else {
+                // history.push('/collection/create');
+                history.push('/user-dashboard')
+            }
         }
     }, [props.collection.getAuth])
 

@@ -4,7 +4,7 @@ import MintsClub from "../../../assets/images/main-logo.svg";
 import LoginIcon from "../../../assets/images/login-icon.svg";
 import SearchIcon from "../../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+// import { LinkContainer } from "react-router-bootstrap";
 import "./NavbarMain.css";
 
 const NavbarMain = () => {
