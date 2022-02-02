@@ -60,11 +60,11 @@ class Signup extends Component {
                                             <input type="email" className="form-control" name="email" placeholder="Enter your Email" required="required" />
                                         </div>
                                     </div>
-                                    <div className="col-12">
+                                    {/* <div className="col-12">
                                         <div className="form-group mt-3">
                                             <input type="password" className="form-control" name="password" placeholder="Enter your Password" required="required" />
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className="col-12">
                                         <div className="form-group mt-3">
                                             <div className="form-check form-check-inline">

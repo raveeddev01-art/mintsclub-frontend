@@ -154,7 +154,7 @@ class CreateCollection extends Component {
 
   render() {
     const { collection, errors, loader, isSubmitted, categories } = this.state;
-    if (ENV.getUserKeys("_id")._id) {
+    if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");
       this.props.history.push("/");
       return " ";

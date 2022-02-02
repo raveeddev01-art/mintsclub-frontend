@@ -83,6 +83,7 @@ class CreateNFT extends Component {
   componentDidUpdate() {
     if (this.props.collection.getAuth) {
       const { collections } = this.props.collection;
+      console.log(ENV.getUserKeys("_id")._id,"if")
       this.props.beforeCollection();
       if (!collections) {
         toast.info("Please add a collection first");
