@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 // import { getCollections } from '../collections/collections.actions'
 import { ENV } from '../../config/config';
 import { login, signup } from '../user/user.action';
+import './wallet.css'
 
 const Wallet = (props) => {
     const history = useHistory();
@@ -47,12 +48,14 @@ const Wallet = (props) => {
             // console.log("userID", userId);
             let myCollections = collections.filter(el => el.userId === userId);
             // console.log("myCollections", myCollections);
-            if(myCollections && myCollections.length > 0){
-                history.push('/create')
-            }
-            else {
-                history.push('/collection/create');
-            }
+            // if(myCollections && myCollections.length > 0){
+            //     // history.push('/create')
+            //     history.push('/user-dashboard')
+            // }
+            // else {
+            //     // history.push('/collection/create');
+            //     history.push('/user-dashboard')
+            // }
         }
     }, [props.collection.getAuth])
 
@@ -67,7 +70,7 @@ const Wallet = (props) => {
                 let sign = await signRequest();
                 let payload = {
                     address: connectedAddress,
-                    password: sign,
+                    // password: sign,
                     email: email,
                     username: username
                 }
@@ -91,7 +94,7 @@ const Wallet = (props) => {
             let sign = await signRequest();
             let payload = {
                 address: connectedAddress,
-                password: sign
+       
             }
             props.login(payload);
         }
@@ -119,7 +122,8 @@ const Wallet = (props) => {
     // }
 
     return (
-        <section className={!showSignUpComponent ? `wallet-connect-area` : `author-area`}>
+        <section className={!showSignUpComponent ? `wallet-connect-area wallet-wrapper` : `author-area wallet-wrapper` }>
+              
             <div className="container">
                 {
                     connectedAddress && !showSignUpComponent ?
@@ -136,16 +140,16 @@ const Wallet = (props) => {
                             </div>
                             <div className="row justify-content-center items">
                                 <div className="col-12 col-md-6 col-lg-4 item">
-                                    <div className="card single-wallet">
+                                    <div className="card single-wallet sign-in-card">
                                         <span className="d-block text-center" href="/login">
                                             <h4 className="mb-0">Address</h4>
-                                            <p id="connected-address">{connectedAddress}</p>
+                                            <p id="connected-address mt-2">{connectedAddress}</p>
                                             {
-                                                errorMessage && <p className="text-white">{errorMessage}</p>
+                                                errorMessage && <p className="text-gray">{errorMessage}</p>
                                             }
-                                            <button className="btn w-100 mt-3 mt-sm-4" type="button" onClick={() => login()}>Sign In</button>
+                                            <button className="btn w-100 mt-3 mt-sm-4 text-white" type="button" onClick={() => login()}>Sign In</button>
                                             {
-                                                showSignUp && <button className="btn w-100 mt-3 mt-sm-4" type="button" onClick={() => switchSignup()}>Would you like to Signup?</button>
+                                                showSignUp && <button className="btn w-100 mt-3 mt-sm-4 text-white" type="button" onClick={() => switchSignup()}>Would you like to Signup?</button>
                                             }
                                         </span>
                                     </div>
@@ -160,39 +164,39 @@ const Wallet = (props) => {
                                     <div className="intro text-center">
                                         <span>SIGNUP</span>
                                         <h3 className="mt-3 mb-0">Create an Account</h3>
-                                        <p>Create the account with the address</p>
+                                        <p className="text-gray">Create the account with the address</p>
                                     </div>
                                     {/* Item Form */}
-                                    <form className="item-form card no-hover" onSubmit={(e) => signup(e)}>
+                                    <form className="item-form card no-hover signup-card" onSubmit={(e) => signup(e)}>
                                         <div className="row">
                                             {
-                                                errorMessage && <p className="text-red">{errorMessage}</p>
+                                                errorMessage && <p className="text-center text-gray">{errorMessage}</p>
                                             }
                                             <div className="col-12">
                                                 <div className="form-group mt-3">
-                                                    <input type="text" className="form-control" name="address" placeholder="Address" required="required" disabled={true} value={connectedAddress} />
+                                                    <input type="text" className="form-control sign-up-input" name="address" placeholder="Address" required="required" disabled={true} value={connectedAddress} />
                                                 </div>
                                             </div>
                                             <div className="col-12">
                                                 <div className="form-group mt-3">
-                                                    <input type="email" className="form-control" name="email" placeholder="Enter your Email" required="required" defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
+                                                    <input type="email" className="form-control sign-up-input" name="email" placeholder="Enter your Email" required="required" defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="col-12">
                                                 <div className="form-group mt-3">
-                                                    <input type="text" className="form-control" name="username" placeholder="Enter your Username" required="required" defaultValue={username} onChange={(e) => setUsername(e.target.value)} />
+                                                    <input type="text" className="form-control sign-up-input" name="username" placeholder="Enter your Username" required="required" defaultValue={username} onChange={(e) => setUsername(e.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="col-12">
-                                                <div className="form-group mt-3">
+                                                <div className="form-group mt-3 text-center">
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" defaultValue="option1" />
-                                                        <label className="form-check-label" htmlFor="inlineRadio1">I agree to <a href="/privacy-and-terms">Privacy Policy</a></label>
+                                                        <label className="form-check-label text-center text-gray" htmlFor="inlineRadio1">I agree to <a href="/privacy-and-terms">Privacy Policy</a></label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="col-12">
-                                                <button className="btn w-100 mt-3 mt-sm-4" type="submit">Sign Up</button>
+                                                <button className="btn w-100 mt-3 mt-sm-4  text-white " type="submit">Sign Up</button>
                                             </div>
                                             {/* <div className="col-12">
                                         <span className="d-block text-center mt-4">Already have an account? <a href="/login">Login</a></span>
@@ -209,7 +213,7 @@ const Wallet = (props) => {
                                         <div className="intro text-center">
                                             <span>Wallet Connect</span>
                                             <h3 className="mt-3 mb-0">Connect your Wallet</h3>
-                                            <p>Please select the wallet you want to connect to.</p>
+                                            <p className="text-white mt-3">Please select the wallet you want to connect to.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -219,10 +223,10 @@ const Wallet = (props) => {
                                     }
                                     <div className="col-12 col-md-6 col-lg-4 item" onClick={() => connectMetamaskCall()}>
                                         {/* Single Wallet */}
-                                        <div className="card single-wallet whole-hover">
+                                        <div className="card single-wallet whole-hover wallet-metamask-card">
                                             <span className="d-block text-center" href="/login">
                                                 <img className="avatar-lg" src="/img/metamask2.png" alt="" />
-                                                <h4 className="mb-0">MetaMask</h4>
+                                                <h4 className="mb-0 my-3">MetaMask</h4>
                                                 <p>A browser extension with great flexibility. The web's most popular wallet</p>
                                             </span>
                                         </div>

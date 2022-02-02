@@ -1,0 +1,30 @@
+.wallet-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ .wallet-metamask-card {
+    background-color: #10103c !important;
+}
+.sign-in-card {
+    background-color: #10103c !important;
+}
+.signup-card {
+    background: #10103c !important; 
+    
+}
+.sign-up-input {
+    background-color: black !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: white !important;
+    padding: 1rem !important;
+    height: 3.2rem !important;
+}
+.text-gray {
+    color: gray !important;
+}
+.text-center {
+    text-align: center;
+} 

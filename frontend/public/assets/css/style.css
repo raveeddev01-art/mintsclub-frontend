@@ -2102,7 +2102,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 }
 
 .items .item {
-  margin-top: 30px;
+  margin-top:30px !important;
 }
 
 /* .clip-text,

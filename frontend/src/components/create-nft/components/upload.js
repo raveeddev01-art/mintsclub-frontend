@@ -70,6 +70,13 @@ const Upload = ({
               alt="upload-icon"
               className="nft-upload-icon"
             />
+             <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={onFileChange}
+              accept=".mp4, .png,.jpeg"
+              name="image"
+            />
           </div>
         ) : (
           <>

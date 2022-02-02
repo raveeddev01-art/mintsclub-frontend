@@ -41,6 +41,7 @@ export const login = (payload) => dispatch => {
         },
         body: JSON.stringify(payload)
     }).then(res => res.json()).then(data => {
+       
         if (data.status) {
             ENV.encryptUserData(data.data);
             const userId = data.data._id;
@@ -65,8 +66,10 @@ export const login = (payload) => dispatch => {
 
 // method to signup using wallet address, sign, and payload
 export const signup = (payload) => dispatch => {
+    console.log(payload,"payload")
     dispatch(emptyError());
     const url = `${ENV.url}auth/register/`;
+    console.log(url,"url")
     fetch(url, {
         method: 'POST',
         headers: {
@@ -77,6 +80,7 @@ export const signup = (payload) => dispatch => {
         },
         body: JSON.stringify(payload)
     }).then(res => res.json()).then(data => {
+        console.log(data,"register resonse")
         if (data.status) {
             ENV.encryptUserData(data.data);
             dispatch(getCollections());
@@ -91,6 +95,7 @@ export const signup = (payload) => dispatch => {
             })
         }
     }).catch(errors => {
+        console.log(errors,"register resonse")
         dispatch({
             type: GET_ERRORS,
             payload: errors
