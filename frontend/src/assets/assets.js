@@ -9,6 +9,11 @@ import subImg4 from "./images/cl-expr-subimg5.png";
 import subImg5 from "./images/cl-expr-subimg6.png";
 import subImg6 from "./images/cl-expr-subimg7.png";
 
+import listingImg1 from "./images/listingImg1.png";
+import listingImg2 from "./images/listingImg2.png";
+import listingImg3 from "./images/listingImg3.png";
+import listingImg4 from "./images/listingImg4.png";
+
 export const Images = {
   uploadImage,
 };
@@ -23,4 +28,11 @@ export const CollectionImages = {
   subImg4,
   subImg5,
   subImg6,
+};
+
+export const ListingImg = {
+  listingImg1,
+  listingImg2,
+  listingImg3,
+  listingImg4,
 };

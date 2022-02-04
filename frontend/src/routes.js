@@ -29,6 +29,8 @@ import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
 import ExploreCollections from "./components/explore-collections/explore-collections";
+import AllNFT from "./components/all-nft/allnft";
+import CollectionDetailsPage from "./components/collection-details/collectiondetails";
 
 // routes
 const routes = [
@@ -177,12 +179,28 @@ const routes = [
     component: CollectionDetails,
   },
   {
-    path: "/collection/explorecollections",
+    path: "/explore/exploreAll",
     access: true,
     exact: true,
-    title: "Explore Collection",
+    title: "Explore All",
     layout: layout2,
     component: ExploreCollections,
+  },
+  {
+    path: "/explore/allNFT",
+    access: true,
+    exact: true,
+    title: "All NFTs",
+    layout: layout2,
+    component: AllNFT,
+  },
+  {
+    path: "/collection/detailPage",
+    access: true,
+    exact: true,
+    title: "Collection Detail Page",
+    layout: layout2,
+    component: CollectionDetailsPage,
   },
   {
     path: "/login",

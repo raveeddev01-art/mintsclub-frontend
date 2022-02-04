@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import "./explore-collections.css";
 import { CollectionImages } from "../../assets/assets.js";
@@ -6,6 +6,7 @@ import CollectionsCard from "../../Screens/rough/collections-cards/CollectionsCa
 import Footer from "../footer/footer";
 
 const ExploreCollections = () => {
+  const [isActive, setIsActive] = useState(0);
   const collectionData = [
     {
       mainImg: CollectionImages.mainImg1,
@@ -44,6 +45,19 @@ const ExploreCollections = () => {
       subImg3: CollectionImages.subImg6,
     },
   ];
+  const menuData = [
+    "Trending",
+    "Top",
+    "Art",
+    " Collectibles",
+    "Domain Names",
+    "Music",
+    "Photography",
+    "Sports",
+    "Trading Cards",
+    "Utility",
+    "Virtual Worlds",
+  ];
   return (
     <>
       <NavbarMain />
@@ -61,54 +75,36 @@ const ExploreCollections = () => {
             </div>
             <div className="col-12 explore-collection-nav">
               <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
-                <button className="me-2 me-xl-3">Trending</button>
-                <button className="me-2 me-xl-3">Top</button>
-                <button className="me-2 me-xl-3">Art</button>
-                <button className="me-2 me-xl-3 active-explore-nav">
-                  Collections
-                </button>
-                <button className="me-2 me-xl-3">DomainNames</button>
-                <button className="me-2 me-xl-3">Music</button>
-                <button className="me-2 me-xl-3">Photography</button>
-                <button className="me-2 me-xl-3"> Sports </button>
-                <button className="me-2 me-xl-3">TradingCards</button>
-                <button className="me-2 me-xl-3">Utility</button>
-                <button className="">Virtual Worlds</button>
+                {menuData.map((item, id) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        setIsActive(id);
+                      }}
+                      className={`${
+                        id === isActive ? "active-explore-nav" : ""
+                      } me-2 me-xl-3`}
+                    >
+                      {item}
+                    </button>
+                  );
+                })}
               </div>
               <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
-                <div className="col-6 col-sm-3">
-                  <button className="">Trending</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">Top</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">Art</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="active-explore-nav">Colllections</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">DomainNames</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">Music</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">Photography</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className=""> Sports </button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">TradingCards</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">Utility</button>
-                </div>
-                <div className="col-6 col-sm-3">
-                  <button className="">Virtual Worlds</button>
-                </div>
+                {menuData.map((item, id) => {
+                  return (
+                    <div className="col-6 col-sm-3">
+                      <button
+                        onClick={() => {
+                          setIsActive(id);
+                        }}
+                        className={isActive === id ? "active-explore-nav" : ""}
+                      >
+                        {item}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

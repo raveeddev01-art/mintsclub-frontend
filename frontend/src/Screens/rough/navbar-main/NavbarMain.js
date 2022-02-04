@@ -4,7 +4,6 @@ import MintsClub from "../../../assets/images/main-logo.svg";
 import LoginIcon from "../../../assets/images/login-icon.svg";
 import SearchIcon from "../../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
 import "./NavbarMain.css";
 
 const NavbarMain = () => {
@@ -32,10 +31,18 @@ const NavbarMain = () => {
                 className="nav-main-link dropdown-bg"
               >
                 <NavDropdown.Item
-                  to="/explore-all"
+                  to="/collection/explorecollections"
+                  href="/explore/exploreAll"
                   className="nav-main-link main-nav-dd-items"
                 >
-                  Explore
+                  Explore All
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  to="/collection/explorecollections"
+                  href="/explore/allNFT"
+                  className="nav-main-link main-nav-dd-items"
+                >
+                  All NFT
                 </NavDropdown.Item>
                 <NavDropdown.Item to="/auctions" className="nav-main-link">
                   Live Auctions
@@ -44,10 +51,7 @@ const NavbarMain = () => {
               <Nav.Link to="/activity" className="nav-main-link">
                 Activity
               </Nav.Link>
-              <Nav.Link
-                href="/collection/explorecollections"
-                className="nav-main-link"
-              >
+              <Nav.Link href="/collection/detailPage" className="nav-main-link">
                 Collections
               </Nav.Link>
               <Nav.Link to="/" className="nav-main-link">

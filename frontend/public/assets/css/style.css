@@ -2102,7 +2102,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 }
 
 .items .item {
-  margin-top:30px !important;
+  margin-top: 30px !important;
 }
 
 /* .clip-text,
@@ -2148,7 +2148,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 .card {
   padding: 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px !important;
   background-color: var(--card-bg-color);
   -webkit-box-shadow: 0 3px 20px 0px var(--primary-l-color);
   box-shadow: 0 3px 20px 0px var(--primary-l-color);

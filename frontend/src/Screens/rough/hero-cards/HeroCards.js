@@ -6,13 +6,9 @@ import HeartIcon from "../../../assets/images/heart-icon.svg";
 import ThreeDots from "../../../assets/images/threeDots.svg";
 import ArrowUp from "../../../assets/images/arrowUp.png";
 import Bucket from "../../../assets/images/bucket.png";
-import Countdown from "react-countdown";
-import { ENV } from "../../../config/config";
-
 import "./HeroCards.css";
 
 const HeroCards = () => {
-  const { countDownRenderer } = ENV;
   return (
     <Card className="auction-card hero-card mx-2">
       <div className="auction-img-wrapper">
