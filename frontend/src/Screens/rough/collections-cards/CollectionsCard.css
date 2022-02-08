@@ -34,20 +34,24 @@
 }
 
 .collection-cards-container .collection-subImg1 img {
+  height: 80px;
   width: 100%;
   border-top-left-radius: 10px;
 }
 
 .collection-cards-container .collection-subImg2 img {
+  height: 80px;
   width: 100%;
 }
 
 .collection-cards-container .collection-subImg3 img {
+  height: 80px;
   width: 100%;
   border-top-right-radius: 10px;
 }
 
 .collection-cards-container .collection-mainImg img {
+  height: 220px;
   width: 100%;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;

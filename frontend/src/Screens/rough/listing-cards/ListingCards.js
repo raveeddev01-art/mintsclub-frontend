@@ -26,7 +26,7 @@ const ListingCards = ({ CardImg }) => {
             <span>68.4 ETH</span>
           </div>
         </div>
-        <button className="auction-bit-btn d-flex align-items-center justify-content-center">
+        <button className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center">
           <p>Buy now</p>
         </button>
       </Card.Body>

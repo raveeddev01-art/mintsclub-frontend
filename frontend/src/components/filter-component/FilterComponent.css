@@ -14,7 +14,10 @@
   .accordion-button {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border-top: 1px solid #212029;
+  border-top: 1px solid #d6d6d6;
+}
+.collection-filter-accordion .accordion .accordion-item:last-child {
+  border-bottom: 1px solid #d6d6d6;
 }
 
 .collection-filter-accordion .accordion .accordion-item:last-child,
@@ -27,13 +30,22 @@
   border-bottom-right-radius: 10px;
 }
 
+.collection-filter-accordion
+  .accordion
+  .accordion-item:last-child
+  .accordion-header
+  .accordion-button:not(.collapsed) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .collection-filter-accordion .accordion .accordion-item,
 .collection-filter-accordion .accordion .accordion-header .accordion-button {
   font-size: 20px;
   font-weight: bold;
   color: #fff;
   background-color: transparent;
-  border: 1px solid #212029;
+  border: 1px solid #d6d6d6;
   outline: none;
   box-shadow: none;
   border-top: 0;
@@ -44,6 +56,7 @@
   .accordion-header
   .accordion-button:not(.collapsed) {
   color: #fff;
+  background-color: #5666fe;
 }
 
 .collection-filter-accordion
@@ -57,7 +70,7 @@
   margin: 0 auto;
   width: 90%;
   background-color: transparent;
-  border: 1px solid #212029;
+  border: 1px solid #d6d6d6;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
@@ -74,7 +87,7 @@
   margin: 0 auto;
   width: 90%;
   background-color: transparent;
-  border: 1px solid #212029;
+  border: 1px solid #d6d6d6;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;

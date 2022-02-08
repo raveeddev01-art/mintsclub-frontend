@@ -28,9 +28,10 @@ import SellNFT from "./components/nfts/sell-nft";
 import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
-import ExploreCollections from "./components/explore-collections/explore-collections";
+import ExploreCollections from "./components/collections/explore-collections";
 import AllNFT from "./components/all-nft/allnft";
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
+import NFTDetail from "./components/nft-detail/nftdetail";
 
 // routes
 const routes = [
@@ -153,6 +154,14 @@ const routes = [
     title: "Create",
     layout: layout2,
     component: CreateNFT,
+  },
+  {
+    path: "/nftdetail",
+    access: true,
+    exact: true,
+    title: "Detail",
+    layout: layout2,
+    component: NFTDetail,
   },
   {
     path: "/collections",

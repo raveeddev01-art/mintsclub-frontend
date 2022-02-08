@@ -61,7 +61,6 @@ class CreateCollection extends Component {
       this.props.beforeCollection();
       this.props.history.push("/collections");
     }
-
     if (this.props.category.getAuth) {
       const { categories } = this.props.category;
       this.setState({ categories, loader: false }, () => {
@@ -151,7 +150,6 @@ class CreateCollection extends Component {
       }
     );
   };
-
   render() {
     const { collection, errors, loader, isSubmitted, categories } = this.state;
     if (!ENV.getUserKeys("_id")._id) {

@@ -27,6 +27,10 @@
   cursor: pointer;
 }
 
+.listing-card .auction-bit-btn.listing-buy-btn {
+  background-color: black;
+}
+
 @media (min-width: 1399.9px) {
   .auction-card.listing-card {
     max-width: 100%;
