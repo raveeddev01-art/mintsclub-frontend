@@ -25,7 +25,7 @@ class CreateCollection extends Component {
       loader: true,
       errors: "",
       collection: {
-        userId: "",
+        userId: ENV.getUserKeys("_id")._id,
         categoryId: "",
         logo: "",
         featuredImg: "",
@@ -59,7 +59,7 @@ class CreateCollection extends Component {
 
     if (this.props.collection.upsertAuth) {
       this.props.beforeCollection();
-      this.props.history.push("/collections");
+      this.props.history.push("/explore/exploreAll");
     }
     if (this.props.category.getAuth) {
       const { categories } = this.props.category;

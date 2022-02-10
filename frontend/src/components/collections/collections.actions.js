@@ -121,6 +121,7 @@ console.log(body,"body")
                 type: UPSERT_COLLECTION,
                 payload: data
             })
+            
         } else {
             toast.error(data.message)
             dispatch({
