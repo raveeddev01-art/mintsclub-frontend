@@ -37,6 +37,57 @@ const NFTDetail = () => {
       img: ListingImg.listingImg1,
     },
   ];
+
+  const propertiesData = [
+    {
+      id: 1,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 2,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 3,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 4,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 5,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 6,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 7,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+    {
+      id: 8,
+      subTitle: "ACCESSORIES1",
+      title: "Rings",
+      content: "30% have this trait",
+    },
+  ];
   return (
     <>
       <NavbarMain />
@@ -74,19 +125,7 @@ const NFTDetail = () => {
                           className="accordion-collapse collapse"
                           aria-labelledby="flush-headingOne"
                         >
-                          <div className="accordion-body">
-                            {/* <div className="d-flex flex-column ">
-                          <div className="filter-min-max d-flex align-items-center justify-content-center">
-                            <p>Min:</p>
-                            <input type="number" />
-                          </div>
-                          <span className="text-center my-1">To</span>
-                          <div className="filter-min-max d-flex align-items-center justify-content-center">
-                            <p>Max:</p>
-                            <input type="number" />
-                          </div>
-                        </div> */}
-                          </div>
+                          <div className="accordion-body"></div>
                         </div>
                       </div>
 
@@ -114,9 +153,77 @@ const NFTDetail = () => {
                           aria-labelledby="flush-headingTwo"
                         >
                           <div className="accordion-body">
-                            {/* <div className="d-flex flex-column">
-                          <button>ETH</button>
-                        </div> */}
+                            <div className="table-container">
+                              <table class="table table-borderless">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">USD Price</th>
+                                    <th scope="col">Floor Difference</th>
+                                    <th scope="col">Expiration</th>
+                                    <th scope="col">From</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">1,250.009</th>
+                                    <td>$1,500.01</td>
+                                    <td>80% below</td>
+                                    <td>an hour ago</td>
+                                    <td>D2FB2D</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -147,16 +254,37 @@ const NFTDetail = () => {
                           aria-labelledby="flush-headingThree"
                         >
                           <div className="accordion-body">
-                            {/* <div className="d-flex flex-column">
-                          <button>ETH</button>
-                        </div> */}
+                            <div className="table-container listing-table">
+                              <table class="table table-borderless">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">USD Price</th>
+                                    <th scope="col">Expiration</th>
+                                    <th scope="col">From</th>
+                                    <th scope="col">{""}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">0.025</th>
+                                    <td>$77.50</td>
+                                    <td>in a day</td>
+                                    <td>BBC1B3</td>
+                                    <td>
+                                      <button>Buy</button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-11 col-md-12 col-lg-6 col-xl-5 order-1 order-md-2 mx-auto mb-5 mb-md-0  mx-md-0">
+                <div className="col-11 col-md-12 col-lg-7 col-xl-5 order-1 order-md-2 mx-auto mb-5 mb-md-0  mx-md-0">
                   <div className="collection-filter-accordion nft-stats-accordion">
                     <div
                       className="accordion accordion-flush "
@@ -180,7 +308,24 @@ const NFTDetail = () => {
                           className="accordion-collapse collapse"
                           aria-labelledby="flush-headingFour"
                         >
-                          <div className="accordion-body"></div>
+                          <div className="accordion-body">
+                            <div className="row g-2 justify-content-center align-items-center">
+                              {propertiesData &&
+                                propertiesData.map((data) => {
+                                  return (
+                                    <div className="col-6 col-sm-4 col-md-6">
+                                      <div className="properties-content-container d-flex flex-column justify-content-center align-items-center text-center">
+                                        <div className="properties-content">
+                                          <span>{data.subTitle}</span>
+                                          <h3>{data.title}</h3>
+                                          <p>{data.content}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="accordion-item">
@@ -372,17 +517,77 @@ const NFTDetail = () => {
                       aria-labelledby="flush-headingTen"
                     >
                       <div className="accordion-body">
-                        {/* <div className="d-flex flex-column ">
-                          <div className="filter-min-max d-flex align-items-center justify-content-center">
-                            <p>Min:</p>
-                            <input type="number" />
-                          </div>
-                          <span className="text-center my-1">To</span>
-                          <div className="filter-min-max d-flex align-items-center justify-content-center">
-                            <p>Max:</p>
-                            <input type="number" />
-                          </div>
-                        </div> */}
+                        <div className="table-container">
+                          <table class="table table-borderless">
+                            <thead>
+                              <tr>
+                                <th scope="col">Event</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">From</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">List</th>
+                                <td>0.025</td>
+                                <td>BBC1B3</td>
+                                <td> </td>
+                                <td>an hour ago</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

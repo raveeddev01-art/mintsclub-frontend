@@ -52,11 +52,9 @@ const Hero = (props) => {
                 <p>Explore</p>
               </Link>
             </div>
-            <div className="watch-video mt-5">
-              <span className="mt-lg-5">
-                <img src={PlayIcon} alt="playIcon" className="me-2" /> Watch
-                video to learn more
-              </span>
+            <div className="watch-video d-flex align-items-center mt-5">
+              <img src={PlayIcon} alt="playIcon" className="me-2" />
+              <span>Watch video to learn more</span>
             </div>
           </div>
           <div className="col-12 col-lg-6 col-xl-7 ">

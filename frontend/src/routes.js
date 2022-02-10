@@ -33,6 +33,7 @@ import ExploreCollections from "./components/collections/explore-collections";
 import AllNFT from './components/explore/all-nft/allnft'
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
 import NFTDetail from "./components/nft-detail/nftdetail";
+import UserProfile from "./components/user-profile/UserProfile";
 
 // routes
 const routes = [
@@ -211,6 +212,14 @@ const routes = [
     title: "Collection Detail Page",
     layout: layout2,
     component: CollectionDetailsPage,
+  },
+  {
+    path: "/userprofile",
+    access: true,
+    exact: true,
+    title: "User Profile",
+    layout: layout2,
+    component: UserProfile,
   },
   {
     path: "/login",

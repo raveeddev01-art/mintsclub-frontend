@@ -119,10 +119,12 @@ const Slider = () => {
 
       <div className="btn-container">
         <button className="card-slider-btn mb-4 me-3" onClick={prevBtnHandler}>
-          <img src={SliderPrevIcon} alt="SliderPrevButton" />
+          {/* <img src={SliderPrevIcon} alt="SliderPrevButton" /> */}
+          <i class="fas fa-arrow-left"></i>
         </button>
         <button className="card-slider-btn mb-4" onClick={nextBtnHandler}>
-          <img src={SliderNextIcon} alt="SliderNextButton" />
+          {/* <img src={SliderNextIcon} alt="SliderNextButton" /> */}
+          <i class="fas fa-arrow-right"></i>
         </button>
       </div>
     </section>
