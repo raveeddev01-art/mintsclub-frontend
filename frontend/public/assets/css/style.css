@@ -1529,6 +1529,10 @@ aside {
   color: #ffffff;
 }
 
+.hero-left-content {
+  position: relative;
+}
+
 .watch-video span {
   color: #ffffff;
 }
@@ -2270,10 +2274,6 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 .swiper-pagination-bullet-active {
   background-color: var(--primary-color);
   opacity: 1 !important;
-}
-
-.hero-section {
-  position: relative;
 }
 
 .hero-section h1 {

@@ -27,10 +27,12 @@ export default class CardSlider extends Component {
       <div className="container">
         <div className="text-end">
           <button className="card-slider-btn mb-4 me-3" onClick={this.previous}>
-            <img src={SliderPrevIcon} alt="SliderPrevButton" />
+            {/* <img src={SliderPrevIcon} alt="SliderPrevButton" /> */}
+            <i class="fas fa-arrow-left"></i>
           </button>
           <button className="card-slider-btn mb-4" onClick={this.next}>
-            <img src={SliderNextIcon} alt="SliderNextButton" />
+            {/* <img src={SliderNextIcon} alt="SliderNextButton" /> */}
+            <i class="fas fa-arrow-right"></i>
           </button>
         </div>
         <Slider ref={(c) => (this.slider = c)} {...settings}>

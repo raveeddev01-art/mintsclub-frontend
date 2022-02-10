@@ -64,6 +64,9 @@
 
 .nftDetail-accordion .accordion .accordion-header .accordion-button::after {
   background-image: url("../../assets/images/accordion-collapse-icon.svg");
+  width: 10px;
+  height: 10px;
+  background-size: 100%;
 }
 
 .nftDetail-accordion .accordion .accordion-item .accordion-body button {
@@ -242,4 +245,96 @@
 
 .nft-detail .detail-card .card-body .likes-container img {
   cursor: pointer;
+}
+
+.table-container {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.table-container .table thead {
+  position: sticky;
+  top: 0;
+  background-color: #5666fe;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.table-container .table tbody {
+  font-size: 20px;
+  font-weight: normal;
+  color: #d6d6d6;
+}
+
+.table-container .table tbody th td,
+.table-container .table thead th {
+  min-width: 130px;
+}
+
+.nftDetail-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
+  .listing-table
+  .table
+  tbody
+  td
+  button {
+  margin: 0;
+  padding: 1px 0;
+  border-radius: 5px;
+}
+
+.table-container.listing-table {
+  max-height: 300px;
+  height: max-content;
+  overflow-y: auto;
+}
+
+.nft-stats-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
+  .properties-content-container {
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+}
+
+.nft-stats-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
+  .properties-content-container
+  .properties-content
+  span {
+  color: #5666fe;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.nft-stats-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
+  .properties-content-container
+  .properties-content
+  h3 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.nft-stats-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
+  .properties-content-container
+  .properties-content
+  p {
+  color: #d6d6d6;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 1px 2px;
 }

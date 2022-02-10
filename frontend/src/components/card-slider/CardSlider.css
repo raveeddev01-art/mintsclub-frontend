@@ -10,6 +10,12 @@
   background-color: white;
 }
 
-.card-slider-btn:hover img {
-  background: linear-gradient(#5666fe, #5666fe);
+.card-slider-btn .fa-arrow-right,
+.card-slider-btn .fa-arrow-left {
+  color: #fff;
+}
+
+.card-slider-btn:hover .fa-arrow-right,
+.card-slider-btn:hover .fa-arrow-left {
+  color: #5666fe;
 }

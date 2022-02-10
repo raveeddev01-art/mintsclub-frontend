@@ -6,8 +6,12 @@
   background-color: #101029 !important;
 }
 
-.main-nav-container .navbar-main-custom .navbar-brand-logo img {
+.main-nav-container .navbar-main-custom .navbar-brand-logo {
   max-width: 200px;
+  width: 100%;
+}
+
+.main-nav-container .navbar-main-custom .navbar-brand-logo img {
   width: 100%;
 }
 
@@ -102,7 +106,7 @@
   }
   .main-nav-container .main-nav-right {
     position: absolute;
-    top: 30px;
+    top: 28px;
     right: 70px;
   }
   .main-nav-container .search-box:hover > .search-txt {

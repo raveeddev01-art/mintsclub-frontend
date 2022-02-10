@@ -44,9 +44,9 @@ const NavbarMain = () => {
                 >
                   All NFT
                 </NavDropdown.Item>
-                <NavDropdown.Item to="/auctions" className="nav-main-link">
+                {/* <NavDropdown.Item to="/auctions" className="nav-main-link">
                   Live Auctions
-                </NavDropdown.Item>
+                </NavDropdown.Item> */}
               </NavDropdown>
               <Nav.Link to="/activity" className="nav-main-link">
                 Activity

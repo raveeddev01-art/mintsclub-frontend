@@ -119,12 +119,61 @@
   box-shadow: none;
 }
 
+/* ::after {
+  background-image: url("../../assets/images/accordion-collapse-icon.svg");
+  width: 10px;
+  height: 10px;
+  background-size: 100%;
+} */
+
 .collection-detail-content
   .collections-listing
   .collection-select-bar
   select
   option {
-  background: rgba(16, 16, 28, 1);
+  background: #000;
+  color: #fff;
+  border: 1px solid #10101c;
+}
+
+.collection-detail-content
+  .collections-listing
+  .collection-select-bar
+  select
+  option:active {
+  background: #000;
+  color: #fff;
+  border: 1px solid #10101c;
+}
+
+.collection-detail-content
+  .collections-listing
+  .collection-select-bar
+  select
+  option:hover {
+  background: black;
+  color: #fff;
+  border: 1px solid #10101c;
+}
+
+.collection-detail-content
+  .collections-listing
+  .collection-select-bar
+  select
+  option:checked {
+  background: black;
+  background-color: black;
+  color: #fff;
+  border: 1px solid #10101c;
+}
+
+.collection-detail-content
+  .collections-listing
+  .collection-select-bar
+  select
+  option:focus {
+  background: black;
+  background-color: black;
   color: #fff;
   border: 1px solid #10101c;
 }

@@ -64,6 +64,9 @@
   .accordion-header
   .accordion-button::after {
   background-image: url("../../assets/images/accordion-collapse-icon.svg");
+  width: 10px;
+  height: 10px;
+  background-size: 100%;
 }
 
 .collection-filter-accordion .accordion .accordion-item .accordion-body button {
