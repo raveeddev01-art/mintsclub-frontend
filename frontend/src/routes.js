@@ -29,7 +29,8 @@ import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
 import ExploreCollections from "./components/collections/explore-collections";
-import AllNFT from "./components/all-nft/allnft";
+// import AllNFT from "./components/all-nft/allnft";
+import AllNFT from './components/explore/all-nft/allnft'
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
 import NFTDetail from "./components/nft-detail/nftdetail";
 

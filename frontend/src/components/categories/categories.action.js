@@ -24,8 +24,9 @@ export const getCategories = () => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        console.log(data,"getting categories==>")
-        if (data.success) {
+        
+        if (data.status) {
+    
             dispatch({
                 type: GET_CATEGORIES,
                 payload: data.categories

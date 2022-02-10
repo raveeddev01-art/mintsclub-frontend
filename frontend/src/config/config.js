@@ -3,6 +3,9 @@ const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
 
+
+console.log(process.env.REACT_APP_BASE_URL,"process.env.REACT_APP_BASE_URL")
+
 export const ENV = {
   // blockchain variables
   nftContractAddress: process.env.REACT_APP_NFT_CONTRACT_ADDRESS,
@@ -10,7 +13,8 @@ export const ENV = {
   ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
 
   // process variables
-  url: process.env.REACT_APP_BASE_URL,
+  // url: process.env.REACT_APP_BASE_URL,
+  url:"http://localhost:5000/v1/front/",
   assetUrl: process.env.REACT_APP_BASE_URL,
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,

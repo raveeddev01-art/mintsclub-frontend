@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { GET_ERRORS, BEFORE_COLLECTION, SET_AUTH_STATE, GET_COLLECTION, GET_COLLECTIONS, UPSERT_COLLECTION, DELETE_COLLECTION, ALL_COLLECTIONS } from '../../redux/types';
+import { GET_ERRORS, BEFORE_COLLECTION, SET_AUTH_STATE, GET_COLLECTION, GET_COLLECTIONS, UPSERT_COLLECTION, DELETE_COLLECTION, ALL_COLLECTIONS,BEFORE_CATEGORY, GET_CATEGORIES,COLLECTION_CATEGORES } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
 
@@ -49,10 +49,12 @@ export const getCollection = (collectionId) => dispatch => {
 };
 
 export const getCollections = (qs = null) => dispatch => {
+
     dispatch(emptyError());
     // let url = `http://3.142.91.8/v1/front/collection/list`;
     let url = `${ENV.url}collection/list`;
 
+    console.log(url,"url==> before")
     if (qs)
         url += `?${qs}`
 
@@ -66,7 +68,7 @@ export const getCollections = (qs = null) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-      
+      console.log(data,"collections restul")
         if (data.success) {
             dispatch({
                 type: GET_COLLECTIONS,
@@ -81,6 +83,7 @@ export const getCollections = (qs = null) => dispatch => {
             })
         }
     }).catch(error => {
+        console.log(error,"collections error")
         // console.log(error,"all collections error");
         if (error.response && error.response.data) {
             const { data } = error.response
@@ -101,7 +104,7 @@ export const upsertCollection = (apiURL, body, method = 'POST') => dispatch => {
    
     // const url = `http://localhost:5000/v1/front/${apiURL}`;
 
-
+console.log(body,"body")
     fetch(url, {
         method,
         headers: {
@@ -126,6 +129,7 @@ export const upsertCollection = (apiURL, body, method = 'POST') => dispatch => {
             })
         }
     }).catch(error => {
+
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)
@@ -183,3 +187,73 @@ export const setAuthState = () => (dispatch) => {
         type: SET_AUTH_STATE,
     })
 }
+export const beforeCategory = () => {
+    return {
+        type: BEFORE_CATEGORY
+    }
+}
+export const getCategories = () => dispatch => {
+    console.log("called")
+    dispatch(emptyError());
+    const url = `${ENV.url}category/list`;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': ENV.Authorization,
+            'x-auth-token': ENV.x_auth_token,
+            'Access-Control-Allow-Origin': '*',
+            'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
+        }
+    }).then(res => res.json()).then(data => {
+    console.log(data.categories,"data")
+        if (data.status) {
+         
+            dispatch({
+                type: COLLECTION_CATEGORES,
+                payload: data.categories
+            })
+
+         
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: data
+            })
+        }
+    }).catch(error => {
+        console.log(error,"error==>")
+        console.log("catch")
+        if (error.response && error.response.data) {
+            const { data } = error.response
+            if (data.message)
+                toast.error(data.message)
+        }
+        dispatch({
+            type: GET_ERRORS,
+            payload: error
+        })
+    })
+};
+export const toggleLikeDislike = (body) => dispatch => {
+ let data=JSON.stringify(body)
+    const url = `${ENV.url}collectionLikes/likeDislike`;
+    console.log(body,"body")
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': ENV.Authorization,
+            'x-auth-token': ENV.x_auth_token,
+            'Access-Control-Allow-Origin': '*',
+            'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
+        },
+        data
+    }).then(res => res.json()).then(data => {
+    console.log(data,"likes success data")
+       
+    }).catch(error => {
+     console.log(error,"error likes")
+    })
+};

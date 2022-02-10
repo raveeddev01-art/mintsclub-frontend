@@ -8,7 +8,7 @@ import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
 import "./CollectionsCard.css";
 
-const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name }) => {
+const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name,id }) => {
   // const { name, image } = category;
   return (
     <Card className="collection-cards-container">
@@ -29,17 +29,17 @@ const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name }) => {
             </div>
           </div>
           <Card.Body>
-            <Card.Title>Moder Art Collections</Card.Title>
+            <Card.Title>{name}</Card.Title>
             <Card.Text>5 items</Card.Text>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">
                 <img src={AvatarImg} alt="avatar-img" className="me-2" />
                 <span>Pablo-Shing</span>
               </div>
-              <div className="collection-footer-right d-flex align-items-center">
-                <img src={HeartIcon} alt="like-icon" className="me-1" />
+              {/* <div className="collection-footer-right d-flex align-items-center">
+                <img src={HeartIcon} alt="like-icon" className="me-1" onClick={()=>handleLikesTogle(id)} />
                 <span>212k</span>
-              </div>
+              </div> */}
             </div>
           </Card.Body>
         </div>

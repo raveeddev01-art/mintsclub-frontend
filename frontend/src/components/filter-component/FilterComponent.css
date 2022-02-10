@@ -5,6 +5,10 @@
 .collection-filter-accordion .accordion {
   border-radius: 10px;
 }
+.apply-btn {
+  background: linear-gradient(to top, #4355ff, #5695fd) !important;
+  border: none !important;
+}
 
 .collection-filter-accordion .accordion .accordion-item:first-child,
 .collection-filter-accordion

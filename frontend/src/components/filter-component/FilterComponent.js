@@ -1,7 +1,7 @@
 import React from "react";
 import "./FilterComponent.css";
 
-const FilterComponent = ({ Status, Chains, Collections }) => {
+const FilterComponent = ({ Status, Chains, Collections,onChangeMinPrice,onChangeMaxPrice,minValue,maxValue,applyMinMaxFilter }) => {
   return (
     <div className="collection-filter-accordion">
       <div className="accordion accordion-flush " id="accordionFlushExample">
@@ -60,17 +60,20 @@ const FilterComponent = ({ Status, Chains, Collections }) => {
               <div className="d-flex flex-column ">
                 <div className="filter-min-max d-flex align-items-center justify-content-center">
                   <p>Min:</p>
-                  <input type="number" />
+                  <input type="number" value={minValue} onChange={onChangeMinPrice} />
                 </div>
                 <span className="text-center my-1">To</span>
                 <div className="filter-min-max d-flex align-items-center justify-content-center">
                   <p>Max:</p>
-                  <input type="number" />
+                  <input type="number" value={maxValue} onChange={onChangeMaxPrice} />
                 </div>
+
+                <button className="mt-3 apply-btn" onClick={()=>applyMinMaxFilter()}>Apply</button>
               </div>
             </div>
           </div>
         </div>
+
         {Chains ? (
           <div className="accordion-item">
             <h2 className="accordion-header" id="flush-headingThree">

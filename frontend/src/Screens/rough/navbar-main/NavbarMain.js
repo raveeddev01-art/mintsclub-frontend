@@ -1,12 +1,31 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory,useLocation } from "react-router-dom";
 import MintsClub from "../../../assets/images/main-logo.svg";
 import LoginIcon from "../../../assets/images/login-icon.svg";
 import SearchIcon from "../../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import {ENV} from '../../../config/config'
 import "./NavbarMain.css";
 
 const NavbarMain = () => {
+  let userId=ENV.getUserKeys("_id")._id;
+  const [path,setPath]=React.useState(null)
+  const history=useHistory()
+  const location = useLocation();
+  console.log("pathname",location.pathname)
+  const clearLocalStorage=()=>{
+   if(userId){
+
+     localStorage.clear()
+   }
+    console.log("clicked")
+    history.push('/login')
+ }
+ React.useEffect(()=>{
+  setPath(location.path)
+ },[location.pathname])
+ console.log(ENV.getUserKeys("_id")._id)
+  
   return (
     <div className="main-nav-section">
       <Container className="main-nav-container">
@@ -51,8 +70,9 @@ const NavbarMain = () => {
               <Nav.Link to="/activity" className="nav-main-link">
                 Activity
               </Nav.Link>
-              <Nav.Link href="/collection/detailPage" className="nav-main-link">
+              <Nav.Link href="/collection/detailPage" className={`nav-main-link${path==='/collection/detailPage'?"active-className-link":""}`}>
                 Collections
+
               </Nav.Link>
               <Nav.Link to="/" className="nav-main-link">
                 Contact
@@ -62,12 +82,15 @@ const NavbarMain = () => {
               </Nav.Link>
 
               <Link
-                to="/"
+                to={`/login`}
+                onClick={()=>clearLocalStorage()}
                 id="wallet-address"
                 className="btn ml-lg-auto btn-linear-gradient d-sm-none"
               >
+                 <div onClick={()=>clearLocalStorage()}>
                 <img src={LoginIcon} alt="loginIcon" className="me-2" />
-                Login
+                {ENV.getUserKeys("_id")._id?"Logout":"Login"}
+                </div>
               </Link>
               <div class="search-box mt-1 mt-sm-0 d-sm-none">
                 <input
@@ -95,12 +118,16 @@ const NavbarMain = () => {
               </a>
             </div>
             <Link
-              to="/"
+              to="/login"
+         
               id="wallet-address"
               className="btn ml-lg-auto btn-linear-gradient"
             >
+              <div onClick={()=>clearLocalStorage()}>
+
               <img src={LoginIcon} alt="loginIcon" className="me-2" />
-              Login
+              {ENV.getUserKeys("_id")._id?"Logout":"Login"}
+              </div>
             </Link>
           </div>
         </Navbar>

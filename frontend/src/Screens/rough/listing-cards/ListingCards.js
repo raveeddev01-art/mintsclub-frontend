@@ -4,7 +4,7 @@ import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import HeartIcon from "../../../assets/images/unlike-icon.svg";
 import "./ListingCards.css";
 
-const ListingCards = ({ CardImg }) => {
+const ListingCards = ({ CardImg ,handleLikesTogleApi,id}) => {
   return (
     <Card className="auction-card listing-card">
       <div className="auction-img-wrapper">
@@ -14,7 +14,7 @@ const ListingCards = ({ CardImg }) => {
         <div className="hero-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title>Item Name</Card.Title>
           <div className="options-icon like-icon">
-            <img src={HeartIcon} alt="OptionsIcon" />
+            <img src={HeartIcon} alt="OptionsIcon" onClick={()=>handleLikesTogleApi(id)}  />
           </div>
         </div>
 

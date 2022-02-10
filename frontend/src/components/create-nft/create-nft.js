@@ -184,43 +184,44 @@ class CreateNFT extends Component {
                 true
               );
               console.log("response of create nft", res);
+              this.props.history.push('/userDashboard')
 
-              if (res.success) {
-                // this.reset();
-                // toast.success(`Success! ${res.message}`)
+              // if (res.success) {
+              //   // this.reset();
+              //   // toast.success(`Success! ${res.message}`)
 
-                if (res.nft && res.nft.metaData) {
-                  try {
-                    let nftId = res.nft._id;
-                    let createNftResult = await createNft(
-                      res.nft.metaData,
-                      res.nft._id
-                    );
-                    console.log(createNftResult, "createNftResult");
+              //   if (res.nft && res.nft.metaData) {
+              //     try {
+              //       let nftId = res.nft._id;
+              //       let createNftResult = await createNft(
+              //         res.nft.metaData,
+              //         res.nft._id
+              //       );
+              //       console.log(createNftResult, "createNftResult");
 
-                    if (createNftResult.events.Transfer.returnValues.tokenId) {
-                      let data = {
-                        nftToken:
-                          createNftResult.events.Transfer.returnValues.tokenId,
-                        nftId,
-                        data: this.state.nft,
-                        image: res.nft.image,
-                      };
-                      this.props.setNftToken(data);
-                    }
-                  } catch (err) {
-                    // alert(err.message);
-                  }
+              //       if (createNftResult.events.Transfer.returnValues.tokenId) {
+              //         let data = {
+              //           nftToken:
+              //             createNftResult.events.Transfer.returnValues.tokenId,
+              //           nftId,
+              //           data: this.state.nft,
+              //           image: res.nft.image,
+              //         };
+              //         this.props.setNftToken(data);
+              //       }
+              //     } catch (err) {
+              //       // alert(err.message);
+              //     }
 
-                  this.setState({
-                    loader: true,
-                  });
-                  setTimeout(() => {
-                    this.setState({ loader: false });
-                    // this.props.history.push("/collections");
-                  }, 11000);
-                }
-              } else this.setState({ errors: res.message, loader: false });
+              //     this.setState({
+              //       loader: true,
+              //     });
+              //     // setTimeout(() => {
+              //     //   this.setState({ loader: false });
+              //     //   // this.props.history.push("/collections");
+              //     // }, 11000);
+              //   }
+              // } else this.setState({ errors: res.message, loader: false });
             }
           );
         } else {
@@ -397,7 +398,9 @@ class CreateNFT extends Component {
     //    }
     //    else {
     // console.log(nft, "nft");
+    console.log(collections,"collections")
 
+    
     return (
       <div>
         <NavbarMain />
@@ -807,7 +810,9 @@ class CreateNFT extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state in colleciton"),
+  {
   error: state.error,
   collection: state.collection,
 });

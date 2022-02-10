@@ -95,6 +95,10 @@
 .main-nav-container .search-box:hover > .search-btn {
   background: linear-gradient(to top, #4355ff, #5695fd);
 }
+.active-className-link{
+  font-weight: bold !important;
+  color: #5666fe !important;
+}
 
 @media (max-width: 1199.9px) {
   .main-nav-container {
