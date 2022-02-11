@@ -89,9 +89,11 @@ class CreateNFT extends Component {
         toast.info("Please add a collection first");
         return this.props.history.push("/collection/create");
       } else
+        console.log(collections,"collection total")
         var myCollections = collections.filter(
           (item) => item.userId === ENV.getUserKeys("_id")._id
         );
+        console.log(myCollections,"myCollections")
       this.setState({
         collections: myCollections,
         loader: false,
@@ -398,9 +400,8 @@ class CreateNFT extends Component {
     //    }
     //    else {
     // console.log(nft, "nft");
-    console.log(collections,"collections")
 
-    
+
     return (
       <div>
         <NavbarMain />
