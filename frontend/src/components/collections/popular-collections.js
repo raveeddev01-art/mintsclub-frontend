@@ -155,7 +155,7 @@ const PopularCollections = (props) => {
               </div>
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
-              <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
+              <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
                 <button className="me-1 me-sm-2 active">Arts</button>
                 <button className="me-1 me-sm-2">Music</button>
                 <button className="me-1 me-sm-2">Game</button>

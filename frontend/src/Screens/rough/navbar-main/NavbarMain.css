@@ -99,7 +99,7 @@
 .main-nav-container .search-box:hover > .search-btn {
   background: linear-gradient(to top, #4355ff, #5695fd);
 }
-.active-className-link{
+.active-className-link {
   font-weight: bold !important;
   color: #5666fe !important;
 }
