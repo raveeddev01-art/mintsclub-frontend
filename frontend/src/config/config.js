@@ -14,7 +14,7 @@ export const ENV = {
 
   // process variables
   // url: process.env.REACT_APP_BASE_URL,
-  url:"http://localhost:5000/v1/front/",
+  url:"https://v2-mintsclubapi.invo.zone/v1/front/",
   assetUrl: process.env.REACT_APP_BASE_URL,
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,
