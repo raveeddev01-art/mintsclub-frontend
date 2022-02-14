@@ -84,8 +84,8 @@ const SellNFT = (props) => {
   useEffect(() => {
     window.scroll(0, 0);
     const { itemId } = props.match.params;
-    if (itemId) props.getNFT(window.atob(itemId));
-    else props.history.push("/explore-all");
+    // if (itemId) props.getNFT(window.atob(itemId));
+    // else props.history.push("/explore-all");
     getTokens()
   }, []);
 
