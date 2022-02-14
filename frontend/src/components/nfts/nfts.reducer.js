@@ -1,4 +1,4 @@
-import { BEFORE_NFT, GET_NFTS, GET_NFT, UPSERT_NFT,NFTALL } from '../../redux/types';
+import { BEFORE_NFT, GET_NFTS, GET_NFT, UPSERT_NFT,NFTALL,GET_NFTS_BY_COLLECTION } from '../../redux/types';
 
 const initialState = {
     nftsData: {},
@@ -7,6 +7,8 @@ const initialState = {
     upsertAuth: false,
     createNFTResult:[],
     createNFTerror:false,
+    nftsByCollection:[],
+    nftsByCollectionStatus:false,
 }
 
 export default function (state = initialState, action) {
@@ -43,9 +45,17 @@ export default function (state = initialState, action) {
                 nftsAuth: false,
                 upsertAuth: false
             }
+            case GET_NFTS_BY_COLLECTION:
+                return {
+                    ...state,
+                    nftsByCollection:action.payload,
+                    nftsByCollectionStatus:true,
+
+                }
         default:
             return {
-                ...state
+                ...state,
+               
             }
     }
 }

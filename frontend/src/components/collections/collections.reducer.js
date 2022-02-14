@@ -1,4 +1,4 @@
-import { BEFORE_COLLECTION, GET_COLLECTION, SET_AUTH_STATE, GET_COLLECTIONS, UPSERT_COLLECTION, DELETE_COLLECTION, ALL_COLLECTIONS,COLLECTION_CATEGORES } from '../../redux/types';
+import { BEFORE_COLLECTION, GET_COLLECTION, SET_AUTH_STATE, GET_COLLECTIONS, UPSERT_COLLECTION, DELETE_COLLECTION,MY_COLLECTIONS, ALL_COLLECTIONS,COLLECTION_CATEGORES } from '../../redux/types';
 
 const initialState = {
     collection: null,
@@ -10,6 +10,8 @@ const initialState = {
     getAuth: false,
     categories:null,
     collectionFlag:false,
+    myCollections:null,
+    myCollectionsResult:false,
     
 }
 
@@ -52,6 +54,13 @@ export default function (state = initialState, action) {
                 pagination: action.payload.pagination,
                 getAuth: true
             }
+            case MY_COLLECTIONS:
+        
+                return {
+                    ...state,
+                    myCollections:action.payload,
+                    myCollectionsResult:true,
+                }
             case COLLECTION_CATEGORES:
 
                 return {

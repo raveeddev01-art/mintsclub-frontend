@@ -7,6 +7,7 @@ import {
   UPSERT_NFT,
   NFTALL,
   SET_NFT_TOKEN,
+  GET_NFTS_BY_COLLECTION
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -14,6 +15,7 @@ import {
     axiosPostFormData,
     decimalNumberValidator,
   } from "./../../utils/functions";
+
 export const beforeNFT = () => {
   return {
     type: BEFORE_NFT,
@@ -138,16 +140,16 @@ export const getNFT = (nftId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      // console.log(data,"checking data of nft==>single");
+
       // alert("called")
       if (data.success) {
         dispatch({
           type: NFTALL,
-          payload: data.allData,
+          payload: data.data,
         });
         dispatch({
           type: GET_NFT,
-          payload: data.nft,
+          payload: data.data,
         });
       } else {
         dispatch({
@@ -161,8 +163,62 @@ export const getNFT = (nftId) => (dispatch) => {
         type: GET_ERRORS,
         payload: errors,
       });
+   
     });
 };
+
+export const getNFTsByCollection=(id)=>(dispatch)=>{
+  console.log("sending reqest==>")
+  let data ={
+    collectionId:id
+  }
+  data=JSON.stringify(data)
+
+  dispatch(emptyError());
+
+    const url = `${ENV.url}nfts/getNFTsByCollection`;
+  
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: ENV.Authorization,
+        "x-auth-token": ENV.x_auth_token,
+        "Access-Control-Allow-Origin": "*",
+        "x-access-token":
+          ENV.getUserKeys("accessToken") &&
+          ENV.getUserKeys("accessToken").accessToken
+            ? ENV.getUserKeys("accessToken").accessToken
+            : "",
+      },
+      data
+    })
+      .then((res) => res.json())
+      .then((data) => {
+           console.log(data,"nftByCollection")
+        if (data.success) {
+          dispatch({
+            type:GET_NFTS_BY_COLLECTION,
+            payload:data.data
+          })
+     
+        } else {
+          dispatch({
+            type: GET_ERRORS,
+            payload: data,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error,"errors by nftByCollection")
+        dispatch({
+          type: GET_ERRORS,
+          payload: error,
+        });
+     
+      });
+}
+
 export const createNFT= async (formData)=>{
     try {
 

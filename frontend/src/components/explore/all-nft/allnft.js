@@ -12,6 +12,11 @@ import FilterComponent from "../../filter-component/FilterComponent";
 import { getCreators, beforeUser } from "./../../user/user.action";
 import FullPageLoader from "../../full-page-loader/full-page-loader";
 import {toggleLikeDislike} from '../explore.action'
+import {
+  beforeCollection,
+  getCollections,
+ 
+} from "../../collections/collections.actions";
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [nftPagination, setNFTPagination] = useState(null);
@@ -20,8 +25,9 @@ const AllNFT = (props) => {
   const [loadMoreBtn, setLoadMoreBtn] = useState(false);
   const [intro, setIntro] = useState(false);
   const [creators, setCreator] = useState([]);
-  const [minValue,setMinValue]=useState('')
-  const [maxValue,setMaxValue]=useState('')
+  const [minValue,setMinValue]=useState('');
+  const [maxValue,setMaxValue]=useState('');
+  const [collections,setCollections]=useState([])
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -47,13 +53,16 @@ const AllNFT = (props) => {
     // get NFTs for explore section
     getNFTs();
     props.getCreators();
+    props.getCollections();
   }, []);
+
   useEffect(() => {
     if (props.user.topSellersAuth) {
       //    console.log(props.user.sellers,"sellers blah blah blah");
       setCreator(props.user.sellers);
     }
   }, [props.user.topSellersAuth]);
+
   useEffect(() => {
     if (props.user.creatorsAuth) {
       //    console.log(props.user.creators,"sellers blah blah blah");
@@ -61,6 +70,7 @@ const AllNFT = (props) => {
       setLoader(false);
     }
   }, [props.user.creatorsAuth]);
+
   // set NFTs for explore section
   useEffect(() => {
     if (props.nft.nftsAuth) {
@@ -87,6 +97,13 @@ const AllNFT = (props) => {
           nfts.length > 0
       );
   }, [nftPagination]);
+
+  useEffect(() => {
+    if (props.getAuth){
+      setCollections(props.collections)
+    }
+  
+  },[props.getAuth]);
 
   const loadMore = () => {
     const { page, limit } = nftPagination;
@@ -169,7 +186,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        false,
+        filter.collectionId?filter.collectionId:false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -190,7 +207,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        false,
+        filter.collectionId?filter.collectionId:false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -210,7 +227,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        false,
+        filter.collectionId?filter.collectionId:false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -230,7 +247,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        false,
+        filter.collectionId?filter.collectionId:false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -253,56 +270,7 @@ const AllNFT = (props) => {
   }
 
 
-  const CardsData = [
-    {
-      id: 1,
-      img: ListingImg.listingImg1,
-    },
-    {
-      id: 2,
-      img: ListingImg.listingImg2,
-    },
-    {
-      id: 3,
-      img: ListingImg.listingImg3,
-    },
-    {
-      id: 4,
-      img: ListingImg.listingImg4,
-    },
-    {
-      id: 5,
-      img: ListingImg.listingImg1,
-    },
-    {
-      id: 6,
-      img: ListingImg.listingImg2,
-    },
-    {
-      id: 7,
-      img: ListingImg.listingImg3,
-    },
-    {
-      id: 8,
-      img: ListingImg.listingImg4,
-    },
-    {
-      id: 9,
-      img: ListingImg.listingImg1,
-    },
-    {
-      id: 10,
-      img: ListingImg.listingImg2,
-    },
-    {
-      id: 11,
-      img: ListingImg.listingImg3,
-    },
-    {
-      id: 12,
-      img: ListingImg.listingImg4,
-    },
-  ];
+
 
   const filterData = {
     status: {
@@ -349,6 +317,27 @@ const AllNFT = (props) => {
   setFilter(prev=>({...prev,gtePrice:minValue,ltePrice:maxValue}))
   getNFTs(page,limit+10,collectionId,minValue,maxValue,categoryId,oldest,lowToHigh,highToLow,newest)
   }
+
+
+  const handleCollectionsFilter=(id)=>{
+    const {
+      collectionId,
+      gtePrice,
+      ltePrice,
+      categoryId,
+      oldest,
+      lowToHigh,
+      highToLow,
+      newest,
+      page,
+      limit,
+  
+    }=filter
+    setFilter(prev=>({...prev,collectionId:id}))
+    getNFTs(page,limit,id,minValue,maxValue,categoryId,oldest,lowToHigh,highToLow,newest)
+
+
+  }
  
     const handleLikesTogleApi = (nftId) => {
     let userId=ENV.getUserKeys("_id")._id;
@@ -360,9 +349,8 @@ const AllNFT = (props) => {
     
     props.toggleLikeDislike(obj);
   };
-  console.log(nfts, "nfts in new");
-  console.log(minValue,"minVaue")
-  console.log(maxValue,"maxVaue")
+  console.log(collections, "collections");
+
 
   return (
     <>
@@ -451,12 +439,14 @@ const AllNFT = (props) => {
               <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
                 <FilterComponent
                   Status={filterData.status}
-                  Collections={filterData.collections}
+                  Collections={collections}
+                  collectionsLabel={"Collections"}
                   onChangeMinPrice={onChangeMinPrice}
                   onChangeMaxPrice={onChangeMaxPrice}
                   minValue={minValue}
                   maxValue={maxValue}
                   applyMinMaxFilter={applyMinMaxFilter}
+                  handleCollectionsFilter={handleCollectionsFilter}
                 />
               </div>
               <div className="col-12 col-sm-8 col-md-9 col-lg-9">
@@ -468,7 +458,7 @@ const AllNFT = (props) => {
                       nfts.map((listing) => {
                         return (
                           <div className="col-6 col-md-4 col-lg-3 px-1">
-                            <ListingCards CardImg={listing.image} handleLikesTogleApi={handleLikesTogleApi} id={listing._id}/>
+                            <ListingCards CardImg={listing.image} name={listing.name}  price={listing.currentPrice} handleLikesTogleApi={handleLikesTogleApi} id={listing._id}/>
                           </div>
                         );
                       })}
@@ -500,9 +490,11 @@ const mapStateToProps = (state) => (
   {
     nft: state.nft,
     user: state.user,
+    getAuth:state.collection.getAuth,
+    collections:state.collection.collections
   }
 );
 
-export default connect(mapStateToProps, { beforeNFT, getNFTs, getCreators,toggleLikeDislike })(
+export default connect(mapStateToProps, { beforeNFT, getNFTs, getCreators,toggleLikeDislike,getCollections })(
   AllNFT
 );

@@ -158,7 +158,7 @@ const routes = [
     component: CreateNFT,
   },
   {
-    path: "/nftdetail",
+    path: "/nftdetail/:id",
     access: true,
     exact: true,
     title: "Detail",

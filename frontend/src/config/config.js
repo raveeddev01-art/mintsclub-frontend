@@ -13,8 +13,8 @@ export const ENV = {
   ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
 
   // process variables
-  // url: process.env.REACT_APP_BASE_URL,
-  url:"https://v2-mintsclubapi.invo.zone/v1/front/",
+  url: process.env.REACT_APP_BASE_URL,
+  // url:"https://v2-mintsclubapi.invo.zone/v1/front/",
   assetUrl: process.env.REACT_APP_BASE_URL,
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,

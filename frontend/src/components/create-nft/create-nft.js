@@ -16,6 +16,7 @@ import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import {
   beforeCollection,
   getCollections,
+  myCollections
 } from "../collections/collections.actions";
 import { setNftToken, createNFT } from "../nfts/nfts.action";
 import { getCurrentAddress } from "../../utils/web3";
@@ -38,7 +39,7 @@ class CreateNFT extends Component {
       errors: "",
       nft: {
         userId: ENV.getUserKeys("_id")._id,
-        nftOwnerId: ENV.getUserKeys("_id")._id,
+        ownerId:ENV.getUserKeys("_id")._id,
         image: "",
         videoURL: "",
         audioUrl: "",
@@ -54,7 +55,7 @@ class CreateNFT extends Component {
       },
       imageURL: "",
       videoURL: "",
-      collections: null,
+      collections: [],
       allcollections: null,
       error: false,
       errorMessage: "",
@@ -70,7 +71,9 @@ class CreateNFT extends Component {
 
   componentDidMount = async () => {
     window.scroll(0, 0);
-    this.props.getCollections();
+  //  let qs= ENV.objectToQueryString(userId:ENV.getUserKeys("_id"))
+    this.props.myCollections(ENV.getUserKeys("_id")._id);
+
     let ownerAddress = await getCurrentAddress();
 
     let { nft } = this.state;
@@ -81,23 +84,33 @@ class CreateNFT extends Component {
   };
 
   componentDidUpdate() {
-    if (this.props.collection.getAuth) {
-      const { collections } = this.props.collection;
-      console.log(ENV.getUserKeys("_id")._id,"if")
+    console.log(this.props.collection.myCollectionsResult,"this.props.collection.myCollectionsResult")
+    // const {collections}=this.state
+    if (this.props.collection.myCollectionsResult && this.state.collections?.length<=0) {
+      const collections  = this.props.collection.myCollections;
+      console.log(collections,"collections")
       this.props.beforeCollection();
-      if (!collections) {
-        toast.info("Please add a collection first");
-        return this.props.history.push("/collection/create");
-      } else
-        console.log(collections,"collection total")
-        var myCollections = collections.filter(
-          (item) => item.userId === ENV.getUserKeys("_id")._id
-        );
-        console.log(myCollections,"myCollections")
       this.setState({
-        collections: myCollections,
+        collections: collections,
         loader: false,
+        
       });
+      // if (!collections) {
+      //   toast.info("Please add a collection first");
+      //   // return this.props.history.push("/collection/create");
+      // } else
+      // {
+      //   console.log(collections,"collection total setting state")
+      //   // var myCollections = collections.filter(
+      //   //   (item) => item.userId === ENV.getUserKeys("_id")._id
+      //   // );
+      //   // console.log(myCollections,"myCollections")
+      // this.setState({
+      //   collections: collections,
+      //   loader: false,
+        
+      // });
+      // }
     }
   }
 
@@ -144,6 +157,7 @@ class CreateNFT extends Component {
   reset = () => {
     const nft = {
       userId: ENV.getUserKeys("_id")._id,
+      ownerId:ENV.getUserKeys("_id")._id,
       image: "",
       name: "",
       description: "",
@@ -185,8 +199,11 @@ class CreateNFT extends Component {
                 formData,
                 true
               );
-              console.log("response of create nft", res);
-              this.props.history.push('/userDashboard')
+   
+              if(res){
+
+                this.props.history.push('/user-dashboard') 
+              }
 
               // if (res.success) {
               //   // this.reset();
@@ -823,4 +840,5 @@ export default connect(mapStateToProps, {
   getCollections,
   setNftToken,
   createNFT,
+  myCollections
 })(CreateNFT);

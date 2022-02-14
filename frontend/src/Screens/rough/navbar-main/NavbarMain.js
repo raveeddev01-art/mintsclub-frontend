@@ -12,7 +12,7 @@ const NavbarMain = () => {
   const [path, setPath] = React.useState(null);
   const history = useHistory();
   const location = useLocation();
-  console.log("pathname", location.pathname);
+
   const clearLocalStorage = () => {
     if (userId) {
       localStorage.clear();
@@ -23,7 +23,7 @@ const NavbarMain = () => {
   React.useEffect(() => {
     setPath(location.path);
   }, [location.pathname]);
-  console.log(ENV.getUserKeys("_id")._id);
+
 
   return (
     <div className="main-nav-section">

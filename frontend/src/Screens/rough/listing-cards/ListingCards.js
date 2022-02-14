@@ -1,18 +1,20 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import HeartIcon from "../../../assets/images/unlike-icon.svg";
 import "./ListingCards.css";
 
-const ListingCards = ({ CardImg ,handleLikesTogleApi,id}) => {
+const ListingCards = ({ CardImg ,handleLikesTogleApi,id,name,price}) => {
+  const history=useHistory()
   return (
-    <Card className="auction-card listing-card">
+    <Card className="auction-card listing-card" onClick={()=>history.push(`/nftdetail/${id}`)}>
       <div className="auction-img-wrapper">
         <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
       </div>
       <Card.Body className="d-flex flex-column">
         <div className="hero-card-title-container d-flex align-items-center justify-content-between">
-          <Card.Title>Item Name</Card.Title>
+          <Card.Title>{name?name:"item name"}</Card.Title>
           <div className="options-icon like-icon">
             <img src={HeartIcon} alt="OptionsIcon" onClick={()=>handleLikesTogleApi(id)}  />
           </div>
@@ -23,7 +25,7 @@ const ListingCards = ({ CardImg ,handleLikesTogleApi,id}) => {
             <p>Price</p>
           </div>
           <div className="d-flex align-items-center">
-            <span>68.4 ETH</span>
+            <span>{price} ETH</span>
           </div>
         </div>
         <button className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center">

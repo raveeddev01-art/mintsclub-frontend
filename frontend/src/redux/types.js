@@ -15,6 +15,7 @@ export const BEFORE_NFT = 'BEFORE_NFT';
 export const GET_NFTS = 'GET_NFTS';
 export const GET_NFT = 'GET_NFT';
 export const UPSERT_NFT = 'UPSERT_NFT';
+export const GET_NFTS_BY_COLLECTION='';
 
 //CREATE NFT
 export const SET_NFT_TOKEN='SET_NFT_TOKEN';
@@ -46,6 +47,7 @@ export const UPSERT_COLLECTION = 'UPSERT_COLLECTION';
 export const DELETE_COLLECTION = 'DELETE_COLLECTION';
 export const GET_COLLECTIONS = 'GET_COLLECTIONS';
 export const ALL_COLLECTIONS = 'ALL_COLLECTIONS';
+export const MY_COLLECTIONS='MY_COLLECTIONS'
 
 // FOOTER
 export const BEFORE_FOOTER = 'BEFORE_FOOTER';

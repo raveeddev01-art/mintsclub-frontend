@@ -1,6 +1,7 @@
 .auction-card.listing-card {
   max-width: 205px;
   width: 100%;
+  cursor: pointer;
 }
 
 .auction-card.listing-card.card .card-img-top {

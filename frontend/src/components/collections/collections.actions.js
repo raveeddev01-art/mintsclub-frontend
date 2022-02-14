@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { GET_ERRORS, BEFORE_COLLECTION, SET_AUTH_STATE, GET_COLLECTION, GET_COLLECTIONS, UPSERT_COLLECTION, DELETE_COLLECTION, ALL_COLLECTIONS,BEFORE_CATEGORY, GET_CATEGORIES,COLLECTION_CATEGORES } from '../../redux/types';
+import { GET_ERRORS, BEFORE_COLLECTION, SET_AUTH_STATE, GET_COLLECTION, GET_COLLECTIONS, UPSERT_COLLECTION, DELETE_COLLECTION, ALL_COLLECTIONS,BEFORE_CATEGORY, GET_CATEGORIES,COLLECTION_CATEGORES ,MY_COLLECTIONS} from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
 
@@ -49,7 +49,7 @@ export const getCollection = (collectionId) => dispatch => {
 };
 
 export const getCollections = (qs = null) => dispatch => {
-
+// console.log("getting collections")
     dispatch(emptyError());
     // let url = `http://3.142.91.8/v1/front/collection/list`;
     let url = `${ENV.url}collection/list`;
@@ -96,7 +96,55 @@ export const getCollections = (qs = null) => dispatch => {
         })
     })
 };
+export const myCollections = (userId) => dispatch => {
+ console.log("sending request",userId)
+    dispatch(emptyError());
+    // let url = `http://3.142.91.8/v1/front/collection/list`;
+    let url = `${ENV.url}collection/myCollectionList`;
 
+    if (userId)
+    url += `?userId=${userId}`
+    console.log(url,"url==> before")
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': ENV.Authorization,
+            'x-auth-token': ENV.x_auth_token,
+            'Access-Control-Allow-Origin': '*',
+            'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
+        }
+    }).then(res => res.json()).then(data => {
+      console.log(data,"my collections result")
+        if (data.success) {
+            console.log(data.data,"inside")
+            dispatch({
+                type: MY_COLLECTIONS,
+                payload: data.data
+            })
+         
+        } else {
+            toast.error(data.message)
+            dispatch({
+                type: GET_ERRORS,
+                payload: data.data
+            })
+        }
+    }).catch(error => {
+        console.log(error,"myCollections")
+        // console.log(error,"all collections error");
+        if (error.response && error.response.data) {
+            const { data } = error.response
+            if (data.message)
+                toast.error(data.message)
+        }
+        dispatch({
+            type: GET_ERRORS,
+            payload: error
+        })
+    })
+}
 export const upsertCollection = (apiURL, body, method = 'POST') => dispatch => {
 
     dispatch(emptyError());
