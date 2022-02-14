@@ -5,9 +5,14 @@
 }
 .auction-card.card .card-img-top {
   width: 100%;
-  min-height: 250px;
+  height: 250px;
   border-radius: 10px;
 }
+
+.auction-card.card .card-img-top img {
+  height: 100%;
+}
+
 .auction-card-avatar img {
   border-radius: 50%;
   width: 32px;

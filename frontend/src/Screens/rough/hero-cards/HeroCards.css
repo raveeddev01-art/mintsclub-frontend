@@ -6,8 +6,12 @@
 
 .auction-card.hero-card.card .card-img-top {
   width: 100%;
-  min-height: 270px;
+  height: 270px;
   border-radius: 10px;
+}
+
+.auction-card.hero-card.card .card-img-top img {
+  height: 100%;
 }
 
 .hero-card.card .card-body {

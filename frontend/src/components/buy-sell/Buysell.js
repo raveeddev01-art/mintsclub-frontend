@@ -9,12 +9,12 @@ const Buysell = () => {
     <section className="buy-sell-section padding-wrapper">
       <div className="container">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <div className="buy-card d-md-flex align-items-center">
               <div className="buy-card-img d-flex">
                 <img src={BuyIcon} alt="buy-logo" className="mx-auto" />
               </div>
-              <div className="buy-card-content">
+              <div className="buy-card-content px-2">
                 <h5>Buy NFT Products</h5>
                 <p>Purchase digital NFT products from the biggest directory.</p>
                 <Link className="btn btn-linear-gradient" to="/">
@@ -23,12 +23,12 @@ const Buysell = () => {
               </div>
             </div>
           </div>
-          <div className="mt-5 mt-md-0 col-md-6">
+          <div className="mt-5 mt-sm-0 col-sm-6">
             <div className="sell-card d-md-flex align-items-center">
               <div className="buy-card-img d-flex">
                 <img src={SellIcon} alt="buy-logo" className="mx-auto" />
               </div>
-              <div className="buy-card-content">
+              <div className="buy-card-content px-2">
                 <h5>Sell Your NFT Products</h5>
                 <p>Sell one of your NFT products to make a huge profit.</p>
                 <Link className="btn btn-rounded-bordered" to="/">
