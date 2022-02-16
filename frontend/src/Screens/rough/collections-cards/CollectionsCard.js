@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useEffect} from "react";
+import {useHistory} from 'react-router'
 import { Card } from "react-bootstrap";
 import Subimg1 from "../../../assets/images/cl-cr-subimg1.png";
 import Subimg2 from "../../../assets/images/cl-cr-subimg2.png";
@@ -8,10 +9,12 @@ import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
 import "./CollectionsCard.css";
 
-const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name,id }) => {
+const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name,id,collection }) => {
   // const { name, image } = category;
+  const history=useHistory()
+
   return (
-    <Card className="collection-cards-container">
+    <Card className="collection-cards-container" onClick={()=>{history.push({pathname:`/collection/detailPage/${id}`,state:collection})}}>
       <div className="row">
         <div className="col-12">
           <div className="row g-3">

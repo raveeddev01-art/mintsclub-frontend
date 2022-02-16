@@ -19,6 +19,7 @@ import {
 } from "./collections.actions";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { beforeCategory, getCategories } from "./collections.actions";
+import { SiTruenas } from "react-icons/si";
 
 const ExploreCollections = forwardRef((props, ref) => {
   const [isActive, setIsActive] = useState("Art");
@@ -30,6 +31,8 @@ const ExploreCollections = forwardRef((props, ref) => {
   const [limit, setLimit] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState("music");
   const [categories, setCategories] = useState();
+  const [empty,setEmpty]=useState(false)
+  const [loader,setLoader]=useState(true)
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -51,17 +54,27 @@ const ExploreCollections = forwardRef((props, ref) => {
         );
         setCollections(myCollections);
       } else {
+        console.log(collections,"collections")
+        if(collections===null){
+          setEmpty(true)
+        }
+        else {
+          setEmpty(false)
+        }
         setCollections(collections);
+        console.log("stting coll loader false")
         setColLoader(false);
+        setLoader(false)
       }
       props.beforeCollection();
-      if (props.setLoader) props.setLoader(false);
+      // if (props.setLoader) props.setLoader(false);
     }
   }, [props.collection.getAuth]);
 
   useEffect(() => {
     if (props.collection.collectionFlag) {
       setCategories(props.collection.categories);
+      console.log("stting cat loader false")
       props.beforeCategory();
       setCatLoader(false);
     }
@@ -102,6 +115,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   };
 
   const handleFilterCategory = (category) => {
+    setLoader(true)
     setPage(1)
     setLimit(10);
     getCollections(category, 1, 10);
@@ -117,21 +131,8 @@ const ExploreCollections = forwardRef((props, ref) => {
   //   props.toggleLikeDislike(obj);
   // };
 
-  const menuData = [
-    "Trending",
-    "Top",
-    "Art",
-    "Collectibles",
-    "Domain Names",
-    "Music",
-    "Photography",
-    "Sports",
-    "Trading Cards",
-    "Utility",
-    "Virtual Worlds",
-  ];
  
-
+console.log(collections,"collections 123")
   return (
     <>
       <NavbarMain />
@@ -197,38 +198,42 @@ const ExploreCollections = forwardRef((props, ref) => {
             </div>
             <div className="row g-4 align-items-center justify-content-center">
               {collections && collections.length > 0 ? (
-                collections.map((collections) => {
+                collections.map((collection) => {
                   return (
                     <div className="col-sm-6 col-lg-4">
                       <CollectionsCard
-                        CardImg={collections.banner}
-                        Subimg1={collections.logo}
-                        Subimg2={collections.featuredImg}
-                        Subimg3={collections.banner}
-                        name={collections.name}
-                        id={collections._id}
+                        CardImg={collection.banner}
+                        Subimg1={collection.logo}
+                        Subimg2={collection.featuredImg}
+                        Subimg3={collection.banner}
+                        name={collection.name}
+                        id={collection._id}
+                        collection={collection}
                         // handleLikesTogle={handleLikesTogleApi}
                       />
                     </div>
                   );
                 })
-              ) : collections && collections.length <= 0 ? (
+              ) : loader?(
                 <div class="spinner-border text-white" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
-              ) : (
-                <div className="text-center">
-                  <p className="text-white">No Records Found</p>
-                </div>
-              )}
+                ):empty?(
+                  
+                  <p className="text-center text-white">No data found</p>
+
+              ):("")}
               <div className="col-12">
                 <div className="mt-5 text-center">
+                  {
+                    !empty &&
                   <button
                     className="btn btn-linear-gradient px-5"
                     onClick={() => handlePagination()}
                   >
                     Load more
                   </button>
+                  }
                 </div>
               </div>
             </div>

@@ -11,11 +11,10 @@ import { ListingImg } from "../../../assets/assets";
 import FilterComponent from "../../filter-component/FilterComponent";
 import { getCreators, beforeUser } from "./../../user/user.action";
 import FullPageLoader from "../../full-page-loader/full-page-loader";
-import {toggleLikeDislike} from '../explore.action'
+import { toggleLikeDislike } from "../explore.action";
 import {
   beforeCollection,
   getCollections,
- 
 } from "../../collections/collections.actions";
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -25,9 +24,9 @@ const AllNFT = (props) => {
   const [loadMoreBtn, setLoadMoreBtn] = useState(false);
   const [intro, setIntro] = useState(false);
   const [creators, setCreator] = useState([]);
-  const [minValue,setMinValue]=useState('');
-  const [maxValue,setMaxValue]=useState('');
-  const [collections,setCollections]=useState([])
+  const [minValue, setMinValue] = useState("");
+  const [maxValue, setMaxValue] = useState("");
+  const [collections, setCollections] = useState([]);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -37,9 +36,8 @@ const AllNFT = (props) => {
     lowToHigh: false,
     highToLow: false,
     newest: false,
-    page:1,
-    limit:10,
-
+    page: 1,
+    limit: 10,
   });
 
   // const pathname = useHistory().location.pathname;
@@ -99,11 +97,10 @@ const AllNFT = (props) => {
   }, [nftPagination]);
 
   useEffect(() => {
-    if (props.getAuth){
-      setCollections(props.collections)
+    if (props.getAuth) {
+      setCollections(props.collections);
     }
-  
-  },[props.getAuth]);
+  }, [props.getAuth]);
 
   const loadMore = () => {
     const { page, limit } = nftPagination;
@@ -125,7 +122,7 @@ const AllNFT = (props) => {
     newestFilter
   ) => {
     const nftQS = { page, limit };
-    console.log(oldestFilter,"oldestFilter")
+    console.log(oldestFilter, "oldestFilter");
     const {
       collectionId,
       gtePrice,
@@ -136,7 +133,7 @@ const AllNFT = (props) => {
       newest,
       highToLow,
     } = filter;
-    console.log(filter,"filter")
+    console.log(filter, "filter");
     // if (!collectionIdFilter) collectionIdFilter = collectionId;
     // if (!gtePriceFilter) gtePriceFilter = gtePrice;
     // if (!ltePriceFilter) ltePriceFilter = ltePrice;
@@ -156,7 +153,7 @@ const AllNFT = (props) => {
     if (newestFilter) nftQS.newest = newestFilter;
 
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs,"qs of nfts")
+    console.log(qs, "qs of nfts");
     props.getNFTs(qs);
   };
   const itemoptions = [
@@ -170,7 +167,7 @@ const AllNFT = (props) => {
     { value: "oldest", label: "Oldest" },
     { value: "newest", label: "Recantly Created" },
   ];
-  
+
   const handleSortOptions = (e) => {
     console.log(e.target.value, "e.value");
     const { value } = e.target;
@@ -186,7 +183,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        filter.collectionId?filter.collectionId:false,
+        filter.collectionId ? filter.collectionId : false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -207,7 +204,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        filter.collectionId?filter.collectionId:false,
+        filter.collectionId ? filter.collectionId : false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -227,7 +224,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        filter.collectionId?filter.collectionId:false,
+        filter.collectionId ? filter.collectionId : false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -247,7 +244,7 @@ const AllNFT = (props) => {
       getNFTs(
         filter.page,
         filter.limit,
-        filter.collectionId?filter.collectionId:false,
+        filter.collectionId ? filter.collectionId : false,
         filter.gtePrice,
         filter.ltePrice,
         false,
@@ -262,15 +259,12 @@ const AllNFT = (props) => {
     console.log(filter, "filter");
   };
 
-  const onChangeMinPrice=(e)=>{
-    setMinValue(e.target.value)
-  }
-  const onChangeMaxPrice=(e)=>{
-    setMaxValue(e.target.value)
-  }
-
-
-
+  const onChangeMinPrice = (e) => {
+    setMinValue(e.target.value);
+  };
+  const onChangeMaxPrice = (e) => {
+    setMaxValue(e.target.value);
+  };
 
   const filterData = {
     status: {
@@ -283,24 +277,7 @@ const AllNFT = (props) => {
     },
   };
 
-  const handlePagination=()=>{
-    const {
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest,
-      page,
-      limit
-    }=filter
-  setFilter(prev=>({...prev,limit:limit+10}))
-    getNFTs(page,limit+10,collectionId,gtePrice,ltePrice,categoryId,oldest,lowToHigh,highToLow,newest)
-  }
-
-  const applyMinMaxFilter=()=>{
+  const handlePagination = () => {
     const {
       collectionId,
       gtePrice,
@@ -312,14 +289,23 @@ const AllNFT = (props) => {
       newest,
       page,
       limit,
-  
-    }=filter
-  setFilter(prev=>({...prev,gtePrice:minValue,ltePrice:maxValue}))
-  getNFTs(page,limit+10,collectionId,minValue,maxValue,categoryId,oldest,lowToHigh,highToLow,newest)
-  }
+    } = filter;
+    setFilter((prev) => ({ ...prev, limit: limit + 10 }));
+    getNFTs(
+      page,
+      limit + 10,
+      collectionId,
+      gtePrice,
+      ltePrice,
+      categoryId,
+      oldest,
+      lowToHigh,
+      highToLow,
+      newest
+    );
+  };
 
-
-  const handleCollectionsFilter=(id)=>{
+  const applyMinMaxFilter = () => {
     const {
       collectionId,
       gtePrice,
@@ -331,26 +317,62 @@ const AllNFT = (props) => {
       newest,
       page,
       limit,
-  
-    }=filter
-    setFilter(prev=>({...prev,collectionId:id}))
-    getNFTs(page,limit,id,minValue,maxValue,categoryId,oldest,lowToHigh,highToLow,newest)
+    } = filter;
+    setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
+    getNFTs(
+      page,
+      limit + 10,
+      collectionId,
+      minValue,
+      maxValue,
+      categoryId,
+      oldest,
+      lowToHigh,
+      highToLow,
+      newest
+    );
+  };
 
+  const handleCollectionsFilter = (id) => {
+    const {
+      collectionId,
+      gtePrice,
+      ltePrice,
+      categoryId,
+      oldest,
+      lowToHigh,
+      highToLow,
+      newest,
+      page,
+      limit,
+    } = filter;
+    setFilter((prev) => ({ ...prev, collectionId: id }));
+    getNFTs(
+      page,
+      limit,
+      id,
+      minValue,
+      maxValue,
+      categoryId,
+      oldest,
+      lowToHigh,
+      highToLow,
+      newest
+    );
+  };
 
-  }
- 
-    const handleLikesTogleApi = (nftId) => {
-    let userId=ENV.getUserKeys("_id")._id;
-    let obj={
+  const handleLikesTogleApi = (nftId) => {
+    let userId = ENV.getUserKeys("_id")._id;
+
+    let obj = {
       userId,
       nftId,
-      count:1,
-    }
-    
+      count: 1,
+    };
+   console.log(obj,"object created")
     props.toggleLikeDislike(obj);
   };
   console.log(collections, "collections");
-
 
   return (
     <>
@@ -433,7 +455,10 @@ const AllNFT = (props) => {
             <div className="row mt-5">
               <div className="col-12">
                 <div className="no-of-items text-end mb-3">
-                <p>{nfts?.length}{"  items"}</p>
+                  <p>
+                    {nfts?.length}
+                    {"  items"}
+                  </p>
                 </div>
               </div>
               <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
@@ -458,24 +483,29 @@ const AllNFT = (props) => {
                       nfts.map((listing) => {
                         return (
                           <div className="col-6 col-md-4 col-lg-3 px-1">
-                            <ListingCards CardImg={listing.image} name={listing.name}  price={listing.currentPrice} handleLikesTogleApi={handleLikesTogleApi} id={listing._id}/>
+                            <ListingCards
+                              CardImg={listing.image}
+                              name={listing.name}
+                              price={listing.currentPrice}
+                              handleLikesTogleApi={handleLikesTogleApi}
+                              id={listing._id}
+                            />
                           </div>
                         );
                       })}
-                      <div className="col-12">
-                <div className="mt-5 text-center">
-                  <button
-                    className="btn btn-linear-gradient px-5"
-                    onClick={() => handlePagination()}
-                  >
-                    Load more
-                  </button>
-                </div>
-              </div>
+                    <div className="col-12">
+                      <div className="mt-5 text-center">
+                        <button
+                          className="btn btn-linear-gradient px-5"
+                          onClick={() => handlePagination()}
+                        >
+                          Load more
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
-              
             </div>
           </div>
         </div>
@@ -490,11 +520,15 @@ const mapStateToProps = (state) => (
   {
     nft: state.nft,
     user: state.user,
-    getAuth:state.collection.getAuth,
-    collections:state.collection.collections
+    getAuth: state.collection.getAuth,
+    collections: state.collection.collections,
   }
 );
 
-export default connect(mapStateToProps, { beforeNFT, getNFTs, getCreators,toggleLikeDislike,getCollections })(
-  AllNFT
-);
+export default connect(mapStateToProps, {
+  beforeNFT,
+  getNFTs,
+  getCreators,
+  toggleLikeDislike,
+  getCollections,
+})(AllNFT);

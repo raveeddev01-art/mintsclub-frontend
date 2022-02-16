@@ -3,7 +3,9 @@
   width: 100%;
   cursor: pointer;
 }
-
+.heart-fill-icon {
+  color:white
+}
 .auction-card.listing-card.card .card-img-top {
   min-height: unset;
   height: 170px;

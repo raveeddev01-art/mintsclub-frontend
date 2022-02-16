@@ -79,12 +79,12 @@ const NavbarMain = () => {
               >
                 Collections
               </Nav.Link>
-              <Nav.Link to="/" className="nav-main-link">
-                Contact
+              <Nav.Link to="/collection/detailPage" href="/userprofile" className="nav-main-link">
+                Profile
               </Nav.Link>
-              <Nav.Link to="/" className="nav-main-link">
+              {/* <Nav.Link to="/" className="nav-main-link">
                 History
-              </Nav.Link>
+              </Nav.Link> */}
 
               <Link
                 to={`/login`}

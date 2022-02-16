@@ -206,7 +206,7 @@ const routes = [
     component: AllNFT,
   },
   {
-    path: "/collection/detailPage",
+    path: "/collection/detailPage/:id",
     access: true,
     exact: true,
     title: "Collection Detail Page",

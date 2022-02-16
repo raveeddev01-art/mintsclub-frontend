@@ -3,24 +3,29 @@ import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import HeartIcon from "../../../assets/images/unlike-icon.svg";
+import {AiFillHeart} from 'react-icons/ai'
 import "./ListingCards.css";
 
+
 const ListingCards = ({ CardImg ,handleLikesTogleApi,id,name,price}) => {
+
   const history=useHistory()
+
   return (
-    <Card className="auction-card listing-card" onClick={()=>history.push(`/nftdetail/${id}`)}>
-      <div className="auction-img-wrapper">
+    <Card className="auction-card listing-card" >
+      <div className="auction-img-wrapper" onClick={()=>history.push(`/nftdetail/${id}`)}>
         <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
       </div>
       <Card.Body className="d-flex flex-column">
         <div className="hero-card-title-container d-flex align-items-center justify-content-between">
-          <Card.Title>{name?name:"item name"}</Card.Title>
-          <div className="options-icon like-icon">
-            <img src={HeartIcon} alt="OptionsIcon" onClick={()=>handleLikesTogleApi(id)}  />
+          <Card.Title onClick={()=>history.push(`/nftdetail/${id}`)}>{name?name:"item name"}</Card.Title>
+          <div className="options-icon like-icon text-white">
+            {/* <img src={HeartIcon} alt="OptionsIcon" onClick={()=>handleLikesTogleApi(id)}  /> */}
+            <AiFillHeart className="heart-fill-icon" onClick={()=>handleLikesTogleApi(id)}  /> 21k
           </div>
         </div>
 
-        <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
+        <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2" onClick={()=>history.push(`/nftdetail/${id}`)}>
           <div className="auction-owner-name">
             <p>Price</p>
           </div>

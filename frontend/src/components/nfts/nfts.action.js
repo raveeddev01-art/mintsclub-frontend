@@ -15,6 +15,7 @@ import {
     axiosPostFormData,
     decimalNumberValidator,
   } from "./../../utils/functions";
+  import axios from 'axios'
 
 export const beforeNFT = () => {
   return {
@@ -75,6 +76,9 @@ export const getNFTs =
     dispatch(emptyError());
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
+
+
+
 
     console.log(url,"url for getting nfts list")
 
@@ -168,55 +172,79 @@ export const getNFT = (nftId) => (dispatch) => {
 };
 
 export const getNFTsByCollection=(id)=>(dispatch)=>{
-  console.log("sending reqest==>")
+  
+  console.log("sending reqest==>",id)
   let data ={
     collectionId:id
   }
-  data=JSON.stringify(data)
+
 
   dispatch(emptyError());
 
     const url = `${ENV.url}nfts/getNFTsByCollection`;
-  
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-      data
+    axios.post(url,data)
+    .then(function (response) {
+      console.log(response);
+      if (response.data.success) {
+              dispatch({
+                type:GET_NFTS_BY_COLLECTION,
+                payload:response.data.data
+              })
+         
+            } else {
+              dispatch({
+                type: GET_ERRORS,
+                payload: response.data,
+              });
+            }
     })
-      .then((res) => res.json())
-      .then((data) => {
-           console.log(data,"nftByCollection")
-        if (data.success) {
-          dispatch({
-            type:GET_NFTS_BY_COLLECTION,
-            payload:data.data
-          })
+    .catch(function (error) {
+      console.log(error);
+      dispatch({
+              type: GET_ERRORS,
+              payload: error,
+            });
+    });
+  
+    // fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //     Authorization: ENV.Authorization,
+    //     "x-auth-token": ENV.x_auth_token,
+    //     "Access-Control-Allow-Origin": "*",
+    //     "x-access-token":
+    //       ENV.getUserKeys("accessToken") &&
+    //       ENV.getUserKeys("accessToken").accessToken
+    //         ? ENV.getUserKeys("accessToken").accessToken
+    //         : "",
+    //   },
+    //   data
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //        console.log(data,"nftByCollection")
+    //     if (data.success) {
+    //       dispatch({
+    //         type:GET_NFTS_BY_COLLECTION,
+    //         payload:data.data
+    //       })
      
-        } else {
-          dispatch({
-            type: GET_ERRORS,
-            payload: data,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error,"errors by nftByCollection")
-        dispatch({
-          type: GET_ERRORS,
-          payload: error,
-        });
+    //     } else {
+    //       dispatch({
+    //         type: GET_ERRORS,
+    //         payload: data,
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error,"errors by nftByCollection")
+    //     dispatch({
+    //       type: GET_ERRORS,
+    //       payload: error,
+    //     });
      
-      });
+    //   });
 }
 
 export const createNFT= async (formData)=>{

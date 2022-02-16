@@ -747,15 +747,15 @@ const config1 = {
         {/* ///////////////////////////////////// Modal */}
         <div className="modal-wrapper">
                     {
-                        true &&
+                        false &&
                         <Modal
                             centered
                             size="lg"
-                            className=""
+                            // className="place-bid-modal"
                             show={true}
                             // onHide={this.closeModal}
                         >
-                            <Modal.Header className="text-center modal-title-wrapper">
+                            <Modal.Header className="text-center modal-title-wrapper text-white">
                                 <Modal.Title>
                                     { 2=== 2 ? 'Place A Bid' : 'Make An Offer'}
                                 </Modal.Title>
@@ -768,17 +768,17 @@ const config1 = {
                                     </div>
                                 </Modal.Body>
                             } */}
-                            <Modal.Body>
+                            <Modal.Body >
                                 <div className="price-wrapper d-flex">
                                     <div className="price-text position-relative">
                                         <div className="text-white mb-2 absolute-wrapper">
                                             <b>Price</b>
                                         </div>
                                         <div className="text-right mb-2">
-                                            <i className="fas fa-exclamation-circle ml-2" />
+                                            <i className="fas fa-exclamation-circle ml-2 text-white" />
                                         </div>
                                         <div className="d-flex">
-                                            <select className="form-control" id="currency" name="nftConfig.price.currency" onChange={(e) => this.onChange(e)}>
+                                            <select className="form-control currency-options" id="currency" name="nftConfig.price.currency" onChange={(e) => this.onChange(e)}>
                                                 {
                                                     currencies && currencies.map((currency, index) => {
                                                         return (
@@ -834,8 +834,8 @@ const config1 = {
                                 </div>
                             </Modal.Body> */}
                             <Modal.Body className="justify-content-center align-items-center">
-                                <div className="d-flex justify-content-around">
-                                    <button className="ethereum-btn mr-3"
+                                <div className="d-flex justify-content-around place-bid-btn">
+                                    <button className="ethereum-btn mr-3 place-bid-ethereum-btn"
                                      disabled={loader} 
                                     // onClick={() => this.submit()}
                                     >{2 === 2 ? initData.bidBtn : initData.bidBtn}</button>
