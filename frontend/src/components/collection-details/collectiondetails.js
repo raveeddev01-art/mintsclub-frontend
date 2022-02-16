@@ -15,7 +15,7 @@ import { getNFTsByCollection, getNFTs, beforeNFT } from "../nfts/nfts.action";
 import { connect } from "react-redux";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
-import BgImg from "../../assets/images/collection-detailBg.png";
+import BannerImg from "../../assets/images/collection-detailBg.png";
 
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -23,6 +23,7 @@ const CollectionDetailsPage = (props) => {
   const [nfts, setNfts] = useState([]);
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
+  const [filterationLoader, setFilterationLoader] = useState(true);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -37,7 +38,6 @@ const CollectionDetailsPage = (props) => {
   });
   const location = useLocation();
 
-  console.log(location.state, "state==>");
   const itemoptions = [
     { value: "single", label: "Single" },
     { value: "double", label: "Double" },
@@ -62,16 +62,19 @@ const CollectionDetailsPage = (props) => {
   };
 
   useEffect(() => {
-    console.log("getnfts");
     getNFTs();
   }, []);
 
   useEffect(() => {
     if (props.nftsAuth) {
+      console.log(props, "props");
       setNfts(props.nfts);
       props.beforeNFT();
       setLoader(false);
+
+      setFilterationLoader(false);
     }
+    console.log(props.nftsAuth, "nftsAuth");
   }, [props.nftsAuth]);
 
   const getNFTs = (
@@ -86,9 +89,10 @@ const CollectionDetailsPage = (props) => {
     highToLowFilter,
     newestFilter
   ) => {
+    setFilterationLoader(true);
+
     const nftQS = { page, limit };
 
-    console.log(oldestFilter, "oldestFilter");
     const {
       collectionId,
       gtePrice,
@@ -99,7 +103,6 @@ const CollectionDetailsPage = (props) => {
       newest,
       highToLow,
     } = filter;
-    console.log(filter, "filter");
 
     // if (!collectionIdFilter) collectionIdFilter = collectionId;
     // if (!gtePriceFilter) gtePriceFilter = gtePrice;
@@ -126,7 +129,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleSortOptions = (e) => {
-    alert("called");
+    setFilterationLoader(true);
     console.log(e.target.value, "e.value");
     const { value } = e.target;
 
@@ -253,6 +256,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const applyMinMaxFilter = () => {
+    setFilterationLoader(true);
     const {
       collectionId,
       gtePrice,
@@ -280,7 +284,7 @@ const CollectionDetailsPage = (props) => {
     );
   };
 
-  console.log("props", props);
+  console.log("nfts", nfts);
   const { name, banner, logo, description } = location.state;
   return (
     <>
@@ -290,7 +294,7 @@ const CollectionDetailsPage = (props) => {
         <>
           <NavbarMain />
           <div className="collection-detail-hero">
-            <img src={BgImg} alt="" />
+            <img src={BannerImg} alt="BannerImg" />
           </div>
           <div className="collection-detail-content">
             <div className="container">
@@ -428,21 +432,34 @@ const CollectionDetailsPage = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="row mt-5">
-                  <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
-                    <FilterComponent
-                      Status={filterData.status}
-                      Chains={filterData.chains}
-                      onChangeMinPrice={onChangeMinPrice}
-                      onChangeMaxPrice={onChangeMaxPrice}
-                      minValue={minValue}
-                      maxValue={maxValue}
-                      applyMinMaxFilter={applyMinMaxFilter}
-                    />
-                  </div>
-                  <div className="col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0">
-                    <div className="row g-3">
-                      {nfts && nfts.length > 0 ? (
+              </div>
+              <div className="row mt-5">
+                <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
+                  <FilterComponent
+                    Status={filterData.status}
+                    Chains={filterData.chains}
+                    onChangeMinPrice={onChangeMinPrice}
+                    onChangeMaxPrice={onChangeMaxPrice}
+                    minValue={minValue}
+                    maxValue={maxValue}
+                    applyMinMaxFilter={applyMinMaxFilter}
+                  />
+                </div>
+                <div className="col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0">
+                  <div className="row g-3">
+                    {
+                      filterationLoader ? (
+                        <div className="text-center">
+                          <div
+                            class="spinner-border text-secondary text-white "
+                            role="status"
+                          >
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      ) : (
+                        nfts &&
+                        nfts.length > 0 &&
                         nfts.map((listing) => {
                           return (
                             <div className="col-6 col-md-4 col-lg-3 px-1">
@@ -456,12 +473,10 @@ const CollectionDetailsPage = (props) => {
                             </div>
                           );
                         })
-                      ) : (
-                        <p className="text-white mt-5 text-center no-nfts-title">
-                          No NFT's Found
-                        </p>
-                      )}
-                    </div>
+                      )
+
+                      // :<p className="text-white mt-5 text-center no-nfts-title">No NFT's Found</p>
+                    }
                   </div>
                 </div>
               </div>
@@ -474,7 +489,7 @@ const CollectionDetailsPage = (props) => {
   );
 };
 const mapStateToProps = (state) => (
-  console.log(state, "state collection detail"),
+  console.log(state, "state collection dessstaildf"),
   {
     nft: state.nft,
     user: state.user,
@@ -482,7 +497,8 @@ const mapStateToProps = (state) => (
     collections: state.collection.collections,
     nftsByCollection: state.nft.nftsByCollection,
     nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-    nfts: state.nft.nftsData,
+    nfts: state.nft.nftsData.nfts,
+    pagination: state.nft.nftAll.pagination,
     nftsAuth: state.nft.nftsAuth,
   }
 );

@@ -27,6 +27,8 @@ const AllNFT = (props) => {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [collections, setCollections] = useState([]);
+  const [totalCount, setTotalCount] = useState("");
+  const [filterationLoader, setFilterationLoader] = useState(true);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -72,12 +74,13 @@ const AllNFT = (props) => {
   // set NFTs for explore section
   useEffect(() => {
     if (props.nft.nftsAuth) {
-      const { nftsData } = props.nft;
+      const { nfts, pagination } = props.nft.nftsData;
       // console.log(nftsData,"nftsData==>")
-      if (nftsData) {
+      if (nfts) {
         // console.log(nftsData,"checking nfts" )
-        setNFTs(nftsData);
-        setNFTPagination(nftsData.pagination);
+        setNFTs(nfts);
+        setNFTPagination(pagination);
+        setFilterationLoader(false);
         props.beforeNFT();
 
         setLoader(false);
@@ -169,6 +172,7 @@ const AllNFT = (props) => {
   ];
 
   const handleSortOptions = (e) => {
+    setFilterationLoader(true);
     console.log(e.target.value, "e.value");
     const { value } = e.target;
 
@@ -278,6 +282,7 @@ const AllNFT = (props) => {
   };
 
   const handlePagination = () => {
+    setFilterationLoader(true);
     const {
       collectionId,
       gtePrice,
@@ -306,6 +311,7 @@ const AllNFT = (props) => {
   };
 
   const applyMinMaxFilter = () => {
+    setFilterationLoader(true);
     const {
       collectionId,
       gtePrice,
@@ -334,6 +340,7 @@ const AllNFT = (props) => {
   };
 
   const handleCollectionsFilter = (id) => {
+    setFilterationLoader(true);
     const {
       collectionId,
       gtePrice,
@@ -369,11 +376,11 @@ const AllNFT = (props) => {
       nftId,
       count: 1,
     };
-   console.log(obj,"object created")
+    console.log(obj, "object created");
     props.toggleLikeDislike(obj);
   };
-  console.log(collections, "collections");
-
+  console.log(nftPagination, "nftPagination==>");
+  console.log(nftPagination, "nftPagination==>");
   return (
     <>
       <NavbarMain />
@@ -479,7 +486,17 @@ const AllNFT = (props) => {
                   <FullPageLoader />
                 ) : (
                   <div className="row g-3">
-                    {nfts &&
+                    {filterationLoader ? (
+                      <div className="text-center">
+
+                      <div
+                        class="spinner-border text-secondary text-white "
+                        role="status"
+                      >
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      </div>
+                    ) : nfts && nfts.length > 0 ? (
                       nfts.map((listing) => {
                         return (
                           <div className="col-6 col-md-4 col-lg-3 px-1">
@@ -489,18 +506,29 @@ const AllNFT = (props) => {
                               price={listing.currentPrice}
                               handleLikesTogleApi={handleLikesTogleApi}
                               id={listing._id}
+                              likesCount={listing.likeCount}
                             />
                           </div>
                         );
-                      })}
+                      })
+                    ) : (
+                      <p className="text-white text-center mt-5">
+                        No NFTs Found
+                      </p>
+                    )}
                     <div className="col-12">
                       <div className="mt-5 text-center">
-                        <button
-                          className="btn btn-linear-gradient px-5"
-                          onClick={() => handlePagination()}
-                        >
-                          Load more
-                        </button>
+                        { (nftPagination?.total === nfts?.length) ? (
+                          ""
+                        ) : (
+                          !filterationLoader &&
+                          <button
+                            className="btn btn-linear-gradient px-5"
+                            onClick={() => handlePagination()}
+                          >
+                            Load more
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
