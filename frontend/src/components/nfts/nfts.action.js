@@ -77,9 +77,6 @@ export const getNFTs =
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
 
-
-
-
     console.log(url,"url for getting nfts list")
 
     fetch(url, {
@@ -99,15 +96,16 @@ export const getNFTs =
       .then((res) => res.json())
       .then((data) => {
         console.log(data,"check data if ");
+        console.log(data,"check dataddif ");
         if (data.success) {
           //change to data.data first dispatch
           dispatch({
             type: GET_NFTS,
-            payload: data.data.nfts,
+            payload: data.data,
           });
           dispatch({
             type: NFTALL,
-            payload: data.data.nfts,
+            payload: data.data,
           });
         } else {
           dispatch({

@@ -7,7 +7,7 @@ import {AiFillHeart} from 'react-icons/ai'
 import "./ListingCards.css";
 
 
-const ListingCards = ({ CardImg ,handleLikesTogleApi,id,name,price}) => {
+const ListingCards = ({ CardImg ,handleLikesTogleApi,id,name,price,likesCount}) => {
 
   const history=useHistory()
 
@@ -21,7 +21,7 @@ const ListingCards = ({ CardImg ,handleLikesTogleApi,id,name,price}) => {
           <Card.Title onClick={()=>history.push(`/nftdetail/${id}`)}>{name?name:"item name"}</Card.Title>
           <div className="options-icon like-icon text-white">
             {/* <img src={HeartIcon} alt="OptionsIcon" onClick={()=>handleLikesTogleApi(id)}  /> */}
-            <AiFillHeart className="heart-fill-icon" onClick={()=>handleLikesTogleApi(id)}  /> 21k
+            <AiFillHeart className="heart-fill-icon" onClick={()=>handleLikesTogleApi(id)}  /> {likesCount?likesCount:0}
           </div>
         </div>
 
