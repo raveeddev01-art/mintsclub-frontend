@@ -39,7 +39,6 @@ export const axiosSyncPost = (url, data, isMultipart = false) => {
 
 export const axiosPostFormData = (url, body, isMultipart = false) => {
 
-  let testingURl="http://localhost:5000/v1/front/nfts/create";
   return new Promise((resolve, reject) => {
     const config = {
       headers: {

@@ -143,7 +143,7 @@ function AuctionsOne(props) {
     },
   ];
 
-  console.log(auctions, "auctions==>");
+
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -282,18 +282,15 @@ function AuctionsOne(props) {
                   })}
                 </Swiper> */}
                 <CardSlider settings={ENV.auctionCollectionsSettings}>
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
-                  <AuctionsCards />
+                  {auctions && auctions.length >0 &&
+                    auctions.map((item)=>{
+                      return (
+
+                        <AuctionsCards endDate={item.auctionEndDate} image={item.image}/>
+                      )
+                    })
+                  }
+         
                 </CardSlider>
               </div>
             </div>

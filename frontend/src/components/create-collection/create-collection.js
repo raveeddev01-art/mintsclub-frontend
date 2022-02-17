@@ -90,6 +90,7 @@ class CreateCollection extends Component {
     const userId = ENV.getUserKeys("_id")._id;
     let { collection } = this.state;
     collection = { ...collection, [name]: value, userId: userId };
+    console.log(collection ,"collection input")
     this.setState({ collection });
   }
 

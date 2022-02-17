@@ -139,8 +139,14 @@ const config1 = {
 
 
   const handleRouting=()=>{
-    if(ENV.getUserKeys("_id")._id ===nftDetail?.nftOwnerId){
-      history.push(`/sell-item/${nftDetail._id}`)
+    if(ENV.getUserKeys("_id")._id ===nftDetail?.ownerId){
+      history.push(
+        {
+          pathname:`/sell-item/${nftDetail._id}`,
+          state:nftDetail
+        }
+        
+        )
     }
   }
 
@@ -552,7 +558,7 @@ const config1 = {
                         </div>
                       </div>
                       <button className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto" onClick={()=>handleRouting()}>
-                        <p>{ENV.getUserKeys("_id")._id ===nftDetail?.nftOwnerId?"Sell":"Buy Now"}</p>
+                        <p>{ENV.getUserKeys("_id")._id ===nftDetail?.ownerId?"Sell":"Buy Now"}</p>
                       </button>
                     </Card.Body>
                   </Card>

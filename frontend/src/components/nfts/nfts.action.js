@@ -26,6 +26,7 @@ export const beforeNFT = () => {
 export const upsertNFT =
   (type = "create", body, method = "POST") =>
   (dispatch) => {
+    console.log("sending post request")
     dispatch(emptyError());
     const url = `${ENV.url}/nfts/${type}`;
 

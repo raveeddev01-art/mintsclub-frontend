@@ -401,8 +401,8 @@ const increOrDecreLikes = (id, status) => {
       ) : (
         <>
           <NavbarMain />
-          <div className="collection-detail-hero">
-            <img src={BannerImg} alt="BannerImg" />
+          <div className="collection-detail-hero w-100">
+            <img className="w-100" src={banner} alt="BannerImg" />
           </div>
           <div className="collection-detail-content">
             <div className="container">

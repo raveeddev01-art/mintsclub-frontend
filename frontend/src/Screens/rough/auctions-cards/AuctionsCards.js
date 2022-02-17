@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import AvatarImg from "../../../assets/images/seller-avatar.png";
@@ -9,16 +9,24 @@ import Bucket from "../../../assets/images/bucket.png";
 import Countdown from "react-countdown";
 import { ENV } from "../../../config/config";
 
-import "./AuctionsCard.css";
+import { connect } from "react-redux";
 
-const AuctionsCards = () => {
+import "./AuctionsCard.css";
+import { propTypes } from "react-recaptcha";
+
+const AuctionsCards = (props) => {
+
+
   const { countDownRenderer } = ENV;
+
+  // console.log(auctions,"auctions123")
   return (
+
     <Card className="auction-card mx-2">
       <div className="auction-img-wrapper">
-        <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
+        <Card.Img variant="top" src={props.image} alt="AuctionTopImg" />
         <div className="auction-countdown mb-3">
-          <Countdown date="2022/1/26 13:10:12" renderer={countDownRenderer} />
+          <Countdown date={props.endDate} renderer={countDownRenderer} />
         </div>
       </div>
       <Card.Body>
@@ -53,4 +61,17 @@ const AuctionsCards = () => {
   );
 };
 
-export default AuctionsCards;
+const mapStateToProps = (state) =>
+(
+  // console.log(state, "state in nfts"),
+  {
+
+  });
+
+
+export default connect(mapStateToProps, {
+
+})(AuctionsCards);
+
+
+

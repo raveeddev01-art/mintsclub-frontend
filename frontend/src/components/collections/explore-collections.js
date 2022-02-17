@@ -197,7 +197,11 @@ console.log(collections,"collections 123")
               </div>
             </div>
             <div className="row g-4 align-items-center justify-content-center">
-              {collections && collections.length > 0 ? (
+              {loader?
+                <div class="spinner-border text-white" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>:
+              collections && collections.length > 0 ? (
                 collections.map((collection) => {
                   return (
                     <div className="col-sm-6 col-lg-4">
@@ -216,15 +220,11 @@ console.log(collections,"collections 123")
                     </div>
                   );
                 })
-              ) : loader?(
-                <div class="spinner-border text-white" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-                ):empty?(
+              ):(
                   
-                  <p className="text-center text-white">No data found</p>
+                  <p className="text-center text-white not-found-title mt-5">No Collections found</p>
 
-              ):("")}
+              )}
               <div className="col-12">
                 <div className="mt-5 text-center">
                   {

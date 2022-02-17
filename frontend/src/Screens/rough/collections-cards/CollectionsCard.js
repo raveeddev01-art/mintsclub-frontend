@@ -9,7 +9,7 @@ import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
 import "./CollectionsCard.css";
 
-const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name,id,collection ,userName,NFTCount}) => {
+const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name,id,collection ,userName,NFTCount,profileImage}) => {
   // const { name, image } = category;
   const history=useHistory()
 
@@ -33,10 +33,13 @@ const CollectionsCard = ({ CardImg, Subimg1, Subimg2, Subimg3, name,id,collectio
           </div>
           <Card.Body>
             <Card.Title>{name}</Card.Title>
-            <Card.Text>{NFTCount }items</Card.Text>
+            <Card.Text>{NFTCount  }{" items"}</Card.Text>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">
-                <img src={AvatarImg} alt="avatar-img" className="me-2" />
+                {
+                  profileImage&&
+                <img src={profileImage} alt="avatar-img" className="me-2" />
+                }
                 <span>{userName}</span>
               </div>
               {/* <div className="collection-footer-right d-flex align-items-center">

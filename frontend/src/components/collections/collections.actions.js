@@ -54,9 +54,9 @@ export const getCollections = (qs = null) => dispatch => {
     // let url = `http://3.142.91.8/v1/front/collection/list`;
     let url = `${ENV.url}collection/list`;
 
-    console.log(url,"url==> before")
     if (qs)
-        url += `?${qs}`
+    url += `?${qs}`
+    console.log(url,"url==> before")
 
     fetch(url, {
         method: 'GET',
