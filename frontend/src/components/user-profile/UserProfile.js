@@ -10,6 +10,7 @@ import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
+import BannerImg from "../../assets/images/collection-detailBg.png";
 
 const UserProfile = () => {
   const [isActive, setIsActive] = useState(0);
@@ -96,7 +97,9 @@ const UserProfile = () => {
   return (
     <>
       <NavbarMain />
-      <div className="collection-detail-hero"></div>
+      <div className="collection-detail-hero">
+        <img src={BannerImg} alt="BannerImg" />
+      </div>
       <div className="collection-detail-content">
         <div className="container">
           <div className="row justify-content-center">

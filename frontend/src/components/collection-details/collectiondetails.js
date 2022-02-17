@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useLocation} from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./collectiondetails.css";
@@ -11,19 +11,32 @@ import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
+<<<<<<< HEAD
 import { getNFTsByCollection ,getNFTs,beforeNFT,getMyLikedNfts} from "../nfts/nfts.action";
+=======
+import { getNFTsByCollection, getNFTs, beforeNFT } from "../nfts/nfts.action";
+>>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
 import { connect } from "react-redux";
-import FullPageLoader from '../full-page-loader/full-page-loader';
+import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
+<<<<<<< HEAD
 import { toggleLikeDislike } from "../explore/explore.action";
+=======
+import BannerImg from "../../assets/images/collection-detailBg.png";
+
+>>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
-  const [loader,setLoader]=useState(true)
+  const [loader, setLoader] = useState(true);
   const [nfts, setNfts] = useState([]);
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
+<<<<<<< HEAD
   const [filterationLoader,setFilterationLoader]=useState(true)
   const [likedNfts, setLikedNfts] = useState();
+=======
+  const [filterationLoader, setFilterationLoader] = useState(true);
+>>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -36,8 +49,7 @@ const CollectionDetailsPage = (props) => {
     page: 1,
     limit: 10,
   });
-  const location=useLocation()
-
+  const location = useLocation();
 
   const itemoptions = [
     { value: "single", label: "Single" },
@@ -51,8 +63,6 @@ const CollectionDetailsPage = (props) => {
     { value: "newest", label: "Recantly Created" },
   ];
 
- 
-
   const filterData = {
     status: {
       label: "Status",
@@ -65,12 +75,16 @@ const CollectionDetailsPage = (props) => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
 
     getNFTs()
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
  
+=======
+    getNFTs();
+>>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
   }, []);
   useEffect(()=>{
     if(props.myLikedNftsStatus)
@@ -81,18 +95,16 @@ const CollectionDetailsPage = (props) => {
   },[props.myLikedNftsStatus])
 
   useEffect(() => {
-
     if (props.nftsAuth) {
-      console.log(props,"props")
+      console.log(props, "props");
       setNfts(props.nfts);
       props.beforeNFT();
-      setLoader(false)
+      setLoader(false);
 
-      setFilterationLoader(false)
+      setFilterationLoader(false);
     }
-  console.log(props.nftsAuth,"nftsAuth")
+    console.log(props.nftsAuth, "nftsAuth");
   }, [props.nftsAuth]);
-
 
   const getNFTs = (
     page = 1,
@@ -106,12 +118,10 @@ const CollectionDetailsPage = (props) => {
     highToLowFilter,
     newestFilter
   ) => {
-    setFilterationLoader(true)
-
+    setFilterationLoader(true);
 
     const nftQS = { page, limit };
 
-  
     const {
       collectionId,
       gtePrice,
@@ -123,7 +133,6 @@ const CollectionDetailsPage = (props) => {
       highToLow,
     } = filter;
 
-    
     // if (!collectionIdFilter) collectionIdFilter = collectionId;
     // if (!gtePriceFilter) gtePriceFilter = gtePrice;
     // if (!ltePriceFilter) ltePriceFilter = ltePrice;
@@ -133,7 +142,7 @@ const CollectionDetailsPage = (props) => {
     // if (!highToLowFilter) highToLowFilter = highToLow;
     // if (!newestFilter) newestFilter = newest;
 
-     nftQS.collectionId = location.state._id;
+    nftQS.collectionId = location.state._id;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
     if (gtePriceFilter) nftQS.ltePrice = ltePriceFilter;
     if (categoryIdFilter) nftQS.categoryId = categoryIdFilter;
@@ -146,11 +155,10 @@ const CollectionDetailsPage = (props) => {
     console.log(qs, "qs of nfts bu");
 
     props.getNFTs(qs);
-
   };
 
   const handleSortOptions = (e) => {
-    setFilterationLoader(true)
+    setFilterationLoader(true);
     console.log(e.target.value, "e.value");
     const { value } = e.target;
 
@@ -277,7 +285,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const applyMinMaxFilter = () => {
-    setFilterationLoader(true)
+    setFilterationLoader(true);
     const {
       collectionId,
       gtePrice,
@@ -400,140 +408,150 @@ const increOrDecreLikes = (id, status) => {
   }
 };
   console.log("nfts", nfts);
-  const {name,banner,logo,description}=location.state
+  const { name, banner, logo, description } = location.state;
   return (
     <>
-
-    {
-      loader ? <FullPageLoader/>:(
+      {loader ? (
+        <FullPageLoader />
+      ) : (
         <>
-         <NavbarMain />
-        <div className="collection-detail-hero"></div>
-        <div className="collection-detail-content">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="collection-owner-avatar">
-                  <img src={banner} alt="owner-avatar" />
-                </div>
-                <div className="d-sm-flex align-items-center justify-content-between mt-5">
-                  <div className="collection-owner-detail">
-                    <div className="collection-owner-name d-flex align-items-center">
-                      <h3>{name}</h3>
-                      <img src={TickIcon} alt="tick-icon" className="ms-2" />
-                    </div>
-                    <p>
-                      Created by <span>brendannorth</span>
-                    </p>
+          <NavbarMain />
+          <div className="collection-detail-hero">
+            <img src={BannerImg} alt="BannerImg" />
+          </div>
+          <div className="collection-detail-content">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="collection-owner-avatar">
+                    <img src={banner} alt="owner-avatar" />
                   </div>
-                  <div className="collection-owner-btns mt-3 mt-sm-0 ms-auto">
-                    <button className="me-1 me-sm-2 me-lg-3">
-                      <img src={FlagIcon} alt="" flag-icon />
-                    </button>
-                    <button className="me-1 me-sm-1 me-lg-3">
-                      <img src={ShareIcon} alt="" flag-icon />
-                    </button>
-                    <button>+ Add to wishlist</button>
+                  <div className="d-sm-flex align-items-center justify-content-between mt-5">
+                    <div className="collection-owner-detail">
+                      <div className="collection-owner-name d-flex align-items-center">
+                        <h3>{name}</h3>
+                        <img src={TickIcon} alt="tick-icon" className="ms-2" />
+                      </div>
+                      <p>
+                        Created by <span>brendannorth</span>
+                      </p>
+                    </div>
+                    <div className="collection-owner-btns mt-3 mt-sm-0 ms-auto">
+                      <button className="me-1 me-sm-2 me-lg-3">
+                        <img src={FlagIcon} alt="" flag-icon />
+                      </button>
+                      <button className="me-1 me-sm-1 me-lg-3">
+                        <img src={ShareIcon} alt="" flag-icon />
+                      </button>
+                      <button>+ Add to wishlist</button>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 col-sm-7 col-md-6 col-lg-5">
+                  <div className="collection-owner-detail pe-xl-5 mt-4">
+                    <p>{description}</p>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-7 mt-3 mt-sm-5">
+                  <div className="d-flex align-items-center justify-content-center justify-content-lg-end">
+                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
+                      <span>50</span>
+                      <p>items</p>
+                    </div>
+                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
+                      <span>50</span>
+                      <p>Owner</p>
+                    </div>
+                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
+                      <span>50</span>
+                      <p>Prize floor</p>
+                    </div>
+                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
+                      <span>50</span>
+                      <p>Volume trade</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-sm-7 col-md-6 col-lg-5">
-                <div className="collection-owner-detail pe-xl-5 mt-4">
-                  <p>
-                {description}
-                  </p>
-                </div>
-              </div>
-              <div className="col-12 col-lg-7 mt-3 mt-sm-5">
-                <div className="d-flex align-items-center justify-content-center justify-content-lg-end">
-                  <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                    <span>50</span>
-                    <p>items</p>
-                  </div>
-                  <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                    <span>50</span>
-                    <p>Owner</p>
-                  </div>
-                  <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                    <span>50</span>
-                    <p>Prize floor</p>
-                  </div>
-                  <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                    <span>50</span>
-                    <p>Volume trade</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="collections-listing padding-wrapper">
-              <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
-                <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                  <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                    <img src={SearchIcon} alt="search-icon" className="ms-3" />
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Search"
-                    />
-                  </div>
-                </div>
-                <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                  <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                    <div className="ms-2">
-                      <p>Item:</p>
-                    </div>
-  
-                    <select name="collection-select">
-                      {itemoptions &&
-                        itemoptions.map((collection, index) => {
-                          return (
-                            <option key={index} value={collection.label}>
-                              {collection.label}
-                            </option>
-                          );
-                        })}
-                    </select>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                  <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                    <div className="ms-2">
-                      <p>Price:</p>
-                    </div>
-  
-                    <select name="collection-select" onChange={handleSortOptions}>
-                      {sortoptions &&
-                        sortoptions.map((collection, index) => {
-                          return (
-                            <option key={index} value={collection.label}>
-                              {collection.label}
-                            </option>
-                          );
-                        })}
-                    </select>
-                  </div>
-                </div>
-                <div className="col-12 d-sm-none">
-                  <div className="sm-filter-btn d-flex align-items-center justify-content-center">
-                    <button
-                      className={`${
-                        activeFilter ? "filter-btn-active" : "filter-btn-inactive"
-                      } ps-2`}
-                      onClick={() => setActiveFilter(!activeFilter)}
-                    >
-                      Filters
-                    </button>
-                  </div>
-                  <div
-                    className={`${
-                      activeFilter ? "d-block" : "d-none"
-                    } sm-filter-options`}
-                  >
-                    <div className="col-10 mx-auto mt-2">
-                      <FilterComponent
-                        Status={filterData.status}
-                        Chains={filterData.chains}
+              <div className="collections-listing padding-wrapper">
+                <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
+                  <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+                    <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
+                      <img
+                        src={SearchIcon}
+                        alt="search-icon"
+                        className="ms-3"
                       />
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+                    <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
+                      <div className="ms-2">
+                        <p>Item:</p>
+                      </div>
+
+                      <select name="collection-select">
+                        {itemoptions &&
+                          itemoptions.map((collection, index) => {
+                            return (
+                              <option key={index} value={collection.label}>
+                                {collection.label}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+                    <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
+                      <div className="ms-2">
+                        <p>Price:</p>
+                      </div>
+
+                      <select
+                        name="collection-select"
+                        onChange={handleSortOptions}
+                      >
+                        {sortoptions &&
+                          sortoptions.map((collection, index) => {
+                            return (
+                              <option key={index} value={collection.label}>
+                                {collection.label}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-12 d-sm-none">
+                    <div className="sm-filter-btn d-flex align-items-center justify-content-center">
+                      <button
+                        className={`${
+                          activeFilter
+                            ? "filter-btn-active"
+                            : "filter-btn-inactive"
+                        } ps-2`}
+                        onClick={() => setActiveFilter(!activeFilter)}
+                      >
+                        Filters
+                      </button>
+                    </div>
+                    <div
+                      className={`${
+                        activeFilter ? "d-block" : "d-none"
+                      } sm-filter-options`}
+                    >
+                      <div className="col-10 mx-auto mt-2">
+                        <FilterComponent
+                          Status={filterData.status}
+                          Chains={filterData.chains}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -585,18 +603,14 @@ const increOrDecreLikes = (id, status) => {
               </div>
             </div>
           </div>
-        </div>
-        <Footer />
+          <Footer />
         </>
-        )
-    }
-     
+      )}
     </>
   );
 };
 const mapStateToProps = (state) => (
   console.log(state, "state collection dessstaildf"),
-
   {
     nft: state.nft,
     user: state.user,
@@ -612,7 +626,6 @@ const mapStateToProps = (state) => (
    
   }
 );
-
 
 export default connect(mapStateToProps, {
   getNFTsByCollection,

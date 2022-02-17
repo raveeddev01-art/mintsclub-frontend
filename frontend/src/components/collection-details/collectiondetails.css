@@ -1,7 +1,15 @@
 .collection-detail-hero {
-  background-image: url("../../assets/images/collection-detailBg.png");
-  padding: 100px 0;
+  /* background-image: url("../../assets/images/collection-detailBg.png");
+  padding: 100px 0; */
+  height: 200px;
+  width: 100%;
 }
+
+.collection-detail-hero img {
+  height: 100%;
+  object-fit: cover;
+}
+
 .no-nfts-title {
   font-size: 1.6rem;
 }
