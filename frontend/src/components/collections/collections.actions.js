@@ -128,7 +128,7 @@ export const myCollections = (userId) => dispatch => {
             toast.error(data.message)
             dispatch({
                 type: GET_ERRORS,
-                payload: data.data
+                payload: data.message
             })
         }
     }).catch(error => {

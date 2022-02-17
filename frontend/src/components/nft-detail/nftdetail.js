@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {useHistory} from 'react-router-dom';
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./nftdetail.css";
@@ -24,6 +25,7 @@ import moment from 'moment';
 import SimpleReactValidator from 'simple-react-validator'
 
 const NFTDetail = (props) => {
+  const history=useHistory()
   let nftId = props.match.params.id;
   const initData = {
     itemImg: "/img/auction_2.jpg",
@@ -64,28 +66,7 @@ const config1 = {
     },
 });
 
-  const CardsData = [
-    {
-      id: 1,
-      img: ListingImg.listingImg1,
-    },
-    {
-      id: 2,
-      img: ListingImg.listingImg2,
-    },
-    {
-      id: 3,
-      img: ListingImg.listingImg3,
-    },
-    {
-      id: 4,
-      img: ListingImg.listingImg4,
-    },
-    {
-      id: 5,
-      img: ListingImg.listingImg1,
-    },
-  ];
+ 
 
   const propertiesData = [
     {
@@ -155,6 +136,13 @@ const config1 = {
       setNftList(props.nftsByCollection);
     }
   }, [props.nftsByCollectionStatus]);
+
+
+  const handleRouting=()=>{
+    if(ENV.getUserKeys("_id")._id ===nftDetail?.nftOwnerId){
+      history.push(`/sell-item/${nftDetail._id}`)
+    }
+  }
 
   return (
     <>
@@ -555,7 +543,7 @@ const config1 = {
                           <span>Sale ends March 8, 2022 at 7:40am PKT </span>
                         </div>
                         <div className="likes-container d-flex align-items-center">
-                          <span>125</span>
+                          <span>{nftDetail.likeCount?nftDetail.likeCount:0}</span>
                           <img
                             src={HeartIcon}
                             alt="heart-icon"
@@ -563,8 +551,8 @@ const config1 = {
                           />
                         </div>
                       </div>
-                      <button className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto">
-                        <p>Buy now</p>
+                      <button className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto" onClick={()=>handleRouting()}>
+                        <p>{ENV.getUserKeys("_id")._id ===nftDetail?.nftOwnerId?"Sell":"Buy Now"}</p>
                       </button>
                     </Card.Body>
                   </Card>

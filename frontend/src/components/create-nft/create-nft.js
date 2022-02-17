@@ -87,30 +87,30 @@ class CreateNFT extends Component {
     console.log(this.props.collection.myCollectionsResult,"this.props.collection.myCollectionsResult")
     // const {collections}=this.state
     if (this.props.collection.myCollectionsResult && this.state.collections?.length<=0) {
-      const collections  = this.props.collection.myCollections;
+      const collections  = this.props.collection.myCollections.collections.Collections;
       console.log(collections,"collections")
       this.props.beforeCollection();
-      this.setState({
-        collections: collections,
-        loader: false,
-        
-      });
-      // if (!collections) {
-      //   toast.info("Please add a collection first");
-      //   // return this.props.history.push("/collection/create");
-      // } else
-      // {
-      //   console.log(collections,"collection total setting state")
-      //   // var myCollections = collections.filter(
-      //   //   (item) => item.userId === ENV.getUserKeys("_id")._id
-      //   // );
-      //   // console.log(myCollections,"myCollections")
       // this.setState({
       //   collections: collections,
       //   loader: false,
         
       // });
-      // }
+      if (!collections) {
+        toast.info("Please add a collection first");
+        return this.props.history.push("/collection/create");
+      } else
+      {
+        console.log(collections,"collection total setting state")
+        // var myCollections = collections.filter(
+        //   (item) => item.userId === ENV.getUserKeys("_id")._id
+        // );
+        console.log(myCollections,"myCollections")
+      this.setState({
+        collections: collections,
+        loader: false,
+        
+      });
+      }
     }
   }
 
@@ -201,8 +201,8 @@ class CreateNFT extends Component {
               );
    
               if(res){
-
-                this.props.history.push('/user-dashboard') 
+                 console.log(res,"create nft response")
+                // this.props.history.push('/user-dashboard') 
               }
 
               // if (res.success) {
@@ -241,6 +241,19 @@ class CreateNFT extends Component {
               //     // }, 11000);
               //   }
               // } else this.setState({ errors: res.message, loader: false });
+
+              /////for testing purpose
+              let nftId = res.nft._id;
+                              let data = {
+                        nftToken:
+                          "123444",
+                        nftId,
+                        data: this.state.nft,
+                        image: res.nft.image,
+                      };
+                      this.props.setNftToken(data);
+                      toast.success("Nft created successfully")
+                        // this.props.history.push('/user-dashboard') 
             }
           );
         } else {
@@ -778,7 +791,7 @@ class CreateNFT extends Component {
                         onChange={(e) => this.onChange(e)}
                       >
                         <option value="">Select Collection</option>
-                        {collections &&
+                        {collections &&collections.length >0 &&
                           collections.map((collection, index) => {
                             return (
                               <option key={index} value={collection._id}>

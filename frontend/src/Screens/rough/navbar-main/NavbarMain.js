@@ -66,10 +66,8 @@ const NavbarMain = () => {
                   Live Auctions
                 </NavDropdown.Item> */}
               </NavDropdown>
-              <Nav.Link to="/activity" className="nav-main-link">
-                Activity
-              </Nav.Link>
-              <Nav.Link
+        
+              {/* <Nav.Link
                 href="/collection/detailPage"
                 className={`nav-main-link${
                   path === "/collection/detailPage"
@@ -78,6 +76,9 @@ const NavbarMain = () => {
                 }`}
               >
                 Collections
+              </Nav.Link> */}
+              <Nav.Link to="/create" href="/create" className="nav-main-link">
+                Create
               </Nav.Link>
               <Nav.Link to="/collection/detailPage" href="/userprofile" className="nav-main-link">
                 Profile

@@ -209,6 +209,8 @@ console.log(collections,"collections 123")
                         name={collection.name}
                         id={collection._id}
                         collection={collection}
+                        userName={collection?.user[0]?.username?collection?.user[0]?.username:""}
+                        NFTCount={collection.NFTCount}
                         // handleLikesTogle={handleLikesTogleApi}
                       />
                     </div>
