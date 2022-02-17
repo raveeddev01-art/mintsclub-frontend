@@ -11,32 +11,21 @@ import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
-<<<<<<< HEAD
 import { getNFTsByCollection ,getNFTs,beforeNFT,getMyLikedNfts} from "../nfts/nfts.action";
-=======
-import { getNFTsByCollection, getNFTs, beforeNFT } from "../nfts/nfts.action";
->>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
 import { connect } from "react-redux";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
-<<<<<<< HEAD
 import { toggleLikeDislike } from "../explore/explore.action";
-=======
 import BannerImg from "../../assets/images/collection-detailBg.png";
 
->>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [loader, setLoader] = useState(true);
   const [nfts, setNfts] = useState([]);
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
-<<<<<<< HEAD
   const [filterationLoader,setFilterationLoader]=useState(true)
   const [likedNfts, setLikedNfts] = useState();
-=======
-  const [filterationLoader, setFilterationLoader] = useState(true);
->>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -75,16 +64,12 @@ const CollectionDetailsPage = (props) => {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
 
     getNFTs()
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
  
-=======
-    getNFTs();
->>>>>>> c1930b3c1b15a9069acf5c2149895c591c8e2759
   }, []);
   useEffect(()=>{
     if(props.myLikedNftsStatus)
