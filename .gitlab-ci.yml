@@ -9,7 +9,7 @@ mintsclub-v2:
     - echo "Deploy to QA server"
     - ssh-add <(echo "$SSH_KEY_V2")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no $SERVER_USER_V2@$SERVER_IP "cd /home/mintsclub-v2/mintsclub-v2/frontend; git reset --hard; git pull origin task/mintsClubUi-ariswap-v2; cd /home/mintsclub-v2/mintsclub-v2/frontend/frontend; npm install; npm run build; exit"
+    - ssh -o StrictHostKeyChecking=no $SERVER_USER_V2@$SERVER_IP "cd /home/mintsclub-v2/mintsclub-v2/frontend; git reset --hard; git pull origin task/mintsClubUi-ariswap-v2; cd /home/mintsclub-v2/mintsclub-v2/frontend/frontend; yarn install; npm run build; exit"
   only:
     - task/mintsClubUi-ariswap-v2
     
