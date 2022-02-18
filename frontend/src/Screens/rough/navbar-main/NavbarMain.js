@@ -6,8 +6,10 @@ import SearchIcon from "../../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ENV } from "../../../config/config";
 import "./NavbarMain.css";
+import { connect } from 'react-redux';
+import {beforeCollection} from '../../../components/collections/collections.actions'
 
-const NavbarMain = () => {
+const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
   const [path, setPath] = React.useState(null);
   const history = useHistory();
@@ -128,7 +130,7 @@ const NavbarMain = () => {
               id="wallet-address"
               className="btn ml-lg-auto btn-linear-gradient"
             >
-              <div onClick={() => clearLocalStorage()}>
+              <div onClick={() => {props.beforeCollection();clearLocalStorage()}}>
                 <img src={LoginIcon} alt="loginIcon" className="me-2" />
                 {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
               </div>
@@ -140,4 +142,9 @@ const NavbarMain = () => {
   );
 };
 
-export default NavbarMain;
+const mapStateToProps = state => (
+  {
+     
+});
+
+export default connect(mapStateToProps, { beforeCollection })(NavbarMain);
