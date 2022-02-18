@@ -4,7 +4,7 @@
 .nftDetail-accordion .accordion {
   border-radius: 10px;
 }
-.currency-options{
+.currency-options {
   height: 3.2rem !important;
 }
 .amount-btn {
@@ -16,11 +16,10 @@
 }
 .place-bid-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
-    color: white;
+  color: white;
 }
-.modal-content{
+.modal-content {
   background: linear-gradient(to top, #10103c, #2a6285) !important;
-
 }
 .nftDetail-accordion .accordion .accordion-item {
   margin-bottom: 20px;

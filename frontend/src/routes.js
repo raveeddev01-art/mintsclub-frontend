@@ -24,7 +24,8 @@ import CollectionDetails from "./components/collections/collection-details";
 import Wallet from "./components/wallet/wallet";
 import Signup from "./components/signup/signup";
 import Contact from "./components/contact/contact";
-import SellNFT from "./components/nfts/sell-nft";
+import SellNFT from "./components/sell-nft/SellNFT";
+import Sell from "./components/nfts/sell-nft";
 import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
@@ -92,6 +93,14 @@ const routes = [
     title: "Sell Item",
     layout: layout2,
     component: SellNFT,
+  },
+  {
+    path: "/sell",
+    access: true,
+    exact: true,
+    title: "Sell",
+    layout: layout2,
+    component: Sell,
   },
   {
     path: "/activity",
@@ -204,6 +213,14 @@ const routes = [
     title: "All NFTs",
     layout: layout2,
     component: AllNFT,
+  },
+  {
+    path: "/sellnft",
+    access: true,
+    exact: true,
+    title: "Sell NFT",
+    layout: layout2,
+    component: SellNFT,
   },
   {
     path: "/collection/detailPage/:id",

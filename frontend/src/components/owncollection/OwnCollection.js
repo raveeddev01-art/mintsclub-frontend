@@ -32,7 +32,7 @@ const OwnCollection = () => {
           <div className="col-lg-6 col-xl-7">
             <div className="owncollection-right-bg">
               <div className="owncollection-right-content mx-auto">
-                <img src={SmileyImg} alt="smileyImg" />
+                <img src={SmileyImg} alt="smileyImg" className="smiley-logo" />
                 <h5 className=" mt-5">Join the community, Change the world.</h5>
                 <p>
                   MintsClub is a shared liquidity NFT market smart contract

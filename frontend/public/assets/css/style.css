@@ -782,13 +782,13 @@ button.dis-btn {
   border-bottom: 1px solid;
 }
 
-.date-picker {
+/* .date-picker {
   border: 1px solid;
   width: 380px;
   margin-top: 1rem;
   padding: 0.5rem;
   border-radius: 4px;
-}
+} */
 
 .mb-3.budle-wrapper input {
   border: 1px solid;
@@ -896,7 +896,7 @@ button.ethereum-btn:disabled {
   margin-top: 1rem !important;
 }
 
-button.amount-btn {
+/* button.amount-btn {
   padding: 0px 45px 0px 10px;
   border: none;
   width: 100px;
@@ -905,7 +905,7 @@ button.amount-btn {
   background: #191919;
   color: #fff;
   text-align: left;
-}
+} */
 
 span.clock-wrapper {
   background: #efefef;
@@ -1223,7 +1223,7 @@ aside {
   display: inline-block;
   font-size: 14px;
   font-weight: normal;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   background: -webkit-linear-gradient(#5666fe, #5666fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -3589,10 +3589,10 @@ span.no-padding .form-control {
   justify-content: center;
   /* padding-bottom: 0rem !important; */
 }
-
+/* 
 input.amount-btn {
   position: relative;
-}
+} */
 
 .modal .price-wrapper {
   width: 100%;

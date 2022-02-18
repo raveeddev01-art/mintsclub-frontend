@@ -66,6 +66,7 @@
     margin: 0 auto;
   }
   .owncollection-section .owncollection-right-content {
+    text-align: center;
     width: 60%;
   }
 }
@@ -94,5 +95,8 @@
   }
   .owncollection-section .owncollection-right-content {
     width: 100%;
+  }
+  .owncollection-section .owncollection-right-content .smiley-logo {
+    height: 120px;
   }
 }

@@ -88,8 +88,8 @@ const Slider = () => {
         /> */}
       </label>
       <label for="s2" id="slide2" onClick={() => setSliderChecked(2)}>
-        <AuctionsCards className="slide" />
-
+        <HeroCards className="slide" />
+        {/* <AuctionsCards className="slide" /> */}
         {/* <img
           src="https://images6.alphacoders.com/462/thumb-1920-462371.jpg"
           alt=""
@@ -100,8 +100,9 @@ const Slider = () => {
         {/* <img src="https://wallpaperaccess.com/full/1154341.jpg" alt="" /> */}
       </label>
       <label for="s4" id="slide4" onClick={() => setSliderChecked(4)}>
-        <AuctionsCards className="slide" />
+        {/* <AuctionsCards className="slide" /> */}
         {/* <img src="https://wallpapercave.com/wp/wp2634222.jpg" alt="" /> */}
+        <HeroCards className="slide" />
       </label>
       <label for="s5" id="slide5" onClick={() => setSliderChecked(5)}>
         <HeroCards className="slide" />
@@ -114,7 +115,8 @@ const Slider = () => {
         <HeroCards className="slide" />
       </label>
       <label for="s7" id="slide7" onClick={() => setSliderChecked(7)}>
-        <AuctionsCards className="slide" />
+        {/* <AuctionsCards className="slide" /> */}
+        <HeroCards className="slide" />
       </label>
 
       <div className="btn-container">

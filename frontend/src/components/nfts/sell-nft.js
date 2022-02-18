@@ -1,21 +1,9 @@
-import React, {
-  useState,
-  useEffect,
-} from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Nav,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Nav } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import { connect } from "react-redux";
-import {
-  beforeNFT,
-  getNFT,
-  upsertNFT,
-} from "./nfts.action";
-import {useLocation} from 'react-router-dom'
+import { beforeNFT, getNFT, upsertNFT } from "./nfts.action";
+import { useLocation } from "react-router-dom";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import NFTPreview from "../nft-preview/nft-preview";
 import { decimalNumberValidator } from "../../utils/functions";
@@ -24,14 +12,10 @@ import "bootstrap-daterangepicker/daterangepicker.css";
 import moment from "moment";
 import currencyIcon from "../../assets/images/binance.svg";
 import { ENV } from "../../config/config";
-import {openNFTForBidding} from '../../utils/web3';
-import {SellOnFixedPrice} from '../../utils/web3'
+import { openNFTForBidding } from "../../utils/web3";
+import { SellOnFixedPrice } from "../../utils/web3";
 import { toast } from "react-toastify";
-const {
-  currencies,
-  dateRangeInitialSettings,
-  serviceFee,
-} = ENV;
+const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 
 const config1 = {
   price: {
@@ -65,31 +49,24 @@ const config2 = {
   },
 };
 
-const SellNFT = (props) => {
-  const [sellingMethod, setSellingMethod] =
-    useState(1); // 1 = Fixed Price, 2 = Timed Auction
-  const [fixedPriceConfig, setFixedPriceConfig] =
-    useState(config1);
-  const [
-    timedAuctionConfig,
-    setTimedAuctionConfig,
-  ] = useState(config2);
+const Sell = (props) => {
+  const [sellingMethod, setSellingMethod] = useState(1); // 1 = Fixed Price, 2 = Timed Auction
+  const [fixedPriceConfig, setFixedPriceConfig] = useState(config1);
+  const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
   const [nft, setNft] = useState(null);
   const [loader, setLoader] = useState(true); // NFT loader
-  const [reserveBuyer, setReserveBuyer] =
-    useState(false);
-  const [reservePrice, setReservePrice] =
-    useState(false);
-    const [tokensData,setTokensData]=useState([])
-    const location=useLocation()
-    console.log(location.state,"location.state")
+  const [reserveBuyer, setReserveBuyer] = useState(false);
+  const [reservePrice, setReservePrice] = useState(false);
+  const [tokensData, setTokensData] = useState([]);
+  const location = useLocation();
+  console.log(location.state, "location.state");
 
   useEffect(() => {
     window.scroll(0, 0);
     const { itemId } = props.match.params;
     // if (itemId) props.getNFT(window.atob(itemId));
     // else props.history.push("/explore-all");
-    getTokens()
+    getTokens();
   }, []);
 
   // when NFT data is received
@@ -107,7 +84,7 @@ const SellNFT = (props) => {
     if (props.nft.upsertAuth) {
       const { nft } = props.nft.nftsData;
       // const pathname = nft.sellingMethod === 1 ? '/explore-all' : '/auctions'
-      const pathname="/"
+      const pathname = "/";
       setLoader(false);
       props.beforeNFT();
       props.history.push(pathname);
@@ -122,18 +99,14 @@ const SellNFT = (props) => {
   const onChange = (e) => {
     const { name, value } = e.target;
     let data = null;
-    if (sellingMethod === 1)
-      data = fixedPriceConfig;
+    if (sellingMethod === 1) data = fixedPriceConfig;
     else data = timedAuctionConfig;
 
     const keys = name.split("."); // fixedPriceConfig, price, currency
-    if (keys && keys[2])
-      data[keys[1]][keys[2]] = value;
-    else if (keys && keys[1])
-      data[keys[1]] = value;
+    if (keys && keys[2]) data[keys[1]][keys[2]] = value;
+    else if (keys && keys[1]) data[keys[1]] = value;
 
-    if (sellingMethod === 1)
-      setFixedPriceConfig({ ...data });
+    if (sellingMethod === 1) setFixedPriceConfig({ ...data });
     else setTimedAuctionConfig({ ...data });
   };
 
@@ -159,74 +132,66 @@ const SellNFT = (props) => {
   };
 
   const submit = () => {
- 
     const payload = {
       _id: location.state._id,
       sellingMethod,
       sellingConfig: JSON.stringify(
-        sellingMethod === 1
-          ? fixedPriceConfig
-          : timedAuctionConfig
+        sellingMethod === 1 ? fixedPriceConfig : timedAuctionConfig
       ),
     };
-    console.log(payload,"paylaod=>")
- 
+    console.log(payload, "paylaod=>");
 
-    let test=new Date(timedAuctionConfig.duration.endDate).getTime()
-    let time=timedAuctionConfig.duration.endTime
+    let test = new Date(timedAuctionConfig.duration.endDate).getTime();
+    let time = timedAuctionConfig.duration.endTime;
 
-var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
-// 
-  const timeInMiliSeconds=r+test;
- 
-  // console.log('yoken data', tokensData)
-  // const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
+    var r = Number(time.split(":")[0]) * 60 + Number(time.split(":")[1]) * 1000;
+    //
+    const timeInMiliSeconds = r + test;
 
-  //  if(nftToken){
-  //   sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
+    // console.log('yoken data', tokensData)
+    // const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
+
+    //  if(nftToken){
+    //   sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
 
     setLoader(true);
 
     var formData = new FormData();
-    console.log(payload,"payload")
-    for (const key in payload)
-      formData.append(key, payload[key]);
+    console.log(payload, "payload");
+    for (const key in payload) formData.append(key, payload[key]);
 
     props.upsertNFT("edit", formData, "PUT");
-  //  }
-  //  else {
-  //   toast.error("there was an issue while creating nft, please try later")
-  //  }
- 
+    //  }
+    //  else {
+    //   toast.error("there was an issue while creating nft, please try later")
+    //  }
   };
 
+  const getTokens = () => {
+    const url = process.env.REACT_APP_BASE_URL + "nftTokens/tokens";
 
-  const getTokens=()=>{
-    const url= process.env.REACT_APP_BASE_URL + 'nftTokens/tokens' 
-  
-  fetch(url, {
-   method: 'GET',
-   headers: {
-      'content-type': 'application/json',
-      'Authorization': ENV.Authorization,
-      'x-auth-token': ENV.x_auth_token,
-      'Access-Control-Allow-Origin': '*',
-      'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
-  },
-
-}).then(res => res.json()).then(data => {
-
-  setTokensData(data)
-
-  
-}).catch(error => {
-  
-  console.log(error,"error in catch blcok")
-  
-
-})
-
-  }
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: ENV.Authorization,
+        "x-auth-token": ENV.x_auth_token,
+        "Access-Control-Allow-Origin": "*",
+        "x-access-token":
+          ENV.getUserKeys("accessToken") &&
+          ENV.getUserKeys("accessToken").accessToken
+            ? ENV.getUserKeys("accessToken").accessToken
+            : "",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTokensData(data);
+      })
+      .catch((error) => {
+        console.log(error, "error in catch blcok");
+      });
+  };
 
   return (
     <div className="padding-wrapper">
@@ -240,34 +205,20 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
       >
         <div className="d-flex">
           <div className="tabs-container">
-            <span className="head-wrapper">
-              List of Bundle for Sale
-            </span>
+            <span className="head-wrapper">List of Bundle for Sale</span>
             <div className="market-tabs-wrapper">
               <Tab.Container
                 id="marketplace-tabs"
                 defaultActiveKey="fixedPrice"
               >
                 <Row>
-                  <Col
-                    lg="12"
-                    md="12"
-                    sm="12"
-                    xs="12"
-                  >
-                    <Nav
-                      variant="pills"
-                      className="flex-row"
-                    >
+                  <Col lg="12" md="12" sm="12" xs="12">
+                    <Nav variant="pills" className="flex-row">
                       <Nav.Item className="nav-item-wrapper">
-                        <div className="mb-2">
-                          Type
-                        </div>
+                        <div className="mb-2">Type</div>
                         <Nav.Link
                           eventKey="fixedPrice"
-                          onClick={() =>
-                            setSellingMethod(1)
-                          }
+                          onClick={() => setSellingMethod(1)}
                         >
                           <i className="fas fa-dollar-sign" />
                           <div>Fixed Price</div>
@@ -279,9 +230,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                         </div>
                         <Nav.Link
                           eventKey="timedAuction"
-                          onClick={() =>
-                            setSellingMethod(2)
-                          }
+                          onClick={() => setSellingMethod(2)}
                         >
                           <i className="fas fa-clock" />
                           <div>Timed Auction</div>
@@ -303,10 +252,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                               <i className="fas fa-exclamation-circle ml-2" />
                             </div>
                             <div className="d-flex">
-                              <button
-                                type="button"
-                                className="ethereum-btn"
-                              >
+                              <button type="button" className="ethereum-btn">
                                 <svg
                                   viewBox="0 0 126.61 126.61"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -322,9 +268,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                     <path d="m77.83 63.3-14.51-14.52-10.73 10.73-1.24 1.23-2.54 2.54 14.51 14.5 14.51-14.47z" />
                                   </g>
                                 </svg>
-                                <span className="ml-2">
-                                  {ENV.currency}
-                                </span>
+                                <span className="ml-2">{ENV.currency}</span>
                               </button>
                               <input
                                 type="text"
@@ -332,21 +276,11 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                 placeholder="Amount"
                                 className="amount-btn ml-3"
                                 style={{
-                                  borderRadius:
-                                    "4px",
+                                  borderRadius: "4px",
                                 }}
-                                onChange={(e) =>
-                                  onChange(e)
-                                }
-                                onKeyDown={(e) =>
-                                  decimalNumberValidator(
-                                    e
-                                  )
-                                }
-                                defaultValue={
-                                  fixedPriceConfig
-                                    .price.amount
-                                }
+                                onChange={(e) => onChange(e)}
+                                onKeyDown={(e) => decimalNumberValidator(e)}
+                                defaultValue={fixedPriceConfig.price.amount}
                                 required
                               />
                               {/* <div className="text-right mb-2 dollar-wrapper">
@@ -358,24 +292,17 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                         <div className="price-wrapper d-flex">
                           <div className="price-text">
                             <div className="text-white">
-                              <b>
-                                Schedule Listing
-                              </b>
+                              <b>Schedule Listing</b>
                             </div>
                             <div className="date-picker">
                               <DateRangePicker
-                                initialSettings={
-                                  dateRangeInitialSettings
-                                }
-                                onApply={
-                                  handleDateChange
-                                }
+                                initialSettings={dateRangeInitialSettings}
+                                onApply={handleDateChange}
                               >
                                 <button
                                   name="fixedPriceConfig.listingSchedule"
                                   className="calender-btn"
                                 >
-
                                   {fixedPriceConfig.listingSchedule.startDate.format(
                                     "MMMM D, YYYY"
                                   )}{" "}
@@ -395,13 +322,9 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                   type="time"
                                   name="fixedPriceConfig.listingSchedule.startTime"
                                   placeholder="Start Time"
-                                  onChange={(e) =>
-                                    onChange(e)
-                                  }
+                                  onChange={(e) => onChange(e)}
                                   defaultValue={
-                                    fixedPriceConfig
-                                      .listingSchedule
-                                      .startTime
+                                    fixedPriceConfig.listingSchedule.startTime
                                   }
                                   required
                                 />
@@ -412,13 +335,9 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                   type="time"
                                   name="fixedPriceConfig.listingSchedule.endTime"
                                   placeholder="End Time"
-                                  onChange={(e) =>
-                                    onChange(e)
-                                  }
+                                  onChange={(e) => onChange(e)}
                                   defaultValue={
-                                    fixedPriceConfig
-                                      .listingSchedule
-                                      .endTime
+                                    fixedPriceConfig.listingSchedule.endTime
                                   }
                                   required
                                 />
@@ -456,10 +375,8 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                           <div
                             className="mb-3 budle-wrapper"
                             style={{
-                              borderBottom:
-                                "1px solid",
-                              paddingBottom:
-                                "2rem",
+                              borderBottom: "1px solid",
+                              paddingBottom: "2rem",
                             }}
                           >
                             <span>
@@ -467,12 +384,8 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                 type="text"
                                 placeholder="0xf45a189..."
                                 required
-                                defaultValue={
-                                  fixedPriceConfig.reserveFor
-                                }
-                                onChange={(e) =>
-                                  onChange(e)
-                                }
+                                defaultValue={fixedPriceConfig.reserveFor}
+                                onChange={(e) => onChange(e)}
                                 name="fixedPriceConfig.reserveFor"
                               />
                             </span>
@@ -481,23 +394,17 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                       </Tab.Pane>
                       <Tab.Pane eventKey="timedAuction">
                         <div className="form-group">
-                          <label
-                            htmlFor="method"
-                            className="text-white mb-2"
-                          >
+                          <label htmlFor="method" className="text-white mb-2">
                             <b>Method</b>
                           </label>
                           <select
                             className="form-control"
                             id="timed-auction-method"
                             name="timedAuctionConfig.method"
-                            onChange={(e) =>
-                              onChange(e)
-                            }
+                            onChange={(e) => onChange(e)}
                           >
                             <option value={1}>
-                              Sell to the highest
-                              bidder
+                              Sell to the highest bidder
                             </option>
                             {/* <option value={2}>
                               Sell with the
@@ -509,18 +416,13 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                         <div className="price-wrapper d-flex">
                           <div className="price-text position-relative">
                             <div className="text-white mb-2 absolute-wrapper">
-                              <b>
-                                Starting Price
-                              </b>
+                              <b>Starting Price</b>
                             </div>
                             <div className="text-right mb-2">
                               <i className="fas fa-exclamation-circle ml-2" />
                             </div>
                             <div className="d-flex">
-                              <button
-                                type="button"
-                                className="ethereum-btn"
-                              >
+                              <button type="button" className="ethereum-btn">
                                 <svg
                                   viewBox="0 0 126.61 126.61"
                                   xmlns="http://www.w3.org/2000/svg"
@@ -536,9 +438,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                     <path d="m77.83 63.3-14.51-14.52-10.73 10.73-1.24 1.23-2.54 2.54 14.51 14.5 14.51-14.47z" />
                                   </g>
                                 </svg>
-                                <span className="ml-2">
-                                  {ENV.currency}
-                                </span>
+                                <span className="ml-2">{ENV.currency}</span>
                               </button>
                               <input
                                 type="text"
@@ -546,21 +446,12 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                 placeholder="Amount"
                                 className="amount-btn ml-3"
                                 style={{
-                                  borderRadius:
-                                    "4px",
+                                  borderRadius: "4px",
                                 }}
-                                onChange={(e) =>
-                                  onChange(e)
-                                }
-                                onKeyDown={(e) =>
-                                  decimalNumberValidator(
-                                    e
-                                  )
-                                }
+                                onChange={(e) => onChange(e)}
+                                onKeyDown={(e) => decimalNumberValidator(e)}
                                 defaultValue={
-                                  timedAuctionConfig
-                                    .startPrice
-                                    .amount
+                                  timedAuctionConfig.startPrice.amount
                                 }
                                 required
                               />
@@ -577,12 +468,8 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                             </div>
                             <div className="date-picker">
                               <DateRangePicker
-                                initialSettings={
-                                  dateRangeInitialSettings
-                                }
-                                onApply={
-                                  handleDateChange
-                                }
+                                initialSettings={dateRangeInitialSettings}
+                                onApply={handleDateChange}
                               >
                                 <button
                                   name="timedAuctionConfig.duration"
@@ -607,13 +494,9 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                   type="time"
                                   name="timedAuctionConfig.duration.startTime"
                                   placeholder="Start Time"
-                                  onChange={(e) =>
-                                    onChange(e)
-                                  }
+                                  onChange={(e) => onChange(e)}
                                   defaultValue={
-                                    timedAuctionConfig
-                                      .duration
-                                      .startTime
+                                    timedAuctionConfig.duration.startTime
                                   }
                                   required
                                 />
@@ -624,13 +507,9 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                   type="time"
                                   name="timedAuctionConfig.duration.endTime"
                                   placeholder="End Time"
-                                  onChange={(e) =>
-                                    onChange(e)
-                                  }
+                                  onChange={(e) => onChange(e)}
                                   defaultValue={
-                                    timedAuctionConfig
-                                      .duration
-                                      .endTime
+                                    timedAuctionConfig.duration.endTime
                                   }
                                   required
                                 />
@@ -666,10 +545,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                         </div> */}
                         {reservePrice && (
                           <div className="d-flex">
-                            <button
-                              type="button"
-                              className="ethereum-btn"
-                            >
+                            <button type="button" className="ethereum-btn">
                               <svg
                                 viewBox="0 0 126.61 126.61"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -685,9 +561,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                                   <path d="m77.83 63.3-14.51-14.52-10.73 10.73-1.24 1.23-2.54 2.54 14.51 14.5 14.51-14.47z" />
                                 </g>
                               </svg>
-                              <span className="ml-2">
-                                {ENV.currency}
-                              </span>
+                              <span className="ml-2">{ENV.currency}</span>
                             </button>
                             <input
                               type="text"
@@ -695,21 +569,12 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                               placeholder="Amount"
                               className="amount-btn ml-3"
                               style={{
-                                borderRadius:
-                                  "4px",
+                                borderRadius: "4px",
                               }}
-                              onChange={(e) =>
-                                onChange(e)
-                              }
-                              onKeyDown={(e) =>
-                                decimalNumberValidator(
-                                  e
-                                )
-                              }
+                              onChange={(e) => onChange(e)}
+                              onKeyDown={(e) => decimalNumberValidator(e)}
                               defaultValue={
-                                timedAuctionConfig
-                                  .reservePrice
-                                  .amount
+                                timedAuctionConfig.reservePrice.amount
                               }
                               required
                             />
@@ -735,9 +600,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
                     </div>
                     <div className="d-flex justify-content-between text-white mb-4">
                       <div>Creator Royalty</div>
-                      <div>
-                        {nft?.royalty || 0}%
-                      </div>
+                      <div>{nft?.royalty || 0}%</div>
                     </div>
 
                     <button
@@ -775,14 +638,15 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
 };
 
 const mapStateToProps = (state) => (
-  console.log(state,"state in sell nft"),
+  console.log(state, "state in sell nft"),
   {
-  nft: state.nft,
-  error: state.error,
-});
+    nft: state.nft,
+    error: state.error,
+  }
+);
 
 export default connect(mapStateToProps, {
   beforeNFT,
   getNFT,
   upsertNFT,
-})(SellNFT);
+})(Sell);

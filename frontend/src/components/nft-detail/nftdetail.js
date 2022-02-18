@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./nftdetail.css";
@@ -18,14 +18,14 @@ import DescriptionIcon from "../../assets/images/detail-description-icon.svg";
 import { getNFT, getNFTsByCollection } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
-import {Modal } from "react-bootstrap";
-import { ENV } from '../../config/config';
+import { Modal } from "react-bootstrap";
+import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
-import moment from 'moment';
-import SimpleReactValidator from 'simple-react-validator'
+import moment from "moment";
+import SimpleReactValidator from "simple-react-validator";
 
 const NFTDetail = (props) => {
-  const history=useHistory()
+  const history = useHistory();
   let nftId = props.match.params.id;
   const initData = {
     itemImg: "/img/auction_2.jpg",
@@ -33,40 +33,38 @@ const NFTDetail = (props) => {
     price_2: "$500.89",
     bidBtn: "Place a Bid",
     offerBtn: "Buy Now",
-    sellBtn: "Sell"
-}
-const { currencies } = ENV;
-const expiryOptions = [
-  { label: '5 Days', value: moment().add(5, "days").format('DD/MM/YYYY') },
-  { label: '7 Days', value: moment().add(7, "days").format('DD/MM/YYYY') },
-  { label: 'A Month', value: moment().add(1, "months").format('DD/MM/YYYY') },
-  { label: 'Custom Date', value: -1 },
-]
+    sellBtn: "Sell",
+  };
+  const { currencies } = ENV;
+  const expiryOptions = [
+    { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
+    { label: "7 Days", value: moment().add(7, "days").format("DD/MM/YYYY") },
+    { label: "A Month", value: moment().add(1, "months").format("DD/MM/YYYY") },
+    { label: "Custom Date", value: -1 },
+  ];
 
-const config1 = {
-  price: {
+  const config1 = {
+    price: {
       currency: ENV.currency,
       amount: "",
-  },
-  expiry: {
+    },
+    expiry: {
       date: expiryOptions[0].value,
       time: moment(new Date()).format("HH:mm"),
       type: 1, // 1 for time & 2 for datetime-local
-      datetime: '' // for payload 
-  }
-};
+      datetime: "", // for payload
+    },
+  };
   const [nftDetail, setNftDetail] = useState("");
   const [nftsList, setNftList] = useState([]);
   const [loader, setLoader] = useState(true);
-  const [nftConfig,setNftConfig]=useState(config1)
+  const [nftConfig, setNftConfig] = useState(config1);
   const validator = new SimpleReactValidator({
     autoForceUpdate: this,
     messages: {
-        required: 'This field is required.'  // will override all messages
+      required: "This field is required.", // will override all messages
     },
-});
-
- 
+  });
 
   const propertiesData = [
     {
@@ -137,18 +135,14 @@ const config1 = {
     }
   }, [props.nftsByCollectionStatus]);
 
-
-  const handleRouting=()=>{
-    if(ENV.getUserKeys("_id")._id ===nftDetail?.ownerId){
-      history.push(
-        {
-          pathname:`/sell-item/${nftDetail._id}`,
-          state:nftDetail
-        }
-        
-        )
+  const handleRouting = () => {
+    if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
+      history.push({
+        pathname: `/sell-item/${nftDetail._id}`,
+        state: nftDetail,
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -549,7 +543,9 @@ const config1 = {
                           <span>Sale ends March 8, 2022 at 7:40am PKT </span>
                         </div>
                         <div className="likes-container d-flex align-items-center">
-                          <span>{nftDetail.likeCount?nftDetail.likeCount:0}</span>
+                          <span>
+                            {nftDetail.likeCount ? nftDetail.likeCount : 0}
+                          </span>
                           <img
                             src={HeartIcon}
                             alt="heart-icon"
@@ -557,8 +553,15 @@ const config1 = {
                           />
                         </div>
                       </div>
-                      <button className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto" onClick={()=>handleRouting()}>
-                        <p>{ENV.getUserKeys("_id")._id ===nftDetail?.ownerId?"Sell":"Buy Now"}</p>
+                      <button
+                        className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
+                        onClick={() => handleRouting()}
+                      >
+                        <p>
+                          {ENV.getUserKeys("_id")._id === nftDetail?.ownerId
+                            ? "Sell"
+                            : "Buy Now"}
+                        </p>
                       </button>
                     </Card.Body>
                   </Card>
@@ -707,8 +710,7 @@ const config1 = {
                         >
                           <div className="accordion-body">
                             <div className="row justify-content-center align-items-center g-3">
-                              {nftsList &&
-                                nftsList.length > 0 ?
+                              {nftsList && nftsList.length > 0 ? (
                                 nftsList.map((listing) => {
                                   return (
                                     <div className="col-6 col-sm-6 col-md-4 col-lg-2 px-1">
@@ -720,8 +722,12 @@ const config1 = {
                                       />
                                     </div>
                                   );
-                                }):<p className="text-center mt-4">No NFTs Found</p>
-                              }
+                                })
+                              ) : (
+                                <p className="text-center mt-4">
+                                  No NFTs Found
+                                </p>
+                              )}
                             </div>
                             <div className="mt-4 detail-btn-collection text-center">
                               {nftsList.length > 0 && (
@@ -738,23 +744,22 @@ const config1 = {
                 </div>
               </div>
             </div>
-        {/* ///////////////////////////////////// Modal */}
-        <div className="modal-wrapper">
-                    {
-                        false &&
-                        <Modal
-                            centered
-                            size="lg"
-                            // className="place-bid-modal"
-                            show={true}
-                            // onHide={this.closeModal}
-                        >
-                            <Modal.Header className="text-center modal-title-wrapper text-white">
-                                <Modal.Title>
-                                    { 2=== 2 ? 'Place A Bid' : 'Make An Offer'}
-                                </Modal.Title>
-                            </Modal.Header>
-                            {/* {
+            {/* ///////////////////////////////////// Modal */}
+            <div className="modal-wrapper">
+              {false && (
+                <Modal
+                  centered
+                  size="lg"
+                  // className="place-bid-modal"
+                  show={true}
+                  // onHide={this.closeModal}
+                >
+                  <Modal.Header className="text-center modal-title-wrapper text-white">
+                    <Modal.Title>
+                      {2 === 2 ? "Place A Bid" : "Make An Offer"}
+                    </Modal.Title>
+                  </Modal.Header>
+                  {/* {
                                 isSubmitted && errors &&
                                 <Modal.Body className="row pt-2 pb-0">
                                     <div className="col-12">
@@ -762,35 +767,59 @@ const config1 = {
                                     </div>
                                 </Modal.Body>
                             } */}
-                            <Modal.Body >
-                                <div className="price-wrapper d-flex">
-                                    <div className="price-text position-relative">
-                                        <div className="text-white mb-2 absolute-wrapper">
-                                            <b>Price</b>
-                                        </div>
-                                        <div className="text-right mb-2">
-                                            <i className="fas fa-exclamation-circle ml-2 text-white" />
-                                        </div>
-                                        <div className="d-flex">
-                                            <select className="form-control currency-options" id="currency" name="nftConfig.price.currency" onChange={(e) => this.onChange(e)}>
-                                                {
-                                                    currencies && currencies.map((currency, index) => {
-                                                        return (
-                                                            <option key={index} value={currency.symbol}>{currency.symbol}</option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
-                                            <input type="text" placeholder="Amount" className="amount-btn ml-3" name="nftConfig.price.amount" placeholder="Amount" className="amount-btn ml-3" style={{ borderRadius: "4px" }} onChange={(e) => this.onChange(e)} onKeyDown={(e) => decimalNumberValidator(e)} defaultValue={nftConfig.price.amount} required />
-                                            <div className="text-right mb-2 dollar-wrapper">
-                                                $ 0.00
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Modal.Body>
-                            <Modal.Body className="text-danger">{validator.message('amount', nftConfig.price.amount, 'required')}</Modal.Body>
-                            {/* <Modal.Body className="" style={{ flexDirection: "column", display: "block", height: "200px" }}>
+                  <Modal.Body>
+                    <div className="price-wrapper d-flex">
+                      <div className="price-text position-relative">
+                        <div className="text-white mb-2 absolute-wrapper">
+                          <b>Price</b>
+                        </div>
+                        <div className="text-right mb-2">
+                          <i className="fas fa-exclamation-circle ml-2 text-white" />
+                        </div>
+                        <div className="d-flex">
+                          <select
+                            className="form-control currency-options"
+                            id="currency"
+                            name="nftConfig.price.currency"
+                            onChange={(e) => this.onChange(e)}
+                          >
+                            {currencies &&
+                              currencies.map((currency, index) => {
+                                return (
+                                  <option key={index} value={currency.symbol}>
+                                    {currency.symbol}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                          <input
+                            type="text"
+                            placeholder="Amount"
+                            className="amount-btn ml-3"
+                            name="nftConfig.price.amount"
+                            placeholder="Amount"
+                            className="amount-btn ml-3"
+                            style={{ borderRadius: "4px" }}
+                            onChange={(e) => this.onChange(e)}
+                            onKeyDown={(e) => decimalNumberValidator(e)}
+                            defaultValue={nftConfig.price.amount}
+                            required
+                          />
+                          <div className="text-right mb-2 dollar-wrapper">
+                            $ 0.00
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Modal.Body>
+                  <Modal.Body className="text-danger">
+                    {validator.message(
+                      "amount",
+                      nftConfig.price.amount,
+                      "required"
+                    )}
+                  </Modal.Body>
+                  {/* <Modal.Body className="" style={{ flexDirection: "column", display: "block", height: "200px" }}>
                                 <div className="offer-expiration-wrapper text-white">
                                     <b>Offer Expiration</b>
                                 </div>
@@ -827,26 +856,29 @@ const config1 = {
                                     </div>
                                 </div>
                             </Modal.Body> */}
-                            <Modal.Body className="justify-content-center align-items-center">
-                                <div className="d-flex justify-content-around place-bid-btn">
-                                    <button className="ethereum-btn mr-3 place-bid-ethereum-btn"
-                                     disabled={loader} 
-                                    // onClick={() => this.submit()}
-                                    >{2 === 2 ? initData.bidBtn : initData.bidBtn}</button>
-                                    {/* <button className="ethereum-btn">Add funds</button> */}
-                                </div>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <button
-                                    className="btn banner-btn btn-primary"
-                                    // onClick={this.closeModal}
-                                >
-                                    Close
-                                </button>
-                            </Modal.Footer>
-                        </Modal>
-                    }
-                </div>
+                  <Modal.Body className="justify-content-center align-items-center">
+                    <div className="d-flex justify-content-around place-bid-btn">
+                      <button
+                        className="ethereum-btn mr-3 place-bid-ethereum-btn"
+                        disabled={loader}
+                        // onClick={() => this.submit()}
+                      >
+                        {2 === 2 ? initData.bidBtn : initData.bidBtn}
+                      </button>
+                      {/* <button className="ethereum-btn">Add funds</button> */}
+                    </div>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <button
+                      className="btn banner-btn btn-primary"
+                      // onClick={this.closeModal}
+                    >
+                      Close
+                    </button>
+                  </Modal.Footer>
+                </Modal>
+              )}
+            </div>
           </section>
           <Footer />
         </>
