@@ -11,10 +11,11 @@ import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
-import { getNFTsByCollection, getNFTs, beforeNFT } from "../nfts/nfts.action";
+import { getNFTsByCollection ,getNFTs,beforeNFT,getMyLikedNfts} from "../nfts/nfts.action";
 import { connect } from "react-redux";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
+import { toggleLikeDislike } from "../explore/explore.action";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 
 const CollectionDetailsPage = (props) => {
@@ -23,7 +24,8 @@ const CollectionDetailsPage = (props) => {
   const [nfts, setNfts] = useState([]);
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
-  const [filterationLoader, setFilterationLoader] = useState(true);
+  const [filterationLoader,setFilterationLoader]=useState(true)
+  const [likedNfts, setLikedNfts] = useState();
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -62,8 +64,20 @@ const CollectionDetailsPage = (props) => {
   };
 
   useEffect(() => {
-    getNFTs();
+
+    getNFTs()
+    let qs = { userId: ENV.getUserKeys("_id")._id };
+    qs = ENV.objectToQueryString(qs);
+    props.getMyLikedNfts(qs);
+ 
   }, []);
+  useEffect(()=>{
+    if(props.myLikedNftsStatus)
+    {
+      setLikedNfts(props.myLikedNfts)
+    }
+
+  },[props.myLikedNftsStatus])
 
   useEffect(() => {
     if (props.nftsAuth) {
@@ -283,7 +297,101 @@ const CollectionDetailsPage = (props) => {
       newest
     );
   };
+///////////Likes
+const handleLikesTogleApi = (nftId, status) => {
+  // const {
+  //   collectionId,
+  //   gtePrice,
+  //   ltePrice,
+  //   categoryId,
+  //   oldest,
+  //   lowToHigh,
+  //   highToLow,
+  //   newest,
+  //   page,
+  //   limit,
+  // } = filter;
+  // getNFTs(
+  //   page,
+  //   limit,
+  //   false,
+  //   minValue,
+  //   maxValue,
+  //   categoryId,
+  //   oldest,
+  //   lowToHigh,
+  //   highToLow,
+  //   newest
+  // );
+  // let qs = { userId: ENV.getUserKeys("_id")._id };
+  // qs = ENV.objectToQueryString(qs);
+  // props.getMyLikedNfts(qs);
+  increOrDecreLikes(nftId);
+  if (status === "dislike") {
+    let result = likedNfts.filter((item) => item.nftId !== nftId);
 
+    setLikedNfts(result);
+    increOrDecreLikes(nftId, "dec");
+  } else {
+    let myLikedNfts=[]
+    if(likedNfts && likedNfts.length >0)
+    {
+
+      myLikedNfts = likedNfts;
+    }
+
+    let obj = {
+      _id: "1234455",
+      nftId,
+    };
+
+    myLikedNfts.push(obj);
+
+    setLikedNfts(myLikedNfts);
+    increOrDecreLikes(nftId, "inc");
+  }
+  // setNFTs(nfts);
+  let userId = ENV.getUserKeys("_id")._id;
+
+  let obj = {
+    userId,
+    nftId,
+    count: 1,
+  };
+
+  props.toggleLikeDislike(obj);
+};
+
+const increOrDecreLikes = (id, status) => {
+  if (status === "dec") {
+    let newResult = nfts.map((item) => {
+      if (item._id !== id) {
+        return item;
+      } else {
+        if (item?.likeCount > 0) {
+          return { ...item, likeCount: item.likeCount - 1 };
+        }
+      }
+    });
+    setNfts(newResult);
+   
+  } else {
+  
+    let final = nfts.map((item) => {
+
+      if (item._id !== id) {
+      
+        return item;
+      } else {
+    
+          return { ...item, likeCount: item.likeCount+1 };
+       
+      }
+    });
+    setNfts(final);
+
+  }
+};
   console.log("nfts", nfts);
   const { name, banner, logo, description } = location.state;
   return (
@@ -293,8 +401,8 @@ const CollectionDetailsPage = (props) => {
       ) : (
         <>
           <NavbarMain />
-          <div className="collection-detail-hero">
-            <img src={BannerImg} alt="BannerImg" />
+          <div className="collection-detail-hero w-100">
+            <img className="w-100" src={banner} alt="BannerImg" />
           </div>
           <div className="collection-detail-content">
             <div className="container">
@@ -448,34 +556,32 @@ const CollectionDetailsPage = (props) => {
                 <div className="col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0">
                   <div className="row g-3">
                     {
-                      filterationLoader ? (
-                        <div className="text-center">
-                          <div
-                            class="spinner-border text-secondary text-white "
-                            role="status"
-                          >
-                            <span class="sr-only">Loading...</span>
-                          </div>
-                        </div>
-                      ) : (
-                        nfts &&
-                        nfts.length > 0 &&
-                        nfts.map((listing) => {
-                          return (
-                            <div className="col-6 col-md-4 col-lg-3 px-1">
-                              <ListingCards
-                                CardImg={listing.image}
+                      filterationLoader? <div className="text-center">
+
+                      <div
+                        class="spinner-border text-secondary text-white "
+                        role="status"
+                      >
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      </div>:nfts && nfts.length >0  ?
+                      nfts.map((listing) => {
+                        return (
+                          <div className="col-6 col-md-4 col-lg-3 px-1">
+                            <ListingCards   CardImg={listing.image}
                                 name={listing.name}
                                 price={listing.currentPrice}
-                                // handleLikesTogleApi={handleLikesTogleApi}
+                                handleLikesTogleApi={handleLikesTogleApi}
                                 id={listing._id}
-                              />
-                            </div>
-                          );
-                        })
-                      )
+                                likesCount={listing.likeCount}
+                                likedNfts={likedNfts}
+                                />
 
-                      // :<p className="text-white mt-5 text-center no-nfts-title">No NFT's Found</p>
+                          </div>
+                        );
+                      })
+
+                      :<p className="text-white mt-5 text-center no-nfts-title">No NFT's Found</p>
                     }
                   </div>
                 </div>
@@ -496,10 +602,13 @@ const mapStateToProps = (state) => (
     getAuth: state.collection.getAuth,
     collections: state.collection.collections,
     nftsByCollection: state.nft.nftsByCollection,
-    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-    nfts: state.nft.nftsData.nfts,
-    pagination: state.nft.nftAll.pagination,
-    nftsAuth: state.nft.nftsAuth,
+    nftsByCollectionStatus:state.nft.nftsByCollectionStatus,
+    nfts:state.nft.nftsData.nfts,
+    pagination:state.nft.nftAll.pagination,
+    nftsAuth:state.nft.nftsAuth,
+    myLikedNfts:state.nft.myLikedNfts,
+    myLikedNftsStatus:state.nft.myLikedNftsStatus,
+   
   }
 );
 
@@ -507,4 +616,6 @@ export default connect(mapStateToProps, {
   getNFTsByCollection,
   beforeNFT,
   getNFTs,
+  getMyLikedNfts,
+  toggleLikeDislike,
 })(CollectionDetailsPage);

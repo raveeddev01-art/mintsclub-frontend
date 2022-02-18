@@ -15,6 +15,7 @@ import {
   getNFT,
   upsertNFT,
 } from "./nfts.action";
+import {useLocation} from 'react-router-dom'
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import NFTPreview from "../nft-preview/nft-preview";
 import { decimalNumberValidator } from "../../utils/functions";
@@ -80,6 +81,8 @@ const SellNFT = (props) => {
   const [reservePrice, setReservePrice] =
     useState(false);
     const [tokensData,setTokensData]=useState([])
+    const location=useLocation()
+    console.log(location.state,"location.state")
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -103,7 +106,8 @@ const SellNFT = (props) => {
   useEffect(() => {
     if (props.nft.upsertAuth) {
       const { nft } = props.nft.nftsData;
-      const pathname = nft.sellingMethod === 1 ? '/explore-all' : '/auctions'
+      // const pathname = nft.sellingMethod === 1 ? '/explore-all' : '/auctions'
+      const pathname="/"
       setLoader(false);
       props.beforeNFT();
       props.history.push(pathname);
@@ -157,7 +161,7 @@ const SellNFT = (props) => {
   const submit = () => {
  
     const payload = {
-      _id: nft._id,
+      _id: location.state._id,
       sellingMethod,
       sellingConfig: JSON.stringify(
         sellingMethod === 1
@@ -165,6 +169,7 @@ const SellNFT = (props) => {
           : timedAuctionConfig
       ),
     };
+    console.log(payload,"paylaod=>")
  
 
     let test=new Date(timedAuctionConfig.duration.endDate).getTime()
@@ -175,22 +180,23 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
   const timeInMiliSeconds=r+test;
  
   // console.log('yoken data', tokensData)
-  const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
+  // const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
 
-   if(nftToken){
-    sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
+  //  if(nftToken){
+  //   sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
 
     setLoader(true);
 
     var formData = new FormData();
+    console.log(payload,"payload")
     for (const key in payload)
       formData.append(key, payload[key]);
 
     props.upsertNFT("edit", formData, "PUT");
-   }
-   else {
-    toast.error("there was an issue while creating nft, please try later")
-   }
+  //  }
+  //  else {
+  //   toast.error("there was an issue while creating nft, please try later")
+  //  }
  
   };
 
@@ -768,7 +774,9 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state in sell nft"),
+  {
   nft: state.nft,
   error: state.error,
 });

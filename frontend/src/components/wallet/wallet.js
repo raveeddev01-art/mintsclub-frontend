@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { connectMetamaskCopy, signRequest } from '../../utils/web3'
 import { beforeWallet, setWalletAddress } from '../wallet/wallet.action';
 import { toast } from 'react-toastify';
-// import { getCollections } from '../collections/collections.actions'
+import { getCollections,beforeCategory } from '../collections/collections.actions'
 import { ENV } from '../../config/config';
 import { login, signup } from '../user/user.action';
 import './wallet.css'
@@ -27,6 +27,7 @@ const Wallet = (props) => {
     }
 
     useEffect(() => {
+        props.beforeCategory()
         if (props.error) {
             console.log('errors', props.error)
             
@@ -40,7 +41,7 @@ const Wallet = (props) => {
     }, [props.error]);
 
     useEffect(() => {
-        // console.log("dskms;kdncksjdncksjdcnkjscnd", props.user.userAuth);
+        console.log("props.collection.getAuth", props.user.userAuth);
         if(props.collection.getAuth === true) {
             let collections = props.collection.collections;
             // console.log('collections',collections)
@@ -248,4 +249,4 @@ const mapStateToProps = state => (
         error: state.error
 });
 
-export default connect(mapStateToProps, { beforeWallet, setWalletAddress, login, signup })(Wallet);
+export default connect(mapStateToProps, { beforeWallet, setWalletAddress, login, signup ,beforeCategory})(Wallet);

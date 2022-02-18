@@ -71,6 +71,7 @@ export default function (state = initialState, action) {
                  
                 }
         case BEFORE_COLLECTION:
+         
             return {
                 ...state,
                 collection: null,

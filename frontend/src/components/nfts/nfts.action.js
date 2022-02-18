@@ -7,7 +7,8 @@ import {
   UPSERT_NFT,
   NFTALL,
   SET_NFT_TOKEN,
-  GET_NFTS_BY_COLLECTION
+  GET_NFTS_BY_COLLECTION,
+  GET_MYLIKED_NFTS
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -25,6 +26,7 @@ export const beforeNFT = () => {
 export const upsertNFT =
   (type = "create", body, method = "POST") =>
   (dispatch) => {
+    console.log("sending post request")
     dispatch(emptyError());
     const url = `${ENV.url}/nfts/${type}`;
 
@@ -204,45 +206,36 @@ export const getNFTsByCollection=(id)=>(dispatch)=>{
             });
     });
   
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //     Authorization: ENV.Authorization,
-    //     "x-auth-token": ENV.x_auth_token,
-    //     "Access-Control-Allow-Origin": "*",
-    //     "x-access-token":
-    //       ENV.getUserKeys("accessToken") &&
-    //       ENV.getUserKeys("accessToken").accessToken
-    //         ? ENV.getUserKeys("accessToken").accessToken
-    //         : "",
-    //   },
-    //   data
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //        console.log(data,"nftByCollection")
-    //     if (data.success) {
-    //       dispatch({
-    //         type:GET_NFTS_BY_COLLECTION,
-    //         payload:data.data
-    //       })
-     
-    //     } else {
-    //       dispatch({
-    //         type: GET_ERRORS,
-    //         payload: data,
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error,"errors by nftByCollection")
-    //     dispatch({
-    //       type: GET_ERRORS,
-    //       payload: error,
-    //     });
-     
-    //   });
+  
+}
+
+export const getMyLikedNfts=(qs='')=>(dispatch)=>{
+
+
+  dispatch(emptyError());
+
+    let url = `${ENV.url}nftLikes/userNftLikes?`;
+    url=url+qs
+    axios.get(url)
+    .then(function (response) {
+      console.log(response,"response of nft likes");
+      
+      if (response.data.status) {
+        dispatch({
+          type: GET_MYLIKED_NFTS,
+          payload: response.data.data,
+        });
+         
+            } else {
+             
+            }
+    })
+    .catch(function (error) {
+      console.log(error);
+    
+    });
+  
+  
 }
 
 export const createNFT= async (formData)=>{

@@ -16,6 +16,7 @@ export const GET_NFTS = 'GET_NFTS';
 export const GET_NFT = 'GET_NFT';
 export const UPSERT_NFT = 'UPSERT_NFT';
 export const GET_NFTS_BY_COLLECTION='';
+export const GET_MYLIKED_NFTS=" GET_MYLIKED_NFTS"
 
 //CREATE NFT
 export const SET_NFT_TOKEN='SET_NFT_TOKEN';
