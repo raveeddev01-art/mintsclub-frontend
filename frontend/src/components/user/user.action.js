@@ -66,10 +66,10 @@ export const login = (payload) => dispatch => {
 
 // method to signup using wallet address, sign, and payload
 export const signup = (payload) => dispatch => {
-    console.log(payload,"payload")
+    
     dispatch(emptyError());
     const url = `${ENV.url}auth/register/`;
-    console.log(url,"url")
+ 
     fetch(url, {
         method: 'POST',
         headers: {
@@ -80,7 +80,7 @@ export const signup = (payload) => dispatch => {
         },
         body: JSON.stringify(payload)
     }).then(res => res.json()).then(data => {
-        console.log(data,"register resonse")
+       
         if (data.status) {
             ENV.encryptUserData(data.data);
             dispatch(getCollections());
@@ -142,8 +142,7 @@ export const updateProfile = (body) => dispatch => {
 export const getTopSellers = (body) => dispatch => {
     dispatch(emptyError());
     const url = `${ENV.url}users/top-sellers`;
-    // const url = `http://3.142.91.8/v1/front/users/top-sellers`;
-    // console.log(url,"testing url in top sellers")
+   
     fetch(url, {
         method: 'POST',
         headers: {
@@ -154,7 +153,7 @@ export const getTopSellers = (body) => dispatch => {
         },
         body
     }).then(res => res.json()).then(data => {
-        // console.log("data====>",data);
+     
         if (data.status) {
             dispatch({
                 type: TOP_SELLERS,
@@ -167,7 +166,7 @@ export const getTopSellers = (body) => dispatch => {
             })
         }
     }).catch(errors => {
-        // console.log("errors===>");
+     
         dispatch({
             type: GET_ERRORS,
             payload: errors
@@ -192,7 +191,7 @@ export const getCreators = (body) => dispatch => {
         },
         body
     }).then(res => res.json()).then(data => {
-        // console.log(data,"creators data===>}}}");
+      
         if (data.status) {
             dispatch({
                 type: SET_CREATORS,

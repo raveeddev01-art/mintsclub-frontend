@@ -81,14 +81,14 @@ const CollectionDetailsPage = (props) => {
 
   useEffect(() => {
     if (props.nftsAuth) {
-      console.log(props, "props");
+     
       setNfts(props.nfts);
       props.beforeNFT();
       setLoader(false);
 
       setFilterationLoader(false);
     }
-    console.log(props.nftsAuth, "nftsAuth");
+ 
   }, [props.nftsAuth]);
 
   const getNFTs = (
@@ -137,14 +137,14 @@ const CollectionDetailsPage = (props) => {
     if (newestFilter) nftQS.newest = newestFilter;
 
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "qs of nfts bu");
+    
 
     props.getNFTs(qs);
   };
 
   const handleSortOptions = (e) => {
     setFilterationLoader(true);
-    console.log(e.target.value, "e.value");
+  
     const { value } = e.target;
 
     if (value === "Price: Low To High") {
@@ -168,7 +168,7 @@ const CollectionDetailsPage = (props) => {
         false
       );
     } else if (value === "Price: High To Low") {
-      console.log("setting");
+      
       setFilter((prev) => ({
         ...prev,
         highToLow: true,
@@ -231,7 +231,7 @@ const CollectionDetailsPage = (props) => {
     } else {
     }
     // setDetails(prev => ({...prev, name: target.value}))
-    console.log(filter, "filter");
+
   };
 
   const onChangeMinPrice = (e) => {
@@ -392,7 +392,7 @@ const increOrDecreLikes = (id, status) => {
 
   }
 };
-  console.log("nfts", nfts);
+
   const { name, banner, logo, description } = location.state;
   return (
     <>
@@ -595,7 +595,7 @@ const increOrDecreLikes = (id, status) => {
   );
 };
 const mapStateToProps = (state) => (
-  console.log(state, "state collection dessstaildf"),
+
   {
     nft: state.nft,
     user: state.user,

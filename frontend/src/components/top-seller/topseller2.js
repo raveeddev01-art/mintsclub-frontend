@@ -104,7 +104,7 @@ const TopSeller = (props) => {
     setSellers(props.user.sellers);
   }, [props.user.topSellersAuth]);
 
-  console.log(sellers, "sellers==>");
+
   return (
     <section className="top-seller-area padding-wrapper">
       <div className="container">

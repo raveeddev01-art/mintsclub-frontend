@@ -169,8 +169,9 @@ const SellNFT = (props) => {
           : timedAuctionConfig
       ),
     };
+          console.log("🚀 ~ file: sell-nft.js ~ line 172 ~ submit ~ timedAuctionConfig", payload)
     console.log(payload,"paylaod=>")
- 
+//  return  " "
 
     let test=new Date(timedAuctionConfig.duration.endDate).getTime()
     let time=timedAuctionConfig.duration.endTime
@@ -227,6 +228,8 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
 })
 
   }
+
+  console.log(nft,"nft")
 
   return (
     <div className="padding-wrapper">
@@ -775,7 +778,7 @@ var r = Number(time.split(':')[0])*60+Number(time.split(':')[1])*1000;
 };
 
 const mapStateToProps = (state) => (
-  console.log(state,"state in sell nft"),
+
   {
   nft: state.nft,
   error: state.error,

@@ -41,14 +41,14 @@ const Wallet = (props) => {
     }, [props.error]);
 
     useEffect(() => {
-        console.log("props.collection.getAuth", props.user.userAuth);
+     
         if(props.collection.getAuth === true) {
             let collections = props.collection.collections;
-            // console.log('collections',collections)
+          
             const userId = ENV.getUserKeys('_id')._id;
-            // console.log("userID", userId);
+          
             let myCollections = collections.filter(el => el.userId === userId);
-            // console.log("myCollections", myCollections);
+         
             if(myCollections && myCollections.length > 0){
                 // history.push('/create')
                 history.push('/user-dashboard')

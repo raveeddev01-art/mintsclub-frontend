@@ -27,6 +27,7 @@ import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 //CardSliders
 import CardSlider from "../card-slider/CardSlider";
 import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
+import { beforeCategory, getCategories } from "../collections/collections.actions";
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
 // Swiper.use([Navigation, Pagination]);
@@ -40,10 +41,14 @@ function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
   const [creators, setCreator] = useState([]);
+  const [categories,setCategories]=useState(null);
+  const [categoryId,setCategoryId]=useState('')
+
+
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
-    const qs = ENV.objectToQueryString({ all: true });
+    const qs = ENV.objectToQueryString({ myFilter: "620e52bb16994980690dd5fa" });
     props.getLiveAuctions(qs);
     props.getCreators();
   }, []);
@@ -56,14 +61,17 @@ function AuctionsOne(props) {
   }, [props.user.topSellersAuth]);
   // set live auctions
   useEffect(() => {
-    // if (props.auction.getAuth) {
-    const { auctions, pagination } = props.auction;
-    if (auctions) {
+ 
+    if (props.auction.auctionsAuth) {
+   
+      const { auctions, pagination } = props.auction;
+    
       setAuctions(auctions);
-      props.beforeAuction();
+      props.beforeAuction()
+   
+    
     }
-    // }
-  }, [props.auction.getAuth]);
+  }, [props.auction.auctionsAuth]);
   // ready slides when auctions data is received
   useEffect(() => {
     if (auctions && auctions.length) {
@@ -91,6 +99,17 @@ function AuctionsOne(props) {
       }
     }
   };
+
+  useEffect(()=>{
+props.getCategories()
+  },[])
+  useEffect(()=>{
+    if(props.collectionFlag){
+
+      setCategories(props.categories)
+    }
+    
+  },[props.collectionFlag])
 
   const auctionDemoData = [
     {
@@ -142,6 +161,12 @@ function AuctionsOne(props) {
       name: "Art",
     },
   ];
+const handleCategoryFilter=(id)=>{
+setCategoryId(id)
+const qs = ENV.objectToQueryString({ myFilter: id });
+props.getLiveAuctions(qs);
+}
+
 
 
   return (
@@ -174,10 +199,14 @@ function AuctionsOne(props) {
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
               <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
-                <button className="me-1 me-sm-2 active">Arts</button>
-                <button className="me-1 me-sm-2">Music</button>
+                {categories && categories.length >0 && 
+                categories.map((item)=>{
+                  return <button className="me-1 me-sm-2" onClick={()=>handleCategoryFilter(item._id)}>{item.name}</button>
+                })
+}
+                {/* <button className="me-1 me-sm-2">Music</button>
                 <button className="me-1 me-sm-2">Game</button>
-                <button className="me-1 me-sm-5">Sport</button>
+                <button className="me-1 me-sm-5">Sport</button> */}
                 <div className="intro-btn">
                   <Link
                     className="btn btn-rounded-bordered btn-viewAll"
@@ -302,12 +331,20 @@ function AuctionsOne(props) {
     </section>
   );
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+
+
+  {
   auction: state.auction,
   user: state.user,
+  collectionFlag:state.collection.collectionFlag,
+  categories:state.collection.categories
+
 });
 export default connect(mapStateToProps, {
   beforeAuction,
   getLiveAuctions,
   getCreators,
+  getCategories,
+  beforeCategory
 })(AuctionsOne);
