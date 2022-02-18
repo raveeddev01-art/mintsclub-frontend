@@ -49,14 +49,14 @@ export const getCollection = (collectionId) => dispatch => {
 };
 
 export const getCollections = (qs = null) => dispatch => {
-// console.log("getting collections")
+
     dispatch(emptyError());
     // let url = `http://3.142.91.8/v1/front/collection/list`;
     let url = `${ENV.url}collection/list`;
 
     if (qs)
     url += `?${qs}`
-    console.log(url,"url==> before")
+   
 
     fetch(url, {
         method: 'GET',
@@ -68,7 +68,7 @@ export const getCollections = (qs = null) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-      console.log(data,"collections restul")
+   
         if (data.success) {
             dispatch({
                 type: GET_COLLECTIONS,
@@ -83,8 +83,7 @@ export const getCollections = (qs = null) => dispatch => {
             })
         }
     }).catch(error => {
-        console.log(error,"collections error")
-        // console.log(error,"all collections error");
+       
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)
@@ -97,14 +96,14 @@ export const getCollections = (qs = null) => dispatch => {
     })
 };
 export const myCollections = (userId) => dispatch => {
- console.log("sending request",userId)
+
     dispatch(emptyError());
     // let url = `http://3.142.91.8/v1/front/collection/list`;
     let url = `${ENV.url}collection/myCollectionList`;
 
     if (userId)
     url += `?userId=${userId}`
-    console.log(url,"url==> before")
+    
 
     fetch(url, {
         method: 'GET',
@@ -116,9 +115,9 @@ export const myCollections = (userId) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-      console.log(data,"my collections result")
+      
         if (data.success) {
-            console.log(data.data,"inside")
+            
             dispatch({
                 type: MY_COLLECTIONS,
                 payload: data.data
@@ -132,8 +131,7 @@ export const myCollections = (userId) => dispatch => {
             })
         }
     }).catch(error => {
-        console.log(error,"myCollections")
-        // console.log(error,"all collections error");
+      
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)
@@ -149,10 +147,7 @@ export const upsertCollection = (apiURL, body, method = 'POST') => dispatch => {
 
     dispatch(emptyError());
     const url = `${ENV.url}${apiURL}`;
-   
-    // const url = `http://localhost:5000/v1/front/${apiURL}`;
 
-console.log(body,"body")
     fetch(url, {
         method,
         headers: {
@@ -242,7 +237,7 @@ export const beforeCategory = () => {
     }
 }
 export const getCategories = () => dispatch => {
-    console.log("called")
+  
     dispatch(emptyError());
     const url = `${ENV.url}category/list`;
 
@@ -256,7 +251,7 @@ export const getCategories = () => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-    console.log(data.categories,"data")
+ 
         if (data.status) {
          
             dispatch({
@@ -273,7 +268,7 @@ export const getCategories = () => dispatch => {
         }
     }).catch(error => {
         console.log(error,"error==>")
-        console.log("catch")
+     
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)
@@ -288,7 +283,7 @@ export const getCategories = () => dispatch => {
 export const toggleLikeDislike = (body) => dispatch => {
  let data=JSON.stringify(body)
     const url = `${ENV.url}collectionLikes/likeDislike`;
-    console.log(body,"body")
+
     fetch(url, {
         method: 'POST',
         headers: {
@@ -300,7 +295,7 @@ export const toggleLikeDislike = (body) => dispatch => {
         },
         data
     }).then(res => res.json()).then(data => {
-    console.log(data,"likes success data")
+  
        
     }).catch(error => {
      console.log(error,"error likes")

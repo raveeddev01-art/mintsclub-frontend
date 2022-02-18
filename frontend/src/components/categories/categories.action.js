@@ -10,7 +10,7 @@ export const beforeCategory = () => {
 }
 
 export const getCategories = () => dispatch => {
-    console.log("called")
+  
     dispatch(emptyError());
     const url = `${ENV.url}category/list`;
 
@@ -39,7 +39,7 @@ export const getCategories = () => dispatch => {
         }
     }).catch(error => {
         console.log(error,"error==>")
-        console.log("catch")
+       
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)

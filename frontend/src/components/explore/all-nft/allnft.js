@@ -91,7 +91,7 @@ const AllNFT = (props) => {
       const { nfts, pagination } = props.nft.nftsData;
       // console.log(nftsData,"nftsData==>")
       if (nfts) {
-        console.log(nfts,"setting nfts again" )
+    
         setNFTs(nfts);
         setNFTPagination(pagination);
         setFilterationLoader(false);
@@ -638,7 +638,7 @@ const AllNFT = (props) => {
 
 const mapStateToProps = (state) =>
 (
-  console.log(state, "state in nfts"),
+
   {
     nft: state.nft,
     myLikedNfts:state.nft.myLikedNfts,

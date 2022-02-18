@@ -144,6 +144,8 @@ const NFTDetail = (props) => {
     }
   };
 
+  console.log(ENV.getUserKeys("_id")._id ,"user id")
+  console.log(nftDetail,"nftDetail")
   return (
     <>
       {loader ? (

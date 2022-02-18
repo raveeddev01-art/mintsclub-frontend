@@ -26,7 +26,7 @@ export const beforeNFT = () => {
 export const upsertNFT =
   (type = "create", body, method = "POST") =>
   (dispatch) => {
-    console.log("sending post request")
+    
     dispatch(emptyError());
     const url = `${ENV.url}/nfts/${type}`;
 
@@ -79,7 +79,7 @@ export const getNFTs =
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
 
-    console.log(url,"url for getting nfts list")
+
 
     fetch(url, {
       method: "GET",
@@ -97,8 +97,7 @@ export const getNFTs =
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data,"check data if ");
-        console.log(data,"check dataddif ");
+     
         if (data.success) {
           //change to data.data first dispatch
           dispatch({
@@ -173,7 +172,7 @@ export const getNFT = (nftId) => (dispatch) => {
 
 export const getNFTsByCollection=(id)=>(dispatch)=>{
   
-  console.log("sending reqest==>",id)
+
   let data ={
     collectionId:id
   }
@@ -184,7 +183,7 @@ export const getNFTsByCollection=(id)=>(dispatch)=>{
     const url = `${ENV.url}nfts/getNFTsByCollection`;
     axios.post(url,data)
     .then(function (response) {
-      console.log(response);
+  
       if (response.data.success) {
               dispatch({
                 type:GET_NFTS_BY_COLLECTION,
@@ -218,8 +217,7 @@ export const getMyLikedNfts=(qs='')=>(dispatch)=>{
     url=url+qs
     axios.get(url)
     .then(function (response) {
-      console.log(response,"response of nft likes");
-      
+ 
       if (response.data.status) {
         dispatch({
           type: GET_MYLIKED_NFTS,

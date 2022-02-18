@@ -16,7 +16,8 @@ export default function (state = initialState, action) {
                 ...state,
                 auctions: action.payload.auctions,
                 pagination: action.payload.pagination,
-                getAuth: true
+                getAuth: true,
+                auctionsAuth:true,
             }
         case BEFORE_AUCTION:
             return {

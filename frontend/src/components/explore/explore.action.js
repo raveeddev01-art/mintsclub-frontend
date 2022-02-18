@@ -3,10 +3,10 @@ import { ENV } from './../../config/config';
 import axios from 'axios'
 
 export const toggleLikeDislike = (body) => dispatch => {
-    console.log(body,"body generated")
+ 
     let data=JSON.stringify(body)
        const url = `${ENV.url}nftLikes/likeDislike`;
-       console.log(body,"body")
+     
     //    fetch(url, {
     //        method: 'POST',
     //        headers: {

@@ -139,7 +139,12 @@ const Sell = (props) => {
         sellingMethod === 1 ? fixedPriceConfig : timedAuctionConfig
       ),
     };
+    console.log(
+      "🚀 ~ file: sell-nft.js ~ line 172 ~ submit ~ timedAuctionConfig",
+      payload
+    );
     console.log(payload, "paylaod=>");
+    //  return  " "
 
     let test = new Date(timedAuctionConfig.duration.endDate).getTime();
     let time = timedAuctionConfig.duration.endTime;
@@ -192,6 +197,8 @@ const Sell = (props) => {
         console.log(error, "error in catch blcok");
       });
   };
+
+  console.log(nft, "nft");
 
   return (
     <div className="padding-wrapper">
@@ -637,13 +644,10 @@ const Sell = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  console.log(state, "state in sell nft"),
-  {
-    nft: state.nft,
-    error: state.error,
-  }
-);
+const mapStateToProps = (state) => ({
+  nft: state.nft,
+  error: state.error,
+});
 
 export default connect(mapStateToProps, {
   beforeNFT,

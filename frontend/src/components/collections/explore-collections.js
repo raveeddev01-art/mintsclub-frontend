@@ -22,7 +22,7 @@ import { beforeCategory, getCategories } from "./collections.actions";
 import { SiTruenas } from "react-icons/si";
 
 const ExploreCollections = forwardRef((props, ref) => {
-  const [isActive, setIsActive] = useState("Art");
+  const [isActive, setIsActive] = useState("All");
   const [collections, setCollections] = useState(null);
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
   const [collectionsLoader, setColLoader] = useState(true); // collections loader
@@ -54,7 +54,7 @@ const ExploreCollections = forwardRef((props, ref) => {
         );
         setCollections(myCollections);
       } else {
-        console.log(collections,"collections")
+      
         if(collections===null){
           setEmpty(true)
         }
@@ -62,7 +62,7 @@ const ExploreCollections = forwardRef((props, ref) => {
           setEmpty(false)
         }
         setCollections(collections);
-        console.log("stting coll loader false")
+     
         setColLoader(false);
         setLoader(false)
       }
@@ -74,7 +74,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   useEffect(() => {
     if (props.collection.collectionFlag) {
       setCategories(props.collection.categories);
-      console.log("stting cat loader false")
+    
       props.beforeCategory();
       setCatLoader(false);
     }
@@ -95,7 +95,7 @@ const ExploreCollections = forwardRef((props, ref) => {
     else filter.all = true;
 
     const qs = ENV.objectToQueryString(filter);
-    console.log("query string in the frontend", qs);
+
     props.getCollections(qs);
   };
 
@@ -132,7 +132,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   // };
 
  
-console.log(collections,"collections 123")
+
   return (
     <>
       <NavbarMain />
@@ -247,7 +247,7 @@ console.log(collections,"collections 123")
   );
 });
 const mapStateToProps = (state) => (
-  console.log(state, "state of collecions"),
+
   {
     collection: state.collection,
     error: state.error,

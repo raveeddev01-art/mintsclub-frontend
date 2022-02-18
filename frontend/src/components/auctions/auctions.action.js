@@ -16,7 +16,7 @@ export const getLiveAuctions = (qs = null) => dispatch => {
 
     if (qs)
         url += `?${qs}`
-       
+       console.log(url,"sending uril")
     fetch(url, {
         method: 'GET',
         headers: {

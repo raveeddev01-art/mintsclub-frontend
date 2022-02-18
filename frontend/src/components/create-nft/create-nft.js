@@ -16,7 +16,7 @@ import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import {
   beforeCollection,
   getCollections,
-  myCollections
+  myCollections,
 } from "../collections/collections.actions";
 import { setNftToken, createNFT } from "../nfts/nfts.action";
 import { getCurrentAddress } from "../../utils/web3";
@@ -39,7 +39,7 @@ class CreateNFT extends Component {
       errors: "",
       nft: {
         userId: ENV.getUserKeys("_id")._id,
-        ownerId:ENV.getUserKeys("_id")._id,
+        ownerId: ENV.getUserKeys("_id")._id,
         image: "",
         videoURL: "",
         audioUrl: "",
@@ -51,6 +51,7 @@ class CreateNFT extends Component {
         copies: "",
         collectionId: "",
         ownerAddress: "",
+        categoryId:"",
         status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
       },
       imageURL: "",
@@ -71,7 +72,7 @@ class CreateNFT extends Component {
 
   componentDidMount = async () => {
     window.scroll(0, 0);
-  //  let qs= ENV.objectToQueryString(userId:ENV.getUserKeys("_id"))
+    //  let qs= ENV.objectToQueryString(userId:ENV.getUserKeys("_id"))
     this.props.myCollections(ENV.getUserKeys("_id")._id);
 
     let ownerAddress = await getCurrentAddress();
@@ -83,36 +84,32 @@ class CreateNFT extends Component {
     });
   };
 
-  componentDidUpdate() {
-    console.log(this.props.collection.myCollectionsResult,"this.props.collection.myCollectionsResult")
+  componentDidUpdate(prevProps) {
+  
     // const {collections}=this.state
-    if (this.props.collection.myCollectionsResult && this.state.collections?.length<=0) {
-      const collections  = this.props.collection.myCollections.collections.Collections;
-      console.log(collections,"collections")
+    if (
+      this.props.collection.myCollectionsResult &&
+      prevProps.collection.myCollectionsResult !==
+        this.props.collection.myCollectionsResult
+    ) {
+   
+      const collections =
+        this.props.collection.myCollections.collections.Collections;
+
       this.props.beforeCollection();
-      // this.setState({
-      //   collections: collections,
-      //   loader: false,
-        
-      // });
+
       if (!collections) {
         toast.info("Please add a collection first");
         return this.props.history.push("/collection/create");
-      } else
-      {
-        console.log(collections,"collection total setting state")
-        // var myCollections = collections.filter(
-        //   (item) => item.userId === ENV.getUserKeys("_id")._id
-        // );
-        console.log(myCollections,"myCollections")
+      } else {
       this.setState({
         collections: collections,
         loader: false,
-        
       });
+        }
       }
     }
-  }
+  
 
   // onFileChange(e) {
   //   let file = e.target.files[0];
@@ -148,16 +145,17 @@ class CreateNFT extends Component {
 
     // if status is provided
     if (status) value = status;
+      let category= this.state.collections.find((item)=>item._id===value)?.categoryId;
 
     let { nft } = this.state;
-    nft = { ...nft, [name]: value };
+    nft = { ...nft, [name]: value,categoryId:category };
     this.setState({ nft });
   }
 
   reset = () => {
     const nft = {
       userId: ENV.getUserKeys("_id")._id,
-      ownerId:ENV.getUserKeys("_id")._id,
+      ownerId: ENV.getUserKeys("_id")._id,
       image: "",
       name: "",
       description: "",
@@ -175,7 +173,7 @@ class CreateNFT extends Component {
     e.preventDefault();
 
     const { nft } = this.state;
-    console.log(nft, "nft item");
+ 
     // return ' '
     this.setState(
       {
@@ -199,10 +197,10 @@ class CreateNFT extends Component {
                 formData,
                 true
               );
-   
-              if(res){
-                 console.log(res,"create nft response")
-                // this.props.history.push('/user-dashboard') 
+
+              if (res) {
+               
+                // this.props.history.push('/user-dashboard')
               }
 
               // if (res.success) {
@@ -244,16 +242,15 @@ class CreateNFT extends Component {
 
               /////for testing purpose
               let nftId = res.nft._id;
-                              let data = {
-                        nftToken:
-                          "123444",
-                        nftId,
-                        data: this.state.nft,
-                        image: res.nft.image,
-                      };
-                      this.props.setNftToken(data);
-                      toast.success("Nft created successfully")
-                        this.props.history.push('/user-dashboard') 
+              let data = {
+                nftToken: "123444",
+                nftId,
+                data: this.state.nft,
+                image: res.nft.image,
+              };
+              this.props.setNftToken(data);
+              toast.success("Nft created successfully");
+              this.props.history.push("/user-dashboard");
             }
           );
         } else {
@@ -326,8 +323,7 @@ class CreateNFT extends Component {
         } else if (file.type.includes("audio")) {
           let { nft } = this.state;
           nft = { ...nft, videoURL: file, audioUrl: file, image: "" };
-          console.log(url, "url for audio");
-
+        
           this.setState({
             nft,
             videoURL: "",
@@ -367,7 +363,7 @@ class CreateNFT extends Component {
   };
 
   handleFilesValidation = (e, status) => {
-    console.log(status, "status");
+   
     let files = "";
     let type = "";
     if (status === "onDrag") {
@@ -421,16 +417,9 @@ class CreateNFT extends Component {
       errorMessage,
       audioUrl,
     } = this.state;
-    // console.log(nft, "nft changed");
+ 
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
-    //    if(!ENV.getUserKeys('_id')._id){
-    //     toast.error("Please login to create NFT")
-    //     this.props.history.push('/')
-    //        return " "
-    //    }
-    //    else {
-    // console.log(nft, "nft");
-
+ 
 
     return (
       <div>
@@ -791,7 +780,8 @@ class CreateNFT extends Component {
                         onChange={(e) => this.onChange(e)}
                       >
                         <option value="">Select Collection</option>
-                        {collections &&collections.length >0 &&
+                        {collections &&
+                          collections.length > 0 &&
                           collections.map((collection, index) => {
                             return (
                               <option key={index} value={collection._id}>
@@ -842,16 +832,17 @@ class CreateNFT extends Component {
 }
 
 const mapStateToProps = (state) => (
-  console.log(state,"state in colleciton"),
+  console.log(state, "state in colleciton"),
   {
-  error: state.error,
-  collection: state.collection,
-});
+    error: state.error,
+    collection: state.collection,
+  }
+);
 
 export default connect(mapStateToProps, {
   beforeCollection,
   getCollections,
   setNftToken,
   createNFT,
-  myCollections
+  myCollections,
 })(CreateNFT);
