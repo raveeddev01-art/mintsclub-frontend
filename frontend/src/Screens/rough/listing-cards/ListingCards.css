@@ -3,8 +3,20 @@
   width: 100%;
   cursor: pointer;
 }
+
+.auction-card.listing-card .listing-card-title-container {
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
 .heart-fill-icon {
-  color:white
+  color: white;
+}
+.options-icon.like-icon .heart-filled-container p {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 15px;
+  margin: 0;
 }
 .auction-card.listing-card.card .card-img-top {
   min-height: unset;
@@ -24,6 +36,7 @@
 .auction-card.listing-card .card-body .card-title {
   font-size: 14px;
   font-weight: bold;
+  margin: 0;
 }
 
 .listing-card .hero-card-title-container .options-icon.like-icon img:hover {

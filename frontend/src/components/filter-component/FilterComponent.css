@@ -18,10 +18,10 @@
   .accordion-button {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border-top: 1px solid #d6d6d6;
+  border-top: 1px solid #212029;
 }
 .collection-filter-accordion .accordion .accordion-item:last-child {
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1px solid #212029;
 }
 
 .collection-filter-accordion .accordion .accordion-item:last-child,
@@ -49,7 +49,7 @@
   font-weight: bold;
   color: #fff;
   background-color: transparent;
-  border: 1px solid #d6d6d6;
+  border: 1px solid #212029;
   outline: none;
   box-shadow: none;
   border-top: 0;
@@ -77,7 +77,7 @@
   margin: 0 auto;
   width: 90%;
   background-color: transparent;
-  border: 1px solid #d6d6d6;
+  border: 1px solid #212029;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
@@ -94,7 +94,7 @@
   margin: 0 auto;
   width: 90%;
   background-color: transparent;
-  border: 1px solid #d6d6d6;
+  border: 1px solid #212029;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;

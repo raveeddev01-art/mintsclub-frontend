@@ -354,3 +354,21 @@
   font-weight: normal;
   padding: 1px 2px;
 }
+
+.nft-stats-accordion .accordion .accordion-item:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.nft-stats-accordion.collection-filter-accordion .accordion .accordion-item,
+.nft-stats-accordion.collection-filter-accordion
+  .accordion
+  .accordion-header
+  .accordion-button {
+  border: 1px solid #d6d6d6;
+  border-bottom: 0;
+}
+
+.nft-stats-accordion .accordion .accordion-item:last-child {
+  border-bottom: 1px solid #d6d6d6;
+}
