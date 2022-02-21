@@ -10,6 +10,12 @@
   position: relative;
 }
 
+.user-address .fa-ethereum {
+  width: 15px;
+  color: #d6d6d6;
+  padding-left: 5px;
+}
+
 .user-address p {
   border: none;
   background-color: transparent;

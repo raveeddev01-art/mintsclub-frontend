@@ -1492,6 +1492,7 @@ aside {
   background: linear-gradient(to top, #4355ff, #5695fd);
   padding: 10px 25px;
   color: #ffffff;
+  border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: bold;
@@ -2151,7 +2152,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 
 .card {
   padding: 1.5rem;
-  border: none;
+  border: none !important;
   border-radius: 10px !important;
   background-color: var(--card-bg-color);
   -webkit-box-shadow: 0 3px 20px 0px var(--primary-l-color);

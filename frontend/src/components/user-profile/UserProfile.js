@@ -112,15 +112,16 @@ const UserProfile = () => {
                   <h3>User Name</h3>
                 </div>
                 <div
-                  className="user-address mt-4"
+                  className="user-address mt-4 d-flex align-items-center "
                   onClick={() => {
                     navigator.clipboard.writeText(accountAddress);
                     setAddressCopied(true);
                     ChangeTooltip();
                   }}
                 >
+                  <i className="fab fa-ethereum"></i>
                   <span>{isAddressCopied ? "Copied" : "Copy"}</span>
-                  <p>
+                  <p className="acc-adress">
                     {accountAddress.slice(0, 10) +
                       "..." +
                       accountAddress.slice(-10)}

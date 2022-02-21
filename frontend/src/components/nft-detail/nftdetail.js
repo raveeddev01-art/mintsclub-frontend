@@ -144,8 +144,8 @@ const NFTDetail = (props) => {
     }
   };
 
-  console.log(ENV.getUserKeys("_id")._id ,"user id")
-  console.log(nftDetail,"nftDetail")
+  console.log(ENV.getUserKeys("_id")._id, "user id");
+  console.log(nftDetail, "nftDetail");
   return (
     <>
       {loader ? (
@@ -164,7 +164,7 @@ const NFTDetail = (props) => {
                           className="accordion accordion-flush "
                           id="accordionFlushExample"
                         >
-                          <div className="accordion-item">
+                          {/* <div className="accordion-item">
                             <h2
                               className="accordion-header"
                               id="flush-headingOne"
@@ -192,7 +192,7 @@ const NFTDetail = (props) => {
                             >
                               <div className="accordion-body"></div>
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="accordion-item">
                             <h2

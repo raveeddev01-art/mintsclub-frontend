@@ -120,11 +120,17 @@ const Slider = () => {
       </label>
 
       <div className="btn-container">
-        <button className="card-slider-btn mb-4 me-3" onClick={prevBtnHandler}>
+        <button
+          className="hero-slider-btn card-slider-btn mb-4 me-3"
+          onClick={prevBtnHandler}
+        >
           {/* <img src={SliderPrevIcon} alt="SliderPrevButton" /> */}
           <i class="fas fa-arrow-left"></i>
         </button>
-        <button className="card-slider-btn mb-4" onClick={nextBtnHandler}>
+        <button
+          className="hero-slider-btn card-slider-btn mb-4"
+          onClick={nextBtnHandler}
+        >
           {/* <img src={SliderNextIcon} alt="SliderNextButton" /> */}
           <i class="fas fa-arrow-right"></i>
         </button>

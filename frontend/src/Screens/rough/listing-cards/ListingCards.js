@@ -14,30 +14,24 @@ const ListingCards = ({
   price,
   likesCount,
   liked,
-  likedNfts
+  likedNfts,
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
-  React.useEffect(()=>{
-  return ()=>''
-  },[toggle])
+  React.useEffect(() => {
+    return () => "";
+  }, [toggle]);
 
-
-  const validateIfLiked = (likedNfts1,id) => {
-    if(likedNfts&&likedNfts?.length>0)
-    {
-
-      let result =likedNfts.find((item) => 
-        item.nftId == id
-      );
+  const validateIfLiked = (likedNfts1, id) => {
+    if (likedNfts && likedNfts?.length > 0) {
+      let result = likedNfts.find((item) => item.nftId == id);
       if (result) {
         return true;
       } else {
         return false;
       }
-    }
-    else {
-      return false
+    } else {
+      return false;
     }
   };
 
@@ -50,24 +44,30 @@ const ListingCards = ({
         <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
       </div>
       <Card.Body className="d-flex flex-column">
-        <div className="hero-card-title-container d-flex align-items-center justify-content-between">
+        <div className="listing-card-title-container hero-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
             {name ? name : "item name"}
           </Card.Title>
           <div className="options-icon like-icon text-white">
-           {validateIfLiked(likedNfts,id) ? (
-              <>
+            {validateIfLiked(likedNfts, id) ? (
+              <div className="heart-filled-container d-flex align-items-end">
                 <AiFillHeart
-                  className="heart-fill-icon"
-                  onClick={() =>{handleLikesTogleApi(id,"dislike");setToggle(!toggle)}}
+                  className="heart-fill-icon "
+                  onClick={() => {
+                    handleLikesTogleApi(id, "dislike");
+                    setToggle(!toggle);
+                  }}
                 />{" "}
-                {likesCount ? likesCount : 0}
-              </>
+                <p> {likesCount ? likesCount : 0} </p>
+              </div>
             ) : (
               <img
                 src={HeartIcon}
                 alt="OptionsIcon"
-                onClick={() =>{handleLikesTogleApi(id,"like");setToggle(!toggle)}}
+                onClick={() => {
+                  handleLikesTogleApi(id, "like");
+                  setToggle(!toggle);
+                }}
               />
             )}
           </div>

@@ -28,7 +28,7 @@ const Upload = ({
       onDragEnter={(e) => dragEnter(e)}
       onDragLeave={(e) => dragLeave(e)}
     >
-      <div className="upload-image-border p-4">
+      <div className="upload-image-border p-4 position-relative">
         {imageURL ? (
           <div className="nft-uploaded-img-container">
             <MdClose color="#e33d0bc2" className="uploaded-cross-icon" />
@@ -70,7 +70,7 @@ const Upload = ({
               alt="upload-icon"
               className="nft-upload-icon"
             />
-             <input
+            <input
               type="file"
               style={{ display: "none" }}
               onChange={onFileChange}

@@ -15,6 +15,15 @@
   left: 30%;
 }
 
+.hero-slider-btn.card-slider-btn {
+  background-color: #5666fe;
+}
+
+.hero-slider-btn.card-slider-btn:hover .fa-arrow-right,
+.hero-slider-btn.card-slider-btn:hover .fa-arrow-left {
+  color: #12122e;
+}
+
 input[type="radio"] {
   position: relative;
   top: 108%;
