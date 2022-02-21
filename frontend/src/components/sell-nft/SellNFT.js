@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./SellNFT.css";
@@ -13,6 +13,9 @@ import { ENV } from "../../config/config";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import moment from "moment";
 import { decimalNumberValidator } from "../../utils/functions";
+import { useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { beforeNFT, getNFT, upsertNFT } from "../nfts/nfts.action";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -47,25 +50,78 @@ const config2 = {
   },
 };
 
-const SellNFT = () => {
+const SellNFT = (props) => {
   const [activeBtn, setActiveBtn] = useState(0);
   const [activeBidBtn, setActiveBidBtn] = useState(false);
   const [sellingMethod, setSellingMethod] = useState(1); // 1 = Fixed Price, 2 = Timed Auction
   const [fixedPriceConfig, setFixedPriceConfig] = useState(config1);
   const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
+  const [nft, setNft] = useState(null);
+  const [loader, setLoader] = useState(true); // NFT loader
+  const [reserveBuyer, setReserveBuyer] = useState(false);
+  const [reservePrice, setReservePrice] = useState(false);
+  const [tokensData, setTokensData] = useState([]);
+  const location = useLocation();
+  console.log(location,"location")
+
+
+  useEffect(() => {
+    window.scroll(0, 0);
+    const { itemId } = props.match.params;
+    // if (itemId) props.getNFT(window.atob(itemId));
+    // else props.history.push("/explore-all");
+    getTokens();
+  }, []);
+
+  // when NFT data is received
+  useEffect(() => {
+    if (props.nft.nftsAuth) {
+      const nft = props.nft.nftsData;
+      setNft(nft);
+      setLoader(false);
+      props.beforeNFT();
+    }
+  }, [props.nft.nftsAuth]);
+
+  // when NFT data is updated
+  useEffect(() => {
+    if (props.nft.upsertAuth) {
+      const { nft } = props.nft.nftsData;
+      // const pathname = nft.sellingMethod === 1 ? '/explore-all' : '/auctions'
+      const pathname = "/";
+      setLoader(false);
+      props.beforeNFT();
+      props.history.push(pathname);
+    }
+  }, [props.nft.upsertAuth]);
+
+  // when an error is received
+  useEffect(() => {
+    setLoader(false);
+  }, [props.error]);
+
   const onChange = (e) => {
     const { name, value } = e.target;
+  
     let data = null;
+
     if (sellingMethod === 1) data = fixedPriceConfig;
     else data = timedAuctionConfig;
 
     const keys = name.split("."); // fixedPriceConfig, price, currency
-    if (keys && keys[2]) data[keys[1]][keys[2]] = value;
+ 
+    if (keys && keys[2]) 
+    {
+    
+
+      data[keys[1]][keys[2]] = value;
+    }
     else if (keys && keys[1]) data[keys[1]] = value;
 
     if (sellingMethod === 1) setFixedPriceConfig({ ...data });
     else setTimedAuctionConfig({ ...data });
   };
+
   const handleDateChange = (e, picker) => {
     const { name } = e.target;
     const { startDate, endDate } = picker;
@@ -85,6 +141,74 @@ const SellNFT = () => {
         value: endDate,
       },
     });
+  };
+  const submit = () => {
+    let payload='';
+    if(sellingMethod===2){
+
+      payload = {
+       _id: location.state._id,
+       sellingMethod,
+       auctionEndDate:timedAuctionConfig.duration.endDate,
+       auctionStartDate:timedAuctionConfig.duration.startDate,
+       auctionStartTime:timedAuctionConfig.duration.startTime,
+       auctionEndTime:timedAuctionConfig.duration.endTime,
+       sellingConfig:JSON.stringify(timedAuctionConfig),
+     };
+    }
+ 
+    //  return  " "
+
+    let test = new Date(timedAuctionConfig.duration.endDate).getTime();
+    let time = timedAuctionConfig.duration.endTime;
+
+    var r = Number(time.split(":")[0]) * 60 + Number(time.split(":")[1]) * 1000;
+    //
+    const timeInMiliSeconds = r + test;
+
+    // console.log('yoken data', tokensData)
+    // const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
+
+    //  if(nftToken){
+    //   sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
+
+    setLoader(true);
+
+    var formData = new FormData();
+    console.log(payload, "payload");
+    for (const key in payload) formData.append(key, payload[key]);
+
+    props.upsertNFT("edit", formData, "PUT");
+    //  }
+    //  else {
+    //   toast.error("there was an issue while creating nft, please try later")
+    //  }
+  };
+
+  const getTokens = () => {
+    const url = process.env.REACT_APP_BASE_URL + "nftTokens/tokens";
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: ENV.Authorization,
+        "x-auth-token": ENV.x_auth_token,
+        "Access-Control-Allow-Origin": "*",
+        "x-access-token":
+          ENV.getUserKeys("accessToken") &&
+          ENV.getUserKeys("accessToken").accessToken
+            ? ENV.getUserKeys("accessToken").accessToken
+            : "",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTokensData(data);
+      })
+      .catch((error) => {
+        console.log(error, "error in catch blcok");
+      });
   };
   return (
     <>
@@ -108,7 +232,7 @@ const SellNFT = () => {
                           ? "sell-btn-active"
                           : "sell-btn-not-active"
                       } me-3 `}
-                      onClick={() => setActiveBtn(0)}
+                      onClick={() => {setActiveBtn(0);setSellingMethod(1)}}
                     >
                       <img
                         src={DollarIcon}
@@ -123,7 +247,7 @@ const SellNFT = () => {
                           ? "sell-btn-active"
                           : "sell-btn-not-active"
                       } `}
-                      onClick={() => setActiveBtn(1)}
+                      onClick={() => {setActiveBtn(1);setSellingMethod(2)}}
                     >
                       <img src={ClockIcon} alt="timeAuction" className="me-2" />
                       Timed Auction
@@ -351,7 +475,7 @@ const SellNFT = () => {
                                     </div>
                                     <input
                                       type="text"
-                                      name="fixedPriceConfig.price.amount"
+                                      name="timedAuctionConfig.startPrice.amount"
                                       placeholder="Amount"
                                       style={{
                                         borderRadius: "4px",
@@ -403,7 +527,7 @@ const SellNFT = () => {
                                     onApply={handleDateChange}
                                   >
                                     <button
-                                      name="fixedPriceConfig.listingSchedule"
+                                       name="timedAuctionConfig.duration"
                                       className="calender-btn"
                                     >
                                       {fixedPriceConfig.listingSchedule.startDate.format(
@@ -422,7 +546,7 @@ const SellNFT = () => {
                                   <div className="sell-time-inp mx-auto my-3">
                                     <input
                                       type="time"
-                                      name="fixedPriceConfig.listingSchedule.startTime"
+                                      name="timedAuctionConfig.duration.startTime"
                                       placeholder="Start Time"
                                       className="py-1"
                                       onChange={(e) => onChange(e)}
@@ -437,7 +561,7 @@ const SellNFT = () => {
                                   <div className="sell-time-inp mx-auto my-3">
                                     <input
                                       type="time"
-                                      name="fixedPriceConfig.listingSchedule.endTime"
+                                      name="timedAuctionConfig.duration.endTime"
                                       placeholder="End Time"
                                       className="py-1"
                                       onChange={(e) => onChange(e)}
@@ -473,7 +597,7 @@ const SellNFT = () => {
                       </div>
                     </div>
                     <div className="col-12 text-center mt-5">
-                      <button className="sell-btn-active px-5">
+                      <button className="sell-btn-active px-5" onClick={()=>submit()}>
                         {" "}
                         Complete Listing{" "}
                       </button>
@@ -485,13 +609,13 @@ const SellNFT = () => {
             <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
               <Card className="auction-card detail-card">
                 <div className="auction-img-wrapper">
-                  <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
+                  <Card.Img variant="top" src={location.state.image} alt="AuctionTopImg" />
                 </div>
                 <Card.Body>
                   <div>
                     <span>Current price</span>
                     <h3>
-                      0.0006
+                    {location.state.currentPrice}
                       <span>($2.28)</span>
                     </h3>
                   </div>
@@ -516,4 +640,14 @@ const SellNFT = () => {
   );
 };
 
-export default SellNFT;
+const mapStateToProps = (state) => ({
+  nft: state.nft,
+  error: state.error,
+});
+
+export default connect(mapStateToProps, {
+  beforeNFT,
+  getNFT,
+  upsertNFT,
+})(SellNFT);
+

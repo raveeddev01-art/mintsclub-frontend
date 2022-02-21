@@ -167,7 +167,7 @@ const qs = ENV.objectToQueryString({ myFilter: id });
 props.getLiveAuctions(qs);
 }
 
-
+console.log(auctions,"auctions")
 
   return (
     <section className="live-auctions-area padding-wrapper">
@@ -315,7 +315,7 @@ props.getLiveAuctions(qs);
                     auctions.map((item)=>{
                       return (
 
-                        <AuctionsCards endDate={item.auctionEndDate} image={item.image}/>
+                        <AuctionsCards endDate={item.auctionEndDate} image={item.image} ownerName={item.owner.username} name={item.name}/>
                       )
                     })
                   }

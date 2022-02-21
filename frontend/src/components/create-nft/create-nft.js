@@ -40,6 +40,7 @@ class CreateNFT extends Component {
       nft: {
         userId: ENV.getUserKeys("_id")._id,
         ownerId: ENV.getUserKeys("_id")._id,
+        creatorId:ENV.getUserKeys("_id")._id,
         image: "",
         videoURL: "",
         audioUrl: "",
@@ -109,7 +110,7 @@ class CreateNFT extends Component {
         }
       }
     }
-  
+
 
   // onFileChange(e) {
   //   let file = e.target.files[0];
@@ -199,6 +200,7 @@ class CreateNFT extends Component {
               );
 
               if (res) {
+                console.log(res,"response")
                
                 // this.props.history.push('/user-dashboard')
               }
@@ -403,6 +405,13 @@ class CreateNFT extends Component {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
+  clearData=()=>{
+    this.setState({
+      imageURL:'',
+      audioUrl:'',
+      videoURL:''
+    })
+  }
 
   render() {
     const {
@@ -418,7 +427,10 @@ class CreateNFT extends Component {
       audioUrl,
     } = this.state;
  
-    const { onDrop, dragOver, dragEnter, dragLeave } = this;
+    const { onDrop, dragOver, dragEnter, dragLeave } = this
+    console.log(collections,"collections==>")
+    console.log(ENV.getUserKeys("_id")._id,"fddf")
+ 
  
 
     return (
@@ -607,6 +619,7 @@ class CreateNFT extends Component {
                   >
                     <Upload
                       onFileChange={(e, status) => this.onFileChange(e, status)}
+                      clearData={this.clearData}
                       Images={Images}
                       imageURL={imageURL}
                       videoURL={videoURL}

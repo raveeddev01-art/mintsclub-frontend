@@ -42,10 +42,10 @@ const AuctionsCards = (props) => {
             <img src={ThreeDots} alt="OptionsIcon" />
           </div>
         </div>
-        <Card.Title>Music</Card.Title>
+        <Card.Title>{props.name}</Card.Title>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
           <div className="auction-owner-name">
-            <p>Owend by Jecica</p>
+          <p>{"Owned by "}{props.ownerName}</p>
           </div>
           <div className="auction-owner-price d-flex align-items-center">
             <img src={ArrowUp} alt="" className="me-1" />
