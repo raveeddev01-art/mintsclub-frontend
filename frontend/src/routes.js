@@ -1,5 +1,5 @@
 // layouts
-import layout1 from "./layouts/layout1/layout1";
+// import layout1 from "./layouts/layout1/layout1";
 import layout2 from "./layouts/layout2/layout2";
 import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
@@ -115,7 +115,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Blog",
-    layout: layout1,
+    layout: layout2,
     component: Blog,
   },
   {
@@ -123,7 +123,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Blog Single",
-    layout: layout1,
+    layout: layout2,
     component: BlogSingle,
   },
   {
@@ -131,7 +131,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Help Center",
-    layout: layout1,
+    layout: layout2,
     component: HelpCenter,
   },
   {
@@ -147,7 +147,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Author Profile",
-    layout: layout1,
+    layout: layout2,
     component: Author,
   },
   {
@@ -155,7 +155,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Profile",
-    layout: layout1,
+    layout: layout2,
     component: Profile,
   },
   {
@@ -195,7 +195,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Collection Details",
-    layout: layout1,
+    layout: layout2,
     component: CollectionDetails,
   },
   {
@@ -259,7 +259,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Contact",
-    layout: layout1,
+    layout: layout2,
     component: Contact,
   },
   {
@@ -267,7 +267,7 @@ const routes = [
     access: true,
     exact: true,
     title: "How It Works",
-    layout: layout1,
+    layout: layout2,
     component: HowItWorks,
   },
   {
@@ -275,7 +275,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Privacy & Terms",
-    layout: layout1,
+    layout: layout2,
     component: PrivacyTerms,
   },
 

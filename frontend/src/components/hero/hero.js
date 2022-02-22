@@ -650,7 +650,7 @@ const Hero = (props) => {
   };
   return (
     <section className="hero-section padding-wrapper">
-      <Particles id="tsparticles" options={{ ...particlesData }} />
+      {/* <Particles id="tsparticles" options={{ ...particlesData }} /> */}
       <div className="container">
         <div className="row align-items-center">
           <div className="col-12 col-lg-6 col-xl-5">
