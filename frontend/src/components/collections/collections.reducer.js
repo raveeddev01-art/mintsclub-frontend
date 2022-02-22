@@ -12,6 +12,7 @@ const initialState = {
     collectionFlag:false,
     myCollections:null,
     myCollectionsResult:false,
+  
     
 }
 
@@ -48,6 +49,7 @@ export default function (state = initialState, action) {
                 deleteAuth: true
             }
         case GET_COLLECTIONS:
+    
             return {
                 ...state,
                 collections: action.payload.collections,

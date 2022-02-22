@@ -27,7 +27,10 @@ import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 //CardSliders
 import CardSlider from "../card-slider/CardSlider";
 import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
-import { beforeCategory, getCategories } from "../collections/collections.actions";
+import {
+  beforeCategory,
+  getCategories,
+} from "../collections/collections.actions";
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
 // Swiper.use([Navigation, Pagination]);
@@ -41,14 +44,15 @@ function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
   const [creators, setCreator] = useState([]);
-  const [categories,setCategories]=useState(null);
-  const [categoryId,setCategoryId]=useState('')
-
+  const [categories, setCategories] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
 
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
-    const qs = ENV.objectToQueryString({ myFilter: "620e52bb16994980690dd5fa" });
+    const qs = ENV.objectToQueryString({
+      myFilter: "620e52bb16994980690dd5fa",
+    });
     props.getLiveAuctions(qs);
     props.getCreators();
   }, []);
@@ -61,15 +65,11 @@ function AuctionsOne(props) {
   }, [props.user.topSellersAuth]);
   // set live auctions
   useEffect(() => {
- 
     if (props.auction.auctionsAuth) {
-   
       const { auctions, pagination } = props.auction;
-    
+
       setAuctions(auctions);
-      props.beforeAuction()
-   
-    
+      props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
   // ready slides when auctions data is received
@@ -100,16 +100,14 @@ function AuctionsOne(props) {
     }
   };
 
-  useEffect(()=>{
-props.getCategories()
-  },[])
-  useEffect(()=>{
-    if(props.collectionFlag){
-
-      setCategories(props.categories)
+  useEffect(() => {
+    props.getCategories();
+  }, []);
+  useEffect(() => {
+    if (props.collectionFlag) {
+      setCategories(props.categories);
     }
-    
-  },[props.collectionFlag])
+  }, [props.collectionFlag]);
 
   const auctionDemoData = [
     {
@@ -161,13 +159,13 @@ props.getCategories()
       name: "Art",
     },
   ];
-const handleCategoryFilter=(id)=>{
-setCategoryId(id)
-const qs = ENV.objectToQueryString({ myFilter: id });
-props.getLiveAuctions(qs);
-}
+  const handleCategoryFilter = (desc) => {
+    setCategoryId(desc);
+    const qs = ENV.objectToQueryString({ myFilter: desc });
+    props.getLiveAuctions(qs);
+  };
 
-console.log(auctions,"auctions")
+  console.log(auctions, "auctions");
 
   return (
     <section className="live-auctions-area padding-wrapper">
@@ -199,22 +197,35 @@ console.log(auctions,"auctions")
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
               <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
-                {categories && categories.length >0 && 
-                categories.map((item)=>{
-                  return <button className="me-1 me-sm-2" onClick={()=>handleCategoryFilter(item._id)}>{item.name}</button>
-                })
-}
+                {categories &&
+                  categories.length > 0 &&
+                  categories.map((item) => {
+                    return (
+                      <button
+                        className="me-1 me-sm-2"
+                        onClick={() => handleCategoryFilter(item.description)}
+                      >
+                        {item.name}
+                      </button>
+                    );
+                  })}
                 {/* <button className="me-1 me-sm-2">Music</button>
                 <button className="me-1 me-sm-2">Game</button>
                 <button className="me-1 me-sm-5">Sport</button> */}
                 <div className="intro-btn">
-                  <Link
-                    className="btn btn-rounded-bordered btn-viewAll"
-                    to="/authors"
-                  >
-                    View All
-                    <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
-                  </Link>
+                  {auctions && auctions?.length > 4 && (
+                    <Link
+                      className="btn btn-rounded-bordered btn-viewAll"
+                      to="/authors"
+                    >
+                      View All
+                      <img
+                        src={ViewAllIcon}
+                        alt="arrow-left"
+                        className="ms-2"
+                      />
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -310,16 +321,23 @@ console.log(auctions,"auctions")
                     );
                   })}
                 </Swiper> */}
-                <CardSlider settings={ENV.auctionCollectionsSettings}>
-                  {auctions && auctions.length >0 &&
-                    auctions.map((item)=>{
+                <CardSlider
+                  settings={ENV.auctionCollectionsSettings}
+                  data={auctions}
+                  homeAuction
+                >
+                  {auctions &&
+                    auctions.length > 0 &&
+                    auctions.map((item) => {
                       return (
-
-                        <AuctionsCards endDate={item.auctionEndDate} image={item.image} ownerName={item.owner.username} name={item.name}/>
-                      )
-                    })
-                  }
-         
+                        <AuctionsCards
+                          endDate={item.auctionEndDate}
+                          image={item.image}
+                          ownerName={item.owner.username}
+                          name={item.name}
+                        />
+                      );
+                    })}
                 </CardSlider>
               </div>
             </div>
@@ -331,20 +349,16 @@ console.log(auctions,"auctions")
     </section>
   );
 }
-const mapStateToProps = (state) => (
-
-
-  {
+const mapStateToProps = (state) => ({
   auction: state.auction,
   user: state.user,
-  collectionFlag:state.collection.collectionFlag,
-  categories:state.collection.categories
-
+  collectionFlag: state.collection.collectionFlag,
+  categories: state.collection.categories,
 });
 export default connect(mapStateToProps, {
   beforeAuction,
   getLiveAuctions,
   getCreators,
   getCategories,
-  beforeCategory
+  beforeCategory,
 })(AuctionsOne);

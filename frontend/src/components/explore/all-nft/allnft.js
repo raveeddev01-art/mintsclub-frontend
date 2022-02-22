@@ -460,7 +460,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-
+console.log(nfts,"nftsnfts")
   return (
     <>
       <NavbarMain />

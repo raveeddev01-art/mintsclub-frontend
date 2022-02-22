@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.ab2bb837.chunk.css",
-    "main.js": "/static/js/main.9397fb44.chunk.js",
-    "main.js.map": "/static/js/main.9397fb44.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.15f5fced.js",
-    "runtime-main.js.map": "/static/js/runtime-main.15f5fced.js.map",
+    "main.css": "/static/css/main.7d7399f4.chunk.css",
+    "main.js": "/static/js/main.0fd8412c.chunk.js",
+    "main.js.map": "/static/js/main.0fd8412c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.75f7861f.js",
+    "runtime-main.js.map": "/static/js/runtime-main.75f7861f.js.map",
     "static/css/2.59d0dda6.chunk.css": "/static/css/2.59d0dda6.chunk.css",
-    "static/js/2.04713252.chunk.js": "/static/js/2.04713252.chunk.js",
-    "static/js/2.04713252.chunk.js.map": "/static/js/2.04713252.chunk.js.map",
-    "static/js/3.16f9e2f8.chunk.js": "/static/js/3.16f9e2f8.chunk.js",
-    "static/js/3.16f9e2f8.chunk.js.map": "/static/js/3.16f9e2f8.chunk.js.map",
+    "static/js/2.5fb5ed5e.chunk.js": "/static/js/2.5fb5ed5e.chunk.js",
+    "static/js/2.5fb5ed5e.chunk.js.map": "/static/js/2.5fb5ed5e.chunk.js.map",
+    "static/js/3.cb51a141.chunk.js": "/static/js/3.cb51a141.chunk.js",
+    "static/js/3.cb51a141.chunk.js.map": "/static/js/3.cb51a141.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.59d0dda6.chunk.css.map": "/static/css/2.59d0dda6.chunk.css.map",
-    "static/css/main.ab2bb837.chunk.css.map": "/static/css/main.ab2bb837.chunk.css.map",
-    "static/js/2.04713252.chunk.js.LICENSE.txt": "/static/js/2.04713252.chunk.js.LICENSE.txt",
+    "static/css/main.7d7399f4.chunk.css.map": "/static/css/main.7d7399f4.chunk.css.map",
+    "static/js/2.5fb5ed5e.chunk.js.LICENSE.txt": "/static/js/2.5fb5ed5e.chunk.js.LICENSE.txt",
     "static/media/Add Button.dcf4d64e.svg": "/static/media/Add Button.dcf4d64e.svg",
     "static/media/HomeUi.css": "/static/media/Background.1dcf0c16.svg",
     "static/media/Details.63c8b2fb.svg": "/static/media/Details.63c8b2fb.svg",
@@ -45,7 +45,9 @@
     "static/media/detail-share.8a0ee7ba.svg": "/static/media/detail-share.8a0ee7ba.svg",
     "static/media/detailnftimg.403d1e0b.png": "/static/media/detailnftimg.403d1e0b.png",
     "static/media/discord-dashboard-icon.02d46f60.svg": "/static/media/discord-dashboard-icon.02d46f60.svg",
+    "static/media/dollarIcon.b9a47dc5.svg": "/static/media/dollarIcon.b9a47dc5.svg",
     "static/media/explore-icon.8d003952.svg": "/static/media/explore-icon.8d003952.svg",
+    "static/media/feeIcon.95e62be8.svg": "/static/media/feeIcon.95e62be8.svg",
     "static/media/heart-icon.e22e55a0.svg": "/static/media/heart-icon.e22e55a0.svg",
     "static/media/icon 2.9736a20c.svg": "/static/media/icon 2.9736a20c.svg",
     "static/media/icon 3.6c692d37.svg": "/static/media/icon 3.6c692d37.svg",
@@ -71,6 +73,7 @@
     "static/media/own-collection-smiley.bc6b91a4.svg": "/static/media/own-collection-smiley.bc6b91a4.svg",
     "static/media/placeholder.91c4e379.png": "/static/media/placeholder.91c4e379.png",
     "static/media/play-icon.d85351d9.svg": "/static/media/play-icon.d85351d9.svg",
+    "static/media/priceIcon.3d3ad0b3.svg": "/static/media/priceIcon.3d3ad0b3.svg",
     "static/media/pricehistoryicon.9fccac05.svg": "/static/media/pricehistoryicon.9fccac05.svg",
     "static/media/reddit-dashboard-icon.bd0db9cb.svg": "/static/media/reddit-dashboard-icon.bd0db9cb.svg",
     "static/media/sale-icon.e121a28e.svg": "/static/media/sale-icon.e121a28e.svg",
@@ -85,10 +88,10 @@
     "static/media/view-all-arrow.e53125bc.svg": "/static/media/view-all-arrow.e53125bc.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.15f5fced.js",
+    "static/js/runtime-main.75f7861f.js",
     "static/css/2.59d0dda6.chunk.css",
-    "static/js/2.04713252.chunk.js",
-    "static/css/main.ab2bb837.chunk.css",
-    "static/js/main.9397fb44.chunk.js"
+    "static/js/2.5fb5ed5e.chunk.js",
+    "static/css/main.7d7399f4.chunk.css",
+    "static/js/main.0fd8412c.chunk.js"
   ]
 }

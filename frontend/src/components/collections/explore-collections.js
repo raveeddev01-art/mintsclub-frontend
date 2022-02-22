@@ -33,6 +33,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   const [categories, setCategories] = useState();
   const [empty,setEmpty]=useState(false)
   const [loader,setLoader]=useState(true)
+  const [pagination,setPagination]=useState(null)
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -46,7 +47,9 @@ const ExploreCollections = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (props.collection.getAuth) {
-      const { collections } = props.collection;
+      const { collections ,pagination} = props.collection;
+      setPagination(pagination)
+
       const userId = ENV.getUserKeys("_id")._id;
       if (props.mycollections) {
         let myCollections = collections.filter(
@@ -131,7 +134,6 @@ const ExploreCollections = forwardRef((props, ref) => {
   //   props.toggleLikeDislike(obj);
   // };
 
- 
 
   return (
     <>
@@ -228,7 +230,7 @@ const ExploreCollections = forwardRef((props, ref) => {
               <div className="col-12">
                 <div className="mt-5 text-center">
                   {
-                    !empty &&
+                    !empty && collections?.length >10 && pagination.totalRecords <=collections.length &&
                   <button
                     className="btn btn-linear-gradient px-5"
                     onClick={() => handlePagination()}
@@ -253,6 +255,7 @@ const mapStateToProps = (state) => (
     error: state.error,
     category: state.category,
     categories: state.collection,
+    pagination:state.pagination
   }
 );
 
