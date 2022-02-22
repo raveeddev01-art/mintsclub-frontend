@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
+import { connect } from "react-redux"
 import "./UserProfile.css";
 import Avatar from "../../assets/images/detail-avatar.png";
 import FlagIcon from "../../assets/images/detail-flag.svg";
@@ -11,11 +12,32 @@ import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
+import {getProfileNfts } from "../nfts/nfts.action";
 
 const UserProfile = () => {
   const [isActive, setIsActive] = useState(0);
   const [isAddressCopied, setAddressCopied] = useState(false);
   const [activeFilter, setActiveFilter] = useState(false);
+  const [nftPagination, setNFTPagination] = useState(null);
+  const [nfts, setNFTs] = useState([]); // NFTs for explore section
+  const [loader, setLoader] = useState(true);
+  const [loadMoreBtn, setLoadMoreBtn] = useState(false);
+  const [intro, setIntro] = useState(false);
+  const [creators, setCreator] = useState([]);
+  const [minValue, setMinValue] = useState("");
+  const [maxValue, setMaxValue] = useState("");
+  const [filter, setFilter] = useState({
+    collectionId: false,
+    gtePrice: false,
+    ltePrice: false,
+    categoryId: false,
+    oldest: false,
+    lowToHigh: false,
+    highToLow: false,
+    newest: false,
+    page: 1,
+    limit: 10,
+  });
   const itemoptions = [
     { value: "single", label: "Single" },
     { value: "double", label: "Double" },
@@ -256,4 +278,14 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+
+const mapStateToProps = (state) => ({
+  nft: state.nft,
+
+});
+
+export default connect(mapStateToProps, {
+  getProfileNfts
+})(UserProfile);
+
+

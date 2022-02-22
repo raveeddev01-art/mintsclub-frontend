@@ -156,6 +156,19 @@ const SellNFT = (props) => {
        sellingConfig:JSON.stringify(timedAuctionConfig),
      };
     }
+    else {
+      payload = {
+        _id: location.state._id,
+        sellingMethod,
+        fixedEndDate:fixedPriceConfig.listingSchedule.endDate,
+        fixedStartDate:fixedPriceConfig.listingSchedule.startDate,
+        fixedStartTime:fixedPriceConfig.listingSchedule.startTime,
+        fixedEndTime:fixedPriceConfig.listingSchedule.endTime,
+        fixedPriceConfig:JSON.stringify(fixedPriceConfig),
+      };
+     console.log(fixedPriceConfig,"fixedPriceConfig")
+     return ' '
+    }
  
     //  return  " "
 

@@ -75,6 +75,9 @@ class CreateNFT extends Component {
     window.scroll(0, 0);
     //  let qs= ENV.objectToQueryString(userId:ENV.getUserKeys("_id"))
     this.props.myCollections(ENV.getUserKeys("_id")._id);
+    // if(!ENV.getUserKeys("_id")._id){
+    //   this.props.history.push('/login')
+    // }
 
     let ownerAddress = await getCurrentAddress();
 

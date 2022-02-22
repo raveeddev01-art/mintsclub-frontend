@@ -8,7 +8,8 @@ import {
   NFTALL,
   SET_NFT_TOKEN,
   GET_NFTS_BY_COLLECTION,
-  GET_MYLIKED_NFTS
+  GET_MYLIKED_NFTS,
+  GET_PROFILE_NFTS
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -257,6 +258,47 @@ export const setNftToken = (formData) => async (dispatch) => {
             true
           );
 };
+
+export const getProfileNfts =
+  (qs = "") =>
+  (dispatch) => {
+    dispatch(emptyError());
+    let url = `${ENV.url}nfts/list`;
+    if (qs) url += `?${qs}`;
+
+
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: ENV.Authorization,
+        "x-auth-token": ENV.x_auth_token,
+        "Access-Control-Allow-Origin": "*",
+        "x-access-token":
+          ENV.getUserKeys("accessToken") &&
+          ENV.getUserKeys("accessToken").accessToken
+            ? ENV.getUserKeys("accessToken").accessToken
+            : "",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data,"profile nfts")
+        if (data.success) {
+          dispatch({
+            type: GET_PROFILE_NFTS,
+            payload: data.data,
+          });
+          
+        } else {
+     
+        }
+      })
+      .catch((errors) => {
+     
+      });
+  };
 
 
 
