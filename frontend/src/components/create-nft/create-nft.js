@@ -252,7 +252,7 @@ class CreateNFT extends Component {
               };
               this.props.setNftToken(data);
               toast.success("Nft created successfully");
-              this.props.history.push("/user-dashboard");
+              this.props.history.push("/explore/allNFT");
             }
           );
         } else {

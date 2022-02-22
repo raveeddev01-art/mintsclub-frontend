@@ -2,6 +2,7 @@
   padding: 20px;
   background: linear-gradient(to top, #10103c, #2a6285);
   box-shadow: 6.5px 33.4px 57px 0 rgba(0, 0, 0, 0.31);
+  cursor: pointer;
 }
 .auction-card.card .card-img-top {
   width: 100%;

@@ -51,7 +51,7 @@ function AuctionsOne(props) {
     window.scroll(0, 0);
     // get live auctions
     const qs = ENV.objectToQueryString({
-      myFilter: "620e52bb16994980690dd5fa",
+      myFilter: "all",
     });
     props.getLiveAuctions(qs);
     props.getCreators();
@@ -327,7 +327,7 @@ function AuctionsOne(props) {
                   homeAuction
                 >
                   {auctions &&
-                    auctions.length > 0 &&
+                    auctions.length > 0 ?
                     auctions.map((item) => {
                       return (
                         <AuctionsCards
@@ -335,9 +335,10 @@ function AuctionsOne(props) {
                           image={item.image}
                           ownerName={item.owner.username}
                           name={item.name}
+                          id={item._id}
                         />
                       );
-                    })}
+                    }):<p className="text-white text-center">No Live Auctions Found</p>}
                 </CardSlider>
               </div>
             </div>
