@@ -68,7 +68,7 @@ export const getCollections = (qs = null) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-   
+   console.log(data,"collections api response")
         if (data.success) {
             dispatch({
                 type: GET_COLLECTIONS,

@@ -131,7 +131,14 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.nftsByCollectionStatus) {
-      setNftList(props.nftsByCollection);
+      let moreCollection=[]
+      if(props.nftsByCollection && props.nftsByCollection?.length)
+      {
+
+        moreCollection=   props.nftsByCollection.filter((item)=>
+          item._id!==nftDetail._id)
+      }
+      setNftList(moreCollection);
     }
   }, [props.nftsByCollectionStatus]);
 

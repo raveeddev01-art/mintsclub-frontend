@@ -172,7 +172,7 @@ const PopularCollections = (props) => {
               </div>
             </div>
           </div>
-          <CardSlider settings={ENV.popularCollectionsSettings}>
+          <CardSlider settings={ENV.popularCollectionsSettings} homeAuction={false} data={[1,2,3,4]}>
             {collectionData.map((collectionData) => {
               return (
                 <CollectionsCard

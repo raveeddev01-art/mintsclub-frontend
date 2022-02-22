@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
+import {useHistory} from 'react-router'
 import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import AvatarImg from "../../../assets/images/seller-avatar.png";
 import HeartIcon from "../../../assets/images/heart-icon.svg";
@@ -18,11 +19,11 @@ const AuctionsCards = (props) => {
 
 
   const { countDownRenderer } = ENV;
-
+ const history=useHistory()
   // console.log(auctions,"auctions123")
   return (
 
-    <Card className="auction-card mx-2">
+    <Card className="auction-card mx-2" onClick={()=>history.push(`nftdetail/${props.id}`)}>
       <div className="auction-img-wrapper">
         <Card.Img variant="top" src={props.image} alt="AuctionTopImg" />
         <div className="auction-countdown mb-3">
@@ -42,10 +43,10 @@ const AuctionsCards = (props) => {
             <img src={ThreeDots} alt="OptionsIcon" />
           </div>
         </div>
-        <Card.Title>Music</Card.Title>
+        <Card.Title>{props.name}</Card.Title>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
           <div className="auction-owner-name">
-            <p>Owend by Jecica</p>
+          <p>{"Owned by "}{props.ownerName}</p>
           </div>
           <div className="auction-owner-price d-flex align-items-center">
             <img src={ArrowUp} alt="" className="me-1" />

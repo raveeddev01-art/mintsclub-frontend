@@ -102,9 +102,11 @@ const Sell = (props) => {
     if (sellingMethod === 1) data = fixedPriceConfig;
     else data = timedAuctionConfig;
 
+    console.log(data,"data")
     const keys = name.split("."); // fixedPriceConfig, price, currency
     if (keys && keys[2]) data[keys[1]][keys[2]] = value;
     else if (keys && keys[1]) data[keys[1]] = value;
+    console.log(keys,"keys")
 
     if (sellingMethod === 1) setFixedPriceConfig({ ...data });
     else setTimedAuctionConfig({ ...data });

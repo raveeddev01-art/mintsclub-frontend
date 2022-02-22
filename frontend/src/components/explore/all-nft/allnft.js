@@ -16,7 +16,7 @@ import {
   beforeCollection,
   getCollections,
 } from "../../collections/collections.actions";
-import VideoCards from "../../test-video-card/videoCard";
+// import VideoCards from "../../test-video-card/videoCard";
 
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -31,6 +31,7 @@ const AllNFT = (props) => {
   const [collections, setCollections] = useState([]);
   const [totalCount, setTotalCount] = useState("");
   const [filterationLoader, setFilterationLoader] = useState(true);
+  
   const [likedNfts, setLikedNfts] = useState();
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -184,8 +185,9 @@ const AllNFT = (props) => {
     setFilterationLoader(true);
 
     const { value } = e.target;
+    console.log(value,"value")
 
-    if (value === "Price: Low To High") {
+    if (value === "Low To High") {
       setFilter((prev) => ({
         ...prev,
         lowToHigh: true,
@@ -205,7 +207,7 @@ const AllNFT = (props) => {
         false,
         false
       );
-    } else if (value === "Price: High To Low") {
+    } else if (value === "High To Low") {
       setFilter((prev) => ({
         ...prev,
         highToLow: true,
@@ -460,7 +462,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-
+console.log(nfts,"nftsnfts")
   return (
     <>
       <NavbarMain />
