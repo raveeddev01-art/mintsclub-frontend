@@ -199,14 +199,14 @@
   font-weight: bold;
   color: #fff;
   background: linear-gradient(to top, #4355ff, #5695fd);
-  padding: 15px 80px;
+  padding: 12px 40px;
   outline: none;
   border: none;
   border-radius: 8px;
 }
 
 .btn.btn-rounded-bordered.cancel-collection-btn {
-  padding: 12px 40px;
+  padding: 11px 40px;
 }
 
 @media (max-width: 991.9px) {
@@ -220,6 +220,6 @@
     padding: 50px 0;
   }
   .create-collection-btn {
-    padding: 15px 60px;
+    padding: 12px 40px;
   }
 }

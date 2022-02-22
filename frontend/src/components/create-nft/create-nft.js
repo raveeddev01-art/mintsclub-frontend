@@ -52,7 +52,7 @@ class CreateNFT extends Component {
         copies: "",
         collectionId: "",
         ownerAddress: "",
-        categoryId:"",
+        categoryId: "",
         status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
       },
       imageURL: "",
@@ -86,14 +86,12 @@ class CreateNFT extends Component {
   };
 
   componentDidUpdate(prevProps) {
-  
     // const {collections}=this.state
     if (
       this.props.collection.myCollectionsResult &&
       prevProps.collection.myCollectionsResult !==
         this.props.collection.myCollectionsResult
     ) {
-   
       const collections =
         this.props.collection.myCollections.collections.Collections;
 
@@ -103,14 +101,13 @@ class CreateNFT extends Component {
         toast.info("Please add a collection first");
         return this.props.history.push("/collection/create");
       } else {
-      this.setState({
-        collections: collections,
-        loader: false,
-      });
-        }
+        this.setState({
+          collections: collections,
+          loader: false,
+        });
       }
     }
-
+  }
 
   // onFileChange(e) {
   //   let file = e.target.files[0];
@@ -146,10 +143,12 @@ class CreateNFT extends Component {
 
     // if status is provided
     if (status) value = status;
-      let category= this.state.collections.find((item)=>item._id===value)?.categoryId;
+    let category = this.state.collections.find(
+      (item) => item._id === value
+    )?.categoryId;
 
     let { nft } = this.state;
-    nft = { ...nft, [name]: value,categoryId:category };
+    nft = { ...nft, [name]: value, categoryId: category };
     this.setState({ nft });
   }
 
@@ -174,7 +173,7 @@ class CreateNFT extends Component {
     e.preventDefault();
 
     const { nft } = this.state;
- 
+
     // return ' '
     this.setState(
       {
@@ -325,7 +324,7 @@ class CreateNFT extends Component {
         } else if (file.type.includes("audio")) {
           let { nft } = this.state;
           nft = { ...nft, videoURL: file, audioUrl: file, image: "" };
-        
+
           this.setState({
             nft,
             videoURL: "",
@@ -365,7 +364,6 @@ class CreateNFT extends Component {
   };
 
   handleFilesValidation = (e, status) => {
-   
     let files = "";
     let type = "";
     if (status === "onDrag") {
@@ -816,10 +814,10 @@ class CreateNFT extends Component {
                         <div className="btn-link my-1 text-white">
                           <a>Preview</a>
                         </div>
-                        <div className="d-flex flex-column justify-content-center align-items-center">
+                        <div className="d-flex  flex-column flex-md-row justify-content-center align-items-center">
                           <button
                             disabled={loader}
-                            className="create-collection-btn my-1"
+                            className="create-collection-btn mt-2 me-2"
                             typ="submit"
                             onClick={(e) => this.submit(e)}
                           >
