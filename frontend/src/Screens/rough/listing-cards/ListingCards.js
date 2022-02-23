@@ -5,6 +5,7 @@ import CardImg from "../../../assets/images/cl-cr-mainimg.png";
 import HeartIcon from "../../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
 import "./ListingCards.css";
+import { ENV } from "../../../config/config";
 
 const ListingCards = ({
   CardImg,
@@ -15,6 +16,8 @@ const ListingCards = ({
   likesCount,
   liked,
   likedNfts,
+  userProfile,
+  ownerId
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -48,8 +51,10 @@ const ListingCards = ({
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
             {name ? name : "item name"}
           </Card.Title>
+          {!userProfile &&
           <div className="options-icon like-icon text-white">
-            {validateIfLiked(likedNfts, id) ? (
+          
+            { validateIfLiked(likedNfts, id) ? (
               <div className="heart-filled-container d-flex align-items-end">
                 <AiFillHeart
                   className="heart-fill-icon "
@@ -71,6 +76,7 @@ const ListingCards = ({
               />
             )}
           </div>
+          }
         </div>
 
         <div
@@ -85,7 +91,7 @@ const ListingCards = ({
           </div>
         </div>
         <button className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center">
-          <p>Buy now</p>
+          <p>{ownerId===ENV.getUserKeys("_id")._id?"View":"Buy Now"}</p>
         </button>
       </Card.Body>
     </Card>

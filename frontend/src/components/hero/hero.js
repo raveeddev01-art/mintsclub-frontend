@@ -672,7 +672,7 @@ const Hero = (props) => {
               </Link>
               <Link
                 className="btn btn-rounded-bordered btn-hero-explore"
-                to="/explore-all"
+                to="/explore/exploreAll"
               >
                 {/* <i className="icon-rocket mr-2" /> */}
                 <img src={ExploreIcon} alt="exploreIcon" className="me-2" />

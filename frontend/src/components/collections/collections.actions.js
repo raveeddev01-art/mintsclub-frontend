@@ -56,7 +56,7 @@ export const getCollections = (qs = null) => dispatch => {
 
     if (qs)
     url += `?${qs}`
-   
+   console.log(url,"url sending")
 
     fetch(url, {
         method: 'GET',

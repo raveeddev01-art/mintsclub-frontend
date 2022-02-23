@@ -47,8 +47,10 @@ export default function (state = initialState, action) {
                 ...state,
                 nftsData: {},
                 nftsAuth: false,
-                upsertAuth: false
+                upsertAuth: false,
+                profileNFTsStatus:false,
             }
+            
             case GET_NFTS_BY_COLLECTION:
                 return {
                     ...state,
@@ -57,6 +59,7 @@ export default function (state = initialState, action) {
 
                 }
                 case  GET_MYLIKED_NFTS:
+                  
                     return {
                         ...state,
                         myLikedNfts:action.payload,

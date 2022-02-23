@@ -80,6 +80,8 @@ export const getNFTs =
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
 
+    
+console.log(url,"getNFTs")
 
 
     fetch(url, {
@@ -218,8 +220,8 @@ export const getMyLikedNfts=(qs='')=>(dispatch)=>{
     url=url+qs
     axios.get(url)
     .then(function (response) {
- 
-      if (response.data.status) {
+console.log()
+      if (response.data.success) {
         dispatch({
           type: GET_MYLIKED_NFTS,
           payload: response.data.data,

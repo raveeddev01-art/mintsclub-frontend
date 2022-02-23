@@ -199,15 +199,18 @@ function AuctionsOne(props) {
               <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
                 {categories &&
                   categories.length > 0 &&
-                  categories.map((item) => {
-                    return (
-                      <button
-                        className="me-1 me-sm-2"
-                        onClick={() => handleCategoryFilter(item.description)}
-                      >
-                        {item.name}
-                      </button>
-                    );
+                  categories.map((item,index) => {
+                    if(index<=3){
+                      return (
+                        <button
+                          className="me-1 me-sm-2"
+                          onClick={() => handleCategoryFilter(item.description)}
+                        >
+                          {item.name}
+                        </button>
+                      );
+                    }
+                      
                   })}
                 {/* <button className="me-1 me-sm-2">Music</button>
                 <button className="me-1 me-sm-2">Game</button>
