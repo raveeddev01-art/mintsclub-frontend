@@ -1,30 +1,38 @@
 .wallet-wrapper {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
- .wallet-metamask-card {
-    background-color: #10103c !important;
+.wallet-metamask-card {
+  background-color: #10103c !important;
 }
 .sign-in-card {
-    background-color: #10103c !important;
+  background-color: #10103c !important;
 }
 .signup-card {
-    background: #10103c !important; 
-    
+  background: #10103c !important;
 }
 .sign-up-input {
-    background-color: black !important;
-    border: none !important;
-    border-radius: 8px !important;
-    color: white !important;
-    padding: 1rem !important;
-    height: 3.2rem !important;
+  background-color: black !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: white !important;
+  padding: 1rem !important;
+  height: 3.2rem !important;
 }
 .text-gray {
-    color: gray !important;
+  color: gray !important;
 }
 .text-center {
-    text-align: center;
-} 
+  text-align: center;
+}
+.btn-signin {
+  background: linear-gradient(to top, #4355ff, #5695fd);
+  padding: 10px 25px;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}

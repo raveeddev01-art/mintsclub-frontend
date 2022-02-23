@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import "./UserProfile.css";
 import Avatar from "../../assets/images/detail-avatar.png";
 import FlagIcon from "../../assets/images/detail-flag.svg";
@@ -12,7 +12,7 @@ import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
-import {getProfileNfts } from "../nfts/nfts.action";
+import { getProfileNfts } from "../nfts/nfts.action";
 
 const UserProfile = () => {
   const [isActive, setIsActive] = useState(0);
@@ -194,7 +194,6 @@ const UserProfile = () => {
                   <div className="ms-2">
                     <p>Item:</p>
                   </div>
-
                   <select name="collection-select">
                     {itemoptions &&
                       itemoptions.map((collection, index) => {
@@ -210,9 +209,8 @@ const UserProfile = () => {
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
-                    <p>Price:</p>
+                    <p>Sort:</p>
                   </div>
-
                   <select name="collection-select">
                     {priceoptions &&
                       priceoptions.map((collection, index) => {
@@ -278,14 +276,10 @@ const UserProfile = () => {
   );
 };
 
-
 const mapStateToProps = (state) => ({
   nft: state.nft,
-
 });
 
 export default connect(mapStateToProps, {
-  getProfileNfts
+  getProfileNfts,
 })(UserProfile);
-
-
