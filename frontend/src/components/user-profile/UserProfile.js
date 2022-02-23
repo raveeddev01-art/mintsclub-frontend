@@ -536,7 +536,6 @@ const UserProfile = (props) => {
                   <div className="ms-2">
                     <p>Item:</p>
                   </div>
-
                   <select name="collection-select">
                     {itemoptions &&
                       itemoptions.map((collection, index) => {
@@ -552,7 +551,7 @@ const UserProfile = (props) => {
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
-                    <p>Price:</p>
+                    <p>Sort:</p>
                   </div>
 
                   <select name="collection-select" onChange={handleSortOptions}>

@@ -23,8 +23,10 @@ import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
 import moment from "moment";
 import SimpleReactValidator from "simple-react-validator";
+import axios from "axios";
 
 const NFTDetail = (props) => {
+  const [exchangeRate, setExchangeRate] = useState(0);
   const history = useHistory();
   let nftId = props.match.params.id;
   const initData = {
@@ -131,12 +133,11 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.nftsByCollectionStatus) {
-      let moreCollection=[]
-      if(props.nftsByCollection && props.nftsByCollection?.length)
-      {
-
-        moreCollection=   props.nftsByCollection.filter((item)=>
-          item._id!==nftDetail._id)
+      let moreCollection = [];
+      if (props.nftsByCollection && props.nftsByCollection?.length) {
+        moreCollection = props.nftsByCollection.filter(
+          (item) => item._id !== nftDetail._id
+        );
       }
       setNftList(moreCollection);
     }
@@ -153,6 +154,17 @@ const NFTDetail = (props) => {
 
   console.log(ENV.getUserKeys("_id")._id, "user id");
   console.log(nftDetail, "nftDetail");
+  useEffect(() => {
+    axios
+      .get(
+        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
+      )
+      .then((res) => {
+        console.log(res, "exchangeapires");
+        const currentUSD = res.data.USD;
+        setExchangeRate(currentUSD);
+      });
+  }, []);
   return (
     <>
       {loader ? (
@@ -539,7 +551,11 @@ const NFTDetail = (props) => {
                         <span>Current price</span>
                         <h3>
                           {nftDetail.currentPrice}
-                          <span>($2.28)</span>
+                          <span>
+                            (${" "}
+                            {(nftDetail.currentPrice * exchangeRate).toFixed(2)}
+                            )
+                          </span>
                         </h3>
                       </div>
                       <div className=" d-flex justify-content-between align-items-center mb-2">
@@ -727,6 +743,9 @@ const NFTDetail = (props) => {
                                         CardImg={listing.image}
                                         name={listing.name}
                                         price={listing.currentPrice}
+                                        // usd={
+                                        //   listing.currentPrice * exchangeRate
+                                        // }
                                         id={listing._id}
                                       />
                                     </div>

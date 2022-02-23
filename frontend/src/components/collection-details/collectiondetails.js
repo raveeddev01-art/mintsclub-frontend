@@ -51,8 +51,8 @@ const CollectionDetailsPage = (props) => {
   ];
 
   const sortoptions = [
-    { value: "lowtohigh", label: "Price: Low To High" },
-    { value: "hightolow", label: "Price: High To Low" },
+    { value: "lowtohigh", label: "Low To High" },
+    { value: "hightolow", label: "High To Low" },
     { value: "oldest", label: "Oldest" },
     { value: "newest", label: "Recantly Created" },
   ];
@@ -145,7 +145,7 @@ const CollectionDetailsPage = (props) => {
 
     const { value } = e.target;
 
-    if (value === "Price: Low To High") {
+    if (value === "Low To High") {
       setFilter((prev) => ({
         ...prev,
         lowToHigh: true,
@@ -165,7 +165,7 @@ const CollectionDetailsPage = (props) => {
         false,
         false
       );
-    } else if (value === "Price: High To Low") {
+    } else if (value === "High To Low") {
       setFilter((prev) => ({
         ...prev,
         highToLow: true,
@@ -398,7 +398,7 @@ const CollectionDetailsPage = (props) => {
                   <div className="collection-owner-avatar">
                     <img src={banner} alt="owner-avatar" />
                   </div>
-                  <div className="d-sm-flex align-items-center justify-content-between mt-5">
+                  <div className="d-md-flex align-items-center justify-content-between mt-5">
                     <div className="collection-owner-detail">
                       <div className="collection-owner-name d-flex align-items-center">
                         <h3>{name}</h3>
@@ -408,7 +408,12 @@ const CollectionDetailsPage = (props) => {
                         Created by <span>brendannorth</span>
                       </p>
                     </div>
-                    <div className="collection-owner-btns mt-3 mt-sm-0 ms-auto">
+                    <div className=" d-block d-md-none">
+                      <div className="collection-owner-detail pe-xl-5 mt-4">
+                        <p>{description}</p>
+                      </div>
+                    </div>
+                    <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
                       <button className="me-1 me-sm-2 me-lg-3">
                         <img src={FlagIcon} alt="" flag-icon />
                       </button>
@@ -419,7 +424,7 @@ const CollectionDetailsPage = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-sm-7 col-md-6 col-lg-5">
+                <div className="col-12 col-sm-7 col-md-6 col-lg-5 d-none d-md-block">
                   <div className="collection-owner-detail pe-xl-5 mt-4">
                     <p>{description}</p>
                   </div>
@@ -482,7 +487,7 @@ const CollectionDetailsPage = (props) => {
                   <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                     <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                       <div className="ms-2">
-                        <p>Price:</p>
+                        <p>Sort:</p>
                       </div>
 
                       <select

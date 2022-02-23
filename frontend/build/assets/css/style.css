@@ -1426,7 +1426,8 @@ aside {
   padding: 16px 34px;
   border: 0 none;
   border-radius: 100px;
-  outline: 0 none;
+  outline: none !important;
+  box-shadow: none !important;
   cursor: pointer;
   z-index: 1;
 }
@@ -1496,6 +1497,8 @@ aside {
   border-radius: 8px;
   font-size: 14px;
   font-weight: bold;
+  box-shadow: none;
+  outline: none;
 }
 
 .btn.btn-rounded-bordered {
