@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import { connect } from "react-redux";
 import "./UserProfile.css";
@@ -8,7 +8,7 @@ import FlagIcon from "../../assets/images/detail-flag.svg";
 import ShareIcon from "../../assets/images/detail-share.svg";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
-import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
+import ListingCards from "../listing-cards/ListingCards";
 import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";

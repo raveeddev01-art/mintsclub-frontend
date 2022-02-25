@@ -5,8 +5,6 @@ import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
 // components
 import Home from "./components/home/home";
-import Dashboard from "./Screens/Home-Ui/HomeUi.js";
-import FourStepForm from "./Screens/FourStepForm/index";
 import ExploreAll from "./components/explore/explore-all";
 import LiveAuctions from "./components/auctions/live-auctions-list";
 import ItemDetails from "./components/item-detail/item-detail";
@@ -30,7 +28,6 @@ import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
 import ExploreCollections from "./components/collections/explore-collections";
-// import AllNFT from "./components/all-nft/allnft";
 import AllNFT from "./components/explore/all-nft/allnft";
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
 import NFTDetail from "./components/nft-detail/nftdetail";
@@ -45,22 +42,6 @@ const routes = [
     title: "Home",
     layout: layout2,
     component: Home,
-  },
-  {
-    path: "/user-dashboard",
-    access: true,
-    exact: true,
-    title: "Home",
-    layout: layout2,
-    component: Home,
-  },
-  {
-    path: "/fourStepForm",
-    access: true,
-    exact: true,
-    title: "Explore",
-    layout: layout2,
-    component: FourStepForm,
   },
   {
     path: "/explore-all",
@@ -278,7 +259,6 @@ const routes = [
     layout: layout2,
     component: PrivacyTerms,
   },
-
   {
     path: "/*",
     access: true,

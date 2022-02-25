@@ -25,8 +25,8 @@ import "./createNft.css";
 
 import { Images } from "../../assets/assets.js";
 import Upload from "./components/upload";
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
 import Footer from "../footer/footer";
+import NavbarMain from "../navbar-main/NavbarMain";
 const placeholderImg = "";
 
 class CreateNFT extends Component {
@@ -40,7 +40,7 @@ class CreateNFT extends Component {
       nft: {
         userId: ENV.getUserKeys("_id")._id,
         ownerId: ENV.getUserKeys("_id")._id,
-        creatorId:ENV.getUserKeys("_id")._id,
+        creatorId: ENV.getUserKeys("_id")._id,
         image: "",
         videoURL: "",
         audioUrl: "",
@@ -202,8 +202,8 @@ class CreateNFT extends Component {
               );
 
               if (res) {
-                console.log(res,"response")
-               
+                console.log(res, "response");
+
                 // this.props.history.push('/user-dashboard')
               }
 
@@ -406,13 +406,13 @@ class CreateNFT extends Component {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
-  clearData=()=>{
+  clearData = () => {
     this.setState({
-      imageURL:'',
-      audioUrl:'',
-      videoURL:''
-    })
-  }
+      imageURL: "",
+      audioUrl: "",
+      videoURL: "",
+    });
+  };
 
   render() {
     const {
@@ -427,12 +427,10 @@ class CreateNFT extends Component {
       errorMessage,
       audioUrl,
     } = this.state;
- 
-    const { onDrop, dragOver, dragEnter, dragLeave } = this
-    console.log(collections,"collections==>")
-    console.log(ENV.getUserKeys("_id")._id,"fddf")
- 
- 
+
+    const { onDrop, dragOver, dragEnter, dragLeave } = this;
+    console.log(collections, "collections==>");
+    console.log(ENV.getUserKeys("_id")._id, "fddf");
 
     return (
       <div>

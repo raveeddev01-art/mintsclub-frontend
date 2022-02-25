@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import CollectionsCard from "../../Screens/rough/collections-cards/CollectionsCard";
+// import CollectionsCard from "../collections-cards/CollectionsCard";
 import SliderNextIcon from "../../assets/images/slidernextArrow.png";
 import SliderPrevIcon from "../../assets/images/sliderprevArrow.png";
-import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
+import AuctionsCards from "../auctions-cards/AuctionsCards";
 import "./CardSlider.css";
 import TwitchPlayer from "react-player/twitch";
 import { data } from "jquery";
@@ -22,30 +22,27 @@ export default class CardSlider extends Component {
     this.slider.slickPrev();
   }
 
-   handleArrows=()=>{
-     const {data,homeAuctions}=this.props
-     if(data && data.length > 0){
-         if(homeAuctions && data.length > 4){
-          return true
-         }
-         else if(!homeAuctions && data.length >3){
-           return true
-         }
-         else {
-           return false
-         }
-     }
-     else {
-       return false
-     }
-  }
+  handleArrows = () => {
+    const { data, homeAuctions } = this.props;
+    if (data && data.length > 0) {
+      if (homeAuctions && data.length > 4) {
+        return true;
+      } else if (!homeAuctions && data.length > 3) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
   render() {
     const { settings, data, homeAuction } = this.props;
-    console.log(homeAuction,"homeAuction")
- 
+    console.log(homeAuction, "homeAuction");
+
     return (
       <div className="container">
-        {this.handleArrows()&& (
+        {this.handleArrows() && (
           <div className="text-end">
             <button
               className="card-slider-btn mb-4 me-3"

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { Link } from "react-router-dom";
 import Collections from "./collections";
-import CollectionsCard from "../../Screens/rough/collections-cards/CollectionsCard";
+import CollectionsCard from "../collections-cards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import CardSlider from "../card-slider/CardSlider";
 import { ENV } from "../../config/config";
@@ -172,7 +172,11 @@ const PopularCollections = (props) => {
               </div>
             </div>
           </div>
-          <CardSlider settings={ENV.popularCollectionsSettings} homeAuction={false} data={[1,2,3,4]}>
+          <CardSlider
+            settings={ENV.popularCollectionsSettings}
+            homeAuction={false}
+            data={[1, 2, 3, 4]}
+          >
             {collectionData.map((collectionData) => {
               return (
                 <CollectionsCard

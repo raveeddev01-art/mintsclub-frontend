@@ -9,12 +9,12 @@ import Explore from "../explore/explore-home";
 import Work from "../work/work";
 import Authors from "../authors/authors";
 import Header from "../header/header";
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import NavbarMain from "../navbar-main/NavbarMain";
 import OwnCollection from "../owncollection/OwnCollection";
 import Buysell from "../buy-sell/Buysell";
 import Footer from "../footer/footer";
 import PopularCollections from "../collections/popular-collections";
-import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
+import AuctionsCards from "../auctions-cards/AuctionsCards";
 
 function Home() {
   useEffect(() => {

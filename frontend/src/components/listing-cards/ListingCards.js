@@ -1,8 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
-import CardImg from "../../../assets/images/cl-cr-mainimg.png";
-import HeartIcon from "../../../assets/images/unlike-icon.svg";
+import CardImg from "../../assets/images/cl-cr-mainimg.png";
+import HeartIcon from "../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
 import "./ListingCards.css";
 

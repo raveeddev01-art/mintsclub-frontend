@@ -1,11 +1,11 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import CardImg from "../../../assets/images/cl-cr-mainimg.png";
-import AvatarImg from "../../../assets/images/seller-avatar.png";
-import HeartIcon from "../../../assets/images/heart-icon.svg";
-import ThreeDots from "../../../assets/images/threeDots.svg";
-import ArrowUp from "../../../assets/images/arrowUp.png";
-import Bucket from "../../../assets/images/bucket.png";
+import CardImg from "../../assets/images/cl-cr-mainimg.png";
+import AvatarImg from "../../assets/images/seller-avatar.png";
+import HeartIcon from "../../assets/images/heart-icon.svg";
+import ThreeDots from "../../assets/images/threeDots.svg";
+import ArrowUp from "../../assets/images/arrowUp.png";
+import Bucket from "../../assets/images/bucket.png";
 import "./HeroCards.css";
 
 const HeroCards = () => {
