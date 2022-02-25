@@ -86,12 +86,12 @@ const Hero = (props) => {
             {/* Buttons */}
             <div className="button-group mt-lg-5 d-flex">
               <Link
-                className="btn btn-linear-gradient "
+                className="btn btn-linear-gradient btn-hero-create"
                 to={connectedAddress ? "/create" : "/login"}
               >
                 {/* <i className="icon-note mr-2" /> */}
                 <img src={CreateIcon} alt="createIcon" className="me-2" />
-                Create
+                <p>Create</p>
               </Link>
               <Link
                 className="btn btn-rounded-bordered btn-hero-explore"

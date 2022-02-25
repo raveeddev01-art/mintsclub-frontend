@@ -36,3 +36,11 @@
   font-size: 14px;
   font-weight: bold;
 }
+
+.btn-signin:hover {
+  color: #ffffff;
+  opacity: 0.9;
+  box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3) !important;
+  -webkit-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
+  -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
+}

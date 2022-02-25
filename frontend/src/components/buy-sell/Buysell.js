@@ -31,7 +31,10 @@ const Buysell = () => {
               <div className="buy-card-content px-2">
                 <h5>Sell Your NFT Products</h5>
                 <p>Sell one of your NFT products to make a huge profit.</p>
-                <Link className="btn btn-rounded-bordered" to="/">
+                <Link
+                  className="btn btn-rounded-bordered btn-start-selling"
+                  to="/"
+                >
                   Start selling
                 </Link>
               </div>
