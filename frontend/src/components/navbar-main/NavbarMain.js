@@ -35,13 +35,13 @@ const NavbarMain = (props) => {
           variant="dark"
           className="navbar-main-custom align-items-center px-0 py-4"
         >
-          <Navbar.Brand href="#" className="navbar-brand-logo">
+          <Navbar.Brand to="/" href="/" className="navbar-brand-logo">
             <img src={MintsClub} alt="logo" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mx-xl-auto" defaultActiveKey="/user-dashboard">
-              <Nav.Link href="/" className="nav-main-link">
+            <Nav className="mx-xl-auto" defaultActiveKey="">
+              <Nav.Link to="/" href="/" className="nav-main-link">
                 Home
               </Nav.Link>
               <NavDropdown
@@ -50,14 +50,14 @@ const NavbarMain = (props) => {
                 className="nav-main-link dropdown-bg"
               >
                 <NavDropdown.Item
-                  to="/collection/explorecollections"
+                  to="/explore/exploreAll"
                   href="/explore/exploreAll"
                   className="nav-main-link main-nav-dd-items"
                 >
                   Explore All
                 </NavDropdown.Item>
                 <NavDropdown.Item
-                  to="/collection/explorecollections"
+                  to="/explore/allNFT"
                   href="/explore/allNFT"
                   className="nav-main-link main-nav-dd-items"
                 >
@@ -82,7 +82,7 @@ const NavbarMain = (props) => {
                 Create
               </Nav.Link>
               <Nav.Link
-                to="/collection/detailPage"
+                to="/userprofile"
                 href="/userprofile"
                 className="nav-main-link"
               >
