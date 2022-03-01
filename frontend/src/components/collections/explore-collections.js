@@ -29,7 +29,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState();
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -132,11 +132,6 @@ const ExploreCollections = forwardRef((props, ref) => {
   //   props.toggleLikeDislike(obj);
   // };
 
-<<<<<<< HEAD
-console.log(    !empty && collections?.length>=10 && pagination.totalRecords <=collections.length  ,"  !empty && collections?.length >10 && pagination.totalRecords <=collections.length &&")
-console.log(pagination)
-=======
->>>>>>> 363894807728dd9deae5c5c664bcb67cf0b141ca
   return (
     <>
       <NavbarMain />
@@ -235,17 +230,6 @@ console.log(pagination)
               )}
               <div className="col-12">
                 <div className="mt-5 text-center">
-<<<<<<< HEAD
-                  {
-                    !empty && collections?.length===10 && pagination.totalRecords >collections.length &&
-                  <button
-                    className="btn btn-linear-gradient px-5"
-                    onClick={() => handlePagination()}
-                  >
-                    Load more
-                  </button>
-                  }
-=======
                   {!empty &&
                     collections?.length > 10 &&
                     pagination.totalRecords <= collections.length && (
@@ -256,7 +240,6 @@ console.log(pagination)
                         Load more
                       </button>
                     )}
->>>>>>> 363894807728dd9deae5c5c664bcb67cf0b141ca
                 </div>
               </div>
             </div>
