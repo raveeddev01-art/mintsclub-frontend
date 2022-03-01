@@ -5,7 +5,7 @@ import CardImg from "../../assets/images/cl-cr-mainimg.png";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
 import "./ListingCards.css";
-import { ENV } from "../../../config/config";
+import { ENV } from "../../config/config";
 
 const ListingCards = ({
   CardImg,
