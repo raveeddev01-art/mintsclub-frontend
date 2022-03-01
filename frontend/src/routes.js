@@ -12,7 +12,7 @@ import Activity from "./components/activity/activity";
 import Blog from "./components/blog/blog";
 import BlogSingle from "./components/blog-single/blog-single";
 import HelpCenter from "./components/help-center/help-center";
-import Authors from "./components/authors-list/authors-list";
+import Populars from "./components/popular-collections-list/popular-collections-list";
 import Author from "./components/author/author";
 import Profile from "./components/profile/profile";
 import CreateNFT from "./components/create-nft/create-nft";
@@ -32,6 +32,7 @@ import AllNFT from "./components/explore/all-nft/allnft";
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
 import NFTDetail from "./components/nft-detail/nftdetail";
 import UserProfile from "./components/user-profile/UserProfile";
+import TopSellerList from "./components/top-seller/topsellerlist";
 
 // routes
 const routes = [
@@ -116,13 +117,22 @@ const routes = [
     component: HelpCenter,
   },
   {
-    path: "/authors",
+    path: "/popular-collections",
     access: true,
     exact: true,
-    title: "Authors",
+    title: "Popular Collections",
     layout: layout2,
-    component: Authors,
+    component: Populars,
   },
+  {
+    path: "/top-sellers-list",
+    access: true,
+    exact: true,
+    title: "Popular Collections",
+    layout: layout2,
+    component: TopSellerList,
+  },
+
   {
     path: "/author/:authorId?",
     access: true,

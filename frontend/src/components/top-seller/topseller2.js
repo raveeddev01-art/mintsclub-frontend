@@ -104,7 +104,6 @@ const TopSeller = (props) => {
     setSellers(props.user.sellers);
   }, [props.user.topSellersAuth]);
 
-
   return (
     <section className="top-seller-area padding-wrapper">
       <div className="container">
@@ -120,7 +119,7 @@ const TopSeller = (props) => {
                 <div className="intro-btn">
                   <Link
                     className="btn btn-rounded-bordered btn-viewAll"
-                    to="/authors"
+                    to="/top-sellers-list"
                   >
                     {props.viewAll}
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />

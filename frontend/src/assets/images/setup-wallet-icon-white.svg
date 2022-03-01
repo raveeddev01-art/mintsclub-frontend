@@ -1,0 +1,7 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 35" width="34" height="35">
+	<title>setup-wallet-icon-svg</title>
+	<style>
+		.s0 { fill: #ffffff } 
+	</style>
+	<path id="Layer" fill-rule="evenodd" class="s0" d="m34 10.4v23.6c0 0.6-0.8 0.8-1.7 0.8h-30c-1 0-1.8-0.2-1.8-0.8v-23.6c0-0.7 0.5-1.1 1.2-1.6l23.5-8.3q0.2-0.1 0.5-0.1c1 0 1.8 0.7 1.8 1.7v6.6h4.7c1 0 1.7 0.8 1.8 1.7zm-9.6-5.9l-12.2 4.2h12.2zm-20.5 26.9h26.6v-4.7h-6.1c-1 0-1.8-0.8-1.8-1.7v-6.4c0-1 0.8-1.7 1.8-1.7h6.1v-4.8h-26.6zm23-11.1v2.9h3.6v-2.9z" />
+</svg>

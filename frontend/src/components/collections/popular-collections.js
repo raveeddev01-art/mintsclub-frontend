@@ -163,9 +163,9 @@ const PopularCollections = (props) => {
                 <div className="intro-btn">
                   <Link
                     className="btn btn-rounded-bordered btn-viewAll"
-                    to="/authors"
+                    to="/popular-collections"
                   >
-                    View Alll
+                    View All
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>
                 </div>
