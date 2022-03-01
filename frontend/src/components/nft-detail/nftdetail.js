@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./nftdetail.css";
 import PriceHistoy from "../../assets/images/pricehistoryicon.svg";
@@ -9,7 +9,7 @@ import ListingIcon from "../../assets/images/listing-icon.svg";
 import ActivityIcon from "../../assets/images/activity.svg";
 import MoreCollectionIcon from "../../assets/images/morecollectionicon.svg";
 import { ListingImg } from "../../assets/assets";
-import ListingCards from "../../Screens/rough/listing-cards/ListingCards";
+import ListingCards from "../listing-cards/ListingCards";
 import { Card } from "react-bootstrap";
 import CardImg from "../../assets/images/detailnftimg.png";
 import HeartIcon from "../../assets/images/unlike-icon.svg";

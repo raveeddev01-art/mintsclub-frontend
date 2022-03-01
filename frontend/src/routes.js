@@ -5,8 +5,6 @@ import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
 // components
 import Home from "./components/home/home";
-import Dashboard from "./Screens/Home-Ui/HomeUi.js";
-import FourStepForm from "./Screens/FourStepForm/index";
 import ExploreAll from "./components/explore/explore-all";
 import LiveAuctions from "./components/auctions/live-auctions-list";
 import ItemDetails from "./components/item-detail/item-detail";
@@ -14,7 +12,7 @@ import Activity from "./components/activity/activity";
 import Blog from "./components/blog/blog";
 import BlogSingle from "./components/blog-single/blog-single";
 import HelpCenter from "./components/help-center/help-center";
-import Authors from "./components/authors-list/authors-list";
+import Populars from "./components/popular-collections-list/popular-collections-list";
 import Author from "./components/author/author";
 import Profile from "./components/profile/profile";
 import CreateNFT from "./components/create-nft/create-nft";
@@ -30,11 +28,11 @@ import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
 import ExploreCollections from "./components/collections/explore-collections";
-// import AllNFT from "./components/all-nft/allnft";
 import AllNFT from "./components/explore/all-nft/allnft";
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
 import NFTDetail from "./components/nft-detail/nftdetail";
 import UserProfile from "./components/user-profile/UserProfile";
+import TopSellerList from "./components/top-seller/topsellerlist";
 
 // routes
 const routes = [
@@ -45,22 +43,6 @@ const routes = [
     title: "Home",
     layout: layout2,
     component: Home,
-  },
-  {
-    path: "/user-dashboard",
-    access: true,
-    exact: true,
-    title: "Home",
-    layout: layout2,
-    component: Home,
-  },
-  {
-    path: "/fourStepForm",
-    access: true,
-    exact: true,
-    title: "Explore",
-    layout: layout2,
-    component: FourStepForm,
   },
   {
     path: "/explore-all",
@@ -135,13 +117,22 @@ const routes = [
     component: HelpCenter,
   },
   {
-    path: "/authors",
+    path: "/popular-collections",
     access: true,
     exact: true,
-    title: "Authors",
+    title: "Popular Collections",
     layout: layout2,
-    component: Authors,
+    component: Populars,
   },
+  {
+    path: "/top-sellers-list",
+    access: true,
+    exact: true,
+    title: "Popular Collections",
+    layout: layout2,
+    component: TopSellerList,
+  },
+
   {
     path: "/author/:authorId?",
     access: true,
@@ -278,7 +269,6 @@ const routes = [
     layout: layout2,
     component: PrivacyTerms,
   },
-
   {
     path: "/*",
     access: true,

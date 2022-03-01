@@ -7,3 +7,6 @@
   user-select: none;
   font-family: sans-serif;
 }
+.btn-container {
+  width: max-content;
+}

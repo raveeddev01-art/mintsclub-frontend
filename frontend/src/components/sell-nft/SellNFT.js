@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from "react";
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import React, { useState, useEffect } from "react";
+import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./SellNFT.css";
 import { Card } from "react-bootstrap";
@@ -62,8 +62,7 @@ const SellNFT = (props) => {
   const [reservePrice, setReservePrice] = useState(false);
   const [tokensData, setTokensData] = useState([]);
   const location = useLocation();
-  console.log(location,"location")
-
+  console.log(location, "location");
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -102,21 +101,17 @@ const SellNFT = (props) => {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-  
+
     let data = null;
 
     if (sellingMethod === 1) data = fixedPriceConfig;
     else data = timedAuctionConfig;
 
     const keys = name.split("."); // fixedPriceConfig, price, currency
- 
-    if (keys && keys[2]) 
-    {
-    
 
+    if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
-    }
-    else if (keys && keys[1]) data[keys[1]] = value;
+    } else if (keys && keys[1]) data[keys[1]] = value;
 
     if (sellingMethod === 1) setFixedPriceConfig({ ...data });
     else setTimedAuctionConfig({ ...data });
@@ -164,7 +159,7 @@ const SellNFT = (props) => {
       
 
     }
- 
+
     //  return  " "
 
     let test = new Date(timedAuctionConfig.duration.endDate).getTime();
@@ -240,7 +235,10 @@ const SellNFT = (props) => {
                           ? "sell-btn-active"
                           : "sell-btn-not-active"
                       } me-3 `}
-                      onClick={() => {setActiveBtn(0);setSellingMethod(1)}}
+                      onClick={() => {
+                        setActiveBtn(0);
+                        setSellingMethod(1);
+                      }}
                     >
                       <img
                         src={DollarIcon}
@@ -255,7 +253,10 @@ const SellNFT = (props) => {
                           ? "sell-btn-active"
                           : "sell-btn-not-active"
                       } `}
-                      onClick={() => {setActiveBtn(1);setSellingMethod(2)}}
+                      onClick={() => {
+                        setActiveBtn(1);
+                        setSellingMethod(2);
+                      }}
                     >
                       <img src={ClockIcon} alt="timeAuction" className="me-2" />
                       Timed Auction
@@ -535,7 +536,7 @@ const SellNFT = (props) => {
                                     onApply={handleDateChange}
                                   >
                                     <button
-                                       name="timedAuctionConfig.duration"
+                                      name="timedAuctionConfig.duration"
                                       className="calender-btn"
                                     >
                                       {fixedPriceConfig.listingSchedule.startDate.format(
@@ -605,7 +606,10 @@ const SellNFT = (props) => {
                       </div>
                     </div>
                     <div className="col-12 text-center mt-5">
-                      <button className="sell-btn-active px-5" onClick={()=>submit()}>
+                      <button
+                        className="sell-btn-active px-5"
+                        onClick={() => submit()}
+                      >
                         {" "}
                         Complete Listing{" "}
                       </button>
@@ -617,13 +621,17 @@ const SellNFT = (props) => {
             <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
               <Card className="auction-card detail-card">
                 <div className="auction-img-wrapper">
-                  <Card.Img variant="top" src={location.state.image} alt="AuctionTopImg" />
+                  <Card.Img
+                    variant="top"
+                    src={location.state.image}
+                    alt="AuctionTopImg"
+                  />
                 </div>
                 <Card.Body>
                   <div>
                     <span>Current price</span>
                     <h3>
-                    {location.state.currentPrice}
+                      {location.state.currentPrice}
                       <span>($2.28)</span>
                     </h3>
                   </div>
@@ -658,4 +666,3 @@ export default connect(mapStateToProps, {
   getNFT,
   upsertNFT,
 })(SellNFT);
-

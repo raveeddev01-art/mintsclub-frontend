@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import WalletIcon from "../../assets/images/setup-wallet-icon.svg";
-import CollectionIcon from "../../assets/images/collection-icon.svg";
-import AddNftIcon from "../../assets/images/add-nft-icon.svg";
-import SaleIcon from "../../assets/images/sale-icon.svg";
+import WalletIcon from "../../assets/images/setup-wallet-icon-white.svg";
+import CollectionIcon from "../../assets/images/collection-icon-white.svg";
+import AddNftIcon from "../../assets/images/add-nft-icon-white.svg";
+import SaleIcon from "../../assets/images/sale-icon-white.svg";
 import axios from "axios";
 import { init } from "aos";
 

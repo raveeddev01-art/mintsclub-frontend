@@ -14,7 +14,7 @@ import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { toast } from "react-toastify";
 import "./create-collection.css";
 import { Images } from "../../assets/assets.js";
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 class CreateCollection extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ class CreateCollection extends Component {
     const userId = ENV.getUserKeys("_id")._id;
     let { collection } = this.state;
     collection = { ...collection, [name]: value, userId: userId };
-    console.log(collection ,"collection input")
+    console.log(collection, "collection input");
     this.setState({ collection });
   }
 

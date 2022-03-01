@@ -26,7 +26,7 @@ import DemoImg from "../../assets/images/cl-cr-mainimg.png";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 //CardSliders
 import CardSlider from "../card-slider/CardSlider";
-import AuctionsCards from "../../Screens/rough/auctions-cards/AuctionsCards";
+import AuctionsCards from "../auctions-cards/AuctionsCards";
 import {
   beforeCategory,
   getCategories,
@@ -329,8 +329,7 @@ function AuctionsOne(props) {
                   data={auctions}
                   homeAuction
                 >
-                  {auctions &&
-                    auctions.length > 0 ?
+                  {auctions && auctions.length > 0 ? (
                     auctions.map((item) => {
                       return (
                         <AuctionsCards
@@ -341,7 +340,12 @@ function AuctionsOne(props) {
                           id={item._id}
                         />
                       );
-                    }):<p className="text-white text-center">No Live Auctions Found</p>}
+                    })
+                  ) : (
+                    <p className="text-white text-center">
+                      No Live Auctions Found
+                    </p>
+                  )}
                 </CardSlider>
               </div>
             </div>

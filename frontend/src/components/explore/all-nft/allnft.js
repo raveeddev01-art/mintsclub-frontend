@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import "./allnft.css";
 import { beforeNFT, getNFTs, getMyLikedNfts } from "../../nfts/nfts.action";
 import { ENV } from "../../../config/config";
-import NavbarMain from "../../../Screens/rough/navbar-main/NavbarMain";
+import NavbarMain from "../../navbar-main/NavbarMain";
 import Footer from "../../footer/footer";
 import SearchIcon from "../../../assets/images/nav-search-icon.svg";
-import ListingCards from "../../../Screens/rough/listing-cards/ListingCards";
+import ListingCards from "../../listing-cards/ListingCards";
 import { ListingImg } from "../../../assets/assets";
 import FilterComponent from "../../filter-component/FilterComponent";
 import { getCreators, beforeUser } from "./../../user/user.action";
@@ -31,7 +31,7 @@ const AllNFT = (props) => {
   const [collections, setCollections] = useState([]);
   const [totalCount, setTotalCount] = useState("");
   const [filterationLoader, setFilterationLoader] = useState(true);
-  
+
   const [likedNfts, setLikedNfts] = useState();
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -185,7 +185,7 @@ const AllNFT = (props) => {
     setFilterationLoader(true);
 
     const { value } = e.target;
-    console.log(value,"value")
+    console.log(value, "value");
 
     if (value === "Low To High") {
       setFilter((prev) => ({

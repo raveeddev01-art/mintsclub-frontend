@@ -5,10 +5,10 @@ import React, {
   useImperativeHandle,
 } from "react";
 
-import NavbarMain from "../../Screens/rough/navbar-main/NavbarMain";
+import NavbarMain from "../navbar-main/NavbarMain";
 import "./explore-collections.css";
 import { CollectionImages } from "../../assets/assets.js";
-import CollectionsCard from "../../Screens/rough/collections-cards/CollectionsCard";
+import CollectionsCard from "../collections-cards/CollectionsCard";
 import Footer from "../footer/footer";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -31,9 +31,9 @@ const ExploreCollections = forwardRef((props, ref) => {
   const [limit, setLimit] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState();
-  const [empty,setEmpty]=useState(false)
-  const [loader,setLoader]=useState(true)
-  const [pagination,setPagination]=useState(null)
+  const [empty, setEmpty] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const [pagination, setPagination] = useState(null);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -47,8 +47,8 @@ const ExploreCollections = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (props.collection.getAuth) {
-      const { collections ,pagination} = props.collection;
-      setPagination(pagination)
+      const { collections, pagination } = props.collection;
+      setPagination(pagination);
 
       const userId = ENV.getUserKeys("_id")._id;
       if (props.mycollections) {
@@ -57,17 +57,15 @@ const ExploreCollections = forwardRef((props, ref) => {
         );
         setCollections(myCollections);
       } else {
-      
-        if(collections===null){
-          setEmpty(true)
-        }
-        else {
-          setEmpty(false)
+        if (collections === null) {
+          setEmpty(true);
+        } else {
+          setEmpty(false);
         }
         setCollections(collections);
-     
+
         setColLoader(false);
-        setLoader(false)
+        setLoader(false);
       }
       props.beforeCollection();
       // if (props.setLoader) props.setLoader(false);
@@ -77,7 +75,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   useEffect(() => {
     if (props.collection.collectionFlag) {
       setCategories(props.collection.categories);
-    
+
       props.beforeCategory();
       setCatLoader(false);
     }
@@ -118,8 +116,8 @@ const ExploreCollections = forwardRef((props, ref) => {
   };
 
   const handleFilterCategory = (category) => {
-    setLoader(true)
-    setPage(1)
+    setLoader(true);
+    setPage(1);
     setLimit(10);
     getCollections(category, 1, 10);
   };
@@ -134,8 +132,11 @@ const ExploreCollections = forwardRef((props, ref) => {
   //   props.toggleLikeDislike(obj);
   // };
 
+<<<<<<< HEAD
 console.log(    !empty && collections?.length>=10 && pagination.totalRecords <=collections.length  ,"  !empty && collections?.length >10 && pagination.totalRecords <=collections.length &&")
 console.log(pagination)
+=======
+>>>>>>> 363894807728dd9deae5c5c664bcb67cf0b141ca
   return (
     <>
       <NavbarMain />
@@ -179,32 +180,32 @@ console.log(pagination)
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
-                    return (
-                      <div className="col-6 col-sm-3">
-                        <button
-                          onClick={() => {
-                            setIsActive(item.name);
-                            setSelectedCategory(item.description);
-                            handleFilterCategory(item.description);
-                          }}
-                          className={
-                            isActive === item.name  ? "active-explore-nav" : ""
-                          }
-                        >
-                          {item.name}
-                        </button>
-                      </div>
-                    );
-                  })}
+                      return (
+                        <div className="col-6 col-sm-3">
+                          <button
+                            onClick={() => {
+                              setIsActive(item.name);
+                              setSelectedCategory(item.description);
+                              handleFilterCategory(item.description);
+                            }}
+                            className={
+                              isActive === item.name ? "active-explore-nav" : ""
+                            }
+                          >
+                            {item.name}
+                          </button>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>
             <div className="row g-4 align-items-center justify-content-center">
-              {loader?
+              {loader ? (
                 <div class="spinner-border text-white" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>:
-              collections && collections.length > 0 ? (
+                  <span class="sr-only">Loading...</span>
+                </div>
+              ) : collections && collections.length > 0 ? (
                 collections.map((collection) => {
                   return (
                     <div className="col-sm-6 col-lg-4">
@@ -216,20 +217,25 @@ console.log(pagination)
                         name={collection.name}
                         id={collection._id}
                         collection={collection}
-                        userName={collection?.user[0]?.username?collection?.user[0]?.username:""}
+                        userName={
+                          collection?.user[0]?.username
+                            ? collection?.user[0]?.username
+                            : ""
+                        }
                         NFTCount={collection.NFTCount}
                         // handleLikesTogle={handleLikesTogleApi}
                       />
                     </div>
                   );
                 })
-              ):(
-                  
-                  <p className="text-center text-white not-found-title mt-5">No Collections found</p>
-
+              ) : (
+                <p className="text-center text-white not-found-title mt-5">
+                  No Collections found
+                </p>
               )}
               <div className="col-12">
                 <div className="mt-5 text-center">
+<<<<<<< HEAD
                   {
                     !empty && collections?.length===10 && pagination.totalRecords >collections.length &&
                   <button
@@ -239,6 +245,18 @@ console.log(pagination)
                     Load more
                   </button>
                   }
+=======
+                  {!empty &&
+                    collections?.length > 10 &&
+                    pagination.totalRecords <= collections.length && (
+                      <button
+                        className="btn btn-linear-gradient px-5"
+                        onClick={() => handlePagination()}
+                      >
+                        Load more
+                      </button>
+                    )}
+>>>>>>> 363894807728dd9deae5c5c664bcb67cf0b141ca
                 </div>
               </div>
             </div>
@@ -249,16 +267,13 @@ console.log(pagination)
     </>
   );
 });
-const mapStateToProps = (state) => (
-
-  {
-    collection: state.collection,
-    error: state.error,
-    category: state.category,
-    categories: state.collection,
-    pagination:state.pagination
-  }
-);
+const mapStateToProps = (state) => ({
+  collection: state.collection,
+  error: state.error,
+  category: state.category,
+  categories: state.collection,
+  pagination: state.pagination,
+});
 
 export default connect(
   mapStateToProps,
