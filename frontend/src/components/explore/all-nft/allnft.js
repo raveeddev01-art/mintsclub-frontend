@@ -588,7 +588,7 @@ const AllNFT = (props) => {
                               id={listing._id}
                               likesCount={listing.likeCount}
                               likedNfts={likedNfts}
-                              ownerId={listing.ownerId}
+                             
                             />
                           </div>
                         );

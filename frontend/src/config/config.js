@@ -8,7 +8,7 @@ console.log(process.env.REACT_APP_BASE_URL,"process.env.REACT_APP_BASE_URL")
 
 export const ENV = {
   // blockchain variables
-  nftContractAddress: process.env.REACT_APP_NFT_CONTRACT_ADDRESS,
+  mintsClubContractAddress: process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS,
   web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
   ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
 

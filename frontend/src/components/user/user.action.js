@@ -31,6 +31,8 @@ export const login = (payload) => dispatch => {
     dispatch(emptyError());
     const url = `${ENV.url}auth/login/`;
     // const url = `http://localhost:5000/v1/front/auth/login/`;
+    console.log(payload,"payload")
+
     fetch(url, {
         method: 'POST',
         headers: {
@@ -224,6 +226,7 @@ export const getUserById = (userId) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
+        console.log(data,"user response")
         if (data.status) {
             dispatch({
                 type: SET_INDIVIDUAL_USER,

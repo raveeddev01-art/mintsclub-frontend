@@ -15,6 +15,7 @@ import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
 import { toggleLikeDislike } from "../explore/explore.action";
+import {getUserById,beforeUser} from '../user/user.action';
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -30,6 +31,7 @@ const UserProfile = (props) => {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [filterationLoader, setFilterationLoader] = useState(true);
+  const [user,setUser]=useState('')
   const [likedNfts, setLikedNfts] = useState();
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -64,6 +66,7 @@ const UserProfile = (props) => {
     let likedNftsQs = { userId: ENV.getUserKeys("_id")._id };
     likedNftsQs = ENV.objectToQueryString(likedNftsQs);
     props.getMyLikedNfts(likedNftsQs);
+    props.getUserById(ENV.getUserKeys("_id")._id)
   }, []);
 
   useEffect(() => {
@@ -84,11 +87,20 @@ const UserProfile = (props) => {
       }
     }
   }, [props.profileNFTsStatus]);
+
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
     }
   }, [props.myLikedNftsStatus]);
+
+  useEffect(()=>{
+    const {individualUserAuth,individualUser}=props;
+    if(individualUserAuth){
+      setUser(individualUser)
+    }
+  },[props.individualUserAuth])
+
   const ChangeTooltip = () =>
     setTimeout(() => {
       setAddressCopied(false);
@@ -337,33 +349,7 @@ const UserProfile = (props) => {
     );
   };
   const handleLikesTogleApi = (nftId, status) => {
-    // const {
-    //   collectionId,
-    //   gtePrice,
-    //   ltePrice,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest,
-    //   page,
-    //   limit,
-    // } = filter;
-    // getNFTs(
-    //   page,
-    //   limit,
-    //   false,
-    //   minValue,
-    //   maxValue,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest
-    // );
-    // let qs = { userId: ENV.getUserKeys("_id")._id };
-    // qs = ENV.objectToQueryString(qs);
-    // props.getMyLikedNfts(qs);
+   
     increOrDecreLikes(nftId);
     if (status === "dislike") {
       let result = likedNfts.filter((item) => item.nftId !== nftId);
@@ -454,7 +440,7 @@ const UserProfile = (props) => {
 
   const accountAddress = "0xe0106f010067b130e4c96f119c214c30c94cead1";
   const menuData = ["Collected", "Created", "Favourited"];
-  console.log(likedNfts, "likedNfts");
+  console.log(user,"user")
 
   return (
     <>
@@ -470,9 +456,12 @@ const UserProfile = (props) => {
                 <img src={Avatar} alt="owner-avatar" />
               </div>
               <div className="collection-owner-detail text-center mt-3">
+                {
+                  user &&
                 <div className="collection-owner-name">
-                  <h3>User Name</h3>
+                  <h3>{user.username?user.username:'unnamed'}</h3>
                 </div>
+                }
                 <div
                   className="user-address mt-4 d-flex align-items-center "
                   onClick={() => {
@@ -483,11 +472,14 @@ const UserProfile = (props) => {
                 >
                   <i className="fab fa-ethereum"></i>
                   <span>{isAddressCopied ? "Copied" : "Copy"}</span>
+                  {
+                 user &&
                   <p className="acc-adress">
-                    {accountAddress.slice(0, 10) +
+                    {user.address.slice(0, 10) +
                       "..." +
-                      accountAddress.slice(-10)}
+                      user.address.slice(-10)}
                   </p>
+                  }
                 </div>
                 <p>
                   Joined <span>February 2022</span>
@@ -662,11 +654,15 @@ const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state in userProfile"),
+  {
   profileNFTs: state.nft.profileNFTs,
   profileNFTsStatus: state.nft.profileNFTsStatus,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  individualUser:state.user.individualUser,
+  individualUserAuth:state.user.individualUserAuth,
 });
 
 export default connect(mapStateToProps, {
@@ -674,4 +670,7 @@ export default connect(mapStateToProps, {
   beforeNFT,
   toggleLikeDislike,
   getMyLikedNfts,
+  getUserById,
+  beforeUser
 })(UserProfile);
+
