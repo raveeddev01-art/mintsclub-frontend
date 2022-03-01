@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import { connect } from "react-redux";
@@ -16,6 +16,7 @@ import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
 import { toggleLikeDislike } from "../explore/explore.action";
 import {getUserById,beforeUser} from '../user/user.action';
+
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
