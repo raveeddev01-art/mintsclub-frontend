@@ -4,18 +4,14 @@ import Footer from "../footer/footer";
 import { connect } from "react-redux";
 import "./UserProfile.css";
 import { ENV } from "../../config/config";
-import Avatar from "../../assets/images/detail-avatar.png";
-import FlagIcon from "../../assets/images/detail-flag.svg";
-import ShareIcon from "../../assets/images/detail-share.svg";
-import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../listing-cards/ListingCards";
-import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
 import { toggleLikeDislike } from "../explore/explore.action";
 import {getUserById,beforeUser} from '../user/user.action';
+import { Images } from "../../assets/assets";
 
 
 const UserProfile = (props) => {
@@ -61,7 +57,6 @@ const UserProfile = (props) => {
 
   useEffect(() => {
     let qs = { ownerId: ENV.getUserKeys("_id")._id };
-    console.log(qs, "qs for user profile");
     qs = ENV.objectToQueryString(qs);
     props.getProfileNfts(qs);
     let likedNftsQs = { userId: ENV.getUserKeys("_id")._id };
@@ -121,26 +116,6 @@ const UserProfile = (props) => {
     props.beforeNFT();
     const nftQS = { page, limit };
 
-    const {
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      newest,
-      highToLow,
-    } = filter;
-
-    // if (!collectionIdFilter) collectionIdFilter = collectionId;
-    // if (!gtePriceFilter) gtePriceFilter = gtePrice;
-    // if (!ltePriceFilter) ltePriceFilter = ltePrice;
-    // if (!categoryIdFilter) categoryIdFilter = categoryId;
-    // if (!oldestFilter) oldestFilter = oldest;
-    // if (!lowToHighFilter) lowToHighFilter = lowToHigh;
-    // if (!highToLowFilter) highToLowFilter = highToLow;
-    // if (!newestFilter) newestFilter = newest;
-
     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
     if (gtePriceFilter) nftQS.ltePrice = ltePriceFilter;
@@ -152,14 +127,13 @@ const UserProfile = (props) => {
     nftQS.ownerId = ENV.getUserKeys("_id")._id;
 
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "qs indknf");
+
     props.getProfileNfts(qs);
   };
   const handleSortOptions = (e) => {
     setFilterationLoader(true);
 
     const { value } = e.target;
-    console.log(value, "value");
 
     if (value === "Low To High") {
       setFilter((prev) => ({
@@ -439,9 +413,9 @@ const UserProfile = (props) => {
     setNFTs(favNfts);
   };
 
-  const accountAddress = "0xe0106f010067b130e4c96f119c214c30c94cead1";
+
   const menuData = ["Collected", "Created", "Favourited"];
-  console.log(user,"user")
+
 
   return (
     <>
@@ -454,7 +428,7 @@ const UserProfile = (props) => {
           <div className="row justify-content-center">
             <div className="col-12">
               <div className="collection-owner-avatar text-center">
-                <img src={Avatar} alt="owner-avatar" />
+                <img src={user?.profileImage?user.profileImage:Images.placeholderImg} alt="owner-avatar" />
               </div>
               <div className="collection-owner-detail text-center mt-3">
                 {
@@ -466,7 +440,7 @@ const UserProfile = (props) => {
                 <div
                   className="user-address mt-4 d-flex align-items-center "
                   onClick={() => {
-                    navigator.clipboard.writeText(accountAddress);
+                    navigator.clipboard.writeText(user.address);
                     setAddressCopied(true);
                     ChangeTooltip();
                   }}

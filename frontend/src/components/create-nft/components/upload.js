@@ -1,5 +1,4 @@
 import VideoComponent from "../../videoComponent/videoComponent";
-import { IoMdCloudUpload } from "react-icons/io";
 import UploadIcon from "../../../assets/images/uploadIcon.png";
 import { MdClose } from "react-icons/md";
 import AudioPlayer from "../../audioPlayer/AudioPlayer";
@@ -39,7 +38,6 @@ const Upload = ({
               alt="upload-icon"
               className="nft-upload-icon"
             />
-            {/* <IoMdCloudUpload className="img-upload-icon"/> */}
             <input
               type="file"
               style={{ display: "none" }}

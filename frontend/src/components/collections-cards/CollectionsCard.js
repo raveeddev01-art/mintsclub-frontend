@@ -1,12 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
-import Subimg1 from "../../assets/images/cl-cr-subimg1.png";
-import Subimg2 from "../../assets/images/cl-cr-subimg2.png";
-import Subimg3 from "../../assets/images/cl-cr-subimg3.png";
-import CardImg from "../../assets/images/cl-cr-mainimg.png";
-import AvatarImg from "../../assets/images/seller-avatar.png";
-import HeartIcon from "../../assets/images/heart-icon.svg";
+import {Images} from '../../assets/assets'
+
 import "./CollectionsCard.css";
 
 const CollectionsCard = ({
@@ -21,7 +17,7 @@ const CollectionsCard = ({
   NFTCount,
   profileImage,
 }) => {
-  // const { name, image } = category;
+
   const history = useHistory();
 
   return (
@@ -58,9 +54,9 @@ const CollectionsCard = ({
             </Card.Text>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">
-                {profileImage && (
-                  <img src={profileImage} alt="avatar-img" className="me-2" />
-                )}
+              
+                  <img src={profileImage?profileImage:Images.placeholderImg} alt="avatar-img" className="me-2" />
+                
                 <span>{userName}</span>
               </div>
               {/* <div className="collection-footer-right d-flex align-items-center">

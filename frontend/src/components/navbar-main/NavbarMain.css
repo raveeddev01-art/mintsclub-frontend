@@ -25,6 +25,9 @@
   font-weight: bold;
   color: #5666fe;
 }
+.active-item {
+  color: #5666fe !important;
+}
 
 .main-nav-container
   .navbar-dark

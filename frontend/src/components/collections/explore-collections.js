@@ -7,7 +7,6 @@ import React, {
 
 import NavbarMain from "../navbar-main/NavbarMain";
 import "./explore-collections.css";
-import { CollectionImages } from "../../assets/assets.js";
 import CollectionsCard from "../collections-cards/CollectionsCard";
 import Footer from "../footer/footer";
 import { connect } from "react-redux";
@@ -19,7 +18,6 @@ import {
 } from "./collections.actions";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { beforeCategory, getCategories } from "./collections.actions";
-import { SiTruenas } from "react-icons/si";
 
 const ExploreCollections = forwardRef((props, ref) => {
   const [isActive, setIsActive] = useState("All");
@@ -68,7 +66,6 @@ const ExploreCollections = forwardRef((props, ref) => {
         setLoader(false);
       }
       props.beforeCollection();
-      // if (props.setLoader) props.setLoader(false);
     }
   }, [props.collection.getAuth]);
 
@@ -121,16 +118,6 @@ const ExploreCollections = forwardRef((props, ref) => {
     setLimit(10);
     getCollections(category, 1, 10);
   };
-
-  // const handleLikesTogleApi = (collectionId) => {
-  //   let userId=ENV.getUserKeys("_id")._id;
-  //   let obj={
-  //     userId,
-  //     collectionId,
-  //     count:1,
-  //   }
-  //   props.toggleLikeDislike(obj);
-  // };
 
   return (
     <>
@@ -218,7 +205,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                             : ""
                         }
                         NFTCount={collection.NFTCount}
-                        // handleLikesTogle={handleLikesTogleApi}
+                        profileImage={collection?.user[0]?.profileImage}
                       />
                     </div>
                   );

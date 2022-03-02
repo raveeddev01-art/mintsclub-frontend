@@ -6,10 +6,9 @@ import { SiDiscord } from "react-icons/si";
 import { FaTelegramPlane } from "react-icons/fa";
 import { GrReddit } from "react-icons/gr";
 import { AiFillHome } from "react-icons/ai";
-import mintsLogoSmily from "../../assets/images/mintsClubSmilyLogo1.png";
 import MintsClub from "../../assets/images/MintsClub-White.png";
 import { ENV } from "../../config/config";
-import fullNavIcon from "../../assets/images/mintsClubLogo1.png";
+
 
 const Navbar = () => {
   const history = useHistory();
@@ -23,7 +22,7 @@ const Navbar = () => {
   return (
     <div className="nav align-items-center">
       <input type="checkbox" id="nav-check" />
-      {/* <div className="nav-icon" ><img src={fullNavIcon} width="20%" /></div> */}
+    
       <div className="nav-header" style={{ width: "25%" }}>
         <div className="nav-title" onClick={() => history.push("/")}>
           <img src={MintsClub} width="100%" />

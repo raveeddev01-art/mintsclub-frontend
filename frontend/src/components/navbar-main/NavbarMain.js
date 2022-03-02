@@ -12,6 +12,7 @@ import { beforeCollection } from "../../components/collections/collections.actio
 const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
   const [path, setPath] = React.useState(null);
+  const [activeTab, setActiveTab] = React.useState(null);
   const history = useHistory();
   const location = useLocation();
 
@@ -40,44 +41,52 @@ const NavbarMain = (props) => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mx-xl-auto" defaultActiveKey="">
+            <Nav
+              className="mx-xl-auto"
+              defaultActiveKey={`${location.pathname}`}
+            >
               <Nav.Link to="/" href="/" className="nav-main-link">
                 Home
               </Nav.Link>
               <NavDropdown
                 title="Explore"
                 id="navbarScrollingDropdown"
-                className="nav-main-link dropdown-bg"
+                active={activeTab === 1}
+                defaultActiveKey={activeTab}
+                className={`nav-main-link dropdown-bg`}
               >
                 <NavDropdown.Item
                   to="/explore/exploreAll"
                   href="/explore/exploreAll"
-                  className="nav-main-link main-nav-dd-items"
+                  active={activeTab === 1}
+                  eventKey={1}
+                  className={`nav-main-link main-nav-dd-items ${
+                    location.pathname === "/explore/exploreAll"
+                      ? "active-item"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setActiveTab(1);
+                  }}
                 >
                   Explore All
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   to="/explore/allNFT"
                   href="/explore/allNFT"
-                  className="nav-main-link main-nav-dd-items"
+                  className={`nav-main-link main-nav-dd-items ${
+                    location.pathname === "/explore/allNFT" ? "active-item" : ""
+                  }`}
+                  eventKey={2}
+                  active={activeTab === 2}
+                  onClick={() => {
+                    setActiveTab(2);
+                  }}
                 >
                   All NFT
                 </NavDropdown.Item>
-                {/* <NavDropdown.Item to="/auctions" className="nav-main-link">
-                  Live Auctions
-                </NavDropdown.Item> */}
               </NavDropdown>
 
-              {/* <Nav.Link
-                href="/collection/detailPage"
-                className={`nav-main-link${
-                  path === "/collection/detailPage"
-                    ? "active-className-link"
-                    : ""
-                }`}
-              >
-                Collections
-              </Nav.Link> */}
               <Nav.Link to="/create" href="/create" className="nav-main-link">
                 Create
               </Nav.Link>
@@ -88,9 +97,6 @@ const NavbarMain = (props) => {
               >
                 Profile
               </Nav.Link>
-              {/* <Nav.Link to="/" className="nav-main-link">
-                History
-              </Nav.Link> */}
 
               <Link
                 to={`/login`}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useHistory } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import "./allnft.css";
 import { beforeNFT, getNFTs, getMyLikedNfts } from "../../nfts/nfts.action";
@@ -7,7 +7,6 @@ import NavbarMain from "../../navbar-main/NavbarMain";
 import Footer from "../../footer/footer";
 import SearchIcon from "../../../assets/images/nav-search-icon.svg";
 import ListingCards from "../../listing-cards/ListingCards";
-import { ListingImg } from "../../../assets/assets";
 import FilterComponent from "../../filter-component/FilterComponent";
 import { getCreators, beforeUser } from "./../../user/user.action";
 import FullPageLoader from "../../full-page-loader/full-page-loader";
@@ -24,12 +23,10 @@ const AllNFT = (props) => {
   const [nfts, setNFTs] = useState([]); // NFTs for explore section
   const [loader, setLoader] = useState(true);
   const [loadMoreBtn, setLoadMoreBtn] = useState(false);
-  const [intro, setIntro] = useState(false);
   const [creators, setCreator] = useState([]);
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [collections, setCollections] = useState([]);
-  const [totalCount, setTotalCount] = useState("");
   const [filterationLoader, setFilterationLoader] = useState(true);
 
   const [likedNfts, setLikedNfts] = useState();
@@ -46,15 +43,9 @@ const AllNFT = (props) => {
     limit: 10,
   });
 
-  // const pathname = useHistory().location.pathname;
-
+  
   useEffect(() => {
     window.scroll(0, 0);
-
-    // set intro section
-    // if (pathname === "/explore-all") setIntro(true);
-
-    // get NFTs for explore section
     props.getCreators();
     props.getCollections();
     getNFTs();
@@ -63,12 +54,14 @@ const AllNFT = (props) => {
     props.getMyLikedNfts(qs);
   }, []);
 
+ // Get Liked Nfts
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
     }
   }, [props.myLikedNftsStatus]);
 
+ //Get Top Sellers
   useEffect(() => {
     if (props.user.topSellersAuth) {
       setCreator(props.user.sellers);
@@ -82,11 +75,10 @@ const AllNFT = (props) => {
     }
   }, [props.user.creatorsAuth]);
 
-  // set NFTs for explore section
+ //Get NFt's
   useEffect(() => {
     if (props.nft.nftsAuth) {
       const { nfts, pagination } = props.nft.nftsData;
-      // console.log(nftsData,"nftsData==>")
       if (nfts) {
         setNFTs(nfts);
         setNFTPagination(pagination);
@@ -99,7 +91,7 @@ const AllNFT = (props) => {
     }
   }, [props.nft.nftsAuth]);
 
-  // handle show load more button state when pagination is set
+  //pagination
   useEffect(() => {
     if (nftPagination)
       setLoadMoreBtn(
@@ -115,12 +107,7 @@ const AllNFT = (props) => {
     }
   }, [props.getAuth]);
 
-  const loadMore = () => {
-    const { page, limit } = nftPagination;
-    setLoader(true);
-    // get more NFTs for explore section
-    getNFTs(1, limit * (page + 1));
-  };
+
 
   const getNFTs = (
     page = 1,
@@ -135,27 +122,6 @@ const AllNFT = (props) => {
     newestFilter
   ) => {
     const nftQS = { page, limit };
-
-    const {
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      newest,
-      highToLow,
-    } = filter;
-
-    // if (!collectionIdFilter) collectionIdFilter = collectionId;
-    // if (!gtePriceFilter) gtePriceFilter = gtePrice;
-    // if (!ltePriceFilter) ltePriceFilter = ltePrice;
-    // if (!categoryIdFilter) categoryIdFilter = categoryId;
-    // if (!oldestFilter) oldestFilter = oldest;
-    // if (!lowToHighFilter) lowToHighFilter = lowToHigh;
-    // if (!highToLowFilter) highToLowFilter = highToLow;
-    // if (!newestFilter) newestFilter = newest;
-
     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
     if (gtePriceFilter) nftQS.ltePrice = ltePriceFilter;
@@ -169,6 +135,7 @@ const AllNFT = (props) => {
 
     props.getNFTs(qs);
   };
+  
   const itemoptions = [
     { value: "single", label: "Single" },
     { value: "double", label: "Double" },
@@ -378,33 +345,7 @@ const AllNFT = (props) => {
   };
 
   const handleLikesTogleApi = (nftId, status) => {
-    // const {
-    //   collectionId,
-    //   gtePrice,
-    //   ltePrice,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest,
-    //   page,
-    //   limit,
-    // } = filter;
-    // getNFTs(
-    //   page,
-    //   limit,
-    //   false,
-    //   minValue,
-    //   maxValue,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest
-    // );
-    // let qs = { userId: ENV.getUserKeys("_id")._id };
-    // qs = ENV.objectToQueryString(qs);
-    // props.getMyLikedNfts(qs);
+
     increOrDecreLikes(nftId);
     if (status === "dislike") {
       let result = likedNfts.filter((item) => item.nftId !== nftId);
@@ -462,6 +403,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
+
   return (
     <>
       <NavbarMain />
@@ -588,6 +530,7 @@ const AllNFT = (props) => {
                               id={listing._id}
                               likesCount={listing.likeCount}
                               likedNfts={likedNfts}
+                              ownerId={listing.ownerId}
                              
                             />
                           </div>

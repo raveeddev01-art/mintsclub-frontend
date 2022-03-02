@@ -51,11 +51,11 @@ const Wallet = (props) => {
       let myCollections = collections.filter((el) => el.userId === userId);
 
       if (myCollections && myCollections.length > 0) {
-        // history.push('/create')
-        history.push("/user-dashboard");
+     
+        history.push("/");
       } else {
-        // history.push('/collection/create');
-        history.push("/user-dashboard");
+       
+        history.push("/");
       }
     }
   }, [props.collection.getAuth]);
@@ -125,7 +125,7 @@ const Wallet = (props) => {
                 <div className="intro text-center">
                   <span>Sign In</span>
                   <h3 className="mt-3 mb-0">SignIn to your account</h3>
-                  {/* <p>Please select the wallet you want to connect to.</p> */}
+              
                 </div>
               </div>
             </div>
@@ -244,9 +244,7 @@ const Wallet = (props) => {
                       Sign Up
                     </button>
                   </div>
-                  {/* <div className="col-12">
-                                        <span className="d-block text-center mt-4">Already have an account? <a href="/login">Login</a></span>
-                                    </div> */}
+                 
                 </div>
               </form>
             </div>

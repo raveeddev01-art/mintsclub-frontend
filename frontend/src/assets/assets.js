@@ -13,9 +13,11 @@ import listingImg1 from "./images/listingImg1.png";
 import listingImg2 from "./images/listingImg2.png";
 import listingImg3 from "./images/listingImg3.png";
 import listingImg4 from "./images/listingImg4.png";
+import placeholderImg from './images/placeholder.png'
 
 export const Images = {
   uploadImage,
+  placeholderImg
 };
 
 export const CollectionImages = {

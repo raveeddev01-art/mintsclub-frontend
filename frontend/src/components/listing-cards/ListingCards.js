@@ -90,7 +90,7 @@ const ListingCards = ({
             <span>{price} ETH</span>
           </div>
         </div>
-        <button className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center">
+        <button className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"   onClick={() => history.push(`/nftdetail/${id}`)}>
           <p>{ownerId===ENV.getUserKeys("_id")._id?"View":"Buy Now"}</p>
         </button>
       </Card.Body>
