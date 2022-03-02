@@ -91,43 +91,8 @@ const collectionData = [
 ];
 
 const PopularCollections = (props) => {
-  // const [categories, setCategories] = useState(null);
-  // const [categoriesLoader, setCatLoader] = useState(true); // categories loader
-  // const [collectionsLoader, setColLoader] = useState(true); // collections loader
-  // const collectionsRef = useRef(null);
-
-  // useEffect(() => {
-  //   window.scroll(0, 0);
-  //   props.getCategories();
-  // }, []);
-
-  // // when categories data is received
-  // useEffect(() => {
-  //   if (props.category.getAuth) {
-  //     const { categories } = props.category;
-  //     // const allCat = { active: true, name: 'all' }
-  //     // setCategories([allCat, ...categories])
-  //     setCategories(categories);
-  //     props.beforeCategory();
-  //     setCatLoader(false);
-  //     setColLoader(false);
-  //   }
-  // }, [props.category.getAuth]);
-
-  // const getCatCollections = (catId) => {
-  //   collectionsRef.current?.getCatCollections(catId);
-  // };
-  // const getColLoader = (loader) => {
-  //   setColLoader(loader);
-  // };
-
-  // console.log(categories, "categories123");
-
   return (
     <>
-      {/* {!collectionsLoader ? (
-        <FullPageLoader />
-      ) : ( */}
       <section className="popular-collections-area padding-wrapper">
         <div className="container">
           <div className="row mb-5">
@@ -142,16 +107,6 @@ const PopularCollections = (props) => {
                     smile, success and future growth.
                   </p>
                 </div>
-                {/* {collectionsRef.current?.colCount > 0 && (
-                  <div className="intro-btn">
-                    <Link
-                      className="btn content-btn text-left"
-                      to="/collections"
-                    >
-                      {initData.btnText}
-                    </Link>
-                  </div>
-                )} */}
               </div>
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
@@ -187,24 +142,9 @@ const PopularCollections = (props) => {
                 />
               );
             })}
-            {/* {categories.map((category) => { 
-                return (
-                  <>
-                    <CollectionsCard category={category} />
-                  </>
-                );
-              })} */}
           </CardSlider>
-          {/* <CollectionsCard /> */}
-          {/* <Collections
-            popular={true}
-            userId="61408000cef27850fdea272b"
-            setLoader={getColLoader}
-            ref={collectionsRef}
-          /> */}
         </div>
       </section>
-      {/* )} */}
     </>
   );
 };

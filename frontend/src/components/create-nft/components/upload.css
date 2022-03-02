@@ -45,3 +45,7 @@
   position: absolute;
   z-index: 10;
 }
+
+.upload-image-border .upload-image-place-holder {
+  height: 90%;
+}

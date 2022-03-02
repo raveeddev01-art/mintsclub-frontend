@@ -40,7 +40,7 @@ const NavbarMain = (props) => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mx-xl-auto" defaultActiveKey="">
+            <Nav className="mx-xl-auto" defaultActiveKey="/">
               <Nav.Link to="/" href="/" className="nav-main-link">
                 Home
               </Nav.Link>

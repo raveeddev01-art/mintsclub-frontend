@@ -19,7 +19,7 @@ import {
 } from "./collections.actions";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { beforeCategory, getCategories } from "./collections.actions";
-import { SiTruenas } from "react-icons/si";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const ExploreCollections = forwardRef((props, ref) => {
   const [isActive, setIsActive] = useState("All");
@@ -68,7 +68,6 @@ const ExploreCollections = forwardRef((props, ref) => {
         setLoader(false);
       }
       props.beforeCollection();
-      // if (props.setLoader) props.setLoader(false);
     }
   }, [props.collection.getAuth]);
 
@@ -87,11 +86,8 @@ const ExploreCollections = forwardRef((props, ref) => {
     };
 
     if (props.userId) filter.userId = props.userId;
-
     if (props.popular) filter.popular = true;
     if (category) filter.myFilter = category;
-
-    // if not all then apply limit
     if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
     else filter.all = true;
 
@@ -122,19 +118,10 @@ const ExploreCollections = forwardRef((props, ref) => {
     getCollections(category, 1, 10);
   };
 
-  // const handleLikesTogleApi = (collectionId) => {
-  //   let userId=ENV.getUserKeys("_id")._id;
-  //   let obj={
-  //     userId,
-  //     collectionId,
-  //     count:1,
-  //   }
-  //   props.toggleLikeDislike(obj);
-  // };
-
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"Explore"} title2={"ExploreAll"} />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
@@ -142,7 +129,6 @@ const ExploreCollections = forwardRef((props, ref) => {
           <div className="container">
             <div className="row mb-5">
               <div className="col-12">
-                {/* Intro */}
                 <div className="intro">
                   <div className="intro-content">
                     <span>Collections</span>

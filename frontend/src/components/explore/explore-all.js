@@ -26,46 +26,34 @@ function ExploreAll(props) {
 
   useEffect(() => {
     window.scroll(0, 0);
-
-    // set intro section
     if (pathname === "/explore-all") setIntro(true);
-
-    // get NFTs for explore section
     getNFTs();
     props.getCreators();
   }, []);
   useEffect(() => {
     if (props.user.topSellersAuth) {
-      //    console.log(props.user.sellers,"sellers blah blah blah");
       setCreator(props.user.sellers);
     }
   }, [props.user.topSellersAuth]);
   useEffect(() => {
     if (props.user.creatorsAuth) {
-      //    console.log(props.user.creators,"sellers blah blah blah");
       setCreator(props.user.creators);
       setLoader(false);
     }
   }, [props.user.creatorsAuth]);
-  // set NFTs for explore section
   useEffect(() => {
     if (props.nft.nftsAuth) {
       const { nftsData } = props.nft;
-      // console.log(nftsData,"nftsData==>")
       if (nftsData) {
-        // console.log(nftsData,"checking nfts" )
         setNFTs(nftsData);
         setNFTPagination(nftsData.pagination);
         props.beforeNFT();
-
-        // setLoader(false)
         if (props.setLoader) props.setLoader(false);
       }
       setLoader(false);
     }
   }, [props.nft.nftsAuth]);
 
-  // handle show load more button state when pagination is set
   useEffect(() => {
     if (nftPagination)
       setLoadMoreBtn(
@@ -78,7 +66,6 @@ function ExploreAll(props) {
   const loadMore = () => {
     const { page, limit } = nftPagination;
     setLoader(true);
-    // get more NFTs for explore section
     getNFTs(1, limit * (page + 1));
   };
 
@@ -90,20 +77,6 @@ function ExploreAll(props) {
     const qs = ENV.objectToQueryString(nftQS);
     props.getNFTs(qs);
   };
-
-  //     <div className="row gx-5 p-4">
-  //     {
-  //       nfts && nfts.map((nft)=>{
-  //     return (
-
-  // <div className="col-6 mt-5" style={{}}>
-
-  //   <NftCard nft={nft}/>
-  // </div>
-  //     )
-  //       })
-  //     }
-  // console.log(nfts,"checking nfts==>")
 
   return (
     <section
@@ -118,7 +91,6 @@ function ExploreAll(props) {
               <div className="intro text-center mb-4">
                 <span>{initData.pre_heading}</span>
                 <h3 className="mt-3 mb-0">{initData.heading}</h3>
-                {/* <p>{initData.content}</p> */}
               </div>
             </div>
           </div>
@@ -134,34 +106,6 @@ function ExploreAll(props) {
                     userId={ENV.getUserKeys("_id")._id}
                   />
                 </div>
-                // <div key={`edth_${idx}`} className={`col-12 col-sm-6 col-lg-${props.lgCols ? props.lgCols : '3'} item explore-item`} data-groups={item.group ? item.group : '["art","sports"]'}>
-                //     <div className="card">
-                //         <div className="image-over">
-                //             <Link to={`/item-details?item=${window.btoa(item._id)}`}>
-                //                 <img className="card-img-top" src={item.image} alt="Item Image" />
-                //             </Link>
-                //         </div>
-                //         <div className="card-caption col-12 p-0">
-                //             <div className="card-body">
-                //                 <Link to={`/item-details?item=${window.btoa(item._id)}`}>
-                //                     <h5 className="mb-0">{item.name}</h5>
-                //                 </Link>
-                //                 <div className="seller d-flex align-items-center my-3">
-                //                     <span>Owned By</span>
-                //                     <a href="/author">
-                //                         <h6 className="ml-4 mb-0">{"usama asghar"}</h6>
-                //                         {/* <h6 className="ml-2 mb-0">{item.owner.username}</h6> */}
-                //                     </a>
-                //                 </div>
-                //                 <div className="card-bottom d-flex justify-content-between">
-                //                     <span>{item.currentPrice}</span>
-                //                     <span>{"0"} of {"5"}</span>
-                //                 </div>
-                //                 {/* <a className="btn btn-bordered-white btn-smaller mt-3" href="/login"><i className="icon-handbag mr-2" />Place a Bid</a> */}
-                //             </div>
-                //         </div>
-                //     </div>
-                // </div>
               );
             })
           ) : (
@@ -181,7 +125,6 @@ function ExploreAll(props) {
             </div>
           </div>
         )}
-        {/* <ExploreItems class1="explore-items" class2="explore-item" key="edth" /> */}
       </div>
     </section>
   );

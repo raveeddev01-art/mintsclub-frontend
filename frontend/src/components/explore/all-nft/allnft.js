@@ -16,7 +16,7 @@ import {
   beforeCollection,
   getCollections,
 } from "../../collections/collections.actions";
-// import VideoCards from "../../test-video-card/videoCard";
+import Breadcrumb from "../../breadcrumb/breadcrumb";
 
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -46,15 +46,8 @@ const AllNFT = (props) => {
     limit: 10,
   });
 
-  // const pathname = useHistory().location.pathname;
-
   useEffect(() => {
     window.scroll(0, 0);
-
-    // set intro section
-    // if (pathname === "/explore-all") setIntro(true);
-
-    // get NFTs for explore section
     props.getCreators();
     props.getCollections();
     getNFTs();
@@ -146,15 +139,6 @@ const AllNFT = (props) => {
       newest,
       highToLow,
     } = filter;
-
-    // if (!collectionIdFilter) collectionIdFilter = collectionId;
-    // if (!gtePriceFilter) gtePriceFilter = gtePrice;
-    // if (!ltePriceFilter) ltePriceFilter = ltePrice;
-    // if (!categoryIdFilter) categoryIdFilter = categoryId;
-    // if (!oldestFilter) oldestFilter = oldest;
-    // if (!lowToHighFilter) lowToHighFilter = lowToHigh;
-    // if (!highToLowFilter) highToLowFilter = highToLow;
-    // if (!newestFilter) newestFilter = newest;
 
     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
@@ -269,7 +253,6 @@ const AllNFT = (props) => {
       );
     } else {
     }
-    // setDetails(prev => ({...prev, name: target.value}))
   };
 
   const onChangeMinPrice = (e) => {
@@ -378,33 +361,6 @@ const AllNFT = (props) => {
   };
 
   const handleLikesTogleApi = (nftId, status) => {
-    // const {
-    //   collectionId,
-    //   gtePrice,
-    //   ltePrice,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest,
-    //   page,
-    //   limit,
-    // } = filter;
-    // getNFTs(
-    //   page,
-    //   limit,
-    //   false,
-    //   minValue,
-    //   maxValue,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest
-    // );
-    // let qs = { userId: ENV.getUserKeys("_id")._id };
-    // qs = ENV.objectToQueryString(qs);
-    // props.getMyLikedNfts(qs);
     increOrDecreLikes(nftId);
     if (status === "dislike") {
       let result = likedNfts.filter((item) => item.nftId !== nftId);
@@ -465,8 +421,9 @@ const AllNFT = (props) => {
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"Explore"} title2={"AllNFT"} />
       <div className="collection-detail-content all-nft-content">
-        <div className="container padding-wrapper">
+        <div className="container padding-wrapper pb-1">
           <div className="collections-listing">
             <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
@@ -588,7 +545,6 @@ const AllNFT = (props) => {
                               id={listing._id}
                               likesCount={listing.likeCount}
                               likedNfts={likedNfts}
-                             
                             />
                           </div>
                         );
@@ -626,9 +582,7 @@ const AllNFT = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  
-  {
+const mapStateToProps = (state) => ({
   nft: state.nft,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
