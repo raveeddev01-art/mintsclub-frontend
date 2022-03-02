@@ -1557,9 +1557,9 @@ aside {
   -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
 }
 
-.btn.btn-rounded-bordered:hover {
+/* .btn.btn-rounded-bordered:hover {
   background: #090918 !important;
-}
+} */
 
 .hero-left-content {
   position: relative;
@@ -1568,25 +1568,6 @@ aside {
 .watch-video span {
   color: #ffffff;
 }
-
-/* .btn.btn-bordered-white::after {
-  position: absolute;
-  content: "";
-  height: calc(100% + 4px);
-  width: calc(100% + 4px);
-  background-image: linear-gradient(
-    135deg,
-    var(--primary-color) 10%,
-    var(--secondary-color)
-  );
-  top: -2px;
-  left: -2px;
-  border-radius: 100px;
-  opacity: 0;
-  -webkit-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s;
-  z-index: -1;
-} */
 
 .btn.btn-bordered-white:hover,
 .btn.btn-bordered-white:focus {
@@ -1715,19 +1696,6 @@ aside {
 .bg-grey input,
 .bg-grey textarea {
   background-color: var(--white-color);
-}
-
-.breadcrumb-area {
-  background: rgba(0, 0, 0, 0) url("/img/inner_bg.jpg") no-repeat scroll top
-    center/cover;
-}
-
-.breadcrumb-area.bg-overlay::after {
-  opacity: 0.89;
-}
-
-.bg-dark {
-  background-color: #121212 !important;
 }
 
 /* #endregion Helper Class */
@@ -3338,61 +3306,6 @@ span.no-padding .form-control {
 .share-list .nav-link i {
   margin: 0 1rem;
   font-size: 22px;
-}
-
-.breadcrumb {
-  margin: 0;
-  background: none;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  color: inherit;
-}
-
-.breadcrumb-area {
-  height: 350px;
-  z-index: 1;
-}
-
-.breadcrumb-area .breadcrumb-item {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0.3rem 0;
-}
-
-.breadcrumb-area .breadcrumb-item a:not(.btn) {
-  font-weight: 600;
-  color: var(--white-color) !important;
-}
-
-.breadcrumb-area .breadcrumb-item a:hover {
-  color: var(--white-color);
-}
-
-.breadcrumb-area .breadcrumb-item.active {
-  color: var(--white-color) !important;
-}
-
-.breadcrumb-area .breadcrumb-item.active:hover {
-  color: var(--primary-color);
-}
-
-.breadcrumb-area .breadcrumb-content h2 {
-  font-weight: var(--h1-weight);
-}
-
-.breadcrumb-area .breadcrumb-content .breadcrumb {
-  background-color: transparent;
-  margin: 0;
-}
-
-.breadcrumb-area
-  .breadcrumb-content
-  .breadcrumb
-  .breadcrumb-item
-  + .breadcrumb-item::before {
-  content: ">";
-  color: var(--white-color);
 }
 
 .image-over {

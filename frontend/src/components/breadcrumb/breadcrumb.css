@@ -1,0 +1,11 @@
+.top-breadcrumb {
+  margin-top: 25px;
+}
+.top-breadcrumb .breadcrumb-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 0;
+  color: #d6d6d6;
+  cursor: pointer;
+  font-weight: bold;
+}

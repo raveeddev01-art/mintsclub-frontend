@@ -15,6 +15,12 @@ import listingImg3 from "./images/listingImg3.png";
 import listingImg4 from "./images/listingImg4.png";
 import placeholderImg from './images/placeholder.png'
 
+import EditAvatar from "./images/edit-profile.svg";
+import EditBanner from "./images/edit-profile-banner.svg";
+import Twitter from "./images/edit-twitter.svg";
+import Insta from "./images/edit-insta.svg";
+import Website from "./images/edit-website.svg";
+
 export const Images = {
   uploadImage,
   placeholderImg
@@ -37,4 +43,12 @@ export const ListingImg = {
   listingImg2,
   listingImg3,
   listingImg4,
+};
+
+export const editImages = {
+  EditAvatar,
+  EditBanner,
+  Twitter,
+  Insta,
+  Website,
 };

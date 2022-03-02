@@ -15,7 +15,7 @@ import {
   beforeCollection,
   getCollections,
 } from "../../collections/collections.actions";
-// import VideoCards from "../../test-video-card/videoCard";
+import Breadcrumb from "../../breadcrumb/breadcrumb";
 
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -236,7 +236,6 @@ const AllNFT = (props) => {
       );
     } else {
     }
-    // setDetails(prev => ({...prev, name: target.value}))
   };
 
   const onChangeMinPrice = (e) => {
@@ -345,7 +344,6 @@ const AllNFT = (props) => {
   };
 
   const handleLikesTogleApi = (nftId, status) => {
-
     increOrDecreLikes(nftId);
     if (status === "dislike") {
       let result = likedNfts.filter((item) => item.nftId !== nftId);
@@ -407,8 +405,9 @@ const AllNFT = (props) => {
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"Explore"} title2={"AllNFT"} />
       <div className="collection-detail-content all-nft-content">
-        <div className="container padding-wrapper">
+        <div className="container padding-wrapper pb-1">
           <div className="collections-listing">
             <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
@@ -569,9 +568,7 @@ const AllNFT = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  
-  {
+const mapStateToProps = (state) => ({
   nft: state.nft,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,

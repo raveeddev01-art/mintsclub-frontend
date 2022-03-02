@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import Particles from "react-tsparticles";
-// import Header from '../../components/header/header';
-// import Footer from '../../components/footer/footer';
-// import ModalSearch from '../../components/modal-search/modal-search';
-// import ModalMenu from '../../components/modal-menu/modal-menu';
 // import Scrollup from '../../components/scroll-up/sroll-up';
 
 class Layout2 extends Component {
@@ -142,12 +138,7 @@ class Layout2 extends Component {
     return (
       <div className="main">
         <Particles id="tsparticles" options={{ ...particlesData }} />
-        {/* <Header /> */}
         {this.props.children}
-        {/* <Footer />
-                <ModalSearch />
-                <ModalMenu />
-                <Scrollup /> */}
       </div>
     );
   }

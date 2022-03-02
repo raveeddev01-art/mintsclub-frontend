@@ -19,7 +19,8 @@ import {
   myCollections,
 } from "../collections/collections.actions";
 import { setNftToken, createNFT } from "../nfts/nfts.action";
-import { getCurrentAddress,mintNFt } from "../../utils/web3";
+import { getCurrentAddress, mintNFt } from "../../utils/web3";
+import { RiArrowDropDownLine } from "react";
 import "./createNft.css";
 
 import { Images } from "../../assets/assets.js";
@@ -74,8 +75,8 @@ class CreateNFT extends Component {
     window.scroll(0, 0);
  
     this.props.myCollections(ENV.getUserKeys("_id")._id);
-    if(!ENV.getUserKeys("_id")._id){
-      this.props.history.push('/login')
+    if (!ENV.getUserKeys("_id")._id) {
+      this.props.history.push("/login");
     }
 
     let ownerAddress = await getCurrentAddress();
@@ -175,7 +176,7 @@ class CreateNFT extends Component {
                 true
               );
 
-              console.log(res,"nft crate")
+              console.log(res, "nft crate");
 
               if (res.success) {
                 // this.reset();
@@ -188,30 +189,25 @@ class CreateNFT extends Component {
                       res.nft.metaData,
                       res.nft._id
                     );
-                   
+
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:
                           createNftResult.events.TransferSingle.returnValues.id,
-                        nftId:res.nft._id,
+                        nftId: res.nft._id,
                         data: this.state.nft,
                         image: res.nft.image,
                       };
-                      console.log(data,"data==>")
+                      console.log(data, "data==>");
                       this.props.setNftToken(data);
                       toast.success("Nft created successfully");
                       this.props.history.push("/explore/allNFT");
                     }
                   } catch (err) {
-                    toast.error(err)
-                    
+                    toast.error(err);
                   }
-
-                  
                 }
               } else this.setState({ errors: res.message, loader: false });
-
-     
             }
           );
         } else {
@@ -384,11 +380,8 @@ class CreateNFT extends Component {
       errorMessage,
       audioUrl,
     } = this.state;
- 
-    const { onDrop, dragOver, dragEnter, dragLeave } = this
- 
- 
- 
+
+    const { onDrop, dragOver, dragEnter, dragLeave } = this;
 
     return (
       <div>
@@ -396,7 +389,7 @@ class CreateNFT extends Component {
 
         <section className="author-area padding-wrapper">
           {loader && <FullPageLoader />}
-         
+
           <div className="container">
             <div className="row">
               <div className="col-12">
@@ -455,7 +448,6 @@ class CreateNFT extends Component {
                           name="image"
                         />
                       </label>
-                     
                     </div>
                   </div>
                 </div>
@@ -466,7 +458,6 @@ class CreateNFT extends Component {
                 <div className="nft-inputs-container p-4">
                   <div className="row g-4">
                     <div className="col-12">
-                    
                       <input
                         name="name"
                         placeholder="Title"
@@ -481,7 +472,6 @@ class CreateNFT extends Component {
                       </span>
                     </div>
                     <div className="col-12">
-                    
                       <textarea
                         name="description"
                         rows="3"
@@ -500,7 +490,6 @@ class CreateNFT extends Component {
                     </div>
 
                     <div className="col-12">
-                    
                       <input
                         name="currentPrice"
                         placeholder="Item Price*"
@@ -518,10 +507,8 @@ class CreateNFT extends Component {
                         )}
                       </span>
                     </div>
-                
 
                     <div className="col-12 col-lg-6">
-                   
                       <input
                         name="size"
                         value=""
@@ -536,7 +523,6 @@ class CreateNFT extends Component {
                       </span>
                     </div>
                     <div className="col-12 col-lg-6">
-                    
                       <input
                         name="copies"
                         value=""
@@ -553,7 +539,6 @@ class CreateNFT extends Component {
                     </div>
 
                     <div className="col-12">
-                    
                       <select
                         id="collectionId"
                         name="collectionId"
@@ -580,17 +565,16 @@ class CreateNFT extends Component {
                     </div>
                     <div className="col-12">
                       <div className="nft-form-btns text-center ">
-                       
                         <div className="d-flex  flex-column flex-md-row justify-content-center align-items-center">
                           <button
                             disabled={loader}
-                            className="create-collection-btn mt-2 me-2"
+                            className="create-collection-btn mt-2 me-md-2"
                             typ="submit"
                             onClick={(e) => this.submit(e)}
                           >
                             Create Item
                           </button>
-                          <button className="btn btn-rounded-bordered cancel-collection-btn mt-2">
+                          <button className="cancel-collection-btn mt-2">
                             Cancel
                           </button>
                         </div>
@@ -609,13 +593,10 @@ class CreateNFT extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  
-  {
-    error: state.error,
-    collection: state.collection,
-  }
-);
+const mapStateToProps = (state) => ({
+  error: state.error,
+  collection: state.collection,
+});
 
 export default connect(mapStateToProps, {
   beforeCollection,

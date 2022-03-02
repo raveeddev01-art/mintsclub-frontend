@@ -18,7 +18,7 @@ const Upload = ({
   dragLeave,
   videoURL,
   audioSrc,
-  clearData
+  clearData,
 }) => {
   return (
     <label
@@ -31,7 +31,11 @@ const Upload = ({
       <div className="upload-image-border p-4 position-relative">
         {imageURL ? (
           <div className="nft-uploaded-img-container">
-            <MdClose color="#e33d0bc2" className="uploaded-cross-icon" onClick={()=>clearData()} />
+            <MdClose
+              color="#e33d0bc2"
+              className="uploaded-cross-icon"
+              onClick={() => clearData()}
+            />
             <img className="upload-image" src={imageURL} alt="upload-image" />
             <img
               src={UploadIcon}
@@ -81,7 +85,7 @@ const Upload = ({
           <>
             {" "}
             <img
-              className="upload-image"
+              className="upload-image-place-holder"
               src={Images.uploadImage}
               alt="upload-image"
             />

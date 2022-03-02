@@ -1,5 +1,3 @@
-// layouts
-// import layout1 from "./layouts/layout1/layout1";
 import layout2 from "./layouts/layout2/layout2";
 import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
@@ -33,6 +31,8 @@ import CollectionDetailsPage from "./components/collection-details/collectiondet
 import NFTDetail from "./components/nft-detail/nftdetail";
 import UserProfile from "./components/user-profile/UserProfile";
 import TopSellerList from "./components/top-seller/topsellerlist";
+import AuctionsList from "./components/auctions/home-auction-list";
+import EditProfile from "./components/user-profile/user-edit-profile";
 
 // routes
 const routes = [
@@ -58,7 +58,7 @@ const routes = [
     exact: true,
     title: "Live Auctions",
     layout: layout2,
-    component: LiveAuctions,
+    component: AuctionsList,
   },
   {
     path: "/item-details",
@@ -228,6 +228,14 @@ const routes = [
     title: "User Profile",
     layout: layout2,
     component: UserProfile,
+  },
+  {
+    path: "/editprofile",
+    access: true,
+    exact: true,
+    title: "Edit Profile",
+    layout: layout2,
+    component: EditProfile,
   },
   {
     path: "/login",

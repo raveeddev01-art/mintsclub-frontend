@@ -1196,14 +1196,6 @@ aside {
   }
 }
 
-.breadcrumb-area {
-  background: rgba(0, 0, 0, 0) url("/img/inner_bg.jpg") no-repeat scroll top
-    center / cover;
-  &.bg-overlay::after {
-    opacity: 0.89;
-  }
-}
-
 .bg-dark {
   background-color: #121212 !important;
 }
@@ -2471,44 +2463,6 @@ header {
   background: none;
   justify-content: center;
   color: inherit;
-}
-
-.breadcrumb-area {
-  height: 450px;
-  z-index: 1;
-  .breadcrumb-item {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0.3rem 0;
-    a {
-      &:not(.btn) {
-        font-weight: 600;
-        color: var(--white-color) !important;
-      }
-      &:hover {
-        color: var(--white-color);
-      }
-    }
-    &.active {
-      color: var(--white-color) !important;
-      &:hover {
-        color: var(--primary-color);
-      }
-    }
-  }
-  .breadcrumb-content {
-    h2 {
-      font-weight: var(--h1-weight);
-    }
-    .breadcrumb {
-      background-color: transparent;
-      margin: 0;
-      .breadcrumb-item + .breadcrumb-item::before {
-        content: ">";
-        color: var(--white-color);
-      }
-    }
-  }
 }
 
 .image-over {

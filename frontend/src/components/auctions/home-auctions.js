@@ -165,8 +165,6 @@ function AuctionsOne(props) {
     props.getLiveAuctions(qs);
   };
 
-
-
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -186,21 +184,14 @@ function AuctionsOne(props) {
                     smile, success and future growth.
                   </p>
                 </div>
-                {/* {auctions && auctions.length > 0 && (
-                  <div className="intro-btn">
-                    <Link className="btn content-btn" to="/auctions">
-                      {initData.btnText}
-                    </Link>
-                  </div>
-                )} */}
               </div>
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
               <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
                 {categories &&
                   categories.length > 0 &&
-                  categories.map((item,index) => {
-                    if(index<=3){
+                  categories.map((item, index) => {
+                    if (index <= 3) {
                       return (
                         <button
                           className="me-1 me-sm-2"
@@ -210,25 +201,17 @@ function AuctionsOne(props) {
                         </button>
                       );
                     }
-                      
                   })}
-                {/* <button className="me-1 me-sm-2">Music</button>
-                <button className="me-1 me-sm-2">Game</button>
-                <button className="me-1 me-sm-5">Sport</button> */}
                 <div className="intro-btn">
-                  {auctions && auctions?.length > 4 && (
-                    <Link
-                      className="btn btn-rounded-bordered btn-viewAll"
-                      to="/authors"
-                    >
-                      View All
-                      <img
-                        src={ViewAllIcon}
-                        alt="arrow-left"
-                        className="ms-2"
-                      />
-                    </Link>
-                  )}
+                  {/* {auctions && auctions?.length > 4 && ( */}
+                  <Link
+                    className="btn btn-rounded-bordered btn-viewAll"
+                    to="/auctions"
+                  >
+                    View All
+                    <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
+                  </Link>
+                  {/* )} */}
                 </div>
               </div>
             </div>
@@ -237,93 +220,6 @@ function AuctionsOne(props) {
           {auctionDemoData && auctionDemoData.length > 0 ? (
             <div className="auctions-slides">
               <div className="">
-                {/* <div className="swiper-wrapper row"> */}
-                {/* <Swiper
-                  id="swiper"
-                  modules={[Navigation, Pagination, Autoplay, Virtual]}
-                  virtual
-                  spaceBetween={50}
-                  slidesPerView={3}
-                  onSlideChange={() => console.log("")}
-                  onSwiper={(swiper) => console.log(swiper)}
-                  pagination={{ clickable: true }}
-                  scrollbar={{ draggable: true }}
-                >
-                  {auctionDemoData.map((item, idx) => {
-                    return (
-                      <>
-                        <SwiperSlide>
-                          <div
-                            key={`auc_${idx}`}
-                            className="swiper-slide item"
-                            id={`#auc-${idx}`}
-                          >
-                            <div className="card m-3 ">
-                              <div className="image-over">
-                                <Link
-                                  to={`/item-details?item=${window.btoa(
-                                    item._id
-                                  )}`}
-                                >
-                                  <img
-                                    className="card-img-top"
-                                    src={item.image}
-                                    alt="NFT image"
-                                    width="600"
-                                    height="600"
-                                    style={{ borderRadius: "none" }}
-                                  />
-                                </Link>
-                              </div>
-                              <div className="card-caption col-12 p-0">
-                                <div className="card-body">
-                                  <div className="mb-3">
-                                    <Countdown
-                                      date={
-                                        new Date(item.auctionEndDate) + 10000
-                                      }
-                                      renderer={countDownRenderer}
-                                    />
-                                  </div>
-                                  <Link
-                                    to={`/item-details?item=${window.btoa(
-                                      item._id
-                                    )}`}
-                                  >
-                                    <h5 className="mb-0">{item.name}</h5>
-                                  </Link>
-                                  <Link
-                                    className="seller d-flex align-items-center my-3"
-                                    to={`/author`}
-                                  >
-                                    <img
-                                      className="avatar-sm rounded-circle"
-                                      // src={"https://gateway.ipfs.io/ipfs/QmR8ye93PSLCQXppDUwtBChXNXavCj1HbFCs2DDac5KRnQ"}
-                                      src={filterCreator(item, "profileImage")}
-                                      alt="User Avatar"
-                                    />
-                                    <span className="ml-2">
-                                      {filterCreator(item, "userName")}
-                                    </span>
-                                  </Link>
-                                  <div className="card-bottom d-flex justify-content-between">
-                                    <span>
-                                      {item.currentPrice} {ENV.currency}
-                                    </span>
-                                    <span>
-                                      {item.sold} of {item.copies}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-
-                      </>
-                    );
-                  })}
-                </Swiper> */}
                 <CardSlider
                   settings={ENV.auctionCollectionsSettings}
                   data={auctions}

@@ -1,0 +1,77 @@
+.edit-profile .edit-inp-subheading h6 {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Manrope;
+  color: #fff;
+  line-height: 0;
+}
+
+.edit-profile .edit-inp input,
+.edit-profile .edit-inp textarea {
+  background-color: #101029;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+.edit-profile .edit-inp input {
+  height: 60px;
+}
+
+.edit-profile .edit-inp textarea {
+  height: 215px;
+  resize: none;
+}
+
+.edit-profile .edit-banner-container {
+  padding-top: 45px;
+}
+
+.edit-profile .edit-banner-container .edit-banner img {
+  height: 135px;
+  width: 100%;
+}
+
+.edit-link-inp {
+  background-color: #101029;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+.edit-avatar {
+  width: max-content;
+}
+
+.edit-avatar,
+.edit-banner {
+  position: relative;
+}
+
+.avatar-btn-pen {
+  height: 30px;
+  width: 30px;
+  background-color: #5666fe;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  text-align: center;
+  position: absolute;
+  right: 0;
+  top: 30px;
+}
+
+.banner-btn-pen {
+  height: 30px;
+  width: 30px;
+  background-color: #5666fe;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  text-align: center;
+  position: absolute;
+  right: 30px;
+  top: 10px;
+}
