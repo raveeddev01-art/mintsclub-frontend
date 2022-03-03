@@ -83,6 +83,7 @@ const UserProfile = (props) => {
       }
     }
   }, [props.profileNFTsStatus]);
+  // con
 
   useEffect(() => {
     if (props.myLikedNftsStatus) {

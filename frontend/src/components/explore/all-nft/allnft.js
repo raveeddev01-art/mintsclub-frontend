@@ -41,6 +41,9 @@ const AllNFT = (props) => {
     newest: false,
     page: 1,
     limit: 10,
+    buy:false,
+    auction:false,
+    latest:false,
   });
 
   
