@@ -11,7 +11,8 @@ const FilterComponent = ({
   maxValue,
   applyMinMaxFilter,
   collectionsLabel,
-  handleCollectionsFilter
+  handleCollectionsFilter,
+  handleStatusFilter
 }) => {
   return (
     <div className="collection-filter-accordion">
@@ -39,7 +40,7 @@ const FilterComponent = ({
                 <div className="d-flex flex-column">
                   {Status.option &&
                     Status.option.map((Status) => {
-                      return <button>{Status}</button>;
+                      return <button onClick={()=>handleStatusFilter(Status)}>{Status}</button>;
                     })}
                 </div>
               </div>
