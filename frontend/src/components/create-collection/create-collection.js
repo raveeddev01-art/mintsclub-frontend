@@ -16,6 +16,7 @@ import "./create-collection.css";
 import { Images } from "../../assets/assets.js";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 class CreateCollection extends Component {
   constructor(props) {
     super(props);
@@ -161,7 +162,7 @@ class CreateCollection extends Component {
       return (
         <div>
           <NavbarMain />
-
+          <Breadcrumb title1={"Collections"} title2={"CreateCollection"} />
           <section className="author-area padding-form-wrapper">
             {loader && <FullPageLoader />}
             <div className="container">

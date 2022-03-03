@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import {
   axiosPostFormData,
   decimalNumberValidator,
 } from "./../../utils/functions";
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ENV } from "../../config/config";
 import $ from "jquery";
 import SimpleReactValidator from "simple-react-validator";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
-// import {ENV} from '../../config/config'
 import {
   beforeCollection,
   getCollections,
@@ -22,13 +19,13 @@ import { setNftToken, createNFT } from "../nfts/nfts.action";
 import { getCurrentAddress, mintNFt } from "../../utils/web3";
 import { RiArrowDropDownLine } from "react";
 import "./createNft.css";
-
 import { Images } from "../../assets/assets.js";
 import Upload from "./components/upload";
 import Footer from "../footer/footer";
 import NavbarMain from "../navbar-main/NavbarMain";
-const placeholderImg = "";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
+const placeholderImg = "";
 class CreateNFT extends Component {
   constructor(props) {
     super(props);
@@ -73,7 +70,7 @@ class CreateNFT extends Component {
 
   componentDidMount = async () => {
     window.scroll(0, 0);
- 
+
     this.props.myCollections(ENV.getUserKeys("_id")._id);
     if (!ENV.getUserKeys("_id")._id) {
       this.props.history.push("/login");
@@ -89,7 +86,6 @@ class CreateNFT extends Component {
   };
 
   componentDidUpdate(prevProps) {
-   
     if (
       this.props.collection.myCollectionsResult &&
       prevProps.collection.myCollectionsResult !==
@@ -111,8 +107,6 @@ class CreateNFT extends Component {
       }
     }
   }
-
-
 
   onChange(e, status = null) {
     let { name, value } = e.target;
@@ -146,13 +140,11 @@ class CreateNFT extends Component {
     this.setState({ nft });
   };
 
-
   submit = (e) => {
     e.preventDefault();
 
     const { nft } = this.state;
 
-    
     this.setState(
       {
         isSubmitted: true,
@@ -169,7 +161,7 @@ class CreateNFT extends Component {
               var formData = new FormData();
               for (const key in nft)
                 if (nft[key]) formData.append(key, nft[key]);
-                 
+
               const res = await axiosPostFormData(
                 "nfts/create",
                 formData,
@@ -386,7 +378,7 @@ class CreateNFT extends Component {
     return (
       <div>
         <NavbarMain />
-
+        <Breadcrumb title1={"NFT"} title2={"CreateNft"} />
         <section className="author-area padding-wrapper">
           {loader && <FullPageLoader />}
 

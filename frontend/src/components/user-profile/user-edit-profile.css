@@ -31,6 +31,8 @@
 .edit-profile .edit-banner-container .edit-banner img {
   height: 135px;
   width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 .edit-link-inp {
@@ -43,6 +45,13 @@
 
 .edit-avatar {
   width: max-content;
+}
+
+.edit-avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .edit-avatar,
@@ -61,6 +70,7 @@
   position: absolute;
   right: 0;
   top: 30px;
+  cursor: pointer;
 }
 
 .banner-btn-pen {
@@ -74,4 +84,5 @@
   position: absolute;
   right: 30px;
   top: 10px;
+  cursor: pointer;
 }

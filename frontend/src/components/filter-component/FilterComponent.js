@@ -12,7 +12,7 @@ const FilterComponent = ({
   applyMinMaxFilter,
   collectionsLabel,
   handleCollectionsFilter,
-  handleStatusFilter
+  handleStatusFilter,
 }) => {
   return (
     <div className="collection-filter-accordion">
@@ -40,7 +40,11 @@ const FilterComponent = ({
                 <div className="d-flex flex-column">
                   {Status.option &&
                     Status.option.map((Status) => {
-                      return <button onClick={()=>handleStatusFilter(Status)}>{Status}</button>;
+                      return (
+                        <button onClick={() => handleStatusFilter(Status)}>
+                          {Status}
+                        </button>
+                      );
                     })}
                 </div>
               </div>
@@ -70,7 +74,7 @@ const FilterComponent = ({
           >
             <div className="accordion-body">
               <div className="d-flex flex-column ">
-                <div className="filter-min-max d-flex align-items-center justify-content-center">
+                <div className="filter-min-max d-flex align-items-center justify-content-center mb-1">
                   <p>Min:</p>
                   <input
                     type="number"
@@ -78,8 +82,8 @@ const FilterComponent = ({
                     onChange={onChangeMinPrice}
                   />
                 </div>
-                <span className="text-center my-1">To</span>
-                <div className="filter-min-max d-flex align-items-center justify-content-center">
+                {/* <span className="text-center my-1">To</span> */}
+                <div className="filter-min-max d-flex align-items-center justify-content-center mt-1">
                   <p>Max:</p>
                   <input
                     type="number"
@@ -153,12 +157,20 @@ const FilterComponent = ({
               className="accordion-collapse collapse"
               aria-labelledby="flush-headingThree"
             >
-              <div className="accordion-body">
+              <div className="accordion-body collections-accordion-body">
                 <div className="d-flex flex-column">
                   {Collections &&
                     Collections.length > 0 &&
                     Collections.map((collection) => {
-                      return <button onClick={()=>handleCollectionsFilter(collection._id)}>{collection.name}</button>;
+                      return (
+                        <button
+                          onClick={() =>
+                            handleCollectionsFilter(collection._id)
+                          }
+                        >
+                          {collection.name}
+                        </button>
+                      );
                     })}
                 </div>
               </div>
