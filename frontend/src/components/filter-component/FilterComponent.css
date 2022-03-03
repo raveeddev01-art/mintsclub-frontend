@@ -150,6 +150,11 @@
   -moz-appearance: textfield;
 }
 
+.accordion-body.collections-accordion-body {
+  max-height: 205px;
+  overflow-y: auto;
+}
+
 @media (max-width: 991.9px) {
   .collection-filter-accordion {
     width: 100%;

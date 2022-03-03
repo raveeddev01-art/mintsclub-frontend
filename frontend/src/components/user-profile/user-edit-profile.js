@@ -54,14 +54,23 @@ const EditProfile = (props) => {
   });
   useEffect(() => {
     let user = ENV.getUserKeys("");
-    props.getUserById(ENV.getUserKeys("_id")._id)
+    props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
-
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
-      console.log(props.user,"props.user==>")
-      const {address,email,bio,twitterLink,username,profileImage,bannerImage,instaLink,webLink}=props.user.individualUser
+      console.log(props.user, "props.user==>");
+      const {
+        address,
+        email,
+        bio,
+        twitterLink,
+        username,
+        profileImage,
+        bannerImage,
+        instaLink,
+        webLink,
+      } = props.user.individualUser;
       props.beforeUser();
       setLoader(false);
 
@@ -73,22 +82,20 @@ const EditProfile = (props) => {
       setTwitterLink(twitterLink ? twitterLink : "");
       setUsername(username ? username : "");
       setImageUrl(profileImage ? profileImage : "");
-      setBannerUrl(bannerImage?bannerImage:'')
-      
+      setBannerUrl(bannerImage ? bannerImage : "");
+
       setInstaLink(instaLink ? instaLink : "");
-      setWebLink(webLink?webLink:"")
+      setWebLink(webLink ? webLink : "");
     }
   }, [props.user.individualUserAuth]);
-  
-  useEffect(()=>{
-    if(props.user.userAuth)
-    {
-      setLoader(false);
-  history.push('/userprofile')
-    }
 
-  },[props.user.userAuth])
-  
+  useEffect(() => {
+    if (props.user.userAuth) {
+      setLoader(false);
+      history.push("/userprofile");
+    }
+  }, [props.user.userAuth]);
+
   useEffect(() => {
     if (props.error) {
       setErrors(props.error.message);
@@ -137,20 +144,20 @@ const EditProfile = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
- let obj={
-  image,
-  banner,
-  username,
-  instaLink,
-  webLink,
-  description,
-  email,
-  address,
-  instaLink,
-  twitterLink
- }
+    let obj = {
+      image,
+      banner,
+      username,
+      instaLink,
+      webLink,
+      description,
+      email,
+      address,
+      instaLink,
+      twitterLink,
+    };
 
- console.log(obj,"obj")
+    console.log(obj, "obj");
     setErrors("");
     setLoader(true);
     setIsSubmitted(true);
@@ -159,15 +166,13 @@ const EditProfile = (props) => {
       try {
         // let signature = await signRequest();
         setLoader(true);
-        console.log(ENV.getUserKeys("_id")._id,'id')
+        console.log(ENV.getUserKeys("_id")._id, "id");
         var formData = new FormData();
-        formData.append("userId",ENV.getUserKeys("_id")._id)
-        if(image){
-
+        formData.append("userId", ENV.getUserKeys("_id")._id);
+        if (image) {
           formData.append("profileImage", image);
-        } 
-        if(banner){
-
+        }
+        if (banner) {
           formData.append("bannerImage", banner);
         }
         formData.append("bio", description);
@@ -176,8 +181,8 @@ const EditProfile = (props) => {
         formData.append("email", email);
         formData.append("webLink", webLink);
         formData.append("instaLink", instaLink);
-        console.log("sending request")
-      // return ''
+        console.log("sending request");
+        // return ''
         props.updateProfile(formData);
       } catch (e) {}
     } else {
@@ -188,220 +193,218 @@ const EditProfile = (props) => {
   };
   return (
     <>
-    {
-      loader &&
-      <FullPageLoader/>
-    }
+      {loader && <FullPageLoader />}
       <NavbarMain />
       <Breadcrumb title1={"Profile"} title2={"EditProfile"} />
       <section className="edit-profile padding-wrapper">
         <form onSubmit={submit}>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="intro">
-                <div className="intro-content">
-                  <span>Set Up Your Profile</span>
-                  <h3 className="mb-0">Profile Setting</h3>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-10 col-md-8 col-lg-4 col-xl-3">
-              <div className="edit-inp-subheading">
-                <h6>Profile Image</h6>
-              </div>
-              <div className="edit-avatar pt-4">
-  
-                <img style={{maxHeight:"8rem"}} src={imageUrl?imageUrl:editImages.EditAvatar} alt="editavatar" />
-
-                <label>
-                  <div className="avatar-btn-pen">
-                    <ProfileEditSVG />
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="intro">
+                  <div className="intro-content">
+                    <span>Set Up Your Profile</span>
+                    <h3 className="mb-0">Profile Setting</h3>
                   </div>
-                  <input
-                    type="file"
-                    accept=".png,.jpeg,.jpg"
-                    onChange={(e) => onFileChange(e)}
-                    style={{ display: "none" }}
-                    name="image"
-                  />
-                </label>
-              </div>
-              <div className="edit-banner-container">
-                <div className="edit-inp-subheading">
-                  <h6>Profile Banner</h6>
                 </div>
-                <div className="edit-banner pt-4">
+              </div>
+              <div className="col-12 col-sm-10 col-md-8 col-lg-4 col-xl-3">
+                <div className="edit-inp-subheading">
+                  <h6>Profile Image</h6>
+                </div>
+                <div className="edit-avatar pt-4">
                   <img
-                    src={bannerUrl ? bannerUrl : editImages.EditBanner}
+                    src={imageUrl ? imageUrl : editImages.EditAvatar}
                     alt="editavatar"
                   />
+
                   <label>
-                    <div className="banner-btn-pen">
+                    <div className="avatar-btn-pen">
                       <ProfileEditSVG />
                     </div>
                     <input
                       type="file"
                       accept=".png,.jpeg,.jpg"
-                      onChange={(e) => onBannerChange(e)}
+                      onChange={(e) => onFileChange(e)}
                       style={{ display: "none" }}
-                      name="banner"
+                      name="image"
                     />
                   </label>
                 </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-12 col-lg-8 col-xl-9 pt-5 pt-lg-0">
-              <div className="row g-4">
-                <div className="col-md-4 col-lg-4">
+                <div className="edit-banner-container">
                   <div className="edit-inp-subheading">
-                    <h6>Username</h6>
+                    <h6>Profile Banner</h6>
                   </div>
-                  <div className="edit-inp pt-4">
-                    <input
-                      name="username"
-                      placeholder="User Name"
-                      required="required"
-                      autocomplete="off"
-                      onChange={(e) => setUsername(e.target.value)}
-                      defaultValue={username}
+                  <div className="edit-banner pt-4">
+                    <img
+                      src={bannerUrl ? bannerUrl : editImages.EditBanner}
+                      alt="editavatar"
                     />
-                    <span className="text-danger">
-                      {validator.message("username", username, "required")}
-                    </span>
-                  </div>
-                </div>
-                <div className="col-md-4 col-lg-4">
-                  <div className="edit-inp-subheading">
-                    <h6>Email Address</h6>
-                  </div>
-                  <div className="edit-inp pt-4">
-                    <input
-                      name="email"
-                      placeholder="Email Address"
-                      required="required"
-                      autocomplete="off"
-                      readOnly
-                      value={email}
-                    />
-                    <span className="text-danger">
-                      {validator.message("email", email, "required")}
-                    </span>
-                  </div>
-                </div>
-                <div className="col-md-4 col-lg-4">
-                  <div className="edit-inp-subheading">
-                    <h6>Wallet Address</h6>
-                  </div>
-                  <div className="edit-inp pt-4">
-                    <input
-                      name="address"
-                      placeholder="Wallet Address"
-                      required="required"
-                      autocomplete="off"
-                      value={address}
-                    />
-                    <span className="text-danger">
-                      {validator.message("address", address, "required")}
-                    </span>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-6 col-xl-8">
-                  <div className="edit-inp-subheading">
-                    <h6>Bio</h6>
-                  </div>
-                  <div className="edit-inp pt-4">
-                    <textarea
-                      name="bio"
-                      placeholder="Bio"
-                      onChange={(e) => setDescription(e.target.value)}
-                      defaultValue={description}
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-6 col-xl-4">
-                  <div className="edit-inp-subheading">
-                    <h6>Links</h6>
-                  </div>
-                  <div className="edit-inp pt-4">
-                    <div className="edit-link-inp d-flex align-items-center">
-                      <img
-                        className="ps-3"
-                        src={editImages.Twitter}
-                        alt="twitterlink"
-                      />
+                    <label>
+                      <div className="banner-btn-pen">
+                        <ProfileEditSVG />
+                      </div>
                       <input
-                        name="twitterlink"
-                        placeholder="Twitter Link"
-                        autocomplete="off"
-                        ype="url"
-                        onChange={(e) => setTwitterLink(e.target.value)}
-                        defaultValue={twitterLink}
+                        type="file"
+                        accept=".png,.jpeg,.jpg"
+                        onChange={(e) => onBannerChange(e)}
+                        style={{ display: "none" }}
+                        name="banner"
                       />
-                    </div>
-                  </div>
-                  <div className="edit-inp pt-3">
-                    <div className="edit-link-inp d-flex align-items-center">
-                      <img
-                        className="ps-3"
-                        src={editImages.Insta}
-                        alt="instalink"
-                      />
-                      <input
-                        name="instagramlink"
-                        placeholder="Instagram Link"
-                        type="url"
-                        autocomplete="off"
-                        onChange={(e) => setInstaLink(e.target.value)}
-                        defaultValue={instaLink}
-                      />
-                    </div>
-                  </div>
-                  <div className="edit-inp pt-3">
-                    <div className="edit-link-inp d-flex align-items-center">
-                      <img
-                        className="ps-3"
-                        src={editImages.Website}
-                        alt="websitelink"
-                      />
-                      <input
-                        name="websitelink"
-                        placeholder="Website Link"
-                        ype="url"
-                        autocomplete="off"
-                        onChange={(e) => setWebLink(e.target.value)}
-                        defaultValue={webLink}
-                      />
-                    </div>
+                    </label>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-12 mt-4 mt-md-5 text-center">
-              <div className="">
-                <button className="btn btn-linear-gradient" >
-                  Save changes
-                </button>
+              <div className="col-12 col-md-12 col-lg-8 col-xl-9 pt-5 pt-lg-0">
+                <div className="row g-4">
+                  <div className="col-md-4 col-lg-4">
+                    <div className="edit-inp-subheading">
+                      <h6>Username</h6>
+                    </div>
+                    <div className="edit-inp pt-4">
+                      <input
+                        name="username"
+                        placeholder="User Name"
+                        required="required"
+                        autocomplete="off"
+                        onChange={(e) => setUsername(e.target.value)}
+                        defaultValue={username}
+                      />
+                      <span className="text-danger">
+                        {validator.message("username", username, "required")}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-md-4 col-lg-4">
+                    <div className="edit-inp-subheading">
+                      <h6>Email Address</h6>
+                    </div>
+                    <div className="edit-inp pt-4">
+                      <input
+                        name="email"
+                        placeholder="Email Address"
+                        required="required"
+                        autocomplete="off"
+                        readOnly
+                        value={email}
+                      />
+                      <span className="text-danger">
+                        {validator.message("email", email, "required")}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-md-4 col-lg-4">
+                    <div className="edit-inp-subheading">
+                      <h6>Wallet Address</h6>
+                    </div>
+                    <div className="edit-inp pt-4">
+                      <input
+                        name="address"
+                        placeholder="Wallet Address"
+                        required="required"
+                        autocomplete="off"
+                        value={address}
+                      />
+                      <span className="text-danger">
+                        {validator.message("address", address, "required")}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-lg-6 col-xl-8">
+                    <div className="edit-inp-subheading">
+                      <h6>Bio</h6>
+                    </div>
+                    <div className="edit-inp pt-4">
+                      <textarea
+                        name="bio"
+                        placeholder="Bio"
+                        onChange={(e) => setDescription(e.target.value)}
+                        defaultValue={description}
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-lg-6 col-xl-4">
+                    <div className="edit-inp-subheading">
+                      <h6>Links</h6>
+                    </div>
+                    <div className="edit-inp pt-4">
+                      <div className="edit-link-inp d-flex align-items-center">
+                        <img
+                          className="ps-3"
+                          src={editImages.Twitter}
+                          alt="twitterlink"
+                        />
+                        <input
+                          name="twitterlink"
+                          placeholder="Twitter Link"
+                          autocomplete="off"
+                          ype="url"
+                          onChange={(e) => setTwitterLink(e.target.value)}
+                          defaultValue={twitterLink}
+                        />
+                      </div>
+                    </div>
+                    <div className="edit-inp pt-3">
+                      <div className="edit-link-inp d-flex align-items-center">
+                        <img
+                          className="ps-3"
+                          src={editImages.Insta}
+                          alt="instalink"
+                        />
+                        <input
+                          name="instagramlink"
+                          placeholder="Instagram Link"
+                          type="url"
+                          autocomplete="off"
+                          onChange={(e) => setInstaLink(e.target.value)}
+                          defaultValue={instaLink}
+                        />
+                      </div>
+                    </div>
+                    <div className="edit-inp pt-3">
+                      <div className="edit-link-inp d-flex align-items-center">
+                        <img
+                          className="ps-3"
+                          src={editImages.Website}
+                          alt="websitelink"
+                        />
+                        <input
+                          name="websitelink"
+                          placeholder="Website Link"
+                          ype="url"
+                          autocomplete="off"
+                          onChange={(e) => setWebLink(e.target.value)}
+                          defaultValue={webLink}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 mt-4 mt-md-5 text-center">
+                <div className="">
+                  <button className="btn btn-linear-gradient">
+                    Save changes
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-          </form>
+        </form>
       </section>
       <Footer />
-   
-
     </>
   );
 };
 
 const mapStateToProps = (state) => (
-  console.log(state,"state"),
+  console.log(state, "state"),
   {
-  wallet: state.wallet,
-  user: state.user,
-  error: state.error,
-});
+    wallet: state.wallet,
+    user: state.user,
+    error: state.error,
+  }
+);
 
 export default connect(mapStateToProps, {
   updateProfile,

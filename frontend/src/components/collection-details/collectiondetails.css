@@ -22,6 +22,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .collection-detail-content .collection-owner-detail .collection-owner-name h3 {
