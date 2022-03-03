@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { ENV } from './../../config/config';
-import { GET_ERRORS, SET_USER, GET_USER, SET_CREATORS, TOP_SELLERS, SET_INDIVIDUAL_USER, BEFORE_USER } from '../../redux/types';
+import { GET_ERRORS, SET_USER, GET_USER, SET_CREATORS, TOP_SELLERS, SET_INDIVIDUAL_USER, BEFORE_USER,UPDATE_API_STATEC } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { getCollections, setAuthState } from '../collections/collections.actions';
 
@@ -108,7 +108,7 @@ export const signup = (payload) => dispatch => {
 // method to update user's profile, update user's payload
 export const updateProfile = (body) => dispatch => {
     dispatch(emptyError());
-    const url = `${ENV.url}users/`;
+    const url = `${ENV.url}users/updateProfile`;
     fetch(url, {
         method: 'PUT',
         headers: {
@@ -119,8 +119,9 @@ export const updateProfile = (body) => dispatch => {
         },
         body
     }).then(res => res.json()).then(data => {
+        console.log(data,"update profile response")
         if (data.status) {
-            ENV.encryptUserData(data.data);
+            // ENV.encryptUserData(data.data);
             dispatch({
                 type: SET_USER,
                 payload: data.data
@@ -133,6 +134,7 @@ export const updateProfile = (body) => dispatch => {
             })
         }
     }).catch(errors => {
+        console.log(errors,"update profile response")
         dispatch({
             type: GET_ERRORS,
             payload: errors
@@ -226,8 +228,9 @@ export const getUserById = (userId) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        console.log(data,"user response")
-        if (data.status) {
+        console.log(data,"user response by id")
+        if (data.success) {
+            
             dispatch({
                 type: SET_INDIVIDUAL_USER,
                 payload: data.data

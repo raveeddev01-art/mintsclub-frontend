@@ -28,7 +28,7 @@ const AllNFT = (props) => {
   const [maxValue, setMaxValue] = useState("");
   const [collections, setCollections] = useState([]);
   const [filterationLoader, setFilterationLoader] = useState(true);
-
+  const [keyword,setKeyword]=useState('')
   const [likedNfts, setLikedNfts] = useState();
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -122,7 +122,11 @@ const AllNFT = (props) => {
     oldestFilter,
     lowToHighFilter,
     highToLowFilter,
-    newestFilter
+    newestFilter,
+    keyword,
+    buy,
+    auction,
+    latest,
   ) => {
     const nftQS = { page, limit };
     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
@@ -133,6 +137,10 @@ const AllNFT = (props) => {
     if (lowToHighFilter) nftQS.lowToHigh = lowToHighFilter;
     if (highToLowFilter) nftQS.highToLow = highToLowFilter;
     if (newestFilter) nftQS.newest = newestFilter;
+    if (keyword) nftQS.keyword = keyword;
+    if (buy) nftQS.buy = buy;
+    if (auction) nftQS.auction = auction;
+    if (latest) nftQS.latest = latest;
 
     const qs = ENV.objectToQueryString(nftQS);
 
@@ -175,7 +183,11 @@ const AllNFT = (props) => {
         false,
         true,
         false,
-        false
+        false,
+        keyword,
+        filter.buy,
+        filter.auction,
+        filter.latest,
       );
     } else if (value === "High To Low") {
       setFilter((prev) => ({
@@ -195,7 +207,11 @@ const AllNFT = (props) => {
         false,
         false,
         true,
-        false
+        false,
+        keyword,
+        filter.buy,
+        filter.auction,
+        filter.latest,
       );
     } else if (value === "Oldest") {
       setFilter((prev) => ({
@@ -215,7 +231,11 @@ const AllNFT = (props) => {
         true,
         false,
         false,
-        false
+        false,
+        keyword,
+        filter.buy,
+        filter.auction,
+        filter.latest,
       );
     } else if (value === "Recantly Created") {
       setFilter((prev) => ({
@@ -235,7 +255,11 @@ const AllNFT = (props) => {
         false,
         false,
         false,
-        true
+        true,
+        keyword,
+        filter.buy,
+        filter.auction,
+        filter.latest,
       );
     } else {
     }
@@ -261,91 +285,108 @@ const AllNFT = (props) => {
 
   const handlePagination = () => {
     setFilterationLoader(true);
-    const {
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest,
-      page,
-      limit,
-    } = filter;
-    setFilter((prev) => ({ ...prev, limit: limit + 10 }));
+    setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
-      page,
-      limit + 10,
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest
+      filter.page,
+      filter.limit + 10,
+      filter.collectionId,
+      filter.gtePrice,
+      filter.ltePrice,
+      filter.categoryId,
+      filter.oldest,
+      filter.lowToHigh,
+      filter.highToLow,
+      filter.newest,
+      keyword,
+      filter.buy,
+      filter.auction,
+      filter.latest,
     );
   };
 
   const applyMinMaxFilter = () => {
     setFilterationLoader(true);
-    const {
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest,
-      page,
-      limit,
-    } = filter;
+  
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
     getNFTs(
-      page,
-      limit + 10,
-      collectionId,
-      minValue,
-      maxValue,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest
+      filter.page,
+      filter.limit + 10,
+      filter.collectionId,
+      filter.minValue,
+      filter.maxValue,
+      filter.categoryId,
+      filter.oldest,
+      filter.lowToHigh,
+      filter.highToLow,
+      filter.newest,
+      keyword,
+      filter.buy,
+      filter.auction,
+      filter.latest,
     );
   };
 
   const handleCollectionsFilter = (id) => {
     setFilterationLoader(true);
-    const {
-      collectionId,
-      gtePrice,
-      ltePrice,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest,
-      page,
-      limit,
-    } = filter;
     setFilter((prev) => ({ ...prev, collectionId: id }));
     getNFTs(
-      page,
-      limit,
+      filter.page,
+      filter.limit,
       id,
-      minValue,
-      maxValue,
-      categoryId,
-      oldest,
-      lowToHigh,
-      highToLow,
-      newest
+      filter.minValue,
+      filter.maxValue,
+      filter.categoryId,
+      filter.oldest,
+      filter.lowToHigh,
+      filter.highToLow,
+      filter.newest,
+      keyword,
+      filter.buy,
+      filter.auction,
+      filter.latest,
     );
   };
 
+
+  const handleSearchKeyword=()=>{
+
+    getNFTs(
+      filter.page,
+      filter.limit + 10,
+      filter.collectionId,
+      filter.minValue,
+      filter.maxValue,
+      filter.categoryId,
+      filter.oldest,
+      filter.lowToHigh,
+      filter.highToLow,
+      filter.newest,
+      keyword,
+      filter.buy,
+      filter.auction,
+      filter.latest,
+    );
+  }
+
+  const handleStatusFilter=(id)=>{
+    getNFTs(
+      filter.page,
+      filter.limit + 10,
+      filter.collectionId,
+      filter.minValue,
+      filter.maxValue,
+      filter.categoryId,
+      filter.oldest,
+      filter.lowToHigh,
+      filter.highToLow,
+      filter.newest,
+      keyword,
+      id=="Buy Now"?true:false,
+      id=="On Auction"?true:false,
+      id=="New"?true:false,
+    );
+
+  }
   const handleLikesTogleApi = (nftId, status) => {
     increOrDecreLikes(nftId);
     if (status === "dislike") {
@@ -415,11 +456,13 @@ const AllNFT = (props) => {
             <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                  <img src={SearchIcon} alt="search-icon" className="ms-3" />
+                  <img src={SearchIcon} alt="search-icon" className="ms-3" onClick={handleSearchKeyword} />
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Search"
+                    onChange={(e)=>setKeyword(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearchKeyword()}
                   />
                 </div>
               </div>
@@ -504,6 +547,7 @@ const AllNFT = (props) => {
                   maxValue={maxValue}
                   applyMinMaxFilter={applyMinMaxFilter}
                   handleCollectionsFilter={handleCollectionsFilter}
+                  handleStatusFilter={handleStatusFilter}
                 />
               </div>
               <div className="col-12 col-sm-8 col-md-9 col-lg-9">
