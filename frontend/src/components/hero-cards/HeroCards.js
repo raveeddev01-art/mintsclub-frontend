@@ -8,14 +8,11 @@ import ArrowUp from "../../assets/images/arrowUp.png";
 import Bucket from "../../assets/images/bucket.png";
 import "./HeroCards.css";
 
-const HeroCards = () => {
+const HeroCards = ({CardImg}) => {
   return (
     <Card className="auction-card hero-card mx-2">
       <div className="auction-img-wrapper">
         <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
-        {/* <div className="auction-countdown mb-3">
-          <Countdown date="2022/1/26 13:10:12" renderer={countDownRenderer} />
-        </div> */}
       </div>
       <Card.Body className="d-flex flex-column">
         <div className="hero-card-title-container d-flex align-items-center justify-content-between">

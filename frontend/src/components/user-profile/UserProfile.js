@@ -10,7 +10,7 @@ import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
 import { toggleLikeDislike } from "../explore/explore.action";
-import {getUserById,beforeUser} from '../user/user.action';
+import { getUserById, beforeUser } from "../user/user.action";
 import { Images } from "../../assets/assets";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 
@@ -413,12 +413,12 @@ const UserProfile = (props) => {
     setNFTs(favNfts);
   };
 
-
   const menuData = ["Collected", "Created", "Favourited"];
 
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"User"} title2={"UserProfile"} />
       <div className="collection-detail-hero">
         <img src={BannerImg} alt="BannerImg" />
       </div>
@@ -427,7 +427,14 @@ const UserProfile = (props) => {
           <div className="row justify-content-center">
             <div className="col-12">
               <div className="collection-owner-avatar text-center">
-                <img src={user?.profileImage?user.profileImage:Images.placeholderImg} alt="owner-avatar" />
+                <img
+                  src={
+                    user?.profileImage
+                      ? user.profileImage
+                      : Images.placeholderImg
+                  }
+                  alt="owner-avatar"
+                />
               </div>
               <div className="collection-owner-detail text-center mt-3">
                 {user && (

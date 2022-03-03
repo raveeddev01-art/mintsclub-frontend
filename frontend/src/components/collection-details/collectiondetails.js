@@ -3,13 +3,11 @@ import { useLocation } from "react-router-dom";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./collectiondetails.css";
-import Avatar from "../../assets/images/detail-avatar.png";
 import FlagIcon from "../../assets/images/detail-flag.svg";
 import ShareIcon from "../../assets/images/detail-share.svg";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../listing-cards/ListingCards";
-import { ListingImg } from "../../assets/assets";
 import FilterComponent from "../filter-component/FilterComponent";
 import {
   getNFTsByCollection,
@@ -21,7 +19,7 @@ import { connect } from "react-redux";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
 import { toggleLikeDislike } from "../explore/explore.action";
-import BannerImg from "../../assets/images/collection-detailBg.png";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -116,16 +114,6 @@ const CollectionDetailsPage = (props) => {
       newest,
       highToLow,
     } = filter;
-
-    // if (!collectionIdFilter) collectionIdFilter = collectionId;
-    // if (!gtePriceFilter) gtePriceFilter = gtePrice;
-    // if (!ltePriceFilter) ltePriceFilter = ltePrice;
-    // if (!categoryIdFilter) categoryIdFilter = categoryId;
-    // if (!oldestFilter) oldestFilter = oldest;
-    // if (!lowToHighFilter) lowToHighFilter = lowToHigh;
-    // if (!highToLowFilter) highToLowFilter = highToLow;
-    // if (!newestFilter) newestFilter = newest;
-
     nftQS.collectionId = location.state._id;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
     if (gtePriceFilter) nftQS.ltePrice = ltePriceFilter;
@@ -227,7 +215,6 @@ const CollectionDetailsPage = (props) => {
       );
     } else {
     }
-    // setDetails(prev => ({...prev, name: target.value}))
   };
 
   const onChangeMinPrice = (e) => {
@@ -293,35 +280,7 @@ const CollectionDetailsPage = (props) => {
       newest
     );
   };
-  ///////////Likes
   const handleLikesTogleApi = (nftId, status) => {
-    // const {
-    //   collectionId,
-    //   gtePrice,
-    //   ltePrice,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest,
-    //   page,
-    //   limit,
-    // } = filter;
-    // getNFTs(
-    //   page,
-    //   limit,
-    //   false,
-    //   minValue,
-    //   maxValue,
-    //   categoryId,
-    //   oldest,
-    //   lowToHigh,
-    //   highToLow,
-    //   newest
-    // );
-    // let qs = { userId: ENV.getUserKeys("_id")._id };
-    // qs = ENV.objectToQueryString(qs);
-    // props.getMyLikedNfts(qs);
     increOrDecreLikes(nftId);
     if (status === "dislike") {
       let result = likedNfts.filter((item) => item.nftId !== nftId);
@@ -344,7 +303,7 @@ const CollectionDetailsPage = (props) => {
       setLikedNfts(myLikedNfts);
       increOrDecreLikes(nftId, "inc");
     }
-    // setNFTs(nfts);
+
     let userId = ENV.getUserKeys("_id")._id;
 
     let obj = {
@@ -388,6 +347,7 @@ const CollectionDetailsPage = (props) => {
       ) : (
         <>
           <NavbarMain />
+          <Breadcrumb title1={"Collections"} title2={"CollectionDetail"} />
           <div className="collection-detail-hero w-100">
             <img className="w-100" src={banner} alt="BannerImg" />
           </div>

@@ -4,6 +4,7 @@ import Footer from "../footer/footer";
 
 import DemoImg from "../../assets/images/cl-cr-mainimg.png";
 import AuctionsCards from "../auctions-cards/AuctionsCards";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const AuctionsList = () => {
   const [isActive, setIsActive] = useState(0);
@@ -73,6 +74,7 @@ const AuctionsList = () => {
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"Auctions"} title2={"LiveAuctions"} />
       <section className="explore-collection-section padding-wrapper">
         <div className="container">
           <div className="row mb-5">

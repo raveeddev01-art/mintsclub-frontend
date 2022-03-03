@@ -19,6 +19,7 @@ import {
   beforeCategory,
   getCategories,
 } from "../collections/collections.actions";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const Populars = forwardRef((props, ref) => {
   const [isActive, setIsActive] = useState("All");
@@ -67,7 +68,6 @@ const Populars = forwardRef((props, ref) => {
         setLoader(false);
       }
       props.beforeCollection();
-      // if (props.setLoader) props.setLoader(false);
     }
   }, [props.collection.getAuth]);
 
@@ -122,6 +122,7 @@ const Populars = forwardRef((props, ref) => {
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"Collections"} title2={"PopularCollections"} />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (

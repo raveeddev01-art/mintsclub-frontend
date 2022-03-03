@@ -8,6 +8,7 @@ import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.css";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
+import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const TopSellerList = (props) => {
   const [sellers, setSellers] = useState([]);
@@ -21,6 +22,7 @@ const TopSellerList = (props) => {
   return (
     <>
       <NavbarMain />
+      <Breadcrumb title1={"Sellers"} title2={"TopSellers"} />
       <section className="top-seller-area padding-wrapper">
         <div className="container">
           <div className="row">
