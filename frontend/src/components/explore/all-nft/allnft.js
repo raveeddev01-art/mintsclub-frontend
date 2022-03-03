@@ -520,8 +520,16 @@ const AllNFT = (props) => {
                 >
                   <div className="col-10 mx-auto mt-2">
                     <FilterComponent
-                      Status={filterData.status}
-                      Collections={filterData.collections}
+                     Status={filterData.status}
+                     Collections={collections}
+                     collectionsLabel={"Collections"}
+                     onChangeMinPrice={onChangeMinPrice}
+                     onChangeMaxPrice={onChangeMaxPrice}
+                     minValue={minValue}
+                     maxValue={maxValue}
+                     applyMinMaxFilter={applyMinMaxFilter}
+                     handleCollectionsFilter={handleCollectionsFilter}
+                     handleStatusFilter={handleStatusFilter}
                     />
                   </div>
                 </div>
