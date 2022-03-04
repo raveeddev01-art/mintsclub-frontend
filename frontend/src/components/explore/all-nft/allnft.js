@@ -16,6 +16,7 @@ import {
   getCollections,
 } from "../../collections/collections.actions";
 import Breadcrumb from "../../breadcrumb/breadcrumb";
+import VideoCard from "../../test-video-card/videoCard";
 
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -47,6 +48,7 @@ const AllNFT = (props) => {
   });
 
   useEffect(() => {
+    console.log(ENV.getUserKeys("_id")._id, "id in all nft");
     window.scroll(0, 0);
     props.getCreators();
     props.getCollections();
@@ -125,6 +127,7 @@ const AllNFT = (props) => {
     auction,
     latest
   ) => {
+    console.log(gtePriceFilter, "gtePriceFilter");
     const nftQS = { page, limit };
     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
@@ -140,7 +143,7 @@ const AllNFT = (props) => {
     if (latest) nftQS.latest = latest;
 
     const qs = ENV.objectToQueryString(nftQS);
-
+    console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
 
@@ -305,12 +308,13 @@ const AllNFT = (props) => {
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
+    console.log(filter, "filter");
     getNFTs(
       filter.page,
       filter.limit + 10,
       filter.collectionId,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
@@ -330,8 +334,8 @@ const AllNFT = (props) => {
       filter.page,
       filter.limit,
       id,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
@@ -349,8 +353,8 @@ const AllNFT = (props) => {
       filter.page,
       filter.limit + 10,
       filter.collectionId,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
@@ -368,8 +372,8 @@ const AllNFT = (props) => {
       filter.page,
       filter.limit + 10,
       filter.collectionId,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
@@ -522,7 +526,15 @@ const AllNFT = (props) => {
                   <div className="col-10 mx-auto mt-2">
                     <FilterComponent
                       Status={filterData.status}
-                      Collections={filterData.collections}
+                      Collections={collections}
+                      collectionsLabel={"Collections"}
+                      onChangeMinPrice={onChangeMinPrice}
+                      onChangeMaxPrice={onChangeMaxPrice}
+                      minValue={minValue}
+                      maxValue={maxValue}
+                      applyMinMaxFilter={applyMinMaxFilter}
+                      handleCollectionsFilter={handleCollectionsFilter}
+                      handleStatusFilter={handleStatusFilter}
                     />
                   </div>
                 </div>
@@ -569,16 +581,30 @@ const AllNFT = (props) => {
                       nfts.map((listing) => {
                         return (
                           <div className="col-6 col-md-4 col-lg-3 px-1">
-                            <ListingCards
-                              CardImg={listing.image}
-                              name={listing.name}
-                              price={listing.currentPrice}
-                              handleLikesTogleApi={handleLikesTogleApi}
-                              id={listing._id}
-                              likesCount={listing.likeCount}
-                              likedNfts={likedNfts}
-                              ownerId={listing.ownerId}
-                            />
+                            {listing.fileType === "image" ? (
+                              <ListingCards
+                                CardImg={listing.image}
+                                name={listing.name}
+                                price={listing.currentPrice}
+                                handleLikesTogleApi={handleLikesTogleApi}
+                                id={listing._id}
+                                likesCount={listing.likeCount}
+                                likedNfts={likedNfts}
+                                ownerId={listing.ownerId}
+                                fileType={listing.fileType}
+                              />
+                            ) : (
+                              <VideoCard
+                                CardImg={listing.image}
+                                name={listing.name}
+                                price={listing.currentPrice}
+                                handleLikesTogleApi={handleLikesTogleApi}
+                                id={listing._id}
+                                likesCount={listing.likeCount}
+                                likedNfts={likedNfts}
+                                ownerId={listing.ownerId}
+                              />
+                            )}
                           </div>
                         );
                       })

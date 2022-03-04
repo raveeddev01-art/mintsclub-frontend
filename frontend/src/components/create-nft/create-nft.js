@@ -39,8 +39,6 @@ class CreateNFT extends Component {
         ownerId: ENV.getUserKeys("_id")._id,
         creatorId: ENV.getUserKeys("_id")._id,
         image: "",
-        videoURL: "",
-        audioUrl: "",
         name: "",
         description: "",
         currentPrice: "",
@@ -143,7 +141,17 @@ class CreateNFT extends Component {
   submit = (e) => {
     e.preventDefault();
 
-    const { nft } = this.state;
+    const { nft ,videoURL,audioUrl} = this.state;
+    console.log(nft,"nft=>")
+    let nftInfo=nft;
+    if(videoURL){
+      nftInfo.fileType="video"
+    }else if(audioUrl!==''){
+      nftInfo.fileType="audio"
+    }
+    else {
+      nftInfo.fileType="image"
+    }
 
     this.setState(
       {
@@ -159,8 +167,8 @@ class CreateNFT extends Component {
             },
             async () => {
               var formData = new FormData();
-              for (const key in nft)
-                if (nft[key]) formData.append(key, nft[key]);
+              for (const key in nftInfo)
+                if (nftInfo[key]) formData.append(key, nftInfo[key]);
 
               const res = await axiosPostFormData(
                 "nfts/create",
@@ -236,7 +244,7 @@ class CreateNFT extends Component {
         if (file.type.includes("image")) {
           let { nft } = this.state;
           nft = { ...nft, [e.target.name]: file };
-          nft = { ...nft, videoURL: "" };
+        
 
           this.setState(
             {
@@ -260,23 +268,25 @@ class CreateNFT extends Component {
           );
         } else if (file.type.includes("video")) {
           let { nft } = this.state;
-          nft = { ...nft, videoURL: file };
-          nft = { ...nft, image: "" };
+          nft = { ...nft,image: file };
+          console.log(nft ,"nft setting to the state")
           this.setState({
             nft,
             videoURL: url,
+            // image:file,
             imageURL: "",
             error: false,
             errorMessage: "",
           });
         } else if (file.type.includes("audio")) {
           let { nft } = this.state;
-          nft = { ...nft, videoURL: file, audioUrl: file, image: "" };
+          nft = { ...nft, audioUrl: file,image:file };
 
           this.setState({
             nft,
             videoURL: "",
             imageURL: "",
+            // image:file,
             error: false,
             errorMessage: "",
             audioUrl: url,

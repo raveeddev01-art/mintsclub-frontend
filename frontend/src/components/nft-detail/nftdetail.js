@@ -15,18 +15,25 @@ import CardImg from "../../assets/images/detailnftimg.png";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import ClockIcon from "../../assets/images/clock-icon.svg";
 import DescriptionIcon from "../../assets/images/detail-description-icon.svg";
-import { getNFT, getNFTsByCollection } from "../nfts/nfts.action.js";
+import { getNFT, getNFTsByCollection,getMyLikedNfts } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
+import { toggleLikeDislike } from "../explore/explore.action";
 import moment from "moment";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
+import { AiFillHeart } from "react-icons/ai";
 
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
+  const [toggle, setToggle] = React.useState(true);
+  const [likedNfts, setLikedNfts] = useState();
+  const [nftDetail, setNftDetail] = useState("");
+  const [nftsList, setNftList] = useState([]);
+  const [loader, setLoader] = useState(true);
   const history = useHistory();
   let nftId = props.match.params.id;
   const initData = {
@@ -44,7 +51,7 @@ const NFTDetail = (props) => {
     { label: "A Month", value: moment().add(1, "months").format("DD/MM/YYYY") },
     { label: "Custom Date", value: -1 },
   ];
-
+  
   const config1 = {
     price: {
       currency: ENV.currency,
@@ -57,9 +64,6 @@ const NFTDetail = (props) => {
       datetime: "", // for payload
     },
   };
-  const [nftDetail, setNftDetail] = useState("");
-  const [nftsList, setNftList] = useState([]);
-  const [loader, setLoader] = useState(true);
   const [nftConfig, setNftConfig] = useState(config1);
   const validator = new SimpleReactValidator({
     autoForceUpdate: this,
@@ -120,7 +124,16 @@ const NFTDetail = (props) => {
   ];
   useEffect(() => {
     props.getNFT(nftId);
+    let qs = { userId: ENV.getUserKeys("_id")._id };
+    qs = ENV.objectToQueryString(qs);
+    props.getMyLikedNfts(qs);
   }, []);
+    // Get Liked Nfts
+    useEffect(() => {
+      if (props.myLikedNftsStatus) {
+        setLikedNfts(props.myLikedNfts);
+      }
+    }, [props.myLikedNftsStatus]);
 
   useEffect(() => {
     if (props.nftsAuth) {
@@ -151,6 +164,62 @@ const NFTDetail = (props) => {
       });
     }
   };
+  //toggleLikes
+  React.useEffect(() => {
+    return () => "";
+  }, [toggle]);
+
+  const handleLikesTogleApi = (nftId, status) => {
+    // increOrDecreLikes(nftId);
+    if (status === "dislike") {
+      let result = likedNfts.filter((item) => item.nftId !== nftId);
+
+      setLikedNfts(result);
+      // increOrDecreLikes(nftId, "dec");
+    } else {
+      let myLikedNfts = [];
+      if (likedNfts && likedNfts.length > 0) {
+        myLikedNfts = likedNfts;
+      }
+
+      let obj = {
+        _id: "1234455",
+        nftId,
+      };
+
+      myLikedNfts.push(obj);
+
+      setLikedNfts(myLikedNfts);
+      // increOrDecreLikes(nftId, "inc");
+    }
+    // setNFTs(nfts);
+    let userId = ENV.getUserKeys("_id")._id;
+
+    let obj = {
+      userId,
+      nftId,
+      count: 1,
+    };
+
+    props.toggleLikeDislike(obj);
+  };
+
+
+
+  //match if nft liked
+
+  const validateIfLiked = (likedNfts1, id) => {
+    if (likedNfts && likedNfts?.length > 0) {
+      let result = likedNfts.find((item) => item.nftId == id);
+      if (result) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
 
   console.log(ENV.getUserKeys("_id")._id, "user id");
   console.log(nftDetail, "nftDetail");
@@ -165,6 +234,7 @@ const NFTDetail = (props) => {
         setExchangeRate(currentUSD);
       });
   }, []);
+  console.log(nftDetail,"nftDetail")
   return (
     <>
       {loader ? (
@@ -568,14 +638,35 @@ const NFTDetail = (props) => {
                           <span>Sale ends March 8, 2022 at 7:40am PKT </span>
                         </div>
                         <div className="likes-container d-flex align-items-center">
+                          {
+                            validateIfLiked(likedNfts, nftDetail._id)?
+                            <>
+                            <AiFillHeart
+                            className="heart-fill-icon "
+                            onClick={() => {
+                              handleLikesTogleApi(nftDetail._id, "dislike");
+                              setToggle(!toggle);
+                            }}
+                          />
+                          <p> {nftDetail.likeCount ? nftDetail.likeCount : 0} </p>
+
+                          </>
+                          :
+                          <>
                           <span>
                             {nftDetail.likeCount ? nftDetail.likeCount : 0}
                           </span>
                           <img
-                            src={HeartIcon}
-                            alt="heart-icon"
+                          src={HeartIcon}
+                          alt="heart-icon"
                             className="ms-1"
-                          />
+                            onClick={() => {
+                              handleLikesTogleApi(nftDetail._id, "like");
+                              setToggle(!toggle);
+                            }}
+                            />
+                            </>
+                          }
                         </div>
                       </div>
                       <button
@@ -774,6 +865,7 @@ const NFTDetail = (props) => {
             </div>
             {/* ///////////////////////////////////// Modal */}
             <div className="modal-wrapper">
+
               {false && (
                 <Modal
                   centered
@@ -922,10 +1014,14 @@ const mapStateToProps = (state) => (
     nftsAuth: state.nft.nftsAuth,
     nftsByCollection: state.nft.nftsByCollection,
     nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
   }
 );
 
 export default connect(mapStateToProps, {
   getNFT,
   getNFTsByCollection,
+  toggleLikeDislike,
+  getMyLikedNfts,
 })(NFTDetail);
