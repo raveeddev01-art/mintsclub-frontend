@@ -15,7 +15,11 @@ import CardImg from "../../assets/images/detailnftimg.png";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import ClockIcon from "../../assets/images/clock-icon.svg";
 import DescriptionIcon from "../../assets/images/detail-description-icon.svg";
-import { getNFT, getNFTsByCollection,getMyLikedNfts } from "../nfts/nfts.action.js";
+import {
+  getNFT,
+  getNFTsByCollection,
+  getMyLikedNfts,
+} from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
@@ -51,7 +55,7 @@ const NFTDetail = (props) => {
     { label: "A Month", value: moment().add(1, "months").format("DD/MM/YYYY") },
     { label: "Custom Date", value: -1 },
   ];
-  
+
   const config1 = {
     price: {
       currency: ENV.currency,
@@ -128,12 +132,12 @@ const NFTDetail = (props) => {
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
   }, []);
-    // Get Liked Nfts
-    useEffect(() => {
-      if (props.myLikedNftsStatus) {
-        setLikedNfts(props.myLikedNfts);
-      }
-    }, [props.myLikedNftsStatus]);
+  // Get Liked Nfts
+  useEffect(() => {
+    if (props.myLikedNftsStatus) {
+      setLikedNfts(props.myLikedNfts);
+    }
+  }, [props.myLikedNftsStatus]);
 
   useEffect(() => {
     if (props.nftsAuth) {
@@ -204,8 +208,6 @@ const NFTDetail = (props) => {
     props.toggleLikeDislike(obj);
   };
 
-
-
   //match if nft liked
 
   const validateIfLiked = (likedNfts1, id) => {
@@ -234,7 +236,7 @@ const NFTDetail = (props) => {
         setExchangeRate(currentUSD);
       });
   }, []);
-  console.log(nftDetail,"nftDetail")
+  console.log(nftDetail, "nftDetail");
   return (
     <>
       {loader ? (
@@ -638,35 +640,38 @@ const NFTDetail = (props) => {
                           <span>Sale ends March 8, 2022 at 7:40am PKT </span>
                         </div>
                         <div className="likes-container d-flex align-items-center">
-                          {
-                            validateIfLiked(likedNfts, nftDetail._id)?
+                          {validateIfLiked(likedNfts, nftDetail._id) ? (
                             <>
-                            <AiFillHeart
-                            className="heart-fill-icon "
-                            onClick={() => {
-                              handleLikesTogleApi(nftDetail._id, "dislike");
-                              setToggle(!toggle);
-                            }}
-                          />
-                          <p> {nftDetail.likeCount ? nftDetail.likeCount : 0} </p>
-
-                          </>
-                          :
-                          <>
-                          <span>
-                            {nftDetail.likeCount ? nftDetail.likeCount : 0}
-                          </span>
-                          <img
-                          src={HeartIcon}
-                          alt="heart-icon"
-                            className="ms-1"
-                            onClick={() => {
-                              handleLikesTogleApi(nftDetail._id, "like");
-                              setToggle(!toggle);
-                            }}
-                            />
+                              <AiFillHeart
+                                className="heart-fill-icon "
+                                onClick={() => {
+                                  handleLikesTogleApi(nftDetail._id, "dislike");
+                                  setToggle(!toggle);
+                                }}
+                              />
+                              <p>
+                                {" "}
+                                {nftDetail.likeCount
+                                  ? nftDetail.likeCount
+                                  : 0}{" "}
+                              </p>
                             </>
-                          }
+                          ) : (
+                            <>
+                              <span>
+                                {nftDetail.likeCount ? nftDetail.likeCount : 0}
+                              </span>
+                              <img
+                                src={HeartIcon}
+                                alt="heart-icon"
+                                className="ms-1"
+                                onClick={() => {
+                                  handleLikesTogleApi(nftDetail._id, "like");
+                                  setToggle(!toggle);
+                                }}
+                              />
+                            </>
+                          )}
                         </div>
                       </div>
                       <button
@@ -865,7 +870,6 @@ const NFTDetail = (props) => {
             </div>
             {/* ///////////////////////////////////// Modal */}
             <div className="modal-wrapper">
-
               {false && (
                 <Modal
                   centered
