@@ -33,11 +33,11 @@
 }
 
 .btn.btn-rounded-bordered.btn-start-selling {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 .btn.btn-rounded-bordered.btn-start-selling:hover {
-  background-color: transparent !important;
+  background-color: #5666fe;
 }
 
 @media (max-width: 991.9px) {

@@ -1506,7 +1506,7 @@ aside {
 }
 
 .btn.btn-rounded-bordered {
-  background: #090918 !important;
+  background: #090918;
   padding: 10px 25px;
   color: #ffffff;
   border-radius: 8px;
@@ -1551,15 +1551,16 @@ aside {
 
 .btn.btn-linear-gradient:hover,
 .btn.btn-rounded-bordered:hover {
+  background: #5666fe;
   color: #ffffff;
   box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3) !important;
   -webkit-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
   -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
 }
 
-/* .btn.btn-rounded-bordered:hover {
-  background: #090918 !important;
-} */
+.btn.btn-rounded-bordered:hover {
+  border: 1px solid #5666fe;
+}
 
 .hero-left-content {
   position: relative;

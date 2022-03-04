@@ -131,10 +131,16 @@
 .browse-files-btn:hover,
 .cancel-collection-btn:hover,
 .create-collection-btn:hover {
+  background: #5666fe;
   color: #ffffff;
   box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3) !important;
   -webkit-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
   -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
+}
+
+.browse-files-btn:hover,
+.cancel-collection-btn:hover {
+  border: 1px solid #5666fe;
 }
 
 @media (max-width: 991.9px) {
