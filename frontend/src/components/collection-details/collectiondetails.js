@@ -266,8 +266,8 @@ const CollectionDetailsPage = (props) => {
       filter.page,
       filter.limit + 10,
       filter.collectionId,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
@@ -281,12 +281,13 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleStatusFilter = (id) => {
+    
     getNFTs(
       filter.page,
       filter.limit + 10,
       filter.collectionId,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
@@ -304,8 +305,8 @@ const CollectionDetailsPage = (props) => {
       filter.page,
       filter.limit + 10,
       filter.collectionId,
-      filter.minValue,
-      filter.maxValue,
+      minValue,
+      maxValue,
       filter.categoryId,
       filter.oldest,
       filter.lowToHigh,
