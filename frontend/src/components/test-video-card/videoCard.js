@@ -68,7 +68,7 @@ const VideoCards = ({
         </div>
       </div>
       <Card.Body className="d-flex flex-column">
-        <div className="hero-card-title-container d-flex align-items-center justify-content-between">
+        <div className="listing-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
             {name ? name : "item name"}
           </Card.Title>

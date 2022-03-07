@@ -17,7 +17,7 @@ const ListingCards = ({
   liked,
   likedNfts,
   userProfile,
-  ownerId
+  ownerId,
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -47,36 +47,35 @@ const ListingCards = ({
         <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />
       </div>
       <Card.Body className="d-flex flex-column">
-        <div className="listing-card-title-container hero-card-title-container d-flex align-items-center justify-content-between">
+        <div className="listing-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
             {name ? name : "item name"}
           </Card.Title>
-          {!userProfile &&
-          <div className="options-icon like-icon text-white">
-          
-            { validateIfLiked(likedNfts, id) ? (
-              <div className="heart-filled-container d-flex align-items-end">
-                <AiFillHeart
-                  className="heart-fill-icon "
+          {!userProfile && (
+            <div className="options-icon like-icon text-white">
+              {validateIfLiked(likedNfts, id) ? (
+                <div className="heart-filled-container d-flex align-items-end">
+                  <AiFillHeart
+                    className="heart-fill-icon "
+                    onClick={() => {
+                      handleLikesTogleApi(id, "dislike");
+                      setToggle(!toggle);
+                    }}
+                  />{" "}
+                  <p> {likesCount ? likesCount : 0} </p>
+                </div>
+              ) : (
+                <img
+                  src={HeartIcon}
+                  alt="OptionsIcon"
                   onClick={() => {
-                    handleLikesTogleApi(id, "dislike");
+                    handleLikesTogleApi(id, "like");
                     setToggle(!toggle);
                   }}
-                />{" "}
-                <p> {likesCount ? likesCount : 0} </p>
-              </div>
-            ) : (
-              <img
-                src={HeartIcon}
-                alt="OptionsIcon"
-                onClick={() => {
-                  handleLikesTogleApi(id, "like");
-                  setToggle(!toggle);
-                }}
-              />
-            )}
-          </div>
-          }
+                />
+              )}
+            </div>
+          )}
         </div>
 
         <div
@@ -90,8 +89,11 @@ const ListingCards = ({
             <span>{price} ETH</span>
           </div>
         </div>
-        <button className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"   onClick={() => history.push(`/nftdetail/${id}`)}>
-          <p>{ownerId===ENV.getUserKeys("_id")._id?"View":"Buy Now"}</p>
+        <button
+          className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"
+          onClick={() => history.push(`/nftdetail/${id}`)}
+        >
+          <p>{ownerId === ENV.getUserKeys("_id")._id ? "View" : "Buy Now"}</p>
         </button>
       </Card.Body>
     </Card>
