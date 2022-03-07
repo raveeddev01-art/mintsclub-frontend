@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
-import video from "../../assets/images/video.mp4";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
 import "./videoCard.css";
@@ -49,7 +48,7 @@ const VideoCards = ({
         <div className="card-img-top">
           <div className="video-wrapper">
             <video
-              src={video}
+              src={CardImg}
               ref={videoElement}
               onTimeUpdate={handleOnTimeUpdate}
             />
