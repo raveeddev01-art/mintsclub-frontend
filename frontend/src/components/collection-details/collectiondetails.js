@@ -281,7 +281,6 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleStatusFilter = (id) => {
-    
     getNFTs(
       filter.page,
       filter.limit + 10,
@@ -400,8 +399,14 @@ const CollectionDetailsPage = (props) => {
                   <div className="d-md-flex align-items-center justify-content-between mt-5">
                     <div className="collection-owner-detail">
                       <div className="collection-owner-name d-flex align-items-center">
-                        <h3>{name}</h3>
-                        <img src={TickIcon} alt="tick-icon" className="ms-2" />
+                        <h3>
+                          {name}{" "}
+                          <img
+                            src={TickIcon}
+                            alt="tick-icon"
+                            className="ms-2"
+                          />
+                        </h3>
                       </div>
                       <p>
                         Created by <span>brendannorth</span>

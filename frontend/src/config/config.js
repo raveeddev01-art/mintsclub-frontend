@@ -3,8 +3,7 @@ const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
 
-
-console.log(process.env.REACT_APP_BASE_URL,"process.env.REACT_APP_BASE_URL")
+console.log(process.env.REACT_APP_BASE_URL, "process.env.REACT_APP_BASE_URL");
 
 export const ENV = {
   // blockchain variables
@@ -151,7 +150,7 @@ export const ENV = {
   popularCollectionsSettings: {
     dots: false,
     arrows: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,

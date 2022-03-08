@@ -232,7 +232,7 @@ const Footer = (props) => {
             <div className="col-12">
               {/* Copyright Left */}
               <div className="copyright-text">
-                © 2021 All Rights Reserved By MintsClub.com
+                © 2022 All Rights Reserved By MintsClub.com
               </div>
             </div>
           </div>

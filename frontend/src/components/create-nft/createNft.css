@@ -114,7 +114,7 @@
   outline: none;
   border: none;
   border-radius: 8px;
-  min-height: 50px;
+  height: 50px;
 }
 
 .cancel-collection-btn {

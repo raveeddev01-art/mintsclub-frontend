@@ -41,10 +41,7 @@ const VideoCards = ({
 
   return (
     <Card className="auction-card listing-card">
-      <div
-        className="auction-img-wrapper"
-        // onClick={() => history.push(`/nftdetail/${id}`)}
-      >
+      <div className="auction-img-wrapper">
         <div className="card-img-top">
           <div className="video-wrapper">
             <video
@@ -55,10 +52,10 @@ const VideoCards = ({
             <div className="controls">
               <div className="actions">
                 <button className="play-pause-btn" onClick={togglePlay}>
-                  {!playerState.isPlaying ? (
-                    <i className="bx bx-play"></i>
+                  {playerState.isPlaying ? (
+                    <i className="fa fa-play"></i>
                   ) : (
-                    <i className="bx bx-pause"></i>
+                    <i className="fa fa-pause"></i>
                   )}
                 </button>
               </div>

@@ -209,7 +209,7 @@ class CreateCollection extends Component {
                               className="custom-file-label"
                               htmlFor="logo"
                             >
-                              Choose Logo *
+                              Choose Logo*
                             </label>
                           </div>
                           <span className="text-danger">
@@ -356,12 +356,6 @@ class CreateCollection extends Component {
                       </div>
                       <div className="col-12">
                         <div className="form-group">
-                          {/* <label
-                            htmlFor="category"
-                            className="create-nft-form-title mb-3"
-                          >
-                            Select Category*
-                          </label> */}
                           <select
                             className="form-control p-0"
                             id="category"
@@ -390,7 +384,7 @@ class CreateCollection extends Component {
                       <div className="col-12">
                         <div className="form-group">
                           <textarea
-                            className="form-control"
+                            className="form-control create-collection-textarea"
                             name="description"
                             placeholder="Description"
                             cols={30}

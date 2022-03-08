@@ -60,7 +60,8 @@
 }
 
 .collection-detail-content .collection-stats {
-  padding: 12px 30px;
+  min-height: 75px;
+  width: 115px;
   border-radius: 5px;
   background-color: #5666fe;
 }
@@ -204,19 +205,10 @@
 }
 
 @media (max-width: 575.9px) {
-  .collection-detail-content .collection-stats {
-    padding: 10px 20px;
-  }
   .collection-detail-content .collections-listing .collection-search-bar {
     width: 90%;
   }
   .collection-detail-content .collections-listing .collection-select-bar {
     width: 90%;
-  }
-}
-
-@media (max-width: 430px) {
-  .collection-detail-content .collection-stats {
-    padding: 10px 9px;
   }
 }
