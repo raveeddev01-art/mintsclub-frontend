@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-// import CollectionsCard from "../collections-cards/CollectionsCard";
-import SliderNextIcon from "../../assets/images/slidernextArrow.png";
-import SliderPrevIcon from "../../assets/images/sliderprevArrow.png";
-import AuctionsCards from "../auctions-cards/AuctionsCards";
 import "./CardSlider.css";
-import TwitchPlayer from "react-player/twitch";
-import { data } from "jquery";
 
 export default class CardSlider extends Component {
-  // const CardSlider = () => {
   constructor(props) {
     super(props);
     this.next = this.next.bind(this);
@@ -37,8 +30,7 @@ export default class CardSlider extends Component {
     }
   };
   render() {
-    const { settings, data, homeAuction } = this.props;
- 
+    const { settings } = this.props;
 
     return (
       <div className="container">
@@ -48,11 +40,9 @@ export default class CardSlider extends Component {
               className="card-slider-btn mb-4 me-3"
               onClick={this.previous}
             >
-              {/* <img src={SliderPrevIcon} alt="SliderPrevButton" /> */}
               <i class="fas fa-arrow-left"></i>
             </button>
             <button className="card-slider-btn mb-4" onClick={this.next}>
-              {/* <img src={SliderNextIcon} alt="SliderNextButton" /> */}
               <i class="fas fa-arrow-right"></i>
             </button>
           </div>

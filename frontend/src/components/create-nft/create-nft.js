@@ -141,16 +141,15 @@ class CreateNFT extends Component {
   submit = (e) => {
     e.preventDefault();
 
-    const { nft ,videoURL,audioUrl} = this.state;
-    console.log(nft,"nft=>")
-    let nftInfo=nft;
-    if(videoURL){
-      nftInfo.fileType="video"
-    }else if(audioUrl!==''){
-      nftInfo.fileType="audio"
-    }
-    else {
-      nftInfo.fileType="image"
+    const { nft, videoURL, audioUrl } = this.state;
+    console.log(nft, "nft=>");
+    let nftInfo = nft;
+    if (videoURL) {
+      nftInfo.fileType = "video";
+    } else if (audioUrl !== "") {
+      nftInfo.fileType = "audio";
+    } else {
+      nftInfo.fileType = "image";
     }
 
     this.setState(
@@ -248,7 +247,6 @@ class CreateNFT extends Component {
         if (file.type.includes("image")) {
           let { nft } = this.state;
           nft = { ...nft, [e.target.name]: file };
-        
 
           this.setState(
             {
@@ -272,8 +270,8 @@ class CreateNFT extends Component {
           );
         } else if (file.type.includes("video")) {
           let { nft } = this.state;
-          nft = { ...nft,image: file };
-          console.log(nft ,"nft setting to the state")
+          nft = { ...nft, image: file };
+          console.log(nft, "nft setting to the state");
           this.setState({
             nft,
             videoURL: url,
@@ -284,7 +282,7 @@ class CreateNFT extends Component {
           });
         } else if (file.type.includes("audio")) {
           let { nft } = this.state;
-          nft = { ...nft, audioUrl: file,image:file };
+          nft = { ...nft, audioUrl: file, image: file };
 
           this.setState({
             nft,
@@ -444,7 +442,7 @@ class CreateNFT extends Component {
 
                       <label>
                         <span className="browse-files-btn mt-2">
-                          browse file
+                          Browse file
                         </span>
                         <input
                           type="file"
@@ -479,6 +477,7 @@ class CreateNFT extends Component {
                     </div>
                     <div className="col-12">
                       <textarea
+                        className="create-collection-textarea"
                         name="description"
                         rows="3"
                         placeholder="Description*"
@@ -517,7 +516,6 @@ class CreateNFT extends Component {
                     <div className="col-12 col-lg-6">
                       <input
                         name="size"
-                        value=""
                         placeholder="Size"
                         required="required"
                         onChange={(e) => this.onChange(e)}
@@ -531,7 +529,6 @@ class CreateNFT extends Component {
                     <div className="col-12 col-lg-6">
                       <input
                         name="copies"
-                        value=""
                         placeholder="No. of Copies*"
                         required="required"
                         onKeyDown={(e) => decimalNumberValidator(e)}
@@ -595,7 +592,6 @@ class CreateNFT extends Component {
         <Footer />
       </div>
     );
-    // }
   }
 }
 

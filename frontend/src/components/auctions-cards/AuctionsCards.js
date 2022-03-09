@@ -48,7 +48,9 @@ const AuctionsCards = (props) => {
           <div className="auction-owner-name">
             <p>
               {"Owned by "}
-              {props.ownerName}
+              {props.ownerName.length > 8
+                ? props.ownerName.substring(0, 6) + "..."
+                : props.ownerName}
             </p>
           </div>
           <div className="auction-owner-price d-flex align-items-center">

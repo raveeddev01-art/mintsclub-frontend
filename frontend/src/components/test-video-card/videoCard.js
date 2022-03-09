@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
-
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
 import "./videoCard.css";
@@ -42,10 +41,7 @@ const VideoCards = ({
 
   return (
     <Card className="auction-card listing-card">
-      <div
-        className="auction-img-wrapper"
-        // onClick={() => history.push(`/nftdetail/${id}`)}
-      >
+      <div className="auction-img-wrapper">
         <div className="card-img-top">
           <div className="video-wrapper">
             <video
@@ -56,10 +52,10 @@ const VideoCards = ({
             <div className="controls">
               <div className="actions">
                 <button className="play-pause-btn" onClick={togglePlay}>
-                  {!playerState.isPlaying ? (
-                    <i className="bx bx-play"></i>
+                  {playerState.isPlaying ? (
+                    <i className="fa fa-play"></i>
                   ) : (
-                    <i className="bx bx-pause"></i>
+                    <i className="fa fa-pause"></i>
                   )}
                 </button>
               </div>
@@ -68,7 +64,7 @@ const VideoCards = ({
         </div>
       </div>
       <Card.Body className="d-flex flex-column">
-        <div className="hero-card-title-container d-flex align-items-center justify-content-between">
+        <div className="listing-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
             {name ? name : "item name"}
           </Card.Title>

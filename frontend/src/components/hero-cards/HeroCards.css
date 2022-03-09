@@ -18,7 +18,11 @@
   padding: 0;
 }
 
-.hero-card .card-body .card-title {
+.hero-card .hero-card-title-container {
+  margin-top: 16px;
+}
+
+.auction-card.hero-card .card-body .card-title {
   margin-top: 0;
 }
 

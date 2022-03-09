@@ -54,19 +54,21 @@
   padding: 14px;
 }
 
-.auction-card.listing-card.card .card-img-top .video-wrapper .actions button {
+.auction-card.listing-card.card
+  .card-img-top
+  .video-wrapper
+  .actions
+  .play-pause-btn {
   background: white;
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 20px;
+  width: 32px;
+  height: 30px;
   border-radius: 50%;
-}
-
-.auction-card.listing-card.card .card-img-top .video-wrapper .actions button i {
-  background-color: none;
-  color: black;
-  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 1399.9px) {

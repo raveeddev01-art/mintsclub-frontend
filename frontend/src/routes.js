@@ -4,7 +4,6 @@ import layout4 from "./layouts/layout4/layout4";
 // components
 import Home from "./components/home/home";
 import ExploreAll from "./components/explore/explore-all";
-import LiveAuctions from "./components/auctions/live-auctions-list";
 import ItemDetails from "./components/item-detail/item-detail";
 import Activity from "./components/activity/activity";
 import Blog from "./components/blog/blog";
@@ -21,7 +20,6 @@ import Wallet from "./components/wallet/wallet";
 import Signup from "./components/signup/signup";
 import Contact from "./components/contact/contact";
 import SellNFT from "./components/sell-nft/SellNFT";
-import Sell from "./components/nfts/sell-nft";
 import NotFound from "./components/not-found/not-found";
 import HowItWorks from "./components/how-it-works/how-it-works";
 import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
@@ -75,14 +73,6 @@ const routes = [
     title: "Sell Item",
     layout: layout2,
     component: SellNFT,
-  },
-  {
-    path: "/sell",
-    access: true,
-    exact: true,
-    title: "Sell",
-    layout: layout2,
-    component: Sell,
   },
   {
     path: "/activity",
