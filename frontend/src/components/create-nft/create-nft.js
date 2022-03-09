@@ -512,7 +512,6 @@ class CreateNFT extends Component {
                     <div className="col-12 col-lg-6">
                       <input
                         name="size"
-                        value=""
                         placeholder="Size"
                         required="required"
                         onChange={(e) => this.onChange(e)}
@@ -526,7 +525,6 @@ class CreateNFT extends Component {
                     <div className="col-12 col-lg-6">
                       <input
                         name="copies"
-                        value=""
                         placeholder="No. of Copies*"
                         required="required"
                         onKeyDown={(e) => decimalNumberValidator(e)}
