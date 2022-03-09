@@ -38,7 +38,7 @@ export default class CardSlider extends Component {
   };
   render() {
     const { settings, data, homeAuction } = this.props;
-    console.log(homeAuction, "homeAuction");
+ 
 
     return (
       <div className="container">

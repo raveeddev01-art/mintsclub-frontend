@@ -184,27 +184,31 @@ class CreateNFT extends Component {
 
                 if (res.nft && res.nft.metaData) {
                   try {
-                    let nftId = res.nft._id;
+                    
                     let createNftResult = await mintNFt(
                       res.nft.metaData,
-                      res.nft._id
+                      res.nft._id,
+                      this.state.nft.copies
                     );
-
+                    
+                          
+                           console.log(createNftResult,"createNftResult")
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:
                           createNftResult.events.TransferSingle.returnValues.id,
-                        nftId: res.nft._id,
                         data: this.state.nft,
                         image: res.nft.image,
                       };
                       console.log(data, "data==>");
                       this.props.setNftToken(data);
-                      toast.success("Nft created successfully");
+                  
                       this.props.history.push("/explore/allNFT");
                     }
                   } catch (err) {
+                    console.log(err,"here")
                     toast.error(err);
+                    this.setState({loader:false})
                   }
                 }
               } else this.setState({ errors: res.message, loader: false });

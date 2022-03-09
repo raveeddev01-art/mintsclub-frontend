@@ -10,8 +10,8 @@ let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
 /////////////////////////////////////////////////////////////////////////////MintsClub market start /////////////////////////
 
-    const getWeb3 = async () => {
-        let instance;
+const getWeb3 = async () => {
+  let instance;
   if (window.ethereum) {
     await window.web3.currentProvider.enable();
     instance = new Web3(window.web3.currentProvider);
@@ -22,27 +22,86 @@ let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
   return instance;
 };
 
-export const mintNFt = async (metaData) => {
+const getContractMethods = async () => {
   let web3 = await getWeb3();
-  console.log(web3, "web3==>");
+  const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
+  return contractM;
+};
+
+export const mintNFt = async (metaData, id, amount) => {
+  let web3 = await getWeb3();
+
   if (!web3) {
     toast.error("No web3 instance found");
     return false;
   }
 
+  const nftAmount = Number(amount);
   try {
     let connectedAddress = await connectMetamask();
-    
-    const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
+    let obj = {
+      connectedAddress,
+      nftAmount,
+      metaData,
+    };
+
+    const contractM = await getContractMethods();
     let result = await contractM.methods
-      .mint(connectedAddress, 1, 23, "0x", metaData)
-      .send({ from: connectedAddress });
-   
-    console.log(result, "result");
+      .mint(connectedAddress, nftAmount, "0x", metaData)
+      .send({ from: connectedAddress, gassPrice: 5000000 });
+    console.log(result, "result of minting");
     return result;
   } catch (err) {
     console.log(err, "error while minting");
+    toast.error(err);
+    throw new Error(err);
+  }
+};
+
+export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
+  try {
+    console.log(typeof tokenId,"tokenId")
+    let connectedAddress = await connectMetamask();
+    const contractM = await getContractMethods();
+    let id=Number(tokenId)
+    const result = await contractM.methods
+      .startAuction(biddingTime, startTime, connectedAddress, id)
+      .send({ from: connectedAddress });
+    if (result) {
+      console.log(result, "open for bidding result");
+      return result;
+    }
+  } catch (err) {
+    console.log(err, "open for bid error");
     return err;
+  }
+};
+
+export const placeABid = async (amount, tokenId) => {
+  try {
+    let connectedAddress = await connectMetamask();
+    const contractM = await getContractMethods();
+    let bidAmount = Number(amount) * 1000000000000000000;
+    console.log(bidAmount, "bidAmount");
+    let id=Number(tokenId)
+    console.log(id,"id")
+    console.log(typeof id,"type of")
+    const result = await contractM.methods
+      .bid(id)
+      .send({ from: connectedAddress, value: bidAmount, gas: 5000000 });
+    console.log(result, "result of place bid");
+    if (result) {
+      return result;
+    }
+  } catch (err) {
+    console.log(err, "error from place bid");
+    console.log(err.message, "message");
+    if (err?.message) {
+      toast.error(err.message);
+    } else {
+      toast.error("Transaction Failed ,Please check wallet history");
+    }
+    throw new Error(err);
   }
 };
 
@@ -53,23 +112,22 @@ export const connectMetamaskCopy = async (address) => {
     let web3 = await getWeb3();
     let accounts = await web3.eth.getAccounts();
     let chainId = await web3.eth.getChainId();
-  
+
     let currentNetwork = getNetworkName(chainId);
     if (!currentNetwork) {
       toast.error("Please Connect your metamask with Ethereum Network");
       return false;
     }
     if (chainId !== requiredChainId) {
-      
     }
-  
+
     if (accounts[0]) {
       if (accounts[0] === address) {
         toast.success("wallet is already connected");
       } else {
         toast.success("wallet connected");
       }
-   
+
       return accounts[0];
     } else {
       let address = await signRequest();
@@ -83,10 +141,9 @@ export const connectMetamaskCopy = async (address) => {
 };
 export const getWalletAddress = async () => {
   let web3 = await getWeb3();
- 
-    let accounts = await web3.eth.getAccounts();
-    return accounts[0];
-  
+
+  let accounts = await web3.eth.getAccounts();
+  return accounts[0];
 };
 export const connectMetamask = async () => {
   if (window.ethereum) {
@@ -105,7 +162,7 @@ export const getNetworkNameByChainId = async () => {
   if (window.ethereum) {
     let web3 = await getWeb3();
     let accounts = await web3.eth.getAccounts();
-    let chainId = await web3.eth.getChainId();;
+    let chainId = await web3.eth.getChainId();
     let currentNetwork = getNetworkName(chainId);
     return currentNetwork;
   }
@@ -134,21 +191,15 @@ export const signRequest = async () => {
   }
 };
 
-
-
 export const mint = async () => {
-  
   const web3 = await getWeb3();
   if (!web3) {
     toast.error("No web3 instance found");
     return false;
   }
-  
+
   try {
-   
-  } catch (e) {
-  
-  }
+  } catch (e) {}
 };
 
 const handleSignMessage = (address) => {
@@ -171,21 +222,13 @@ const handleSignMessage = (address) => {
   });
 };
 
-export const ClaimFundsAfterBidding = () => {
-  };
+export const ClaimFundsAfterBidding = () => {};
 
-export const createNft = async () => {
-
-};
-
-
-export const openNFTForBidding = async () => {
- 
-};
+export const createNft = async () => {};
 
 export const setNftToken = (body) => {
-
   let url = process.env.REACT_APP_BASE_URL + `nftTokens/addToken`;
+  alert("calling");
 
   fetch(url, {
     method: "POST",
@@ -204,36 +247,25 @@ export const setNftToken = (body) => {
   })
     .then((res) => res.json())
     .then((data) => {
-     
       if (data.success) {
         window.location.href = "/explore-all";
-      
       } else {
       }
     })
     .catch((error) => {
-   
       console.log(error, "error in catch blcok");
       if (error.response && error.response.data) {
       }
     });
 };
 
-export const NftOwner = async () => {
-  
-};
+export const NftOwner = async () => {};
 
-export const placeBidNft = async () => {
- 
-};
+export const placeBidNft = async () => {};
 
-export const SellOnFixedPrice = async () => {
- 
-};
+export const SellOnFixedPrice = async () => {};
 
-export const BuyFixedPriceNFTs = async () => {
-
-};
+export const BuyFixedPriceNFTs = async () => {};
 
 export const getCurrentAddress = async () => {
   let web3 = await getWeb3();
@@ -242,9 +274,5 @@ export const getCurrentAddress = async () => {
   return address;
 };
 
-export const acceptNftOffer = async () => {
-
-};
-export const signTransaction = async () => {
-
-};
+export const acceptNftOffer = async () => {};
+export const signTransaction = async () => {};

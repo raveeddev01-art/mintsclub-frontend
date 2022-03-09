@@ -73,6 +73,7 @@ export const GET_BIDS = 'GET_BIDS';
 export const DELETE_BID = 'DELETE_BID';
 export const CREATE_BID = 'CREATE_BID';
 export const ACCEPT_BID = 'ACCEPT_BID';
+export const GETBIDS_BY_NFT='GETBIDS_BY_NFT';
 
 // CONTACT
 export const BEFORE_CONTACT = 'BEFORE_CONTACT';

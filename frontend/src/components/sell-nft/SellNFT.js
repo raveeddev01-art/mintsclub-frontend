@@ -16,6 +16,9 @@ import { decimalNumberValidator } from "../../utils/functions";
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { beforeNFT, getNFT, upsertNFT } from "../nfts/nfts.action";
+import { openNFTForBidding } from "../../utils/web3";
+import { toast } from "react-toastify";
+import FullPageLoader from "../full-page-loader/full-page-loader";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -31,6 +34,7 @@ const config1 = {
   },
   reserveFor: "", // if user selects reserve buyer
 };
+
 const config2 = {
   method: 1, // 1 = Sell to the highest bidder or 2 = Sell with the declining price
   startPrice: {
@@ -58,8 +62,6 @@ const SellNFT = (props) => {
   const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
   const [nft, setNft] = useState(null);
   const [loader, setLoader] = useState(true); // NFT loader
-  const [reserveBuyer, setReserveBuyer] = useState(false);
-  const [reservePrice, setReservePrice] = useState(false);
   const [tokensData, setTokensData] = useState([]);
   const location = useLocation();
   console.log(location, "location");
@@ -137,55 +139,55 @@ const SellNFT = (props) => {
       },
     });
   };
-  const submit = () => {
-    let payload='';
-    console.log(sellingMethod,"sellingMethod")
-    if(sellingMethod===2){
+  const submit = async () => {
+    let payload = "";
 
-      payload = {
-       _id: location.state._id,
-       sellingMethod,
-       sellingConfig:JSON.stringify(timedAuctionConfig),
-     };
-   
-    }
-    else {
+    if (sellingMethod === 2) {
       payload = {
         _id: location.state._id,
-        sellingMethod, 
-        sellingConfig:JSON.stringify(fixedPriceConfig),
+        sellingMethod,
+        sellingConfig: JSON.stringify(timedAuctionConfig),
       };
-      // console.log(payload,"payload")
-      
-
+    } else {
+      payload = {
+        _id: location.state._id,
+        sellingMethod,
+        sellingConfig: JSON.stringify(fixedPriceConfig),
+      };
     }
 
-    //  return  " "
-
-    let test = new Date(timedAuctionConfig.duration.endDate).getTime();
     let time = timedAuctionConfig.duration.endTime;
 
     var r = Number(time.split(":")[0]) * 60 + Number(time.split(":")[1]) * 1000;
-    //
-    const timeInMiliSeconds = r + test;
-
-    // console.log('yoken data', tokensData)
-    // const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
-
-    //  if(nftToken){
-    //   sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
 
     setLoader(true);
 
     var formData = new FormData();
-    console.log(payload, "payload");
     for (const key in payload) formData.append(key, payload[key]);
 
-    props.upsertNFT("edit", formData, "PUT");
-    //  }
-    //  else {
-    //   toast.error("there was an issue while creating nft, please try later")
-    //  }
+    try {
+      let auctionEndDate = timedAuctionConfig.duration.endDate;
+      let auctionStartDate = timedAuctionConfig.duration.startDate;
+
+      console.log(auctionEndDate,"auctionEndDate")
+
+      const biddingTime = new Date(auctionEndDate).getTime();
+      const startTime = new Date(auctionStartDate).getTime();
+
+      console.log(biddingTime,"bidding time")
+      console.log(startTime,"startTime")
+      let result = await openNFTForBidding(
+        biddingTime,
+        startTime,
+        location.state.nftToken
+      );
+      console.log(result, "result of bidding");
+      if (result) {
+        props.upsertNFT("edit", formData, "PUT");
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   const getTokens = () => {
@@ -215,6 +217,7 @@ const SellNFT = (props) => {
   };
   return (
     <>
+      {loader && <FullPageLoader />}
       <NavbarMain />
       <section className="padding-wrapper nft-detail">
         <div className="container">

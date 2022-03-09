@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { GET_ERRORS, BEFORE_BID, GET_BIDS, DELETE_BID, CREATE_BID, ACCEPT_BID } from '../../redux/types';
+import { GET_ERRORS, BEFORE_BID, GET_BIDS, DELETE_BID, CREATE_BID, ACCEPT_BID,GETBIDS_BY_NFT } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
 import {placeBidNft, acceptNftOffer} from '../../utils/web3'
@@ -9,9 +9,8 @@ export const beforeBid = () => {
     }
 };
 
-export const placeBid = (body,tokenId,price,toAddress,fromAddress) => dispatch => {
-    alert("in herer")
-    // dispatch(emptyError());
+export const placeBid = (body) => dispatch => {
+
     const url = `${ENV.url}bid/create`;
 
     fetch(url, {
@@ -27,8 +26,7 @@ export const placeBid = (body,tokenId,price,toAddress,fromAddress) => dispatch =
     }).then(res => res.json()).then(data => {
       console.log('data', data)
         if (data.success) {
-    //    placeBidNft(body,tokenId,price,toAddress,fromAddress)
-           
+          
             toast.success(data.message)
             dispatch({
                 type: CREATE_BID,
@@ -55,6 +53,38 @@ export const placeBid = (body,tokenId,price,toAddress,fromAddress) => dispatch =
     })
  
 };
+export const getBidSByNftId=(qs='')=>dispatch=>{
+    let url = `${ENV.url}bid/claimableBidListbyNftId`;
+    if(qs){
+        url+=`?${qs}`   
+     }
+console.log(url,"url while sending in bid by nft")
+     fetch(url, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': ENV.Authorization,
+            'x-auth-token': ENV.x_auth_token,
+            'Access-Control-Allow-Origin': '*',
+            'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
+        }
+    }).then(res => res.json()).then(data => {
+        console.log(data,"bid response by nft id")
+        if (data.status) {
+            dispatch({
+                type: GETBIDS_BY_NFT,
+                payload: data.data.Bids
+            })
+        } else {
+            
+        }
+    }).catch(error => {
+        dispatch({
+            type: GET_ERRORS,
+            payload: error
+        })
+    })
+}
 
 export const getBids = (qs = '') => dispatch => {
     dispatch(emptyError());
@@ -72,7 +102,7 @@ export const getBids = (qs = '') => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-      
+        console.log(data,"bids reponse==>")
         if (data.success) {
             dispatch({
                 type: GET_BIDS,

@@ -1,4 +1,4 @@
-import { BEFORE_BID, GET_BIDS, CREATE_BID, DELETE_BID, ACCEPT_BID } from '../../redux/types';
+import { BEFORE_BID, GET_BIDS, CREATE_BID, DELETE_BID, ACCEPT_BID,GETBIDS_BY_NFT } from '../../redux/types';
 
 const initialState = {
     bid: null,
@@ -8,7 +8,9 @@ const initialState = {
     deleteAuth: false,
     createAuth: false,
     getAuth: false,
-    acceptAuth: false
+    acceptAuth: false,
+    bidsByNft:null,
+    bidsBYNftAuth:false,
 }
 
 export default function (state = initialState, action) {
@@ -16,9 +18,9 @@ export default function (state = initialState, action) {
         case GET_BIDS:
             return {
                 ...state,
-                bids: action.payload.bids,
-                pagination: action.payload.pagination,
-                highestBidAmt: action.payload.highestBidAmt,
+                bids: action.payload.allBids,
+                // pagination: action.payload.pagination,
+                // highestBidAmt: action.payload.highestBidAmt,
                 getAuth: true
             }
         case CREATE_BID:
@@ -49,8 +51,16 @@ export default function (state = initialState, action) {
                 deleteAuth: false,
                 createAuth: false,
                 getAuth: false,
-                acceptAuth: false
+                acceptAuth: false,
+                bidsBYNftAuth:false,
+                
             }
+            case GETBIDS_BY_NFT:
+                return {
+                    ...state,
+                    bidsByNft:action.payload,
+                    bidsBYNftAuth:true
+                }
         default:
             return {
                 ...state
