@@ -12,8 +12,6 @@ export const getLiveAuctions = (qs = null) => dispatch => {
     dispatch(emptyError());
     let url = `${ENV.url}auctions/live`;
    
-
-
     if (qs)
         url += `?${qs}`
        console.log(url,"sending uril")

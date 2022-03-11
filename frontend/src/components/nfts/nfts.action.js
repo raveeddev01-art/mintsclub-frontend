@@ -30,7 +30,7 @@ export const upsertNFT =
     
     dispatch(emptyError());
     const url = `${ENV.url}/nfts/${type}`;
-
+console.log(url,"upsert nft ==}}}}}}}}}}}}}}}}}}}}}")
     fetch(url, {
       method,
       headers: {
@@ -47,6 +47,7 @@ export const upsertNFT =
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data,"response of upser nft ")
         if (data.success) {
           toast.success(data.message);
           dispatch({
