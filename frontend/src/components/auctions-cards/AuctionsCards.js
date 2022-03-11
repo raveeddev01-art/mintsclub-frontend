@@ -26,7 +26,7 @@ const AuctionsCards = (props) => {
     >
       <div className="auction-img-wrapper">
         <Card.Img variant="top" src={props.image} alt="AuctionTopImg" />
-        <div className="auction-countdown mb-3">
+        <div className="auction-countdown">
           <Countdown date={props.endDate} renderer={countDownRenderer} />
         </div>
       </div>

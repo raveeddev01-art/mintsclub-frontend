@@ -349,7 +349,7 @@ table {
   box-sizing: border-box;
 }
 
-a:not(.btn),
+/* a:not(.btn),
 a:link:not(.btn),
 a:visited:not(.btn),
 a:hover:not(.btn),
@@ -359,7 +359,7 @@ a:active:not(.btn) {
   line-height: 1.5;
   color: var(--primary-color);
   text-decoration: none;
-}
+} */
 
 a:not([href]),
 a:not([href]):hover,
@@ -1494,23 +1494,21 @@ aside {
 }
 
 .btn.btn-linear-gradient {
-  background: linear-gradient(to top, #4355ff, #5695fd);
+  background: #5666fe;
   padding: 10px 25px;
   color: #ffffff;
-  border: none;
   border-radius: 8px;
+  border: 1px solid #5666fe;
   font-size: 14px;
   font-weight: bold;
-  box-shadow: none;
-  outline: none;
 }
 
 .btn.btn-rounded-bordered {
-  background: #090918;
+  background: #5666fe;
   padding: 10px 25px;
   color: #ffffff;
   border-radius: 8px;
-  border-color: #ffffff;
+  border: 1px solid #5666fe;
   font-size: 14px;
   font-weight: bold;
 }
@@ -1536,30 +1534,45 @@ aside {
   display: flex;
   align-self: center;
   justify-content: center;
+  background: #090918;
+  border-radius: 8px;
+  border: 1px solid #5666fe;
+  padding: 10px 25px;
 }
 
-.hero-section .btn-hero-explore img {
+.hero-section .btn-hero-explore svg {
   height: 16px;
+}
+
+.hero-section .btn-hero-explore svg path {
+  fill: #5666fe;
 }
 
 .hero-section .btn-hero-explore p {
   font-size: 14px;
   font-weight: bold;
-  color: #fff;
+  color: #5666fe;
   line-height: 22px;
+}
+
+.hero-section .btn-hero-explore:hover {
+  background: #7e8aff;
+  border: 1px solid #7e8aff;
+}
+
+.hero-section .btn-hero-explore:hover svg path {
+  fill: #fff;
+}
+
+.hero-section .btn-hero-explore:hover p {
+  color: #fff;
 }
 
 .btn.btn-linear-gradient:hover,
 .btn.btn-rounded-bordered:hover {
-  background: #5666fe;
+  background: #7e8aff;
+  border: 1px solid #7e8aff;
   color: #ffffff;
-  box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3) !important;
-  -webkit-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
-  -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
-}
-
-.btn.btn-rounded-bordered:hover {
-  border: 1px solid #5666fe;
 }
 
 .hero-left-content {
@@ -3357,6 +3370,7 @@ span.no-padding .form-control {
   height: 100%;
   line-height: 45px;
   margin: 0 auto;
+  color: #fff;
 }
 
 .social-icons > a {
@@ -3364,8 +3378,7 @@ span.no-padding .form-control {
   width: 30px;
   height: 30px;
   font-size: 20px;
-  background-color: #494852;
-  color: #000 !important;
+  background-color: #20245c;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -3463,7 +3476,7 @@ span.no-padding .form-control {
   border-bottom-left-radius: 6px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  background: linear-gradient(to top, #4355ff, #5695fd);
+  background: #5666fe;
   font-size: 14px;
   font-weight: bold;
   color: #fff;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./signup.css";
 
 const initData = {
   pre_heading: "Signup",
@@ -37,7 +38,7 @@ class Signup extends Component {
   }
   render() {
     return (
-      <section className="author-area">
+      <section className="author-area sign-up-section d-flex flex-column align-items-center justify-content-center">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-md-8 col-lg-7">
@@ -56,76 +57,37 @@ class Signup extends Component {
                         type="text"
                         className="form-control"
                         name="name"
-                        placeholder="Enter your Name"
+                        placeholder="Enter Name"
                         required="required"
+                        autoComplete="off"
                       />
                     </div>
                   </div>
                   <div className="col-12">
-                    <div className="form-group mt-3">
+                    <div className="form-group">
                       <input
                         type="email"
                         className="form-control"
                         name="email"
-                        placeholder="Enter your Email"
+                        placeholder="Enter Email"
                         required="required"
+                        autoComplete="off"
                       />
                     </div>
                   </div>
-                  {/* <div className="col-12">
-                                        <div className="form-group mt-3">
-                                            <input type="password" className="form-control" name="password" placeholder="Enter your Password" required="required" />
-                                        </div>
-                                    </div> */}
-                  <div className="col-12">
-                    <div className="form-group mt-3">
-                      <div className="form-check form-check-inline">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="inlineRadioOptions"
-                          id="inlineRadio1"
-                          defaultValue="option1"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="inlineRadio1"
-                        >
-                          I agree to <a href="#">Privacy Policy</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <button className="btn w-100 mt-3 mt-sm-4" type="submit">
+                  <div className="col-12 text-center">
+                    <button
+                      className="btn btn-linear-gradient btn-signup"
+                      type="submit"
+                    >
                       Sign Up
                     </button>
                   </div>
-                  <div className="col-12">
+                  <div className="col-12 account-span">
+                    <hr />
                     <span className="d-block text-center mt-4">
                       Already have an account? <a href="/login">Login</a>
                     </span>
-                  </div>
-                  <div className="col-12">
-                    <hr />
-                    <div className="other-option">
-                      <span className="d-block text-center mb-4">Or</span>
-                      {/* Social Icons */}
-                      <div className="social-icons d-flex justify-content-center">
-                        {this.state.data.map((item, idx) => {
-                          return (
-                            <a
-                              key={`lsd_${idx}`}
-                              className={item.link}
-                              href="#"
-                            >
-                              <i className={item.icon} />
-                              <i className={item.icon} />
-                            </a>
-                          );
-                        })}
-                      </div>
-                    </div>
                   </div>
                 </div>
               </form>

@@ -235,7 +235,7 @@ export const ENV = {
   countDownRenderer: ({ days, hours, minutes, seconds }) => {
     return (
       <div
-        className="countdown-container d-flex mx-auto"
+        className="countdown-container d-flex mx-auto mb-2"
         style={{ justifyContent: "space-between", width: "85%" }}
       >
         <div className="countdown-wrapper m-1">

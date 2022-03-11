@@ -3,7 +3,6 @@ import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./SellNFT.css";
 import { Card } from "react-bootstrap";
-import CardImg from "../../assets/images/detailnftimg.png";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import ClockIcon from "../../assets/images/clock-icon.svg";
 import PriceIcon from "../../assets/images/priceIcon.svg";
@@ -11,6 +10,7 @@ import DollarIcon from "../../assets/images/dollarIcon.svg";
 import FeeIcon from "../../assets/images/feeIcon.svg";
 import { ENV } from "../../config/config";
 import DateRangePicker from "react-bootstrap-daterangepicker";
+import "bootstrap-daterangepicker/daterangepicker.css";
 import moment from "moment";
 import { decimalNumberValidator } from "../../utils/functions";
 import { useLocation } from "react-router-dom";
@@ -138,26 +138,21 @@ const SellNFT = (props) => {
     });
   };
   const submit = () => {
-    let payload='';
-    console.log(sellingMethod,"sellingMethod")
-    if(sellingMethod===2){
-
-      payload = {
-       _id: location.state._id,
-       sellingMethod,
-       sellingConfig:JSON.stringify(timedAuctionConfig),
-     };
-   
-    }
-    else {
+    let payload = "";
+    console.log(sellingMethod, "sellingMethod");
+    if (sellingMethod === 2) {
       payload = {
         _id: location.state._id,
-        sellingMethod, 
-        sellingConfig:JSON.stringify(fixedPriceConfig),
+        sellingMethod,
+        sellingConfig: JSON.stringify(timedAuctionConfig),
+      };
+    } else {
+      payload = {
+        _id: location.state._id,
+        sellingMethod,
+        sellingConfig: JSON.stringify(fixedPriceConfig),
       };
       // console.log(payload,"payload")
-      
-
     }
 
     //  return  " "
@@ -240,11 +235,18 @@ const SellNFT = (props) => {
                         setSellingMethod(1);
                       }}
                     >
-                      <img
-                        src={DollarIcon}
-                        alt="fixedPrize"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="7"
+                        height="14"
                         className="me-1 me-sm-2"
-                      />
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          fill="#FDFDFD"
+                          d="M3.974 6.71H3.22c-.939 0-1.527-1.317-1.443-2.098.07-.693.672-1.179 1.329-1.179h1.12c.419 0 .769.31 1.564.722-.683.118-.585.192-.473.192h1.259c.14 0 .266-.133.252.323-.126-1.944-1.161-2.991-2.449-3.079V.265A.256.256 0 0 0 4.128 0h-1.26a.257.257 0 0 0-.252.265v1.341C1.49 1.827.139 3.315.14 5.69c.028 1.03 1.441 2.238 3.008 2.238h.826c.741 0 1.329.678 1.245 1.459-.07 1.413-.671 1.179-1.329 1.179H2.77c-.419 0-.67-.309-.853-.722a.242.242 0 0 0-.238-.191H.42a.262.262 0 0 0-.252.28c.126 1.341 1.161 2.387 2.449 2.475v1.327c0 .147.112.265.251.265h1.26c.14 0 .252-.118.252-.265v-1.356c1.343-.236 2.462-.999 2.602-2.8C7.15 7.678 5.737 6.71 3.974 6.71z"
+                        />
+                      </svg>
                       Fixed Prize
                     </button>
                     <button
@@ -258,7 +260,18 @@ const SellNFT = (props) => {
                         setSellingMethod(2);
                       }}
                     >
-                      <img src={ClockIcon} alt="timeAuction" className="me-2" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        className="me-1 me-sm-2"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          fill="#FFF"
+                          d="M7.999 15.999a7.999 7.999 0 0 1-7.999-8A7.999 7.999 0 0 1 7.999 0c4.419 0 8 3.581 8 7.999a8 8 0 0 1-8 8zm0-14.4a6.4 6.4 0 1 0 .002 12.802 6.4 6.4 0 0 0-.002-12.802zm1.957 8.666L8.268 9.14a.42.42 0 0 0-.022-.015c.664.095-.313-.209-.442-.313a1.581 1.581 0 0 1-.415-.486 1.572 1.572 0 0 1-.174-.615c-.016-.165-.015-.355-.015-.541V3.999a.8.8 0 0 1 .8-.8h-.001a.8.8 0 0 1 .8.8v3.144c0 .224.001.338.009.42v.004l.003.002c.064.052.158.115.345.24l1.687 1.125c.368.245.467.742.807 1.496-.83-.019-1.327.08-1.694-.165z"
+                        />
+                      </svg>
                       Timed Auction
                     </button>
                   </div>
@@ -350,7 +363,7 @@ const SellNFT = (props) => {
                               aria-labelledby="flush-headingTwo"
                             >
                               <div className="accordion-body">
-                                <div className="sell-date-picker mx-auto">
+                                <div className="date-picker sell-date-picker mx-auto">
                                   <DateRangePicker
                                     initialSettings={dateRangeInitialSettings}
                                     onApply={handleDateChange}
@@ -607,7 +620,7 @@ const SellNFT = (props) => {
                     </div>
                     <div className="col-12 text-center mt-5">
                       <button
-                        className="sell-btn-active px-5"
+                        className="complete-btn px-5"
                         onClick={() => submit()}
                       >
                         {" "}
