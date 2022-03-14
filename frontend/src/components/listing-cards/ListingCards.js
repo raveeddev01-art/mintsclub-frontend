@@ -41,7 +41,7 @@ const ListingCards = ({
   return (
     <Card className="auction-card listing-card">
       <div
-        className="auction-img-wrapper"
+        className="auction-img-wrapper listing-img-wrapper"
         onClick={() => history.push(`/nftdetail/${id}`)}
       >
         <Card.Img variant="top" src={CardImg} alt="AuctionTopImg" />

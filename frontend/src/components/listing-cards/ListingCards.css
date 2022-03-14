@@ -18,6 +18,10 @@
   line-height: 15px;
   margin: 0;
 }
+.auction-card.listing-card.card .listing-img-wrapper {
+  height: 170px;
+  width: 100%;
+}
 .auction-card.listing-card.card .card-img-top {
   min-height: unset;
   height: 170px;
