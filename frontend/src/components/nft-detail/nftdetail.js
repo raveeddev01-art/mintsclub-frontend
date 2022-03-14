@@ -62,7 +62,6 @@ const NFTDetail = (props) => {
     offerBtn: "Buy Now",
     sellBtn: "Sell",
   };
-
   const { currencies } = ENV;
   const expiryOptions = [
     { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
@@ -379,7 +378,7 @@ const NFTDetail = (props) => {
                             aria-labelledby="flush-headingTwo"
                           >
                             <div className="accordion-body">
-                              <div className="table-container">
+                              <div className="table-container listing-table">
                                 <table class="table table-borderless">
                                   {bids && bids.length > 0 && (
                                     <thead>

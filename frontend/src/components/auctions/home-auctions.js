@@ -40,13 +40,14 @@ const initData = {
   heading: "Live Auctions",
   btnText: "View All",
 };
+
 function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
   const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState("");
-
+  const [auctionSettings, setAuctionSettings] = useState();
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
@@ -67,8 +68,14 @@ function AuctionsOne(props) {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions, pagination } = props.auction;
-
       setAuctions(auctions);
+      let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
+      if (auctions.length > 4) {
+        auctionCollectionsSettings.infinite = true;
+      } else {
+        auctionCollectionsSettings.infinite = false;
+      }
+      setAuctionSettings(auctionCollectionsSettings);
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
@@ -114,7 +121,6 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -153,7 +159,6 @@ function AuctionsOne(props) {
                     }
                   })}
                 <div className="intro-btn">
-                  {/* {auctions && auctions?.length > 4 && ( */}
                   <Link
                     className="btn btn-rounded-bordered btn-viewAll"
                     to="/auctions"
@@ -161,18 +166,16 @@ function AuctionsOne(props) {
                     View All
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>
-                  {/* )} */}
                 </div>
               </div>
             </div>
           </div>
-          {/* //replace arraySample to auctions */}
 
           <div className="auctions-slides">
             <div className="">
               {auctions && auctions.length > 0 ? (
                 <CardSlider
-                  settings={ENV.auctionCollectionsSettings}
+                  settings={auctionSettings}
                   data={auctions}
                   homeAuction
                 >
