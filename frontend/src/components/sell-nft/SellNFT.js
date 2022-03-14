@@ -176,6 +176,7 @@ const SellNFT = (props) => {
 
       console.log(biddingTime,"bidding time")
       console.log(startTime,"startTime")
+    
       let result = await openNFTForBidding(
         biddingTime,
         startTime,

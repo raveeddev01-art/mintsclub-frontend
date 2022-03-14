@@ -26,7 +26,7 @@ function Home() {
       {/* <Header /> */}
       <NavbarMain />
       <Hero />
-      {/* <button onClick={()=>Redirection('/explore-all')}>test cases</button>  */}
+     
       <Auctions />
       {/* <AuctionsCards /> */}
       <Work />

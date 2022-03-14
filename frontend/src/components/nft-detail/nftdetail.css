@@ -10,6 +10,11 @@
 .amount-btn {
   background: white !important;
 }
+.cancel-bid-btn {
+  margin: 0;
+  padding: 1px 0;
+  border-radius: 5px;
+}
 .place-bid-ethereum-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
   color: white !important;

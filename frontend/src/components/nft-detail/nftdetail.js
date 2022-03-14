@@ -380,8 +380,9 @@ const NFTDetail = (props) => {
                                       <th scope="col">Price</th>
                                       <th scope="col">USD Price</th>
                                       <th scope="col">Floor Difference</th>
-                                      <th scope="col">Expiration</th>
+                                      {/* <th scope="col">Expiration</th> */}
                                       <th scope="col">From</th>
+                                      <th scope="col">{""}</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -393,8 +394,11 @@ const NFTDetail = (props) => {
                                             <th scope="row">{bid.bidAmount}</th>
                                             <td>${(bid.bidAmount* exchangeRate).toFixed(2)}</td>
                                             <td>80% below</td>
-                                            <td>an hour ago</td>
+                                            {/* <td>an hour ago</td> */}
                                             <td>{bid.fromAddress.slice(3,8)}</td>
+                                            <td>
+                                                <button className="cancel-Bid-btn">Cancel</button>
+                                            </td>
                                           </tr>
                                         );
                                       })}

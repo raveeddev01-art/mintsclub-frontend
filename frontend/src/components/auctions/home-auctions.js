@@ -109,56 +109,6 @@ function AuctionsOne(props) {
     }
   }, [props.collectionFlag]);
 
-  const auctionDemoData = [
-    {
-      _id: 1,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 2,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 3,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 4,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 5,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 6,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 7,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 8,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-  ];
   const handleCategoryFilter = (desc) => {
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
@@ -217,37 +167,32 @@ function AuctionsOne(props) {
             </div>
           </div>
           {/* //replace arraySample to auctions */}
-          {auctionDemoData && auctionDemoData.length > 0 ? (
-            <div className="auctions-slides">
-              <div className="">
+
+          <div className="auctions-slides">
+            <div className="">
+              {auctions && auctions.length > 0 ? (
                 <CardSlider
                   settings={ENV.auctionCollectionsSettings}
                   data={auctions}
                   homeAuction
                 >
-                  {auctions && auctions.length > 0 ? (
-                    auctions.map((item) => {
-                      return (
-                        <AuctionsCards
-                          endDate={item.auctionEndDate}
-                          image={item.image}
-                          ownerName={item.owner.username}
-                          name={item.name}
-                          id={item._id}
-                        />
-                      );
-                    })
-                  ) : (
-                    <p className="text-white text-center">
-                      No Live Auctions Found
-                    </p>
-                  )}
+                  {auctions.map((item) => {
+                    return (
+                      <AuctionsCards
+                        endDate={item.auctionEndDate}
+                        image={item.image}
+                        ownerName={item.owner.username}
+                        name={item.name}
+                        id={item._id}
+                      />
+                    );
+                  })}
                 </CardSlider>
-              </div>
+              ) : (
+                <p className="text-white text-center">No Live Auctions Found</p>
+              )}
             </div>
-          ) : (
-            <p className="text-center ml-3">No Live Auctions Found</p>
-          )}
+          </div>
         </div>
       )}
     </section>

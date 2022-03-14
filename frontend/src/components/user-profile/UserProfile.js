@@ -651,6 +651,7 @@ const UserProfile = (props) => {
                             likesCount={listing.likeCount}
                             likedNfts={likedNfts}
                             ownerId={listing.ownerId}
+                            sellingMethod={listing.sellingMethod}
                             // userProfile
                           />
                         </div>

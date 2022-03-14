@@ -578,6 +578,8 @@ const CollectionDetailsPage = (props) => {
                               id={listing._id}
                               likesCount={listing.likeCount}
                               likedNfts={likedNfts}
+                              ownerId={listing.ownerId}
+                              sellingMethod={listing.sellingMethod}
                             />
                           </div>
                         );
