@@ -1,0 +1,29 @@
+.sign-up-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-signup,
+.btn-signin {
+  width: 200px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.account-span span {
+  color: #fff;
+}
+
+.account-span span a {
+  color: #5666fe;
+  font-size: 18px;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+.account-span hr {
+  color: #5666fe;
+}

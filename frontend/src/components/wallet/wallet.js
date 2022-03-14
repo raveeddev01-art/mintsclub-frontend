@@ -51,10 +51,8 @@ const Wallet = (props) => {
       let myCollections = collections.filter((el) => el.userId === userId);
 
       if (myCollections && myCollections.length > 0) {
-     
         history.push("/");
       } else {
-       
         history.push("/");
       }
     }
@@ -125,7 +123,6 @@ const Wallet = (props) => {
                 <div className="intro text-center">
                   <span>Sign In</span>
                   <h3 className="mt-3 mb-0">SignIn to your account</h3>
-              
                 </div>
               </div>
             </div>
@@ -139,7 +136,7 @@ const Wallet = (props) => {
                       <p className="text-gray">{errorMessage}</p>
                     )}
                     <button
-                      className="btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
+                      className="btn btn-linear-gradient btn-signin mt-3 mt-sm-4"
                       type="button"
                       onClick={() => login()}
                     >
@@ -244,7 +241,6 @@ const Wallet = (props) => {
                       Sign Up
                     </button>
                   </div>
-                 
                 </div>
               </form>
             </div>

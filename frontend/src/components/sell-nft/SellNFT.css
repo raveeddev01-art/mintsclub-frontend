@@ -1,21 +1,44 @@
 .sell-btn-active {
-  background: linear-gradient(to top, #4355ff, #5695fd);
-  padding: 10px 25px;
+  background: #5666fe;
+  height: 50px;
+  min-width: 150px;
   color: #ffffff;
   border-radius: 8px;
-  border-color: #4355ff;
+  border-color: #5666fe;
+  border: none;
   font-size: 14px;
   font-weight: bold;
 }
 
-.sell-btn-not-active {
-  background: transparent;
-  padding: 10px 25px;
+.complete-btn {
+  background: #5666fe;
+  height: 50px;
+  width: 225px;
   color: #ffffff;
   border-radius: 8px;
-  border-color: #ffffff;
+  border: none;
   font-size: 14px;
   font-weight: bold;
+}
+
+.complete-btn:hover {
+  background: #7e8aff;
+}
+
+.sell-btn-not-active {
+  background: transparent;
+  height: 50px;
+  min-width: 150px;
+  color: #5666fe;
+  border-radius: 8px;
+  border-color: #5666fe;
+  font-size: 14px;
+  font-weight: bold;
+  outline: none;
+}
+
+.sell-btn-not-active svg path {
+  fill: #5666fe;
 }
 
 .sell-fee-container .sell-fee-title h6 {
@@ -129,11 +152,11 @@
 
 @media (max-width: 575.9px) {
   .sell-btn-active {
-    padding: 10px 15px;
+    width: 100px;
   }
 
   .sell-btn-not-active {
-    padding: 10px 15px;
+    width: 100px;
   }
   .sell-date-picker,
   .sell-time-inp,

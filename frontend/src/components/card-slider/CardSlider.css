@@ -1,13 +1,10 @@
 .card-slider-btn {
-  background-color: #10103c;
+  background-color: #5666fe;
   border: none;
   width: 31px;
   height: 31px;
   border-radius: 5px;
-}
-
-.card-slider-btn img {
-  background-color: white;
+  text-align: center;
 }
 
 .card-slider-btn .fa-arrow-right,
@@ -15,7 +12,6 @@
   color: #fff;
 }
 
-.card-slider-btn:hover .fa-arrow-right,
-.card-slider-btn:hover .fa-arrow-left {
-  color: #5666fe;
+.card-slider-btn:hover {
+  background-color: #7e8aff;
 }
