@@ -143,6 +143,7 @@ export const deleteBid = (bidId) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
+        console.log(data,"delete bid response")
         if (data.success) {
             toast.success(data.message)
             dispatch({
@@ -157,6 +158,7 @@ export const deleteBid = (bidId) => dispatch => {
             })
         }
     }).catch(error => {
+        console.log(error,"delete bid error")
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)
