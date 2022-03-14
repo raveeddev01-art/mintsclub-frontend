@@ -592,6 +592,7 @@ const AllNFT = (props) => {
                                 likedNfts={likedNfts}
                                 ownerId={listing.ownerId}
                                 fileType={listing.fileType}
+                                sellingMethod={listing.sellingMethod}
                               />
                             ) : (
                               <VideoCard
@@ -603,6 +604,7 @@ const AllNFT = (props) => {
                                 likesCount={listing.likeCount}
                                 likedNfts={likedNfts}
                                 ownerId={listing.ownerId}
+                                sellingMethod={listing.sellingMethod}
                               />
                             )}
                           </div>

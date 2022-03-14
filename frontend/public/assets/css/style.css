@@ -3370,7 +3370,7 @@ span.no-padding .form-control {
   height: 100%;
   line-height: 45px;
   margin: 0 auto;
-  color: #fff;
+  color: #000;
 }
 
 .social-icons > a {
@@ -3378,7 +3378,7 @@ span.no-padding .form-control {
   width: 30px;
   height: 30px;
   font-size: 20px;
-  background-color: #20245c;
+  background-color: #fff;
   border-radius: 50%;
   overflow: hidden;
 }

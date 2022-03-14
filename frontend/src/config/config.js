@@ -27,7 +27,6 @@ export const ENV = {
   tawkToPropertyId: process.env.REACT_APP_TAWK_TO_PROPERTY_ID,
   tawkToKey: process.env.REACT_APP_TAWK_TO_KEY,
   currencies: [
-   
     {
       name: "Ethereum",
       symbol: "ETH",

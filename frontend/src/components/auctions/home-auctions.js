@@ -40,13 +40,14 @@ const initData = {
   heading: "Live Auctions",
   btnText: "View All",
 };
+
 function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
   const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState("");
-
+  const [auctionSettings, setAuctionSettings] = useState();
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
@@ -67,8 +68,14 @@ function AuctionsOne(props) {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions, pagination } = props.auction;
-
       setAuctions(auctions);
+      let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
+      if (auctions.length > 4) {
+        auctionCollectionsSettings.infinite = true;
+      } else {
+        auctionCollectionsSettings.infinite = false;
+      }
+      setAuctionSettings(auctionCollectionsSettings);
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
@@ -109,62 +116,11 @@ function AuctionsOne(props) {
     }
   }, [props.collectionFlag]);
 
-  const auctionDemoData = [
-    {
-      _id: 1,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 2,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 3,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 4,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 5,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 6,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 7,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 8,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-  ];
   const handleCategoryFilter = (desc) => {
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -203,7 +159,6 @@ function AuctionsOne(props) {
                     }
                   })}
                 <div className="intro-btn">
-                  {/* {auctions && auctions?.length > 4 && ( */}
                   <Link
                     className="btn btn-rounded-bordered btn-viewAll"
                     to="/auctions"
@@ -211,43 +166,36 @@ function AuctionsOne(props) {
                     View All
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>
-                  {/* )} */}
                 </div>
               </div>
             </div>
           </div>
-          {/* //replace arraySample to auctions */}
-          {auctionDemoData && auctionDemoData.length > 0 ? (
-            <div className="auctions-slides">
-              <div className="">
+
+          <div className="auctions-slides">
+            <div className="">
+              {auctions && auctions.length > 0 ? (
                 <CardSlider
-                  settings={ENV.auctionCollectionsSettings}
+                  settings={auctionSettings}
                   data={auctions}
                   homeAuction
                 >
-                  {auctions && auctions.length > 0 ? (
-                    auctions.map((item) => {
-                      return (
-                        <AuctionsCards
-                          endDate={item.auctionEndDate}
-                          image={item.image}
-                          ownerName={item.owner.username}
-                          name={item.name}
-                          id={item._id}
-                        />
-                      );
-                    })
-                  ) : (
-                    <p className="text-white text-center">
-                      No Live Auctions Found
-                    </p>
-                  )}
+                  {auctions.map((item) => {
+                    return (
+                      <AuctionsCards
+                        endDate={item.auctionEndDate}
+                        image={item.image}
+                        ownerName={item.owner.username}
+                        name={item.name}
+                        id={item._id}
+                      />
+                    );
+                  })}
                 </CardSlider>
-              </div>
+              ) : (
+                <p className="text-white text-center">No Live Auctions Found</p>
+              )}
             </div>
-          ) : (
-            <p className="text-center ml-3">No Live Auctions Found</p>
-          )}
+          </div>
         </div>
       )}
     </section>

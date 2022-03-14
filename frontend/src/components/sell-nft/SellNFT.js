@@ -141,12 +141,17 @@ const SellNFT = (props) => {
   };
   const submit = async () => {
     let payload = "";
+    let timedConfig=timedAuctionConfig;
+    delete timedConfig.duration.startTime
+    delete timedConfig.duration.endTime
+    delete timedConfig.method
+    let fixedConfig=fixedPriceConfig;
 
     if (sellingMethod === 2) {
       payload = {
         _id: location.state._id,
         sellingMethod,
-        sellingConfig: JSON.stringify(timedAuctionConfig),
+        sellingConfig: JSON.stringify(timedConfig),
       };
     } else {
       payload = {
@@ -155,10 +160,6 @@ const SellNFT = (props) => {
         sellingConfig: JSON.stringify(fixedPriceConfig),
       };
     }
-
-    let time = timedAuctionConfig.duration.endTime;
-
-    var r = Number(time.split(":")[0]) * 60 + Number(time.split(":")[1]) * 1000;
 
     setLoader(true);
 
@@ -169,13 +170,9 @@ const SellNFT = (props) => {
       let auctionEndDate = timedAuctionConfig.duration.endDate;
       let auctionStartDate = timedAuctionConfig.duration.startDate;
 
-      console.log(auctionEndDate, "auctionEndDate");
-
       const biddingTime = new Date(auctionEndDate).getTime();
       const startTime = new Date(auctionStartDate).getTime();
-
-      console.log(biddingTime, "bidding time");
-      console.log(startTime, "startTime");
+    
       let result = await openNFTForBidding(
         biddingTime,
         startTime,

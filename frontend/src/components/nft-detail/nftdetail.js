@@ -30,8 +30,13 @@ import moment from "moment";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
-import { placeABid ,connectMetamask} from "../../utils/web3";
-import { placeBid, getBids,getBidSByNftId ,beforeBid} from "../bids/bids.action";
+import { placeABid, connectMetamask } from "../../utils/web3";
+import {
+  placeBid,
+  getBids,
+  getBidSByNftId,
+  beforeBid,
+} from "../bids/bids.action";
 import { toast } from "react-toastify";
 // import  {}
 
@@ -56,7 +61,7 @@ const NFTDetail = (props) => {
     offerBtn: "Buy Now",
     sellBtn: "Sell",
   };
-  console.log(props.nftDetail,"nftDetail")
+  console.log(props.nftDetail, "nftDetail");
   const { currencies } = ENV;
   const expiryOptions = [
     { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
@@ -142,15 +147,11 @@ const NFTDetail = (props) => {
     props.getMyLikedNfts(qs);
     validateIfLiked();
     props.getBids();
-    
+
     //qs for getting bids by NFT id
-    let nftBidsQs={nftId}
+    let nftBidsQs = { nftId };
     nftBidsQs = ENV.objectToQueryString(nftBidsQs);
-    props.getBidSByNftId(nftBidsQs)
-
-   
-
-    
+    props.getBidSByNftId(nftBidsQs);
   }, []);
 
   useEffect(() => {
@@ -168,7 +169,7 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.bidsByNftAuth) {
-      props.beforeBid()
+      props.beforeBid();
       setBids(props.bidsByNft);
     }
   }, [props.bidsByNftAuth]);
@@ -242,7 +243,7 @@ const NFTDetail = (props) => {
     if (likedNfts && likedNfts?.length > 0) {
       let result = likedNfts.find((item) => item.nftId == nftDetail.ownerId);
       if (result) {
-        return true
+        return true;
       } else {
         return false;
       }
@@ -274,23 +275,21 @@ const NFTDetail = (props) => {
     setLoader(true);
     setIsOpen(false);
     console.log(ENV.getUserKeys("_id"), "env id");
-    
+
     try {
-  
-   
       let result = await placeABid(price, nftDetail.nftToken);
       if (result) {
         const payload = {
           ownerId: nftDetail.ownerId,
           bidAmount: price,
           nftId: nftDetail._id,
-          bidBy:ENV.getUserKeys("_id")._id,
+          bidBy: ENV.getUserKeys("_id")._id,
           isAccepted: false,
           // expiryDate: nftConfig.expiry.datetime,
-          toAddress:nftDetail.ownerAddress,
+          toAddress: nftDetail.ownerAddress,
           fromAddress: await connectMetamask(),
         };
-      
+
         props.placeBid(payload);
       }
     } catch (err) {
@@ -373,31 +372,50 @@ const NFTDetail = (props) => {
                             aria-labelledby="flush-headingTwo"
                           >
                             <div className="accordion-body">
-                              <div className="table-container">
+                              <div className="table-container listing-table">
                                 <table class="table table-borderless">
                                   <thead>
                                     <tr>
                                       <th scope="col">Price</th>
                                       <th scope="col">USD Price</th>
                                       <th scope="col">Floor Difference</th>
-                                      <th scope="col">Expiration</th>
+                                      {/* <th scope="col">Expiration</th> */}
                                       <th scope="col">From</th>
+                                      <th scope="col">{""}</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {bids &&
                                       bids.length > 0 &&
-                                      bids.filter((item)=>item.nftId===nftDetail._id).map((bid) => {
-                                        return (
-                                          <tr>
-                                            <th scope="row">{bid.bidAmount}</th>
-                                            <td>${(bid.bidAmount* exchangeRate).toFixed(2)}</td>
-                                            <td>80% below</td>
-                                            <td>an hour ago</td>
-                                            <td>{bid.fromAddress.slice(3,8)}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                      bids
+                                        .filter(
+                                          (item) => item.nftId === nftDetail._id
+                                        )
+                                        .map((bid) => {
+                                          return (
+                                            <tr>
+                                              <th scope="row">
+                                                {bid.bidAmount}
+                                              </th>
+                                              <td>
+                                                $
+                                                {(
+                                                  bid.bidAmount * exchangeRate
+                                                ).toFixed(2)}
+                                              </td>
+                                              <td>80% below</td>
+                                              {/* <td>an hour ago</td> */}
+                                              <td>
+                                                {bid.fromAddress.slice(3, 8)}
+                                              </td>
+                                              <td>
+                                                <button className="cancel-Bid-btn">
+                                                  Cancel
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          );
+                                        })}
                                   </tbody>
                                 </table>
                               </div>
@@ -1028,22 +1046,19 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-
-  {
-    nftDetail: state.nft.nftsData,
-    nftsAuth: state.nft.nftsAuth,
-    nftsByCollection: state.nft.nftsByCollection,
-    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-    myLikedNfts: state.nft.myLikedNfts,
-    myLikedNftsStatus: state.nft.myLikedNftsStatus,
-    createAuth: state.bid.createAuth,
-    getAuth: state.bid.getAuth,
-    bids: state.bid.bids,
-    bidsByNft:state.bid.bidsByNft,
-    bidsByNftAuth:state.bid.bidsBYNftAuth,
-  }
-);
+const mapStateToProps = (state) => ({
+  nftDetail: state.nft.nftsData,
+  nftsAuth: state.nft.nftsAuth,
+  nftsByCollection: state.nft.nftsByCollection,
+  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  createAuth: state.bid.createAuth,
+  getAuth: state.bid.getAuth,
+  bids: state.bid.bids,
+  bidsByNft: state.bid.bidsByNft,
+  bidsByNftAuth: state.bid.bidsBYNftAuth,
+});
 
 export default connect(mapStateToProps, {
   getNFT,
@@ -1053,5 +1068,5 @@ export default connect(mapStateToProps, {
   placeBid,
   getBids,
   getBidSByNftId,
-  beforeBid
+  beforeBid,
 })(NFTDetail);
