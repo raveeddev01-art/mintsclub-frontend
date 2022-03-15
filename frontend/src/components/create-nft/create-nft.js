@@ -183,7 +183,6 @@ class CreateNFT extends Component {
 
                 if (res.nft && res.nft.metaData) {
                   try {
-                    
                     let createNftResult = await mintNFt(
                       res.nft.metaData,
                       res.nft._id,
@@ -191,9 +190,8 @@ class CreateNFT extends Component {
                       
                       2
                     );
-                    
-                          
-                           console.log(createNftResult,"createNftResult")
+
+                    console.log(createNftResult, "createNftResult");
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:
@@ -203,13 +201,13 @@ class CreateNFT extends Component {
                       };
                       console.log(data, "data==>");
                       this.props.setNftToken(data);
-                  
+
                       this.props.history.push("/explore/allNFT");
                     }
                   } catch (err) {
-                    console.log(err,"here")
+                    console.log(err, "here");
                     toast.error(err);
-                    this.setState({loader:false})
+                    this.setState({ loader: false });
                   }
                 }
               } else this.setState({ errors: res.message, loader: false });
@@ -549,7 +547,9 @@ class CreateNFT extends Component {
                         name="collectionId"
                         onChange={(e) => this.onChange(e)}
                       >
-                        <option value="">Select Collection</option>
+                        <option value="" className="d-none">
+                          Select Collection
+                        </option>
                         {collections &&
                           collections.length > 0 &&
                           collections.map((collection, index) => {
