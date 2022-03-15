@@ -28,7 +28,7 @@ const getContractMethods = async () => {
   return contractM;
 };
 
-export const mintNFt = async (metaData, id, amount) => {
+export const mintNFt = async (metaData, id, amount,recipientValue) => {
   let web3 = await getWeb3();
 
   if (!web3) {
@@ -37,6 +37,7 @@ export const mintNFt = async (metaData, id, amount) => {
   }
 
   const nftAmount = Number(amount);
+  const value=Number(recipientValue)* 1000000000000000000;
   try {
     let connectedAddress = await connectMetamask();
     let obj = {
@@ -47,13 +48,13 @@ export const mintNFt = async (metaData, id, amount) => {
 
     const contractM = await getContractMethods();
     let result = await contractM.methods
-      .mint(connectedAddress, nftAmount, "0x", metaData)
+      .mint(connectedAddress, nftAmount, "0x", metaData,connectedAddress,recipientValue)
       .send({ from: connectedAddress, gassPrice: 5000000 });
     console.log(result, "result of minting");
     return result;
   } catch (err) {
     console.log(err, "error while minting");
-    toast.error(err);
+    toast.error(err.message);
     throw new Error(err);
   }
 };

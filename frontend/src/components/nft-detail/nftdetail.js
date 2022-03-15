@@ -178,6 +178,9 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
+      if (props.nftDetail.highestBid > 0) {
+        setPrice(props.nftDetail.highestBid);
+      }
       // setLoader(false);
       validateIfLiked(likedNfts, props.nftDetail);
 
@@ -241,15 +244,16 @@ const NFTDetail = (props) => {
 
   const validateIfLiked = (nfts, nft) => {
     if (nfts && nfts?.length > 0) {
+      setLoader(false);
       let result = nfts.find((item) => item.nftId == nft._id);
 
-      setLoader(false);
       if (result) {
         return setToggle(true);
       } else {
         return setToggle(false);
       }
     } else {
+      setLoader(false);
       return setToggle(false);
     }
   };
@@ -303,8 +307,10 @@ const NFTDetail = (props) => {
     setBids(result);
     props.deleteBid(id);
   };
-
-  console.log(nftDetail, "toggle");
+  console.log(nftDetail, "nftDetail");
+  console.log(price, "price");
+  console.log(nftDetail.highestBid, "nftDetail.highestBid");
+  console.log(price <= nftDetail.highestBid, "price<nftDetail.highestBid");
   return (
     <>
       {loader && <FullPageLoader />}
@@ -416,7 +422,7 @@ const NFTDetail = (props) => {
                                                 {bid.fromAddress.slice(3, 8)}
                                               </td>
                                               {ENV.getUserKeys("_id")._id ===
-                                                bid.ownerId && (
+                                                bid.bidBy && (
                                                 <td>
                                                   <button
                                                     className="cancel-Bid-btn"
@@ -981,11 +987,13 @@ const NFTDetail = (props) => {
                         style={{ borderRadius: "4px" }}
                         onChange={(e) => onChange(e)}
                         onKeyDown={(e) => decimalNumberValidator(e)}
-                        defaultValue={nftConfig.price.amount}
+                        defaultValue={
+                          nftDetail.highestBid === 0 ? "" : nftDetail.highestBid
+                        }
                         required
                       />
                       <div className="text-right mb-2 dollar-wrapper">
-                        $ 0.00
+                       ${(price* exchangeRate).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -1038,8 +1046,12 @@ const NFTDetail = (props) => {
               <Modal.Body className="justify-content-center align-items-center">
                 <div className="d-flex justify-content-around place-bid-btn">
                   <button
-                    className="ethereum-btn mr-3 place-bid-ethereum-btn"
-                    disabled={loader}
+                    className={`ethereum-btn  place-bid-ethereum-btn ${
+                      price <= nftDetail.highestBid
+                        ? "place-btn-disable-btn"
+                        : "place-bid-gradient-btn"
+                    }`}
+                    disabled={loader || price <= nftDetail.highestBid}
                     onClick={() => handleModalSubmit()}
                   >
                     {2 === 2 ? initData.bidBtn : initData.bidBtn}

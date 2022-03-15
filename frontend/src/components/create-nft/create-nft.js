@@ -187,7 +187,9 @@ class CreateNFT extends Component {
                     let createNftResult = await mintNFt(
                       res.nft.metaData,
                       res.nft._id,
-                      this.state.nft.copies
+                      this.state.nft.copies,
+                      
+                      2
                     );
                     
                           
