@@ -958,8 +958,6 @@ const NFTDetail = (props) => {
                         placeholder="Amount"
                         className="amount-btn ml-3"
                         name="nftConfig.price.amount"
-                        placeholder="Amount"
-                        className="amount-btn ml-3"
                         style={{ borderRadius: "4px" }}
                         onChange={(e) => onChange(e)}
                         onKeyDown={(e) => decimalNumberValidator(e)}

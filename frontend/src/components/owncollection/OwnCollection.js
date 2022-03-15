@@ -39,7 +39,7 @@ const OwnCollection = () => {
                   which is used by multiple websites to provide the users the
                   best possible experience.
                 </p>
-                <div className="owcollection-icon-container d-flex align-items-center mt-5 mb-1">
+                <div className="owcollection-icon-container d-flex align-items-center justify-content-center justify-content-lg-start mt-5 mb-1">
                   <div className="owcollection-icon-div me-1 me-md-3">
                     <img src={DiscordIcon} alt="discordIcon" />
                   </div>
