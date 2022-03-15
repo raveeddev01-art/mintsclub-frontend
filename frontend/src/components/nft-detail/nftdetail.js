@@ -178,10 +178,16 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
-      if (props.nftDetail.highestBid > 0) {
-        setPrice(props.nftDetail.highestBid);
+      let fivePerc = "";
+      if (props.nftDetail.highestBid === 0) {
+        fivePerc = (5 / 100) * props.nftDetail.currentPrice;
+        fivePerc = fivePerc + props.nftDetail.currentPrice;
+      } else {
+        fivePerc = (5 / 100) * props.nftDetail.highestBid;
+        fivePerc = fivePerc + props.nftDetail.highestBid;
       }
-      // setLoader(false);
+
+      setPrice(fivePerc);
       validateIfLiked(likedNfts, props.nftDetail);
 
       props.getNFTsByCollection(props.nftDetail.collectionId);
@@ -258,6 +264,17 @@ const NFTDetail = (props) => {
     }
   };
 
+  const calculatePricePercantage = () => {
+    let fivePerc = "";
+    if (nftDetail.highestBid === 0) {
+      fivePerc = (5 / 100) * nftDetail.currentPrice;
+      return fivePerc + nftDetail.currentPrice;
+    } else {
+      fivePerc = (5 / 100) * nftDetail.highestBid;
+      return fivePerc + nftDetail.highestBid;
+    }
+  };
+
   useEffect(() => {
     axios
       .get(
@@ -302,15 +319,18 @@ const NFTDetail = (props) => {
       toast.error(err);
     }
   };
+  const getPercentageChange = (oldNumber, newNumber) => {
+    var decreaseValue = oldNumber - newNumber;
+
+    return (decreaseValue / oldNumber) * 100;
+  };
   const deleteBid = (id) => {
     let result = bids.filter((bid) => bid._id !== id);
     setBids(result);
     props.deleteBid(id);
   };
   console.log(nftDetail, "nftDetail");
-  console.log(price, "price");
-  console.log(nftDetail.highestBid, "nftDetail.highestBid");
-  console.log(price <= nftDetail.highestBid, "price<nftDetail.highestBid");
+
   return (
     <>
       {loader && <FullPageLoader />}
@@ -416,7 +436,17 @@ const NFTDetail = (props) => {
                                                   bid.bidAmount * exchangeRate
                                                 ).toFixed(2)}
                                               </td>
-                                              <td>80% below</td>
+                                              <td>
+                                                {getPercentageChange(
+                                                  nftDetail.lowestNftPrice,
+                                                  bid.bidAmount
+                                                )}
+                                                %{" "}
+                                                {bid.bidAmount >
+                                                nftDetail.lowestNftPrice
+                                                  ? "above"
+                                                  : "below"}
+                                              </td>
                                               {/* <td>an hour ago</td> */}
                                               <td>
                                                 {bid.fromAddress.slice(3, 8)}
@@ -987,13 +1017,11 @@ const NFTDetail = (props) => {
                         style={{ borderRadius: "4px" }}
                         onChange={(e) => onChange(e)}
                         onKeyDown={(e) => decimalNumberValidator(e)}
-                        defaultValue={
-                          nftDetail.highestBid === 0 ? "" : nftDetail.highestBid
-                        }
+                        defaultValue={calculatePricePercantage()}
                         required
                       />
                       <div className="text-right mb-2 dollar-wrapper">
-                       ${(price* exchangeRate).toFixed(2)}
+                        ${(price * exchangeRate).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -1006,6 +1034,7 @@ const NFTDetail = (props) => {
                   "required"
                 )}
               </Modal.Body>
+              
               {/* <Modal.Body className="" style={{ flexDirection: "column", display: "block", height: "200px" }}>
                                 <div className="offer-expiration-wrapper text-white">
                                     <b>Offer Expiration</b>
@@ -1051,7 +1080,7 @@ const NFTDetail = (props) => {
                         ? "place-btn-disable-btn"
                         : "place-bid-gradient-btn"
                     }`}
-                    disabled={loader || price <= nftDetail.highestBid}
+                    disabled={loader || price < calculatePricePercantage()}
                     onClick={() => handleModalSubmit()}
                   >
                     {2 === 2 ? initData.bidBtn : initData.bidBtn}

@@ -58,7 +58,7 @@ export const getBidSByNftId=(qs='')=>dispatch=>{
     if(qs){
         url+=`?${qs}`   
      }
-console.log(url,"url while sending in bid by nft")
+
      fetch(url, {
         method: 'GET',
         headers: {
@@ -69,7 +69,7 @@ console.log(url,"url while sending in bid by nft")
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        console.log(data,"bid response by nft id")
+       
         if (data.status) {
             dispatch({
                 type: GETBIDS_BY_NFT,
