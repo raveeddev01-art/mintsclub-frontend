@@ -212,6 +212,7 @@ const SellNFT = (props) => {
         console.log(error, "error in catch blcok");
       });
   };
+  const {image,currentPrice,likesCount}=location.state
   return (
     <>
       {loader && <FullPageLoader />}
@@ -641,7 +642,7 @@ const SellNFT = (props) => {
                 <div className="auction-img-wrapper">
                   <Card.Img
                     variant="top"
-                    src={location.state.image}
+                    src={image}
                     alt="AuctionTopImg"
                   />
                 </div>
@@ -649,7 +650,7 @@ const SellNFT = (props) => {
                   <div>
                     <span>Current price</span>
                     <h3>
-                      {location.state.currentPrice}
+                      {currentPrice}
                       <span>($2.28)</span>
                     </h3>
                   </div>
@@ -659,8 +660,8 @@ const SellNFT = (props) => {
                       <span>Sale ends March 8, 2022 at 7:40am PKT </span>
                     </div>
                     <div className="likes-container d-flex align-items-center">
-                      <span>{}</span>
                       <img src={HeartIcon} alt="heart-icon" className="ms-1" />
+                      <span className="ms-1">{likesCount}</span>
                     </div>
                   </div>
                 </Card.Body>

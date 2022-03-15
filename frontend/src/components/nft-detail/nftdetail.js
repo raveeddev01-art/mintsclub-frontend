@@ -36,6 +36,7 @@ import {
   getBids,
   getBidSByNftId,
   beforeBid,
+  deleteBid,
 } from "../bids/bids.action";
 import { toast } from "react-toastify";
 // import  {}
@@ -61,7 +62,6 @@ const NFTDetail = (props) => {
     offerBtn: "Buy Now",
     sellBtn: "Sell",
   };
-  console.log(props.nftDetail, "nftDetail");
   const { currencies } = ENV;
   const expiryOptions = [
     { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
@@ -164,6 +164,7 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
+      // validateIfLiked(props.myLikedNfts);
     }
   }, [props.myLikedNftsStatus]);
 
@@ -177,7 +178,17 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
-      setLoader(false);
+      let fivePerc = "";
+      if (props.nftDetail.highestBid === 0) {
+        fivePerc = (5 / 100) * props.nftDetail.currentPrice;
+        fivePerc = fivePerc + props.nftDetail.currentPrice;
+      } else {
+        fivePerc = (5 / 100) * props.nftDetail.highestBid;
+        fivePerc = fivePerc + props.nftDetail.highestBid;
+      }
+
+      setPrice(fivePerc);
+      validateIfLiked(likedNfts, props.nftDetail);
 
       props.getNFTsByCollection(props.nftDetail.collectionId);
     }
@@ -216,12 +227,10 @@ const NFTDetail = (props) => {
       nft.likesCount = nft.likesCount - 1;
       setLiked(false);
       setNftDetail(nft);
-      console.log(nft, "nft decre");
     } else {
-      console.log(nftDetail, "orignal detail");
       let nft = nftDetail;
       nft.likesCount = nft.likesCount + 1;
-      console.log(nft, "nft incre");
+
       setNftDetail(nft);
       setLiked(true);
     }
@@ -239,16 +248,30 @@ const NFTDetail = (props) => {
 
   //match if nft liked
 
-  const validateIfLiked = (likedNfts1, id) => {
-    if (likedNfts && likedNfts?.length > 0) {
-      let result = likedNfts.find((item) => item.nftId == nftDetail.ownerId);
+  const validateIfLiked = (nfts, nft) => {
+    if (nfts && nfts?.length > 0) {
+      setLoader(false);
+      let result = nfts.find((item) => item.nftId == nft._id);
+
       if (result) {
-        return true;
+        return setToggle(true);
       } else {
-        return false;
+        return setToggle(false);
       }
     } else {
-      return false;
+      setLoader(false);
+      return setToggle(false);
+    }
+  };
+
+  const calculatePricePercantage = () => {
+    let fivePerc = "";
+    if (nftDetail.highestBid === 0) {
+      fivePerc = (5 / 100) * nftDetail.currentPrice;
+      return fivePerc + nftDetail.currentPrice;
+    } else {
+      fivePerc = (5 / 100) * nftDetail.highestBid;
+      return fivePerc + nftDetail.highestBid;
     }
   };
 
@@ -258,14 +281,12 @@ const NFTDetail = (props) => {
         "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
       )
       .then((res) => {
-        console.log(res, "exchangeapires");
         const currentUSD = res.data.USD;
         setExchangeRate(currentUSD);
       });
   }, []);
 
   const closeModal = () => {
-    console.log("set false");
     setIsOpen(false);
   };
   const onChange = (e) => {
@@ -298,6 +319,17 @@ const NFTDetail = (props) => {
       toast.error(err);
     }
   };
+  const getPercentageChange = (oldNumber, newNumber) => {
+    var decreaseValue = oldNumber - newNumber;
+
+    return (decreaseValue / oldNumber) * 100;
+  };
+  const deleteBid = (id) => {
+    let result = bids.filter((bid) => bid._id !== id);
+    setBids(result);
+    props.deleteBid(id);
+  };
+  console.log(nftDetail, "nftDetail");
 
   return (
     <>
@@ -374,19 +406,20 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Price</th>
-                                      <th scope="col">USD Price</th>
-                                      <th scope="col">Floor Difference</th>
-                                      {/* <th scope="col">Expiration</th> */}
-                                      <th scope="col">From</th>
-                                      <th scope="col">{""}</th>
-                                    </tr>
-                                  </thead>
+                                  {bids && bids.length > 0 && (
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">USD Price</th>
+                                        <th scope="col">Floor Difference</th>
+                                        {/* <th scope="col">Expiration</th> */}
+                                        <th scope="col">From</th>
+                                        <th scope="col">{""}</th>
+                                      </tr>
+                                    </thead>
+                                  )}
                                   <tbody>
-                                    {bids &&
-                                      bids.length > 0 &&
+                                    {bids && bids.length > 0 ? (
                                       bids
                                         .filter(
                                           (item) => item.nftId === nftDetail._id
@@ -403,19 +436,42 @@ const NFTDetail = (props) => {
                                                   bid.bidAmount * exchangeRate
                                                 ).toFixed(2)}
                                               </td>
-                                              <td>80% below</td>
+                                              <td>
+                                                {getPercentageChange(
+                                                  nftDetail.lowestNftPrice,
+                                                  bid.bidAmount
+                                                )}
+                                                %{" "}
+                                                {bid.bidAmount >
+                                                nftDetail.lowestNftPrice
+                                                  ? "above"
+                                                  : "below"}
+                                              </td>
                                               {/* <td>an hour ago</td> */}
                                               <td>
                                                 {bid.fromAddress.slice(3, 8)}
                                               </td>
-                                              <td>
-                                                <button className="cancel-Bid-btn">
-                                                  Cancel
-                                                </button>
-                                              </td>
+                                              {ENV.getUserKeys("_id")._id ===
+                                                bid.bidBy && (
+                                                <td>
+                                                  <button
+                                                    className="cancel-Bid-btn"
+                                                    onClick={() =>
+                                                      deleteBid(bid._id)
+                                                    }
+                                                  >
+                                                    Cancel
+                                                  </button>
+                                                </td>
+                                              )}
                                             </tr>
                                           );
-                                        })}
+                                        })
+                                    ) : (
+                                      <p className="text-center d-flex justify-content-center align-items-center">
+                                        No Offers Found
+                                      </p>
+                                    )}
                                   </tbody>
                                 </table>
                               </div>
@@ -675,7 +731,7 @@ const NFTDetail = (props) => {
                         <span>Sale ends March 8, 2022 at 7:40am PKT </span>
                       </div>
                       <div className="likes-container d-flex align-items-center">
-                        {validateIfLiked() ? (
+                        {toggle ? (
                           <>
                             <AiFillHeart
                               className="heart-fill-icon "
@@ -684,18 +740,12 @@ const NFTDetail = (props) => {
                                 setToggle(!toggle);
                               }}
                             />
-                            <p>
-                              {" "}
-                              {nftDetail.likesCount
-                                ? nftDetail.likesCount
-                                : 0}{" "}
+                            <p className="text-white">
+                              {nftDetail.likesCount ? nftDetail.likesCount : 0}{" "}
                             </p>
                           </>
                         ) : (
                           <>
-                            <span>
-                              {nftDetail.likesCount ? nftDetail.likesCount : 0}
-                            </span>
                             <img
                               src={HeartIcon}
                               alt="heart-icon"
@@ -705,6 +755,10 @@ const NFTDetail = (props) => {
                                 setToggle(!toggle);
                               }}
                             />
+
+                            <span className="ms-1">
+                              {nftDetail.likesCount ? nftDetail.likesCount : 0}
+                            </span>
                           </>
                         )}
                       </div>
@@ -961,11 +1015,11 @@ const NFTDetail = (props) => {
                         style={{ borderRadius: "4px" }}
                         onChange={(e) => onChange(e)}
                         onKeyDown={(e) => decimalNumberValidator(e)}
-                        defaultValue={nftConfig.price.amount}
+                        defaultValue={calculatePricePercantage()}
                         required
                       />
                       <div className="text-right mb-2 dollar-wrapper">
-                        $ 0.00
+                        ${(price * exchangeRate).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -978,6 +1032,7 @@ const NFTDetail = (props) => {
                   "required"
                 )}
               </Modal.Body>
+              
               {/* <Modal.Body className="" style={{ flexDirection: "column", display: "block", height: "200px" }}>
                                 <div className="offer-expiration-wrapper text-white">
                                     <b>Offer Expiration</b>
@@ -1018,8 +1073,12 @@ const NFTDetail = (props) => {
               <Modal.Body className="justify-content-center align-items-center">
                 <div className="d-flex justify-content-around place-bid-btn">
                   <button
-                    className="ethereum-btn mr-3 place-bid-ethereum-btn"
-                    disabled={loader}
+                    className={`ethereum-btn  place-bid-ethereum-btn ${
+                      price <= nftDetail.highestBid
+                        ? "place-btn-disable-btn"
+                        : "place-bid-gradient-btn"
+                    }`}
+                    disabled={loader || price < calculatePricePercantage()}
                     onClick={() => handleModalSubmit()}
                   >
                     {2 === 2 ? initData.bidBtn : initData.bidBtn}
@@ -1067,4 +1126,5 @@ export default connect(mapStateToProps, {
   getBids,
   getBidSByNftId,
   beforeBid,
+  deleteBid,
 })(NFTDetail);

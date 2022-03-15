@@ -66,6 +66,7 @@ const ListingCards = ({
                   <p> {likesCount ? likesCount : 0} </p>
                 </div>
               ) : (
+                <div className="heart-filled-container d-flex align-items-end">
                 <img
                   src={HeartIcon}
                   alt="OptionsIcon"
@@ -74,6 +75,8 @@ const ListingCards = ({
                     setToggle(!toggle);
                   }}
                 />
+                <p className="ms-1"> {likesCount ? likesCount : 0} </p>
+                </div>
               )}
             </div>
           )}

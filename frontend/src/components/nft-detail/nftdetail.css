@@ -16,8 +16,14 @@
   border-radius: 5px;
 }
 .place-bid-ethereum-btn {
-  background: linear-gradient(to top, #4355ff, #5695fd) !important;
+  
   color: white !important;
+}
+.place-bid-gradient-btn{
+  background: linear-gradient(to top, #4355ff, #5695fd) !important;
+}
+.place-btn-disable-btn{
+  background:gray ;
 }
 .place-bid-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
