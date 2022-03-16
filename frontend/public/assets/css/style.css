@@ -3388,6 +3388,9 @@ span.no-padding .form-control {
   background-color: #5666fe;
 }
 
+.social-icons > a:hover svg {
+  color: #fff;
+}
 /* #endregion Feature */
 
 /*----------------------------------------------
@@ -3754,6 +3757,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border: none;
 }
 
+.btn.btn-rounded-bordered.btn-viewAll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /*----------------------------------------------
 13. All Media Queries
 ----------------------------------------------*/
@@ -3931,6 +3940,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
   .btn.btn-rounded-bordered.btn-viewAll {
     padding: 9px 9px;
+    font-size: 12px;
+  }
+  .btn.btn-rounded-bordered.btn-viewAll img {
+    height: 15px;
   }
   .single-work {
     min-height: unset;

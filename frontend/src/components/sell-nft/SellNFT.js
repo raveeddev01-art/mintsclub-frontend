@@ -142,11 +142,17 @@ const SellNFT = (props) => {
   const submit = async () => {
     let payload = "";
     let timedConfig=timedAuctionConfig;
-    delete timedConfig.duration.startTime
-    delete timedConfig.duration.endTime
-    delete timedConfig.method
     let fixedConfig=fixedPriceConfig;
+    if(sellingMethod===2){
 
+      delete timedConfig.duration.startTime
+      delete timedConfig.duration.endTime
+      delete timedConfig.method
+    }
+    else {
+        delete fixedConfig.listingSchedule.startTime
+        delete fixedConfig.listingSchedule.endTime
+    }
     if (sellingMethod === 2) {
       payload = {
         _id: location.state._id,
@@ -165,6 +171,7 @@ const SellNFT = (props) => {
 
     var formData = new FormData();
     for (const key in payload) formData.append(key, payload[key]);
+  if(sellingMethod===2){
 
     try {
       let auctionEndDate = timedAuctionConfig.duration.endDate;
@@ -185,6 +192,12 @@ const SellNFT = (props) => {
     } catch (err) {
       toast.error(err.message);
     }
+  }
+  else {
+    console.log("fixedprice")
+    props.upsertNFT("edit", formData, "PUT");
+  }
+
   };
 
   const getTokens = () => {

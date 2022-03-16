@@ -62,6 +62,8 @@ const AllNFT = (props) => {
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
+      // props.beforeUser()
+      props.beforeNFT()
     }
   }, [props.myLikedNftsStatus]);
 
@@ -69,12 +71,14 @@ const AllNFT = (props) => {
   useEffect(() => {
     if (props.user.topSellersAuth) {
       setCreator(props.user.sellers);
+      props.beforeUser()
     }
   }, [props.user.topSellersAuth]);
 
   useEffect(() => {
     if (props.user.creatorsAuth) {
       setCreator(props.user.creators);
+      props.beforeUser()
       setLoader(false);
     }
   }, [props.user.creatorsAuth]);
@@ -108,6 +112,7 @@ const AllNFT = (props) => {
   useEffect(() => {
     if (props.getAuth) {
       setCollections(props.collections);
+      props.beforeCollection()
     }
   }, [props.getAuth]);
 
@@ -443,6 +448,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
+  console.log(props,"props")
 
   return (
     <>
@@ -659,4 +665,6 @@ export default connect(mapStateToProps, {
   toggleLikeDislike,
   getCollections,
   getMyLikedNfts,
+  beforeCollection,
+  beforeUser
 })(AllNFT);

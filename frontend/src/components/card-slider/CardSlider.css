@@ -5,6 +5,8 @@
   height: 31px;
   border-radius: 5px;
   text-align: center;
+  justify-self: center;
+  align-self: center;
 }
 
 .card-slider-btn .fa-arrow-right,

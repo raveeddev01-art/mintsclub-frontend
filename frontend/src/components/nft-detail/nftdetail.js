@@ -1020,8 +1020,6 @@ const NFTDetail = (props) => {
                         placeholder='Amount'
                         className='amount-btn ml-3'
                         name='nftConfig.price.amount'
-                        placeholder='Amount'
-                        className='amount-btn ml-3'
                         style={{ borderRadius: '4px' }}
                         onChange={(e) => onChange(e)}
                         onKeyDown={(e) => decimalNumberValidator(e)}
@@ -1042,44 +1040,75 @@ const NFTDetail = (props) => {
                   'required'
                 )}
               </Modal.Body>
+              {nftDetail.sellingMethod === 1 && (
+                <Modal.Body
+                  className=''
+                  style={{
+                    flexDirection: 'column',
+                    display: 'block',
+                    height: '200px',
+                  }}
+                >
+                  <div className='offer-expiration-wrapper text-white'>
+                    <b>Offer Expiration</b>
+                  </div>
+                  <div>
+                    <div className='d-flex'>
+                      <select
+                        className='form-control'
+                        id='expiryDate'
+                        name='nftConfig.expiry.date'
+                        onChange={(e) => this.onChange(e)}
+                        style={{
+                          padding: '7px 55px 7px 55px',
+                          border: 'none',
+                          outline: 'none',
+                          borderRadius: '4px',
+                          background: '#808080',
+                          display: 'flex',
+                          alignItems: 'center',
+                          cursor: 'pointer',
+                          height: '51px',
+                          color: '#000',
+                        }}
+                      >
+                        {expiryOptions &&
+                          expiryOptions.map((expiry, index) => {
+                            return (
+                              <option key={index} value={expiry.value}>
+                                {expiry.label}
+                              </option>
+                            );
+                          })}
+                      </select>
+                      <div>
+                        <div className='mr-auto budle-wrapper'>
+                          <input
+                            type={
+                              nftConfig.expiry.type === 1
+                                ? 'time'
+                                : 'datetime-local'
+                            }
+                            style={{ marginLeft: '1rem', width: '552px' }}
+                            name='nftConfig.expiry.time'
+                            value={nftConfig.expiry.time}
+                            onChange={(e) => this.onChange(e)}
+                            required
+                          />
+                        </div>
+                        <span className='text-danger message'>
+                          {validator.message(
+                            'amount',
+                            nftConfig.price.amount,
+                            'required'
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Modal.Body>
+              )}
 
-              {/* <Modal.Body className="" style={{ flexDirection: "column", display: "block", height: "200px" }}>
-                                <div className="offer-expiration-wrapper text-white">
-                                    <b>Offer Expiration</b>
-                                </div>
-                                <div>
-                                    <div className="d-flex">
-                                        <select className="form-control" id="expiryDate" name="nftConfig.expiry.date" onChange={(e) => this.onChange(e)}
-                                            style={{
-                                                padding: "7px 55px 7px 55px",
-                                                border: "none",
-                                                outline: "none",
-                                                borderRadius: "4px",
-                                                background: "#808080",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                cursor: "pointer",
-                                                height: "51px",
-                                                color: "#000"
-                                            }}
-                                        >
-                                            {
-                                                expiryOptions && expiryOptions.map((expiry, index) => {
-                                                    return (
-                                                        <option key={index} value={expiry.value}>{expiry.label}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                        <div>
-                                            <div className="mr-auto budle-wrapper">
-                                                <input type={nftConfig.expiry.type === 1 ? "time" : "datetime-local"} style={{ marginLeft: "1rem", width: "552px" }} name="nftConfig.expiry.time" value={nftConfig.expiry.time} onChange={(e) => this.onChange(e)} required />
-                                            </div>
-                                            <span className="text-danger message">{validator.message('amount', nftConfig.price.amount, 'required')}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Modal.Body> */}
               <Modal.Body className='justify-content-center align-items-center'>
                 <div className='d-flex justify-content-around place-bid-btn'>
                   <button
