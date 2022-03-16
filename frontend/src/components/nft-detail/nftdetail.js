@@ -329,7 +329,7 @@ const NFTDetail = (props) => {
     setBids(result);
     props.deleteBid(id);
   };
- 
+ console.log(nftDetail,"nftDetail")
 
   return (
     <>
@@ -763,6 +763,8 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
+                    {
+                      nftDetail?.sellingMethod &&
                     <button
                       className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
                       onClick={() => handleRouting()}
@@ -771,15 +773,16 @@ const NFTDetail = (props) => {
                         {
                           ENV.getUserKeys("_id")._id === nftDetail?.ownerId
                             ? "Sell"
-                            : "Place Bid"
+                       
                           // : nftDetail?.sellingMethod === 2
                           // ? "Place Bid"
-                          // : nftDetail?.sellingMethod === 1
-                          // ? "Buy Now"
-                          // : ""
+                          : nftDetail?.sellingMethod === 1
+                          ? "Buy Now"
+                          : ""
                         }
                       </p>
                     </button>
+                      }
                   </Card.Body>
                 </Card>
                 <div className="detail-description-content mt-5">
@@ -970,7 +973,7 @@ const NFTDetail = (props) => {
             >
               <Modal.Header className="text-center modal-title-wrapper text-white">
                 <Modal.Title>
-                  {2 === 2 ? "Place A Bid" : "Make An Offer"}
+                  {nftDetail.sellingMethod === 2 ? "Place A Bid" : "Make An Offer"}
                 </Modal.Title>
               </Modal.Header>
               {/* {

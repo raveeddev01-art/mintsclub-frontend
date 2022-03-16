@@ -97,7 +97,7 @@ const ListingCards = ({
           className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
-          <p>{ownerId === ENV.getUserKeys("_id")._id ? "View" :sellingMethod===2? "Place Bid":"Buy Now"}</p>
+          <p>{(ownerId === ENV.getUserKeys("_id")._id)|| !sellingMethod ? "View" :sellingMethod===2? "Place Bid":"Buy Now"}</p>
         </button>
       </Card.Body>
     </Card>
