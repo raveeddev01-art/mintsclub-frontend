@@ -10,7 +10,7 @@ import ListingCards from "../../listing-cards/ListingCards";
 import FilterComponent from "../../filter-component/FilterComponent";
 import { getCreators, beforeUser } from "./../../user/user.action";
 import FullPageLoader from "../../full-page-loader/full-page-loader";
-import { toggleLikeDislike } from "../explore.action";
+import { toggleLikeDislike, beforeTogleLikeDislike } from "../explore.action";
 import {
   beforeCollection,
   getCollections,
@@ -31,6 +31,7 @@ const AllNFT = (props) => {
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [keyword, setKeyword] = useState("");
   const [likedNfts, setLikedNfts] = useState();
+  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -46,7 +47,6 @@ const AllNFT = (props) => {
     auction: false,
     latest: false,
   });
-
   useEffect(() => {
     console.log(ENV.getUserKeys("_id")._id, "id in all nft");
     window.scroll(0, 0);
@@ -63,7 +63,7 @@ const AllNFT = (props) => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
       // props.beforeUser()
-      props.beforeNFT()
+      props.beforeNFT();
     }
   }, [props.myLikedNftsStatus]);
 
@@ -71,14 +71,14 @@ const AllNFT = (props) => {
   useEffect(() => {
     if (props.user.topSellersAuth) {
       setCreator(props.user.sellers);
-      props.beforeUser()
+      props.beforeUser();
     }
   }, [props.user.topSellersAuth]);
 
   useEffect(() => {
     if (props.user.creatorsAuth) {
       setCreator(props.user.creators);
-      props.beforeUser()
+      props.beforeUser();
       setLoader(false);
     }
   }, [props.user.creatorsAuth]);
@@ -112,9 +112,16 @@ const AllNFT = (props) => {
   useEffect(() => {
     if (props.getAuth) {
       setCollections(props.collections);
-      props.beforeCollection()
+      props.beforeCollection();
     }
   }, [props.getAuth]);
+
+  useEffect(() => {
+    if (props.togleLikeRes) {
+      setLikeBtnDisable(false);
+      props.beforeTogleLikeDislike();
+    }
+  }, [props.togleLikeRes]);
 
   const getNFTs = (
     page = 1,
@@ -390,39 +397,45 @@ const AllNFT = (props) => {
       id == "New" ? true : false
     );
   };
-  const handleLikesTogleApi = (nftId, status) => {
-    increOrDecreLikes(nftId);
-    if (status === "dislike") {
-      let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-      setLikedNfts(result);
-      increOrDecreLikes(nftId, "dec");
-    } else {
-      let myLikedNfts = [];
-      if (likedNfts && likedNfts.length > 0) {
-        myLikedNfts = likedNfts;
-      }
-
-      let obj = {
-        _id: "1234455",
+  const handleLikesTogleApi = (nftId, status, likesCount) => {
+    if (!likeButtonDisable) {
+      setLikeBtnDisable(true);
+      let userId = ENV.getUserKeys("_id")._id;
+      console.log(likesCount, "likesCount");
+      let body = {
+        userId,
         nftId,
+        count: 1,
       };
 
-      myLikedNfts.push(obj);
+      if (status === "dislike" && likesCount > 0) {
+        let result = likedNfts.filter((item) => item.nftId !== nftId);
 
-      setLikedNfts(myLikedNfts);
-      increOrDecreLikes(nftId, "inc");
+        setLikedNfts(result);
+        increOrDecreLikes(nftId, "dec");
+      
+        props.toggleLikeDislike(body);
+      }
+
+      if (status === "like") {
+        let myLikedNfts = [];
+        if (likedNfts && likedNfts.length > 0) {
+          myLikedNfts = likedNfts;
+        }
+
+        let obj = {
+          _id: "1234455",
+          nftId,
+        };
+
+        myLikedNfts.push(obj);
+
+        setLikedNfts(myLikedNfts);
+        increOrDecreLikes(nftId, "inc");
+        props.toggleLikeDislike(body);
+      }
+      // setNFTs(nfts);
     }
-    // setNFTs(nfts);
-    let userId = ENV.getUserKeys("_id")._id;
-
-    let obj = {
-      userId,
-      nftId,
-      count: 1,
-    };
-
-    props.toggleLikeDislike(obj);
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -448,7 +461,6 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-  console.log(props,"props")
 
   return (
     <>
@@ -610,6 +622,7 @@ const AllNFT = (props) => {
                                 likesCount={listing.likeCount}
                                 likedNfts={likedNfts}
                                 ownerId={listing.ownerId}
+                                fileType={listing.fileType}
                                 sellingMethod={listing.sellingMethod}
                               />
                             )}
@@ -656,6 +669,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   getAuth: state.collection.getAuth,
   collections: state.collection.collections,
+  togleLikeRes: state.explore.togleLikeRes,
 });
 
 export default connect(mapStateToProps, {
@@ -666,5 +680,6 @@ export default connect(mapStateToProps, {
   getCollections,
   getMyLikedNfts,
   beforeCollection,
-  beforeUser
+  beforeUser,
+  beforeTogleLikeDislike,
 })(AllNFT);
