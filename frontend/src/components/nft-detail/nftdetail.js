@@ -329,7 +329,7 @@ const NFTDetail = (props) => {
     setBids(result);
     props.deleteBid(id);
   };
-  console.log(nftDetail, "nftDetail");
+ 
 
   return (
     <>
