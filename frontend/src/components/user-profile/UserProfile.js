@@ -9,7 +9,7 @@ import ListingCards from "../listing-cards/ListingCards";
 import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
-import { toggleLikeDislike } from "../explore/explore.action";
+import { toggleLikeDislike ,beforeTogleLikeDislike} from "../explore/explore.action";
 import { getUserById, beforeUser } from "../user/user.action";
 import { Images } from "../../assets/assets";
 import Breadcrumb from "../breadcrumb/breadcrumb";
@@ -31,6 +31,7 @@ const UserProfile = (props) => {
   const [user, setUser] = useState("");
   const [likedNfts, setLikedNfts] = useState();
   const [keyword,setKeyword]=useState('')
+  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -101,6 +102,13 @@ const UserProfile = (props) => {
       setUser(individualUser);
     }
   }, [props.individualUserAuth]);
+  
+  useEffect(() => {
+    if (props.togleLikeRes) {
+      setLikeBtnDisable(false);
+      props.beforeTogleLikeDislike();
+    }
+  }, [props.togleLikeRes]);
 
   const ChangeTooltip = () =>
     setTimeout(() => {
@@ -372,14 +380,25 @@ const UserProfile = (props) => {
     );
 
   }
-  const handleLikesTogleApi = (nftId, status) => {
-    increOrDecreLikes(nftId);
-    if (status === "dislike") {
+  const handleLikesTogleApi = (nftId, status,likesCount) => {
+    // increOrDecreLikes(nftId);
+    if (!likeButtonDisable) {
+      setLikeBtnDisable(true);
+    let userId = ENV.getUserKeys("_id")._id;
+
+    let data = {
+      userId,
+      nftId,
+      count: 1,
+    };
+    if (status === "dislike" & likesCount>0) {
       let result = likedNfts.filter((item) => item.nftId !== nftId);
 
       setLikedNfts(result);
       increOrDecreLikes(nftId, "dec");
-    } else {
+      props.toggleLikeDislike(data);
+    }  
+     if (status === "like")  {
       let myLikedNfts = [];
       if (likedNfts && likedNfts.length > 0) {
         myLikedNfts = likedNfts;
@@ -394,17 +413,11 @@ const UserProfile = (props) => {
 
       setLikedNfts(myLikedNfts);
       increOrDecreLikes(nftId, "inc");
+      props.toggleLikeDislike(data);
     }
     // setNFTs(nfts);
-    let userId = ENV.getUserKeys("_id")._id;
+  }
 
-    let obj = {
-      userId,
-      nftId,
-      count: 1,
-    };
-
-    props.toggleLikeDislike(obj);
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -694,6 +707,7 @@ const mapStateToProps = (state) => (
     myLikedNftsStatus: state.nft.myLikedNftsStatus,
     individualUser: state.user.individualUser,
     individualUserAuth: state.user.individualUserAuth,
+    togleLikeRes: state.explore.togleLikeRes,
   }
 );
 
@@ -704,4 +718,5 @@ export default connect(mapStateToProps, {
   getMyLikedNfts,
   getUserById,
   beforeUser,
+  beforeTogleLikeDislike,
 })(UserProfile);

@@ -12,6 +12,14 @@
 .heart-fill-icon {
   color: white;
 }
+.like-dislike-btn {
+  background: transparent;
+  border: none;
+}
+.dislike-img{
+  height: 15px;
+    width: 24px;
+}
 .options-icon.like-icon .heart-filled-container p {
   font-size: 14px;
   font-weight: normal;

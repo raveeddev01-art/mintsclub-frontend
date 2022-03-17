@@ -25,7 +25,10 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
-import { toggleLikeDislike } from "../explore/explore.action";
+import {
+  toggleLikeDislike,
+  beforeTogleLikeDislike,
+} from "../explore/explore.action";
 import moment from "moment";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
@@ -54,6 +57,7 @@ const NFTDetail = (props) => {
   const [liked, setLiked] = useState(false);
   const [bids, setBids] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const history = useHistory();
   let nftId = props.match.params.id;
   const initData = {
@@ -208,6 +212,13 @@ const NFTDetail = (props) => {
     }
   }, [props.nftsByCollectionStatus]);
 
+  useEffect(() => {
+    if (props.togleLikeRes) {
+      setLikeBtnDisable(false);
+      props.beforeTogleLikeDislike();
+    }
+  }, [props.togleLikeRes]);
+
   const handleRouting = () => {
     if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
       history.push({
@@ -225,28 +236,33 @@ const NFTDetail = (props) => {
   }, [toggle]);
 
   const handleLikesTogleApi = (nftId, status) => {
-    if (status === "dislike") {
-      let nft = nftDetail;
-      nft.likesCount = nft.likesCount - 1;
-      setLiked(false);
-      setNftDetail(nft);
-    } else {
-      let nft = nftDetail;
-      nft.likesCount = nft.likesCount + 1;
+    if (!likeButtonDisable) {
+      setLikeBtnDisable(true);
+      setToggle(!toggle);
 
-      setNftDetail(nft);
-      setLiked(true);
+      let userId = ENV.getUserKeys("_id")._id;
+
+      let data = {
+        userId,
+        nftId,
+        count: 1,
+      };
+
+      if ((status === "dislike") & (nftDetail.likesCount > 0)) {
+        let nft = nftDetail;
+        nft.likesCount = nft.likesCount - 1;
+        setLiked(false);
+        setNftDetail(nft);
+        props.toggleLikeDislike(data);
+      } else {
+        let nft = nftDetail;
+        nft.likesCount = nft.likesCount + 1;
+
+        setNftDetail(nft);
+        setLiked(true);
+        props.toggleLikeDislike(data);
+      }
     }
-
-    let userId = ENV.getUserKeys("_id")._id;
-
-    let obj = {
-      userId,
-      nftId,
-      count: 1,
-    };
-
-    props.toggleLikeDislike(obj);
   };
 
   //match if nft liked
@@ -288,6 +304,12 @@ const NFTDetail = (props) => {
         setExchangeRate(currentUSD);
       });
   }, []);
+  useEffect(() => {
+    if (props.togleLikeRes) {
+      setLikeBtnDisable(false);
+      props.beforeTogleLikeDislike();
+    }
+  }, [props.togleLikeRes]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -332,7 +354,12 @@ const NFTDetail = (props) => {
     setBids(result);
     props.deleteBid(id);
   };
-  console.log(nftDetail, "nftDetail");
+  const auctionEndTimeConversion = (auctionEndDate) => {
+    var dateString = moment.utc(auctionEndDate).format("MMMM D, Y");
+    var timeString = moment.utc(auctionEndDate).format("h:mma");
+    var totalDateTime = dateString + " at " + timeString + " PKT";
+    return totalDateTime;
+  };
 
   return (
     <>
@@ -731,7 +758,10 @@ const NFTDetail = (props) => {
                           alt="clock-icon"
                           className="me-1"
                         />
-                        <span>Sale ends March 8, 2022 at 7:40am PKT </span>
+                        <span>
+                          Sale ends{" "}
+                          {auctionEndTimeConversion(nftDetail.auctionEndDate)}{" "}
+                        </span>
                       </div>
                       <div className="likes-container d-flex align-items-center">
                         {toggle ? (
@@ -740,7 +770,6 @@ const NFTDetail = (props) => {
                               className="heart-fill-icon "
                               onClick={() => {
                                 handleLikesTogleApi(nftDetail._id, "dislike");
-                                setToggle(!toggle);
                               }}
                             />
                             <p className="text-white">
@@ -755,7 +784,6 @@ const NFTDetail = (props) => {
                               className="ms-1"
                               onClick={() => {
                                 handleLikesTogleApi(nftDetail._id, "like");
-                                setToggle(!toggle);
                               }}
                             />
 
@@ -766,23 +794,22 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
-                    <button
-                      className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
-                      onClick={() => handleRouting()}
-                    >
-                      <p>
-                        {
-                          ENV.getUserKeys("_id")._id === nftDetail?.ownerId
+                    {nftDetail?.sellingMethod && (
+                      <button
+                        className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
+                        onClick={() => handleRouting()}
+                      >
+                        <p>
+                          {ENV.getUserKeys("_id")._id === nftDetail?.ownerId
                             ? "Sell"
-                            : "Place Bid"
-                          // : nftDetail?.sellingMethod === 2
-                          // ? "Place Bid"
-                          // : nftDetail?.sellingMethod === 1
-                          // ? "Buy Now"
-                          // : ""
-                        }
-                      </p>
-                    </button>
+                            : // : nftDetail?.sellingMethod === 2
+                            // ? "Place Bid"
+                            nftDetail?.sellingMethod === 1
+                            ? "Buy Now"
+                            : ""}
+                        </p>
+                      </button>
+                    )}
                   </Card.Body>
                 </Card>
                 <div className="detail-description-content mt-5">
@@ -974,7 +1001,9 @@ const NFTDetail = (props) => {
             >
               <Modal.Header className="bid-modal-header text-center text-white">
                 <Modal.Title>
-                  {2 === 2 ? "Place A Bid" : "Make An Offer"}
+                  {nftDetail.sellingMethod === 2
+                    ? "Place A Bid"
+                    : "Make An Offer"}
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
@@ -1141,6 +1170,7 @@ const mapStateToProps = (state) => ({
   bids: state.bid.bids,
   bidsByNft: state.bid.bidsByNft,
   bidsByNftAuth: state.bid.bidsBYNftAuth,
+  togleLikeRes: state.explore.togleLikeRes,
 });
 
 export default connect(mapStateToProps, {
@@ -1153,4 +1183,5 @@ export default connect(mapStateToProps, {
   getBidSByNftId,
   beforeBid,
   deleteBid,
+  beforeTogleLikeDislike,
 })(NFTDetail);

@@ -18,7 +18,8 @@ const ListingCards = ({
   likedNfts,
   userProfile,
   ownerId,
-  sellingMethod
+  sellingMethod,
+ 
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -59,7 +60,7 @@ const ListingCards = ({
                   <AiFillHeart
                     className="heart-fill-icon "
                     onClick={() => {
-                      handleLikesTogleApi(id, "dislike");
+                      handleLikesTogleApi(id, "dislike", likesCount);
                       setToggle(!toggle);
                     }}
                   />{" "}
@@ -67,15 +68,15 @@ const ListingCards = ({
                 </div>
               ) : (
                 <div className="heart-filled-container d-flex align-items-end">
-                <img
-                  src={HeartIcon}
-                  alt="OptionsIcon"
-                  onClick={() => {
-                    handleLikesTogleApi(id, "like");
-                    setToggle(!toggle);
-                  }}
-                />
-                <p className="ms-1"> {likesCount ? likesCount : 0} </p>
+                  <img
+                    src={HeartIcon}
+                    alt="OptionsIcon"
+                    onClick={() => {
+                      handleLikesTogleApi(id, "like", likesCount);
+                      setToggle(!toggle);
+                    }}
+                  />
+                  <p className="ms-1"> {likesCount ? likesCount : 0} </p>
                 </div>
               )}
             </div>
@@ -97,7 +98,13 @@ const ListingCards = ({
           className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
-          <p>{ownerId === ENV.getUserKeys("_id")._id ? "View" :sellingMethod===2? "Place Bid":"Buy Now"}</p>
+          <p>
+            {ownerId === ENV.getUserKeys("_id")._id || !sellingMethod
+              ? "View"
+              : sellingMethod === 2
+              ? "Place Bid"
+              : "Buy Now"}
+          </p>
         </button>
       </Card.Body>
     </Card>
