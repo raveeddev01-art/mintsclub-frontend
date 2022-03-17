@@ -39,6 +39,7 @@ import {
   deleteBid,
 } from "../bids/bids.action";
 import { toast } from "react-toastify";
+import BuyModal from "../modals/BuyModal";
 // import  {}
 
 const NFTDetail = (props) => {
@@ -52,6 +53,7 @@ const NFTDetail = (props) => {
   const [price, setPrice] = useState(0);
   const [liked, setLiked] = useState(false);
   const [bids, setBids] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
   const history = useHistory();
   let nftId = props.match.params.id;
   const initData = {
@@ -213,7 +215,8 @@ const NFTDetail = (props) => {
         state: nftDetail,
       });
     } else {
-      setIsOpen(true);
+      // setIsOpen(true);
+      setModalShow(true);
     }
   };
   //toggleLikes
@@ -960,27 +963,20 @@ const NFTDetail = (props) => {
             </div>
           </div>
           {/* ///////////////////////////////////// Modal */}
-          <div className="modal-wrapper">
+          {/* <div className="modal-wrapper">
             <Modal
               centered
               size="lg"
-              // className="place-bid-modal"
+              className="place-bid-modal"
               show={isOpen}
               onHide={closeModal}
+              contentClassName="bid-modal-content"
             >
-              <Modal.Header className="text-center modal-title-wrapper text-white">
+              <Modal.Header className="bid-modal-header text-center text-white">
                 <Modal.Title>
                   {2 === 2 ? "Place A Bid" : "Make An Offer"}
                 </Modal.Title>
               </Modal.Header>
-              {/* {
-                                isSubmitted && errors &&
-                                <Modal.Body className="row pt-2 pb-0">
-                                    <div className="col-12">
-                                        <span id="nft-err" className="form-error-msg text-danger">{errors}</span>
-                                    </div>
-                                </Modal.Body>
-                            } */}
               <Modal.Body>
                 <div className="price-wrapper d-flex">
                   <div className="price-text position-relative">
@@ -1100,7 +1096,6 @@ const NFTDetail = (props) => {
                   </div>
                 </Modal.Body>
               )}
-
               <Modal.Body className="justify-content-center align-items-center">
                 <div className="d-flex justify-content-around place-bid-btn">
                   <button
@@ -1114,7 +1109,6 @@ const NFTDetail = (props) => {
                   >
                     {2 === 2 ? initData.bidBtn : initData.bidBtn}
                   </button>
-                  {/* <button className="ethereum-btn">Add funds</button> */}
                 </div>
               </Modal.Body>
               <Modal.Footer>
@@ -1126,7 +1120,8 @@ const NFTDetail = (props) => {
                 </button>
               </Modal.Footer>
             </Modal>
-          </div>
+          </div> */}
+          <BuyModal show={modalShow} onHide={() => setModalShow(false)} />
         </section>
         <Footer />
       </>

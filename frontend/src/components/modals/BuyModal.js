@@ -1,0 +1,162 @@
+import React, { useState } from "react";
+import { Modal, Button, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import ModalClose from "../../assets/images/modal-close.svg";
+import NftImg from "../../assets/images/listingImg3.png";
+import "./BuyModal.css";
+
+const BuyModal = (props) => {
+  const [purchase, setPurchase] = useState(true);
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      dialogClassName="buy-modal-dialog"
+      contentClassName="buy-modal-content"
+      className="buy-modal"
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Complete Checkout
+        </Modal.Title>
+        <div className="modal-close-container">
+          <Button onClick={props.onHide}>
+            <img src={ModalClose} alt="closemodal" />
+          </Button>
+        </div>
+        <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
+          <div className="buy-modal-subheadings">
+            <p>Item</p>
+          </div>
+          <div className="buy-modal-subheadings">
+            <p>Subtotal</p>
+          </div>
+        </div>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="row w-100 align-items-center">
+          <div className="col-md-8">
+            <div className="d-flex align-items-center">
+              <div className="modal-nft-container">
+                <div className="modal-nft-img">
+                  <img src={NftImg} alt="nft-img" />
+                </div>
+              </div>
+              <div className="modal-nft-conntent ms-2">
+                <p>Fancy Lady Smoking</p>
+                <p>FancyLady # 5</p>
+                <p>Creator Fees: 5%</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="modal-nft-detail text-end">
+              <p>0.1982 TEH</p>
+              <p>$504.49</p>
+            </div>
+          </div>
+        </div>
+        <div className="row w-100 align-items-center total-row mt-3">
+          <div className="col-md-8">
+            <div className="modal-nft-detail">
+              <p>Total</p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="modal-nft-detail text-end">
+              <h6>0.1982 TEH</h6>
+              <p>$504.49</p>
+            </div>
+          </div>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="modal-nft-footer d-flex">
+          <input type="checkbox" className="me-2" />
+          <p>
+            By checking this bos,I agree to MintsClub{" "}
+            <Link>Terms of Services</Link>
+          </p>
+        </div>
+        <Button onClick={props.onHide} className="btn btn-linear-gradient mt-2">
+          Confirm Checkout
+        </Button>
+      </Modal.Footer>
+    </Modal>
+    // <Modal
+    //   {...props}
+    //   size="lg"
+    //   dialogClassName="buy-modal-dialog"
+    //   contentClassName="buy-modal-content"
+    //   className="buy-modal purchase-modal"
+    //   centered
+    // >
+    //   <Modal.Header>
+    //     <Modal.Title id="contained-modal-title-vcenter">
+    //       Your Purchase is Processing
+    //     </Modal.Title>
+    //     <div className="modal-close-container">
+    //       <Button onClick={props.onHide}>
+    //         <img src={ModalClose} alt="closemodal" />
+    //       </Button>
+    //     </div>
+    //   </Modal.Header>
+    //   <Modal.Body>
+    //     <div className="modal-nft-container">
+    //       <div className="modal-nft-img">
+    //         <img src={NftImg} alt="nft-img" />
+    //       </div>
+    //     </div>
+    //     <div className="modal-nft-purchased mt-3">
+    //       <p>
+    //         Woo! You just Purchased FancyLaday. It should be confirmed on the
+    //         blockchain shortly
+    //       </p>
+    //     </div>
+    //     <div className="modal-nft-status mt-4">
+    //       <div className="modal-status-subheadings d-flex align-items-center justify-content-between">
+    //         <p> Status </p>
+    //         <p> Transaction Hash </p>
+    //       </div>
+    //       <div className="modal-status-content d-flex align-items-center justify-content-between">
+    //         <div className="status-process d-flex align-items-center">
+    //           <Spinner
+    //             animation="border"
+    //             role="status"
+    //             size="sm"
+    //             variant="primary"
+    //             className="me-1"
+    //           ></Spinner>
+    //           <p>Processing</p>
+    //         </div>
+    //         <div className="status-address">
+    //           <p>0xe90b...58b</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </Modal.Body>
+    //   <Modal.Footer>
+    //     <div className="modal-nft-footer">
+    //       <p>Share</p>
+    //     </div>
+    //     <div className="social-icons d-flex justify-content-center justify-content-lg-start">
+    //       <a href="#" target="_blank">
+    //         <i className={"fab fa-linkedin-in"} />
+    //       </a>
+    //       <a href="#" target="_blank">
+    //         <i className={"fab fa-facebook-f"} />
+    //       </a>
+    //       <a href="#" target="_blank">
+    //         <i className={"fab fa-instagram"} />
+    //       </a>
+    //       <a href="#" target="_blank">
+    //         <i className={"fab fa-twitter"} />
+    //       </a>
+    //     </div>
+    //   </Modal.Footer>
+    // </Modal>
+  );
+};
+
+export default BuyModal;

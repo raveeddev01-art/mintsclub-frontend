@@ -16,22 +16,19 @@
   border-radius: 5px;
 }
 .place-bid-ethereum-btn {
-  
   color: white !important;
 }
-.place-bid-gradient-btn{
+.place-bid-gradient-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
 }
-.place-btn-disable-btn{
-  background:gray ;
+.place-btn-disable-btn {
+  background: gray;
 }
 .place-bid-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
   color: white;
 }
-.modal-content {
-  background: linear-gradient(to top, #10103c, #2a6285) !important;
-}
+
 .nftDetail-accordion .accordion .accordion-item {
   margin-bottom: 20px;
 }
@@ -39,29 +36,6 @@
 .nftDetail-accordion .collection-filter-accordion .accordion .accordion-item {
   margin-bottom: 0;
 }
-/* .nftDetail-accordion .accordion .accordion-item:first-child,
-.nftDetail-accordion
-  .accordion
-  .accordion-item:first-child
-  .accordion-header
-  .accordion-button {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-top: 1px solid #212029;
-} */
-/* .nftDetail-accordion .accordion .accordion-item:last-child {
-  border-bottom: 1px solid #212029;
-} */
-
-/* .nftDetail-accordion .accordion .accordion-item:last-child,
-.nftDetail-accordion
-  .accordion
-  .accordion-item:last-child
-  .accordion-header
-  .accordion-button {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-} */
 
 .nftDetail-accordion .accordion .accordion-item,
 .nftDetail-accordion .accordion .accordion-header .accordion-button {
@@ -217,7 +191,17 @@
 }
 
 .nft-detail .auction-card.card .card-img-top {
+  background: linear-gradient(to top, #10103c, #2a6285) !important;
+  border: none !important;
   height: 300px;
+}
+
+.nft-stats-accordion.collection-filter-accordion
+  .accordion
+  .accordion-item:first-child
+  .accordion-header
+  .accordion-button {
+  border-top: 0;
 }
 
 .nft-stats-accordion
@@ -268,9 +252,6 @@
 .nft-detail .detail-card .card-body h3 {
   font-size: 36px;
   font-weight: 800;
-}
-
-.nft-detail .detail-card .card-body .likes-container img {
   cursor: pointer;
 }
 
@@ -382,4 +363,9 @@
 
 .nft-stats-accordion .accordion .accordion-item:last-child {
   border-bottom: 1px solid #d6d6d6;
+}
+
+.modal-content.bid-modal-content {
+  background: linear-gradient(to top, #10103c, #2a6285);
+  border: none;
 }
