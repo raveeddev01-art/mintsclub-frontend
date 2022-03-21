@@ -35,35 +35,49 @@ const BuyModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body>
-        <div className="row w-100 align-items-center">
-          <div className="col-md-8">
-            <div className="d-flex align-items-center">
-              <div className="modal-nft-container">
-                <div className="modal-nft-img">
-                  <img src={NftImg} alt="nft-img" />
-                </div>
-              </div>
-              <div className="modal-nft-conntent ms-2">
-                <p>Fancy Lady Smoking</p>
-                <p>FancyLady # 5</p>
-                <p>Creator Fees: 5%</p>
+        <div className="row w-100 align-items-center justify-content-center g-4">
+          <div className="col-md-3">
+            <div className="modal-nft-container mx-auto mx-md-0">
+              <div className="modal-nft-img">
+                <img src={NftImg} alt="nft-img" />
               </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="modal-nft-detail text-end">
-              <p>0.1982 TEH</p>
-              <p>$504.49</p>
+          <div className="col-md-9">
+            <div className="d-flex justify-content-between">
+              <div className="modal-nft-conntent">
+                <div className="row align-items-center justify-content-between">
+                  <div className="col-12">
+                    <p>Fancy Lady Smoking</p>
+                  </div>
+                  <div className="col-6">
+                    <p>FancyLady # 5</p>
+                  </div>
+                  <div className="col-6">
+                    <div className="modal-nft-detail text-end">
+                      <p>0.1982 TEH</p>
+                    </div>
+                  </div>
+                  <div className="col-6">
+                    <p>Creator Fees: 5%</p>
+                  </div>
+                  <div className="col-6">
+                    <div className="modal-nft-detail text-end">
+                      <p>$504.49</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="row w-100 align-items-center total-row mt-3">
-          <div className="col-md-8">
+          <div className="col-6 col-md-8">
             <div className="modal-nft-detail">
               <p>Total</p>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-6 col-md-4">
             <div className="modal-nft-detail text-end">
               <h6>0.1982 TEH</h6>
               <p>$504.49</p>
