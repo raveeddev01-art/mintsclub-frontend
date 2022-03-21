@@ -12,11 +12,17 @@ import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const TopSellerList = (props) => {
   const [sellers, setSellers] = useState([]);
+
   useEffect(() => {
     props.getTopSellers();
   }, []);
+
   useEffect(() => {
-    setSellers(props.user.sellers);
+    if(props.user.topSellersAuth){
+
+      setSellers(props.user.sellers);
+      props.beforeUser()
+    }
   }, [props.user.topSellersAuth]);
 
   return (
@@ -101,5 +107,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { beforeUser, getTopSellers })(
-  TopSellerList
+  TopSellerList,
+  beforeUser
 );
