@@ -121,13 +121,14 @@
   padding-bottom: 30px;
 }
 
-.buy-modal .buy-modal-content .modal-nft-footer p {
+.buy-modal .buy-modal-content .modal-nft-footer .checkbox-container p {
   font-size: 14px;
   color: #fff;
   margin-bottom: 0;
+  padding-left: 25px;
 }
 
-.buy-modal .buy-modal-content .modal-nft-footer a {
+.buy-modal .buy-modal-content .modal-nft-footer .checkbox-container a {
   font-size: 14px;
   color: #5666fe;
   margin-bottom: 0;
@@ -135,14 +136,35 @@
   text-decoration: none;
 }
 
-.buy-modal .buy-modal-content .modal-nft-footer input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  border-radius: 3px;
+.checkbox-container {
+  position: relative;
 }
 
-.buy-modal .buy-modal-content .modal-nft-footer input[type="checkbox"]:checked {
-  background: #5666fe;
+.custom-uncheck-box {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #252543;
+  border-radius: 3px;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.custom-checked-box {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #5666fe;
+  border-radius: 3px;
+  background-color: #5666fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .modal.buy-modal.purchase-modal .modal-body {
@@ -210,16 +232,20 @@
   color: #5666fe !important;
 }
 
+@media (max-width: 767.9px) {
+  .buy-modal .modal-body .modal-nft-purchased {
+    width: 70%;
+  }
+}
+
 @media (max-width: 575.9px) {
   .buy-modal .modal-body .modal-nft-purchased {
-    width: 85%;
-    text-align: center;
+    width: 90%;
   }
   .modal.buy-modal.purchase-modal .modal-body {
     padding: 1rem;
   }
   .buy-modal .buy-modal-content .modal-header .modal-close-container {
-    position: absolute;
     top: 5px;
     right: 10px;
   }

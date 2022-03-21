@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import ModalClose from "../../assets/images/modal-close.svg";
 import NftImg from "../../assets/images/listingImg3.png";
 import "./BuyModal.css";
+import TickIcon from "../../assets/images/tick-checkbox.svg";
 
 const BuyModal = (props) => {
   const [purchase, setPurchase] = useState(true);
+  const [checkBox, setCheckBox] = useState(false);
   return (
     <Modal
       {...props}
@@ -86,12 +88,26 @@ const BuyModal = (props) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <div className="modal-nft-footer d-flex">
-          <input type="checkbox" className="me-2" />
-          <p>
-            By checking this bos,I agree to MintsClub{" "}
-            <Link>Terms of Services</Link>
-          </p>
+        <div className="modal-nft-footer">
+          <div className="checkbox-container">
+            {checkBox ? (
+              <div
+                className="custom-checked-box"
+                onClick={() => setCheckBox(!checkBox)}
+              >
+                <img src={TickIcon} alt="checked" />
+              </div>
+            ) : (
+              <div
+                className="custom-uncheck-box"
+                onClick={() => setCheckBox(!checkBox)}
+              ></div>
+            )}
+            <p>
+              By checking this box,I agree to MintsClub{" "}
+              <Link>Terms of Services</Link>
+            </p>
+          </div>
         </div>
         <Button onClick={props.onHide} className="btn btn-linear-gradient mt-2">
           Confirm Checkout
