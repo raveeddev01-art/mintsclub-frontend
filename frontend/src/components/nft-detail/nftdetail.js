@@ -19,6 +19,7 @@ import {
   getNFT,
   getNFTsByCollection,
   getMyLikedNfts,
+  beforeNFT,
 } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
@@ -33,7 +34,12 @@ import moment from "moment";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
-import { placeABid, connectMetamask } from "../../utils/web3";
+import {
+  placeABid,
+  connectMetamask,
+  BuyFixedPriceNFT,
+  getWalletAddress,
+} from "../../utils/web3";
 import {
   placeBid,
   getBids,
@@ -41,7 +47,15 @@ import {
   beforeBid,
   deleteBid,
 } from "../bids/bids.action";
+import {
+  makeOffer,
+  getOffers,
+  beforeOffer,
+  deleteOffer,
+  buyNow,
+} from "../offers/offers.action";
 import { toast } from "react-toastify";
+import BuyModal from "../modals/BuyModal";
 // import  {}
 
 const NFTDetail = (props) => {
@@ -54,10 +68,19 @@ const NFTDetail = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState(0);
   const [liked, setLiked] = useState(false);
-  const [bids, setBids] = useState([]);
+  const [bids, setBids] = useState(null);
+  const [offers, setOffers] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [modal, setModal] = useState(1);
+  const [confirmed, setConfirmed] = useState("");
+  const [transactionHash, setTransactionHash] = useState("");
+  const [transactionSuccess,setTransactionSuccess]=useState(false)
   const history = useHistory();
+
   let nftId = props.match.params.id;
+  let userId = ENV.getUserKeys("_id")._id;
+  console.log(userId, "userId");
   const initData = {
     itemImg: "/img/auction_2.jpg",
     date: "2022-03-30",
@@ -151,11 +174,6 @@ const NFTDetail = (props) => {
     props.getMyLikedNfts(qs);
     validateIfLiked();
     props.getBids();
-
-    //qs for getting bids by NFT id
-    let nftBidsQs = { nftId };
-    nftBidsQs = ENV.objectToQueryString(nftBidsQs);
-    props.getBidSByNftId(nftBidsQs);
   }, []);
 
   useEffect(() => {
@@ -164,13 +182,40 @@ const NFTDetail = (props) => {
       history.push("/");
     }
   }, [props.createAuth]);
+  useEffect(() => {
+    if (props.buyAuth) {
+      setLoader(false);
+      setTransactionSuccess(true)
+      props.getNFT(nftId);
+      let qs = { userId: ENV.getUserKeys("_id")._id };
+      qs = ENV.objectToQueryString(qs);
+      props.getMyLikedNfts(qs);
+      validateIfLiked();
+      props.getBids();
+    }
+  }, [props.buyAuth]);
+
+  useEffect(() => {
+    if (props.createAuthOffer) {
+      setLoader(false);
+      history.push("/");
+    }
+  }, [props.createAuthOffer]);
+
   // Get Liked Nfts
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
       // validateIfLiked(props.myLikedNfts);
+      props.beforeNFT();
     }
   }, [props.myLikedNftsStatus]);
+
+  useEffect(() => {
+    if (props.getAuthOffer) {
+      setOffers(props.offers);
+    }
+  }, [props.getAuthOffer]);
 
   useEffect(() => {
     if (props.bidsByNftAuth) {
@@ -182,6 +227,19 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
+
+      if (props.nftDetail.sellingMethod === 1) {
+        let qs = { offerBy: ENV.getUserKeys("_id")._id };
+        qs = ENV.objectToQueryString(qs);
+        props.getOffers(qs);
+      }
+
+      if (nftDetail.sellingMethod === 2) {
+        let nftBidsQs = { nftId };
+        nftBidsQs = ENV.objectToQueryString(nftBidsQs);
+        props.getBidSByNftId(nftBidsQs);
+      }
+
       let fivePerc = "";
       if (props.nftDetail.highestBid === 0) {
         fivePerc = (5 / 100) * props.nftDetail.currentPrice;
@@ -225,6 +283,7 @@ const NFTDetail = (props) => {
       });
     } else {
       setIsOpen(true);
+      // setModalShow(true);
     }
   };
   //toggleLikes
@@ -279,6 +338,35 @@ const NFTDetail = (props) => {
       return setToggle(false);
     }
   };
+  const onChangeModal = (e) => {
+    const { name, value } = e.target;
+    let data = nftConfig;
+
+    const keys = name.split("."); // nftConfig, price, currency
+    if (keys && keys[2]) data[keys[1]][keys[2]] = value;
+    else if (keys && keys[1]) data[keys[1]] = value;
+
+    if (keys && keys[1] === "price" && keys[2] === "amount")
+      data[keys[1]]["amount"] = Number(value);
+
+    if (keys && keys[1] === "expiry" && keys[2] === "date")
+      data[keys[1]]["type"] = Number(value) === -1 ? 2 : 1;
+
+    // set datetime for days / months
+    if (data.expiry.type === 1)
+      data.expiry.datetime = moment(
+        data.expiry.date + " " + data.expiry.time,
+        "DD/MM/YYYY HH:mm"
+      );
+    // set datetime for custom date
+    else if (data.expiry.type === 2) {
+      data.expiry.datetime = moment(data.expiry.time, "DD/MM/YYYY HH:mm");
+      data.expiry.date = moment(data.expiry.time, "DD/MM/YYYY");
+    }
+
+    setNftConfig(data);
+    console.log(data, "data");
+  };
 
   const calculatePricePercantage = () => {
     let fivePerc = "";
@@ -317,8 +405,13 @@ const NFTDetail = (props) => {
   const handleModalSubmit = async () => {
     setLoader(true);
     setIsOpen(false);
-    console.log(ENV.getUserKeys("_id"), "env id");
-
+    if (nftDetail.sellingMethod === 2) {
+      placeBid();
+    } else {
+      makeOffer();
+    }
+  };
+  const placeBid = async () => {
     try {
       let result = await placeABid(price, nftDetail.nftToken);
       if (result) {
@@ -341,21 +434,73 @@ const NFTDetail = (props) => {
       toast.error(err);
     }
   };
+  const makeOffer = async () => {
+    try {
+      // let result = await placeABid(price, nftDetail.nftToken);
+      let result = true;
+      if (result) {
+        const payload = {
+          toAddress: nftDetail.ownerAddress,
+          fromAddress: await connectMetamask(),
+          offerBy: ENV.getUserKeys("_id")._id,
+          ownerId: nftDetail.ownerId,
+          nftId: nftDetail._id,
+          price: price,
+          expiryDate: nftConfig.expiry.datetime,
+          isAccepted: false,
+          isExpired: false,
+        };
+        console.log(payload, "payload");
+
+        props.makeOffer(payload);
+      }
+    } catch (err) {
+      setLoader(false);
+      setIsOpen(false);
+      toast.error(err);
+    }
+  };
   const getPercentageChange = (oldNumber, newNumber) => {
     var decreaseValue = oldNumber - newNumber;
 
     return (decreaseValue / oldNumber) * 100;
   };
+
   const deleteBid = (id) => {
     let result = bids.filter((bid) => bid._id !== id);
     setBids(result);
     props.deleteBid(id);
+  };
+
+  const deleteOffer = (id) => {
+    let result = offers.filter((offer) => offer._id !== id);
+    setOffers(result);
+    props.deleteOffer(id);
   };
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment.utc(auctionEndDate).format("MMMM D, Y");
     var timeString = moment.utc(auctionEndDate).format("h:mma");
     var totalDateTime = dateString + " at " + timeString + " PKT";
     return totalDateTime;
+  };
+
+  const BuyNow = async () => {
+    try {
+      const result = await BuyFixedPriceNFT(
+        nftDetail.currentPrice,
+        nftDetail.nftToken,
+        setConfirmed,
+        setTransactionHash
+      );
+      if (result) {
+        let payload = {
+          userId,
+          nftId,
+          ownerAddress: await getWalletAddress(),
+        };
+        props.buyNow(payload);
+      }
+    } catch (err) {}
   };
 
   return (
@@ -433,7 +578,8 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {bids && bids.length > 0 && (
+                                  {((bids && bids.length > 0) ||
+                                    (offers && offers.length > 0)) && (
                                     <thead>
                                       <tr>
                                         <th scope="col">Price</th>
@@ -446,58 +592,122 @@ const NFTDetail = (props) => {
                                     </thead>
                                   )}
                                   <tbody>
-                                    {bids && bids.length > 0 ? (
-                                      bids
-                                        .filter(
-                                          (item) => item.nftId === nftDetail._id
-                                        )
-                                        .map((bid) => {
-                                          return (
-                                            <tr>
-                                              <th scope="row">
-                                                {bid.bidAmount}
-                                              </th>
-                                              <td>
-                                                $
-                                                {(
-                                                  bid.bidAmount * exchangeRate
-                                                ).toFixed(2)}
-                                              </td>
-                                              <td>
-                                                {getPercentageChange(
-                                                  nftDetail.lowestNftPrice,
-                                                  bid.bidAmount
-                                                )}
-                                                %{" "}
-                                                {bid.bidAmount >
-                                                nftDetail.lowestNftPrice
-                                                  ? "above"
-                                                  : "below"}
-                                              </td>
-                                              {/* <td>an hour ago</td> */}
-                                              <td>
-                                                {bid.fromAddress.slice(3, 8)}
-                                              </td>
-                                              {ENV.getUserKeys("_id")._id ===
-                                                bid.bidBy && (
-                                                <td>
-                                                  <button
-                                                    className="cancel-Bid-btn"
-                                                    onClick={() =>
-                                                      deleteBid(bid._id)
-                                                    }
-                                                  >
-                                                    Cancel
-                                                  </button>
-                                                </td>
-                                              )}
-                                            </tr>
-                                          );
-                                        })
+                                    {nftDetail.sellingMethod === 2 ? (
+                                      <>
+                                        {bids && bids.length > 0 ? (
+                                          bids
+                                            .filter(
+                                              (item) =>
+                                                item.nftId === nftDetail._id
+                                            )
+                                            .map((bid) => {
+                                              return (
+                                                <tr>
+                                                  <th scope="row">
+                                                    {bid.bidAmount}
+                                                  </th>
+                                                  <td>
+                                                    $
+                                                    {(
+                                                      bid.bidAmount *
+                                                      exchangeRate
+                                                    ).toFixed(2)}
+                                                  </td>
+                                                  <td>
+                                                    {getPercentageChange(
+                                                      bid.bidAmount,
+                                                      nftDetail.lowestNftPrice
+                                                    ).toFixed(0)}
+                                                    %{" "}
+                                                    {bid.bidAmount >
+                                                    nftDetail.lowestNftPrice
+                                                      ? "above"
+                                                      : "below"}
+                                                  </td>
+                                                  {/* <td>an hour ago</td> */}
+                                                  <td>
+                                                    {bid.fromAddress.slice(
+                                                      3,
+                                                      8
+                                                    )}
+                                                  </td>
+                                                  {ENV.getUserKeys("_id")
+                                                    ._id === bid.bidBy && (
+                                                    <td>
+                                                      <button
+                                                        className="cancel-Bid-btn"
+                                                        onClick={() =>
+                                                          deleteBid(bid._id)
+                                                        }
+                                                      >
+                                                        Cancel
+                                                      </button>
+                                                    </td>
+                                                  )}
+                                                </tr>
+                                              );
+                                            })
+                                        ) : (
+                                          <p className="text-center d-flex justify-content-center align-items-center">
+                                            No Offers Found
+                                          </p>
+                                        )}
+                                      </>
                                     ) : (
-                                      <p className="text-center d-flex justify-content-center align-items-center">
-                                        No Offers Found
-                                      </p>
+                                      <>
+                                        {offers && offers.length > 0 ? (
+                                          offers.map((offer) => {
+                                            return (
+                                              <tr>
+                                                <th scope="row">
+                                                  {offer.price} ETH
+                                                </th>
+                                                <td>
+                                                  $
+                                                  {(
+                                                    offer.price * exchangeRate
+                                                  ).toFixed(2)}
+                                                </td>
+                                                <td>
+                                                  {getPercentageChange(
+                                                    offer.price,
+                                                    nftDetail.lowestNftPrice
+                                                  ).toFixed(0)}
+                                                  %{" "}
+                                                  {offer.price >
+                                                  nftDetail.lowestNftPrice
+                                                    ? "above"
+                                                    : "below"}
+                                                </td>
+                                                {/* <td>an hour ago</td> */}
+                                                <td>
+                                                  {offer.fromAddress.slice(
+                                                    3,
+                                                    8
+                                                  )}
+                                                </td>
+                                                {ENV.getUserKeys("_id")._id ===
+                                                  offer.ownerId && (
+                                                  <td>
+                                                    <button
+                                                      className="cancel-Bid-btn"
+                                                      onClick={() =>
+                                                        deleteOffer(offer._id)
+                                                      }
+                                                    >
+                                                      Cancel
+                                                    </button>
+                                                  </td>
+                                                )}
+                                              </tr>
+                                            );
+                                          })
+                                        ) : (
+                                          <p className="text-center d-flex justify-content-center align-items-center">
+                                            No Offers Found
+                                          </p>
+                                        )}
+                                      </>
                                     )}
                                   </tbody>
                                 </table>
@@ -739,26 +949,39 @@ const NFTDetail = (props) => {
                   </div>
                   <Card.Body>
                     <div>
-                      <span>Current price</span>
-                      <h3>
-                        {nftDetail.currentPrice}
-                        <span>
-                          (${" "}
-                          {(nftDetail.currentPrice * exchangeRate).toFixed(2)})
-                        </span>
-                      </h3>
+                      {nftDetail.currentPrice && (
+                        <>
+                          <span>Current price</span>
+                          <h3>
+                            {nftDetail.currentPrice}
+                            <span>
+                              (${" "}
+                              {(nftDetail.currentPrice * exchangeRate).toFixed(
+                                2
+                              )}
+                              )
+                            </span>
+                          </h3>
+                        </>
+                      )}
                     </div>
                     <div className=" d-flex justify-content-between align-items-center mb-2">
                       <div className="d-flex align-items-center">
-                        <img
-                          src={ClockIcon}
-                          alt="clock-icon"
-                          className="me-1"
-                        />
-                        <span>
-                          Sale ends{" "}
-                          {auctionEndTimeConversion(nftDetail.auctionEndDate)}{" "}
-                        </span>
+                        {nftDetail.sellingMethod && (
+                          <>
+                            <img
+                              src={ClockIcon}
+                              alt="clock-icon"
+                              className="me-1"
+                            />
+                            <span>
+                              Sale ends{" "}
+                              {auctionEndTimeConversion(
+                                nftDetail.auctionEndDate
+                              )}{" "}
+                            </span>
+                          </>
+                        )}
                       </div>
                       <div className="likes-container d-flex align-items-center">
                         {toggle ? (
@@ -767,7 +990,6 @@ const NFTDetail = (props) => {
                               className="heart-fill-icon "
                               onClick={() => {
                                 handleLikesTogleApi(nftDetail._id, "dislike");
-                               
                               }}
                             />
                             <p className="text-white">
@@ -782,7 +1004,6 @@ const NFTDetail = (props) => {
                               className="ms-1"
                               onClick={() => {
                                 handleLikesTogleApi(nftDetail._id, "like");
-                                
                               }}
                             />
 
@@ -793,21 +1014,32 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
-                    {nftDetail?.sellingMethod && (
-                      <button
-                        className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
-                        onClick={() => handleRouting()}
-                      >
-                        <p>
-                          {ENV.getUserKeys("_id")._id === nftDetail?.ownerId
-                            ? "Sell"
-                            : // : nftDetail?.sellingMethod === 2
-                            // ? "Place Bid"
-                            nftDetail?.sellingMethod === 1
-                            ? "Buy Now"
-                            : ""}
-                        </p>
-                      </button>
+                    {(nftDetail?.sellingMethod ||
+                      ENV.getUserKeys("_id")._id == nftDetail.ownerId) && (
+                      <>
+                        <button
+                          className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
+                          onClick={() => handleRouting()}
+                        >
+                          <p>
+                            {ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                              ? "Sell"
+                              : nftDetail?.sellingMethod === 2
+                              ? "Place Bid"
+                              : nftDetail?.sellingMethod === 1
+                              ? "Make Offer"
+                              : ""}
+                          </p>
+                        </button>
+                        {nftDetail?.sellingMethod && (
+                          <button
+                            className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
+                            onClick={() => setModalShow(true)}
+                          >
+                            <p>{"Buy Now"}</p>
+                          </button>
+                        )}
+                      </>
                     )}
                   </Card.Body>
                 </Card>
@@ -993,25 +1225,18 @@ const NFTDetail = (props) => {
             <Modal
               centered
               size="lg"
-              // className="place-bid-modal"
+              className="place-bid-modal"
               show={isOpen}
               onHide={closeModal}
+              contentClassName="bid-modal-content"
             >
-              <Modal.Header className="text-center modal-title-wrapper text-white">
+              <Modal.Header className="bid-modal-header text-center text-white">
                 <Modal.Title>
                   {nftDetail.sellingMethod === 2
                     ? "Place A Bid"
                     : "Make An Offer"}
                 </Modal.Title>
               </Modal.Header>
-              {/* {
-                                isSubmitted && errors &&
-                                <Modal.Body className="row pt-2 pb-0">
-                                    <div className="col-12">
-                                        <span id="nft-err" className="form-error-msg text-danger">{errors}</span>
-                                    </div>
-                                </Modal.Body>
-                            } */}
               <Modal.Body>
                 <div className="price-wrapper d-flex">
                   <div className="price-text position-relative">
@@ -1081,7 +1306,7 @@ const NFTDetail = (props) => {
                         className="form-control"
                         id="expiryDate"
                         name="nftConfig.expiry.date"
-                        onChange={(e) => this.onChange(e)}
+                        onChange={(e) => onChangeModal(e)}
                         style={{
                           padding: "7px 55px 7px 55px",
                           border: "none",
@@ -1115,7 +1340,7 @@ const NFTDetail = (props) => {
                             style={{ marginLeft: "1rem", width: "552px" }}
                             name="nftConfig.expiry.time"
                             value={nftConfig.expiry.time}
-                            onChange={(e) => this.onChange(e)}
+                            onChange={(e) => onChangeModal(e)}
                             required
                           />
                         </div>
@@ -1131,7 +1356,6 @@ const NFTDetail = (props) => {
                   </div>
                 </Modal.Body>
               )}
-
               <Modal.Body className="justify-content-center align-items-center">
                 <div className="d-flex justify-content-around place-bid-btn">
                   <button
@@ -1145,7 +1369,6 @@ const NFTDetail = (props) => {
                   >
                     {2 === 2 ? initData.bidBtn : initData.bidBtn}
                   </button>
-                  {/* <button className="ethereum-btn">Add funds</button> */}
                 </div>
               </Modal.Body>
               <Modal.Footer>
@@ -1158,6 +1381,21 @@ const NFTDetail = (props) => {
               </Modal.Footer>
             </Modal>
           </div>
+          <BuyModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            name={nftDetail.name}
+            price={nftDetail.currentPrice}
+            image={nftDetail.image}
+            exchangeRate={exchangeRate}
+            tokenId={nftDetail.nftToken}
+            modal={modal}
+            setModal={setModal}
+            BuyNow={BuyNow}
+            confirmed={confirmed}
+            transactionHash={transactionHash}
+            transactionSuccess={transactionSuccess}
+          />
         </section>
         <Footer />
       </>
@@ -1165,23 +1403,31 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  createAuth: state.bid.createAuth,
-  getAuth: state.bid.getAuth,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-});
+const mapStateToProps = (state) => (
+  console.log(state, "state"),
+  {
+    nftDetail: state.nft.nftsData,
+    nftsAuth: state.nft.nftsAuth,
+    nftsByCollection: state.nft.nftsByCollection,
+    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
+    createAuth: state.bid.createAuth,
+    createAuthOffer: state.offer.createAuth,
+    getAuth: state.bid.getAuth,
+    getAuthOffer: state.offer.getAuth,
+    offers: state.offer.offers,
+    buyAuth: state.offer.buyAuth,
+    bids: state.bid.bids,
+    bidsByNft: state.bid.bidsByNft,
+    bidsByNftAuth: state.bid.bidsBYNftAuth,
+    togleLikeRes: state.explore.togleLikeRes,
+  }
+);
 
 export default connect(mapStateToProps, {
   getNFT,
+  beforeNFT,
   getNFTsByCollection,
   toggleLikeDislike,
   getMyLikedNfts,
@@ -1191,4 +1437,9 @@ export default connect(mapStateToProps, {
   beforeBid,
   deleteBid,
   beforeTogleLikeDislike,
+  makeOffer,
+  beforeOffer,
+  getOffers,
+  deleteOffer,
+  buyNow,
 })(NFTDetail);
