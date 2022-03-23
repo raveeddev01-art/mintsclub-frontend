@@ -99,6 +99,7 @@ export const placeABid = async (amount, tokenId) => {
     throw new Error(err);
   }
 };
+
 export const putonsale= async (tokenId,amount,price)=>{
   
   try{
