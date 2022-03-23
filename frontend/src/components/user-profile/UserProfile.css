@@ -1,3 +1,32 @@
+.user-avatar-container {
+  position: relative;
+}
+.edit-btn-container {
+  position: absolute;
+  top: 80px;
+  right: 0;
+}
+
+.btn-edit-profile {
+  width: 75px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #090918;
+  border-radius: 8px;
+  border: 1px solid #5666fe;
+  text-decoration: none;
+  color: #5666fe;
+}
+
+.btn-edit-profile:hover {
+  background: #7e8aff;
+  border: 1px solid #7e8aff;
+  text-decoration: none;
+  color: #fff;
+}
+
 .user-address {
   max-width: max-content;
   margin: 5px auto;
