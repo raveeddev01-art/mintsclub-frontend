@@ -16,9 +16,10 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_BIDS:
+            console.log(action.payload.Bids,"action.payload.Bids")
             return {
                 ...state,
-                bids: action.payload.allBids,
+                bids: action.payload.Bids,
                 // pagination: action.payload.pagination,
                 // highestBidAmt: action.payload.highestBidAmt,
                 getAuth: true
