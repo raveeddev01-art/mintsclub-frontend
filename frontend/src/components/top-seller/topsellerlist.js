@@ -14,14 +14,14 @@ const TopSellerList = (props) => {
   const [sellers, setSellers] = useState([]);
 
   useEffect(() => {
+    window.scroll(0, 0);
     props.getTopSellers();
   }, []);
 
   useEffect(() => {
-    if(props.user.topSellersAuth){
-
+    if (props.user.topSellersAuth) {
       setSellers(props.user.sellers);
-      props.beforeUser()
+      props.beforeUser();
     }
   }, [props.user.topSellersAuth]);
 
