@@ -9,10 +9,14 @@ import ListingCards from "../listing-cards/ListingCards";
 import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
-import { toggleLikeDislike ,beforeTogleLikeDislike} from "../explore/explore.action";
+import {
+  toggleLikeDislike,
+  beforeTogleLikeDislike,
+} from "../explore/explore.action";
 import { getUserById, beforeUser } from "../user/user.action";
 import { Images } from "../../assets/assets";
 import Breadcrumb from "../breadcrumb/breadcrumb";
+import { Link } from "react-router-dom";
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -30,7 +34,7 @@ const UserProfile = (props) => {
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [user, setUser] = useState("");
   const [likedNfts, setLikedNfts] = useState();
-  const [keyword,setKeyword]=useState('')
+  const [keyword, setKeyword] = useState("");
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -43,9 +47,9 @@ const UserProfile = (props) => {
     newest: false,
     page: 1,
     limit: 10,
-    buy:false,
-    auction:false,
-    latest:false,
+    buy: false,
+    auction: false,
+    latest: false,
   });
   const [menuFilter, setMenuFilter] = useState("");
   const itemoptions = [
@@ -88,7 +92,6 @@ const UserProfile = (props) => {
       }
     }
   }, [props.profileNFTsStatus]);
-  
 
   useEffect(() => {
     if (props.myLikedNftsStatus) {
@@ -102,7 +105,7 @@ const UserProfile = (props) => {
       setUser(individualUser);
     }
   }, [props.individualUserAuth]);
-  
+
   useEffect(() => {
     if (props.togleLikeRes) {
       setLikeBtnDisable(false);
@@ -128,7 +131,7 @@ const UserProfile = (props) => {
     keyword,
     buy,
     auction,
-    latest,
+    latest
   ) => {
     props.beforeNFT();
     const nftQS = { page, limit };
@@ -149,7 +152,7 @@ const UserProfile = (props) => {
     nftQS.ownerId = ENV.getUserKeys("_id")._id;
 
     const qs = ENV.objectToQueryString(nftQS);
- console.log(qs,"query string")
+    console.log(qs, "query string");
     props.getProfileNfts(qs);
   };
   const handleSortOptions = (e) => {
@@ -179,8 +182,7 @@ const UserProfile = (props) => {
         keyword,
         filter.buy,
         filter.auction,
-        filter.latest,
-      
+        filter.latest
       );
     } else if (value === "High To Low") {
       setFilter((prev) => ({
@@ -204,7 +206,7 @@ const UserProfile = (props) => {
         keyword,
         filter.buy,
         filter.auction,
-        filter.latest,
+        filter.latest
       );
     } else if (value === "Oldest") {
       setFilter((prev) => ({
@@ -228,7 +230,7 @@ const UserProfile = (props) => {
         keyword,
         filter.buy,
         filter.auction,
-        filter.latest,
+        filter.latest
       );
     } else if (value === "Recantly Created") {
       setFilter((prev) => ({
@@ -252,7 +254,7 @@ const UserProfile = (props) => {
         keyword,
         filter.buy,
         filter.auction,
-        filter.latest,
+        filter.latest
       );
     } else {
     }
@@ -293,7 +295,7 @@ const UserProfile = (props) => {
       keyword,
       filter.buy,
       filter.auction,
-      filter.latest,
+      filter.latest
     );
   };
 
@@ -314,13 +316,12 @@ const UserProfile = (props) => {
       keyword,
       filter.buy,
       filter.auction,
-      filter.latest,
+      filter.latest
     );
   };
 
   const handleCollectionsFilter = (id) => {
     setFilterationLoader(true);
-   
 
     setFilter((prev) => ({ ...prev, collectionId: id }));
     getNFTs(
@@ -337,12 +338,11 @@ const UserProfile = (props) => {
       keyword,
       filter.buy,
       filter.auction,
-      filter.latest,
+      filter.latest
     );
   };
- 
-  const handleSearchKeyword=()=>{
 
+  const handleSearchKeyword = () => {
     getNFTs(
       filter.page,
       filter.limit + 10,
@@ -357,11 +357,11 @@ const UserProfile = (props) => {
       keyword,
       filter.buy,
       filter.auction,
-      filter.latest,
+      filter.latest
     );
-  }
+  };
 
-  const handleStatusFilter=(id)=>{
+  const handleStatusFilter = (id) => {
     getNFTs(
       filter.page,
       filter.limit + 10,
@@ -374,50 +374,48 @@ const UserProfile = (props) => {
       filter.highToLow,
       filter.newest,
       keyword,
-      id=="Buy Now"?true:false,
-      id=="On Auction"?true:false,
-      id=="New"?true:false,
+      id == "Buy Now" ? true : false,
+      id == "On Auction" ? true : false,
+      id == "New" ? true : false
     );
-
-  }
-  const handleLikesTogleApi = (nftId, status,likesCount) => {
+  };
+  const handleLikesTogleApi = (nftId, status, likesCount) => {
     // increOrDecreLikes(nftId);
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
-    let userId = ENV.getUserKeys("_id")._id;
+      let userId = ENV.getUserKeys("_id")._id;
 
-    let data = {
-      userId,
-      nftId,
-      count: 1,
-    };
-    if (status === "dislike" & likesCount>0) {
-      let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-      setLikedNfts(result);
-      increOrDecreLikes(nftId, "dec");
-      props.toggleLikeDislike(data);
-    }  
-     if (status === "like")  {
-      let myLikedNfts = [];
-      if (likedNfts && likedNfts.length > 0) {
-        myLikedNfts = likedNfts;
-      }
-
-      let obj = {
-        _id: "1234455",
+      let data = {
+        userId,
         nftId,
+        count: 1,
       };
+      if ((status === "dislike") & (likesCount > 0)) {
+        let result = likedNfts.filter((item) => item.nftId !== nftId);
 
-      myLikedNfts.push(obj);
+        setLikedNfts(result);
+        increOrDecreLikes(nftId, "dec");
+        props.toggleLikeDislike(data);
+      }
+      if (status === "like") {
+        let myLikedNfts = [];
+        if (likedNfts && likedNfts.length > 0) {
+          myLikedNfts = likedNfts;
+        }
 
-      setLikedNfts(myLikedNfts);
-      increOrDecreLikes(nftId, "inc");
-      props.toggleLikeDislike(data);
+        let obj = {
+          _id: "1234455",
+          nftId,
+        };
+
+        myLikedNfts.push(obj);
+
+        setLikedNfts(myLikedNfts);
+        increOrDecreLikes(nftId, "inc");
+        props.toggleLikeDislike(data);
+      }
+      // setNFTs(nfts);
     }
-    // setNFTs(nfts);
-  }
-
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -481,13 +479,17 @@ const UserProfile = (props) => {
       <NavbarMain />
       <Breadcrumb title1={"User"} title2={"UserProfile"} />
       <div className="collection-detail-hero">
-        <img className="w-100" src={user?.bannerImage?user?.bannerImage:BannerImg} alt="BannerImg" />
+        <img
+          className="w-100"
+          src={user?.bannerImage ? user?.bannerImage : BannerImg}
+          alt="BannerImg"
+        />
       </div>
       <div className="collection-detail-content">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12">
-              <div className="collection-owner-avatar text-center">
+              <div className="collection-owner-avatar user-avatar-container text-center">
                 <img
                   src={
                     user?.profileImage
@@ -496,6 +498,12 @@ const UserProfile = (props) => {
                   }
                   alt="owner-avatar"
                 />
+                <div className="edit-btn-container">
+                  <Link to="/editprofile" className="btn-edit-profile">
+                    <i class="fas fa-edit"></i>
+                    <p className="ms-1">Edit</p>
+                  </Link>
+                </div>
               </div>
               <div className="collection-owner-detail text-center mt-3">
                 {user && (
@@ -555,13 +563,20 @@ const UserProfile = (props) => {
               </div>
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                  <img src={SearchIcon} alt="search-icon" className="ms-3" onClick={handleSearchKeyword} />
+                  <img
+                    src={SearchIcon}
+                    alt="search-icon"
+                    className="ms-3"
+                    onClick={handleSearchKeyword}
+                  />
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Search"
-                    onChange={(e)=>setKeyword(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearchKeyword()}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onKeyPress={(e) =>
+                      e.key === "Enter" && handleSearchKeyword()
+                    }
                   />
                 </div>
               </div>

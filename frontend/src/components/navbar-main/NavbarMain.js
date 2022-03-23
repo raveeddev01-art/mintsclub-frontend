@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import LoginIcon from "../../assets/images/login-icon.svg";
@@ -13,9 +13,13 @@ const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
   const [path, setPath] = React.useState(null);
   const [activeTab, setActiveTab] = React.useState(null);
+  const [searchactive, setSearchActive] = useState(false);
   const history = useHistory();
   const location = useLocation();
 
+  const handleChange = (e) => {
+    e.target.value ? setSearchActive(true) : setSearchActive(false);
+  };
   const clearLocalStorage = () => {
     if (userId) {
       localStorage.clear();
@@ -109,30 +113,40 @@ const NavbarMain = (props) => {
                   {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
                 </div>
               </Link>
-              <div class="search-box mt-1 mt-sm-0 d-sm-none">
+              <div className={`search-box mt-1 mt-sm-0 d-sm-none`}>
                 <input
-                  class="search-txt "
+                  className={`search-txt ${searchactive ? "activeSearch" : ""}`}
                   type="text"
                   name=""
                   placeholder="Type to Search"
+                  onChange={handleChange}
                 />
-                <a class="search-btn" href="#">
+                <button
+                  className={`search-btn me-1 mt-1 ${
+                    searchactive ? "activeSearchBtn" : ""
+                  }`}
+                >
                   <img src={SearchIcon} alt="search-icon" />
-                </a>
+                </button>
               </div>
             </Nav>
           </Navbar.Collapse>
           <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
             <div class="search-box ">
               <input
-                class="search-txt"
+                className={`search-txt ${searchactive ? "activeSearch" : ""}`}
                 type="text"
                 name=""
                 placeholder="Type to Search"
+                onChange={handleChange}
               />
-              <a class="search-btn me-1 mt-1" href="#">
+              <button
+                className={`search-btn me-1 mt-1 ${
+                  searchactive ? "activeSearchBtn" : ""
+                }`}
+              >
                 <img src={SearchIcon} alt="search-icon" />
-              </a>
+              </button>
             </div>
             <Link
               to="/login"
