@@ -12,6 +12,10 @@ import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const TopSellerList = (props) => {
   const [sellers, setSellers] = useState([]);
+  // const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [pagination, setPagination] = useState(null);
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -20,11 +24,26 @@ const TopSellerList = (props) => {
 
   useEffect(() => {
     if (props.user.topSellersAuth) {
-      setSellers(props.user.sellers);
+      const { topSellers, pagination } = props.user.sellers;
+      if (topSellers === null) {
+        setEmpty(true);
+      } else {
+        setEmpty(false);
+      }
+      setPagination(pagination);
+      setSellers(topSellers);
       props.beforeUser();
     }
   }, [props.user.topSellersAuth]);
 
+  const handlePagination = () => {
+    // setPage(page);
+    //setLimit(limit + 10);
+    let qs = { limit: limit + 10, page: 1 };
+    qs = ENV.objectToQueryString(qs);
+    //console.log('testing qurty string', qs);
+    props.getTopSellers(qs);
+  };
   return (
     <>
       <NavbarMain />
@@ -85,13 +104,16 @@ const TopSellerList = (props) => {
             )}
             <div className="col-12">
               <div className="mt-5 text-center">
-                {/* {!empty &&
-                  collections?.length > 10 &&
-                  pagination.totalRecords <= collections.length && ( */}
-                <button className="btn btn-linear-gradient px-5">
-                  Load more
-                </button>
-                {/* )} */}
+                {!empty &&
+                  sellers?.length === 10 &&
+                  pagination.totalRecords > sellers.length && (
+                    <button
+                      className="btn btn-linear-gradient px-5"
+                      onClick={() => handlePagination()}
+                    >
+                      Load more
+                    </button>
+                  )}
               </div>
             </div>
           </div>

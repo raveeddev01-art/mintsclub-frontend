@@ -62,7 +62,7 @@ export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
     let id=Number(tokenId)
 
     const result = await contractM.methods
-      .startAuction(biddingTime, startTime, connectedAddress, id)
+      .startAuction(biddingTime, startTime, connectedAddress, id,1)
       .send({ from: connectedAddress });
     if (result) {
       console.log(result, "open for bidding result");
@@ -70,7 +70,7 @@ export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
     }
   } catch (err) {
     console.log(err, "open for bid error");
-    return err;
+    throw new Error(err);
   }
 };
 
@@ -99,6 +99,7 @@ export const placeABid = async (amount, tokenId) => {
     throw new Error(err);
   }
 };
+
 export const putonsale= async (tokenId,amount,price)=>{
   
   try{

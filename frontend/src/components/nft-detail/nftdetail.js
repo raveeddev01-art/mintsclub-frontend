@@ -218,15 +218,16 @@ const NFTDetail = (props) => {
   }, [props.getAuthOffer]);
 
   useEffect(() => {
-    if (props.bidsByNftAuth) {
-      props.beforeBid();
-      setBids(props.bidsByNft);
+    if (props.getAuth) {
+      // props.beforeBid();
+      setBids(props.bids);
     }
-  }, [props.bidsByNftAuth]);
+  }, [props.getAuth]);
 
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
+      setLoader(false)
 
       if (props.nftDetail.sellingMethod === 1) {
         let qs = { offerBy: ENV.getUserKeys("_id")._id };
@@ -502,7 +503,9 @@ const NFTDetail = (props) => {
       }
     } catch (err) {}
   };
-  console.log(nftDetail.currentPrice, "nftDetail");
+  // console.log(nftDetail,"NFTdetail")
+  // console.log(bids,"bids")
+  console.log(loader,"loader")
 
   return (
     <>
@@ -1030,7 +1033,7 @@ const NFTDetail = (props) => {
                             ? "Make Offer"
                             : ""}
                         </button>
-                        {nftDetail?.sellingMethod && (
+                        {nftDetail?.sellingMethod===1 && ENV.getUserKeys("_id")._id !== nftDetail.ownerId &&(
                           <button
                             className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
                             onClick={() => setModalShow(true)}
@@ -1402,24 +1405,27 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  createAuth: state.bid.createAuth,
-  createAuthOffer: state.offer.createAuth,
-  getAuth: state.bid.getAuth,
-  getAuthOffer: state.offer.getAuth,
-  offers: state.offer.offers,
-  buyAuth: state.offer.buyAuth,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-});
+const mapStateToProps = (state) => (
+console.log(state,"state"),
+  {
+    nftDetail: state.nft.nftsData,
+    nftsAuth: state.nft.nftsAuth,
+    nftsByCollection: state.nft.nftsByCollection,
+    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
+    createAuth: state.bid.createAuth,
+    createAuthOffer: state.offer.createAuth,
+    getAuth: state.bid.getAuth,
+    getAuthOffer: state.offer.getAuth,
+    offers: state.offer.offers,
+    buyAuth: state.offer.buyAuth,
+    bids: state.bid.bids,
+    bidsByNft: state.bid.bidsByNft,
+    bidsByNftAuth: state.bid.bidsBYNftAuth,
+    togleLikeRes: state.explore.togleLikeRes,
+  }
+);
 
 export default connect(mapStateToProps, {
   getNFT,

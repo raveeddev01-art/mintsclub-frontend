@@ -197,6 +197,7 @@ const SellNFT = (props) => {
       delete timedConfig.duration.startTime;
       delete timedConfig.duration.endTime;
       delete timedConfig.method;
+             timedConfig.startPrice.amount=Number(timedConfig.startPrice.amount);
       payload = {
         _id: location.state._id,
         sellingMethod,
@@ -234,6 +235,7 @@ const SellNFT = (props) => {
           props.upsertNFT("edit", formData, "PUT");
         }
       } catch (err) {
+        setLoader(false)
         toast.error(err.message);
       }
     } else {
@@ -334,8 +336,8 @@ const SellNFT = (props) => {
         console.log(error, "error in catch blcok");
       });
   };
-  console.log(nftDetail, "nftDetail");
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
+
   return (
     <>
       {loader && <FullPageLoader />}
@@ -779,7 +781,7 @@ const SellNFT = (props) => {
                     </div>
                   )}
                   <div className=" d-flex justify-content-between align-items-center mb-2">
-                    {auctionEndDate !== null && (
+                    {nftDetail.sellingMethod && (
                       <div className="d-flex align-items-center">
                         <img
                           src={ClockIcon}
