@@ -1,4 +1,4 @@
-import { BEFORE_OFFER, GET_OFFERS, CREATE_OFFER, DELETE_OFFER, ACCEPT_OFFER } from '../../redux/types';
+import { BEFORE_OFFER, GET_OFFERS, CREATE_OFFER, DELETE_OFFER, ACCEPT_OFFER,BUY_NOW } from '../../redux/types';
 
 const initialState = {
     offer: null,
@@ -7,12 +7,15 @@ const initialState = {
     deleteAuth: false,
     createAuth: false,
     getAuth: false,
-    acceptAuth: false
+    acceptAuth: false,
+    buyAuth:false,
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_OFFERS:
+            console.log(action.payload.offers,"reducer")
+            
             return {
                 ...state,
                 offers: action.payload.offers,
@@ -46,8 +49,14 @@ export default function (state = initialState, action) {
                 deleteAuth: false,
                 createAuth: false,
                 getAuth: false,
-                acceptAuth: false
+                acceptAuth: false,
+                buyAuth:false,
             }
+            case BUY_NOW:
+                return {
+                    ...state,
+                    buyAuth:true,
+                }
         default:
             return {
                 ...state

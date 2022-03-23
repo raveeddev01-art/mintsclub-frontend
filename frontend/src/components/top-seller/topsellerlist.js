@@ -20,6 +20,7 @@ const TopSellerList = (props) => {
   useEffect(() => {
     props.getTopSellers();
   }, []);
+
   useEffect(() => {
     if (props.user.topSellersAuth) {
       const { topSellers, pagination } = props.user.sellers;
@@ -127,5 +128,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { beforeUser, getTopSellers })(
-  TopSellerList
+  TopSellerList,
+  beforeUser
 );

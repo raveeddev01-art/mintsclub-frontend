@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
 
+
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
@@ -40,12 +41,6 @@ export const mintNFt = async (metaData, id, amount,recipientValue) => {
   const value=Number(recipientValue)* 1000000000000000000;
   try {
     let connectedAddress = await connectMetamask();
-    let obj = {
-      connectedAddress,
-      nftAmount,
-      metaData,
-    };
-
     const contractM = await getContractMethods();
     let result = await contractM.methods
       .mint(connectedAddress, nftAmount, "0x", metaData,connectedAddress,recipientValue)
@@ -66,14 +61,6 @@ export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
     const contractM = await getContractMethods();
     let id=Number(tokenId)
 
-   let obj={
-    biddingTime,
-    startTime,
-    connectedAddress,
-    id
-   }
-   
-   console.log(obj,"obj")
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id)
       .send({ from: connectedAddress });
@@ -92,20 +79,18 @@ export const placeABid = async (amount, tokenId) => {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let bidAmount = Number(amount) * 1000000000000000000;
-    console.log(bidAmount, "bidAmount");
+
     let id=Number(tokenId)
-    console.log(id,"id")
-    console.log(typeof id,"type of")
+    
     const result = await contractM.methods
       .bid(id)
       .send({ from: connectedAddress, value: bidAmount, gas: 5000000 });
-    console.log(result, "result of place bid");
+
     if (result) {
       return result;
     }
   } catch (err) {
-    console.log(err, "error from place bid");
-    console.log(err.message, "message");
+    
     if (err?.message) {
       toast.error(err.message);
     } else {
@@ -114,6 +99,75 @@ export const placeABid = async (amount, tokenId) => {
     throw new Error(err);
   }
 };
+export const putonsale= async (tokenId,amount,price)=>{
+  
+  try{
+  
+    /* global BigInt */
+    let connectedAddress = await connectMetamask();
+      const contractM = await getContractMethods();
+      let weiAmount =BigInt( Number(price) * 1000000000000000000);
+   
+      let id=Number(tokenId)
+      const result = await contractM.methods
+      .putonsale(id,amount,weiAmount)
+      .send({ from: connectedAddress, gas: 5000000 });
+   
+      if(result){
+        return result
+      }
+  }catch(err){
+    console.log(err,"error")
+    throw new Error(err);
+  }
+}
+
+export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransactionHash)=>{
+  try{
+
+    let connectedAddress = await connectMetamask();
+      const contractM = await getContractMethods();
+      let id=Number(tokenId)
+      let weiAmount = Number(amount) * 1000000000000000000;
+      const result = await contractM.methods
+      .BuyFixedPriceNFT(id)
+      .send({ from: connectedAddress,value:weiAmount,gas: 5000000}).on('transactionHash',function(hash){
+        console.log(hash,"hash")
+        setTransactionHash(hash)
+        setConfirmed(true)
+      }).on('confirmation',function(confirmationNumber,receipt){
+        console.log("confirmed2")
+      })
+
+      console.log(result,"result")
+      if(result){
+        return result
+      }
+  }catch(err){
+    console.log(err)
+    setConfirmed(false)
+    
+    throw new Error(err);
+  }
+}
+
+// export const acceptOffer= async (amount,tokenId)=>{
+//   try{
+
+//     let connectedAddress = await connectMetamask();
+//       const contractM = await getContractMethods();
+//       let weiAmount = Number(amount) * 1000000000000000000;
+//       let id=Number(tokenId)
+//       const result = await contractM.methods
+//       .BuyFixedPriceNFT(id,weiAmount)
+//       .send({ from: connectedAddress});
+//       if(result){
+//         return result
+//       }
+//   }catch(err){
+//     throw new Error(err);
+//   }
+// }
 
 //////////////////////////////////////////////////////////////////////////////////ariswap functions start///////////////////////////
 

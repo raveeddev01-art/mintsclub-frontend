@@ -15,10 +15,21 @@ import moment from "moment";
 import { decimalNumberValidator } from "../../utils/functions";
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { beforeNFT, getNFT, upsertNFT } from "../nfts/nfts.action";
-import { openNFTForBidding } from "../../utils/web3";
+import {
+  beforeNFT,
+  getNFT,
+  upsertNFT,
+  getMyLikedNfts,
+} from "../nfts/nfts.action";
+import { openNFTForBidding, putonsale } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../full-page-loader/full-page-loader";
+import { AiFillHeart } from "react-icons/ai";
+import {
+  toggleLikeDislike,
+  beforeTogleLikeDislike,
+} from "../explore/explore.action";
+import axios from "axios";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -56,18 +67,41 @@ const config2 = {
 
 const SellNFT = (props) => {
   const [activeBtn, setActiveBtn] = useState(0);
+  const [toggle, setToggle] = React.useState(true);
   const [activeBidBtn, setActiveBidBtn] = useState(false);
   const [sellingMethod, setSellingMethod] = useState(1); // 1 = Fixed Price, 2 = Timed Auction
   const [fixedPriceConfig, setFixedPriceConfig] = useState(config1);
   const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
+  const [nftDetail, setNftDetail] = useState("");
+  const [liked, setLiked] = useState(false);
   const [nft, setNft] = useState(null);
   const [loader, setLoader] = useState(true); // NFT loader
   const [tokensData, setTokensData] = useState([]);
   const location = useLocation();
-  console.log(location, "location");
+  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [likedNfts, setLikedNfts] = useState();
+  const [exchangeRate, setExchangeRate] = useState(0);
+  let nftId = props.match.params.id;
+  console.log(nftId, "nftId");
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
+      )
+      .then((res) => {
+        const currentUSD = res.data.USD;
+        setExchangeRate(currentUSD);
+      });
+  }, []);
 
   useEffect(() => {
     window.scroll(0, 0);
+    props.getNFT(nftId);
+    let qs = { userId: ENV.getUserKeys("_id")._id };
+    qs = ENV.objectToQueryString(qs);
+    props.getMyLikedNfts(qs);
+    validateIfLiked();
     const { itemId } = props.match.params;
     // if (itemId) props.getNFT(window.atob(itemId));
     // else props.history.push("/explore-all");
@@ -78,8 +112,10 @@ const SellNFT = (props) => {
   useEffect(() => {
     if (props.nft.nftsAuth) {
       const nft = props.nft.nftsData;
+      setNftDetail(props.nftDetail);
       setNft(nft);
       setLoader(false);
+      validateIfLiked(likedNfts, props.nftDetail);
       props.beforeNFT();
     }
   }, [props.nft.nftsAuth]);
@@ -95,6 +131,19 @@ const SellNFT = (props) => {
       props.history.push(pathname);
     }
   }, [props.nft.upsertAuth]);
+  useEffect(() => {
+    if (props.togleLikeRes) {
+      setLikeBtnDisable(false);
+      props.beforeTogleLikeDislike();
+    }
+  }, [props.togleLikeRes]);
+  // Get Liked Nfts
+  useEffect(() => {
+    if (props.myLikedNftsStatus) {
+      setLikedNfts(props.myLikedNfts);
+      // validateIfLiked(props.myLikedNfts);
+    }
+  }, [props.myLikedNftsStatus]);
 
   // when an error is received
   useEffect(() => {
@@ -139,27 +188,23 @@ const SellNFT = (props) => {
       },
     });
   };
+
   const submit = async () => {
     let payload = "";
-    let timedConfig=timedAuctionConfig;
-    let fixedConfig=fixedPriceConfig;
-    if(sellingMethod===2){
-
-      delete timedConfig.duration.startTime
-      delete timedConfig.duration.endTime
-      delete timedConfig.method
-    }
-    else {
-        delete fixedConfig.listingSchedule.startTime
-        delete fixedConfig.listingSchedule.endTime
-    }
+    let timedConfig = timedAuctionConfig;
+    let fixedConfig = fixedPriceConfig;
     if (sellingMethod === 2) {
+      delete timedConfig.duration.startTime;
+      delete timedConfig.duration.endTime;
+      delete timedConfig.method;
       payload = {
         _id: location.state._id,
         sellingMethod,
         sellingConfig: JSON.stringify(timedConfig),
       };
     } else {
+      delete fixedConfig.listingSchedule.startTime;
+      delete fixedConfig.listingSchedule.endTime;
       payload = {
         _id: location.state._id,
         sellingMethod,
@@ -171,33 +216,97 @@ const SellNFT = (props) => {
 
     var formData = new FormData();
     for (const key in payload) formData.append(key, payload[key]);
-  if(sellingMethod===2){
+    if (sellingMethod === 2) {
+      try {
+        let auctionEndDate = timedAuctionConfig.duration.endDate;
+        let auctionStartDate = timedAuctionConfig.duration.startDate;
 
-    try {
-      let auctionEndDate = timedAuctionConfig.duration.endDate;
-      let auctionStartDate = timedAuctionConfig.duration.startDate;
+        const biddingTime = new Date(auctionEndDate).getTime();
+        const startTime = new Date(auctionStartDate).getTime();
 
-      const biddingTime = new Date(auctionEndDate).getTime();
-      const startTime = new Date(auctionStartDate).getTime();
-    
-      let result = await openNFTForBidding(
-        biddingTime,
-        startTime,
-        location.state.nftToken
-      );
-      console.log(result, "result of bidding");
-      if (result) {
-        props.upsertNFT("edit", formData, "PUT");
+        let result = await openNFTForBidding(
+          biddingTime,
+          startTime,
+          location.state.nftToken
+        );
+        console.log(result, "result of bidding");
+        if (result) {
+          props.upsertNFT("edit", formData, "PUT");
+        }
+      } catch (err) {
+        toast.error(err.message);
       }
-    } catch (err) {
-      toast.error(err.message);
-    }
-  }
-  else {
-    console.log("fixedprice")
-    props.upsertNFT("edit", formData, "PUT");
-  }
+    } else {
+      try {
+        console.log(fixedConfig);
+        let result = await putonsale(
+          nftDetail.nftToken,
+          1,
+          fixedConfig.price.amount
+        );
 
+        if (result) {
+          props.upsertNFT("edit", formData, "PUT");
+        }
+      } catch (err) {
+        setLoader(false);
+        toast.error(err);
+      }
+    }
+  };
+
+  const handleLikesTogleApi = (nftId, status) => {
+    if (!likeButtonDisable) {
+      setLikeBtnDisable(true);
+      setToggle(!toggle);
+
+      let userId = ENV.getUserKeys("_id")._id;
+
+      let data = {
+        userId,
+        nftId,
+        count: 1,
+      };
+
+      if ((status === "dislike") & (nftDetail.likesCount > 0)) {
+        let nft = nftDetail;
+        nft.likesCount = nft.likesCount - 1;
+        setLiked(false);
+        setNftDetail(nft);
+        props.toggleLikeDislike(data);
+      } else {
+        let nft = nftDetail;
+        nft.likesCount = nft.likesCount + 1;
+
+        setNftDetail(nft);
+        setLiked(true);
+        props.toggleLikeDislike(data);
+      }
+    }
+  };
+
+  //match if nft liked
+
+  const validateIfLiked = (nfts, nft) => {
+    if (nfts && nfts?.length > 0) {
+      setLoader(false);
+      let result = nfts.find((item) => item.nftId == nft._id);
+
+      if (result) {
+        return setToggle(true);
+      } else {
+        return setToggle(false);
+      }
+    } else {
+      setLoader(false);
+      return setToggle(false);
+    }
+  };
+  const auctionEndTimeConversion = (auctionEndDate) => {
+    var dateString = moment.utc(auctionEndDate).format("MMMM D, Y");
+    var timeString = moment.utc(auctionEndDate).format("h:mma");
+    var totalDateTime = dateString + " at " + timeString + " PKT";
+    return totalDateTime;
   };
 
   const getTokens = () => {
@@ -225,7 +334,8 @@ const SellNFT = (props) => {
         console.log(error, "error in catch blcok");
       });
   };
-  const {image,currentPrice,likesCount}=location.state
+  console.log(nftDetail, "nftDetail");
+  const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
   return (
     <>
       {loader && <FullPageLoader />}
@@ -653,28 +763,65 @@ const SellNFT = (props) => {
             <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
               <Card className="auction-card detail-card">
                 <div className="auction-img-wrapper">
-                  <Card.Img
-                    variant="top"
-                    src={image}
-                    alt="AuctionTopImg"
-                  />
+                  <Card.Img variant="top" src={image} alt="AuctionTopImg" />
                 </div>
                 <Card.Body>
-                  <div>
-                    <span>Current price</span>
-                    <h3>
-                      {currentPrice}
-                      <span>($2.28)</span>
-                    </h3>
-                  </div>
-                  <div className=" d-flex justify-content-between align-items-center mb-2">
-                    <div className="d-flex align-items-center">
-                      <img src={ClockIcon} alt="clock-icon" className="me-1" />
-                      <span>Sale ends March 8, 2022 at 7:40am PKT </span>
+                  {currentPrice !== null && (
+                    <div>
+                      <span>Current price</span>
+                      <h3>
+                        {currentPrice}
+                        <span>
+                          {" "}
+                          ($ {(currentPrice * exchangeRate).toFixed(2)})
+                        </span>
+                      </h3>
                     </div>
+                  )}
+                  <div className=" d-flex justify-content-between align-items-center mb-2">
+                    {auctionEndDate !== null && (
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={ClockIcon}
+                          alt="clock-icon"
+                          className="me-1"
+                        />
+                        <span>
+                          Sale ends {auctionEndTimeConversion(auctionEndDate)}{" "}
+                        </span>
+                      </div>
+                    )}
                     <div className="likes-container d-flex align-items-center">
-                      <img src={HeartIcon} alt="heart-icon" className="ms-1" />
-                      <span className="ms-1">{likesCount}</span>
+                      {/* <img src={HeartIcon} alt="heart-icon" className="ms-1" />
+                      <span className="ms-1">{likesCount}</span> */}
+                      {toggle ? (
+                        <>
+                          <AiFillHeart
+                            className="heart-fill-icon "
+                            onClick={() => {
+                              handleLikesTogleApi(nftDetail._id, "dislike");
+                            }}
+                          />
+                          <p className="text-white">
+                            {nftDetail.likesCount ? nftDetail.likesCount : 0}{" "}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={HeartIcon}
+                            alt="heart-icon"
+                            className="ms-1"
+                            onClick={() => {
+                              handleLikesTogleApi(nftDetail._id, "like");
+                            }}
+                          />
+
+                          <span className="ms-1">
+                            {nftDetail.likesCount ? nftDetail.likesCount : 0}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </Card.Body>
@@ -691,10 +838,17 @@ const SellNFT = (props) => {
 const mapStateToProps = (state) => ({
   nft: state.nft,
   error: state.error,
+  nftDetail: state.nft.nftsData,
+  nftsAuth: state.nft.nftsAuth,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
 });
 
 export default connect(mapStateToProps, {
   beforeNFT,
   getNFT,
   upsertNFT,
+  toggleLikeDislike,
+  getMyLikedNfts,
+  beforeTogleLikeDislike,
 })(SellNFT);

@@ -215,7 +215,8 @@
       { "internalType": "address", "name": "owner", "type": "address" },
       { "internalType": "uint256", "name": "paid", "type": "uint256" },
       { "internalType": "address", "name": "newowner", "type": "address" },
-      { "internalType": "bool", "name": "forsale", "type": "bool" }
+      { "internalType": "bool", "name": "forsale", "type": "bool" },
+      { "internalType": "uint256", "name": "totalcopies", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -229,8 +230,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "tokenid", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "tokenid", "type": "uint256" }
     ],
     "name": "acceptoffer",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
@@ -246,8 +246,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
     ],
     "name": "auctionEnd",
     "outputs": [],
@@ -278,7 +277,8 @@
       { "internalType": "bool", "name": "", "type": "bool" },
       { "internalType": "uint256", "name": "", "type": "uint256" },
       { "internalType": "address", "name": "", "type": "address" },
-      { "internalType": "bool", "name": "", "type": "bool" }
+      { "internalType": "bool", "name": "", "type": "bool" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -298,6 +298,11 @@
         "internalType": "address",
         "name": "currentBidOwner",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "numberofcopies",
+        "type": "uint256"
       },
       { "internalType": "bool", "name": "amountStatus", "type": "bool" },
       { "internalType": "uint256", "name": "timestamp", "type": "uint256" }
@@ -365,15 +370,6 @@
     "name": "burnBatch",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "buyerAddress",
-    "outputs": [
-      { "internalType": "address payable", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -455,6 +451,15 @@
   },
   {
     "inputs": [],
+    "name": "nftownerAddress",
+    "outputs": [
+      { "internalType": "address payable", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "owner",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -476,7 +481,9 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_tokenId", "type": "uint256" }
+      { "internalType": "uint256", "name": "_tokenId", "type": "uint256" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "_price", "type": "uint256" }
     ],
     "name": "putonsale",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
@@ -579,7 +586,12 @@
         "name": "_beneficiary",
         "type": "address"
       },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_numberofcopies",
+        "type": "uint256"
+      }
     ],
     "name": "startAuction",
     "outputs": [],

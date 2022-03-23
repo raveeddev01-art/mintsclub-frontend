@@ -68,7 +68,7 @@ const routes = [
     component: ItemDetails,
   },
   {
-    path: "/sell-item/:itemId?",
+    path: "/sell-item/:id?",
     access: true,
     exact: true,
     title: "Sell Item",

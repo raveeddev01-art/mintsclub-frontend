@@ -3544,21 +3544,9 @@ span.no-padding .form-control {
   transform: translate(0, 0);
 }
 
-.modal-content {
-  background-color: var(--primary-bg-color);
-  border: none;
-  border-radius: 0;
-  overflow-x: hidden;
-}
-
 .modal .modal-header {
   justify-content: center;
-  /* padding-bottom: 0rem !important; */
 }
-/* 
-input.amount-btn {
-  position: relative;
-} */
 
 .modal .price-wrapper {
   width: 100%;
@@ -3593,10 +3581,6 @@ input.amount-btn {
   -ms-flex-align: center;
   align-items: center;
   padding: 2rem;
-}
-
-.modal .modal-body {
-  padding: 0rem 2rem 1rem !important;
 }
 
 .text-danger.modal-body .srv-validation-message {
