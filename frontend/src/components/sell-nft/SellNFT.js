@@ -20,6 +20,7 @@ import {
   getNFT,
   upsertNFT,
   getMyLikedNfts,
+  createActivity
 } from "../nfts/nfts.action";
 import { openNFTForBidding, putonsale } from "../../utils/web3";
 import { toast } from "react-toastify";
@@ -233,6 +234,9 @@ const SellNFT = (props) => {
         console.log(result, "result of bidding");
         if (result) {
           props.upsertNFT("edit", formData, "PUT");
+          let activityPayload={
+            
+          }
         }
       } catch (err) {
         setLoader(false)
@@ -853,4 +857,5 @@ export default connect(mapStateToProps, {
   toggleLikeDislike,
   getMyLikedNfts,
   beforeTogleLikeDislike,
+  createActivity
 })(SellNFT);

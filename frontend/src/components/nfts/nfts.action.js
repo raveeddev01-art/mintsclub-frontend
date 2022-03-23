@@ -9,7 +9,8 @@ import {
   SET_NFT_TOKEN,
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
-  GET_PROFILE_NFTS
+  GET_PROFILE_NFTS,
+  CREATE_ACITIVITY
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -174,6 +175,48 @@ export const getNFT = (nftId) => (dispatch) => {
     });
 };
 
+export const createActivity = (body) => (dispatch) => {
+  dispatch(emptyError());
+  const url = `${ENV.url}activity/create`;
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: ENV.Authorization,
+      "x-auth-token": ENV.x_auth_token,
+      "Access-Control-Allow-Origin": "*",
+      "x-access-token":
+        ENV.getUserKeys("accessToken") &&
+        ENV.getUserKeys("accessToken").accessToken
+          ? ENV.getUserKeys("accessToken").accessToken
+          : "",
+    },
+    body
+  })
+    .then((res) => res.json())
+    .then((data) => {
+
+      // alert("called")
+      if (data.success) {
+      
+       
+      } else {
+        dispatch({
+          type: GET_ERRORS,
+          payload: data,
+        });
+      }
+    })
+    .catch((errors) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: errors,
+      });
+   
+    });
+};
+
 export const getNFTsByCollection=(id)=>(dispatch)=>{
   
 
@@ -253,7 +296,7 @@ export const createNFT= async (formData)=>{
 
     }
 }
-export const setNftToken = (formData) => async (dispatch) => {
+export const addNFTRecord = (formData) => async (dispatch) => {
 
   const res = await axiosPostFormData(
             "nfts/storeNFTData",
