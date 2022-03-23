@@ -29,6 +29,7 @@ import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
+import axios from "axios";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -79,8 +80,20 @@ const SellNFT = (props) => {
   const location = useLocation();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [likedNfts, setLikedNfts] = useState();
+  const [exchangeRate, setExchangeRate] = useState(0);
   let nftId = props.match.params.id;
   console.log(nftId, "nftId");
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
+      )
+      .then((res) => {
+        const currentUSD = res.data.USD;
+        setExchangeRate(currentUSD);
+      });
+  }, []);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -225,7 +238,7 @@ const SellNFT = (props) => {
       }
     } else {
       try {
-        console.log(fixedConfig)
+        console.log(fixedConfig);
         let result = await putonsale(
           nftDetail.nftToken,
           1,
@@ -236,7 +249,7 @@ const SellNFT = (props) => {
           props.upsertNFT("edit", formData, "PUT");
         }
       } catch (err) {
-        setLoader(false)
+        setLoader(false);
         toast.error(err);
       }
     }
@@ -289,6 +302,12 @@ const SellNFT = (props) => {
       return setToggle(false);
     }
   };
+  const auctionEndTimeConversion = (auctionEndDate) => {
+    var dateString = moment.utc(auctionEndDate).format("MMMM D, Y");
+    var timeString = moment.utc(auctionEndDate).format("h:mma");
+    var totalDateTime = dateString + " at " + timeString + " PKT";
+    return totalDateTime;
+  };
 
   const getTokens = () => {
     const url = process.env.REACT_APP_BASE_URL + "nftTokens/tokens";
@@ -316,7 +335,7 @@ const SellNFT = (props) => {
       });
   };
   console.log(nftDetail, "nftDetail");
-  const { image, currentPrice, likesCount } = nftDetail;
+  const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
   return (
     <>
       {loader && <FullPageLoader />}
@@ -747,18 +766,31 @@ const SellNFT = (props) => {
                   <Card.Img variant="top" src={image} alt="AuctionTopImg" />
                 </div>
                 <Card.Body>
-                  <div>
-                    <span>Current price</span>
-                    <h3>
-                      {currentPrice}
-                      <span>($2.28)</span>
-                    </h3>
-                  </div>
-                  <div className=" d-flex justify-content-between align-items-center mb-2">
-                    <div className="d-flex align-items-center">
-                      <img src={ClockIcon} alt="clock-icon" className="me-1" />
-                      <span>Sale ends March 8, 2022 at 7:40am PKT </span>
+                  {currentPrice !== null && (
+                    <div>
+                      <span>Current price</span>
+                      <h3>
+                        {currentPrice}
+                        <span>
+                          {" "}
+                          ($ {(currentPrice * exchangeRate).toFixed(2)})
+                        </span>
+                      </h3>
                     </div>
+                  )}
+                  <div className=" d-flex justify-content-between align-items-center mb-2">
+                    {auctionEndDate !== null && (
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={ClockIcon}
+                          alt="clock-icon"
+                          className="me-1"
+                        />
+                        <span>
+                          Sale ends {auctionEndTimeConversion(auctionEndDate)}{" "}
+                        </span>
+                      </div>
+                    )}
                     <div className="likes-container d-flex align-items-center">
                       {/* <img src={HeartIcon} alt="heart-icon" className="ms-1" />
                       <span className="ms-1">{likesCount}</span> */}

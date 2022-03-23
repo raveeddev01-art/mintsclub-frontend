@@ -502,6 +502,7 @@ const NFTDetail = (props) => {
       }
     } catch (err) {}
   };
+  console.log(nftDetail.currentPrice,"nftDetail")
 
   return (
     <>
@@ -948,8 +949,9 @@ const NFTDetail = (props) => {
                     />
                   </div>
                   <Card.Body>
+
                     <div>
-                      {nftDetail.currentPrice && (
+                      {nftDetail.currentPrice !==null && (
                         <>
                           <span>Current price</span>
                           <h3>
@@ -1404,7 +1406,7 @@ const NFTDetail = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
+
   {
     nftDetail: state.nft.nftsData,
     nftsAuth: state.nft.nftsAuth,

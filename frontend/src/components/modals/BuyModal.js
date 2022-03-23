@@ -5,9 +5,11 @@ import ModalClose from "../../assets/images/modal-close.svg";
 import NftImg from "../../assets/images/listingImg3.png";
 import "./BuyModal.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import TickIcon from "../../assets/images/tick-checkbox.svg";
 const BuyModal = (props) => {
+
   const [purchase, setPurchase] = useState(true);
+  const [checkBox, setCheckBox] = useState(false);
   const {
     name,
     image,
@@ -75,12 +77,12 @@ const BuyModal = (props) => {
           </div>
         </div>
         <div className="row w-100 align-items-center total-row mt-3">
-          <div className="col-md-8">
+          <div className="col-6 col-md-8">
             <div className="modal-nft-detail">
               <p>Total</p>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-6 col-md-4">
             <div className="modal-nft-detail text-end">
               <h6>{price} ETH</h6>
               <p>${(price * exchangeRate).toFixed(2)}</p>
@@ -89,12 +91,26 @@ const BuyModal = (props) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <div className="modal-nft-footer d-flex">
-          <input type="checkbox" className="me-2" />
-          <p>
-            By checking this bos,I agree to MintsClub{" "}
-            <Link>Terms of Services</Link>
-          </p>
+        <div className="modal-nft-footer">
+          <div className="checkbox-container">
+            {checkBox ? (
+              <div
+                className="custom-checked-box"
+                onClick={() => setCheckBox(!checkBox)}
+              >
+                <img src={TickIcon} alt="checked" />
+              </div>
+            ) : (
+              <div
+                className="custom-uncheck-box"
+                onClick={() => setCheckBox(!checkBox)}
+              ></div>
+            )}
+            <p>
+              By checking this box,I agree to MintsClub{" "}
+              <Link>Terms of Services</Link>
+            </p>
+          </div>
         </div>
         <Button
           onClick={() => {

@@ -132,6 +132,7 @@ export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransaction
       const result = await contractM.methods
       .BuyFixedPriceNFT(id)
       .send({ from: connectedAddress,value:weiAmount,gas: 5000000}).on('transactionHash',function(hash){
+        console.log(hash,"hash")
         setTransactionHash(hash)
         setConfirmed(true)
       }).on('confirmation',function(confirmationNumber,receipt){
