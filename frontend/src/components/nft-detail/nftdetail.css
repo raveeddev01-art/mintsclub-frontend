@@ -18,14 +18,22 @@
 .place-bid-ethereum-btn {
   color: white !important;
 }
-.btn.buy-now-btn{
+.btn.buy-now-btn {
   padding: 10px 25px;
-    color: #ffffff;
-    border-radius: 8px;
-    border: 1px solid #5666fe !important;
-    font-size: 14px;
-    font-weight: bold;
+  color: #5666fe;
+  border-radius: 8px;
+  border: 1px solid #5666fe;
+  font-size: 14px;
+  font-weight: bold;
+  background: transparent;
 }
+
+.btn.buy-now-btn:hover {
+  color: #ffffff;
+  background: #7e8aff;
+  border: 1px solid #7e8aff;
+}
+
 .place-bid-gradient-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
 }

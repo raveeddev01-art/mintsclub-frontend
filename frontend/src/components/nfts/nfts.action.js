@@ -179,42 +179,19 @@ export const createActivity = (body) => (dispatch) => {
   dispatch(emptyError());
   const url = `${ENV.url}activity/create`;
 
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body
+ 
+  axios.post(url,body)
+  .then(function (response) {
+  console.log(response,"response")
+  
   })
-    .then((res) => res.json())
-    .then((data) => {
-
-      // alert("called")
-      if (data.success) {
-      
-       
-      } else {
-        dispatch({
-          type: GET_ERRORS,
-          payload: data,
-        });
-      }
-    })
-    .catch((errors) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors,
-      });
-   
-    });
+  .catch(function (error) {
+    console.log(error);
+    dispatch({
+            type: GET_ERRORS,
+            payload: error,
+          });
+  });
 };
 
 export const getNFTsByCollection=(id)=>(dispatch)=>{

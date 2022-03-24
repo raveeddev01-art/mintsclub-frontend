@@ -6,7 +6,7 @@ import abi from "./abis/v2-abi.json";
 
 
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
-
+ console.log(mintsClubContractAddress,'mintsClubContractAddress')
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
 /////////////////////////////////////////////////////////////////////////////MintsClub market start /////////////////////////
@@ -25,6 +25,7 @@ const getWeb3 = async () => {
 
 const getContractMethods = async () => {
   let web3 = await getWeb3();
+
   const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
   return contractM;
 };
@@ -101,7 +102,7 @@ export const placeABid = async (amount, tokenId) => {
 };
 
 export const putonsale= async (tokenId,amount,price)=>{
-  
+
   try{
   
     /* global BigInt */
@@ -110,6 +111,13 @@ export const putonsale= async (tokenId,amount,price)=>{
       let weiAmount =BigInt( Number(price) * 1000000000000000000);
    
       let id=Number(tokenId)
+      let obj={
+        id,
+        amount,
+        weiAmount,
+        price
+      }
+      console.log(obj,"obj")
       const result = await contractM.methods
       .putonsale(id,amount,weiAmount)
       .send({ from: connectedAddress, gas: 5000000 });
@@ -125,11 +133,11 @@ export const putonsale= async (tokenId,amount,price)=>{
 
 export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransactionHash)=>{
   try{
-
+   /* global BigInt */
     let connectedAddress = await connectMetamask();
       const contractM = await getContractMethods();
       let id=Number(tokenId)
-      let weiAmount = Number(amount) * 1000000000000000000;
+      let weiAmount = BigInt(Number(amount) * 1000000000000000000)
       const result = await contractM.methods
       .BuyFixedPriceNFT(id)
       .send({ from: connectedAddress,value:weiAmount,gas: 5000000}).on('transactionHash',function(hash){

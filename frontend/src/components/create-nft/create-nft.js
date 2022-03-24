@@ -189,6 +189,7 @@ class CreateNFT extends Component {
                       
                       2
                     );
+                    console.log(createNftResult.events.TransferSingle.returnValues.id,"id")
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:

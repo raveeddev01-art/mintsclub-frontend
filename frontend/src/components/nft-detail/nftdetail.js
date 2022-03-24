@@ -75,7 +75,7 @@ const NFTDetail = (props) => {
   const [modal, setModal] = useState(1);
   const [confirmed, setConfirmed] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
-  const [transactionSuccess,setTransactionSuccess]=useState(false)
+  const [transactionSuccess, setTransactionSuccess] = useState(false);
   const history = useHistory();
 
   let nftId = props.match.params.id;
@@ -185,7 +185,7 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.buyAuth) {
       setLoader(false);
-      setTransactionSuccess(true)
+      setTransactionSuccess(true);
       props.getNFT(nftId);
       let qs = { userId: ENV.getUserKeys("_id")._id };
       qs = ENV.objectToQueryString(qs);
@@ -952,9 +952,8 @@ const NFTDetail = (props) => {
                     />
                   </div>
                   <Card.Body>
-
                     <div>
-                      {nftDetail.currentPrice !==null && (
+                      {nftDetail.currentPrice !== null && (
                         <>
                           <span>Current price</span>
                           <h3>
@@ -1026,22 +1025,20 @@ const NFTDetail = (props) => {
                           className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
                           onClick={() => handleRouting()}
                         >
-                          <p>
-                            {ENV.getUserKeys("_id")._id == nftDetail.ownerId
-                              ? "Sell"
-                              : nftDetail?.sellingMethod === 2
-                              ? "Place Bid"
-                              : nftDetail?.sellingMethod === 1
-                              ? "Make Offer"
-                              : ""}
-                          </p>
+                          {ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                            ? "Sell"
+                            : nftDetail?.sellingMethod === 2
+                            ? "Place Bid"
+                            : nftDetail?.sellingMethod === 1
+                            ? "Make Offer"
+                            : ""}
                         </button>
                         {nftDetail?.sellingMethod===1 && ENV.getUserKeys("_id")._id !== nftDetail.ownerId &&(
                           <button
                             className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
                             onClick={() => setModalShow(true)}
                           >
-                            <p>{"Buy Now"}</p>
+                            Buy Now
                           </button>
                         )}
                       </>

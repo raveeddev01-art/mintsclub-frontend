@@ -46,7 +46,7 @@ function AuctionsOne(props) {
   const [loader, setLoader] = useState(false); // auctions loader
   const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState(null);
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
   useEffect(() => {
     window.scroll(0, 0);
@@ -143,6 +143,44 @@ function AuctionsOne(props) {
               </div>
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
+              {categoryId === "all" && auctions && auctions?.length == 0 ? (
+                ""
+              ) : (
+                <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
+                  {categories &&
+                    categories.length > 0 &&
+                    categories.map((item, index) => {
+                      if (index <= 3) {
+                        return (
+                          <button
+                            className="me-1 me-sm-2"
+                            onClick={() =>
+                              handleCategoryFilter(item.description)
+                            }
+                          >
+                            {item.name}
+                          </button>
+                        );
+                      }
+                    })}
+                  <div className="intro-btn">
+                    <Link
+                      className="btn btn-rounded-bordered btn-viewAll"
+                      to="/auctions"
+                    >
+                      View All
+                      <img
+                        src={ViewAllIcon}
+                        alt="arrow-left"
+                        className="ms-2"
+                      />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* last code */}
+            {/* <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
               <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
                 {categories &&
                   categories.length > 0 &&
@@ -168,7 +206,7 @@ function AuctionsOne(props) {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="auctions-slides">

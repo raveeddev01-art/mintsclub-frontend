@@ -519,19 +519,23 @@ const UserProfile = (props) => {
                     ChangeTooltip();
                   }}
                 >
-                  <i className="fab fa-ethereum"></i>
                   <span>{isAddressCopied ? "Copied" : "Copy"}</span>
                   {user && (
-                    <p className="acc-adress">
-                      {user.address.slice(0, 10) +
-                        "..." +
-                        user.address.slice(-10)}
-                    </p>
+                    <>
+                      <i className="fab fa-ethereum"></i>
+                      <p className="acc-adress">
+                        {user.address.slice(0, 10) +
+                          "..." +
+                          user.address.slice(-10)}
+                      </p>
+                    </>
                   )}
                 </div>
-                <p>
-                  Joined <span>February 2022</span>
-                </p>
+                {user && (
+                  <p>
+                    Joined <span>February 2022</span>
+                  </p>
+                )}
               </div>
             </div>
           </div>
