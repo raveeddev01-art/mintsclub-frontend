@@ -3,7 +3,12 @@ import nft2 from "../assets/images/nft2.webp";
 import nft3 from '../assets/images//nft3.jpeg';
 import nft4 from "../assets/images/nft4.webp";
 import nft5 from "../assets/images/nft5.jpg";
-
+import {
+  AiFillHeart,
+  BsTagFill,
+  GrTransaction,
+  MdShoppingCart,
+} from "react-icons/all";
 export const WordsFamousNfts = [
     {
       img: nft3,
@@ -20,3 +25,10 @@ export const WordsFamousNfts = [
     { img: nft4, link: "https://foundation.app/@snowden/~/24437" },
     { img: nft5, link: "https://www.phillips.com/mdj" },
   ];
+
+
+  export const iconByActivity={
+    minted:<MdShoppingCart/>,
+    transfer:<GrTransaction/>,
+    list:<BsTagFill/>
+  }

@@ -23,7 +23,7 @@ const BuyModal = (props) => {
     transactionSuccess,
   } = props;
 
-  return confirmed === "" ? (
+  return (confirmed === ""||confirmed===false) ? (
     <Modal
       {...props}
       size="lg"

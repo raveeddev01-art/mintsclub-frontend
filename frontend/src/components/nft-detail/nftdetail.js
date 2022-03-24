@@ -20,6 +20,8 @@ import {
   getNFTsByCollection,
   getMyLikedNfts,
   beforeNFT,
+  createActivity,
+  getActivities,
 } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
@@ -33,7 +35,13 @@ import {
 import moment from "moment";
 import SimpleReactValidator from "simple-react-validator";
 import axios from "axios";
-import { AiFillHeart } from "react-icons/ai";
+import {
+  AiFillHeart,
+  BsTagFill,
+  GrTransaction,
+  MdShoppingCart,
+  FaHandPaper
+} from "react-icons/all";
 import {
   placeABid,
   connectMetamask,
@@ -56,6 +64,7 @@ import {
 } from "../offers/offers.action";
 import { toast } from "react-toastify";
 import BuyModal from "../modals/BuyModal";
+import {iconByActivity} from '../../utils/exportData'
 // import  {}
 
 const NFTDetail = (props) => {
@@ -64,6 +73,7 @@ const NFTDetail = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [nftDetail, setNftDetail] = useState("");
   const [nftsList, setNftList] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loader, setLoader] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState(0);
@@ -80,7 +90,6 @@ const NFTDetail = (props) => {
 
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
-  console.log(userId, "userId");
   const initData = {
     itemImg: "/img/auction_2.jpg",
     date: "2022-03-30",
@@ -227,14 +236,19 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
-      setLoader(false)
-
-      if (props.nftDetail.sellingMethod === 1) {
-        let qs = { offerBy: ENV.getUserKeys("_id")._id };
-        qs = ENV.objectToQueryString(qs);
-        props.getOffers(qs);
-      }
-
+      setLoader(false);
+      //get activities
+      let activityQs = { nftId: props.nftDetail._id };
+      activityQs = ENV.objectToQueryString(activityQs);
+      props.getActivities(activityQs);
+      
+      //get offers
+      // if (props.nftDetail.sellingMethod === 1) {
+      //   let qs = { offerBy: ENV.getUserKeys("_id")._id };
+      //   qs = ENV.objectToQueryString(qs);
+      //   props.getOffers(qs);
+      // }
+       //get bids
       if (nftDetail.sellingMethod === 2) {
         let nftBidsQs = { nftId };
         nftBidsQs = ENV.objectToQueryString(nftBidsQs);
@@ -275,6 +289,11 @@ const NFTDetail = (props) => {
       props.beforeTogleLikeDislike();
     }
   }, [props.togleLikeRes]);
+  useEffect(() => {
+    if (props.activitiesAuth) {
+      setActivities(props.activities);
+    }
+  }, [props.activitiesAuth]);
 
   const handleRouting = () => {
     if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
@@ -282,9 +301,10 @@ const NFTDetail = (props) => {
         pathname: `/sell-item/${nftDetail._id}`,
         state: nftDetail,
       });
-    } else {
+    } else if (nftDetail.sellingMethod === 2) {
       setIsOpen(true);
-      // setModalShow(true);
+    } else {
+      setModalShow(true);
     }
   };
   //toggleLikes
@@ -366,7 +386,6 @@ const NFTDetail = (props) => {
     }
 
     setNftConfig(data);
-    console.log(data, "data");
   };
 
   const calculatePricePercantage = () => {
@@ -408,6 +427,7 @@ const NFTDetail = (props) => {
     setIsOpen(false);
     if (nftDetail.sellingMethod === 2) {
       placeBid();
+      const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
     } else {
       makeOffer();
     }
@@ -426,8 +446,10 @@ const NFTDetail = (props) => {
           toAddress: nftDetail.ownerAddress,
           fromAddress: await connectMetamask(),
         };
+        const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
 
         props.placeBid(payload);
+        createActivity("Bid", price);
       }
     } catch (err) {
       setLoader(false);
@@ -451,7 +473,6 @@ const NFTDetail = (props) => {
           isAccepted: false,
           isExpired: false,
         };
-        console.log(payload, "payload");
 
         props.makeOffer(payload);
       }
@@ -471,6 +492,7 @@ const NFTDetail = (props) => {
     let result = bids.filter((bid) => bid._id !== id);
     setBids(result);
     props.deleteBid(id);
+    createActivity("Cancel Bid");
   };
 
   const deleteOffer = (id) => {
@@ -500,12 +522,48 @@ const NFTDetail = (props) => {
           ownerAddress: await getWalletAddress(),
         };
         props.buyNow(payload);
+        createActivity("Buy");
       }
     } catch (err) {}
   };
+
+  const createActivity = async (type, bidPrice) => {
+    const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
+    let price = "";
+    if (bidPrice) {
+      price = bidPrice;
+    } else {
+      price = currentPrice;
+    }
+
+    let activityPayload = {
+      nftId: _id,
+      ownerId,
+      fromAddress: await getWalletAddress(),
+      activityType: type,
+      price: price,
+    };
+    props.createActivity(activityPayload);
+  };
+  const handleAcitivityIcon=(type)=>{
+    if(type==="Mint")
+    {
+      return <MdShoppingCart/>
+    } else if(type==="List"){
+
+      return <BsTagFill/>
+    }else if(type==="Bid"){
+
+      return <FaHandPaper/>
+    }
+    else {
+      return <GrTransaction/>
+    }
+  }
   // console.log(nftDetail,"NFTdetail")
   // console.log(bids,"bids")
-  console.log(loader,"loader")
+  // console.log(loader,"loader")
+
 
   return (
     <>
@@ -971,7 +1029,7 @@ const NFTDetail = (props) => {
                     </div>
                     <div className=" d-flex justify-content-between align-items-center mb-2">
                       <div className="d-flex align-items-center">
-                        {nftDetail.sellingMethod && (
+                        {nftDetail.sellingMethod === 2 && (
                           <>
                             <img
                               src={ClockIcon}
@@ -1030,17 +1088,17 @@ const NFTDetail = (props) => {
                             : nftDetail?.sellingMethod === 2
                             ? "Place Bid"
                             : nftDetail?.sellingMethod === 1
-                            ? "Make Offer"
+                            ? "Buy Now"
                             : ""}
                         </button>
-                        {nftDetail?.sellingMethod===1 && ENV.getUserKeys("_id")._id !== nftDetail.ownerId &&(
+                        {/* {nftDetail?.sellingMethod===1 && ENV.getUserKeys("_id")._id !== nftDetail.ownerId &&(
                           <button
                             className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
                             onClick={() => setModalShow(true)}
                           >
                             Buy Now
                           </button>
-                        )}
+                        )} */}
                       </>
                     )}
                   </Card.Body>
@@ -1088,6 +1146,8 @@ const NFTDetail = (props) => {
                       >
                         <div className="accordion-body">
                           <div className="table-container">
+                            {
+                              activities&& activities.length>0 &&
                             <table class="table table-borderless">
                               <thead>
                                 <tr>
@@ -1099,64 +1159,29 @@ const NFTDetail = (props) => {
                                 </tr>
                               </thead>
                               <tbody>
+                                {
+                                 activities.map((activity)=>{
+                                   return(
+
                                 <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
+                                  <th scope="row">
+                                    <div className="d-flex align-items-center">
+
+                                    {handleAcitivityIcon(activity.activityType)}
+                                   <p className="ps-1"> {activity.activityType} </p>
+                                    </div>
+                                    </th>
+                                  <td>{activity.price?activity.price:""}</td>
+                                  <td>{activity.fromAddress?activity.fromAddress.slice(-8):"null address"}</td>
+                                  <td>{activity.toAddress?activity.toAddress.slice(-8):""} </td>
                                   <td>an hour ago</td>
                                 </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">List</th>
-                                  <td>0.025</td>
-                                  <td>BBC1B3</td>
-                                  <td> </td>
-                                  <td>an hour ago</td>
-                                </tr>
+                                   )
+                                 })
+                                }
                               </tbody>
                             </table>
+                            }
                           </div>
                         </div>
                       </div>
@@ -1406,26 +1431,27 @@ const NFTDetail = (props) => {
 };
 
 const mapStateToProps = (state) => (
-console.log(state,"state"),
+  console.log(state,'state'),
   {
-    nftDetail: state.nft.nftsData,
-    nftsAuth: state.nft.nftsAuth,
-    nftsByCollection: state.nft.nftsByCollection,
-    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-    myLikedNfts: state.nft.myLikedNfts,
-    myLikedNftsStatus: state.nft.myLikedNftsStatus,
-    createAuth: state.bid.createAuth,
-    createAuthOffer: state.offer.createAuth,
-    getAuth: state.bid.getAuth,
-    getAuthOffer: state.offer.getAuth,
-    offers: state.offer.offers,
-    buyAuth: state.offer.buyAuth,
-    bids: state.bid.bids,
-    bidsByNft: state.bid.bidsByNft,
-    bidsByNftAuth: state.bid.bidsBYNftAuth,
-    togleLikeRes: state.explore.togleLikeRes,
-  }
-);
+  nftDetail: state.nft.nftsData,
+  nftsAuth: state.nft.nftsAuth,
+  nftsByCollection: state.nft.nftsByCollection,
+  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  activities: state.nft.itemActivities,
+  activitiesAuth: state.nft.activitiesAuth,
+  createAuth: state.bid.createAuth,
+  createAuthOffer: state.offer.createAuth,
+  getAuth: state.bid.getAuth,
+  getAuthOffer: state.offer.getAuth,
+  offers: state.offer.offers,
+  buyAuth: state.offer.buyAuth,
+  bids: state.bid.bids,
+  bidsByNft: state.bid.bidsByNft,
+  bidsByNftAuth: state.bid.bidsBYNftAuth,
+  togleLikeRes: state.explore.togleLikeRes,
+});
 
 export default connect(mapStateToProps, {
   getNFT,
@@ -1444,4 +1470,6 @@ export default connect(mapStateToProps, {
   getOffers,
   deleteOffer,
   buyNow,
+  createActivity,
+  getActivities,
 })(NFTDetail);

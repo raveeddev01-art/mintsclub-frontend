@@ -189,7 +189,7 @@ class CreateNFT extends Component {
                       
                       2
                     );
-                    console.log(createNftResult.events.TransferSingle.returnValues.id,"id")
+             
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:
@@ -199,10 +199,7 @@ class CreateNFT extends Component {
                       };
                   
                       this.props.addNFTRecord(data);
-                      let activityPayload={
-                          
-                      }
-                   
+                    
                       this.props.history.push("/explore/allNFT");
                     }
                   } catch (err) {

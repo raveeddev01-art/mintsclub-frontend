@@ -127,11 +127,13 @@ export const putonsale= async (tokenId,amount,price)=>{
 
 export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransactionHash)=>{
   try{
+    console.log(amount,"amount")
    /* global BigInt */
     let connectedAddress = await connectMetamask();
       const contractM = await getContractMethods();
       let id=Number(tokenId)
-      let weiAmount = BigInt(Number(amount) * 1000000000000000000)
+      let weiAmount = (amount * 1000000000000000000)
+    
       const result = await contractM.methods
       .BuyFixedPriceNFT(id)
       .send({ from: connectedAddress,value:weiAmount,gas: 5000000}).on('transactionHash',function(hash){
@@ -142,10 +144,12 @@ export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransaction
         console.log("confirmed2")
       })
 
+      console.log(result,"result")
       if(result){
         return result
       }
   }catch(err){
+    setConfirmed(false)
     console.log(err)
     setConfirmed(false)
     

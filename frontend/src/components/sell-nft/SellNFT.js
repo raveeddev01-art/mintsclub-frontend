@@ -22,7 +22,7 @@ import {
   getMyLikedNfts,
   createActivity
 } from "../nfts/nfts.action";
-import { openNFTForBidding, putonsale } from "../../utils/web3";
+import { openNFTForBidding, putonsale ,getWalletAddress} from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import { AiFillHeart } from "react-icons/ai";
@@ -83,7 +83,8 @@ const SellNFT = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [exchangeRate, setExchangeRate] = useState(0);
   let nftId = props.match.params.id;
-  console.log(nftId, "nftId");
+
+  
 
   useEffect(() => {
     axios
@@ -199,8 +200,8 @@ const SellNFT = (props) => {
     let activityPayload={
       nftId:_id,
       ownerId,
-      ownerAddress,
-      activityType:"list"
+      fromAddress:await getWalletAddress(),
+      activityType:"List"
     }
     if (sellingMethod === 2) {
       delete timedConfig.duration.startTime;
@@ -215,8 +216,9 @@ const SellNFT = (props) => {
       };
     } else {
             //  fixedConfig.price.amount;   
-      delete fixedConfig.listingSchedule.startTime;
-      delete fixedConfig.listingSchedule.endTime;
+      // delete fixedConfig.listingSchedule.startTime;
+      // delete fixedConfig.listingSchedule.endTime;
+      delete fixedConfig.listingSchedule
       price=Number(fixedConfig.price.amount)  
       payload = {
         _id: location.state._id,
@@ -242,10 +244,10 @@ const SellNFT = (props) => {
           startTime,
           location.state.nftToken
         );
-        console.log(result, "result of bidding");
+       ;
         if (result) {
           activityPayload.price=price
-      console.log("auctionActivtyPayload",activityPayload)
+  
           props.createActivity(activityPayload)
           props.upsertNFT("edit", formData, "PUT");
         
@@ -256,7 +258,7 @@ const SellNFT = (props) => {
       }
     } else {
       try {
-        console.log(fixedConfig);
+       
         let result = await putonsale(
           nftDetail.nftToken,
           1,
@@ -265,7 +267,7 @@ const SellNFT = (props) => {
 
         if (result) {
           activityPayload.price=price
-          console.log("fixedActivtyPayload",activityPayload)
+       
           props.createActivity(activityPayload)
           props.upsertNFT("edit", formData, "PUT");
       
@@ -358,7 +360,7 @@ const SellNFT = (props) => {
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-console.log(nftDetail,"nftDetail")
+// console.log(nftDetail,"nftDetail")
   return (
     <>
       {loader && <FullPageLoader />}
@@ -488,7 +490,7 @@ console.log(nftDetail,"nftDetail")
                             </div>
                           </div>
 
-                          <div className="accordion-item">
+                          {/* <div className="accordion-item">
                             <h2
                               className="accordion-header"
                               id="flush-headingTwo"
@@ -568,7 +570,7 @@ console.log(nftDetail,"nftDetail")
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </>
                       ) : (
                         <>
@@ -802,7 +804,7 @@ console.log(nftDetail,"nftDetail")
                     </div>
                   )}
                   <div className=" d-flex justify-content-between align-items-center mb-2">
-                    {nftDetail.sellingMethod && (
+                    {nftDetail.sellingMethod===2 && (
                       <div className="d-flex align-items-center">
                         <img
                           src={ClockIcon}

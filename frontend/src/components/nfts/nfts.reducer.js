@@ -7,6 +7,7 @@ import {
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
+  GET_ACTIVITIES
 } from "../../redux/types";
 
 const initialState = {
@@ -84,6 +85,12 @@ export default function (state = initialState, action) {
         profileNFTs: action.payload,
         profileNFTsStatus: true,
       };
+      case GET_ACTIVITIES:
+        return {
+          ...state,
+          itemActivities:action.payload,
+          activitiesAuth:true
+        }
 
     default:
       return {

@@ -10,7 +10,8 @@ import {
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
-  CREATE_ACITIVITY
+  CREATE_ACITIVITY,
+  GET_ACTIVITIES
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -183,6 +184,32 @@ export const createActivity = (body) => (dispatch) => {
   axios.post(url,body)
   .then(function (response) {
   console.log(response,"response")
+  
+  })
+  .catch(function (error) {
+    console.log(error);
+    dispatch({
+            type: GET_ERRORS,
+            payload: error,
+          });
+  });
+};
+export const getActivities = (qs=null) => (dispatch) => {
+  dispatch(emptyError());
+  let url = `${ENV.url}activity/get`;
+  if(qs){
+    url+=`?${qs}`
+  }
+
+ 
+  axios.get(url)
+  .then(function (response) {
+  console.log( response.data.data,"response")
+
+  dispatch({
+    type:GET_ACTIVITIES,
+    payload: response.data.data,
+  });
   
   })
   .catch(function (error) {
