@@ -57,7 +57,7 @@ export const mintNFt = async (metaData, id, amount,recipientValue) => {
 
 export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
   try {
-    console.log(typeof tokenId,"tokenId")
+    
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let id=Number(tokenId)
@@ -111,13 +111,7 @@ export const putonsale= async (tokenId,amount,price)=>{
       let weiAmount =BigInt( Number(price) * 1000000000000000000);
    
       let id=Number(tokenId)
-      let obj={
-        id,
-        amount,
-        weiAmount,
-        price
-      }
-      console.log(obj,"obj")
+   
       const result = await contractM.methods
       .putonsale(id,amount,weiAmount)
       .send({ from: connectedAddress, gas: 5000000 });
@@ -148,7 +142,6 @@ export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransaction
         console.log("confirmed2")
       })
 
-      console.log(result,"result")
       if(result){
         return result
       }
