@@ -56,6 +56,7 @@ import {
 } from "../offers/offers.action";
 import { toast } from "react-toastify";
 import BuyModal from "../modals/BuyModal";
+import BidModal from "../modals/BidModal";
 // import  {}
 
 const NFTDetail = (props) => {
@@ -227,7 +228,7 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
-      setLoader(false)
+      setLoader(false);
 
       if (props.nftDetail.sellingMethod === 1) {
         let qs = { offerBy: ENV.getUserKeys("_id")._id };
@@ -505,7 +506,7 @@ const NFTDetail = (props) => {
   };
   // console.log(nftDetail,"NFTdetail")
   // console.log(bids,"bids")
-  console.log(loader,"loader")
+  console.log(loader, "loader");
 
   return (
     <>
@@ -1033,14 +1034,15 @@ const NFTDetail = (props) => {
                             ? "Make Offer"
                             : ""}
                         </button>
-                        {nftDetail?.sellingMethod===1 && ENV.getUserKeys("_id")._id !== nftDetail.ownerId &&(
-                          <button
-                            className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
-                            onClick={() => setModalShow(true)}
-                          >
-                            Buy Now
-                          </button>
-                        )}
+                        {nftDetail?.sellingMethod === 1 &&
+                          ENV.getUserKeys("_id")._id !== nftDetail.ownerId && (
+                            <button
+                              className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
+                              onClick={() => setModalShow(true)}
+                            >
+                              Buy Now
+                            </button>
+                          )}
                       </>
                     )}
                   </Card.Body>
@@ -1383,7 +1385,7 @@ const NFTDetail = (props) => {
               </Modal.Footer>
             </Modal>
           </div>
-          <BuyModal
+          {/* <BuyModal
             show={modalShow}
             onHide={() => setModalShow(false)}
             name={nftDetail.name}
@@ -1397,7 +1399,9 @@ const NFTDetail = (props) => {
             confirmed={confirmed}
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
-          />
+          /> */}
+
+          <BidModal show={modalShow} onHide={() => setModalShow(false)} />
         </section>
         <Footer />
       </>
@@ -1406,7 +1410,7 @@ const NFTDetail = (props) => {
 };
 
 const mapStateToProps = (state) => (
-console.log(state,"state"),
+  console.log(state, "state"),
   {
     nftDetail: state.nft.nftsData,
     nftsAuth: state.nft.nftsAuth,

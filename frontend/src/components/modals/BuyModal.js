@@ -204,12 +204,9 @@ const BuyModal = (props) => {
             </div>
             <div className="status-address">
               <p>
-                {
-                  (transactionHash.slice(0, 6)+
-                  "....."+
-                  transactionHash.slice(-6)
-                  )
-                }
+                {transactionHash.slice(0, 6) +
+                  "....." +
+                  transactionHash.slice(-6)}
               </p>
             </div>
           </div>

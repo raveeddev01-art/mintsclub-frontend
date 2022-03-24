@@ -3498,6 +3498,7 @@ span.no-padding .form-control {
   font-size: 14px;
   font-weight: normal;
   color: #929090;
+  text-decoration: none;
 }
 
 .footer-bottom {
