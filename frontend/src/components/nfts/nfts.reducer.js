@@ -22,6 +22,8 @@ const initialState = {
   myLikedNftsStatus: false,
   profileNFTs: [],
   profileNFTsStatus: false,
+  itemActivities:[],
+  activitiesAuth:false,
 };
 
 export default function (state = initialState, action) {
@@ -61,6 +63,7 @@ export default function (state = initialState, action) {
         myLikedNftsStatus: false,
         profileNFTs: [],
         profileNFTsStatus: false,
+        activitiesAuth:false,
       };
 
     case GET_NFTS_BY_COLLECTION:

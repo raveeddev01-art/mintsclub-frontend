@@ -15,7 +15,7 @@ import {
   getCollections,
   myCollections,
 } from "../collections/collections.actions";
-import { setNftToken, createNFT } from "../nfts/nfts.action";
+import { addNFTRecord, createNFT,createActivity } from "../nfts/nfts.action";
 import { getCurrentAddress, mintNFt } from "../../utils/web3";
 import { RiArrowDropDownLine } from "react";
 import "./createNft.css";
@@ -138,6 +138,7 @@ class CreateNFT extends Component {
     this.setState({ nft });
   };
 
+
   submit = (e) => {
     e.preventDefault();
 
@@ -175,8 +176,6 @@ class CreateNFT extends Component {
                 true
               );
 
-              console.log(res, "nft crate");
-
               if (res.success) {
                 // this.reset();
                 // toast.success(`Success! ${res.message}`)
@@ -190,8 +189,7 @@ class CreateNFT extends Component {
                       
                       2
                     );
-
-                    console.log(createNftResult, "createNftResult");
+                    console.log(createNftResult.events.TransferSingle.returnValues.id,"id")
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:
@@ -199,9 +197,12 @@ class CreateNFT extends Component {
                         data: this.state.nft,
                         image: res.nft.image,
                       };
-                      console.log(data, "data==>");
-                      this.props.setNftToken(data);
-
+                  
+                      this.props.addNFTRecord(data);
+                      let activityPayload={
+                          
+                      }
+                   
                       this.props.history.push("/explore/allNFT");
                     }
                   } catch (err) {
@@ -605,7 +606,8 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   beforeCollection,
   getCollections,
-  setNftToken,
+  addNFTRecord,
   createNFT,
   myCollections,
+  createActivity
 })(CreateNFT);

@@ -9,7 +9,8 @@ import {
   SET_NFT_TOKEN,
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
-  GET_PROFILE_NFTS
+  GET_PROFILE_NFTS,
+  CREATE_ACITIVITY
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -174,6 +175,25 @@ export const getNFT = (nftId) => (dispatch) => {
     });
 };
 
+export const createActivity = (body) => (dispatch) => {
+  dispatch(emptyError());
+  const url = `${ENV.url}activity/create`;
+
+ 
+  axios.post(url,body)
+  .then(function (response) {
+  console.log(response,"response")
+  
+  })
+  .catch(function (error) {
+    console.log(error);
+    dispatch({
+            type: GET_ERRORS,
+            payload: error,
+          });
+  });
+};
+
 export const getNFTsByCollection=(id)=>(dispatch)=>{
   
 
@@ -253,7 +273,7 @@ export const createNFT= async (formData)=>{
 
     }
 }
-export const setNftToken = (formData) => async (dispatch) => {
+export const addNFTRecord = (formData) => async (dispatch) => {
 
   const res = await axiosPostFormData(
             "nfts/storeNFTData",
