@@ -7,7 +7,6 @@ import "./BuyModal.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TickIcon from "../../assets/images/tick-checkbox.svg";
 const BuyModal = (props) => {
-
   const [purchase, setPurchase] = useState(true);
   const [checkBox, setCheckBox] = useState(false);
   const {
@@ -52,37 +51,53 @@ const BuyModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body>
-        <div className="row w-100 align-items-center">
-          <div className="col-md-8">
-            <div className="d-flex align-items-center">
-              <div className="modal-nft-container">
-                <div className="modal-nft-img">
-                  <img src={image} alt="nft-img" />
-                </div>
-              </div>
-              <div className="modal-nft-conntent ms-2">
-                <p>{name}</p>
-                <p>
-                  {name} # {tokenId}
-                </p>
-                <p>Creator Fees: 5%</p>
+        <div className="row w-100 align-items-center justify-content-center g-4">
+          <div className="col-md-3">
+            <div className="modal-nft-container mx-auto mx-md-0">
+              <div className="modal-nft-img">
+                <img src={image} alt="nft-img" />
               </div>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="modal-nft-detail text-end">
-              <p>{price} ETH</p>
-              <p>${(price * exchangeRate).toFixed(2)}</p>
+          <div className="col-md-9">
+            <div className="modal-nft-conntent">
+              <div className="row align-items-center justify-content-between">
+                <div className="col-6">
+                  <p>{name}</p>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail text-end">
+                    <p>{price} ETH</p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail">
+                    <p>
+                      {name} # {tokenId}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail text-end">
+                    <p>${(price * exchangeRate).toFixed(2)}</p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail">
+                    <p>Creator Fees: 5%</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="row w-100 align-items-center total-row mt-3">
-          <div className="col-6 col-md-8">
+          <div className="col-4">
             <div className="modal-nft-detail">
               <p>Total</p>
             </div>
           </div>
-          <div className="col-6 col-md-4">
+          <div className="col-8">
             <div className="modal-nft-detail text-end">
               <h6>{price} ETH</h6>
               <p>${(price * exchangeRate).toFixed(2)}</p>
@@ -189,12 +204,9 @@ const BuyModal = (props) => {
             </div>
             <div className="status-address">
               <p>
-                {
-                  (transactionHash.slice(0, 6)+
-                  "....."+
-                  transactionHash.slice(-6)
-                  )
-                }
+                {transactionHash.slice(0, 6) +
+                  "....." +
+                  transactionHash.slice(-6)}
               </p>
             </div>
           </div>

@@ -20,6 +20,7 @@ import {
   getNFT,
   upsertNFT,
   getMyLikedNfts,
+  createActivity
 } from "../nfts/nfts.action";
 import { openNFTForBidding, putonsale } from "../../utils/web3";
 import { toast } from "react-toastify";
@@ -190,22 +191,33 @@ const SellNFT = (props) => {
   };
 
   const submit = async () => {
+    let price=''
     let payload = "";
     let timedConfig = timedAuctionConfig;
     let fixedConfig = fixedPriceConfig;
+    const {_id,ownerId,ownerAddress}=nftDetail
+    let activityPayload={
+      nftId:_id,
+      ownerId,
+      ownerAddress,
+      activityType:"list"
+    }
     if (sellingMethod === 2) {
       delete timedConfig.duration.startTime;
       delete timedConfig.duration.endTime;
       delete timedConfig.method;
-             timedConfig.startPrice.amount=Number(timedConfig.startPrice.amount);
+      price=Number(timedConfig.startPrice.amount)  
+      timedConfig.startPrice.amount=Number(timedConfig.startPrice.amount);
       payload = {
         _id: location.state._id,
         sellingMethod,
         sellingConfig: JSON.stringify(timedConfig),
       };
     } else {
+            //  fixedConfig.price.amount;   
       delete fixedConfig.listingSchedule.startTime;
       delete fixedConfig.listingSchedule.endTime;
+      price=Number(fixedConfig.price.amount)  
       payload = {
         _id: location.state._id,
         sellingMethod,
@@ -232,7 +244,11 @@ const SellNFT = (props) => {
         );
         console.log(result, "result of bidding");
         if (result) {
+          activityPayload.price=price
+      console.log("auctionActivtyPayload",activityPayload)
+          props.createActivity(activityPayload)
           props.upsertNFT("edit", formData, "PUT");
+        
         }
       } catch (err) {
         setLoader(false)
@@ -248,7 +264,12 @@ const SellNFT = (props) => {
         );
 
         if (result) {
+          activityPayload.price=price
+          console.log("fixedActivtyPayload",activityPayload)
+          props.createActivity(activityPayload)
           props.upsertNFT("edit", formData, "PUT");
+      
+
         }
       } catch (err) {
         setLoader(false);
@@ -337,7 +358,7 @@ const SellNFT = (props) => {
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-
+console.log(nftDetail,"nftDetail")
   return (
     <>
       {loader && <FullPageLoader />}
@@ -853,4 +874,5 @@ export default connect(mapStateToProps, {
   toggleLikeDislike,
   getMyLikedNfts,
   beforeTogleLikeDislike,
+  createActivity
 })(SellNFT);

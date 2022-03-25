@@ -119,7 +119,7 @@ const TopSeller = (props) => {
                 <span>CREATIVE ARTIST</span>
                 <h3 className='mb-0'>Top Sellers</h3>
               </div>
-              {props.viewAll ? (
+              {sellers && sellers.length > 12 && props.viewAll ? (
                 <div className='intro-btn'>
                   <Link
                     className='btn btn-rounded-bordered btn-viewAll'
@@ -138,48 +138,45 @@ const TopSeller = (props) => {
         <div className='row items'>
           {sellers && sellers.length ? (
             sellers.map((author, idx) => {
-              return (
-                <div
-                  key={`ts_${idx}`}
-                  className='col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards'
-                >
-                  {/* Single Seller */}
-                  <div className='card'>
-                    <div className='single-seller d-flex align-items-center'>
-                      <Link to={`/author/${author._id}`}>
-                        <div className='seller-avatar-container'>
-                          <img
-                            className='avatar-md rounded-circle'
-                            //   src={
-                            //     author.profileImage
-                            //       ? author.profileImage
-                            //       : ENV.globalPlaceholderImage
-                            //   }
-                            src={AvatarImg}
-                            alt=''
-                          />
-                          <span className='seller-avatar-active'>
-                            <img src={SellerTickIcon} alt='tick-icon' />
-                          </span>
-                        </div>
-                      </Link>
-                      {/* Seller Info */}
-                      <div className='seller-info ml-3 w-100'>
-                        <Link
-                          className='seller mb-2'
-                          to={`/author/${author._id}`}
-                        >
-                          {author.username}
+              if (idx <= 11) {
+                return (
+                  <div
+                    key={`ts_${idx}`}
+                    className='col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards'
+                  >
+                    {/* Single Seller */}
+                    <div className='card'>
+                      <div className='single-seller d-flex align-items-center'>
+                        <Link to={`/author/${author._id}`}>
+                          <div className='seller-avatar-container'>
+                            <img
+                              className='avatar-md rounded-circle'
+                              src={AvatarImg}
+                              alt=''
+                            />
+                            <span className='seller-avatar-active'>
+                              <img src={SellerTickIcon} alt='tick-icon' />
+                            </span>
+                          </div>
                         </Link>
-                        <span className='text-end'>{'256.6ETH'}</span>
+                        {/* Seller Info */}
+                        <div className='seller-info ml-3 w-100'>
+                          <Link
+                            className='seller mb-2'
+                            to={`/author/${author._id}`}
+                          >
+                            {author.username}
+                          </Link>
+                          <span className='text-end'>{'256.6ETH'}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              }
             })
           ) : (
-            <p>Top Sellers not available</p>
+            <p className='text-white text-center'>Top Sellers not available</p>
           )}
         </div>
       </div>

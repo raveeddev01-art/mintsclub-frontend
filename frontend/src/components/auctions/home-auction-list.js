@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 
@@ -8,6 +8,9 @@ import Breadcrumb from "../breadcrumb/breadcrumb";
 
 const AuctionsList = () => {
   const [isActive, setIsActive] = useState(0);
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
   const auctionDemoData = [
     {
       _id: 1,
