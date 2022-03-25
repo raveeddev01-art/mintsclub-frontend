@@ -83,10 +83,6 @@ export const getNFTs =
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
 
-    
-console.log(url,"getNFTs")
-
-
     fetch(url, {
       method: "GET",
       headers: {

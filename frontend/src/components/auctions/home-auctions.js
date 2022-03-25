@@ -8,9 +8,7 @@ import "slick-carousel";
 import "../../assets/slick/slick.min.css";
 import "../../assets/slick/slick-theme.min.css";
 import $ from "jquery";
-import moment from "moment";
-import Countdown from "react-countdown";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -19,10 +17,8 @@ import SwiperCore, {
 } from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./auction.css";
-import { useTimer } from "react-timer-hook";
+
 import { getCreators, beforeUser } from "./../user/user.action";
-import image from "../../assets/images/placeholder.png";
-import DemoImg from "../../assets/images/cl-cr-mainimg.png";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 //CardSliders
 import CardSlider from "../card-slider/CardSlider";
@@ -33,8 +29,7 @@ import {
 } from "../collections/collections.actions";
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
-// Swiper.use([Navigation, Pagination]);
-const { globalPlaceholderImage, countDownRenderer } = ENV;
+
 const initData = {
   pre_heading: "Auctions",
   heading: "Live Auctions",
@@ -57,13 +52,14 @@ function AuctionsOne(props) {
     props.getLiveAuctions(qs);
     props.getCreators();
   }, []);
+
   useEffect(() => {
-    // console.log('auth', props.user.topSellersAuth)
     if (props.user.topSellersAuth) {
       setCreator(props.user.sellers);
       setLoader(false);
     }
   }, [props.user.topSellersAuth]);
+
   // set live auctions
   useEffect(() => {
     if (props.auction.auctionsAuth) {
@@ -79,33 +75,14 @@ function AuctionsOne(props) {
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
+
   // ready slides when auctions data is received
   useEffect(() => {
     if (auctions && auctions.length) {
       $(".swiper-wrapper").slick(ENV.slickSettings);
     }
   }, [auctions]);
-  const filterCreator = (nft, field) => {
-    // console.log('creators', creators)
-    // console.log('nft owner', nft)
-    const result = creators.find((item) => item._id === nft.nftOwnerId);
-    // console.log('reuslt',result
-    if (result) {
-      if (field === "userName") {
-        if (result?.username) {
-          return result?.username;
-        } else {
-          return "no username found";
-        }
-      } else if (field == "profileImage") {
-        if (result.profileImage) {
-          return result?.profileImage;
-        } else {
-          return image;
-        }
-      }
-    }
-  };
+
 
   useEffect(() => {
     props.getCategories();
@@ -121,6 +98,8 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
+
+
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -225,6 +204,8 @@ function AuctionsOne(props) {
                         ownerName={item.owner.username}
                         name={item.name}
                         id={item._id}
+                        userId={ENV.getUserKeys("_id")._id}
+                        ownerId={item.owner._id}
                       />
                     );
                   })}

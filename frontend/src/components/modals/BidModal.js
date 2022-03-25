@@ -22,6 +22,16 @@ const BidModal = (props) => {
         setExchangeRate(currentUSD);
       });
   }, []);
+  const {
+    onChange,
+    decimalNumberValidator,
+    handleModalSubmit,
+    calculatePricePercantage,
+    onHide,
+    balance,
+    price,
+  } = props;
+
   return (
     <Modal
       {...props}
@@ -52,11 +62,18 @@ const BidModal = (props) => {
             <input
               type="number"
               placeholder="Place Your Bid"
-              onChange={(e) => setBid(e.target.value)}
-              value={bid}
+              name="nftConfig.price.amount"
+              style={{ borderRadius: "4px" }}
+              onChange={(e) => onChange(e)}
+              onKeyDown={(e) => decimalNumberValidator(e)}
+              defaultValue={calculatePricePercantage()}
+              // disabled={balance===0?true:false}
+         
+              value={price}
             />
+
             <div className="dollar-rate text-end">
-              <p className="">${bid ? (bid * exchangeRate).toFixed(2) : 0}</p>
+              <p className="">${price ? (price * exchangeRate).toFixed(2) : 0}</p>
             </div>
           </div>
           <div className="inp-currency">
@@ -64,8 +81,12 @@ const BidModal = (props) => {
           </div>
         </div>
         <div className="bid-balance">
-          <p>Balance: 0.09783009 ETH</p>
+          <p>Balance: {Number(balance).toFixed(4)} ETH</p>
         </div>
+        {(balance !==''&& balance===0)&&
+
+          <p className="text-center text-danger">Please Add Balance to place bid</p>
+        }
       </Modal.Body>
       <Modal.Footer>
         <div className="modal-nft-footer">
@@ -89,7 +110,14 @@ const BidModal = (props) => {
             </p>
           </div>
         </div>
-        <Button className="btn btn-linear-gradient mt-2" onClick={props.onHide}>
+        <Button
+          className="btn btn-linear-gradient mt-2"
+          onClick={() => {
+            handleModalSubmit();
+            onHide();
+          }}
+          disabled={price < calculatePricePercantage()|| balance===0}
+        >
           Confirm Checkout
         </Button>
       </Modal.Footer>

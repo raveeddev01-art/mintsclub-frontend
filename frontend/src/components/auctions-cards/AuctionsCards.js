@@ -18,7 +18,7 @@ import { propTypes } from "react-recaptcha";
 const AuctionsCards = (props) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
-  // console.log(auctions,"auctions123")
+  const {userId,ownerId}=props;
   return (
     <Card
       className="auction-card mx-2"
@@ -60,7 +60,8 @@ const AuctionsCards = (props) => {
         </div>
         <button className="auction-bit-btn d-flex align-items-center justify-content-center">
           <img src={Bucket} alt="" className="me-1" />
-          <p>Place a Bit</p>
+
+          <p>{userId===ownerId?"View":"Place a Bid"}</p>
         </button>
       </Card.Body>
     </Card>

@@ -6,7 +6,7 @@ import abi from "./abis/v2-abi.json";
 
 
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
- console.log(mintsClubContractAddress,'mintsClubContractAddress')
+
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
 /////////////////////////////////////////////////////////////////////////////MintsClub market start /////////////////////////
@@ -29,6 +29,15 @@ const getContractMethods = async () => {
   const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
   return contractM;
 };
+export const getBalance=async()=>{
+  let web3 = await getWeb3();
+  let address=await getWalletAddress()
+ let balance=await web3.eth.getBalance(address)
+ let ethBalance = web3.utils.fromWei(balance, 'ether');
+
+ return ethBalance
+
+}
 
 export const mintNFt = async (metaData, id, amount,recipientValue) => {
   let web3 = await getWeb3();

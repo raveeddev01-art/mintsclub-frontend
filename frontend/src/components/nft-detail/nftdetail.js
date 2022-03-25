@@ -47,6 +47,7 @@ import {
   connectMetamask,
   BuyFixedPriceNFT,
   getWalletAddress,
+  getBalance
 } from "../../utils/web3";
 import {
   placeBid,
@@ -88,6 +89,8 @@ const NFTDetail = (props) => {
   const [confirmed, setConfirmed] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
   const [transactionSuccess, setTransactionSuccess] = useState(false);
+  const [bidModalShow, setBidModalShow] = useState(false);
+  const [balance,setBalance]=useState('')
   const history = useHistory();
 
   let nftId = props.match.params.id;
@@ -178,13 +181,16 @@ const NFTDetail = (props) => {
       content: "30% have this trait",
     },
   ];
-  useEffect(() => {
+
+  useEffect(async () => {
     props.getNFT(nftId);
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
     props.getBids();
+    let balance=await getBalance()
+    setBalance(balance)
   }, []);
 
   useEffect(() => {
@@ -265,8 +271,9 @@ const NFTDetail = (props) => {
         fivePerc = (5 / 100) * props.nftDetail.highestBid;
         fivePerc = fivePerc + props.nftDetail.highestBid;
       }
-
-      setPrice(fivePerc);
+      let result=fivePerc.toString().slice(0,8)
+    
+      setPrice(result);
       validateIfLiked(likedNfts, props.nftDetail);
 
       props.getNFTsByCollection(props.nftDetail.collectionId);
@@ -304,7 +311,7 @@ const NFTDetail = (props) => {
         state: nftDetail,
       });
     } else if (nftDetail.sellingMethod === 2) {
-      setIsOpen(true);
+      setBidModalShow(true);
     } else {
       setModalShow(true);
     }
@@ -348,7 +355,7 @@ const NFTDetail = (props) => {
 
   const validateIfLiked = (nfts, nft) => {
     if (nfts && nfts?.length > 0) {
-      setLoader(false);
+      // setLoader(false);
       let result = nfts.find((item) => item.nftId == nft._id);
 
       if (result) {
@@ -357,7 +364,7 @@ const NFTDetail = (props) => {
         return setToggle(false);
       }
     } else {
-      setLoader(false);
+      // setLoader(false);
       return setToggle(false);
     }
   };
@@ -392,13 +399,20 @@ const NFTDetail = (props) => {
 
   const calculatePricePercantage = () => {
     let fivePerc = "";
+    let result=''
     if (nftDetail.highestBid === 0) {
       fivePerc = (5 / 100) * nftDetail.currentPrice;
-      return fivePerc + nftDetail.currentPrice;
+    
+     result= fivePerc + nftDetail.currentPrice;
+
+      return result
     } else {
       fivePerc = (5 / 100) * nftDetail.highestBid;
-      return fivePerc + nftDetail.highestBid;
+      result= fivePerc + nftDetail.highestBid;
+      return result.toString().slice(0,8)
     }
+  
+
   };
 
   useEffect(() => {
@@ -422,7 +436,10 @@ const NFTDetail = (props) => {
     setIsOpen(false);
   };
   const onChange = (e) => {
-    setPrice(e.target.value);
+  
+  let result=e.target.value.slice(0,8)
+
+    setPrice(result);
   };
   const handleModalSubmit = async () => {
     setLoader(true);
@@ -454,6 +471,7 @@ const NFTDetail = (props) => {
         createActivity("Bid", price);
       }
     } catch (err) {
+      console.log(err, "error");
       setLoader(false);
       setIsOpen(false);
       toast.error(err);
@@ -532,8 +550,10 @@ const NFTDetail = (props) => {
   const createActivity = async (type, bidPrice) => {
     const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
     let price = "";
+    let toAddress = "";
     if (bidPrice) {
       price = bidPrice;
+      toAddress = ownerAddress;
     } else {
       price = currentPrice;
     }
@@ -543,6 +563,7 @@ const NFTDetail = (props) => {
       ownerId,
       fromAddress: await getWalletAddress(),
       activityType: type,
+      toAddress,
       price: price,
     };
     props.createActivity(activityPayload);
@@ -1184,7 +1205,6 @@ const NFTDetail = (props) => {
                                         </td>
                                         <td>
                                           <div>
-                                          
                                             <ReactTimeAgo
                                               date={activity.createdAt}
                                               locale="en-US"
@@ -1263,7 +1283,7 @@ const NFTDetail = (props) => {
             </div>
           </div>
           {/* ///////////////////////////////////// Modal */}
-          <div className="modal-wrapper">
+          {/* <div className="modal-wrapper">
             <Modal
               centered
               size="lg"
@@ -1422,7 +1442,7 @@ const NFTDetail = (props) => {
                 </button>
               </Modal.Footer>
             </Modal>
-          </div>
+          </div> */}
           <BuyModal
             show={modalShow}
             onHide={() => setModalShow(false)}
@@ -1439,8 +1459,18 @@ const NFTDetail = (props) => {
             transactionSuccess={transactionSuccess}
           />
 
-          {/* <BidModal show={modalShow} onHide={() => setModalShow(false)} /> */}
+          <BidModal
+            show={bidModalShow}
+            calculatePricePercantage={calculatePricePercantage}
+            handleModalSubmit={handleModalSubmit}
+            onChange={onChange}
+            decimalNumberValidator={decimalNumberValidator}
+            balance={balance}
+            price={price}
+            onHide={() => setBidModalShow(false)}
+          />
         </section>
+
         <Footer />
       </>
     </>
@@ -1448,28 +1478,27 @@ const NFTDetail = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
+
   {
-    nftDetail: state.nft.nftsData,
-    nftsAuth: state.nft.nftsAuth,
-    nftsByCollection: state.nft.nftsByCollection,
-    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-    myLikedNfts: state.nft.myLikedNfts,
-    myLikedNftsStatus: state.nft.myLikedNftsStatus,
-    activities: state.nft.itemActivities,
-    activitiesAuth: state.nft.activitiesAuth,
-    createAuth: state.bid.createAuth,
-    createAuthOffer: state.offer.createAuth,
-    getAuth: state.bid.getAuth,
-    getAuthOffer: state.offer.getAuth,
-    offers: state.offer.offers,
-    buyAuth: state.offer.buyAuth,
-    bids: state.bid.bids,
-    bidsByNft: state.bid.bidsByNft,
-    bidsByNftAuth: state.bid.bidsBYNftAuth,
-    togleLikeRes: state.explore.togleLikeRes,
-  }
-);
+  nftDetail: state.nft.nftsData,
+  nftsAuth: state.nft.nftsAuth,
+  nftsByCollection: state.nft.nftsByCollection,
+  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  activities: state.nft.itemActivities,
+  activitiesAuth: state.nft.activitiesAuth,
+  createAuth: state.bid.createAuth,
+  createAuthOffer: state.offer.createAuth,
+  getAuth: state.bid.getAuth,
+  getAuthOffer: state.offer.getAuth,
+  offers: state.offer.offers,
+  buyAuth: state.offer.buyAuth,
+  bids: state.bid.bids,
+  bidsByNft: state.bid.bidsByNft,
+  bidsByNftAuth: state.bid.bidsBYNftAuth,
+  togleLikeRes: state.explore.togleLikeRes,
+});
 
 export default connect(mapStateToProps, {
   getNFT,
