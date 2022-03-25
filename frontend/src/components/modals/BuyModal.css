@@ -244,6 +244,90 @@
   color: #5666fe !important;
 }
 
+.buy-modal.bid-modal .buy-modal-content .modal-body {
+  justify-content: start;
+}
+
+.buy-modal.bid-modal .modal-body .bid-inp-container {
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  height: 60px;
+}
+
+.buy-modal.bid-modal .modal-body .bid-inp-container .inp-container input {
+  padding: 0 10px;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  background-color: transparent;
+  height: 40px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.buy-modal.bid-modal
+  .modal-body
+  .bid-inp-container
+  .inp-container
+  input::-webkit-outer-spin-button,
+.buy-modal.bid-modal
+  .modal-body
+  .bid-inp-container
+  .inp-container
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.buy-modal.bid-modal
+  .modal-body
+  .bid-inp-container
+  .inp-container
+  input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.buy-modal.bid-modal .modal-body .bid-inp-container .inp-container p {
+  font-size: 14px;
+  font-weight: normal;
+  color: #d6d6d6;
+  line-height: 0;
+  margin: 0;
+  padding-bottom: 15px;
+  padding-right: 10px;
+}
+
+.buy-modal.bid-modal .modal-body .bid-inp-container .inp-currency {
+  height: 60px;
+  border-left: 1px solid #d6d6d6;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buy-modal.bid-modal .modal-body .bid-inp-container .inp-currency h6 {
+  color: #26bd29;
+  margin: 0;
+  line-height: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.buy-modal.bid-modal .modal-body .bid-balance {
+  margin-top: 20px;
+}
+
+.buy-modal.bid-modal .modal-body .bid-balance p {
+  font-size: 14px;
+  margin: 0;
+  color: #fff;
+}
+
+.buy-modal.bid-modal .buy-modal-content {
+  min-height: 500px;
+}
+
 @media (max-width: 767.9px) {
   .buy-modal .modal-body .modal-nft-purchased {
     width: 70%;

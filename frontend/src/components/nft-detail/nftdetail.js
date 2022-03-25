@@ -40,7 +40,7 @@ import {
   BsTagFill,
   GrTransaction,
   MdShoppingCart,
-  FaHandPaper
+  FaHandPaper,
 } from "react-icons/all";
 import {
   placeABid,
@@ -64,7 +64,9 @@ import {
 } from "../offers/offers.action";
 import { toast } from "react-toastify";
 import BuyModal from "../modals/BuyModal";
-import {iconByActivity} from '../../utils/exportData'
+import { iconByActivity } from "../../utils/exportData";
+import BidModal from "../modals/BidModal";
+import ReactTimeAgo from "react-time-ago";
 // import  {}
 
 const NFTDetail = (props) => {
@@ -241,14 +243,14 @@ const NFTDetail = (props) => {
       let activityQs = { nftId: props.nftDetail._id };
       activityQs = ENV.objectToQueryString(activityQs);
       props.getActivities(activityQs);
-      
+
       //get offers
       // if (props.nftDetail.sellingMethod === 1) {
       //   let qs = { offerBy: ENV.getUserKeys("_id")._id };
       //   qs = ENV.objectToQueryString(qs);
       //   props.getOffers(qs);
       // }
-       //get bids
+      //get bids
       if (nftDetail.sellingMethod === 2) {
         let nftBidsQs = { nftId };
         nftBidsQs = ENV.objectToQueryString(nftBidsQs);
@@ -545,25 +547,20 @@ const NFTDetail = (props) => {
     };
     props.createActivity(activityPayload);
   };
-  const handleAcitivityIcon=(type)=>{
-    if(type==="Mint")
-    {
-      return <MdShoppingCart/>
-    } else if(type==="List"){
-
-      return <BsTagFill/>
-    }else if(type==="Bid"){
-
-      return <FaHandPaper/>
+  const handleAcitivityIcon = (type) => {
+    if (type === "Mint") {
+      return <MdShoppingCart />;
+    } else if (type === "List") {
+      return <BsTagFill />;
+    } else if (type === "Bid") {
+      return <FaHandPaper />;
+    } else {
+      return <GrTransaction />;
     }
-    else {
-      return <GrTransaction/>
-    }
-  }
+  };
   // console.log(nftDetail,"NFTdetail")
   // console.log(bids,"bids")
   // console.log(loader,"loader")
-
 
   return (
     <>
@@ -1146,42 +1143,60 @@ const NFTDetail = (props) => {
                       >
                         <div className="accordion-body">
                           <div className="table-container">
-                            {
-                              activities&& activities.length>0 &&
-                            <table class="table table-borderless">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Event</th>
-                                  <th scope="col">Price</th>
-                                  <th scope="col">From</th>
-                                  <th scope="col">To</th>
-                                  <th scope="col">Date</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {
-                                 activities.map((activity)=>{
-                                   return(
-
-                                <tr>
-                                  <th scope="row">
-                                    <div className="d-flex align-items-center">
-
-                                    {handleAcitivityIcon(activity.activityType)}
-                                   <p className="ps-1"> {activity.activityType} </p>
-                                    </div>
-                                    </th>
-                                  <td>{activity.price?activity.price:""}</td>
-                                  <td>{activity.fromAddress?activity.fromAddress.slice(-8):"null address"}</td>
-                                  <td>{activity.toAddress?activity.toAddress.slice(-8):""} </td>
-                                  <td>an hour ago</td>
-                                </tr>
-                                   )
-                                 })
-                                }
-                              </tbody>
-                            </table>
-                            }
+                            {activities && activities.length > 0 && (
+                              <table class="table table-borderless">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Event</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">From</th>
+                                    <th scope="col">To</th>
+                                    <th scope="col">Date</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {activities.map((activity) => {
+                                    return (
+                                      <tr>
+                                        <th scope="row">
+                                          <div className="d-flex align-items-center">
+                                            {handleAcitivityIcon(
+                                              activity.activityType
+                                            )}
+                                            <p className="ps-1">
+                                              {" "}
+                                              {activity.activityType}{" "}
+                                            </p>
+                                          </div>
+                                        </th>
+                                        <td>
+                                          {activity.price ? activity.price : ""}
+                                        </td>
+                                        <td>
+                                          {activity.fromAddress
+                                            ? activity.fromAddress.slice(-8)
+                                            : "null address"}
+                                        </td>
+                                        <td>
+                                          {activity.toAddress
+                                            ? activity.toAddress.slice(-8)
+                                            : ""}{" "}
+                                        </td>
+                                        <td>
+                                          <div>
+                                          
+                                            <ReactTimeAgo
+                                              date={activity.createdAt}
+                                              locale="en-US"
+                                            />
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -1423,6 +1438,8 @@ const NFTDetail = (props) => {
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
           />
+
+          {/* <BidModal show={modalShow} onHide={() => setModalShow(false)} /> */}
         </section>
         <Footer />
       </>
@@ -1431,27 +1448,28 @@ const NFTDetail = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state,'state'),
+  console.log(state, "state"),
   {
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  activities: state.nft.itemActivities,
-  activitiesAuth: state.nft.activitiesAuth,
-  createAuth: state.bid.createAuth,
-  createAuthOffer: state.offer.createAuth,
-  getAuth: state.bid.getAuth,
-  getAuthOffer: state.offer.getAuth,
-  offers: state.offer.offers,
-  buyAuth: state.offer.buyAuth,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-});
+    nftDetail: state.nft.nftsData,
+    nftsAuth: state.nft.nftsAuth,
+    nftsByCollection: state.nft.nftsByCollection,
+    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
+    activities: state.nft.itemActivities,
+    activitiesAuth: state.nft.activitiesAuth,
+    createAuth: state.bid.createAuth,
+    createAuthOffer: state.offer.createAuth,
+    getAuth: state.bid.getAuth,
+    getAuthOffer: state.offer.getAuth,
+    offers: state.offer.offers,
+    buyAuth: state.offer.buyAuth,
+    bids: state.bid.bids,
+    bidsByNft: state.bid.bidsByNft,
+    bidsByNftAuth: state.bid.bidsBYNftAuth,
+    togleLikeRes: state.explore.togleLikeRes,
+  }
+);
 
 export default connect(mapStateToProps, {
   getNFT,

@@ -9,6 +9,13 @@ import store from "./store";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en.json'
+
+
+TimeAgo.addDefaultLocale(en)
+
 
 toast.configure({
   position: toast.POSITION.TOP_RIGHT,
