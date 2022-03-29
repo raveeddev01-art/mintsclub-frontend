@@ -171,6 +171,30 @@ export const getNFT = (nftId) => (dispatch) => {
    
     });
 };
+export const update=(body,qs='')=>(dispatch)=>{
+
+
+  dispatch(emptyError());
+
+    let url = `${ENV.url}nftLikes/userNftLikes?`;
+    url=url+qs
+    axios.put(url,body)
+    .then(function (response) {
+
+          if (response.data.success) {
+      
+         
+            } else {
+             
+            }
+    })
+    .catch(function (error) {
+      console.log(error);
+    
+    });
+  
+  
+}
 
 export const createActivity = (body) => (dispatch) => {
   dispatch(emptyError());

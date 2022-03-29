@@ -473,7 +473,8 @@ const UserProfile = (props) => {
   };
 
   const menuData = ["Collected", "Created", "Favourited"];
-
+console.log(nfts,"nfts")
+console.log(likedNfts,"likedNfts")
   return (
     <>
       <NavbarMain />
@@ -718,7 +719,7 @@ const UserProfile = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state in userProfile"),
+
   {
     profileNFTs: state.nft.profileNFTs,
     profileNFTsStatus: state.nft.profileNFTsStatus,

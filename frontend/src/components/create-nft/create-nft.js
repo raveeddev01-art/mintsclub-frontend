@@ -143,8 +143,9 @@ class CreateNFT extends Component {
     e.preventDefault();
 
     const { nft, videoURL, audioUrl } = this.state;
-    console.log(nft, "nft=>");
+ 
     let nftInfo = nft;
+
     if (videoURL) {
       nftInfo.fileType = "video";
     } else if (audioUrl !== "") {
@@ -160,6 +161,7 @@ class CreateNFT extends Component {
       },
       () => {
         const { formValid } = this.state;
+
         if (formValid) {
           this.setState(
             {
@@ -167,7 +169,10 @@ class CreateNFT extends Component {
             },
             async () => {
               var formData = new FormData();
+              delete nftInfo.currentPrice
+              console.log(nftInfo,"nftInfo")
               for (const key in nftInfo)
+
                 if (nftInfo[key]) formData.append(key, nftInfo[key]);
 
               const res = await axiosPostFormData(

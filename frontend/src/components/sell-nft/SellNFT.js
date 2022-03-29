@@ -156,17 +156,14 @@ const SellNFT = (props) => {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-  
+
     let data = null;
 
     if (sellingMethod === 1) {
       data = fixedPriceConfig;
     } else {
       data = timedAuctionConfig;
-     
     }
-
-
 
     const keys = name.split("."); // fixedPriceConfig, price, currency
 
@@ -174,8 +171,16 @@ const SellNFT = (props) => {
       data[keys[1]][keys[2]] = value;
     } else if (keys && keys[1]) data[keys[1]] = value;
 
-    if (sellingMethod === 1) setFixedPriceConfig({ ...data });
-    else setTimedAuctionConfig({ ...data });
+    if (sellingMethod === 1)
+    {
+      
+      setFixedPriceConfig({ ...data });
+    }
+    else 
+    {
+  
+      setTimedAuctionConfig({ ...data });
+    }
   };
 
   const handleDateChange = (e, picker) => {
@@ -202,11 +207,9 @@ const SellNFT = (props) => {
   const submit = async () => {
     let price = "";
     let payload = "";
-  
+
     let timedConfig = timedAuctionConfig;
 
-  
- 
     let fixedConfig = fixedPriceConfig;
     const { _id, ownerId, ownerAddress } = nftDetail;
 
@@ -218,36 +221,42 @@ const SellNFT = (props) => {
     };
 
     if (sellingMethod === 2) {
+      let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+      let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
 
-      let timedAuctionStartTime=new Date(timedConfig.duration.startDate)
-      let timedAuctionEndTime=new Date(timedConfig.duration.endDate)
+      timedAuctionEndTime = timedAuctionEndTime.toString();
+      timedAuctionEndTime =
+        timedAuctionEndTime.slice(0, 15) +
+        " " +
+        timedConfig.duration.endTime +
+        ":59" +
+        timedAuctionEndTime.slice(24);
+      timedConfig.duration.endDate = timedAuctionEndTime;
 
-      timedAuctionEndTime=timedAuctionEndTime.toString()
-      timedAuctionEndTime= timedAuctionEndTime.slice(0,15)+" "+timedConfig.duration.endTime+":59"+timedAuctionEndTime.slice(24)
-      timedConfig.duration.endDate=timedAuctionEndTime;
+      timedAuctionStartTime = timedAuctionStartTime.toString();
+      timedAuctionStartTime =
+        timedAuctionStartTime.slice(0, 15) +
+        " " +
+        timedConfig.duration.startTime +
+        ":59" +
+        timedAuctionStartTime.slice(24);
+      timedConfig.duration.startDate = timedAuctionStartTime;
 
-      timedAuctionStartTime=timedAuctionStartTime.toString()
-      timedAuctionStartTime= timedAuctionStartTime.slice(0,15)+" "+timedConfig.duration.startTime+":59"+timedAuctionStartTime.slice(24)
-      timedConfig.duration.startDate=timedAuctionStartTime;
-
-      
-      let auctionConfig=timedConfig
+      let auctionConfig = timedConfig;
       delete auctionConfig.duration.startTime;
       delete auctionConfig.duration.endTime;
       delete auctionConfig.method;
       price = Number(auctionConfig.startPrice.amount);
       auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
-   console.log(auctionConfig,"auctionConfig")
+     
       payload = {
         _id: location.state._id,
         sellingMethod,
         sellingConfig: JSON.stringify(auctionConfig),
         copiesForAuction: 1,
       };
-      console.log(payload,"payload")
-    
-  
-        } else {
+   
+    } else {
       //  fixedConfig.price.amount;
       delete fixedConfig.listingSchedule.startTime;
       delete fixedConfig.listingSchedule.endTime;
@@ -255,17 +264,15 @@ const SellNFT = (props) => {
       delete fixedConfig.listingSchedule.endDate;
       delete fixedConfig.listingSchedule;
       price = Number(fixedConfig.price.amount);
-    
+
       payload = {
         _id: location.state._id,
         sellingMethod,
         sellingConfig: JSON.stringify(fixedConfig),
         copiesForAuction: 1,
       };
-      console.log(payload,"pyalod")
-
+     
     }
-  
 
     setLoader(true);
 
@@ -395,7 +402,6 @@ const SellNFT = (props) => {
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-
 
   return (
     <>
@@ -742,11 +748,11 @@ const SellNFT = (props) => {
                                       name="timedAuctionConfig.duration"
                                       className="calender-btn"
                                     >
-                                      {fixedPriceConfig.listingSchedule.startDate.format(
+                                      {timedAuctionConfig.duration.startDate.format(
                                         "MMMM D, YYYY"
                                       )}{" "}
                                       -{" "}
-                                      {fixedPriceConfig.listingSchedule.endDate.format(
+                                      {timedAuctionConfig.duration.endDate.format(
                                         "MMMM D, YYYY"
                                       )}
                                       &nbsp;&nbsp;&nbsp;
@@ -766,7 +772,6 @@ const SellNFT = (props) => {
                                         fixedPriceConfig.listingSchedule
                                           .startTime
                                       }
-                                  
                                       required
                                     />
                                   </div>

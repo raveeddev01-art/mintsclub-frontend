@@ -48,7 +48,7 @@ const AllNFT = (props) => {
     latest: false,
   });
   useEffect(() => {
-    console.log(ENV.getUserKeys("_id")._id, "id in all nft");
+ 
     window.scroll(0, 0);
     props.getCreators();
     props.getCollections();

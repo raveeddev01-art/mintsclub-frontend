@@ -6,7 +6,7 @@ import abi from "./abis/v2-abi.json";
 
 
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
-console.log(mintsClubContractAddress,"mintsClubContractAddress")
+
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
@@ -119,7 +119,7 @@ export const putonsale= async (tokenId,amount,price)=>{
     let connectedAddress = await connectMetamask();
       const contractM = await getContractMethods();
       let weiAmount =BigInt( Number(price) * 1000000000000000000);
-   
+   console.log(weiAmount,"weiacmont23")
       let id=Number(tokenId)
    
       const result = await contractM.methods

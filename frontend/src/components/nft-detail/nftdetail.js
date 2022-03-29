@@ -39,6 +39,7 @@ import {
   AiFillHeart,
   BsTagFill,
   GrTransaction,
+  BiTransferAlt,
   MdShoppingCart,
   FaHandPaper,
 } from "react-icons/all";
@@ -538,32 +539,36 @@ const NFTDetail = (props) => {
         setTransactionHash
       );
       if (result) {
+        let ownerAddress=await getWalletAddress();
         let payload = {
           userId,
           nftId,
-          ownerAddress: await getWalletAddress(),
+          ownerAddress,
         };
         props.buyNow(payload);
-        createActivity("Transfer");
+        createActivity("Transfer",false,ownerAddress);
       }
     } catch (err) {}
   };
 
-  const createActivity = async (type, bidPrice) => {
+  const createActivity = async (type, bidPrice,address) => {
     const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
     let price = "";
     let toAddress = "";
-    if (bidPrice) {
+    if (bidPrice ) {
       price = bidPrice;
-      toAddress = ownerAddress;
     } else {
       price = currentPrice;
+    }
+
+    if(type==="Transfer"||type==="Bid"){
+      toAddress=address
     }
 
     let activityPayload = {
       nftId: _id,
       ownerId,
-      fromAddress: await getWalletAddress(),
+      fromAddress:type==="Transfer"? ownerAddress:await getWalletAddress(),
       activityType: type,
       toAddress,
       price: price,
@@ -578,11 +583,12 @@ const NFTDetail = (props) => {
     } else if (type === "Bid") {
       return <FaHandPaper />;
     } else {
-      return <GrTransaction />;
+      return <BiTransferAlt />;
     }
   };
-  console.log(nftDetail,"NFTdetail")
-  console.log(bids,"bids")
+
+  // console.log(nftDetail,"NFTdetail")
+  // console.log(bids,"bids")
   // console.log(loader,"loader")
 
   return (
@@ -651,6 +657,7 @@ const NFTDetail = (props) => {
                               />
                               Offers
                             </button>
+                            
                           </h2>
                           <div
                             id="flush-collapseTwo"
@@ -816,6 +823,7 @@ const NFTDetail = (props) => {
                               />
                               Item listing
                             </button>
+                      
                           </h2>
                           <div
                             id="flush-collapseThree"

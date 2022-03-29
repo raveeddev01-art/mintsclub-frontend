@@ -18,6 +18,7 @@ import {
   setIndividualUserData,
   getUserById,
   beforeUser,
+
 } from "./../user/user.action";
 import { signRequest } from "./../../utils/web3";
 import { ENV } from "./../../config/config";
@@ -54,12 +55,13 @@ const EditProfile = (props) => {
   });
   useEffect(() => {
     let user = ENV.getUserKeys("");
+  
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
-      console.log(props.user, "props.user==>");
+
       const {
         address,
         email,
@@ -83,7 +85,8 @@ const EditProfile = (props) => {
       setUsername(username ? username : "");
       setImageUrl(profileImage ? profileImage : "");
       setBannerUrl(bannerImage ? bannerImage : "");
-
+      setImage(profileImage?profileImage:'');
+      setBannerImage(bannerImage?bannerImage:"");
       setInstaLink(instaLink ? instaLink : "");
       setWebLink(webLink ? webLink : "");
     }
@@ -91,7 +94,9 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     if (props.user.userAuth) {
+  
       setLoader(false);
+      props.beforeUser()
       history.push("/userprofile");
     }
   }, [props.user.userAuth]);
@@ -157,7 +162,6 @@ const EditProfile = (props) => {
       twitterLink,
     };
 
-    console.log(obj, "obj");
     setErrors("");
     setLoader(true);
     setIsSubmitted(true);
@@ -191,6 +195,7 @@ const EditProfile = (props) => {
       goToTop();
     }
   };
+
   return (
     <>
       {loader && <FullPageLoader />}
@@ -398,7 +403,6 @@ const EditProfile = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
   {
     wallet: state.wallet,
     user: state.user,
