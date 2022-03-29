@@ -6,7 +6,7 @@ import ArrowUp from "../../assets/images/arrowUp.png";
 import Bucket from "../../assets/images/bucket.png";
 import "./HeroCards.css";
 
-const HeroCards = ({ CardImg }) => {
+const HeroCards = ({ CardImg, NftName, OwnerName }) => {
   return (
     <Card className="auction-card hero-card mx-2">
       <div className="auction-img-wrapper">
@@ -14,7 +14,7 @@ const HeroCards = ({ CardImg }) => {
       </div>
       <Card.Body className="d-flex flex-column">
         <div className="hero-card-title-container d-flex align-items-center justify-content-between">
-          <Card.Title>Music</Card.Title>
+          <Card.Title>{NftName}</Card.Title>
           <div className="options-icon">
             <img src={ThreeDots} alt="OptionsIcon" />
           </div>
@@ -28,7 +28,7 @@ const HeroCards = ({ CardImg }) => {
 
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
           <div className="auction-owner-name">
-            <p>Owend by Jecica</p>
+            <p>Owend by {OwnerName}</p>
           </div>
           <div className="d-flex align-items-center">
             <img src={ArrowUp} alt="" className="me-1" />

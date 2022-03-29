@@ -47,7 +47,7 @@ import {
   connectMetamask,
   BuyFixedPriceNFT,
   getWalletAddress,
-  getBalance
+  getBalance,
 } from "../../utils/web3";
 import {
   placeBid,
@@ -90,7 +90,7 @@ const NFTDetail = (props) => {
   const [transactionHash, setTransactionHash] = useState("");
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [bidModalShow, setBidModalShow] = useState(false);
-  const [balance,setBalance]=useState('')
+  const [balance, setBalance] = useState("");
   const history = useHistory();
 
   let nftId = props.match.params.id;
@@ -189,8 +189,8 @@ const NFTDetail = (props) => {
     props.getMyLikedNfts(qs);
     validateIfLiked();
     props.getBids();
-    let balance=await getBalance()
-    setBalance(balance)
+    let balance = await getBalance();
+    setBalance(balance);
   }, []);
 
   useEffect(() => {
@@ -236,8 +236,8 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.getAuth) {
+      setBids(props.bids)
       // props.beforeBid();
-      setBids(props.bids);
     }
   }, [props.getAuth]);
 
@@ -245,10 +245,15 @@ const NFTDetail = (props) => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
       setLoader(false);
+
       //get activities
       let activityQs = { nftId: props.nftDetail._id };
       activityQs = ENV.objectToQueryString(activityQs);
       props.getActivities(activityQs);
+
+      // let myBids = props.bids.filter((item) => item.nftId === nftDetail._id);
+
+      // setBids(myBids);
 
       //get offers
       // if (props.nftDetail.sellingMethod === 1) {
@@ -271,8 +276,8 @@ const NFTDetail = (props) => {
         fivePerc = (5 / 100) * props.nftDetail.highestBid;
         fivePerc = fivePerc + props.nftDetail.highestBid;
       }
-      let result=fivePerc.toString().slice(0,8)
-    
+      let result = fivePerc.toString().slice(0, 8);
+
       setPrice(result);
       validateIfLiked(likedNfts, props.nftDetail);
 
@@ -399,20 +404,18 @@ const NFTDetail = (props) => {
 
   const calculatePricePercantage = () => {
     let fivePerc = "";
-    let result=''
+    let result = "";
     if (nftDetail.highestBid === 0) {
       fivePerc = (5 / 100) * nftDetail.currentPrice;
-    
-     result= fivePerc + nftDetail.currentPrice;
 
-      return result
+      result = fivePerc + nftDetail.currentPrice;
+
+      return result;
     } else {
       fivePerc = (5 / 100) * nftDetail.highestBid;
-      result= fivePerc + nftDetail.highestBid;
-      return result.toString().slice(0,8)
+      result = fivePerc + nftDetail.highestBid;
+      return result.toString().slice(0, 8);
     }
-  
-
   };
 
   useEffect(() => {
@@ -436,8 +439,7 @@ const NFTDetail = (props) => {
     setIsOpen(false);
   };
   const onChange = (e) => {
-  
-  let result=e.target.value.slice(0,8)
+    let result = e.target.value.slice(0, 8);
 
     setPrice(result);
   };
@@ -542,7 +544,7 @@ const NFTDetail = (props) => {
           ownerAddress: await getWalletAddress(),
         };
         props.buyNow(payload);
-        createActivity("Buy");
+        createActivity("Transfer");
       }
     } catch (err) {}
   };
@@ -579,8 +581,8 @@ const NFTDetail = (props) => {
       return <GrTransaction />;
     }
   };
-  // console.log(nftDetail,"NFTdetail")
-  // console.log(bids,"bids")
+  console.log(nftDetail,"NFTdetail")
+  console.log(bids,"bids")
   // console.log(loader,"loader")
 
   return (
@@ -658,8 +660,7 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {((bids && bids.length > 0) ||
-                                    (offers && offers.length > 0)) && (
+                                  {bids && bids.length > 0 && (
                                     <thead>
                                       <tr>
                                         <th scope="col">Price</th>
@@ -1477,9 +1478,7 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-
-  {
+const mapStateToProps = (state) => ({
   nftDetail: state.nft.nftsData,
   nftsAuth: state.nft.nftsAuth,
   nftsByCollection: state.nft.nftsByCollection,

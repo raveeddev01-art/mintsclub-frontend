@@ -6,6 +6,7 @@ import abi from "./abis/v2-abi.json";
 
 
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
+console.log(mintsClubContractAddress,"mintsClubContractAddress")
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
