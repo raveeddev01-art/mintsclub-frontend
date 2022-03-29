@@ -156,17 +156,14 @@ const SellNFT = (props) => {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-  
+
     let data = null;
 
     if (sellingMethod === 1) {
       data = fixedPriceConfig;
     } else {
       data = timedAuctionConfig;
-     
     }
-
-
 
     const keys = name.split("."); // fixedPriceConfig, price, currency
 
@@ -202,11 +199,9 @@ const SellNFT = (props) => {
   const submit = async () => {
     let price = "";
     let payload = "";
-  
+
     let timedConfig = timedAuctionConfig;
 
-  
- 
     let fixedConfig = fixedPriceConfig;
     const { _id, ownerId, ownerAddress } = nftDetail;
 
@@ -218,36 +213,42 @@ const SellNFT = (props) => {
     };
 
     if (sellingMethod === 2) {
+      let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+      let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
 
-      let timedAuctionStartTime=new Date(timedConfig.duration.startDate)
-      let timedAuctionEndTime=new Date(timedConfig.duration.endDate)
+      timedAuctionEndTime = timedAuctionEndTime.toString();
+      timedAuctionEndTime =
+        timedAuctionEndTime.slice(0, 15) +
+        " " +
+        timedConfig.duration.endTime +
+        ":59" +
+        timedAuctionEndTime.slice(24);
+      timedConfig.duration.endDate = timedAuctionEndTime;
 
-      timedAuctionEndTime=timedAuctionEndTime.toString()
-      timedAuctionEndTime= timedAuctionEndTime.slice(0,15)+" "+timedConfig.duration.endTime+":59"+timedAuctionEndTime.slice(24)
-      timedConfig.duration.endDate=timedAuctionEndTime;
+      timedAuctionStartTime = timedAuctionStartTime.toString();
+      timedAuctionStartTime =
+        timedAuctionStartTime.slice(0, 15) +
+        " " +
+        timedConfig.duration.startTime +
+        ":59" +
+        timedAuctionStartTime.slice(24);
+      timedConfig.duration.startDate = timedAuctionStartTime;
 
-      timedAuctionStartTime=timedAuctionStartTime.toString()
-      timedAuctionStartTime= timedAuctionStartTime.slice(0,15)+" "+timedConfig.duration.startTime+":59"+timedAuctionStartTime.slice(24)
-      timedConfig.duration.startDate=timedAuctionStartTime;
-
-      
-      let auctionConfig=timedConfig
+      let auctionConfig = timedConfig;
       delete auctionConfig.duration.startTime;
       delete auctionConfig.duration.endTime;
       delete auctionConfig.method;
       price = Number(auctionConfig.startPrice.amount);
       auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
-   console.log(auctionConfig,"auctionConfig")
+      console.log(auctionConfig, "auctionConfig");
       payload = {
         _id: location.state._id,
         sellingMethod,
         sellingConfig: JSON.stringify(auctionConfig),
         copiesForAuction: 1,
       };
-      console.log(payload,"payload")
-    
-  
-        } else {
+      console.log(payload, "payload");
+    } else {
       //  fixedConfig.price.amount;
       delete fixedConfig.listingSchedule.startTime;
       delete fixedConfig.listingSchedule.endTime;
@@ -255,17 +256,15 @@ const SellNFT = (props) => {
       delete fixedConfig.listingSchedule.endDate;
       delete fixedConfig.listingSchedule;
       price = Number(fixedConfig.price.amount);
-    
+
       payload = {
         _id: location.state._id,
         sellingMethod,
         sellingConfig: JSON.stringify(fixedConfig),
         copiesForAuction: 1,
       };
-      console.log(payload,"pyalod")
-
+      console.log(payload, "pyalod");
     }
-  
 
     setLoader(true);
 
@@ -396,7 +395,6 @@ const SellNFT = (props) => {
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
 
-
   return (
     <>
       {loader && <FullPageLoader />}
@@ -508,6 +506,60 @@ const SellNFT = (props) => {
                                       type="text"
                                       name="fixedPriceConfig.price.amount"
                                       placeholder="Amount"
+                                      style={{
+                                        borderRadius: "4px",
+                                      }}
+                                      onChange={(e) => onChange(e)}
+                                      onKeyDown={(e) =>
+                                        decimalNumberValidator(e)
+                                      }
+                                      defaultValue={
+                                        fixedPriceConfig.price.amount
+                                      }
+                                      required
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="accordion-item">
+                            <h2
+                              className="accordion-header"
+                              id="flush-headingNine"
+                            >
+                              <button
+                                className="accordion-button collapsed"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#flush-collapseNine"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseNine"
+                              >
+                                <img
+                                  src={PriceIcon}
+                                  alt="price-history"
+                                  className="me-2"
+                                />
+                                No. of Copies
+                              </button>
+                            </h2>
+                            <div
+                              id="flush-collapseNine"
+                              className="accordion-collapse collapse"
+                              aria-labelledby="flush-headingNine"
+                            >
+                              <div className="accordion-body">
+                                <div className="sell-price-container mx-auto">
+                                  <div className="sell-price-inp d-flex align-items-center">
+                                    <div className="sell-price-currency text-center">
+                                      <span> Copies </span>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      name="timedAuctionConfig.startPrice.amount"
+                                      placeholder="Number"
                                       style={{
                                         borderRadius: "4px",
                                       }}
@@ -709,6 +761,59 @@ const SellNFT = (props) => {
                           <div className="accordion-item">
                             <h2
                               className="accordion-header"
+                              id="flush-headingTen"
+                            >
+                              <button
+                                className="accordion-button collapsed"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#flush-collapseTen"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseTen"
+                              >
+                                <img
+                                  src={PriceIcon}
+                                  alt="price-history"
+                                  className="me-2"
+                                />
+                                No. of Copies
+                              </button>
+                            </h2>
+                            <div
+                              id="flush-collapseTen"
+                              className="accordion-collapse collapse"
+                              aria-labelledby="flush-headingTen"
+                            >
+                              <div className="accordion-body">
+                                <div className="sell-price-container mx-auto">
+                                  <div className="sell-price-inp d-flex align-items-center">
+                                    <div className="sell-price-currency text-center">
+                                      <span> Copies </span>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      name="timedAuctionConfig.startPrice.amount"
+                                      placeholder="Number"
+                                      style={{
+                                        borderRadius: "4px",
+                                      }}
+                                      onChange={(e) => onChange(e)}
+                                      onKeyDown={(e) =>
+                                        decimalNumberValidator(e)
+                                      }
+                                      defaultValue={
+                                        fixedPriceConfig.price.amount
+                                      }
+                                      required
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="accordion-item">
+                            <h2
+                              className="accordion-header"
                               id="flush-headingSix"
                             >
                               <button
@@ -766,7 +871,6 @@ const SellNFT = (props) => {
                                         fixedPriceConfig.listingSchedule
                                           .startTime
                                       }
-                                  
                                       required
                                     />
                                   </div>
@@ -828,34 +932,11 @@ const SellNFT = (props) => {
                   <Card.Img variant="top" src={image} alt="AuctionTopImg" />
                 </div>
                 <Card.Body>
-                  {currentPrice !== null && (
-                    <div>
-                      <span>Current price</span>
-                      <h3>
-                        {currentPrice}
-                        <span>
-                          {" "}
-                          ($ {(currentPrice * exchangeRate).toFixed(2)})
-                        </span>
-                      </h3>
+                  <div className="detail-card-name-container d-flex align-items-center justify-content-between">
+                    <div className="detail-nft-name">
+                      <h5>{nftDetail.name}</h5>
                     </div>
-                  )}
-                  <div className=" d-flex justify-content-between align-items-center mb-2">
-                    {nftDetail.sellingMethod === 2 && (
-                      <div className="d-flex align-items-center">
-                        <img
-                          src={ClockIcon}
-                          alt="clock-icon"
-                          className="me-1"
-                        />
-                        <span>
-                          Sale ends {auctionEndTimeConversion(auctionEndDate)}{" "}
-                        </span>
-                      </div>
-                    )}
                     <div className="likes-container d-flex align-items-center">
-                      {/* <img src={HeartIcon} alt="heart-icon" className="ms-1" />
-                      <span className="ms-1">{likesCount}</span> */}
                       {toggle ? (
                         <>
                           <AiFillHeart
@@ -885,6 +966,44 @@ const SellNFT = (props) => {
                         </>
                       )}
                     </div>
+                  </div>
+                  {currentPrice !== null && (
+                    <div>
+                      <h3>
+                        {currentPrice}
+                        <span>
+                          {" "}
+                          ($ {(currentPrice * exchangeRate).toFixed(2)})
+                        </span>
+                      </h3>
+                    </div>
+                  )}
+                  <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
+                    <div className="detail-nft-owner">
+                      <p>
+                        Owned by <span>XYZ</span>
+                      </p>
+                    </div>
+                    <div className="detail-nft-copies">
+                      <p>
+                        {nftDetail.copies}{" "}
+                        {nftDetail.copies === 1 ? "Copy" : "Copies"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className=" d-flex justify-content-between align-items-center mb-2">
+                    {nftDetail.sellingMethod === 2 && (
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={ClockIcon}
+                          alt="clock-icon"
+                          className="me-1"
+                        />
+                        <span>
+                          Sale ends {auctionEndTimeConversion(auctionEndDate)}{" "}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </Card.Body>
               </Card>
