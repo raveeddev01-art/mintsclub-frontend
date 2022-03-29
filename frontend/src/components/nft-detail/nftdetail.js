@@ -15,6 +15,7 @@ import CardImg from "../../assets/images/detailnftimg.png";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import ClockIcon from "../../assets/images/clock-icon.svg";
 import DescriptionIcon from "../../assets/images/detail-description-icon.svg";
+import ArrowUp from "../../assets/images/arrowUp.png";
 import {
   getNFT,
   getNFTsByCollection,
@@ -237,7 +238,7 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.getAuth) {
-      setBids(props.bids)
+      setBids(props.bids);
       // props.beforeBid();
     }
   }, [props.getAuth]);
@@ -1037,40 +1038,9 @@ const NFTDetail = (props) => {
                     />
                   </div>
                   <Card.Body>
-                    <div>
-                      {nftDetail.currentPrice !== null && (
-                        <>
-                          <span>Current price</span>
-                          <h3>
-                            {nftDetail.currentPrice}
-                            <span>
-                              (${" "}
-                              {(nftDetail.currentPrice * exchangeRate).toFixed(
-                                2
-                              )}
-                              )
-                            </span>
-                          </h3>
-                        </>
-                      )}
-                    </div>
-                    <div className=" d-flex justify-content-between align-items-center mb-2">
-                      <div className="d-flex align-items-center">
-                        {nftDetail.sellingMethod === 2 && (
-                          <>
-                            <img
-                              src={ClockIcon}
-                              alt="clock-icon"
-                              className="me-1"
-                            />
-                            <span>
-                              Sale ends{" "}
-                              {auctionEndTimeConversion(
-                                nftDetail.auctionEndDate
-                              )}{" "}
-                            </span>
-                          </>
-                        )}
+                    <div className="detail-card-name-container d-flex align-items-center justify-content-between">
+                      <div className="detail-nft-name">
+                        <h5>{nftDetail.name}</h5>
                       </div>
                       <div className="likes-container d-flex align-items-center">
                         {toggle ? (
@@ -1103,6 +1073,54 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
+                    <div>
+                      {nftDetail.currentPrice !== null && (
+                        <>
+                          <h3>
+                            {nftDetail.currentPrice}
+                            <span>
+                              (${" "}
+                              {(nftDetail.currentPrice * exchangeRate).toFixed(
+                                2
+                              )}
+                              )
+                            </span>
+                          </h3>
+                        </>
+                      )}
+                    </div>
+                    <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
+                      <div className="detail-nft-owner">
+                        <p>
+                          Owned by <span>XYZ</span>
+                        </p>
+                      </div>
+                      <div className="detail-nft-copies">
+                        <p>
+                          {nftDetail.copies}{" "}
+                          {nftDetail.copies === 1 ? "Copy" : "Copies"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className=" d-flex justify-content-between align-items-center mb-2">
+                      <div className="d-flex align-items-center">
+                        {nftDetail.sellingMethod === 2 && (
+                          <>
+                            <img
+                              src={ClockIcon}
+                              alt="clock-icon"
+                              className="me-1"
+                            />
+                            <span>
+                              Sale ends{" "}
+                              {auctionEndTimeConversion(
+                                nftDetail.auctionEndDate
+                              )}{" "}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
                     {(nftDetail?.sellingMethod ||
                       ENV.getUserKeys("_id")._id == nftDetail.ownerId) && (
                       <>
@@ -1118,14 +1136,6 @@ const NFTDetail = (props) => {
                             ? "Buy Now"
                             : ""}
                         </button>
-                        {/* {nftDetail?.sellingMethod===1 && ENV.getUserKeys("_id")._id !== nftDetail.ownerId &&(
-                          <button
-                            className="btn buy-now-btn d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
-                            onClick={() => setModalShow(true)}
-                          >
-                            Buy Now
-                          </button>
-                        )} */}
                       </>
                     )}
                   </Card.Body>

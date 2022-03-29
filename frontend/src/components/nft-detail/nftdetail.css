@@ -385,3 +385,25 @@
   background: linear-gradient(to top, #10103c, #2a6285);
   border: none;
 }
+
+.detail-card-owner-container .detail-nft-owner p,
+.detail-card-owner-container .detail-nft-copies p {
+  font-size: 16px;
+  font-weight: normal;
+  color: #feffff;
+}
+
+.nft-detail
+  .auction-card.detail-card.card
+  .detail-card-owner-container
+  .detail-nft-owner
+  span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #26bd29;
+}
+
+.detail-card-name-container .detail-nft-name h5 {
+  font-weight: bold;
+  color: #feffff;
+}
