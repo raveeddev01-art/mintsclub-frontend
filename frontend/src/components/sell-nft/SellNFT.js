@@ -35,6 +35,7 @@ import {
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
 import axios from "axios";
+import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -89,6 +90,10 @@ const SellNFT = (props) => {
   const [copies, setCopies] = useState("");
   let nftId = props.match.params.id;
 
+  const videoElement = React.useRef(null);
+  const { playerState, togglePlay, handleOnTimeUpdate } =
+    useVideoPlayer(videoElement);
+
   useEffect(() => {
     axios
       .get(
@@ -100,10 +105,9 @@ const SellNFT = (props) => {
       });
   }, []);
 
-  useEffect(()=>{
-    console.log(timedAuctionConfig,"timedAuctionConfig")
-
-  },[timedAuctionConfig])
+  useEffect(() => {
+    console.log(timedAuctionConfig, "timedAuctionConfig");
+  }, [timedAuctionConfig]);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -177,14 +181,13 @@ const SellNFT = (props) => {
     if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
     } else if (keys && keys[1]) data[keys[1]] = value;
-console.log(data,"changed data==>")
+    console.log(data, "changed data==>");
     if (sellingMethod === 1) {
       setFixedPriceConfig({ ...data });
     } else {
       setTimedAuctionConfig({ ...data });
     }
   };
-
 
   const handleDateChange = (e, picker) => {
     const { name } = e.target;
@@ -213,9 +216,9 @@ console.log(data,"changed data==>")
     let price = "";
     let payload = "";
 
-    let timedConfig = {...timedAuctionConfig};
+    let timedConfig = { ...timedAuctionConfig };
 
-    let fixedConfig = {...fixedPriceConfig};
+    let fixedConfig = { ...fixedPriceConfig };
     const { _id, ownerId, ownerAddress } = nftDetail;
 
     let activityPayload = {
@@ -260,7 +263,6 @@ console.log(data,"changed data==>")
         sellingConfig: JSON.stringify(auctionConfig),
         copiesForAuction: copies,
       };
-      
     } else {
       //  fixedConfig.price.amount;
       delete fixedConfig.listingSchedule.startTime;
@@ -406,8 +408,7 @@ console.log(data,"changed data==>")
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-  console.log(timedAuctionConfig.duration.startDate,"timedauctionCOnfig")
-
+  console.log(timedAuctionConfig.duration.startDate, "timedauctionCOnfig");
 
   return (
     <>
@@ -534,6 +535,7 @@ console.log(data,"changed data==>")
                                           fixedPriceConfig.price.amount
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -591,6 +593,7 @@ console.log(data,"changed data==>")
                                         }
                                         value={copies}
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -772,6 +775,7 @@ console.log(data,"changed data==>")
                                           fixedPriceConfig.price.amount
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -828,6 +832,7 @@ console.log(data,"changed data==>")
                                         }
                                         value={copies}
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -871,13 +876,13 @@ console.log(data,"changed data==>")
                                         className="calender-btn"
                                         type="button"
                                       >
-                                        {moment(timedAuctionConfig.duration.startDate).format(
-                                          "MMMM D, YYYY"
-                                        )}{" "}
+                                        {moment(
+                                          timedAuctionConfig.duration.startDate
+                                        ).format("MMMM D, YYYY")}{" "}
                                         -{" "}
-                                        {moment(timedAuctionConfig.duration.endDate).format(
-                                          "MMMM D, YYYY"
-                                        )}
+                                        {moment(
+                                          timedAuctionConfig.duration.endDate
+                                        ).format("MMMM D, YYYY")}
                                         &nbsp;&nbsp;&nbsp;
                                         <i className="fas fa-calendar-week" />
                                       </button>
@@ -895,6 +900,7 @@ console.log(data,"changed data==>")
                                           timedAuctionConfig.duration.startTime
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
 
@@ -909,6 +915,7 @@ console.log(data,"changed data==>")
                                           timedAuctionConfig.duration.endTime
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -953,7 +960,32 @@ console.log(data,"changed data==>")
               <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
-                    <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+                    {/* <Card.Img variant="top" src={image} alt="AuctionTopImg" /> */}
+
+                    {/* //InCaseOfVideoCard */}
+                    <div className="card-img-top">
+                      <div className="video-wrapper">
+                        <video
+                          src={nftDetail.image}
+                          ref={videoElement}
+                          onTimeUpdate={handleOnTimeUpdate}
+                        />
+                        <div className="controls">
+                          <div className="actions">
+                            <button
+                              className="play-pause-btn d-flex align-items-center justify-content-center"
+                              onClick={togglePlay}
+                            >
+                              {playerState.isPlaying ? (
+                                <i className="fa fa-pause"></i>
+                              ) : (
+                                <i className="fa fa-play"></i>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">

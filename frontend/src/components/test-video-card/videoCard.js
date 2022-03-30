@@ -5,8 +5,9 @@ import HeartIcon from "../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
 import "./videoCard.css";
 import useVideoPlayer from "./components/useVideoPlayer";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 
-const VideoCards = ({
+const VideoCard = ({
   CardImg,
   handleLikesTogleApi,
   id,
@@ -51,11 +52,14 @@ const VideoCards = ({
             />
             <div className="controls">
               <div className="actions">
-                <button className="play-pause-btn" onClick={togglePlay}>
+                <button
+                  className="play-pause-btn d-flex align-items-center justify-content-center"
+                  onClick={togglePlay}
+                >
                   {playerState.isPlaying ? (
-                    <i className="fa fa-play"></i>
+                    <BsFillPauseFill />
                   ) : (
-                    <i className="fa fa-pause"></i>
+                    <BsFillPlayFill />
                   )}
                 </button>
               </div>
@@ -112,4 +116,4 @@ const VideoCards = ({
   );
 };
 
-export default VideoCards;
+export default VideoCard;

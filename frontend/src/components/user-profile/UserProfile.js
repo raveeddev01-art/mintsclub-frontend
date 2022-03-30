@@ -17,6 +17,7 @@ import { getUserById, beforeUser } from "../user/user.action";
 import { Images } from "../../assets/assets";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import { Link } from "react-router-dom";
+import VideoCard from "../test-video-card/videoCard";
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -473,8 +474,8 @@ const UserProfile = (props) => {
   };
 
   const menuData = ["Collected", "Created", "Favourited"];
-console.log(nfts,"nfts")
-console.log(likedNfts,"likedNfts")
+  console.log(nfts, "nfts");
+  console.log(likedNfts, "likedNfts");
   return (
     <>
       <NavbarMain />
@@ -675,18 +676,33 @@ console.log(likedNfts,"likedNfts")
                     nfts.map((listing) => {
                       return (
                         <div className="col-6 col-md-4 col-lg-3 px-1">
-                          <ListingCards
-                            CardImg={listing.image}
-                            name={listing.name}
-                            price={listing.currentPrice}
-                            handleLikesTogleApi={handleLikesTogleApi}
-                            id={listing._id}
-                            likesCount={listing.likeCount}
-                            likedNfts={likedNfts}
-                            ownerId={listing.ownerId}
-                            sellingMethod={listing.sellingMethod}
-                            // userProfile
-                          />
+                          {listing.fileType === "image" ? (
+                            <ListingCards
+                              CardImg={listing.image}
+                              name={listing.name}
+                              price={listing.currentPrice}
+                              handleLikesTogleApi={handleLikesTogleApi}
+                              id={listing._id}
+                              likesCount={listing.likeCount}
+                              likedNfts={likedNfts}
+                              ownerId={listing.ownerId}
+                              sellingMethod={listing.sellingMethod}
+                              // userProfile
+                            />
+                          ) : (
+                            <VideoCard
+                              CardImg={listing.image}
+                              name={listing.name}
+                              price={listing.currentPrice}
+                              handleLikesTogleApi={handleLikesTogleApi}
+                              id={listing._id}
+                              likesCount={listing.likeCount}
+                              likedNfts={likedNfts}
+                              ownerId={listing.ownerId}
+                              fileType={listing.fileType}
+                              sellingMethod={listing.sellingMethod}
+                            />
+                          )}
                         </div>
                       );
                     })
@@ -718,18 +734,15 @@ console.log(likedNfts,"likedNfts")
   );
 };
 
-const mapStateToProps = (state) => (
-
-  {
-    profileNFTs: state.nft.profileNFTs,
-    profileNFTsStatus: state.nft.profileNFTsStatus,
-    myLikedNfts: state.nft.myLikedNfts,
-    myLikedNftsStatus: state.nft.myLikedNftsStatus,
-    individualUser: state.user.individualUser,
-    individualUserAuth: state.user.individualUserAuth,
-    togleLikeRes: state.explore.togleLikeRes,
-  }
-);
+const mapStateToProps = (state) => ({
+  profileNFTs: state.nft.profileNFTs,
+  profileNFTsStatus: state.nft.profileNFTsStatus,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  individualUser: state.user.individualUser,
+  individualUserAuth: state.user.individualUserAuth,
+  togleLikeRes: state.explore.togleLikeRes,
+});
 
 export default connect(mapStateToProps, {
   getProfileNfts,
