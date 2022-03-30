@@ -97,3 +97,38 @@
 .auction-card .card-body .auction-bit-btn:hover {
   background: linear-gradient(to top, #4355ff, #5695fd);
 }
+
+.auction-card.card .card-img-top .video-wrapper {
+  height: 250px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.auction-card.card .card-img-top video {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.auction-card.card .card-img-top .video-wrapper .controls {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  padding: 14px;
+}
+
+.auction-card.card .card-img-top .video-wrapper .actions .play-pause-btn {
+  background: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -48,7 +48,6 @@ const AllNFT = (props) => {
     latest: false,
   });
   useEffect(() => {
- 
     window.scroll(0, 0);
     props.getCreators();
     props.getCollections();
@@ -413,7 +412,7 @@ const AllNFT = (props) => {
 
         setLikedNfts(result);
         increOrDecreLikes(nftId, "dec");
-      
+
         props.toggleLikeDislike(body);
       }
 

@@ -17,8 +17,8 @@ const useVideoPlayer = (videoElement) => {
 
   useEffect(() => {
     playerState.isPlaying
-      ? videoElement.current.play()
-      : videoElement.current.pause();
+      ? videoElement?.current?.play()
+      : videoElement?.current?.pause();
   }, [playerState.isPlaying, videoElement]);
 
   return {

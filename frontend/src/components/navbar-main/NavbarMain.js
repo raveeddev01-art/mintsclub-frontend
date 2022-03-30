@@ -56,7 +56,7 @@ const NavbarMain = (props) => {
                 title="Explore"
                 id="navbarScrollingDropdown"
                 active={activeTab === 1}
-                defaultActiveKey={activeTab}
+                defaultactivekey={activeTab}
                 className={`nav-main-link dropdown-bg`}
               >
                 <NavDropdown.Item
@@ -132,7 +132,7 @@ const NavbarMain = (props) => {
             </Nav>
           </Navbar.Collapse>
           <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
-            <div class="search-box ">
+            <div className="search-box ">
               <input
                 className={`search-txt ${searchactive ? "activeSearch" : ""}`}
                 type="text"

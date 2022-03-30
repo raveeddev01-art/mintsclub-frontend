@@ -20,6 +20,7 @@ import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
 import { toggleLikeDislike } from "../explore/explore.action";
 import Breadcrumb from "../breadcrumb/breadcrumb";
+import VideoCard from "../test-video-card/videoCard";
 
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -570,17 +571,32 @@ const CollectionDetailsPage = (props) => {
                       nfts.map((listing) => {
                         return (
                           <div className="col-6 col-md-4 col-lg-3 px-1">
-                            <ListingCards
-                              CardImg={listing.image}
-                              name={listing.name}
-                              price={listing.currentPrice}
-                              handleLikesTogleApi={handleLikesTogleApi}
-                              id={listing._id}
-                              likesCount={listing.likeCount}
-                              likedNfts={likedNfts}
-                              ownerId={listing.ownerId}
-                              sellingMethod={listing.sellingMethod}
-                            />
+                            {listing.fileType === "image" ? (
+                              <ListingCards
+                                CardImg={listing.image}
+                                name={listing.name}
+                                price={listing.currentPrice}
+                                handleLikesTogleApi={handleLikesTogleApi}
+                                id={listing._id}
+                                likesCount={listing.likeCount}
+                                likedNfts={likedNfts}
+                                ownerId={listing.ownerId}
+                                sellingMethod={listing.sellingMethod}
+                              />
+                            ) : (
+                              <VideoCard
+                                CardImg={listing.image}
+                                name={listing.name}
+                                price={listing.currentPrice}
+                                handleLikesTogleApi={handleLikesTogleApi}
+                                id={listing._id}
+                                likesCount={listing.likeCount}
+                                likedNfts={likedNfts}
+                                ownerId={listing.ownerId}
+                                fileType={listing.fileType}
+                                sellingMethod={listing.sellingMethod}
+                              />
+                            )}
                           </div>
                         );
                       })
