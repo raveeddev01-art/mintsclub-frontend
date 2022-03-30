@@ -96,7 +96,7 @@ class CreateNFT extends Component {
 
       if (!collections.length) {
         toast.info("Please add a collection first");
-        return this.props.history.push("/collection/create");
+        return this.props.history.push("/createcollection");
       } else {
         this.setState({
           collections: collections,

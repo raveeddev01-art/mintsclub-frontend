@@ -238,7 +238,7 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.getAuth) {
-      setBids(props.bids);
+      // setBids(props.bids);
       // props.beforeBid();
     }
   }, [props.getAuth]);
@@ -253,9 +253,9 @@ const NFTDetail = (props) => {
       activityQs = ENV.objectToQueryString(activityQs);
       props.getActivities(activityQs);
 
-      // let myBids = props.bids.filter((item) => item.nftId === nftDetail._id);
+      let myBids = props.bids.filter((item) => item.nftId === nftDetail._id);
 
-      // setBids(myBids);
+      setBids(myBids);
 
       //get offers
       // if (props.nftDetail.sellingMethod === 1) {
@@ -540,36 +540,37 @@ const NFTDetail = (props) => {
         setTransactionHash
       );
       if (result) {
-        let ownerAddress=await getWalletAddress();
+        let ownerAddress = await getWalletAddress();
         let payload = {
           userId,
           nftId,
           ownerAddress,
         };
         props.buyNow(payload);
-        createActivity("Transfer",false,ownerAddress);
+        createActivity("Transfer", false, ownerAddress);
       }
     } catch (err) {}
   };
 
-  const createActivity = async (type, bidPrice,address) => {
+  const createActivity = async (type, bidPrice, address) => {
     const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
     let price = "";
     let toAddress = "";
-    if (bidPrice ) {
+    if (bidPrice) {
       price = bidPrice;
     } else {
       price = currentPrice;
     }
 
-    if(type==="Transfer"||type==="Bid"){
-      toAddress=address
+    if (type === "Transfer" || type === "Bid") {
+      toAddress = address;
     }
 
     let activityPayload = {
       nftId: _id,
       ownerId,
-      fromAddress:type==="Transfer"? ownerAddress:await getWalletAddress(),
+      fromAddress:
+        type === "Transfer" ? ownerAddress : await getWalletAddress(),
       activityType: type,
       toAddress,
       price: price,
@@ -658,7 +659,6 @@ const NFTDetail = (props) => {
                               />
                               Offers
                             </button>
-                            
                           </h2>
                           <div
                             id="flush-collapseTwo"
@@ -668,28 +668,27 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {bids && bids.length > 0 && (
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">USD Price</th>
-                                        <th scope="col">Floor Difference</th>
-                                        {/* <th scope="col">Expiration</th> */}
-                                        <th scope="col">From</th>
-                                        <th scope="col">{""}</th>
-                                      </tr>
-                                    </thead>
-                                  )}
+                                  {bids &&
+                                    bids.length > 0 &&
+                                    (
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">USD Price</th>
+                                          <th scope="col">Floor Difference</th>
+                                          {/* <th scope="col">Expiration</th> */}
+                                          <th scope="col">From</th>
+                                          <th scope="col">{""}</th>
+                                        </tr>
+                                      </thead>
+                                    )}
                                   <tbody>
-                                    {nftDetail.sellingMethod === 2 ? (
+                                    {
                                       <>
-                                        {bids && bids.length > 0 ? (
-                                          bids
-                                            .filter(
-                                              (item) =>
-                                                item.nftId === nftDetail._id
-                                            )
-                                            .map((bid) => {
+                                        {bids &&
+                                        bids.length > 0 ?
+                                       (
+                                        bids.map((bid) => {
                                               return (
                                                 <tr>
                                                   <th scope="row">
@@ -742,62 +741,7 @@ const NFTDetail = (props) => {
                                           </p>
                                         )}
                                       </>
-                                    ) : (
-                                      <>
-                                        {offers && offers.length > 0 ? (
-                                          offers.map((offer) => {
-                                            return (
-                                              <tr>
-                                                <th scope="row">
-                                                  {offer.price} ETH
-                                                </th>
-                                                <td>
-                                                  $
-                                                  {(
-                                                    offer.price * exchangeRate
-                                                  ).toFixed(2)}
-                                                </td>
-                                                <td>
-                                                  {getPercentageChange(
-                                                    offer.price,
-                                                    nftDetail.lowestNftPrice
-                                                  ).toFixed(0)}
-                                                  %{" "}
-                                                  {offer.price >
-                                                  nftDetail.lowestNftPrice
-                                                    ? "above"
-                                                    : "below"}
-                                                </td>
-                                                {/* <td>an hour ago</td> */}
-                                                <td>
-                                                  {offer.fromAddress.slice(
-                                                    3,
-                                                    8
-                                                  )}
-                                                </td>
-                                                {ENV.getUserKeys("_id")._id ===
-                                                  offer.ownerId && (
-                                                  <td>
-                                                    <button
-                                                      className="cancel-Bid-btn"
-                                                      onClick={() =>
-                                                        deleteOffer(offer._id)
-                                                      }
-                                                    >
-                                                      Cancel
-                                                    </button>
-                                                  </td>
-                                                )}
-                                              </tr>
-                                            );
-                                          })
-                                        ) : (
-                                          <p className="text-center d-flex justify-content-center align-items-center">
-                                            No Offers Found
-                                          </p>
-                                        )}
-                                      </>
-                                    )}
+                                    }
                                   </tbody>
                                 </table>
                               </div>
@@ -824,7 +768,6 @@ const NFTDetail = (props) => {
                               />
                               Item listing
                             </button>
-                      
                           </h2>
                           <div
                             id="flush-collapseThree"
@@ -1006,19 +949,23 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="contact-address d-flex justify-content-between">
                                 <p>Contract Address</p>
-                                <span>0x7227...3335</span>
+                                <span>
+                                  {ENV.mintsClubContractAddress.slice(0, 6) +
+                                    "...." +
+                                    ENV.mintsClubContractAddress.slice(-6)}
+                                </span>
                               </div>
                               <div className="d-flex justify-content-between">
                                 <p>Token ID</p>
-                                <p>1584563428....</p>
+                                <p>{nftDetail.nftToken}</p>
                               </div>
                               <div className="d-flex justify-content-between">
                                 <p>Token Standard </p>
-                                <p>ERC-721</p>
+                                <p>ERC-1155</p>
                               </div>
                               <div className="d-flex justify-content-between">
                                 <p>Blockchain </p>
-                                <p>Polygon</p>
+                                <p>Ethereum</p>
                               </div>
                             </div>
                           </div>

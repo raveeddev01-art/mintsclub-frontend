@@ -14,7 +14,7 @@ import Author from "./components/author/author";
 import Profile from "./components/profile/profile";
 import CreateNFT from "./components/create-nft/create-nft";
 import MyCollections from "./components/collections/my-collections";
-// import CreateCollection from "./components/create-collection/create-collection";
+import CreateCollections from "./components/create-collection/create-collection";
 import CollectionDetails from "./components/collections/collection-details";
 import Wallet from "./components/wallet/wallet";
 import Signup from "./components/signup/signup";
@@ -31,7 +31,7 @@ import UserProfile from "./components/user-profile/UserProfile";
 import TopSellerList from "./components/top-seller/topsellerlist";
 import AuctionsList from "./components/auctions/home-auction-list";
 import EditProfile from "./components/user-profile/user-edit-profile";
-import CreateCollections from "./components/creat-collections/CreateCollections";
+// import CreateCollections from "./components/creat-collections/CreateCollections";
 
 // routes
 const routes = [
