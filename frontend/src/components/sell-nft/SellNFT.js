@@ -35,6 +35,7 @@ import {
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
 import axios from "axios";
+import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -88,6 +89,10 @@ const SellNFT = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
   const [copies, setCopies] = useState("");
   let nftId = props.match.params.id;
+
+  const videoElement = React.useRef(null);
+  const { playerState, togglePlay, handleOnTimeUpdate } =
+    useVideoPlayer(videoElement);
 
   useEffect(() => {
     axios
@@ -400,7 +405,6 @@ const SellNFT = (props) => {
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
 
-
   return (
     <>
       {loader && <FullPageLoader />}
@@ -526,6 +530,7 @@ const SellNFT = (props) => {
                                           fixedPriceConfig.price.amount
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -583,6 +588,7 @@ const SellNFT = (props) => {
                                         }
                                         value={copies}
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -764,6 +770,7 @@ const SellNFT = (props) => {
                                           fixedPriceConfig.price.amount
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -820,6 +827,7 @@ const SellNFT = (props) => {
                                         }
                                         value={copies}
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -887,6 +895,7 @@ const SellNFT = (props) => {
                                           timedAuctionConfig.duration.startTime
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
 
@@ -901,6 +910,7 @@ const SellNFT = (props) => {
                                           timedAuctionConfig.duration.endTime
                                         }
                                         required
+                                        autoComplete="off"
                                       />
                                     </div>
                                   </div>
@@ -945,7 +955,32 @@ const SellNFT = (props) => {
               <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
-                    <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+                    {/* <Card.Img variant="top" src={image} alt="AuctionTopImg" /> */}
+
+                    {/* //InCaseOfVideoCard */}
+                    <div className="card-img-top">
+                      <div className="video-wrapper">
+                        <video
+                          src={nftDetail.image}
+                          ref={videoElement}
+                          onTimeUpdate={handleOnTimeUpdate}
+                        />
+                        <div className="controls">
+                          <div className="actions">
+                            <button
+                              className="play-pause-btn d-flex align-items-center justify-content-center"
+                              onClick={togglePlay}
+                            >
+                              {playerState.isPlaying ? (
+                                <i className="fa fa-pause"></i>
+                              ) : (
+                                <i className="fa fa-play"></i>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">

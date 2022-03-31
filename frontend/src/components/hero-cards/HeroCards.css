@@ -4,6 +4,11 @@
   max-width: 370px;
 }
 
+.auction-card.hero-card.card .auction-img-wrapper {
+  height: 270px;
+  width: 290px;
+}
+
 .auction-card.hero-card.card .card-img-top {
   width: 290px;
   height: 270px;

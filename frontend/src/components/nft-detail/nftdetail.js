@@ -70,6 +70,7 @@ import BuyModal from "../modals/BuyModal";
 import { iconByActivity } from "../../utils/exportData";
 import BidModal from "../modals/BidModal";
 import ReactTimeAgo from "react-time-ago";
+import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 // import  {}
 
 const NFTDetail = (props) => {
@@ -94,6 +95,10 @@ const NFTDetail = (props) => {
   const [bidModalShow, setBidModalShow] = useState(false);
   const [balance, setBalance] = useState("");
   const history = useHistory();
+
+  const videoElement = React.useRef(null);
+  const { playerState, togglePlay, handleOnTimeUpdate } =
+    useVideoPlayer(videoElement);
 
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
@@ -993,11 +998,36 @@ const NFTDetail = (props) => {
               <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
-                    <Card.Img
+                    {/* <Card.Img
                       variant="top"
                       src={nftDetail.image}
                       alt="AuctionTopImg"
-                    />
+                    /> */}
+
+                    {/* //InCaseOfVideoCard */}
+                    <div className="card-img-top">
+                      <div className="video-wrapper">
+                        <video
+                          src={nftDetail.image}
+                          ref={videoElement}
+                          onTimeUpdate={handleOnTimeUpdate}
+                        />
+                        <div className="controls">
+                          <div className="actions">
+                            <button
+                              className="play-pause-btn d-flex align-items-center justify-content-center"
+                              onClick={togglePlay}
+                            >
+                              {playerState.isPlaying ? (
+                                <i className="fa fa-pause"></i>
+                              ) : (
+                                <i className="fa fa-play"></i>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">

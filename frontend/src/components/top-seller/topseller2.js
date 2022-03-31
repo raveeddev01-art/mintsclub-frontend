@@ -167,7 +167,10 @@ const TopSeller = (props) => {
                           >
                             {author.username}
                           </Link>
-                          <span className='text-end'>{'256.6ETH'}</span>
+                          <span className='text-end'>
+                            {' '}
+                            {author.totalETH.toFixed(0)}
+                          </span>
                         </div>
                       </div>
                     </div>

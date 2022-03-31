@@ -83,7 +83,6 @@ function AuctionsOne(props) {
     }
   }, [auctions]);
 
-
   useEffect(() => {
     props.getCategories();
   }, []);
@@ -98,7 +97,6 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-
 
   return (
     <section className="live-auctions-area padding-wrapper">
