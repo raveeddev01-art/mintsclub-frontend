@@ -21,6 +21,7 @@ import { ENV } from "../../config/config";
 import { toggleLikeDislike } from "../explore/explore.action";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import VideoCard from "../test-video-card/videoCard";
+import BannerPh from "../../assets/images/collection-detailBg.png";
 
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -388,14 +389,14 @@ const CollectionDetailsPage = (props) => {
           <NavbarMain />
           <Breadcrumb title1={"Collections"} title2={"CollectionDetail"} />
           <div className="collection-detail-hero w-100">
-            <img className="w-100" src={banner} alt="BannerImg" />
+            <img className="w-100" src={BannerPh} alt="BannerImg" />
           </div>
           <div className="collection-detail-content">
             <div className="container">
               <div className="row">
                 <div className="col-12">
                   <div className="collection-owner-avatar">
-                    <img src={banner} alt="owner-avatar" />
+                    <img src={logo} alt="owner-avatar" />
                   </div>
                   <div className="d-md-flex align-items-center justify-content-between mt-5">
                     <div className="collection-owner-detail">

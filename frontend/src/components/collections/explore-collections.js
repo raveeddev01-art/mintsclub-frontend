@@ -190,10 +190,10 @@ const ExploreCollections = forwardRef((props, ref) => {
                   return (
                     <div className="col-sm-6 col-lg-4">
                       <CollectionsCard
-                        CardImg={collection.banner}
-                        Subimg1={collection.logo}
-                        Subimg2={collection.featuredImg}
-                        Subimg3={collection.banner}
+                        CardImg={collection.featuredImg}
+                        Subimg1={collection.featuredImg}
+                        Subimg2={collection.logo}
+                        Subimg3={collection.featuredImg}
                         name={collection.name}
                         id={collection._id}
                         collection={collection}
