@@ -243,7 +243,7 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.getAuth) {
-      // setBids(props.bids);
+      setBids(props.bids);
       // props.beforeBid();
     }
   }, [props.getAuth]);
@@ -258,9 +258,9 @@ const NFTDetail = (props) => {
       activityQs = ENV.objectToQueryString(activityQs);
       props.getActivities(activityQs);
 
-      let myBids = props.bids.filter((item) => item.nftId === nftDetail._id);
+      // let myBids = props.bids?.filter((item) => item.nftId === nftDetail._id);
 
-      setBids(myBids);
+      // setBids(myBids);
 
       //get offers
       // if (props.nftDetail.sellingMethod === 1) {
@@ -593,8 +593,31 @@ const NFTDetail = (props) => {
       return <BiTransferAlt />;
     }
   };
+ 
+  const checkIfAuctionStartedorEnded = (startDate, endDate) => {
+  
+    if (startDate && endDate) {
+     
+      let currentDate = new Date();
+      let auctionStartDate = new Date(startDate);
+      let auctionEndDate = new Date(endDate);
 
-  console.log(nftDetail, "NFTdetail");
+      if (
+        auctionStartDate.setHours(0, 0, 0, 0) <=
+          currentDate.setHours(0, 0, 0, 0) &&
+        auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0)
+      ) {
+        return true;
+      }else {
+        return false
+      }
+    } else {
+      return true;
+    }
+  };
+
+  // console.log(nftDetail, "NFTdetail");
+  // console.log(ENV.getUserKeys("_id")._id, "id");
   // console.log(bids,"bids")
   // console.log(loader,"loader")
 
@@ -689,7 +712,7 @@ const NFTDetail = (props) => {
                                     {
                                       <>
                                         {bids && bids.length > 0 ? (
-                                          bids.map((bid) => {
+                                          bids.filter((bid)=>bid.nftId===nftDetail._id).map((bid) => {
                                             return (
                                               <tr>
                                                 <th scope="row">
@@ -1075,38 +1098,50 @@ const NFTDetail = (props) => {
                       <div className="d-flex align-items-center">
                         {nftDetail.sellingMethod === 2 && (
                           <>
-                            <img
-                              src={ClockIcon}
-                              alt="clock-icon"
-                              className="me-1"
-                            />
-                            <span>
-                              Sale ends{" "}
-                              {auctionEndTimeConversion(
-                                nftDetail.auctionEndDate
-                              )}{" "}
-                            </span>
+                            {nftDetail.auctionEndDate &&
+                              checkIfAuctionStartedorEnded(
+                                nftDetail?.auctionStartDate,
+                                nftDetail?.auctionEndDate
+                              ) && (
+                                <>
+                                  <img
+                                    src={ClockIcon}
+                                    alt="clock-icon"
+                                    className="me-1"
+                                  />
+                                  <span>
+                                    Sale ends{" "}
+                                    {auctionEndTimeConversion(
+                                      nftDetail.auctionEndDate
+                                    )}{" "}
+                                  </span>
+                                </>
+                              )}
                           </>
                         )}
                       </div>
                     </div>
                     {(nftDetail?.sellingMethod ||
-                      ENV.getUserKeys("_id")._id == nftDetail.ownerId) && (
-                      <>
-                        <button
-                          className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
-                          onClick={() => handleRouting()}
-                        >
-                          {ENV.getUserKeys("_id")._id == nftDetail.ownerId
-                            ? "Sell"
-                            : nftDetail?.sellingMethod === 2
-                            ? "Place Bid"
-                            : nftDetail?.sellingMethod === 1
-                            ? "Buy Now"
-                            : ""}
-                        </button>
-                      </>
-                    )}
+                      ENV.getUserKeys("_id")._id == nftDetail.ownerId) &&
+                      checkIfAuctionStartedorEnded(
+                        nftDetail?.auctionStartDate,
+                        nftDetail?.auctionEndDate
+                      ) && (
+                        <>
+                          <button
+                            className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
+                            onClick={() => handleRouting()}
+                          >
+                            {ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                              ? "Sell"
+                              : nftDetail?.sellingMethod === 2
+                              ? "Place Bid"
+                              : nftDetail?.sellingMethod === 1
+                              ? "Buy Now"
+                              : ""}
+                          </button>
+                        </>
+                      )}
                   </Card.Body>
                 </Card>
                 <div className="detail-description-content mt-5">

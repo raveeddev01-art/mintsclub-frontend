@@ -106,10 +106,6 @@ const SellNFT = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(timedAuctionConfig, "timedAuctionConfig");
-  }, [timedAuctionConfig]);
-
-  useEffect(() => {
     window.scroll(0, 0);
     props.getNFT(nftId);
     let qs = { userId: ENV.getUserKeys("_id")._id };
@@ -165,7 +161,7 @@ const SellNFT = (props) => {
   }, [props.error]);
 
   const onChange = (e) => {
-    console.log("onCHange1");
+  
     const { name, value } = e.target;
 
     let data = null;
@@ -181,7 +177,7 @@ const SellNFT = (props) => {
     if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
     } else if (keys && keys[1]) data[keys[1]] = value;
-    console.log(data, "changed data==>");
+  
     if (sellingMethod === 1) {
       setFixedPriceConfig({ ...data });
     } else {
@@ -212,7 +208,7 @@ const SellNFT = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log("chal gya");
+  
     let price = "";
     let payload = "";
 
@@ -408,7 +404,6 @@ const SellNFT = (props) => {
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-  console.log(timedAuctionConfig.duration.startDate, "timedauctionCOnfig");
 
   return (
     <>
