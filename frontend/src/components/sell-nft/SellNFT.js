@@ -100,11 +100,6 @@ const SellNFT = (props) => {
       });
   }, []);
 
-  useEffect(()=>{
-    console.log(timedAuctionConfig,"timedAuctionConfig")
-
-  },[timedAuctionConfig])
-
   useEffect(() => {
     window.scroll(0, 0);
     props.getNFT(nftId);
@@ -161,7 +156,7 @@ const SellNFT = (props) => {
   }, [props.error]);
 
   const onChange = (e) => {
-    console.log("onCHange1");
+  
     const { name, value } = e.target;
 
     let data = null;
@@ -177,14 +172,13 @@ const SellNFT = (props) => {
     if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
     } else if (keys && keys[1]) data[keys[1]] = value;
-console.log(data,"changed data==>")
+  
     if (sellingMethod === 1) {
       setFixedPriceConfig({ ...data });
     } else {
       setTimedAuctionConfig({ ...data });
     }
   };
-
 
   const handleDateChange = (e, picker) => {
     const { name } = e.target;
@@ -209,13 +203,13 @@ console.log(data,"changed data==>")
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log("chal gya");
+  
     let price = "";
     let payload = "";
 
-    let timedConfig = {...timedAuctionConfig};
+    let timedConfig = { ...timedAuctionConfig };
 
-    let fixedConfig = {...fixedPriceConfig};
+    let fixedConfig = { ...fixedPriceConfig };
     const { _id, ownerId, ownerAddress } = nftDetail;
 
     let activityPayload = {
@@ -260,7 +254,6 @@ console.log(data,"changed data==>")
         sellingConfig: JSON.stringify(auctionConfig),
         copiesForAuction: copies,
       };
-      
     } else {
       //  fixedConfig.price.amount;
       delete fixedConfig.listingSchedule.startTime;
@@ -406,7 +399,6 @@ console.log(data,"changed data==>")
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-  console.log(timedAuctionConfig.duration.startDate,"timedauctionCOnfig")
 
 
   return (
@@ -871,13 +863,13 @@ console.log(data,"changed data==>")
                                         className="calender-btn"
                                         type="button"
                                       >
-                                        {moment(timedAuctionConfig.duration.startDate).format(
-                                          "MMMM D, YYYY"
-                                        )}{" "}
+                                        {moment(
+                                          timedAuctionConfig.duration.startDate
+                                        ).format("MMMM D, YYYY")}{" "}
                                         -{" "}
-                                        {moment(timedAuctionConfig.duration.endDate).format(
-                                          "MMMM D, YYYY"
-                                        )}
+                                        {moment(
+                                          timedAuctionConfig.duration.endDate
+                                        ).format("MMMM D, YYYY")}
                                         &nbsp;&nbsp;&nbsp;
                                         <i className="fas fa-calendar-week" />
                                       </button>

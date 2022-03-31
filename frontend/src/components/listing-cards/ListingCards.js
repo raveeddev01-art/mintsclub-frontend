@@ -19,7 +19,8 @@ const ListingCards = ({
   userProfile,
   ownerId,
   sellingMethod,
- 
+  auctionStartDate,
+  auctionEndDate,
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -34,6 +35,24 @@ const ListingCards = ({
         return true;
       } else {
         return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  const checkIfAuctionStartedorEnded = (startDate, endDate) => {
+    if (startDate !== null || endDate !== null) {
+      let currentDate = new Date();
+      let auctionStartDate = new Date(startDate);
+      let auctionEndDate = new Date(endDate);
+
+      if (
+        auctionStartDate.setHours(0, 0, 0, 0) <=
+          currentDate.setHours(0, 0, 0, 0) &&
+        auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0)
+      ) {
+        return true;
       }
     } else {
       return false;
@@ -99,7 +118,9 @@ const ListingCards = ({
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
           <p>
-            {ownerId === ENV.getUserKeys("_id")._id || !sellingMethod
+            {ownerId === ENV.getUserKeys("_id")._id ||
+            !sellingMethod ||
+            !checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate)
               ? "View"
               : sellingMethod === 2
               ? "Place Bid"

@@ -611,6 +611,8 @@ const AllNFT = (props) => {
                                 ownerId={listing.ownerId}
                                 fileType={listing.fileType}
                                 sellingMethod={listing.sellingMethod}
+                                auctionStartDate={listing?.auctionStartDate}
+                                auctionEndDate={listing?.auctionEndDate}
                               />
                             ) : (
                               <VideoCard
@@ -624,6 +626,8 @@ const AllNFT = (props) => {
                                 ownerId={listing.ownerId}
                                 fileType={listing.fileType}
                                 sellingMethod={listing.sellingMethod}
+                                auctionStartDate={listing?.auctionStartDate}
+                                auctionEndDate={listing?.auctionEndDate}
                               />
                             )}
                           </div>
