@@ -89,8 +89,8 @@ export const getBidSByNftId=(qs='')=>dispatch=>{
 export const getBids = (qs = '') => dispatch => {
     dispatch(emptyError());
     let url = `${ENV.url}bid/list`;
-    // if (qs)
-    //     url += `?${qs}`
+    if (qs)
+        url += `?${qs}`
 
     fetch(url, {
         method: 'GET',
