@@ -85,6 +85,17 @@
   cursor: pointer;
 }
 
+.uploaded-featured-cross {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.uploaded-featured-cross svg {
+  width: 30px;
+  height: 30px;
+}
+
 .upload-featured-img-content {
   text-align: center;
   color: #fff;

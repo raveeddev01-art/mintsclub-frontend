@@ -19,6 +19,7 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import UploadIcon from "../../assets/images/uploadIcon.png";
+import { MdClose } from "react-icons/md";
 
 class CreateCollections extends Component {
   constructor(props) {
@@ -159,6 +160,12 @@ class CreateCollections extends Component {
     );
   };
 
+  clearData = () => {
+    let { collection } = this.state;
+    collection = { ...collection, featuredImg: "", featuredImgUrl: "" };
+    this.setState({ collection });
+  };
+
   render() {
     const { collection, errors, loader, isSubmitted, categories } = this.state;
     if (!ENV.getUserKeys("_id")._id) {
@@ -236,6 +243,13 @@ class CreateCollections extends Component {
                             className="uploaded-featured-img"
                           />
                           <div className="uploaded-featured-hover w-100">
+                            <div className="uploaded-featured-cross">
+                              <MdClose
+                                color="#e33d0bc2"
+                                className="uploaded-cross-icon"
+                                onClick={() => this.clearData()}
+                              />
+                            </div>
                             <label>
                               <div className="text-center">
                                 <img src={UploadIcon} alt="upload-icon" />

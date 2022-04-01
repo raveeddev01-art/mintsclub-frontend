@@ -139,7 +139,7 @@ const Populars = forwardRef((props, ref) => {
                 </div>
               </div>
               <div className="col-12 explore-collection-nav">
-                <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
+                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
@@ -159,7 +159,7 @@ const Populars = forwardRef((props, ref) => {
                       );
                     })}
                 </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
+                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
@@ -193,10 +193,10 @@ const Populars = forwardRef((props, ref) => {
                   return (
                     <div className="col-sm-6 col-lg-4">
                       <CollectionsCard
-                        CardImg={collection.banner}
-                        Subimg1={collection.logo}
-                        Subimg2={collection.featuredImg}
-                        Subimg3={collection.banner}
+                        CardImg={collection.featuredImg}
+                        Subimg1={collection.featuredImg}
+                        Subimg2={collection.logo}
+                        Subimg3={collection.featuredImg}
                         name={collection.name}
                         id={collection._id}
                         collection={collection}

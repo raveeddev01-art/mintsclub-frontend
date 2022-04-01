@@ -207,6 +207,7 @@ function AuctionsOne(props) {
                       />
                     );
                   })}
+                  {console.log(auctions, "auctions")}
                 </CardSlider>
               ) : (
                 <p className="text-white text-center">No Live Auctions Found</p>

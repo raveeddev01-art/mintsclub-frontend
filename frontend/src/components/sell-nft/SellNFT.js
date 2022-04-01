@@ -36,6 +36,7 @@ import {
 } from "../explore/explore.action";
 import axios from "axios";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -161,7 +162,6 @@ const SellNFT = (props) => {
   }, [props.error]);
 
   const onChange = (e) => {
-  
     const { name, value } = e.target;
 
     let data = null;
@@ -177,7 +177,7 @@ const SellNFT = (props) => {
     if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
     } else if (keys && keys[1]) data[keys[1]] = value;
-  
+
     if (sellingMethod === 1) {
       setFixedPriceConfig({ ...data });
     } else {
@@ -208,7 +208,7 @@ const SellNFT = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-  
+
     let price = "";
     let payload = "";
 
@@ -428,7 +428,7 @@ const SellNFT = (props) => {
                           activeBtn === 0
                             ? "sell-btn-active"
                             : "sell-btn-not-active"
-                        } me-3 `}
+                        }  me-3 `}
                         onClick={() => {
                           setActiveBtn(0);
                           setSellingMethod(1);
@@ -571,7 +571,7 @@ const SellNFT = (props) => {
                                         <span> Copies </span>
                                       </div>
                                       <input
-                                        type="number"
+                                        type="text"
                                         name="timedAuctionConfig.startPrice.amount"
                                         placeholder="Copies"
                                         maxLength={nftDetail.copies >= copies}
@@ -810,7 +810,7 @@ const SellNFT = (props) => {
                                         <span> Copies </span>
                                       </div>
                                       <input
-                                        type="number"
+                                        type="text"
                                         name="timedAuctionConfig.startPrice.amount"
                                         placeholder="Copies"
                                         style={{
@@ -972,9 +972,9 @@ const SellNFT = (props) => {
                               onClick={togglePlay}
                             >
                               {playerState.isPlaying ? (
-                                <i className="fa fa-pause"></i>
+                                <BsFillPauseFill />
                               ) : (
-                                <i className="fa fa-play"></i>
+                                <BsFillPlayFill />
                               )}
                             </button>
                           </div>

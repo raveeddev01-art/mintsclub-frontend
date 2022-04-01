@@ -136,7 +136,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                 </div>
               </div>
               <div className="col-12 explore-collection-nav">
-                <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
+                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
@@ -156,7 +156,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                       );
                     })}
                 </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
+                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {

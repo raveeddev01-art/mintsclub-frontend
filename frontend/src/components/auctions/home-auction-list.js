@@ -90,7 +90,7 @@ const AuctionsList = () => {
               </div>
             </div>
             <div className="col-12 explore-collection-nav">
-              <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
+              <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                 {menuData.map((item, id) => {
                   return (
                     <button
@@ -106,7 +106,7 @@ const AuctionsList = () => {
                   );
                 })}
               </div>
-              <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
+              <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                 {menuData.map((item, id) => {
                   return (
                     <div className="col-6 col-sm-3">

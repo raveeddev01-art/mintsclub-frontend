@@ -71,7 +71,7 @@ import { iconByActivity } from "../../utils/exportData";
 import BidModal from "../modals/BidModal";
 import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
-// import  {}
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
@@ -622,7 +622,7 @@ const NFTDetail = (props) => {
     }
   };
 
-  console.log(nftDetail, "NFTdetail");
+  // console.log(nftDetail, "NFTdetail");
   // console.log(ENV.getUserKeys("_id")._id, "id");
   // console.log(offers, "offers");
   // console.log(loader,"loader")
@@ -702,135 +702,128 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {(bids && bids.length > 0 )||(offers&&offers.length>0)&& (
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">USD Price</th>
-                                        <th scope="col">Floor Difference</th>
-                                        {/* <th scope="col">Expiration</th> */}
-                                        <th scope="col">From</th>
-                                        <th scope="col">{""}</th>
-                                      </tr>
-                                    </thead>
-                                  )}
+                                  {(bids && bids.length > 0) ||
+                                    (offers && offers.length > 0 && (
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">USD Price</th>
+                                          <th scope="col">Floor Difference</th>
+                                          {/* <th scope="col">Expiration</th> */}
+                                          <th scope="col">From</th>
+                                          <th scope="col">{""}</th>
+                                        </tr>
+                                      </thead>
+                                    ))}
                                   <tbody>
-                                    {
-                                      nftDetail?.sellingMethod===2?
+                                    {nftDetail?.sellingMethod === 2 ? (
                                       <>
                                         {bids && bids.length > 0 ? (
-                                          bids
-                                            .map((bid) => {
-                                              return (
-                                                <tr>
-                                                  <th scope="row">
-                                                    {bid.bidAmount}
-                                                  </th>
-                                                  <td>
-                                                    $
-                                                    {(
-                                                      bid.bidAmount *
-                                                      exchangeRate
-                                                    ).toFixed(2)}
-                                                  </td>
-                                                  <td>
-                                                    {getPercentageChange(
-                                                      bid.bidAmount,
-                                                      nftDetail.lowestNftPrice
-                                                    ).toFixed(0)}
-                                                    %{" "}
-                                                    {bid.bidAmount >
+                                          bids.map((bid) => {
+                                            return (
+                                              <tr>
+                                                <th scope="row">
+                                                  {bid.bidAmount}
+                                                </th>
+                                                <td>
+                                                  $
+                                                  {(
+                                                    bid.bidAmount * exchangeRate
+                                                  ).toFixed(2)}
+                                                </td>
+                                                <td>
+                                                  {getPercentageChange(
+                                                    bid.bidAmount,
                                                     nftDetail.lowestNftPrice
-                                                      ? "above"
-                                                      : "below"}
-                                                  </td>
-                                                  {/* <td>an hour ago</td> */}
+                                                  ).toFixed(0)}
+                                                  %{" "}
+                                                  {bid.bidAmount >
+                                                  nftDetail.lowestNftPrice
+                                                    ? "above"
+                                                    : "below"}
+                                                </td>
+                                                {/* <td>an hour ago</td> */}
+                                                <td>
+                                                  {bid.fromAddress.slice(3, 8)}
+                                                </td>
+                                                {ENV.getUserKeys("_id")._id ===
+                                                  bid.bidBy && (
                                                   <td>
-                                                    {bid.fromAddress.slice(
-                                                      3,
-                                                      8
-                                                    )}
+                                                    <button
+                                                      className="cancel-Bid-btn"
+                                                      onClick={() =>
+                                                        deleteBid(bid._id)
+                                                      }
+                                                    >
+                                                      Cancel
+                                                    </button>
                                                   </td>
-                                                  {ENV.getUserKeys("_id")
-                                                    ._id === bid.bidBy && (
-                                                    <td>
-                                                      <button
-                                                        className="cancel-Bid-btn"
-                                                        onClick={() =>
-                                                          deleteBid(bid._id)
-                                                        }
-                                                      >
-                                                        Cancel
-                                                      </button>
-                                                    </td>
-                                                  )}
-                                                </tr>
-                                              );
-                                            })
-                                        ) : (
-                                          <p className="text-center d-flex justify-content-center align-items-center">
-                                            No Offers Found
-                                          </p>
-                                        )}
-                                      </>:
-                                  
-                                      <>
-                                        {offers && offers.length > 0 ? (
-                                          offers
-                                            .map((offer) => {
-                                              return (
-                                                <tr>
-                                                  <th scope="row">
-                                                    {offer.price}
-                                                  </th>
-                                                  <td>
-                                                    $
-                                                    {(
-                                                      offer.price *
-                                                      exchangeRate
-                                                    ).toFixed(2)}
-                                                  </td>
-                                                  <td>
-                                                    {getPercentageChange(
-                                                      offer.price,
-                                                      nftDetail.lowestNftPrice
-                                                    ).toFixed(0)}
-                                                    %{" "}
-                                                    {offer.price >
-                                                    nftDetail.lowestNftPrice
-                                                      ? "above"
-                                                      : "below"}
-                                                  </td>
-                                                  {/* <td>an hour ago</td> */}
-                                                  <td>
-                                                    {offer.fromAddress.slice(
-                                                      3,
-                                                      8
-                                                    )}
-                                                  </td>
-                                                  {ENV.getUserKeys("_id")
-                                                    ._id === offer.offerBy && (
-                                                    <td>
-                                                      <button
-                                                        className="cancel-Bid-btn"
-                                                        onClick={() =>
-                                                          deleteBid(offer._id)
-                                                        }
-                                                      >
-                                                        Accept
-                                                      </button>
-                                                    </td>
-                                                  )}
-                                                </tr>
-                                              );
-                                            })
+                                                )}
+                                              </tr>
+                                            );
+                                          })
                                         ) : (
                                           <p className="text-center d-flex justify-content-center align-items-center">
                                             No Offers Found
                                           </p>
                                         )}
                                       </>
-                                    }
+                                    ) : (
+                                      <>
+                                        {offers && offers.length > 0 ? (
+                                          offers.map((offer) => {
+                                            return (
+                                              <tr>
+                                                <th scope="row">
+                                                  {offer.price}
+                                                </th>
+                                                <td>
+                                                  $
+                                                  {(
+                                                    offer.price * exchangeRate
+                                                  ).toFixed(2)}
+                                                </td>
+                                                <td>
+                                                  {getPercentageChange(
+                                                    offer.price,
+                                                    nftDetail.lowestNftPrice
+                                                  ).toFixed(0)}
+                                                  %{" "}
+                                                  {offer.price >
+                                                  nftDetail.lowestNftPrice
+                                                    ? "above"
+                                                    : "below"}
+                                                </td>
+                                                {/* <td>an hour ago</td> */}
+                                                <td>
+                                                  {offer.fromAddress.slice(
+                                                    3,
+                                                    8
+                                                  )}
+                                                </td>
+                                                {ENV.getUserKeys("_id")._id ===
+                                                  offer.offerBy && (
+                                                  <td>
+                                                    <button
+                                                      className="cancel-Bid-btn"
+                                                      onClick={() =>
+                                                        deleteBid(offer._id)
+                                                      }
+                                                    >
+                                                      Accept
+                                                    </button>
+                                                  </td>
+                                                )}
+                                              </tr>
+                                            );
+                                          })
+                                        ) : (
+                                          <p className="text-center d-flex justify-content-center align-items-center">
+                                            No Offers Found
+                                          </p>
+                                        )}
+                                      </>
+                                    )}
                                   </tbody>
                                 </table>
                               </div>
@@ -1088,9 +1081,9 @@ const NFTDetail = (props) => {
                                 onClick={togglePlay}
                               >
                                 {playerState.isPlaying ? (
-                                  <i className="fa fa-pause"></i>
+                                  <BsFillPauseFill />
                                 ) : (
-                                  <i className="fa fa-play"></i>
+                                  <BsFillPlayFill />
                                 )}
                               </button>
                             </div>
