@@ -90,10 +90,50 @@ const NavbarMain = (props) => {
                   All NFT
                 </NavDropdown.Item>
               </NavDropdown>
+              <NavDropdown
+                title="Create"
+                id="navbarScrollingDropdown"
+                active={activeTab === 1}
+                defaultactivekey={activeTab}
+                className={`nav-main-link dropdown-bg ${
+                  location.pathname === "/create" ? "active-item" : ""
+                }`}
+              >
+                <NavDropdown.Item
+                  to="/create"
+                  href="/create"
+                  active={activeTab === 1}
+                  eventKey={1}
+                  className={`nav-main-link main-nav-dd-items ${
+                    location.pathname === "/create" ? "active-item" : ""
+                  }`}
+                  onClick={() => {
+                    setActiveTab(1);
+                  }}
+                >
+                  Create NFT
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  to="/createcollection"
+                  href="/createcollection"
+                  className={`nav-main-link main-nav-dd-items ${
+                    location.pathname === "/createcollection"
+                      ? "active-item"
+                      : ""
+                  }`}
+                  eventKey={2}
+                  active={activeTab === 2}
+                  onClick={() => {
+                    setActiveTab(2);
+                  }}
+                >
+                  Create Collection
+                </NavDropdown.Item>
+              </NavDropdown>
 
-              <Nav.Link to="/create" href="/create" className="nav-main-link">
+              {/* <Nav.Link to="/create" href="/create" className="nav-main-link">
                 Create
-              </Nav.Link>
+              </Nav.Link> */}
               <Nav.Link
                 to="/userprofile"
                 href="/userprofile"
