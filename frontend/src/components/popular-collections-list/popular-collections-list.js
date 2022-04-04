@@ -3,33 +3,35 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
-} from "react";
-import NavbarMain from "../navbar-main/NavbarMain";
-import CollectionsCard from "../collections-cards/CollectionsCard";
-import Footer from "../footer/footer";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
+} from 'react';
+import NavbarMain from '../navbar-main/NavbarMain';
+import CollectionsCard from '../collections-cards/CollectionsCard';
+import Footer from '../footer/footer';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
 import {
-  beforeCollection,
-  getCollections,
+  beforePopularCollection,
+  getPopularCollections,
   toggleLikeDislike,
-} from "../collections/collections.actions";
-import FullPageLoader from "../full-page-loader/full-page-loader";
-import {
   beforeCategory,
   getCategories,
-} from "../collections/collections.actions";
-import Breadcrumb from "../breadcrumb/breadcrumb";
+} from '../collections/collections.actions';
+import FullPageLoader from '../full-page-loader/full-page-loader';
+
+import Breadcrumb from '../breadcrumb/breadcrumb';
+import { Images } from '../../assets/assets';
 
 const Populars = forwardRef((props, ref) => {
-  const [isActive, setIsActive] = useState("All");
+  const [popular, setpopular] = useState([]);
+  const [isActive, setIsActive] = useState('All');
   const [collections, setCollections] = useState(null);
+
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
   const [collectionsLoader, setColLoader] = useState(true); // collections loader
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState("music");
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [categories, setCategories] = useState();
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -41,46 +43,78 @@ const Populars = forwardRef((props, ref) => {
 
     if (props.setLoader) props.setLoader(false); //to be changed
 
-    getCollections(null, 1);
+    getPopularCollections(null, 1);
+    const qs = ENV.objectToQueryString({
+      myFilter: 'all',
+    });
+
+    props.getPopularCollections(qs);
     props.getCategories();
   }, []);
 
   useEffect(() => {
-    if (props.collection.getAuth) {
-      const { collections, pagination } = props.collection;
-      setPagination(pagination);
+    if (props.getPopularAuth) {
+      const collectionListing = props.popularCollections.collectionsList;
+      const pagination = props.popularCollections.pagination;
 
-      const userId = ENV.getUserKeys("_id")._id;
-      if (props.mycollections) {
-        let myCollections = collections.filter(
+      if (collectionListing) {
+        collectionListing.forEach((element, i) => {
+          if (element.likesCount.length > 0) {
+            var sumLikes = element.likesCount.reduce(function (a, b) {
+              return a + b;
+            }, 0);
+            collectionListing[i].likesCount = sumLikes;
+          }
+          collectionListing[i].likesCount = 0;
+
+          collectionListing[i].totalNfts = element.nfts.length;
+          if (element.soldCopies.length > 0) {
+            var soldCopiesSum = element.soldCopies.reduce(function (a, b) {
+              return a + b;
+            }, 0);
+            collectionListing[i].soldCopies = soldCopiesSum;
+          }
+
+          collectionListing[i].soldCopies = 0;
+        });
+      }
+
+      const finalCollectionListing = collectionListing.sort(
+        (a, b) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
+      );
+
+      setPagination(pagination);
+      const userId = ENV.getUserKeys('_id')._id;
+      if (props.finalCollectionListing) {
+        let finalCollectionListing = finalCollectionListing.filter(
           (item) => item.userId === userId
         );
-        setCollections(myCollections);
+        setpopular(finalCollectionListing);
       } else {
-        if (collections === null) {
+        if (finalCollectionListing === null) {
           setEmpty(true);
         } else {
           setEmpty(false);
         }
-        setCollections(collections);
+        setpopular(finalCollectionListing);
 
         setColLoader(false);
         setLoader(false);
       }
-      props.beforeCollection();
+      props.beforePopularCollection();
     }
-  }, [props.collection.getAuth]);
+  }, [props.getPopularAuth]);
 
   useEffect(() => {
-    if (props.collection.collectionFlag) {
+    if (props.getPopularAuth) {
       setCategories(props.collection.categories);
 
       props.beforeCategory();
       setCatLoader(false);
     }
-  }, [props.collection.collectionFlag]);
+  }, [props.getPopularAuth]);
 
-  const getCollections = (category, page, pageLimit) => {
+  const getPopularCollections = (category, page, pageLimit) => {
     const filter = {
       page,
     };
@@ -94,14 +128,14 @@ const Populars = forwardRef((props, ref) => {
 
     const qs = ENV.objectToQueryString(filter);
 
-    props.getCollections(qs);
+    props.getPopularCollections(qs);
   };
 
   useImperativeHandle(ref, () => ({
     getCatCollections: (catId) => {
       if (props.setLoader) props.setLoader(true);
 
-      getCollections(catId, page);
+      getPopularCollections(catId, page);
     },
     colCount: collections?.length || 0,
   }));
@@ -109,37 +143,37 @@ const Populars = forwardRef((props, ref) => {
   const handlePagination = () => {
     setPage(page);
     setLimit(limit + 10);
-    getCollections(selectedCategory, page, limit + 10);
+    getPopularCollections(selectedCategory, page, limit + 10);
   };
 
   const handleFilterCategory = (category) => {
     setLoader(true);
     setPage(1);
     setLimit(10);
-    getCollections(category, 1, 10);
+    getPopularCollections(category, 1, 10);
   };
 
   return (
     <>
       <NavbarMain />
-      <Breadcrumb title1={"Collections"} title2={"PopularCollections"} />
+      <Breadcrumb title1={'Collections'} title2={'PopularCollections'} />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
-        <section className="explore-collection-section padding-wrapper">
-          <div className="container">
-            <div className="row mb-5">
-              <div className="col-12">
+        <section className='explore-collection-section padding-wrapper'>
+          <div className='container'>
+            <div className='row mb-5'>
+              <div className='col-12'>
                 {/* Intro */}
-                <div className="intro">
-                  <div className="intro-content">
+                <div className='intro'>
+                  <div className='intro-content'>
                     <span>Most Popular</span>
-                    <h3 className="mb-0">Popular Collections</h3>
+                    <h3 className='mb-0'>Popular Collections</h3>
                   </div>
                 </div>
               </div>
-              <div className="col-12 explore-collection-nav">
-                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+              <div className='col-12 explore-collection-nav'>
+                <div className='d-none d-lg-flex justify-content-lg-end text-end align-items-center'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
@@ -151,7 +185,7 @@ const Populars = forwardRef((props, ref) => {
                             handleFilterCategory(item.description);
                           }}
                           className={`${
-                            item.name === isActive ? "active-explore-nav" : ""
+                            item.name === isActive ? 'active-explore-nav' : ''
                           } me-2 me-xl-3`}
                         >
                           {item.name}
@@ -159,12 +193,12 @@ const Populars = forwardRef((props, ref) => {
                       );
                     })}
                 </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
                       return (
-                        <div className="col-6 col-sm-3">
+                        <div className='col-6 col-sm-3'>
                           <button
                             onClick={() => {
                               setIsActive(item.name);
@@ -172,7 +206,7 @@ const Populars = forwardRef((props, ref) => {
                               handleFilterCategory(item.description);
                             }}
                             className={
-                              isActive === item.name ? "active-explore-nav" : ""
+                              isActive === item.name ? 'active-explore-nav' : ''
                             }
                           >
                             {item.name}
@@ -183,46 +217,55 @@ const Populars = forwardRef((props, ref) => {
                 </div>
               </div>
             </div>
-            <div className="row g-4 align-items-center justify-content-center">
+            <div className='row g-4 align-items-center justify-content-center'>
               {loader ? (
-                <div class="spinner-border text-white" role="status">
-                  <span class="sr-only">Loading...</span>
+                <div class='spinner-border text-white' role='status'>
+                  <span class='sr-only'>Loading...</span>
                 </div>
-              ) : collections && collections.length > 0 ? (
-                collections.map((collection) => {
+              ) : popular && popular.length > 0 ? (
+                popular.map((item) => {
                   return (
-                    <div className="col-sm-6 col-lg-4">
+                    <div className='col-sm-6 col-lg-4'>
                       <CollectionsCard
-                        CardImg={collection.featuredImg}
-                        Subimg1={collection.featuredImg}
-                        Subimg2={collection.logo}
-                        Subimg3={collection.featuredImg}
-                        name={collection.name}
-                        id={collection._id}
-                        collection={collection}
-                        userName={
-                          collection?.user[0]?.username
-                            ? collection?.user[0]?.username
-                            : ""
+                        CardImg={item.featuredImg}
+                        Subimg1={
+                          item?.nfts[0]
+                            ? item?.nfts[0]
+                            : Images.popularCollectionPlaceholder
                         }
-                        NFTCount={collection.NFTCount}
+                        Subimg2={
+                          item?.nfts[1]
+                            ? item?.nfts[1]
+                            : Images.popularCollectionPlaceholder
+                        }
+                        Subimg3={
+                          item?.nfts[2]
+                            ? item?.nfts[2]
+                            : Images.popularCollectionPlaceholder
+                        }
+                        name={item.name}
+                        id={item._id}
+                        collection={item}
+                        userName={item.username[0]}
+                        NFTCount={item.totalNfts}
+                        profileImage={item.profileImage[0]}
                         // handleLikesTogle={handleLikesTogleApi}
                       />
                     </div>
                   );
                 })
               ) : (
-                <p className="text-center text-white not-found-title mt-5">
-                  No Collections found
+                <p className='text-center text-white not-found-title mt-5'>
+                  No Popular Collections found
                 </p>
               )}
-              <div className="col-12">
-                <div className="mt-5 text-center">
+              <div className='col-12'>
+                <div className='mt-5 text-center'>
                   {!empty &&
-                    collections?.length > 10 &&
-                    pagination.totalRecords <= collections.length && (
+                    popular?.length === 10 &&
+                    pagination.totalRecords > popular.length && (
                       <button
-                        className="btn btn-linear-gradient px-5"
+                        className='btn btn-linear-gradient px-5'
                         onClick={() => handlePagination()}
                       >
                         Load more
@@ -244,13 +287,15 @@ const mapStateToProps = (state) => ({
   category: state.category,
   categories: state.collection,
   pagination: state.pagination,
+  popularCollections: state.collection.popularCollections,
+  getPopularAuth: state.collection.getPopularAuth,
 });
 
 export default connect(
   mapStateToProps,
   {
-    beforeCollection,
-    getCollections,
+    beforePopularCollection,
+    getPopularCollections,
     beforeCategory,
     getCategories,
     toggleLikeDislike,
