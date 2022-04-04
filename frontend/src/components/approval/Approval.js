@@ -1,12 +1,15 @@
 import React from "react";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
+import OfferIcon from "../../assets/images/offer-icon.svg";
+import ListingIcon from "../../assets/images/listing-icon.svg";
+import ActivityIcon from "../../assets/images/activity.svg";
 
 const Approval = () => {
   return (
     <>
       <NavbarMain />
-      <section className="padding-wrapper nft-detail">
+      <section className="padding-wrapper nft-detail ">
         <div className="container">
           <div className="row">
             <div className="col-12 mt-0 mt-md-4 order-3">
@@ -30,7 +33,7 @@ const Approval = () => {
                           alt="price-history"
                           className="me-2"
                         />
-                        Activity
+                        Approvals
                       </button>
                     </h2>
                     <div
@@ -40,20 +43,19 @@ const Approval = () => {
                     >
                       <div className="accordion-body">
                         <div className="table-container">
-                          {activities && activities.length > 0 && (
+                          {/* {activities && activities.length > 0 && ( */}
                             <table class="table table-borderless">
                               <thead>
-                                NavbarMain{" "}
                                 <tr>
-                                  <th scope="col">Event</th>
-                                  <th scope="col">Price</th>
-                                  <th scope="col">From</th>
-                                  <th scope="col">To</th>
+                                  <th scope="col">UserName</th>
+                                  <th scope="col">Email</th>
+                                  <th scope="col">Address</th>
+                                  {/* <th scope="col">To</th> */}
                                   <th scope="col">Date</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {activities.map((activity) => {
+                                {/* {activities.map((activity) => {
                                   return (
                                     <tr>
                                       <th scope="row">
@@ -90,10 +92,10 @@ const Approval = () => {
                                       </td>
                                     </tr>
                                   );
-                                })}
+                                })} */}
                               </tbody>
                             </table>
-                          )}
+                          {/* )} */}
                         </div>
                       </div>
                     </div>

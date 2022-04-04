@@ -32,7 +32,7 @@ import TopSellerList from "./components/top-seller/topsellerlist";
 import AuctionsList from "./components/auctions/home-auction-list";
 import EditProfile from "./components/user-profile/user-edit-profile";
 import CreateCollections from "./components/creat-collections/CreateCollections";
-
+import Approvals from "./components/approval/Approval";
 // routes
 const routes = [
   {
@@ -82,6 +82,14 @@ const routes = [
     title: "Activity",
     layout: layout2,
     component: Activity,
+  },
+  {
+    path: "/approvals",
+    access: true,
+    exact: true,
+    title: "Approvals",
+    layout: layout2,
+    component: Approvals,
   },
   {
     path: "/blog",
