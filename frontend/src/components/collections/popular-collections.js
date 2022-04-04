@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import FullPageLoader from '../../components/full-page-loader/full-page-loader';
-import { Link } from 'react-router-dom';
-import Collections from './collections';
-import CollectionsCard from '../collections-cards/CollectionsCard';
-import ViewAllIcon from '../../assets/images/view-all-arrow.svg';
-import CardSlider from '../card-slider/CardSlider';
-import { ENV } from '../../config/config';
-import { beforeCategory, getCategories } from '../categories/categories.action';
+import React, { useState, useEffect, useRef } from "react";
+import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import { Link } from "react-router-dom";
+import Collections from "./collections";
+import CollectionsCard from "../collections-cards/CollectionsCard";
+import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
+import CardSlider from "../card-slider/CardSlider";
+import { ENV } from "../../config/config";
+import { beforeCategory, getCategories } from "../categories/categories.action";
 import {
   beforePopularCollection,
   getPopularCollections,
-} from '../collections/collections.actions';
-import { connect } from 'react-redux';
-import { CollectionImages } from '../../assets/assets.js';
-import { Images } from '../../assets/assets';
+} from "../collections/collections.actions";
+import { connect } from "react-redux";
+import { CollectionImages } from "../../assets/assets.js";
+import { Images } from "../../assets/assets";
 const initData = {
-  pre_heading: 'Most Popular',
-  heading: 'Popular Collections',
-  btnText: 'Explore More',
+  pre_heading: "Most Popular",
+  heading: "Popular Collections",
+  btnText: "Explore More",
 };
 
 const collectionData = [
@@ -98,11 +98,11 @@ const collectionData = [
 const PopularCollections = (props) => {
   const [popular, setpopular] = useState([]);
   const [categories, setCategories] = useState(null);
-  const [categoryId, setCategoryId] = useState('all');
+  const [categoryId, setCategoryId] = useState("all");
 
   useEffect(() => {
     const qs = ENV.objectToQueryString({
-      myFilter: 'all',
+      myFilter: "all",
     });
     props.getPopularCollections(qs);
     props.getCategories();
@@ -157,14 +157,14 @@ const PopularCollections = (props) => {
 
   return (
     <>
-      <section className='popular-collections-area padding-wrapper'>
-        <div className='container'>
-          <div className='row mb-5'>
-            <div className='col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4'>
-              <div className='intro d-flex justify-content-between align-items-end m-0'>
-                <div className='intro-content'>
+      <section className="popular-collections-area padding-wrapper">
+        <div className="container">
+          <div className="row mb-5">
+            <div className="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+              <div className="intro d-flex justify-content-between align-items-end m-0">
+                <div className="intro-content">
                   <span>{initData.pre_heading}</span>
-                  <h3 className=' mb-0'>{initData.heading}</h3>
+                  <h3 className=" mb-0">{initData.heading}</h3>
                   <p>
                     Explore on the world's best & largest NFT marketplace with
                     our beautiful NFT products. We want to be a part of your
@@ -173,18 +173,18 @@ const PopularCollections = (props) => {
                 </div>
               </div>
             </div>
-            <div className='col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0'>
-              {categoryId === 'all' && popular && popular?.length == 0 ? (
-                ''
+            <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
+              {categoryId === "all" && popular && popular?.length == 0 ? (
+                ""
               ) : (
-                <div className='popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end'>
+                <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item, index) => {
                       if (index <= 3) {
                         return (
                           <button
-                            className='me-1 me-sm-2'
+                            className="me-1 me-sm-2"
                             onClick={() =>
                               handleCategoryFilter(item.description)
                             }
@@ -194,16 +194,16 @@ const PopularCollections = (props) => {
                         );
                       }
                     })}
-                  <div className='intro-btn'>
+                  <div className="intro-btn">
                     <Link
-                      className='btn btn-rounded-bordered btn-viewAll'
-                      to='/popular-collections'
+                      className="btn btn-rounded-bordered btn-viewAll"
+                      to="/popular-collections"
                     >
                       View All
                       <img
                         src={ViewAllIcon}
-                        alt='arrow-left'
-                        className='ms-2'
+                        alt="arrow-left"
+                        className="ms-2"
                       />
                     </Link>
                   </div>

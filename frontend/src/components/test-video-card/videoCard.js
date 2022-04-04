@@ -21,7 +21,7 @@ const VideoCard = ({
   sellingMethod,
   userProfile,
   auctionStartDate,
-  auctionEndDate
+  auctionEndDate,
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -41,9 +41,7 @@ const VideoCard = ({
       return false;
     }
   };
- 
- 
-   
+
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     if (startDate !== null || endDate !== null) {
       let currentDate = new Date();
@@ -142,8 +140,10 @@ const VideoCard = ({
           className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
-           <p>
-            {ownerId === ENV.getUserKeys("_id")._id || !sellingMethod || !checkIfAuctionStartedorEnded(auctionStartDate,auctionEndDate)
+          <p>
+            {ownerId === ENV.getUserKeys("_id")._id ||
+            !sellingMethod ||
+            !checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate)
               ? "View"
               : sellingMethod === 2
               ? "Place Bid"

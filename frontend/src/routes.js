@@ -32,6 +32,7 @@ import TopSellerList from "./components/top-seller/topsellerlist";
 import AuctionsList from "./components/auctions/home-auction-list";
 import EditProfile from "./components/user-profile/user-edit-profile";
 import CreateCollections from "./components/creat-collections/CreateCollections";
+import Approval from "./components/approval/Approval";
 
 // routes
 const routes = [
@@ -74,6 +75,14 @@ const routes = [
     title: "Sell Item",
     layout: layout2,
     component: SellNFT,
+  },
+  {
+    path: "/approval",
+    access: true,
+    exact: true,
+    title: "Approval",
+    layout: layout2,
+    component: Approval,
   },
   {
     path: "/activity",

@@ -76,25 +76,28 @@ const Slider = (props) => {
             );
           }
         })
-      ) : nfts && nfts.length >= 7 ? (
-        nfts.map((item, id) => {
-          if (id <= 6) {
-            return (
-              <label
-                for={`s${id + 1}`}
-                id={`slide${id + 1}`}
-                onClick={() => props.setHandler(id + 1)}
-              >
-                <HeroCards
-                  CardImg={item.image}
-                  NftName={item.name}
-                  OwnerName={item.name}
-                  className="slide"
-                />
-              </label>
-            );
-          }
-        })
+      ) : nfts &&
+        nfts.filter((item) => item.fileType !== "video").length >= 7 ? (
+        nfts
+          .filter((item) => item.fileType !== "video")
+          .map((item, id) => {
+            if (id <= 6) {
+              return (
+                <label
+                  for={`s${id + 1}`}
+                  id={`slide${id + 1}`}
+                  onClick={() => props.setHandler(id + 1)}
+                >
+                  <HeroCards
+                    CardImg={item.image}
+                    NftName={item.name}
+                    OwnerName={item.name}
+                    className="slide"
+                  />
+                </label>
+              );
+            }
+          })
       ) : (
         <>
           <label for="s1" id="slide1" onClick={() => props.setHandler(1)}>
@@ -120,6 +123,7 @@ const Slider = (props) => {
           </label>
         </>
       )}
+      {console.log(auctions, "auctionsss")}
     </section>
   );
 };

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Particles from "react-tsparticles";
+import NavbarMain from "../../components/navbar-main/NavbarMain";
+import Footer from "../../components/footer/footer";
 // import Scrollup from '../../components/scroll-up/sroll-up';
 
 class Layout2 extends Component {
@@ -136,10 +138,14 @@ class Layout2 extends Component {
       zLayers: 1,
     };
     return (
-      <div className="main">
-        <Particles id="tsparticles" options={{ ...particlesData }} />
-        {this.props.children}
-      </div>
+      <>
+        {/* <NavbarMain /> */}
+        <div className="main">
+          <Particles id="tsparticles" options={{ ...particlesData }} />
+          {this.props.children}
+        </div>
+        {/* <Footer /> */}
+      </>
     );
   }
 }

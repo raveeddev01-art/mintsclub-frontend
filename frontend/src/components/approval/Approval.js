@@ -1,6 +1,7 @@
 import React from "react";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
+import ActivityIcon from "../../assets/images/activity.svg";
 
 const Approval = () => {
   return (
@@ -39,21 +40,20 @@ const Approval = () => {
                       aria-labelledby="flush-headingTen"
                     >
                       <div className="accordion-body">
-                        <div className="table-container">
-                          {activities && activities.length > 0 && (
-                            <table class="table table-borderless">
-                              <thead>
-                                NavbarMain{" "}
-                                <tr>
-                                  <th scope="col">Event</th>
-                                  <th scope="col">Price</th>
-                                  <th scope="col">From</th>
-                                  <th scope="col">To</th>
-                                  <th scope="col">Date</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {activities.map((activity) => {
+                        <div className="table-container approval-table-container">
+                          {/* {activities && activities.length > 0 && ( */}
+                          <table class="table table-borderless">
+                            <thead>
+                              <tr>
+                                <th scope="col">Event</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">From</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {/* {activities.map((activity) => {
                                   return (
                                     <tr>
                                       <th scope="row">
@@ -90,10 +90,10 @@ const Approval = () => {
                                       </td>
                                     </tr>
                                   );
-                                })}
-                              </tbody>
-                            </table>
-                          )}
+                                })} */}
+                            </tbody>
+                          </table>
+                          {/* )} */}
                         </div>
                       </div>
                     </div>
@@ -104,7 +104,7 @@ const Approval = () => {
           </div>
         </div>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

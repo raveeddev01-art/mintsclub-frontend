@@ -132,3 +132,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.auction-card.card .card-img-top .video-wrapper .actions .play-pause-btn svg {
+  color: #000;
+}
