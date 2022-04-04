@@ -6,11 +6,12 @@
   color: #fff;
   /* padding-top: 10px;
   padding-bottom: 10px; */
+  min-width: 100px;
   min-height: 40px;
 }
 
 .explore-collection-section .active-explore-nav {
-  min-width: 130px;
+  min-width: 100px;
   border-radius: 8px;
   background: linear-gradient(to top, #4355ff, #5695fd);
 }

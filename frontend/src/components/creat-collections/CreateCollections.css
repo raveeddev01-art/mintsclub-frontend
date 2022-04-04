@@ -2,11 +2,19 @@
   width: max-content;
   position: relative;
 }
-.colection-avatar {
+.collection-logo-container .colection-avatar {
   width: 115px;
   height: 115px;
   background-color: #101029;
   border-radius: 50%;
+}
+
+.collection-logo-container .colection-avatar-img {
+  width: 115px;
+  height: 115px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 24px;
 }
 
 .collection-logo-container .avatar-btn-pen {
@@ -38,7 +46,54 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.upload-featured-img label {
   cursor: pointer;
+}
+
+.uploaded-featured-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.uploaded-featured-hover {
+  display: none;
+}
+
+.uploaded-featured-container:hover .uploaded-featured-hover {
+  height: 216px;
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+}
+
+.uploaded-featured-img {
+  height: 216px;
+  max-width: 300px;
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.uploaded-featured-hover label img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.uploaded-featured-cross {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.uploaded-featured-cross svg {
+  width: 30px;
+  height: 30px;
 }
 
 .upload-featured-img-content {

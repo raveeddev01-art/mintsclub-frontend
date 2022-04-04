@@ -109,7 +109,7 @@ const Slider = (props) => {
           <label for="s4" id="slide4" onClick={() => props.setHandler(4)}>
             <HeroCards CardImg={ListingImg.listingImg4} className="slide" />
           </label>
-          <label for="s5" id="slide5" onClick={() => props.setHandler(5)}>
+          <label foCopiesr="s5" id="slide5" onClick={() => props.setHandler(5)}>
             <HeroCards CardImg={CollectionImages.mainImg1} className="slide" />
           </label>
           <label for="s6" id="slide6" onClick={() => props.setHandler(6)}>

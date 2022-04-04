@@ -39,11 +39,11 @@ const Footer = (props) => {
                   {"Want to get notify and product updates from us?"}
                 </h4>
                 {/* Subscribe Form */}
-                <div class="input-group notify-form">
-                  <div class="input-group-prepend">
+                <div className="input-group notify-form">
+                  <div className="input-group-prepend">
                     <button
                       type="submit"
-                      class="input-group-text"
+                      className="input-group-text"
                       id="basic-addon1"
                     >
                       Notify

@@ -83,7 +83,6 @@ const Sell = (props) => {
   useEffect(() => {
     if (props.nft.upsertAuth) {
       const { nft } = props.nft.nftsData;
-      // const pathname = nft.sellingMethod === 1 ? '/explore-all' : '/auctions'
       const pathname = "/";
       setLoader(false);
       props.beforeNFT();
@@ -102,11 +101,11 @@ const Sell = (props) => {
     if (sellingMethod === 1) data = fixedPriceConfig;
     else data = timedAuctionConfig;
 
-    console.log(data,"data")
+  
     const keys = name.split("."); // fixedPriceConfig, price, currency
     if (keys && keys[2]) data[keys[1]][keys[2]] = value;
     else if (keys && keys[1]) data[keys[1]] = value;
-    console.log(keys,"keys")
+   
 
     if (sellingMethod === 1) setFixedPriceConfig({ ...data });
     else setTimedAuctionConfig({ ...data });
@@ -141,37 +140,22 @@ const Sell = (props) => {
         sellingMethod === 1 ? fixedPriceConfig : timedAuctionConfig
       ),
     };
-    console.log(
-      "🚀 ~ file: sell-nft.js ~ line 172 ~ submit ~ timedAuctionConfig",
-      payload
-    );
-    console.log(payload, "paylaod=>");
+  
     //  return  " "
 
     let test = new Date(timedAuctionConfig.duration.endDate).getTime();
     let time = timedAuctionConfig.duration.endTime;
 
     var r = Number(time.split(":")[0]) * 60 + Number(time.split(":")[1]) * 1000;
-    //
-    const timeInMiliSeconds = r + test;
-
-    // console.log('yoken data', tokensData)
-    // const nftToken=tokensData.data.find((item)=>item?.nftId===nft?._id)
-
-    //  if(nftToken){
-    //   sellingMethod==1?SellOnFixedPrice(nftToken?.nftToken,fixedPriceConfig.price.amount):openNFTForBidding(nftToken.nftToken,timeInMiliSeconds)
-
+   
     setLoader(true);
 
     var formData = new FormData();
-    console.log(payload, "payload");
+ 
     for (const key in payload) formData.append(key, payload[key]);
 
     props.upsertNFT("edit", formData, "PUT");
-    //  }
-    //  else {
-    //   toast.error("there was an issue while creating nft, please try later")
-    //  }
+
   };
 
   const getTokens = () => {
@@ -200,7 +184,6 @@ const Sell = (props) => {
       });
   };
 
-  console.log(nft, "nft");
 
   return (
     <div className="padding-wrapper">

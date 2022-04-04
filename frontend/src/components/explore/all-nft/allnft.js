@@ -629,6 +629,7 @@ const AllNFT = (props) => {
                                 auctionEndDate={listing?.auctionEndDate}
                               />
                             )}
+                            {console.log(listing, "listings")}
                           </div>
                         );
                       })

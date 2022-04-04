@@ -59,6 +59,7 @@ export const getOffers = (qs = '') => dispatch => {
     if (qs)
         url += `?${qs}`
 
+   
     fetch(url, {
         method: 'GET',
         headers: {
