@@ -3,11 +3,11 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
-} from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
-import { beforeCollection, getCollections } from "./collections.actions";
+} from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
+import { beforeCollection, getCollections } from './collections.actions';
 const { collectionFeaturedImg, userDefaultImg } = ENV;
 
 const Collections = forwardRef((props, ref) => {
@@ -26,7 +26,7 @@ const Collections = forwardRef((props, ref) => {
   useEffect(() => {
     if (props.collection.getAuth) {
       const { collections } = props.collection;
-      const userId = ENV.getUserKeys("_id")._id;
+      const userId = ENV.getUserKeys('_id')._id;
       if (props.mycollections) {
         let myCollections = collections.filter(
           (item) => item.userId === userId
@@ -70,23 +70,23 @@ const Collections = forwardRef((props, ref) => {
   const dummyCollections = [
     {
       id: 1,
-      name: "Modern Art collection",
-      itemNos: "5",
-      owner: "Abcd",
+      name: 'Modern Art collection',
+      itemNos: '5',
+      owner: 'Abcd',
     },
     {
       id: 2,
-      name: "Modern Art collection",
-      itemNos: "5",
-      owner: "Abcd",
+      name: 'Modern Art collection',
+      itemNos: '5',
+      owner: 'Abcd',
     },
   ];
 
   return (
-    <div className="popular-collections-area">
-      <div className="container">
+    <div className='popular-collections-area'>
+      <div className='container'>
         <div
-          className={`row items ${!collections && "justify-content-center"}`}
+          className={`row items ${!collections && 'justify-content-center'}`}
         >
           <>
             {/* {collections && collections.length ? (
@@ -96,34 +96,34 @@ const Collections = forwardRef((props, ref) => {
                 return (
                   <div
                     key={`cd_${idx}`}
-                    className="col-12 col-sm-6 col-lg-3 item"
+                    className='col-12 col-sm-6 col-lg-3 item'
                   >
-                    <div className="card no-hover text-center">
-                      <div className="image-over">
+                    <div className='card no-hover text-center'>
+                      <div className='image-over'>
                         <Link
                           to={`/collection-details/${window.btoa(item._id)}`}
                         >
                           <img
-                            className="card-img-top"
+                            className='card-img-top'
                             src={
                               item.featuredImg
                                 ? item.featuredImg
                                 : collectionFeaturedImg
                             }
-                            alt="Collection Featured Image"
+                            alt='Collection Featured Image'
                           />
                         </Link>
                         <Link
-                          className="seller"
+                          className='seller'
                           to={
                             source === 1
                               ? `/collection-details/${window.btoa(item._id)}`
                               : `/author/${item.user._id}`
                           }
                         >
-                          <div className="seller-thumb avatar-lg">
+                          <div className='seller-thumb avatar-lg'>
                             <img
-                              className="rounded-circle"
+                              className='rounded-circle'
                               src={
                                 source === 1
                                   ? item.logo
@@ -132,23 +132,23 @@ const Collections = forwardRef((props, ref) => {
                                   : userDefaultImg
                               }
                               alt={
-                                source === 1 ? "Collection Logo" : "User Avatar"
+                                source === 1 ? 'Collection Logo' : 'User Avatar'
                               }
                             />
                           </div>
                         </Link>
                       </div>
-                      <div className="card-caption col-12 p-0">
-                        <div className="card-body mt-4">
+                      <div className='card-caption col-12 p-0'>
+                        <div className='card-body mt-4'>
                           <Link
                             to={`/collection-details/${window.btoa(item._id)}`}
                           >
-                            <h5 className="mb-2">{item.name}</h5>
+                            <h5 className='mb-2'>{item.name}</h5>
                           </Link>
                           <span>
                             {item.category
                               ? item.category.name
-                              : "Category: N/A"}
+                              : 'Category: N/A'}
                           </span>
                         </div>
                       </div>
@@ -157,8 +157,8 @@ const Collections = forwardRef((props, ref) => {
                 );
               })
             ) : (
-              <div className="col-12">
-                <p className="text-center mt-4">No Collection Found</p>
+              <div className='col-12'>
+                <p className='text-center mt-4'>No Collection Found</p>
               </div>
             )}
           </>
