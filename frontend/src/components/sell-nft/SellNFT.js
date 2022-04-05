@@ -958,32 +958,37 @@ const SellNFT = (props) => {
               <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
-                    {/* <Card.Img variant="top" src={image} alt="AuctionTopImg" /> */}
-
-                    {/* //InCaseOfVideoCard */}
-                    <div className="card-img-top">
-                      <div className="video-wrapper">
-                        <video
-                          src={nftDetail.image}
-                          ref={videoElement}
-                          onTimeUpdate={handleOnTimeUpdate}
-                        />
-                        <div className="controls">
-                          <div className="actions">
-                            <button
-                              className="play-pause-btn d-flex align-items-center justify-content-center"
-                              onClick={togglePlay}
-                            >
-                              {playerState.isPlaying ? (
-                                <BsFillPauseFill />
-                              ) : (
-                                <BsFillPlayFill />
-                              )}
-                            </button>
+                    {nftDetail && nftDetail.fileType === "image" ? (
+                      <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+                    ) : nftDetail && nftDetail.fileType === "video" ? (
+                      <div className="card-img-top">
+                        <div className="video-wrapper">
+                          <video
+                            src={nftDetail.image}
+                            ref={videoElement}
+                            onTimeUpdate={handleOnTimeUpdate}
+                          />
+                          <div className="controls">
+                            <div className="actions">
+                              <button
+                                className="play-pause-btn d-flex align-items-center justify-content-center"
+                                onClick={togglePlay}
+                              >
+                                {playerState.isPlaying ? (
+                                  <BsFillPauseFill />
+                                ) : (
+                                  <BsFillPlayFill />
+                                )}
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    ) : (
+                      ""
+                    )}
+
+                    {/* //InCaseOfVideoCard */}
                   </div>
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">

@@ -15,7 +15,7 @@ import {
   getCollections,
   myCollections,
 } from "../collections/collections.actions";
-import { addNFTRecord, createNFT,createActivity } from "../nfts/nfts.action";
+import { addNFTRecord, createNFT, createActivity } from "../nfts/nfts.action";
 import { getCurrentAddress, mintNFt } from "../../utils/web3";
 import { RiArrowDropDownLine } from "react";
 import "./createNft.css";
@@ -137,12 +137,11 @@ class CreateNFT extends Component {
     this.setState({ nft });
   };
 
-
   submit = (e) => {
     e.preventDefault();
 
     const { nft, videoURL, audioUrl } = this.state;
- 
+
     let nftInfo = nft;
     delete nftInfo.currentPrice
 
@@ -169,10 +168,10 @@ class CreateNFT extends Component {
             },
             async () => {
               var formData = new FormData();
-              delete nftInfo.currentPrice
-              console.log(nftInfo,"nftInfo")
+              delete nftInfo.currentPrice;
+              console.log(nftInfo, "nftInfo");
+              console.log(formData, "formdata");
               for (const key in nftInfo)
-
                 if (nftInfo[key]) formData.append(key, nftInfo[key]);
 
               const res = await axiosPostFormData(
@@ -184,6 +183,7 @@ class CreateNFT extends Component {
               if (res.success) {
                 // this.reset();
                 // toast.success(`Success! ${res.message}`)
+                console.log(res, "response");
 
                 if (res.nft && res.nft.metaData) {
                   try {
@@ -191,10 +191,10 @@ class CreateNFT extends Component {
                       res.nft.metaData,
                       res.nft._id,
                       this.state.nft.copies,
-                      
+
                       2
                     );
-             
+
                     if (createNftResult.events.TransferSingle.returnValues.id) {
                       let data = {
                         nftToken:
@@ -202,9 +202,9 @@ class CreateNFT extends Component {
                         data: this.state.nft,
                         image: res.nft.image,
                       };
-                  
+
                       this.props.addNFTRecord(data);
-                    
+
                       this.props.history.push("/explore/allNFT");
                     }
                   } catch (err) {
@@ -611,5 +611,5 @@ export default connect(mapStateToProps, {
   addNFTRecord,
   createNFT,
   myCollections,
-  createActivity
+  createActivity,
 })(CreateNFT);

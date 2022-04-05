@@ -201,9 +201,31 @@
   .accordion
   .accordion-item
   .accordion-body
+  .auction-card.listing-card.card
+  .listing-img-wrapper {
+  height: 190px;
+}
+
+.nftDetail-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
   .auction-card.listing-card
   .card-img-top {
-  height: 170px;
+  height: 190px;
+  object-fit: cover;
+}
+
+.nftDetail-accordion
+  .accordion
+  .accordion-item
+  .accordion-body
+  .auction-card.listing-card
+  .card-img-top
+  .video-wrapper
+  video {
+  height: 190px;
+  object-fit: cover;
 }
 
 .nft-detail .auction-card.card .card-img-top {
@@ -313,6 +335,12 @@
 
 .table-container {
   height: 300px;
+  overflow-y: auto;
+}
+
+.table-container.approval-table-container {
+  max-height: 400px;
+  height: max-content;
   overflow-y: auto;
 }
 

@@ -72,6 +72,7 @@ import BidModal from "../modals/BidModal";
 import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import VideoCard from "../test-video-card/videoCard";
 
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
@@ -1338,27 +1339,52 @@ const NFTDetail = (props) => {
                         <div className="accordion-body">
                           <div className="row justify-content-center align-items-center g-3">
                             {nftsList && nftsList.length > 0 ? (
-                              nftsList.map((listing) => {
-                                return (
-                                  <div className="col-6 col-sm-6 col-md-4 col-lg-2 px-1">
-                                    <ListingCards
-                                      CardImg={listing.image}
-                                      name={listing.name}
-                                      price={listing.currentPrice}
-                                      // usd={
-                                      //   listing.currentPrice * exchangeRate
-                                      // }
-                                      id={listing._id}
-                                    />
-                                  </div>
-                                );
+                              nftsList.map((listing, id) => {
+                                if (id <= 3) {
+                                  return (
+                                    <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1">
+                                      {listing.fileType === "image" ? (
+                                        <ListingCards
+                                          CardImg={listing.image}
+                                          name={listing.name}
+                                          price={listing.currentPrice}
+                                          // usd={
+                                          //   listing.currentPrice * exchangeRate
+                                          // }
+                                          id={listing._id}
+                                        />
+                                      ) : (
+                                        <VideoCard
+                                          CardImg={listing.image}
+                                          name={listing.name}
+                                          price={listing.currentPrice}
+                                          handleLikesTogleApi={
+                                            handleLikesTogleApi
+                                          }
+                                          id={listing._id}
+                                          likesCount={listing.likeCount}
+                                          likedNfts={likedNfts}
+                                          ownerId={listing.ownerId}
+                                          fileType={listing.fileType}
+                                          sellingMethod={listing.sellingMethod}
+                                          auctionStartDate={
+                                            listing?.auctionStartDate
+                                          }
+                                          auctionEndDate={
+                                            listing?.auctionEndDate
+                                          }
+                                        />
+                                      )}
+                                    </div>
+                                  );
+                                }
                               })
                             ) : (
                               <p className="text-center mt-4">No NFTs Found</p>
                             )}
                           </div>
                           <div className="mt-4 detail-btn-collection text-center">
-                            {nftsList.length > 0 && (
+                            {nftsList.length > 0 && nftsList.length > 4 && (
                               <button className="btn btn-rounded-bordered">
                                 View collection
                               </button>

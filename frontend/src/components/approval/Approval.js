@@ -125,10 +125,10 @@ const Approval = (props) => {
                                       </td>
                                     </tr>
                                   );
-                                })}
-                              </tbody>
-                            </table>
-                          )}
+                                })} 
+                            </tbody>
+                          </table>
+                          )} 
                         </div>
                       </div>
                     </div>
@@ -139,7 +139,7 @@ const Approval = (props) => {
           </div>
         </div>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

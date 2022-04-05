@@ -76,6 +76,14 @@ const routes = [
     component: SellNFT,
   },
   {
+    path: "/approval",
+    access: true,
+    exact: true,
+    title: "Approval",
+    layout: layout2,
+    component: Approvals,
+  },
+  {
     path: "/activity",
     access: true,
     exact: true,
