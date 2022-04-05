@@ -65,11 +65,7 @@ const config2 = {
     startTime: moment(new Date()).format("HH:mm"),
     endTime: "23:59",
   },
-  // if user includes reserve price
-  reservePrice: {
-    currency: ENV.currency,
-    amount: "",
-  },
+ 
 };
 
 const SellNFT = (props) => {
