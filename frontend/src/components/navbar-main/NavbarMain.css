@@ -111,11 +111,11 @@
 }
 
 .main-nav-container .search-box:hover > .search-btn {
-  background: linear-gradient(to top, #4355ff, #5695fd);
+  background: #5666fe;
 }
 
 .main-nav-container .search-box .search-btn.activeSearchBtn {
-  background: linear-gradient(to top, #4355ff, #5695fd);
+  background: #5666fe;
 }
 
 .active-className-link {

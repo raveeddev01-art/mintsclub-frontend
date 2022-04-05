@@ -225,8 +225,8 @@ const PopularCollections = (props) => {
                     <CollectionsCard
                       CardImg={item.featuredImg}
                       Subimg1={
-                        item?.nfts[0]
-                          ? item?.nfts[0]
+                        item?.nfts[0]["image"]
+                          ? item?.nfts[0]["image"]
                           : Images.popularCollectionPlaceholder
                       }
                       Subimg2={
@@ -249,6 +249,7 @@ const PopularCollections = (props) => {
                   );
                 }
               })}
+            {console.log(popular, "popularCollections")}
           </CardSlider>
         </div>
       </section>
