@@ -17,7 +17,7 @@ const BuyModal = (props) => {
     tokenId,
     modal,
     setModal,
-    makeOffer,
+    buyNow,
     confirmed,
     transactionHash,
     transactionSuccess,
@@ -26,7 +26,7 @@ const BuyModal = (props) => {
 
   return (
 
-  // (confirmed === ""||confirmed===false) ? (
+  (confirmed === ""||confirmed===false) ? (
     <Modal
       {...props}
       size="lg"
@@ -132,113 +132,115 @@ const BuyModal = (props) => {
         </div>
         <Button
           onClick={() => {
-            makeOffer();onHide()
+            buyNow()
           }}
           className="btn btn-linear-gradient mt-2"
         >
-          Make Offer
+          Checkout
         </Button>
       </Modal.Footer>
     </Modal>
+  
+        
+     
+  ) : (
+    <Modal
+      {...props}
+      size="lg"
+      dialogClassName="buy-modal-dialog"
+      contentClassName="buy-modal-content"
+      className="buy-modal purchase-modal"
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">
+          {!transactionSuccess
+            ? "Your Purchase is Processing"
+            : "Your Purchase has processed!"}
+        </Modal.Title>
+        <div className="modal-close-container">
+          <Button onClick={props.onHide}>
+            <img src={ModalClose} alt="closemodal" />
+          </Button>
+        </div>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="modal-nft-container">
+          <div className="modal-nft-img">
+            <img src={image} alt="nft-img" />
+          </div>
+        </div>
+        <div className="modal-nft-purchased mt-3">
+          {!transactionSuccess ? (
+            <p>
+              Woo! You just Purchased FancyLaday. It should be confirmed on the
+              blockchain shortly
+            </p>
+          ) : (
+            <p>
+              {" "}
+              Woo! You just Purchased FancyLaday. It's been confirmed on the
+              blockchain shortly
+            </p>
+          )}
+        </div>
+        <div className="modal-nft-status mt-4">
+          <div className="modal-status-subheadings d-flex align-items-center justify-content-between">
+            <p> Status </p>
+            <p> Transaction Hash </p>
+          </div>
+          <div className="modal-status-content d-flex align-items-center justify-content-between">
+            <div className="status-process d-flex align-items-center">
+              {!transactionSuccess ? (
+                <>
+                  <Spinner
+                    animation="border"
+                    role="status"
+                    size="sm"
+                    variant="primary"
+                    className="me-1"
+                  ></Spinner>
+                  <p>Processing</p>
+                </>
+              ) : (
+                <>
+                  <CheckCircleIcon />
+                </>
+              )}
+            </div>
+            <div className="status-address">
+              <p>
+                {transactionHash.slice(0, 6) +
+                  "....." +
+                  transactionHash.slice(-6)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="modal-nft-footer">
+          <p>Share</p>
+        </div>
+        <div className="social-icons d-flex justify-content-center justify-content-lg-start">
+          <a href="#" target="_blank">
+            <i className={"fab fa-linkedin-in"} />
+          </a>
+          <a href="#" target="_blank">
+            <i className={"fab fa-facebook-f"} />
+          </a>
+          <a href="#" target="_blank">
+            <i className={"fab fa-instagram"} />
+          </a>
+          <a href="#" target="_blank">
+            <i className={"fab fa-twitter"} />
+          </a>
+        </div>
+      </Modal.Footer>
+    </Modal>
   )
-        }
-      export default BuyModal;
-  // ) : (
-  //   <Modal
-  //     {...props}
-  //     size="lg"
-  //     dialogClassName="buy-modal-dialog"
-  //     contentClassName="buy-modal-content"
-  //     className="buy-modal purchase-modal"
-  //     centered
-  //   >
-  //     <Modal.Header>
-  //       <Modal.Title id="contained-modal-title-vcenter">
-  //         {!transactionSuccess
-  //           ? "Your Purchase is Processing"
-  //           : "Your Purchase has processed!"}
-  //       </Modal.Title>
-  //       <div className="modal-close-container">
-  //         <Button onClick={props.onHide}>
-  //           <img src={ModalClose} alt="closemodal" />
-  //         </Button>
-  //       </div>
-  //     </Modal.Header>
-  //     <Modal.Body>
-  //       <div className="modal-nft-container">
-  //         <div className="modal-nft-img">
-  //           <img src={image} alt="nft-img" />
-  //         </div>
-  //       </div>
-  //       <div className="modal-nft-purchased mt-3">
-  //         {!transactionSuccess ? (
-  //           <p>
-  //             Woo! You just Purchased FancyLaday. It should be confirmed on the
-  //             blockchain shortly
-  //           </p>
-  //         ) : (
-  //           <p>
-  //             {" "}
-  //             Woo! You just Purchased FancyLaday. It's been confirmed on the
-  //             blockchain shortly
-  //           </p>
-  //         )}
-  //       </div>
-  //       <div className="modal-nft-status mt-4">
-  //         <div className="modal-status-subheadings d-flex align-items-center justify-content-between">
-  //           <p> Status </p>
-  //           <p> Transaction Hash </p>
-  //         </div>
-  //         <div className="modal-status-content d-flex align-items-center justify-content-between">
-  //           <div className="status-process d-flex align-items-center">
-  //             {!transactionSuccess ? (
-  //               <>
-  //                 <Spinner
-  //                   animation="border"
-  //                   role="status"
-  //                   size="sm"
-  //                   variant="primary"
-  //                   className="me-1"
-  //                 ></Spinner>
-  //                 <p>Processing</p>
-  //               </>
-  //             ) : (
-  //               <>
-  //                 <CheckCircleIcon />
-  //               </>
-  //             )}
-  //           </div>
-  //           <div className="status-address">
-  //             <p>
-  //               {transactionHash.slice(0, 6) +
-  //                 "....." +
-  //                 transactionHash.slice(-6)}
-  //             </p>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </Modal.Body>
-  //     <Modal.Footer>
-  //       <div className="modal-nft-footer">
-  //         <p>Share</p>
-  //       </div>
-  //       <div className="social-icons d-flex justify-content-center justify-content-lg-start">
-  //         <a href="#" target="_blank">
-  //           <i className={"fab fa-linkedin-in"} />
-  //         </a>
-  //         <a href="#" target="_blank">
-  //           <i className={"fab fa-facebook-f"} />
-  //         </a>
-  //         <a href="#" target="_blank">
-  //           <i className={"fab fa-instagram"} />
-  //         </a>
-  //         <a href="#" target="_blank">
-  //           <i className={"fab fa-twitter"} />
-  //         </a>
-  //       </div>
-  //     </Modal.Footer>
-  //   </Modal>
-  // );
-// };
+  )
+ };
+export default BuyModal;
 
 

@@ -9,6 +9,8 @@ import {
   SET_INDIVIDUAL_USER,
   BEFORE_USER,
   UPDATE_API_STATEC,
+  EDIT_APPROVAL,
+  GET_APPROVALS
 } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import {
@@ -157,6 +159,80 @@ export const updateProfile = (body) => (dispatch) => {
     })
     .catch((errors) => {
       console.log(errors, 'update profile response');
+      dispatch({
+        type: GET_ERRORS,
+        payload: errors,
+      });
+    });
+};
+export const getApprovals = () => (dispatch) => {
+
+  dispatch(emptyError());
+  const url = `${ENV.adminUrl}approvals/list`;
+  fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: ENV.Authorization,
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
+    },
+  
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.data,"approvals record")
+      if(data.success){
+        dispatch({
+          type:GET_APPROVALS,
+          payload:data.data
+        })
+      }
+    })
+    .catch((errors) => {
+   
+      dispatch({
+        type: GET_ERRORS,
+        payload: errors,
+      });
+    });
+};
+export const updateApprovals = (body) => (dispatch) => {
+
+  dispatch(emptyError());
+  const url = `${ENV.adminUrl}approvals/edit`;
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      Authorization: ENV.Authorization,
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
+    },
+    body
+  
+  })
+    .then((res) => res.json())
+    .then((data) => {
+    
+      if(data.success){
+        toast.success(data.message)
+        dispatch({
+          type:EDIT_APPROVAL,
+          payload:data.data
+        })
+      }
+    })
+    .catch((errors) => {
+   
       dispatch({
         type: GET_ERRORS,
         payload: errors,

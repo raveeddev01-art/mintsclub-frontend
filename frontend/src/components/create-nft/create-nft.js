@@ -41,7 +41,6 @@ class CreateNFT extends Component {
         image: "",
         name: "",
         description: "",
-        currentPrice: "",
         royalty: "",
         size: "",
         copies: "",
@@ -145,6 +144,7 @@ class CreateNFT extends Component {
     const { nft, videoURL, audioUrl } = this.state;
  
     let nftInfo = nft;
+    delete nftInfo.currentPrice
 
     if (videoURL) {
       nftInfo.fileType = "video";

@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import OfferIcon from "../../assets/images/offer-icon.svg";
 import ListingIcon from "../../assets/images/listing-icon.svg";
 import ActivityIcon from "../../assets/images/activity.svg";
+import { connect } from "react-redux";
+import { getApprovals, updateApprovals } from "../user/user.action";
+import ReactTimeAgo from "react-time-ago";
 
-const Approval = () => {
+const Approval = (props) => {
+  const [approvals, setApprovals] = useState([]);
+  const [disabled,setDisabled]=useState(false)
+  useEffect(() => {
+    props.getApprovals();
+  }, []);
+
+  useEffect(() => {
+    if (props.approvals) {
+      setApprovals(props.approvals);
+    }
+  }, [props.approvalsAuth]);
+  useEffect(()=>{
+    if(props.editApprovalAuth)
+    {
+      setDisabled(false)
+    }
+
+  },[props.editApprovalAuth])
+
+  const acceptApproval = (id) => {
+    setDisabled(true)
+    let updatedApprovals=approvals.filter((item)=>item._id!==id)
+    setApprovals(updatedApprovals)
+    let data = {
+      id,
+      isAccepted: true,
+    };
+    props.updateApprovals(data);
+  };
+  console.log(approvals);
+
   return (
     <>
       <NavbarMain />
@@ -43,7 +77,7 @@ const Approval = () => {
                     >
                       <div className="accordion-body">
                         <div className="table-container">
-                          {/* {activities && activities.length > 0 && ( */}
+                          {approvals && approvals.length > 0 && (
                             <table class="table table-borderless">
                               <thead>
                                 <tr>
@@ -52,50 +86,49 @@ const Approval = () => {
                                   <th scope="col">Address</th>
                                   {/* <th scope="col">To</th> */}
                                   <th scope="col">Date</th>
+                                  <th scope="col">{""}</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {/* {activities.map((activity) => {
+                                {approvals.map((approval) => {
                                   return (
                                     <tr>
                                       <th scope="row">
-                                        <div className="d-flex align-items-center">
-                                          {handleAcitivityIcon(
-                                            activity.activityType
-                                          )}
-                                          <p className="ps-1">
-                                            {" "}
-                                            {activity.activityType}{" "}
-                                          </p>
-                                        </div>
+                                        <p className="ps-1">
+                                          {" "}
+                                          {approval.username}{" "}
+                                        </p>
                                       </th>
+                                      <td>{approval.email}</td>
                                       <td>
-                                        {activity.price ? activity.price : ""}
-                                      </td>
-                                      <td>
-                                        {activity.fromAddress
-                                          ? activity.fromAddress.slice(-8)
-                                          : "null address"}
-                                      </td>
-                                      <td>
-                                        {activity.toAddress
-                                          ? activity.toAddress.slice(-8)
+                                        {approval.address
+                                          ? approval.address.slice(-8)
                                           : ""}{" "}
                                       </td>
                                       <td>
                                         <div>
                                           <ReactTimeAgo
-                                            date={activity.createdAt}
+                                            date={approval.createdAt}
                                             locale="en-US"
                                           />
                                         </div>
                                       </td>
+                                      <td>
+                                        <button
+                                          className="cancel-Bid-btn"
+                                          onClick={() =>
+                                            acceptApproval(approval._id)
+                                          }
+                                        >
+                                          Accept
+                                        </button>
+                                      </td>
                                     </tr>
                                   );
-                                })} */}
+                                })}
                               </tbody>
                             </table>
-                          {/* )} */}
+                          )}
                         </div>
                       </div>
                     </div>
@@ -111,4 +144,13 @@ const Approval = () => {
   );
 };
 
-export default Approval;
+const mapStateToProps = (state) => ({
+  approvals: state.user.approvals,
+  approvalsAuth: state.user.approvalsAuth,
+  editApprovalAuth:state.user.editApprovalAuth
+});
+
+export default connect(mapStateToProps, {
+  getApprovals,
+  updateApprovals,
+})(Approval);

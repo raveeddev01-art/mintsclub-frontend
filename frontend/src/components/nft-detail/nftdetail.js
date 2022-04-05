@@ -313,6 +313,7 @@ const NFTDetail = (props) => {
       props.beforeTogleLikeDislike();
     }
   }, [props.togleLikeRes]);
+
   useEffect(() => {
     if (props.activitiesAuth) {
       setActivities(props.activities);
@@ -340,6 +341,7 @@ const NFTDetail = (props) => {
   }, [toggle]);
 
   const handleLikesTogleApi = (nftId, status) => {
+    console.log(likeButtonDisable,"likeButtonDisable")
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       setToggle(!toggle);
@@ -625,7 +627,7 @@ const NFTDetail = (props) => {
   // console.log(nftDetail, "NFTdetail");
   // console.log(ENV.getUserKeys("_id")._id, "id");
   // console.log(offers, "offers");
-  // console.log(loader,"loader")
+  // console.log(props,"props")
 
   return (
     <>
@@ -702,8 +704,8 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {(bids && bids.length > 0) ||
-                                    (offers && offers.length > 0 && (
+                                  {(bids && bids.length > 0 &&
+                                   (
                                       <thead>
                                         <tr>
                                           <th scope="col">Price</th>
@@ -830,7 +832,7 @@ const NFTDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                        <div className="accordion-item">
+                        {/* <div className="accordion-item">
                           <h2
                             className="accordion-header"
                             id="flush-headingThree"
@@ -850,8 +852,8 @@ const NFTDetail = (props) => {
                               />
                               Item listing
                             </button>
-                          </h2>
-                          <div
+                          </h2> */}
+                          {/* <div
                             id="flush-collapseThree"
                             className="accordion-collapse collapse"
                             aria-labelledby="flush-headingThree"
@@ -882,8 +884,8 @@ const NFTDetail = (props) => {
                                 </table>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </div> */}
+                        {/* </div> */}
                       </div>
                     </div>
                   </div>
@@ -1154,7 +1156,7 @@ const NFTDetail = (props) => {
                       </div>
                       <div className="detail-nft-copies">
                         <p>
-                          {nftDetail.copies}{" "}
+                          {nftDetail?.remainingCopies?nftDetail?.remainingCopies:nftDetail.copies}{" "}
                           {nftDetail.copies === 1 ? "Copy" : "Copies"}
                         </p>
                       </div>
@@ -1202,7 +1204,7 @@ const NFTDetail = (props) => {
                               : nftDetail?.sellingMethod === 2
                               ? "Place Bid"
                               : nftDetail?.sellingMethod === 1
-                              ? "Make Offer"
+                              ? "Buy Now"
                               : ""}
                           </button>
                         </>
@@ -1541,7 +1543,7 @@ const NFTDetail = (props) => {
             tokenId={nftDetail.nftToken}
             modal={modal}
             setModal={setModal}
-            makeOffer={makeOffer}
+            buyNow={BuyNow}
             confirmed={confirmed}
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
