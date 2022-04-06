@@ -26,10 +26,13 @@ const AuctionsCards = (props) => {
   return (
     <Card className="auction-card mx-2">
       <div className="auction-img-wrapper">
-        <Card.Img variant="top" src={props.image} alt="AuctionTopImg" />
-
-        {/* InCaseOfVideoCard */}
-        {/* <div className="card-img-top">
+        
+        {
+          props.fileType==="image"?
+          <Card.Img variant="top" src={props.image} alt="AuctionTopImg" />
+          :
+         
+         <div className="card-img-top">
           <div className="video-wrapper">
             <video
               src={props.image}
@@ -51,7 +54,10 @@ const AuctionsCards = (props) => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div> 
+        }
+
+      
         <div className="auction-countdown">
           <Countdown date={props.endDate} renderer={countDownRenderer} />
         </div>

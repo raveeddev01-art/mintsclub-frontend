@@ -11,15 +11,16 @@ import {
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
   CREATE_ACITIVITY,
-  GET_ACTIVITIES
+  GET_ACTIVITIES,
+  GET_ITEM_LISTING
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
 import {
-    axiosPostFormData,
-    decimalNumberValidator,
-  } from "./../../utils/functions";
-  import axios from 'axios'
+  axiosPostFormData,
+  decimalNumberValidator,
+} from "./../../utils/functions";
+import axios from "axios";
 
 export const beforeNFT = () => {
   return {
@@ -29,10 +30,9 @@ export const beforeNFT = () => {
 export const upsertNFT =
   (type = "create", body, method = "POST") =>
   (dispatch) => {
-    
     dispatch(emptyError());
     const url = `${ENV.url}/nfts/${type}`;
-console.log(url,"upsert nft ==}}}}}}}}}}}}}}}}}}}}}")
+    console.log(url, "upsert nft ==}}}}}}}}}}}}}}}}}}}}}");
     fetch(url, {
       method,
       headers: {
@@ -49,7 +49,7 @@ console.log(url,"upsert nft ==}}}}}}}}}}}}}}}}}}}}}")
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data,"response of upser nft ")
+        console.log(data, "response of upser nft ");
         if (data.success) {
           toast.success(data.message);
           dispatch({
@@ -99,7 +99,6 @@ export const getNFTs =
     })
       .then((res) => res.json())
       .then((data) => {
-     
         if (data.success) {
           //change to data.data first dispatch
           dispatch({
@@ -145,7 +144,6 @@ export const getNFT = (nftId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-
       // alert("called")
       if (data.success) {
         dispatch({
@@ -168,165 +166,162 @@ export const getNFT = (nftId) => (dispatch) => {
         type: GET_ERRORS,
         payload: errors,
       });
-   
     });
 };
-export const update=(body,qs='')=>(dispatch)=>{
-
-
-  dispatch(emptyError());
+export const update =
+  (body, qs = "") =>
+  (dispatch) => {
+    dispatch(emptyError());
 
     let url = `${ENV.url}nftLikes/userNftLikes?`;
-    url=url+qs
-    axios.put(url,body)
-    .then(function (response) {
-
-          if (response.data.success) {
-      
-         
-            } else {
-             
-            }
-    })
-    .catch(function (error) {
-      console.log(error);
-    
-    });
-  
-  
-}
+    url = url + qs;
+    axios
+      .put(url, body)
+      .then(function (response) {
+        if (response.data.success) {
+        } else {
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
 export const createActivity = (body) => (dispatch) => {
   dispatch(emptyError());
   const url = `${ENV.url}activity/create`;
 
- 
-  axios.post(url,body)
-  .then(function (response) {
-  console.log(response,"response")
-  
-  })
-  .catch(function (error) {
-    console.log(error);
-    dispatch({
-            type: GET_ERRORS,
-            payload: error,
-          });
-  });
-};
-export const getActivities = (qs=null) => (dispatch) => {
-  dispatch(emptyError());
-  let url = `${ENV.url}activity/get`;
-  if(qs){
-    url+=`?${qs}`
-  }
-
- 
-  axios.get(url)
-  .then(function (response) {
-  console.log( response.data.data,"response")
-
-  dispatch({
-    type:GET_ACTIVITIES,
-    payload: response.data.data,
-  });
-  
-  })
-  .catch(function (error) {
-    console.log(error);
-    dispatch({
-            type: GET_ERRORS,
-            payload: error,
-          });
-  });
-};
-
-export const getNFTsByCollection=(id)=>(dispatch)=>{
-  
-
-  let data ={
-    collectionId:id
-  }
-
-
-  dispatch(emptyError());
-
-    const url = `${ENV.url}nfts/getNFTsByCollection`;
-    axios.post(url,data)
+  axios
+    .post(url, body)
     .then(function (response) {
-  
-      if (response.data.success) {
-              dispatch({
-                type:GET_NFTS_BY_COLLECTION,
-                payload:response.data.data
-              })
-         
-            } else {
-              dispatch({
-                type: GET_ERRORS,
-                payload: response.data,
-              });
-            }
+      console.log(response, "response");
     })
     .catch(function (error) {
       console.log(error);
       dispatch({
-              type: GET_ERRORS,
-              payload: error,
-            });
+        type: GET_ERRORS,
+        payload: error,
+      });
     });
-  
-  
-}
+};
+export const getActivities =
+  (qs = null) =>
+  (dispatch) => {
+    dispatch(emptyError());
+    let url = `${ENV.url}activity/get`;
+    if (qs) {
+      url += `?${qs}`;
+    }
 
-export const getMyLikedNfts=(qs='')=>(dispatch)=>{
+    axios
+      .get(url)
+      .then(function (response) {
+       
 
+        dispatch({
+          type: GET_ACTIVITIES,
+          payload: response.data.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+        dispatch({
+          type: GET_ERRORS,
+          payload: error,
+        });
+      });
+  };
+  export const getItemsListing =
+  (qs = null) =>
+  (dispatch) => {
+    dispatch(emptyError());
+    let url = `${ENV.url}itemsListing/list`;
+    if (qs) {
+      url += `?${qs}`;
+    }
+
+    axios
+      .get(url)
+      .then(function (response) {    
+        dispatch({
+          type:  GET_ITEM_LISTING,
+          payload: response.data.data,
+        });
+ 
+      })
+      .catch(function (error) {
+        console.log(error)
+        dispatch({
+          type: GET_ERRORS,
+          payload: error,
+        });
+   
+      });
+  };
+
+export const getNFTsByCollection = (id) => (dispatch) => {
+  let data = {
+    collectionId: id,
+  };
 
   dispatch(emptyError());
 
-    let url = `${ENV.url}nftLikes/userNftLikes?`;
-    url=url+qs
-    axios.get(url)
+  const url = `${ENV.url}nfts/getNFTsByCollection`;
+  axios
+    .post(url, data)
     .then(function (response) {
-console.log()
       if (response.data.success) {
         dispatch({
-          type: GET_MYLIKED_NFTS,
+          type: GET_NFTS_BY_COLLECTION,
           payload: response.data.data,
         });
-         
-            } else {
-             
-            }
+      } else {
+        dispatch({
+          type: GET_ERRORS,
+          payload: response.data,
+        });
+      }
     })
     .catch(function (error) {
       console.log(error);
-    
+      dispatch({
+        type: GET_ERRORS,
+        payload: error,
+      });
     });
-  
-  
-}
+};
 
-export const createNFT= async (formData)=>{
-    try {
+export const getMyLikedNfts =
+  (qs = "") =>
+  (dispatch) => {
+    dispatch(emptyError());
 
-        const res = await axiosPostFormData(
-            "nfts/create",
-            formData,
-            true
-          );
-    }
-    catch(err){
+    let url = `${ENV.url}nftLikes/userNftLikes?`;
+    url = url + qs;
+    axios
+      .get(url)
+      .then(function (response) {
+        console.log();
+        if (response.data.success) {
+          dispatch({
+            type: GET_MYLIKED_NFTS,
+            payload: response.data.data,
+          });
+        } else {
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
-    }
-}
+export const createNFT = async (formData) => {
+  try {
+    const res = await axiosPostFormData("nfts/create", formData, true);
+  } catch (err) {}
+};
 export const addNFTRecord = (formData) => async (dispatch) => {
-
-  const res = await axiosPostFormData(
-            "nfts/storeNFTData",
-            formData,
-            true
-          );
+  const res = await axiosPostFormData("nfts/storeNFTData", formData, true);
 };
 
 export const getProfileNfts =
@@ -335,8 +330,6 @@ export const getProfileNfts =
     dispatch(emptyError());
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
-
-
 
     fetch(url, {
       method: "GET",
@@ -354,22 +347,14 @@ export const getProfileNfts =
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data,"profile nfts")
+        console.log(data, "profile nfts");
         if (data.success) {
           dispatch({
             type: GET_PROFILE_NFTS,
             payload: data.data,
           });
-          
         } else {
-     
         }
       })
-      .catch((errors) => {
-     
-      });
+      .catch((errors) => {});
   };
-
-
-
-

@@ -97,6 +97,7 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
+  console.log(auctions,"auctions")
   
 
   return (
@@ -205,6 +206,7 @@ function AuctionsOne(props) {
                         id={item._id}
                         userId={ENV.getUserKeys("_id")._id}
                         ownerId={item.owner._id}
+                        fileType={item.fileType}
                       />
                     );
                   })}

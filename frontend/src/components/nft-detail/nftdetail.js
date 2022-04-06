@@ -23,6 +23,7 @@ import {
   beforeNFT,
   createActivity,
   getActivities,
+  getItemsListing,
 } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
@@ -79,8 +80,10 @@ const NFTDetail = (props) => {
   const [toggle, setToggle] = React.useState(true);
   const [likedNfts, setLikedNfts] = useState();
   const [nftDetail, setNftDetail] = useState("");
+  const [listedItem,setListedItem]=useState([])
   const [nftsList, setNftList] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [itemsListing, setItemsListing] = useState([]);
   const [loader, setLoader] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [price, setPrice] = useState(0);
@@ -88,6 +91,7 @@ const NFTDetail = (props) => {
   const [bids, setBids] = useState(null);
   const [offers, setOffers] = useState(null);
   const [modalShow, setModalShow] = useState(false);
+  const [modalShow1, setModalShow1] = useState(false);
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [modal, setModal] = useState(1);
   const [confirmed, setConfirmed] = useState("");
@@ -260,6 +264,11 @@ const NFTDetail = (props) => {
       activityQs = ENV.objectToQueryString(activityQs);
       props.getActivities(activityQs);
 
+      //getItemsListing
+      let itemsListingQS = { collectionId: props.nftDetail.collectionId };
+      itemsListingQS = ENV.objectToQueryString(itemsListingQS);
+      props.getItemsListing(itemsListingQS);
+
       //get offers
       if (props.nftDetail.sellingMethod) {
         if (props.nftDetail.sellingMethod === 1) {
@@ -320,6 +329,11 @@ const NFTDetail = (props) => {
       setActivities(props.activities);
     }
   }, [props.activitiesAuth]);
+  useEffect(() => {
+    if (props.itemsListingAuth) {
+      setItemsListing(props.itemsListing);
+    }
+  }, [props.itemsListingAuth]);
 
   const handleRouting = () => {
     if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
@@ -342,7 +356,6 @@ const NFTDetail = (props) => {
   }, [toggle]);
 
   const handleLikesTogleApi = (nftId, status) => {
-    console.log(likeButtonDisable,"likeButtonDisable")
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       setToggle(!toggle);
@@ -625,7 +638,8 @@ const NFTDetail = (props) => {
     }
   };
 
-  console.log(nftDetail, "NFTdetail");
+
+  console.log(itemsListing, "itemsListing");
   // console.log(ENV.getUserKeys("_id")._id, "id");
   // console.log(offers, "offers");
   // console.log(props,"props")
@@ -705,19 +719,18 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {(bids && bids.length > 0 &&
-                                   (
-                                      <thead>
-                                        <tr>
-                                          <th scope="col">Price</th>
-                                          <th scope="col">USD Price</th>
-                                          <th scope="col">Floor Difference</th>
-                                          {/* <th scope="col">Expiration</th> */}
-                                          <th scope="col">From</th>
-                                          <th scope="col">{""}</th>
-                                        </tr>
-                                      </thead>
-                                    ))}
+                                  {bids && bids.length > 0 && (
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">USD Price</th>
+                                        <th scope="col">Floor Difference</th>
+                                        {/* <th scope="col">Expiration</th> */}
+                                        <th scope="col">From</th>
+                                        <th scope="col">{""}</th>
+                                      </tr>
+                                    </thead>
+                                  )}
                                   <tbody>
                                     {nftDetail?.sellingMethod === 2 ? (
                                       <>
@@ -799,10 +812,7 @@ const NFTDetail = (props) => {
                                                 </td>
                                                 {/* <td>an hour ago</td> */}
                                                 <td>
-                                                  {offer.fromAddress.slice(
-                                                    3,
-                                                    8
-                                                  )}
+                                                  {offer.fromAddress.slice(-6)}
                                                 </td>
                                                 {ENV.getUserKeys("_id")._id ===
                                                   offer.offerBy && (
@@ -833,7 +843,7 @@ const NFTDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                        {/* <div className="accordion-item">
+                        <div className="accordion-item">
                           <h2
                             className="accordion-header"
                             id="flush-headingThree"
@@ -853,8 +863,8 @@ const NFTDetail = (props) => {
                               />
                               Item listing
                             </button>
-                          </h2> */}
-                          {/* <div
+                          </h2>
+                          <div
                             id="flush-collapseThree"
                             className="accordion-collapse collapse"
                             aria-labelledby="flush-headingThree"
@@ -862,31 +872,56 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  <thead>
+                                  {
+                                    itemsListing && itemsListing.length > 0?
+                                    <>
+                                    <thead>
                                     <tr>
                                       <th scope="col">Price</th>
                                       <th scope="col">USD Price</th>
-                                      <th scope="col">Expiration</th>
+
                                       <th scope="col">From</th>
                                       <th scope="col">{""}</th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <th scope="row">0.025</th>
-                                      <td>$77.50</td>
-                                      <td>in a day</td>
-                                      <td>BBC1B3</td>
-                                      <td>
-                                        <button>Buy</button>
-                                      </td>
-                                    </tr>
+                                    {itemsListing && itemsListing.length > 0
+                                      &&itemsListing.map((item) => {
+                                          return (
+                                            <tr>
+                                              <th scope="row">
+                                                {item.currentPrice}
+                                              </th>
+                                              <td>
+                                                {" "}
+                                                $
+                                                {(
+                                                  item.currentPrice *
+                                                  exchangeRate
+                                                ).toFixed(2)}
+                                              </td>
+
+                                              <td>
+                                                {" "}
+                                                {item.ownerAddress.slice(-6)}
+                                              </td>
+                                              <td>
+                                                <button onClick={()=>{setModalShow1(true); setListedItem(item)}}>Buy</button>
+                                              </td>
+                                            </tr>
+                                          );
+                                        })
+                                      }
                                   </tbody>
+                                  </>:"No Items Found"
+
+                                  }
+                                  
                                 </table>
                               </div>
                             </div>
-                          </div> */}
-                        {/* </div> */}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1157,7 +1192,9 @@ const NFTDetail = (props) => {
                       </div>
                       <div className="detail-nft-copies">
                         <p>
-                          {nftDetail?.remainingCopies?nftDetail?.remainingCopies:nftDetail.copies}{" "}
+                          {nftDetail?.remainingCopies
+                            ? nftDetail?.remainingCopies
+                            : nftDetail.copies}{" "}
                           {nftDetail.copies === 1 ? "Copy" : "Copies"}
                         </p>
                       </div>
@@ -1574,6 +1611,21 @@ const NFTDetail = (props) => {
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
           />
+            <BuyModal
+            show={modalShow1}
+            onHide={() => setModalShow1(false)}
+            name={listedItem.name}
+            price={listedItem.currentPrice}
+            image={listedItem.image}
+            exchangeRate={exchangeRate}
+            tokenId={listedItem.nftToken}
+            modal={modal}
+            setModal={setModal}
+            buyNow={BuyNow}
+            confirmed={confirmed}
+            transactionHash={transactionHash}
+            transactionSuccess={transactionSuccess}
+          />
 
           <BidModal
             show={bidModalShow}
@@ -1602,6 +1654,8 @@ const mapStateToProps = (state) => ({
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
   activities: state.nft.itemActivities,
   activitiesAuth: state.nft.activitiesAuth,
+  itemsListing: state.nft.itemsListing,
+  itemsListingAuth: state.nft.itemsListingAuth,
   createAuth: state.bid.createAuth,
   createAuthOffer: state.offer.createAuth,
   getAuth: state.bid.getAuth,
@@ -1633,4 +1687,5 @@ export default connect(mapStateToProps, {
   buyNow,
   createActivity,
   getActivities,
+  getItemsListing,
 })(NFTDetail);

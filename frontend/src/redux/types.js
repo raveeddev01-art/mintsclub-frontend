@@ -26,6 +26,9 @@ export const BUY_NOW = 'BUY_NOW';
 export const CREATE_ACITIVITY = 'CREATE_ACITIVITY';
 export const GET_ACTIVITIES = 'GET_ACTIVITIES';
 
+//ITEM LISTING
+export const GET_ITEM_LISTING="GET_ITEM_LISTING";
+
 //CREATE NFT
 export const SET_NFT_TOKEN = 'SET_NFT_TOKEN';
 export const CREATE_NFT = 'CREATE_NFT';

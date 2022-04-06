@@ -7,7 +7,8 @@ import {
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
-  GET_ACTIVITIES
+  GET_ACTIVITIES,
+  GET_ITEM_LISTING
 } from "../../redux/types";
 
 const initialState = {
@@ -25,6 +26,8 @@ const initialState = {
   profileNFTsStatus: false,
   itemActivities:[],
   activitiesAuth:false,
+  itemsListing:[],
+  itemsListingAuth:false,
 };
 
 export default function (state = initialState, action) {
@@ -65,6 +68,7 @@ export default function (state = initialState, action) {
         profileNFTs: [],
         profileNFTsStatus: false,
         activitiesAuth:false,
+        itemsListingAuth:false,
       };
 
     case GET_NFTS_BY_COLLECTION:
@@ -91,6 +95,12 @@ export default function (state = initialState, action) {
           itemActivities:action.payload,
           activitiesAuth:true
         }
+        case GET_ITEM_LISTING:
+          return {
+            ...state,
+            itemsListing:action.payload,
+            itemsListingAuth:true,
+          }
 
     default:
       return {
