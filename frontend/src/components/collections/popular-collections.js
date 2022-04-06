@@ -225,18 +225,18 @@ const PopularCollections = (props) => {
                     <CollectionsCard
                       CardImg={item.featuredImg}
                       Subimg1={
-                        item?.nfts[0]
-                          ? item?.nfts[0]
+                        item?.nfts[0]?.image
+                          ? item?.nfts[0]?.image
                           : Images.popularCollectionPlaceholder
                       }
                       Subimg2={
-                        item?.nfts[1]
-                          ? item?.nfts[1]
+                        item?.nfts[1]?.image
+                          ? item?.nfts[1]?.image
                           : Images.popularCollectionPlaceholder
                       }
                       Subimg3={
-                        item?.nfts[2]
-                          ? item?.nfts[2]
+                        item?.nfts[2]?.image
+                          ? item?.nfts[2]?.image
                           : Images.popularCollectionPlaceholder
                       }
                       name={item.name}
@@ -249,6 +249,7 @@ const PopularCollections = (props) => {
                   );
                 }
               })}
+            {console.log(popular, "popularCollections")}
           </CardSlider>
         </div>
       </section>

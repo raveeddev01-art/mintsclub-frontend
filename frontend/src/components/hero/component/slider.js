@@ -9,8 +9,7 @@ import { beforeNFT, getNFTs } from "../../nfts/nfts.action";
 import { ENV } from "../../../config/config";
 
 const Slider = (props) => {
-  const [auctions, setAuctions] = useState(null);
-  const [loader, setLoader] = useState(true);
+  const [auctions, setAuctions] = useState([]);
   const [nfts, setNFTs] = useState([]);
 
   useEffect(() => {
@@ -41,8 +40,6 @@ const Slider = (props) => {
     }
   }, [props.nft.nftsAuth]);
 
-  console.log("nfts", nfts);
-
   return (
     <section id="slider">
       {props.sliderRadioButtons.map((item) => {
@@ -57,29 +54,32 @@ const Slider = (props) => {
           />
         );
       })}
-      {auctions && auctions.length >= 7 ? (
-        auctions.map((item, id) => {
-          if (id <= 6) {
-            return (
-              <label
-                for={`s${id + 1}`}
-                id={`slide${id + 1}`}
-                onClick={() => props.setHandler(id + 1)}
-              >
-                <HeroCards
-                  CardImg={item.image}
-                  NftName={item.name}
-                  OwnerName={item.owner.username}
-                  className="slide"
-                />
-              </label>
-            );
-          }
-        })
+      {auctions &&
+      auctions.filter((item) => item.fileType === "image").length >= 7 ? (
+        auctions
+          .filter((item) => item.fileType === "image")
+          .map((item, id) => {
+            if (id <= 6) {
+              return (
+                <label
+                  for={`s${id + 1}`}
+                  id={`slide${id + 1}`}
+                  onClick={() => props.setHandler(id + 1)}
+                >
+                  <HeroCards
+                    CardImg={item.image}
+                    NftName={item.name}
+                    OwnerName={item.owner.username}
+                    className="slide"
+                  />
+                </label>
+              );
+            }
+          })
       ) : nfts &&
-        nfts.filter((item) => item.fileType !== "video").length >= 7 ? (
+        nfts.filter((item) => item.fileType === "image").length >= 7 ? (
         nfts
-          .filter((item) => item.fileType !== "video")
+          .filter((item) => item.fileType === "image")
           .map((item, id) => {
             if (id <= 6) {
               return (
@@ -123,7 +123,6 @@ const Slider = (props) => {
           </label>
         </>
       )}
-      {console.log(auctions, "auctionsss")}
     </section>
   );
 };
