@@ -26,6 +26,7 @@ import {
   openNFTForBidding,
   putonsale,
   getWalletAddress,
+  setApprovalForAll
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../full-page-loader/full-page-loader";
@@ -37,6 +38,7 @@ import {
 import axios from "axios";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import {updateProfile } from "../user/user.action";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -69,6 +71,7 @@ const config2 = {
 };
 
 const SellNFT = (props) => {
+
   const [activeBtn, setActiveBtn] = useState(0);
   const [toggle, setToggle] = React.useState(true);
   const [activeBidBtn, setActiveBidBtn] = useState(false);
@@ -131,7 +134,6 @@ const SellNFT = (props) => {
   useEffect(() => {
     if (props.nft.upsertAuth) {
       const { nft } = props.nft.nftsData;
-      // const pathname = nft.sellingMethod === 1 ? '/explore-all' : '/auctions'
       const pathname = "/";
       setLoader(false);
       props.beforeNFT();
@@ -144,6 +146,7 @@ const SellNFT = (props) => {
       props.beforeTogleLikeDislike();
     }
   }, [props.togleLikeRes]);
+
   // Get Liked Nfts
   useEffect(() => {
     if (props.myLikedNftsStatus) {
@@ -168,7 +171,7 @@ const SellNFT = (props) => {
       data = timedAuctionConfig;
     }
 
-    const keys = name.split("."); // fixedPriceConfig, price, currency
+    const keys = name.split(".");
 
     if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
@@ -203,7 +206,32 @@ const SellNFT = (props) => {
   };
 
   const submit = async (e) => {
+
     e.preventDefault();
+    if(!nftDetail.user.isApproved){
+      var formData = new FormData();
+      formData.append("isApproved", true);
+      formData.append("userId", nftDetail.user._id);
+      try{
+        let profilePayload={
+          isApproved:true,
+          userId:nftDetail.user._id
+        }
+        console.log(profilePayload,"profilePayload")
+        let accApproved=  await setApprovalForAll()
+        if(accApproved){
+          let updatedNFTDetail=nftDetail
+          updatedNFTDetail.user.isApproved=true;
+          setNftDetail(updatedNFTDetail)
+          props.updateProfile(formData)
+          toast.success("Your Account is Approved!")
+          return ''
+        }
+      }catch(err){
+        toast.error(err)
+        return ''
+      }
+    }
 
     let price = "";
     let payload = "";
@@ -278,6 +306,7 @@ const SellNFT = (props) => {
     for (const key in payload) formData.append(key, payload[key]);
     if (sellingMethod === 2) {
       try {
+
         let auctionEndDate = timedAuctionConfig.duration.endDate;
         let auctionStartDate = timedAuctionConfig.duration.startDate;
 
@@ -402,7 +431,6 @@ const SellNFT = (props) => {
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
-
 
   return (
     <>
@@ -1090,4 +1118,5 @@ export default connect(mapStateToProps, {
   getMyLikedNfts,
   beforeTogleLikeDislike,
   createActivity,
+  updateProfile
 })(SellNFT);

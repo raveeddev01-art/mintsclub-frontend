@@ -229,15 +229,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenid", "type": "uint256" }
-    ],
-    "name": "acceptoffer",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "amountfee",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -416,14 +407,7 @@
     "inputs": [
       { "internalType": "address", "name": "account", "type": "address" },
       { "internalType": "uint256", "name": "amount", "type": "uint256" },
-      { "internalType": "bytes", "name": "data", "type": "bytes" },
-      { "internalType": "string", "name": "tokenuri", "type": "string" },
-      {
-        "internalType": "address",
-        "name": "royaltyRecipient",
-        "type": "address"
-      },
-      { "internalType": "uint256", "name": "royaltyValue", "type": "uint256" }
+      { "internalType": "string", "name": "tokenuri", "type": "string" }
     ],
     "name": "mint",
     "outputs": [],
@@ -446,6 +430,13 @@
     "inputs": [],
     "name": "name",
     "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nftminter",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -498,15 +489,9 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "uint256", "name": "value", "type": "uint256" }
-    ],
-    "name": "royaltyInfo",
-    "outputs": [
-      { "internalType": "address", "name": "receiver", "type": "address" },
-      { "internalType": "uint256", "name": "royaltyAmount", "type": "uint256" }
-    ],
+    "inputs": [],
+    "name": "royaltyfee",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -556,15 +541,6 @@
   {
     "inputs": [{ "internalType": "string", "name": "_name", "type": "string" }],
     "name": "setName",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "string", "name": "newuri", "type": "string" }
-    ],
-    "name": "setURI",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

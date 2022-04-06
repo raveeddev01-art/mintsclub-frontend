@@ -30,6 +30,7 @@ const getContractMethods = async () => {
   const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
   return contractM;
 };
+
 export const getBalance=async()=>{
   let web3 = await getWeb3();
   let address=await getWalletAddress()
@@ -54,7 +55,8 @@ export const mintNFt = async (metaData, id, amount,recipientValue) => {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let result = await contractM.methods
-      .mint(connectedAddress, nftAmount, "0x", metaData,connectedAddress,recipientValue)
+      // .mint(connectedAddress, nftAmount, "0x", metaData,connectedAddress,recipientValue)
+      .mint(connectedAddress, nftAmount,metaData,)
       .send({ from: connectedAddress, gassPrice: 5000000 });
     console.log(result, "result of minting");
     return result;
@@ -163,6 +165,21 @@ export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransaction
     console.log(err)
     setConfirmed(false)
     
+    throw new Error(err);
+  }
+}
+export const setApprovalForAll= async ()=>{
+  try{
+        let connectedAddress = await connectMetamask();
+        const contractM = await getContractMethods();
+        const result = await contractM.methods.setApprovalForAll(ENV.mintsClubContractAddress,true).send({
+          from:connectedAddress
+        })
+        if(result){
+          return result
+        }
+
+  }catch(err){
     throw new Error(err);
   }
 }

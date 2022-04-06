@@ -126,6 +126,7 @@ export const signup = (payload) => (dispatch) => {
 export const updateProfile = (body) => (dispatch) => {
   dispatch(emptyError());
   const url = `${ENV.url}users/updateProfile`;
+  console.log(body,"sendin body")
   fetch(url, {
     method: 'PUT',
     headers: {

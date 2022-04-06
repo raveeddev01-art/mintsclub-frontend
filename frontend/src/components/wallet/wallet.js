@@ -68,7 +68,9 @@ const Wallet = (props) => {
           // password: sign,
           email: email,
           username: username,
+          isApproved:false,
         };
+        console.log(payload,"payload")
         props.signup(payload);
       } else {
         setErrorMessage("please enter valid email");

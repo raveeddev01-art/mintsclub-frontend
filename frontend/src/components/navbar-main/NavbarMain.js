@@ -153,13 +153,7 @@ const NavbarMain = (props) => {
               >
                 Profile
               </Nav.Link>
-              <Nav.Link
-                to="/approvals"
-                href="/approvals"
-                className="nav-main-link"
-              >
-                Approvals
-              </Nav.Link>
+           
              
              
               <Link
