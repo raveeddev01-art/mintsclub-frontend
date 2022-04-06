@@ -68,9 +68,9 @@ const Wallet = (props) => {
           // password: sign,
           email: email,
           username: username,
-          isApproved:false,
+          isApproved: false,
         };
-        console.log(payload,"payload")
+        console.log(payload, "payload");
         props.signup(payload);
       } else {
         setErrorMessage("please enter valid email");
@@ -146,7 +146,7 @@ const Wallet = (props) => {
                     </button>
                     {showSignUp && (
                       <button
-                        className="btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
+                        className="btn btn-linear-gradient btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
                         type="button"
                         onClick={() => switchSignup()}
                       >
@@ -186,6 +186,7 @@ const Wallet = (props) => {
                         required="required"
                         disabled={true}
                         value={connectedAddress}
+                        autoComplete="off"
                       />
                     </div>
                   </div>
@@ -199,6 +200,7 @@ const Wallet = (props) => {
                         required="required"
                         defaultValue={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="off"
                       />
                     </div>
                   </div>
@@ -212,6 +214,7 @@ const Wallet = (props) => {
                         required="required"
                         defaultValue={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        autoComplete="off"
                       />
                     </div>
                   </div>
@@ -224,6 +227,7 @@ const Wallet = (props) => {
                           name="inlineRadioOptions"
                           id="inlineRadio1"
                           defaultValue="option1"
+                          autoComplete="off"
                         />
                         <label
                           className="form-check-label text-center text-gray"
@@ -236,12 +240,14 @@ const Wallet = (props) => {
                     </div>
                   </div>
                   <div className="col-12">
-                    <button
-                      className="btn-signin w-75 mx-auto mt-3 mt-sm-4  text-white "
-                      type="submit"
-                    >
-                      Sign Up
-                    </button>
+                    <div className="text-center">
+                      <button
+                        className="btn btn-linear-gradient btn-signin mt-3 mt-sm-4  text-white "
+                        type="submit"
+                      >
+                        Sign Up
+                      </button>
+                    </div>
                   </div>
                 </div>
               </form>
