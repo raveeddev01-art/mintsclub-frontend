@@ -2604,18 +2604,12 @@ svg.svg-inline--fa.fa-users.fa-w-20 {
   color: var(--primary-color) !important;
 }
 .popular-collections-content-right button {
+  font-weight: bold;
   background-color: transparent;
   color: #fff;
   border: none;
 }
 
-.popular-collections-content-right button.active {
-  background: -webkit-linear-gradient(#5666fe, #5666fe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  /* color: linear-gradient(to top, #bf3cbd, #f54d3b),
-    linear-gradient(to bottom, #feffff, #feffff); */
-}
 .popular-collections-area .card .image-over {
   position: relative;
   overflow: visible;

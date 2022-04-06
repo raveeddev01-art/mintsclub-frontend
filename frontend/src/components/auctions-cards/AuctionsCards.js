@@ -10,6 +10,7 @@ import Bucket from "../../assets/images/bucket.png";
 import Countdown from "react-countdown";
 import { ENV } from "../../config/config";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 
 import { connect } from "react-redux";
 
@@ -26,38 +27,34 @@ const AuctionsCards = (props) => {
   return (
     <Card className="auction-card mx-2">
       <div className="auction-img-wrapper">
-        
-        {
-          props.fileType==="image"?
+        {props.fileType === "image" ? (
           <Card.Img variant="top" src={props.image} alt="AuctionTopImg" />
-          :
-         
-         <div className="card-img-top">
-          <div className="video-wrapper">
-            <video
-              src={props.image}
-              ref={videoElement}
-              onTimeUpdate={handleOnTimeUpdate}
-            />
-            <div className="controls">
-              <div className="actions">
-                <button
-                  className="play-pause-btn d-flex align-items-center justify-content-center"
-                  onClick={togglePlay}
-                >
-                  {playerState.isPlaying ? (
-                    <i className="fa fa-pause"></i>
-                  ) : (
-                    <i className="fa fa-play"></i>
-                  )}
-                </button>
+        ) : (
+          <div className="card-img-top">
+            <div className="video-wrapper">
+              <video
+                src={props.image}
+                ref={videoElement}
+                onTimeUpdate={handleOnTimeUpdate}
+              />
+              <div className="controls">
+                <div className="actions">
+                  <button
+                    className="play-pause-btn d-flex align-items-center justify-content-center"
+                    onClick={togglePlay}
+                  >
+                    {playerState.isPlaying ? (
+                      <BsFillPauseFill />
+                    ) : (
+                      <BsFillPlayFill />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div> 
-        }
+        )}
 
-      
         <div className="auction-countdown">
           <Countdown date={props.endDate} renderer={countDownRenderer} />
         </div>

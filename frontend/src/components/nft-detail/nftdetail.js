@@ -80,7 +80,7 @@ const NFTDetail = (props) => {
   const [toggle, setToggle] = React.useState(true);
   const [likedNfts, setLikedNfts] = useState();
   const [nftDetail, setNftDetail] = useState("");
-  const [listedItem,setListedItem]=useState([])
+  const [listedItem, setListedItem] = useState([]);
   const [nftsList, setNftList] = useState([]);
   const [activities, setActivities] = useState([]);
   const [itemsListing, setItemsListing] = useState([]);
@@ -638,7 +638,6 @@ const NFTDetail = (props) => {
     }
   };
 
-
   console.log(itemsListing, "itemsListing");
   // console.log(ENV.getUserKeys("_id")._id, "id");
   // console.log(offers, "offers");
@@ -872,51 +871,57 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="table-container listing-table">
                                 <table class="table table-borderless">
-                                  {
-                                    itemsListing && itemsListing.length > 0?
+                                  {itemsListing && itemsListing.length > 0 ? (
                                     <>
-                                    <thead>
-                                    <tr>
-                                      <th scope="col">Price</th>
-                                      <th scope="col">USD Price</th>
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">Price</th>
+                                          <th scope="col">USD Price</th>
 
-                                      <th scope="col">From</th>
-                                      <th scope="col">{""}</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {itemsListing && itemsListing.length > 0
-                                      &&itemsListing.map((item) => {
-                                          return (
-                                            <tr>
-                                              <th scope="row">
-                                                {item.currentPrice}
-                                              </th>
-                                              <td>
-                                                {" "}
-                                                $
-                                                {(
-                                                  item.currentPrice *
-                                                  exchangeRate
-                                                ).toFixed(2)}
-                                              </td>
+                                          <th scope="col">From</th>
+                                          <th scope="col">{""}</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {itemsListing &&
+                                          itemsListing.length > 0 &&
+                                          itemsListing.map((item) => {
+                                            return (
+                                              <tr>
+                                                <th scope="row">
+                                                  {item.currentPrice}
+                                                </th>
+                                                <td>
+                                                  {" "}
+                                                  $
+                                                  {(
+                                                    item.currentPrice *
+                                                    exchangeRate
+                                                  ).toFixed(2)}
+                                                </td>
 
-                                              <td>
-                                                {" "}
-                                                {item.ownerAddress.slice(-6)}
-                                              </td>
-                                              <td>
-                                                <button onClick={()=>{setModalShow1(true); setListedItem(item)}}>Buy</button>
-                                              </td>
-                                            </tr>
-                                          );
-                                        })
-                                      }
-                                  </tbody>
-                                  </>:"No Items Found"
-
-                                  }
-                                  
+                                                <td>
+                                                  {" "}
+                                                  {item.ownerAddress.slice(-6)}
+                                                </td>
+                                                <td>
+                                                  <button
+                                                    onClick={() => {
+                                                      setModalShow1(true);
+                                                      setListedItem(item);
+                                                    }}
+                                                  >
+                                                    Buy
+                                                  </button>
+                                                </td>
+                                              </tr>
+                                            );
+                                          })}
+                                      </tbody>
+                                    </>
+                                  ) : (
+                                    "No Items Found"
+                                  )}
                                 </table>
                               </div>
                             </div>
@@ -1187,7 +1192,7 @@ const NFTDetail = (props) => {
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
                       <div className="detail-nft-owner">
                         <p>
-                          Owned by <span>XYZ</span>
+                          Owned by <span>{nftDetail.user.username}</span>
                         </p>
                       </div>
                       <div className="detail-nft-copies">
@@ -1611,7 +1616,7 @@ const NFTDetail = (props) => {
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
           />
-            <BuyModal
+          <BuyModal
             show={modalShow1}
             onHide={() => setModalShow1(false)}
             name={listedItem.name}
