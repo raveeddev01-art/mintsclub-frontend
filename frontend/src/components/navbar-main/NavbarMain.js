@@ -14,12 +14,24 @@ const NavbarMain = (props) => {
   const [path, setPath] = React.useState(null);
   const [activeTab, setActiveTab] = React.useState(null);
   const [searchactive, setSearchActive] = useState(false);
+  const [searchValue,setSearchValue]=useState('')
   const history = useHistory();
   const location = useLocation();
 
   const handleChange = (e) => {
+    setSearchValue(e.target.value)
     e.target.value ? setSearchActive(true) : setSearchActive(false);
   };
+  const handleSearchKeyword=()=>{
+    if(searchValue!=='' && searchValue.length>=3){
+
+      history.push({
+        pathname:"/explore/allNFT",
+        state:searchValue
+      })
+    }
+
+  }
   const clearLocalStorage = () => {
     if (userId) {
       localStorage.clear();
@@ -141,7 +153,15 @@ const NavbarMain = (props) => {
               >
                 Profile
               </Nav.Link>
-
+              <Nav.Link
+                to="/approvals"
+                href="/approvals"
+                className="nav-main-link"
+              >
+                Approvals
+              </Nav.Link>
+             
+             
               <Link
                 to={`/login`}
                 onClick={() => clearLocalStorage()}
@@ -160,13 +180,17 @@ const NavbarMain = (props) => {
                   name=""
                   placeholder="Type to Search"
                   onChange={handleChange}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" && handleSearchKeyword()
+                  }
                 />
                 <button
                   className={`search-btn me-1 mt-1 ${
                     searchactive ? "activeSearchBtn" : ""
                   }`}
+                  onClick={()=>handleSearchKeyword()}
                 >
-                  <img src={SearchIcon} alt="search-icon" />
+                  <img src={SearchIcon}  alt="search-icon" />
                 </button>
               </div>
             </Nav>
@@ -179,11 +203,15 @@ const NavbarMain = (props) => {
                 name=""
                 placeholder="Type to Search"
                 onChange={handleChange}
+                onKeyPress={(e) =>
+                  e.key === "Enter" && handleSearchKeyword()
+                }
               />
               <button
                 className={`search-btn me-1 mt-1 ${
                   searchactive ? "activeSearchBtn" : ""
                 }`}
+                onClick={()=>handleSearchKeyword()}
               >
                 <img src={SearchIcon} alt="search-icon" />
               </button>

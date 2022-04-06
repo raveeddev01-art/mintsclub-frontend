@@ -88,3 +88,7 @@ export const GETBIDS_BY_NFT = 'GETBIDS_BY_NFT';
 export const BEFORE_CONTACT = 'BEFORE_CONTACT';
 export const CREATE_CONTACT = 'CREATE_CONTACT';
 export const NFTALL = 'NFTALL';
+
+//Approvals
+export const GET_APPROVALS = 'GET_APPROVALS';
+export const EDIT_APPROVAL="EDIT_APPROVAL";

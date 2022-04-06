@@ -123,8 +123,6 @@ const Slider = (props) => {
           </label>
         </>
       )}
-      {console.log(auctions, "auctionsss")}
-      {console.log(nfts, "nftsss")}
     </section>
   );
 };

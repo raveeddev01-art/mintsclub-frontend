@@ -65,11 +65,7 @@ const config2 = {
     startTime: moment(new Date()).format("HH:mm"),
     endTime: "23:59",
   },
-  // if user includes reserve price
-  reservePrice: {
-    currency: ENV.currency,
-    amount: "",
-  },
+ 
 };
 
 const SellNFT = (props) => {
@@ -325,6 +321,8 @@ const SellNFT = (props) => {
   };
 
   const handleLikesTogleApi = (nftId, status) => {
+   
+
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       setToggle(!toggle);
@@ -404,6 +402,7 @@ const SellNFT = (props) => {
       });
   };
   const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
+
 
   return (
     <>
@@ -1042,7 +1041,7 @@ const SellNFT = (props) => {
                       </div>
                       <div className="detail-nft-copies">
                         <p>
-                          {nftDetail.copies}{" "}
+                        {nftDetail?.remainingCopies?nftDetail?.remainingCopies:nftDetail.copies}{" "}
                           {nftDetail.copies === 1 ? "Copy" : "Copies"}
                         </p>
                       </div>
@@ -1080,6 +1079,7 @@ const mapStateToProps = (state) => ({
   nftsAuth: state.nft.nftsAuth,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  togleLikeRes: state.explore.togleLikeRes,
 });
 
 export default connect(mapStateToProps, {

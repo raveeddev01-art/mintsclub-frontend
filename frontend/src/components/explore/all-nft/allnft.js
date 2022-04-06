@@ -29,7 +29,7 @@ const AllNFT = (props) => {
   const [maxValue, setMaxValue] = useState("");
   const [collections, setCollections] = useState([]);
   const [filterationLoader, setFilterationLoader] = useState(true);
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState(props?.location?.state?props.location.state:"");
   const [likedNfts, setLikedNfts] = useState();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [filter, setFilter] = useState({
@@ -51,7 +51,16 @@ const AllNFT = (props) => {
     window.scroll(0, 0);
     props.getCreators();
     props.getCollections();
-    getNFTs();
+    if(props?.location?.state){
+
+      let searchQs = { keyword: props.location.state};
+      searchQs = ENV.objectToQueryString(searchQs);
+      props.getNFTs(searchQs);
+    }else {
+
+      getNFTs();
+    }
+
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
@@ -485,6 +494,7 @@ const AllNFT = (props) => {
                     onKeyPress={(e) =>
                       e.key === "Enter" && handleSearchKeyword()
                     }
+                    value={keyword}
                   />
                 </div>
               </div>
