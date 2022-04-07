@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
 
-
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
-
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
@@ -31,17 +29,16 @@ const getContractMethods = async () => {
   return contractM;
 };
 
-export const getBalance=async()=>{
+export const getBalance = async () => {
   let web3 = await getWeb3();
-  let address=await getWalletAddress()
- let balance=await web3.eth.getBalance(address)
- let ethBalance = web3.utils.fromWei(balance, 'ether');
+  let address = await getWalletAddress();
+  let balance = await web3.eth.getBalance(address);
+  let ethBalance = web3.utils.fromWei(balance, "ether");
 
- return ethBalance
+  return ethBalance;
+};
 
-}
-
-export const mintNFt = async (metaData, id, amount,recipientValue) => {
+export const mintNFt = async (metaData, id, amount, recipientValue) => {
   let web3 = await getWeb3();
 
   if (!web3) {
@@ -50,13 +47,13 @@ export const mintNFt = async (metaData, id, amount,recipientValue) => {
   }
 
   const nftAmount = Number(amount);
-  const value=Number(recipientValue)* 1000000000000000000;
+  const value = Number(recipientValue) * 1000000000000000000;
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let result = await contractM.methods
       // .mint(connectedAddress, nftAmount, "0x", metaData,connectedAddress,recipientValue)
-      .mint(connectedAddress, nftAmount,metaData,)
+      .mint(connectedAddress, nftAmount, metaData)
       .send({ from: connectedAddress, gassPrice: 5000000 });
     console.log(result, "result of minting");
     return result;
@@ -69,13 +66,12 @@ export const mintNFt = async (metaData, id, amount,recipientValue) => {
 
 export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
   try {
-    
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
-    let id=Number(tokenId)
+    let id = Number(tokenId);
 
     const result = await contractM.methods
-      .startAuction(biddingTime, startTime, connectedAddress, id,1)
+      .startAuction(biddingTime, startTime, connectedAddress, id, 1)
       .send({ from: connectedAddress });
     if (result) {
       console.log(result, "open for bidding result");
@@ -93,8 +89,8 @@ export const placeABid = async (amount, tokenId) => {
     const contractM = await getContractMethods();
     let bidAmount = Number(amount) * 1000000000000000000;
 
-    let id=Number(tokenId)
-    
+    let id = Number(tokenId);
+
     const result = await contractM.methods
       .bid(id)
       .send({ from: connectedAddress, value: bidAmount, gas: 5000000 });
@@ -103,7 +99,6 @@ export const placeABid = async (amount, tokenId) => {
       return result;
     }
   } catch (err) {
-    
     if (err?.message) {
       toast.error(err.message);
     } else {
@@ -113,76 +108,85 @@ export const placeABid = async (amount, tokenId) => {
   }
 };
 
-export const putonsale= async (tokenId,amount,price)=>{
-
-  try{
-  
+export const putonsale = async (tokenId, amount, price) => {
+  try {
     /* global BigInt */
     let connectedAddress = await connectMetamask();
-      const contractM = await getContractMethods();
-      let weiAmount =BigInt( Number(price) * 1000000000000000000);
-   console.log(weiAmount,"weiacmont23")
-      let id=Number(tokenId)
-   
-      const result = await contractM.methods
-      .putonsale(id,amount,weiAmount)
+    const contractM = await getContractMethods();
+    let weiAmount = BigInt(Number(price) * 1000000000000000000);
+  
+    let id = Number(tokenId);
+
+    const result = await contractM.methods
+      .putonsale(id, amount, weiAmount)
       .send({ from: connectedAddress, gas: 5000000 });
-   
-      if(result){
-        return result
-      }
-  }catch(err){
-    console.log(err,"error")
+
+    if (result) {
+      return result;
+    }
+  } catch (err) {
+    console.log(err, "error");
     throw new Error(err);
   }
-}
+};
 
-export const BuyFixedPriceNFT= async (amount,tokenId,setConfirmed,setTransactionHash)=>{
-  try{
-    console.log(amount,"amount")
-   /* global BigInt */
+export const BuyFixedPriceNFT = async (
+  amount,
+  tokenId,
+  setConfirmed,
+  setTransactionHash
+) => {
+  try {
+    let obj = {
+      amount,
+      tokenId,
+    };
+
+    /* global BigInt */
     let connectedAddress = await connectMetamask();
-      const contractM = await getContractMethods();
-      let id=Number(tokenId)
-      let weiAmount = (amount * 1000000000000000000)
-    
-      const result = await contractM.methods
-      .BuyFixedPriceNFT(id)
-      .send({ from: connectedAddress,value:weiAmount,gas: 5000000}).on('transactionHash',function(hash){
-        console.log(hash,"hash")
-        setTransactionHash(hash)
-        setConfirmed(true)
-      }).on('confirmation',function(confirmationNumber,receipt){
-        console.log("confirmed2")
+    const contractM = await getContractMethods();
+
+    // const weiAmount =BigInt( Web3.utils.toWei(`${amount}`, 'ether'));
+
+    let weiAmount = Number(amount) * 1000000000000000000;
+
+    const result = await contractM.methods
+      .BuyFixedPriceNFT(tokenId)
+      .send({ from: connectedAddress, value: weiAmount, gas: 5000000 })
+      .on("transactionHash", function (hash) {
+       
+        setTransactionHash(hash);
+        setConfirmed(true);
       })
+      .on("confirmation", function (confirmationNumber, receipt) {
+       
+      });
+    if (result) {
+      return result;
+    }
+  } catch (err) {
+    setConfirmed(false);
+    console.log(err);
 
-      console.log(result,"result")
-      if(result){
-        return result
-      }
-  }catch(err){
-    setConfirmed(false)
-    console.log(err)
-    setConfirmed(false)
-    
     throw new Error(err);
   }
-}
-export const setApprovalForAll= async ()=>{
-  try{
-        let connectedAddress = await connectMetamask();
-        const contractM = await getContractMethods();
-        const result = await contractM.methods.setApprovalForAll(ENV.mintsClubContractAddress,true).send({
-          from:connectedAddress
-        })
-        if(result){
-          return result
-        }
-
-  }catch(err){
+};
+export const setApprovalForAll = async () => {
+  try {
+    let connectedAddress = await connectMetamask();
+    const contractM = await getContractMethods();
+    const result = await contractM.methods
+      .setApprovalForAll(ENV.mintsClubContractAddress, true)
+      .send({
+        from: connectedAddress,
+      });
+    if (result) {
+      return result;
+    }
+  } catch (err) {
     throw new Error(err);
   }
-}
+};
 
 // export const acceptOffer= async (amount,tokenId)=>{
 //   try{

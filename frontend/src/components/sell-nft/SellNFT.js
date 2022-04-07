@@ -217,7 +217,7 @@ const SellNFT = (props) => {
           isApproved:true,
           userId:nftDetail.user._id
         }
-        console.log(profilePayload,"profilePayload")
+        
         let accApproved=  await setApprovalForAll()
         if(accApproved){
           let updatedNFTDetail=nftDetail
