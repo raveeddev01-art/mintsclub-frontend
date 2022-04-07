@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { Link } from "react-router-dom";
-import Collections from "./collections";
+
 import CollectionsCard from "../collections-cards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import CardSlider from "../card-slider/CardSlider";

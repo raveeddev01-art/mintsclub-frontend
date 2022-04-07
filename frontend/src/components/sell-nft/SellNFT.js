@@ -26,7 +26,8 @@ import {
   openNFTForBidding,
   putonsale,
   getWalletAddress,
-  setApprovalForAll
+  setApprovalForAll,
+  validateNetwork
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../full-page-loader/full-page-loader";
@@ -208,6 +209,10 @@ const SellNFT = (props) => {
   const submit = async (e) => {
 
     e.preventDefault();
+    if(await validateNetwork())
+    {
+
+    
     if(!nftDetail.user.isApproved){
       var formData = new FormData();
       formData.append("isApproved", true);
@@ -347,6 +352,9 @@ const SellNFT = (props) => {
         toast.error(err);
       }
     }
+  }else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
+  }
   };
 
   const handleLikesTogleApi = (nftId, status) => {
@@ -1061,12 +1069,16 @@ const SellNFT = (props) => {
                         </h3>
                       </div>
                     )}
+
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
+                      {
+                        nftDetail &&
                       <div className="detail-nft-owner">
                         <p>
-                          Owned by <span>XYZ</span>
+                          Owned by <span>{nftDetail.ownerId===ENV.getUserKeys("_id")._id ?"You":nftDetail.user.username}</span>
                         </p>
                       </div>
+                      }
                       <div className="detail-nft-copies">
                         <p>
                         {nftDetail?.remainingCopies?nftDetail?.remainingCopies:nftDetail.copies}{" "}

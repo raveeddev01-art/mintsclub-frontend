@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import "./FilterComponent.css";
 
 const FilterComponent = ({
@@ -13,7 +13,11 @@ const FilterComponent = ({
   collectionsLabel,
   handleCollectionsFilter,
   handleStatusFilter,
+  disabled
 }) => {
+  const [activeStatus,setActiveStatus]=useState('')
+  const [activeCollection,setActiveCollection]=useState('')
+
   return (
     <div className="collection-filter-accordion">
       <div className="accordion accordion-flush " id="accordionFlushExample">
@@ -27,6 +31,7 @@ const FilterComponent = ({
                 data-target="#flush-collapseOne"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
+                
               >
                 {Status.label}
               </button>
@@ -41,7 +46,12 @@ const FilterComponent = ({
                   {Status.option &&
                     Status.option.map((Status) => {
                       return (
-                        <button onClick={() => handleStatusFilter(Status)}>
+                        <button
+                        className={`${Status===activeStatus?"active-class":""}`}
+                         onClick={() => {handleStatusFilter(Status);setActiveStatus(Status)}}
+                         
+                         >
+
                           {Status}
                         </button>
                       );
@@ -95,6 +105,7 @@ const FilterComponent = ({
                 <button
                   className="mt-3 apply-btn"
                   onClick={() => applyMinMaxFilter()}
+                 
                 >
                   Apply
                 </button>
@@ -126,7 +137,7 @@ const FilterComponent = ({
                 <div className="d-flex flex-column">
                   {Chains.option &&
                     Chains.option.map((Chains) => {
-                      return <button>{Chains}</button>;
+                      return <button  disabled={disabled}>{Chains}</button>;
                     })}
                 </div>
               </div>
@@ -147,6 +158,7 @@ const FilterComponent = ({
                   data-target="#flush-collapseThree"
                   aria-expanded="false"
                   aria-controls="flush-collapseThree"
+                 
                 >
                   {collectionsLabel}
                 </button>
@@ -164,9 +176,11 @@ const FilterComponent = ({
                     Collections.map((collection) => {
                       return (
                         <button
+                        className={`${collection._id===activeCollection?"active-class":""}`}
                           onClick={() =>
-                            handleCollectionsFilter(collection._id)
+                            {handleCollectionsFilter(collection._id);setActiveCollection(collection._id)}
                           }
+                          disabled={disabled}
                         >
                           {collection.name}
                         </button>
@@ -200,7 +214,7 @@ const FilterComponent = ({
           >
             <div className="accordion-body">
               <div className="d-flex flex-column">
-                <button>ETH</button>
+                <button className="active-class">ETH</button>
               </div>
             </div>
           </div>

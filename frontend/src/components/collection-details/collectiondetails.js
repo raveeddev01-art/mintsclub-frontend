@@ -18,11 +18,14 @@ import {
 import { connect } from "react-redux";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import { ENV } from "../../config/config";
-import { toggleLikeDislike } from "../explore/explore.action";
+import { toggleLikeDislike,  beforeTogleLikeDislike, } from "../explore/explore.action";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import VideoCard from "../test-video-card/videoCard";
 import BannerPh from "../../assets/images/collection-detailBg.png";
-
+import {
+  validateNetwork,
+} from "../../utils/web3";
+import { toast } from "react-toastify";
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -32,6 +35,8 @@ const CollectionDetailsPage = (props) => {
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [likedNfts, setLikedNfts] = useState();
   const [keyword, setKeyword] = useState("");
+  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [disabled,setDisabled]=useState(false)
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -86,6 +91,12 @@ const CollectionDetailsPage = (props) => {
 
   useEffect(() => {
     if (props.nftsAuth) {
+      if(props.nfts.length>0){
+        setDisabled(false)
+      }
+      else {
+        setDisabled(true)
+      }
       setNfts(props.nfts);
       props.beforeNFT();
       setLoader(false);
@@ -93,6 +104,13 @@ const CollectionDetailsPage = (props) => {
       setFilterationLoader(false);
     }
   }, [props.nftsAuth]);
+  useEffect(() => {
+    if (props.togleLikeRes) {
+      setLikeBtnDisable(false);
+      props.beforeTogleLikeDislike();
+    }
+  }, [props.togleLikeRes]);
+
 
   const getNFTs = (
     page = 1,
@@ -244,7 +262,7 @@ const CollectionDetailsPage = (props) => {
     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit ,
       filter.collectionId,
       filter.gtePrice,
       filter.ltePrice,
@@ -266,7 +284,7 @@ const CollectionDetailsPage = (props) => {
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit ,
       filter.collectionId,
       minValue,
       maxValue,
@@ -285,7 +303,7 @@ const CollectionDetailsPage = (props) => {
   const handleStatusFilter = (id) => {
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit ,
       filter.collectionId,
       minValue,
       maxValue,
@@ -304,7 +322,7 @@ const CollectionDetailsPage = (props) => {
   const handleSearchKeyword = () => {
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit ,
       filter.collectionId,
       minValue,
       maxValue,
@@ -320,39 +338,49 @@ const CollectionDetailsPage = (props) => {
     );
   };
   ///////////Likes
-  const handleLikesTogleApi = (nftId, status) => {
-    increOrDecreLikes(nftId);
-    if (status === "dislike") {
-      let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-      setLikedNfts(result);
-      increOrDecreLikes(nftId, "dec");
-    } else {
-      let myLikedNfts = [];
-      if (likedNfts && likedNfts.length > 0) {
-        myLikedNfts = likedNfts;
-      }
-
-      let obj = {
-        _id: "1234455",
+  const handleLikesTogleApi =async (nftId, status, likesCount) => {
+    if (await validateNetwork()) {
+    if (!likeButtonDisable) {
+      setLikeBtnDisable(true);
+      let userId = ENV.getUserKeys("_id")._id;
+      console.log(likesCount, "likesCount");
+      let body = {
+        userId,
         nftId,
+        count: 1,
       };
 
-      myLikedNfts.push(obj);
+      if (status === "dislike" && likesCount > 0) {
+        let result = likedNfts.filter((item) => item.nftId !== nftId);
 
-      setLikedNfts(myLikedNfts);
-      increOrDecreLikes(nftId, "inc");
+        setLikedNfts(result);
+        increOrDecreLikes(nftId, "dec");
+
+        props.toggleLikeDislike(body);
+      }
+
+      if (status === "like") {
+        let myLikedNfts = [];
+        if (likedNfts && likedNfts.length > 0) {
+          myLikedNfts = likedNfts;
+        }
+
+        let obj = {
+          _id: "1234455",
+          nftId,
+        };
+
+        myLikedNfts.push(obj);
+
+        setLikedNfts(myLikedNfts);
+        increOrDecreLikes(nftId, "inc");
+        props.toggleLikeDislike(body);
+      }
+      // setNFTs(nfts);
     }
-
-    let userId = ENV.getUserKeys("_id")._id;
-
-    let obj = {
-      userId,
-      nftId,
-      count: 1,
-    };
-
-    props.toggleLikeDislike(obj);
+  }else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
+  }
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -487,7 +515,7 @@ const CollectionDetailsPage = (props) => {
                         {itemoptions &&
                           itemoptions.map((collection, index) => {
                             return (
-                              <option key={index} value={collection.label}>
+                              <option key={index} value={collection.label} >
                                 {collection.label}
                               </option>
                             );
@@ -508,7 +536,7 @@ const CollectionDetailsPage = (props) => {
                         {sortoptions &&
                           sortoptions.map((collection, index) => {
                             return (
-                              <option key={index} value={collection.label}>
+                              <option key={index} value={collection.label }>
                                 {collection.label}
                               </option>
                             );
@@ -536,8 +564,15 @@ const CollectionDetailsPage = (props) => {
                     >
                       <div className="col-10 mx-auto mt-2">
                         <FilterComponent
-                          Status={filterData.status}
-                          Chains={filterData.chains}
+                           Status={filterData.status}
+                           Chains={filterData.chains}
+                           onChangeMinPrice={onChangeMinPrice}
+                           onChangeMaxPrice={onChangeMaxPrice}
+                           minValue={minValue}
+                           maxValue={maxValue}
+                           applyMinMaxFilter={applyMinMaxFilter}
+                           handleStatusFilter={handleStatusFilter}
+                          disabled={disabled}
                         />
                       </div>
                     </div>
@@ -555,6 +590,7 @@ const CollectionDetailsPage = (props) => {
                     maxValue={maxValue}
                     applyMinMaxFilter={applyMinMaxFilter}
                     handleStatusFilter={handleStatusFilter}
+                    disabled={disabled}
                   />
                 </div>
                 <div className="col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0">
@@ -607,6 +643,7 @@ const CollectionDetailsPage = (props) => {
                       </p>
                     )}
                   </div>
+                
                 </div>
               </div>
             </div>
@@ -629,6 +666,7 @@ const mapStateToProps = (state) => ({
   nftsAuth: state.nft.nftsAuth,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  togleLikeRes: state.explore.togleLikeRes,
 });
 
 export default connect(mapStateToProps, {
@@ -637,4 +675,5 @@ export default connect(mapStateToProps, {
   getNFTs,
   getMyLikedNfts,
   toggleLikeDislike,
+  beforeTogleLikeDislike,
 })(CollectionDetailsPage);

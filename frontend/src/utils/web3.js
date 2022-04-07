@@ -28,7 +28,35 @@ const getContractMethods = async () => {
   const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
   return contractM;
 };
+const getNetworkName = (chainId) => {
+  let networks = {
+    1: "Ethereum Mainnet",
+    4: "Ethereum Rinkby",
+    3: "Ethereum Ropsten",
+    42: "Ethereum Kovan",
+    5: "Ethereum Goerli",
+  };
+  return networks[chainId];
+};
 
+export const getNetworkNameByChainId=async ()=>{
+  if (window.ethereum) {
+    let web3 = await getWeb3();
+    let chainId = await web3.eth.getChainId();
+    let currentNetwork = getNetworkName(chainId);
+    return currentNetwork
+  }
+}
+
+export const validateNetwork = async () => {
+  let prevNetwork = await getNetworkNameByChainId();
+
+  if (prevNetwork !== "Ethereum Rinkby") {
+    return true;
+  } else {
+    return false;
+  }
+};
 export const getBalance = async () => {
   let web3 = await getWeb3();
   let address = await getWalletAddress();
@@ -259,26 +287,9 @@ export const connectMetamask = async () => {
   }
 };
 
-export const getNetworkNameByChainId = async () => {
-  if (window.ethereum) {
-    let web3 = await getWeb3();
-    let accounts = await web3.eth.getAccounts();
-    let chainId = await web3.eth.getChainId();
-    let currentNetwork = getNetworkName(chainId);
-    return currentNetwork;
-  }
-};
 
-const getNetworkName = (chainId) => {
-  let networks = {
-    1: "Ethereum Mainnet",
-    4: "Ethereum Rinkby",
-    3: "Ethereum Ropsten",
-    42: "Ethereum Kovan",
-    5: "Ethereum Goerli",
-  };
-  return networks[chainId];
-};
+
+
 
 export const signRequest = async () => {
   if (window.ethereum) {

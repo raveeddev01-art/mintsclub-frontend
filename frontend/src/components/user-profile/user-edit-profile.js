@@ -8,7 +8,6 @@ import { ReactComponent as ProfileEditSVG } from "../../assets/images/edit-pen.s
 /////////
 
 import { connect } from "react-redux";
-import AuthorProfile from "../author-profile/author-profile";
 import { SET_INDIVIDUAL_USER } from "../../redux/types";
 import "react-toastify/dist/ReactToastify.css";
 import $ from "jquery";

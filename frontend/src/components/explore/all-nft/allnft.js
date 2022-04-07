@@ -17,7 +17,10 @@ import {
 } from "../../collections/collections.actions";
 import Breadcrumb from "../../breadcrumb/breadcrumb";
 import VideoCard from "../../test-video-card/videoCard";
-
+import {
+  validateNetwork,
+} from "../../../utils/web3";
+import { toast } from "react-toastify";
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [nftPagination, setNFTPagination] = useState(null);
@@ -32,6 +35,8 @@ const AllNFT = (props) => {
   const [keyword, setKeyword] = useState(props?.location?.state?props.location.state:"");
   const [likedNfts, setLikedNfts] = useState();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [disabled,setDisabled]=useState(false)
+
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -47,6 +52,15 @@ const AllNFT = (props) => {
     auction: false,
     latest: false,
   });
+  useEffect(()=>{
+    if(props?.location?.state){
+
+      setKeyword(props?.location?.state) 
+      handleSearchKeyword(props?.location?.state)
+
+    }
+  },[props?.location?.state])
+
   useEffect(() => {
     window.scroll(0, 0);
     props.getCreators();
@@ -96,6 +110,12 @@ const AllNFT = (props) => {
     if (props.nft.nftsAuth) {
       const { nfts, pagination } = props.nft.nftsData;
       if (nfts) {
+        if(nfts.length>0){
+          setDisabled(false)
+        }
+        else {
+          setDisabled(true)
+        }
         setNFTs(nfts);
         setNFTPagination(pagination);
         setFilterationLoader(false);
@@ -295,7 +315,7 @@ const AllNFT = (props) => {
   const filterData = {
     status: {
       label: "Status",
-      option: ["Buy Now", "On Auction", "New", "Has Offer"],
+      option: ["Buy Now", "On Auction", "New"],
     },
     collections: {
       label: "Collections",
@@ -331,7 +351,7 @@ const AllNFT = (props) => {
     console.log(filter, "filter");
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit,
       filter.collectionId,
       minValue,
       maxValue,
@@ -368,10 +388,11 @@ const AllNFT = (props) => {
     );
   };
 
-  const handleSearchKeyword = () => {
+  const handleSearchKeyword = (value) => {
+    setFilterationLoader(true)
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit,
       filter.collectionId,
       minValue,
       maxValue,
@@ -380,7 +401,7 @@ const AllNFT = (props) => {
       filter.lowToHigh,
       filter.highToLow,
       filter.newest,
-      keyword,
+      value?value:keyword,
       filter.buy,
       filter.auction,
       filter.latest
@@ -388,9 +409,10 @@ const AllNFT = (props) => {
   };
 
   const handleStatusFilter = (id) => {
+    setFilterationLoader(true)
     getNFTs(
       filter.page,
-      filter.limit + 10,
+      filter.limit,
       filter.collectionId,
       minValue,
       maxValue,
@@ -405,7 +427,8 @@ const AllNFT = (props) => {
       id == "New" ? true : false
     );
   };
-  const handleLikesTogleApi = (nftId, status, likesCount) => {
+  const handleLikesTogleApi = async (nftId, status, likesCount) => {
+    if (await validateNetwork()) {
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       let userId = ENV.getUserKeys("_id")._id;
@@ -444,6 +467,9 @@ const AllNFT = (props) => {
       }
       // setNFTs(nfts);
     }
+  }else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
+  }
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -470,6 +496,7 @@ const AllNFT = (props) => {
     }
   };
 
+console.log(props.location.state,"props.location.state")
   return (
     <>
       <NavbarMain />
@@ -562,6 +589,7 @@ const AllNFT = (props) => {
                       applyMinMaxFilter={applyMinMaxFilter}
                       handleCollectionsFilter={handleCollectionsFilter}
                       handleStatusFilter={handleStatusFilter}
+                      disabled={disabled}
                     />
                   </div>
                 </div>
@@ -588,6 +616,7 @@ const AllNFT = (props) => {
                   applyMinMaxFilter={applyMinMaxFilter}
                   handleCollectionsFilter={handleCollectionsFilter}
                   handleStatusFilter={handleStatusFilter}
+                  disabled={disabled}
                 />
               </div>
               <div className="col-12 col-sm-8 col-md-9 col-lg-9">
