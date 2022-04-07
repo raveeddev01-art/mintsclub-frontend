@@ -182,7 +182,7 @@ export const acceptOffer = (body) => dispatch => {
 export const buyNow = (body) => dispatch => {
     dispatch(emptyError());
     const url = `${ENV.url}nfts/buyNft`;
-
+console.log("sending buy now djfjlkdjsfljsdklf")
     fetch(url, {
         method: 'POST',
         headers: {

@@ -169,8 +169,7 @@ class CreateNFT extends Component {
             async () => {
               var formData = new FormData();
               delete nftInfo.currentPrice;
-              console.log(nftInfo, 'nftInfo');
-              console.log(formData, 'formdata');
+              
               for (const key in nftInfo)
                 if (nftInfo[key]) formData.append(key, nftInfo[key]);
 
@@ -182,8 +181,7 @@ class CreateNFT extends Component {
 
               if (res.success) {
                 // this.reset();
-                // toast.success(`Success! ${res.message}`)
-                console.log(res, 'response');
+               
                 nft.remainingCopies = nft.copies;
                 if (res.nft && res.nft.metaData) {
                   try {
@@ -202,13 +200,13 @@ class CreateNFT extends Component {
                         data: this.state.nft,
                         image: res.nft.image,
                       };
-                      console.log('checkinf data', data);
+                     
                       this.props.addNFTRecord(data);
 
                       this.props.history.push('/explore/allNFT');
                     }
                   } catch (err) {
-                    console.log(err, 'here');
+                  
                     toast.error(err);
                     this.setState({ loader: false });
                   }
@@ -274,7 +272,7 @@ class CreateNFT extends Component {
         } else if (file.type.includes('video')) {
           let { nft } = this.state;
           nft = { ...nft, image: file };
-          console.log(nft, 'nft setting to the state');
+         
           this.setState({
             nft,
             videoURL: url,

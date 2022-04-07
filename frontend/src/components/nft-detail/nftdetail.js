@@ -562,9 +562,21 @@ const NFTDetail = (props) => {
 
   const BuyNow = async () => {
     try {
+      let currentPrice = "";
+      let nftToken = "";
+
+      if (modalShow1) {
+        currentPrice = listedItem.currentPrice;
+        nftToken = listedItem.tokenId;
+        nftId = listedItem._id;
+      } else {
+        currentPrice = nftDetail.currentPrice;
+        nftToken = nftDetail.nftToken;
+      }
+
       const result = await BuyFixedPriceNFT(
-        nftDetail.currentPrice,
-        nftDetail.nftToken,
+        currentPrice,
+        nftToken,
         setConfirmed,
         setTransactionHash
       );
@@ -575,10 +587,13 @@ const NFTDetail = (props) => {
           nftId,
           ownerAddress,
         };
+        
         props.buyNow(payload);
         createActivity("Transfer", false, ownerAddress);
       }
-    } catch (err) {}
+    } catch (err) {
+      toast.error(err);
+    }
   };
 
   const createActivity = async (type, bidPrice, address) => {
@@ -638,8 +653,9 @@ const NFTDetail = (props) => {
     }
   };
 
-  console.log(itemsListing, "itemsListing");
+  // console.log(itemsListing, "itemsListing");
   // console.log(ENV.getUserKeys("_id")._id, "id");
+  console.log(nftDetail, "nftDetail");
   // console.log(offers, "offers");
   // console.log(props,"props")
 
@@ -842,91 +858,109 @@ const NFTDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                        <div className="accordion-item">
-                          <h2
-                            className="accordion-header"
-                            id="flush-headingThree"
-                          >
-                            <button
-                              className="accordion-button collapsed"
-                              type="button"
-                              data-toggle="collapse"
-                              data-target="#flush-collapseThree"
-                              aria-expanded="false"
-                              aria-controls="flush-collapseThree"
+                        {nftDetail?.sellingMethod===1 && (
+                          <div className="accordion-item">
+                            <h2
+                              className="accordion-header"
+                              id="flush-headingThree"
                             >
-                              <img
-                                src={ListingIcon}
-                                alt="price-history"
-                                className="me-2"
-                              />
-                              Item listing
-                            </button>
-                          </h2>
-                          <div
-                            id="flush-collapseThree"
-                            className="accordion-collapse collapse"
-                            aria-labelledby="flush-headingThree"
-                          >
-                            <div className="accordion-body">
-                              <div className="table-container listing-table">
-                                <table class="table table-borderless">
-                                  {itemsListing && itemsListing.length > 0 ? (
-                                    <>
-                                      <thead>
-                                        <tr>
-                                          <th scope="col">Price</th>
-                                          <th scope="col">USD Price</th>
+                              <button
+                                className="accordion-button collapsed"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#flush-collapseThree"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseThree"
+                              >
+                                <img
+                                  src={ListingIcon}
+                                  alt="price-history"
+                                  className="me-2"
+                                />
+                                Item listing
+                              </button>
+                            </h2>
+                            <div
+                              id="flush-collapseThree"
+                              className="accordion-collapse collapse"
+                              aria-labelledby="flush-headingThree"
+                            >
+                              <div className="accordion-body">
+                                <div className="table-container listing-table">
+                                  <table class="table table-borderless">
+                                    {itemsListing &&
+                                    itemsListing.length > 0 &&
+                                    itemsListing.filter(
+                                      (item) =>
+                                        item.ownerId !== userId &&
+                                        item._id !== nftDetail._id
+                                    ).length > 0 ? (
+                                      <>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">USD Price</th>
 
-                                          <th scope="col">From</th>
-                                          <th scope="col">{""}</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        {itemsListing &&
-                                          itemsListing.length > 0 &&
-                                          itemsListing.map((item) => {
-                                            return (
-                                              <tr>
-                                                <th scope="row">
-                                                  {item.currentPrice}
-                                                </th>
-                                                <td>
-                                                  {" "}
-                                                  $
-                                                  {(
-                                                    item.currentPrice *
-                                                    exchangeRate
-                                                  ).toFixed(2)}
-                                                </td>
+                                            <th scope="col">From</th>
+                                            <th scope="col">{""}</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {itemsListing &&
+                                            itemsListing.length > 0 &&
+                                            itemsListing
+                                              .filter(
+                                                (item) =>
+                                                  item.ownerId !== userId &&
+                                                  item._id !== nftDetail._id
+                                              )
+                                              .map((item) => {
+                                                return (
+                                                  <tr>
+                                                    <th scope="row">
+                                                      {item.currentPrice}
+                                                    </th>
+                                                    <td>
+                                                      {" "}
+                                                      $
+                                                      {(
+                                                        item.currentPrice *
+                                                        exchangeRate
+                                                      ).toFixed(2)}
+                                                    </td>
 
-                                                <td>
-                                                  {" "}
-                                                  {item.ownerAddress.slice(-6)}
-                                                </td>
-                                                <td>
-                                                  <button
-                                                    onClick={() => {
-                                                      setModalShow1(true);
-                                                      setListedItem(item);
-                                                    }}
-                                                  >
-                                                    Buy
-                                                  </button>
-                                                </td>
-                                              </tr>
-                                            );
-                                          })}
-                                      </tbody>
-                                    </>
-                                  ) : (
-                                    "No Items Found"
-                                  )}
-                                </table>
+                                                    <td>
+                                                      {" "}
+                                                      {item.ownerAddress.slice(
+                                                        -6
+                                                      )}
+                                                    </td>
+                                                    <td>
+                                                      <button
+                                                        onClick={() => {
+                                                          setModalShow1(true);
+                                                          setListedItem(item);
+                                                        }}
+                                                      >
+                                                        Buy
+                                                      </button>
+                                                    </td>
+                                                  </tr>
+                                                );
+                                              })}
+                                        </tbody>
+                                      </>
+                                    ) : (
+                                      <p className="text-white text-center">{"No Items Found"}</p>
+                                      
+                                    )}
+                                  </table>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        )}
+                        {/* /// */}
                       </div>
                     </div>
                   </div>
@@ -1139,7 +1173,7 @@ const NFTDetail = (props) => {
                   </div>
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">
-                      <div className="detail-nft-name">
+                      <div className="detail-nft-name ">
                         <h5>{nftDetail.name}</h5>
                       </div>
                       <div className="likes-container d-flex align-items-center">
@@ -1191,9 +1225,11 @@ const NFTDetail = (props) => {
                     </div>
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
                       <div className="detail-nft-owner">
+                        {nftDetail &&
                         <p>
-                          Owned by <span>{nftDetail.user.username}</span>
+                          Owned by <span>{nftDetail.user._id===userId?"You":nftDetail.user.username}</span>
                         </p>
+                        }
                       </div>
                       <div className="detail-nft-copies">
                         <p>
@@ -1387,34 +1423,33 @@ const NFTDetail = (props) => {
                                     <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1">
                                       {listing.fileType === "image" ? (
                                         <ListingCards
-                                          CardImg={listing.image}
-                                          name={listing.name}
-                                          price={listing.currentPrice}
-                                          // usd={
-                                          //   listing.currentPrice * exchangeRate
-                                          // }
-                                          id={listing._id}
+                                        CardImg={listing.image}
+                                        name={listing.name}
+                                        price={listing.currentPrice}
+                                        handleLikesTogleApi={handleLikesTogleApi}
+                                        id={listing._id}
+                                        likesCount={listing.likeCount}
+                                        likedNfts={likedNfts}
+                                        ownerId={listing.ownerId}
+                                        fileType={listing.fileType}
+                                        sellingMethod={listing.sellingMethod}
+                                        auctionStartDate={listing?.auctionStartDate}
+                                        auctionEndDate={listing?.auctionEndDate}
                                         />
                                       ) : (
                                         <VideoCard
-                                          CardImg={listing.image}
-                                          name={listing.name}
-                                          price={listing.currentPrice}
-                                          handleLikesTogleApi={
-                                            handleLikesTogleApi
-                                          }
-                                          id={listing._id}
-                                          likesCount={listing.likeCount}
-                                          likedNfts={likedNfts}
-                                          ownerId={listing.ownerId}
-                                          fileType={listing.fileType}
-                                          sellingMethod={listing.sellingMethod}
-                                          auctionStartDate={
-                                            listing?.auctionStartDate
-                                          }
-                                          auctionEndDate={
-                                            listing?.auctionEndDate
-                                          }
+                                        CardImg={listing.image}
+                                        name={listing.name}
+                                        price={listing.currentPrice}
+                                        handleLikesTogleApi={handleLikesTogleApi}
+                                        id={listing._id}
+                                        likesCount={listing.likeCount}
+                                        likedNfts={likedNfts}
+                                        ownerId={listing.ownerId}
+                                        fileType={listing.fileType}
+                                        sellingMethod={listing.sellingMethod}
+                                        auctionStartDate={listing?.auctionStartDate}
+                                        auctionEndDate={listing?.auctionEndDate}
                                         />
                                       )}
                                     </div>
@@ -1427,7 +1462,7 @@ const NFTDetail = (props) => {
                           </div>
                           <div className="mt-4 detail-btn-collection text-center">
                             {nftsList.length > 0 && nftsList.length > 4 && (
-                              <button className="btn btn-rounded-bordered">
+                              <button className="btn btn-rounded-bordered" onClick={()=>history.push(`http://localhost:3000/collection/detailPage/${nftDetail.colectionId}`)}>
                                 View collection
                               </button>
                             )}
@@ -1440,170 +1475,15 @@ const NFTDetail = (props) => {
               </div>
             </div>
           </div>
-          {/* ///////////////////////////////////// Modal */}
-          {/* <div className="modal-wrapper">
-            <Modal
-              centered
-              size="lg"
-              className="place-bid-modal"
-              show={isOpen}
-              onHide={closeModal}
-              contentClassName="bid-modal-content"
-            >
-              <Modal.Header className="bid-modal-header text-center text-white">
-                <Modal.Title>
-                  {nftDetail.sellingMethod === 2
-                    ? "Place A Bid"
-                    : "Make An Offer"}
-                </Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="price-wrapper d-flex">
-                  <div className="price-text position-relative">
-                    <div className="text-white mb-2 absolute-wrapper">
-                      <b>Price</b>
-                    </div>
-                    <div className="text-right mb-2">
-                      <i className="fas fa-exclamation-circle ml-2 text-white" />
-                    </div>
-                    <div className="d-flex">
-                      <select
-                        className="form-control currency-options"
-                        id="currency"
-                        name="nftConfig.price.currency"
-                        onChange={(e) => onChange(e)}
-                        disabled={true}
-                      >
-                        {currencies &&
-                          currencies.map((currency, index) => {
-                            return (
-                              <option key={index} value={currency.symbol}>
-                                {currency.symbol}
-                              </option>
-                            );
-                          })}
-                      </select>
-                      <input
-                        type="text"
-                        placeholder="Amount"
-                        className="amount-btn ml-3"
-                        name="nftConfig.price.amount"
-                        style={{ borderRadius: "4px" }}
-                        onChange={(e) => onChange(e)}
-                        onKeyDown={(e) => decimalNumberValidator(e)}
-                        defaultValue={calculatePricePercantage()}
-                        required
-                      />
-                      <div className="text-right mb-2 dollar-wrapper">
-                        ${(price * exchangeRate).toFixed(2)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Modal.Body>
-              <Modal.Body className="text-danger">
-                {validator.message(
-                  "amount",
-                  nftConfig.price.amount,
-                  "required"
-                )}
-              </Modal.Body>
-              {nftDetail.sellingMethod === 1 && (
-                <Modal.Body
-                  className=""
-                  style={{
-                    flexDirection: "column",
-                    display: "block",
-                    height: "200px",
-                  }}
-                >
-                  <div className="offer-expiration-wrapper text-white">
-                    <b>Offer Expiration</b>
-                  </div>
-                  <div>
-                    <div className="d-flex">
-                      <select
-                        className="form-control"
-                        id="expiryDate"
-                        name="nftConfig.expiry.date"
-                        onChange={(e) => onChangeModal(e)}
-                        style={{
-                          padding: "7px 55px 7px 55px",
-                          border: "none",
-                          outline: "none",
-                          borderRadius: "4px",
-                          background: "#808080",
-                          display: "flex",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          height: "51px",
-                          color: "#000",
-                        }}
-                      >
-                        {expiryOptions &&
-                          expiryOptions.map((expiry, index) => {
-                            return (
-                              <option key={index} value={expiry.value}>
-                                {expiry.label}
-                              </option>
-                            );
-                          })}
-                      </select>
-                      <div>
-                        <div className="mr-auto budle-wrapper">
-                          <input
-                            type={
-                              nftConfig.expiry.type === 1
-                                ? "time"
-                                : "datetime-local"
-                            }
-                            style={{ marginLeft: "1rem", width: "552px" }}
-                            name="nftConfig.expiry.time"
-                            value={nftConfig.expiry.time}
-                            onChange={(e) => onChangeModal(e)}
-                            required
-                          />
-                        </div>
-                        <span className="text-danger message">
-                          {validator.message(
-                            "amount",
-                            nftConfig.price.amount,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Modal.Body>
-              )}
-              <Modal.Body className="justify-content-center align-items-center">
-                <div className="d-flex justify-content-around place-bid-btn">
-                  <button
-                    className={`ethereum-btn  place-bid-ethereum-btn ${
-                      price <= nftDetail.highestBid
-                        ? "place-btn-disable-btn"
-                        : "place-bid-gradient-btn"
-                    }`}
-                    disabled={loader || price < calculatePricePercantage()}
-                    onClick={() => handleModalSubmit()}
-                  >
-                    {2 === 2 ? initData.bidBtn : initData.bidBtn}
-                  </button>
-                </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <button
-                  className="btn banner-btn btn-primary"
-                  onClick={closeModal}
-                >
-                  Close
-                </button>
-              </Modal.Footer>
-            </Modal>
-          </div> */}
+
           <BuyModal
             show={modalShow}
-            onHide={() => setModalShow(false)}
+            onHide={() => {
+              setModalShow(false);
+              setConfirmed(false);
+              setModal(1);
+              setTransactionSuccess(false);
+            }}
             name={nftDetail.name}
             price={nftDetail.currentPrice}
             image={nftDetail.image}
@@ -1618,7 +1498,12 @@ const NFTDetail = (props) => {
           />
           <BuyModal
             show={modalShow1}
-            onHide={() => setModalShow1(false)}
+            onHide={() => {
+              setModalShow1(false);
+              setConfirmed(false);
+              setModal(1);
+              setTransactionSuccess(false);
+            }}
             name={listedItem.name}
             price={listedItem.currentPrice}
             image={listedItem.image}

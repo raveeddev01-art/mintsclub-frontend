@@ -98,7 +98,8 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-  console.log(auctions, "auctions");
+ 
+  
 
   return (
     <section className="live-auctions-area padding-wrapper">
@@ -161,34 +162,6 @@ function AuctionsOne(props) {
                 </div>
               )}
             </div>
-            {/* last code */}
-            {/* <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
-              <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
-                {categories &&
-                  categories.length > 0 &&
-                  categories.map((item, index) => {
-                    if (index <= 3) {
-                      return (
-                        <button
-                          className="me-1 me-sm-2"
-                          onClick={() => handleCategoryFilter(item.description)}
-                        >
-                          {item.name}
-                        </button>
-                      );
-                    }
-                  })}
-                <div className="intro-btn">
-                  <Link
-                    className="btn btn-rounded-bordered btn-viewAll"
-                    to="/auctions"
-                  >
-                    View All
-                    <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
-                  </Link>
-                </div>
-              </div>
-            </div> */}
           </div>
 
           <div className="auctions-slides">
@@ -213,6 +186,7 @@ function AuctionsOne(props) {
                       />
                     );
                   })}
+                  
                 </CardSlider>
               ) : (
                 <p className="text-white text-center">No Live Auctions Found</p>
