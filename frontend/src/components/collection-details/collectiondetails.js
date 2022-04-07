@@ -435,7 +435,7 @@ const CollectionDetailsPage = (props) => {
                     <p>{description}</p>
                   </div>
                 </div>
-                <div className="col-12 col-lg-7 mt-3 mt-sm-5">
+                {/* <div className="col-12 col-lg-7 mt-3 mt-sm-5">
                   <div className="d-flex align-items-center justify-content-center justify-content-lg-end">
                     <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
                       <span>50</span>
@@ -454,7 +454,7 @@ const CollectionDetailsPage = (props) => {
                       <p>Volume trade</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="collections-listing padding-wrapper">
                 <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">

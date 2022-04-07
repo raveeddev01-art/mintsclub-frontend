@@ -178,7 +178,7 @@ const PopularCollections = (props) => {
               {categoryId === "all" && popular && popular?.length == 0 ? (
                 ""
               ) : (
-                <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
+                <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item, id) => {
@@ -207,7 +207,7 @@ const PopularCollections = (props) => {
                       <img
                         src={ViewAllIcon}
                         alt="arrow-left"
-                        className="ms-2"
+                        className="ms-2 d-none d-sm-none"
                       />
                     </Link>
                   </div>
