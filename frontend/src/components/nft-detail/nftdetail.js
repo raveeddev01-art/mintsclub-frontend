@@ -858,7 +858,7 @@ const NFTDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                        {true && (
+                        {nftDetail?.sellingMethod===1 && (
                           <div className="accordion-item">
                             <h2
                               className="accordion-header"
@@ -951,7 +951,8 @@ const NFTDetail = (props) => {
                                         </tbody>
                                       </>
                                     ) : (
-                                      "No Items Found"
+                                      <p className="text-white text-center">{"No Items Found"}</p>
+                                      
                                     )}
                                   </table>
                                 </div>
@@ -1224,9 +1225,11 @@ const NFTDetail = (props) => {
                     </div>
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
                       <div className="detail-nft-owner">
+                        {nftDetail &&
                         <p>
-                          Owned by <span>XYZ</span>
+                          Owned by <span>{nftDetail.user._id===userId?"You":nftDetail.user.username}</span>
                         </p>
+                        }
                       </div>
                       <div className="detail-nft-copies">
                         <p>
@@ -1420,34 +1423,33 @@ const NFTDetail = (props) => {
                                     <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1">
                                       {listing.fileType === "image" ? (
                                         <ListingCards
-                                          CardImg={listing.image}
-                                          name={listing.name}
-                                          price={listing.currentPrice}
-                                          // usd={
-                                          //   listing.currentPrice * exchangeRate
-                                          // }
-                                          id={listing._id}
+                                        CardImg={listing.image}
+                                        name={listing.name}
+                                        price={listing.currentPrice}
+                                        handleLikesTogleApi={handleLikesTogleApi}
+                                        id={listing._id}
+                                        likesCount={listing.likeCount}
+                                        likedNfts={likedNfts}
+                                        ownerId={listing.ownerId}
+                                        fileType={listing.fileType}
+                                        sellingMethod={listing.sellingMethod}
+                                        auctionStartDate={listing?.auctionStartDate}
+                                        auctionEndDate={listing?.auctionEndDate}
                                         />
                                       ) : (
                                         <VideoCard
-                                          CardImg={listing.image}
-                                          name={listing.name}
-                                          price={listing.currentPrice}
-                                          handleLikesTogleApi={
-                                            handleLikesTogleApi
-                                          }
-                                          id={listing._id}
-                                          likesCount={listing.likeCount}
-                                          likedNfts={likedNfts}
-                                          ownerId={listing.ownerId}
-                                          fileType={listing.fileType}
-                                          sellingMethod={listing.sellingMethod}
-                                          auctionStartDate={
-                                            listing?.auctionStartDate
-                                          }
-                                          auctionEndDate={
-                                            listing?.auctionEndDate
-                                          }
+                                        CardImg={listing.image}
+                                        name={listing.name}
+                                        price={listing.currentPrice}
+                                        handleLikesTogleApi={handleLikesTogleApi}
+                                        id={listing._id}
+                                        likesCount={listing.likeCount}
+                                        likedNfts={likedNfts}
+                                        ownerId={listing.ownerId}
+                                        fileType={listing.fileType}
+                                        sellingMethod={listing.sellingMethod}
+                                        auctionStartDate={listing?.auctionStartDate}
+                                        auctionEndDate={listing?.auctionEndDate}
                                         />
                                       )}
                                     </div>
@@ -1460,7 +1462,7 @@ const NFTDetail = (props) => {
                           </div>
                           <div className="mt-4 detail-btn-collection text-center">
                             {nftsList.length > 0 && nftsList.length > 4 && (
-                              <button className="btn btn-rounded-bordered">
+                              <button className="btn btn-rounded-bordered" onClick={()=>history.push(`http://localhost:3000/collection/detailPage/${nftDetail.colectionId}`)}>
                                 View collection
                               </button>
                             )}

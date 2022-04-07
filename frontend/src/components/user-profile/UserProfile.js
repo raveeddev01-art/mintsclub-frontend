@@ -474,8 +474,8 @@ const UserProfile = (props) => {
   };
 
   const menuData = ["Collected", "Created", "Favourited"];
-  console.log(nfts, "nfts");
-  console.log(likedNfts, "likedNfts");
+  // console.log(nfts, "nfts");
+  // console.log(likedNfts, "likedNfts");
   return (
     <>
       <NavbarMain />

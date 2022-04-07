@@ -55,69 +55,7 @@ const AuctionsList = (props) => {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-  const auctionDemoData = [
-    {
-      _id: 1,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 2,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 3,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 4,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 5,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 6,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 7,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-    {
-      _id: 8,
-      image: DemoImg,
-      auctionEndDate: new Date("2022/1/26 13:10:12"),
-      name: "Art",
-    },
-  ];
-  const menuData = [
-    "All",
-    "Art",
-    "Collectibles",
-    " Gaming",
-    "Memes",
-    "Music",
-    "Others",
-    "Photography",
-    "Punks",
-    "Sports",
-    "Trading Cards",
-  ];
+
   return (
     <>
       <NavbarMain />
@@ -190,6 +128,7 @@ const AuctionsList = (props) => {
                         ownerName={item.owner.username}
                         name={item.name}
                         id={item._id}
+                        fileType={item.fileType}
                       />
                     </div>
                   );

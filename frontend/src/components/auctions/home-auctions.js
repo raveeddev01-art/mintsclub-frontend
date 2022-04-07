@@ -43,6 +43,7 @@ function AuctionsOne(props) {
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
+  const [isActive, setIsActive] = useState(0);
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
@@ -128,14 +129,17 @@ function AuctionsOne(props) {
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-center justify-content-sm-end align-content-xxl-start text-end">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item, index) => {
-                      if (index <= 3) {
+                    categories.map((item, id) => {
+                      if (id <= 3) {
                         return (
                           <button
-                            className="me-1 me-sm-2"
-                            onClick={() =>
-                              handleCategoryFilter(item.description)
-                            }
+                            className={`${
+                              id === isActive ? "home-active-category" : ""
+                            } me-1 me-sm-2`}
+                            onClick={() => {
+                              setIsActive(id);
+                              handleCategoryFilter(item.description);
+                            }}
                           >
                             {item.name}
                           </button>
