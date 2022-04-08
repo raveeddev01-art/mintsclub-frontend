@@ -21,7 +21,8 @@ const BuyModal = (props) => {
     confirmed,
     transactionHash,
     transactionSuccess,
-    onHide
+    onHide,
+    disabled
   } = props;
 
   return (
@@ -134,6 +135,7 @@ const BuyModal = (props) => {
           onClick={() => {
             buyNow()
           }}
+          disabled={disabled}
           className="btn btn-linear-gradient mt-2"
         >
           Checkout

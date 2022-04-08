@@ -19,11 +19,11 @@ const Footer = (props) => {
     props.getFooter();
   }, []);
 
-  useEffect(() => {
-    if (props.settings.settingsAuth) {
-      setData(props.settings.settings);
-    }
-  }, [props.settings.settingsAuth]);
+  // useEffect(() => {
+  //   if (props.settings.settingsAuth) {
+  //     setData(props.settings.settings);
+  //   }
+  // }, [props.settings.settingsAuth]);
 
   return (
     <footer className="footer-area">

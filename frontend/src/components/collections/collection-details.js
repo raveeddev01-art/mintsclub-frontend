@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import CollectionPreview from "./collection-preview";
+
 import Explore from "../explore/explore-all";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { connect } from "react-redux";
@@ -8,10 +8,10 @@ import { Link } from "react-router-dom";
 import { ENV } from "../../config/config";
 import { Accordion, Dropdown } from "react-bootstrap";
 import Select from 'react-select'
-import FilterSearch from "../filter-search/filtersearch";
 import NftCard from './components/NftCard/NftCard';
 import {getNFTs} from '../nfts/nfts.action'
 import {getCreators, beforeUser} from './../user/user.action';
+import { toast } from "react-toastify";
 const { collectionFeaturedImg, userDefaultImg, categoryDefaultImg } = ENV;
 
 const CollectionDetails = (props) => {
@@ -119,7 +119,7 @@ const CollectionDetails = (props) => {
         {collection  && (
           <div className="row p-5" style={{width:"80%",margin:"auto"}}>
             <div className="col-4 p-4">
-              <CollectionPreview collection={collection} creators={creators} />
+              {/* <CollectionPreview collection={collection} creators={creators} /> */}
             </div>
             <div className="col-8 ">
               <div className="row justify-content-center mt-5">
@@ -173,5 +173,6 @@ export default connect(mapStateToProps, {
   beforeCollection,
   getCollection,
   getNFTs,
-  getCreators
+  getCreators,
+
 })(CollectionDetails);

@@ -16,7 +16,7 @@ import {
   myCollections,
 } from '../collections/collections.actions';
 import { addNFTRecord, createNFT, createActivity } from '../nfts/nfts.action';
-import { getCurrentAddress, mintNFt } from '../../utils/web3';
+import { getCurrentAddress, mintNFt,validateNetwork } from '../../utils/web3';
 import { RiArrowDropDownLine } from 'react';
 import './createNft.css';
 import { Images } from '../../assets/assets.js';
@@ -137,8 +137,12 @@ class CreateNFT extends Component {
     this.setState({ nft });
   };
 
-  submit = (e) => {
+  submit = async (e) => {
     e.preventDefault();
+    if(await validateNetwork())
+    {
+
+    
 
     const { nft, videoURL, audioUrl } = this.state;
 
@@ -228,6 +232,9 @@ class CreateNFT extends Component {
         }
       }
     );
+    }else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
+    }
   };
 
   onFileChange = (e, status) => {

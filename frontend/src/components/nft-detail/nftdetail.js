@@ -51,6 +51,7 @@ import {
   BuyFixedPriceNFT,
   getWalletAddress,
   getBalance,
+  validateNetwork,
 } from "../../utils/web3";
 import {
   placeBid,
@@ -99,6 +100,7 @@ const NFTDetail = (props) => {
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [bidModalShow, setBidModalShow] = useState(false);
   const [balance, setBalance] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const history = useHistory();
 
   const videoElement = React.useRef(null);
@@ -208,13 +210,14 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.createAuth) {
       setLoader(false);
-      history.push("/");
+      history.push("/explore/allNFT");
     }
   }, [props.createAuth]);
 
   useEffect(() => {
     if (props.buyAuth) {
       setLoader(false);
+      setDisabled(false);
       setTransactionSuccess(true);
       props.getNFT(nftId);
       let qs = { userId: ENV.getUserKeys("_id")._id };
@@ -228,7 +231,7 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.createAuthOffer) {
       setLoader(false);
-      history.push("/");
+      history.push("/explore/allNFT");
     }
   }, [props.createAuthOffer]);
 
@@ -335,18 +338,22 @@ const NFTDetail = (props) => {
     }
   }, [props.itemsListingAuth]);
 
-  const handleRouting = () => {
-    if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
-      history.push({
-        pathname: `/sell-item/${nftDetail._id}`,
-        state: nftDetail,
-      });
-    } else if (nftDetail.sellingMethod === 2) {
-      setBidModalShow(true);
+  const handleRouting = async () => {
+    if (await validateNetwork()) {
+      if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
+        history.push({
+          pathname: `/sell-item/${nftDetail._id}`,
+          state: nftDetail,
+        });
+      } else if (nftDetail.sellingMethod === 2) {
+        setBidModalShow(true);
+      } else {
+        // setLoader(true)
+        // makeOffer()
+        setModalShow(true);
+      }
     } else {
-      // setLoader(true)
-      // makeOffer()
-      setModalShow(true);
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
 
@@ -355,33 +362,37 @@ const NFTDetail = (props) => {
     return () => "";
   }, [toggle]);
 
-  const handleLikesTogleApi = (nftId, status) => {
-    if (!likeButtonDisable) {
-      setLikeBtnDisable(true);
-      setToggle(!toggle);
+  const handleLikesTogleApi = async (nftId, status) => {
+    if (await validateNetwork()) {
+      if (!likeButtonDisable) {
+        setLikeBtnDisable(true);
+        setToggle(!toggle);
 
-      let userId = ENV.getUserKeys("_id")._id;
+        let userId = ENV.getUserKeys("_id")._id;
 
-      let data = {
-        userId,
-        nftId,
-        count: 1,
-      };
+        let data = {
+          userId,
+          nftId,
+          count: 1,
+        };
 
-      if ((status === "dislike") & (nftDetail.likesCount > 0)) {
-        let nft = nftDetail;
-        nft.likesCount = nft.likesCount - 1;
-        setLiked(false);
-        setNftDetail(nft);
-        props.toggleLikeDislike(data);
-      } else {
-        let nft = nftDetail;
-        nft.likesCount = nft.likesCount + 1;
+        if ((status === "dislike") & (nftDetail.likesCount > 0)) {
+          let nft = nftDetail;
+          nft.likesCount = nft.likesCount - 1;
+          setLiked(false);
+          setNftDetail(nft);
+          props.toggleLikeDislike(data);
+        } else {
+          let nft = nftDetail;
+          nft.likesCount = nft.likesCount + 1;
 
-        setNftDetail(nft);
-        setLiked(true);
-        props.toggleLikeDislike(data);
+          setNftDetail(nft);
+          setLiked(true);
+          props.toggleLikeDislike(data);
+        }
       }
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
 
@@ -473,16 +484,21 @@ const NFTDetail = (props) => {
     setPrice(result);
   };
   const handleModalSubmit = async () => {
-    setLoader(true);
-    setIsOpen(false);
-    if (nftDetail.sellingMethod === 2) {
-      placeBid();
-      const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
+    if (await validateNetwork()) {
+      setLoader(true);
+      setIsOpen(false);
+      if (nftDetail.sellingMethod === 2) {
+        placeBid();
+        const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
+      } else {
+        makeOffer();
+      }
     } else {
-      makeOffer();
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
   const placeBid = async () => {
+    if (await validateNetwork()) {
     try {
       let result = await placeABid(price, nftDetail.nftToken);
       if (result) {
@@ -507,6 +523,9 @@ const NFTDetail = (props) => {
       setIsOpen(false);
       toast.error(err);
     }
+  }else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
+  }
   };
 
   const makeOffer = async () => {
@@ -561,38 +580,44 @@ const NFTDetail = (props) => {
   };
 
   const BuyNow = async () => {
-    try {
-      let currentPrice = "";
-      let nftToken = "";
+    if (await validateNetwork()) {
+      setDisabled(true);
+      try {
+        let currentPrice = "";
+        let nftToken = "";
 
-      if (modalShow1) {
-        currentPrice = listedItem.currentPrice;
-        nftToken = listedItem.tokenId;
-        nftId = listedItem._id;
-      } else {
-        currentPrice = nftDetail.currentPrice;
-        nftToken = nftDetail.nftToken;
-      }
+        if (modalShow1) {
+          currentPrice = listedItem.currentPrice;
+          nftToken = listedItem.tokenId;
+          nftId = listedItem._id;
+        } else {
+          currentPrice = nftDetail.currentPrice;
+          nftToken = nftDetail.nftToken;
+        }
 
-      const result = await BuyFixedPriceNFT(
-        currentPrice,
-        nftToken,
-        setConfirmed,
-        setTransactionHash
-      );
-      if (result) {
-        let ownerAddress = await getWalletAddress();
-        let payload = {
-          userId,
-          nftId,
-          ownerAddress,
-        };
-        
-        props.buyNow(payload);
-        createActivity("Transfer", false, ownerAddress);
+        const result = await BuyFixedPriceNFT(
+          currentPrice,
+          nftToken,
+          setConfirmed,
+          setTransactionHash
+        );
+        if (result) {
+          let ownerAddress = await getWalletAddress();
+          let payload = {
+            userId,
+            nftId,
+            ownerAddress,
+          };
+          props.beforeOffer();
+          props.buyNow(payload);
+          createActivity("Transfer", false, ownerAddress);
+        }
+      } catch (err) {
+        setDisabled(false);
+        toast.error(err);
       }
-    } catch (err) {
-      toast.error(err);
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
 
@@ -655,7 +680,7 @@ const NFTDetail = (props) => {
 
   // console.log(itemsListing, "itemsListing");
   // console.log(ENV.getUserKeys("_id")._id, "id");
-  console.log(nftDetail, "nftDetail");
+  // console.log(nftDetail, "nftDetail");
   // console.log(offers, "offers");
   // console.log(props,"props")
 
@@ -858,7 +883,7 @@ const NFTDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                        {nftDetail?.sellingMethod===1 && (
+                        {nftDetail?.sellingMethod === 1 && (
                           <div className="accordion-item">
                             <h2
                               className="accordion-header"
@@ -941,6 +966,11 @@ const NFTDetail = (props) => {
                                                           setModalShow1(true);
                                                           setListedItem(item);
                                                         }}
+                                                        disabled={
+                                                          disabled &&
+                                                          listedItem._id !==
+                                                            item._id
+                                                        }
                                                       >
                                                         Buy
                                                       </button>
@@ -951,8 +981,9 @@ const NFTDetail = (props) => {
                                         </tbody>
                                       </>
                                     ) : (
-                                      <p className="text-white text-center">{"No Items Found"}</p>
-                                      
+                                      <p className="text-white text-center">
+                                        {"No Items Found"}
+                                      </p>
                                     )}
                                   </table>
                                 </div>
@@ -1225,11 +1256,16 @@ const NFTDetail = (props) => {
                     </div>
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
                       <div className="detail-nft-owner">
-                        {nftDetail &&
-                        <p>
-                          Owned by <span>{nftDetail.user._id===userId?"You":nftDetail.user.username}</span>
-                        </p>
-                        }
+                        {nftDetail && (
+                          <p>
+                            Owned by{" "}
+                            <span>
+                              {nftDetail.ownerId === userId
+                                ? "You"
+                                : nftDetail.user.username}
+                            </span>
+                          </p>
+                        )}
                       </div>
                       <div className="detail-nft-copies">
                         <p>
@@ -1276,6 +1312,7 @@ const NFTDetail = (props) => {
                         <>
                           <button
                             className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
+                            disabled={disabled}
                             onClick={() => handleRouting()}
                           >
                             {ENV.getUserKeys("_id")._id == nftDetail.ownerId
@@ -1423,33 +1460,45 @@ const NFTDetail = (props) => {
                                     <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1">
                                       {listing.fileType === "image" ? (
                                         <ListingCards
-                                        CardImg={listing.image}
-                                        name={listing.name}
-                                        price={listing.currentPrice}
-                                        handleLikesTogleApi={handleLikesTogleApi}
-                                        id={listing._id}
-                                        likesCount={listing.likeCount}
-                                        likedNfts={likedNfts}
-                                        ownerId={listing.ownerId}
-                                        fileType={listing.fileType}
-                                        sellingMethod={listing.sellingMethod}
-                                        auctionStartDate={listing?.auctionStartDate}
-                                        auctionEndDate={listing?.auctionEndDate}
+                                          CardImg={listing.image}
+                                          name={listing.name}
+                                          price={listing.currentPrice}
+                                          handleLikesTogleApi={
+                                            handleLikesTogleApi
+                                          }
+                                          id={listing._id}
+                                          likesCount={listing.likeCount}
+                                          likedNfts={likedNfts}
+                                          ownerId={listing.ownerId}
+                                          fileType={listing.fileType}
+                                          sellingMethod={listing.sellingMethod}
+                                          auctionStartDate={
+                                            listing?.auctionStartDate
+                                          }
+                                          auctionEndDate={
+                                            listing?.auctionEndDate
+                                          }
                                         />
                                       ) : (
                                         <VideoCard
-                                        CardImg={listing.image}
-                                        name={listing.name}
-                                        price={listing.currentPrice}
-                                        handleLikesTogleApi={handleLikesTogleApi}
-                                        id={listing._id}
-                                        likesCount={listing.likeCount}
-                                        likedNfts={likedNfts}
-                                        ownerId={listing.ownerId}
-                                        fileType={listing.fileType}
-                                        sellingMethod={listing.sellingMethod}
-                                        auctionStartDate={listing?.auctionStartDate}
-                                        auctionEndDate={listing?.auctionEndDate}
+                                          CardImg={listing.image}
+                                          name={listing.name}
+                                          price={listing.currentPrice}
+                                          handleLikesTogleApi={
+                                            handleLikesTogleApi
+                                          }
+                                          id={listing._id}
+                                          likesCount={listing.likeCount}
+                                          likedNfts={likedNfts}
+                                          ownerId={listing.ownerId}
+                                          fileType={listing.fileType}
+                                          sellingMethod={listing.sellingMethod}
+                                          auctionStartDate={
+                                            listing?.auctionStartDate
+                                          }
+                                          auctionEndDate={
+                                            listing?.auctionEndDate
+                                          }
                                         />
                                       )}
                                     </div>
@@ -1462,7 +1511,14 @@ const NFTDetail = (props) => {
                           </div>
                           <div className="mt-4 detail-btn-collection text-center">
                             {nftsList.length > 0 && nftsList.length > 4 && (
-                              <button className="btn btn-rounded-bordered" onClick={()=>history.push(`http://localhost:3000/collection/detailPage/${nftDetail.colectionId}`)}>
+                              <button
+                                className="btn btn-rounded-bordered"
+                                onClick={() =>
+                                  history.push(
+                                    `http://localhost:3000/collection/detailPage/${nftDetail.colectionId}`
+                                  )
+                                }
+                              >
                                 View collection
                               </button>
                             )}
@@ -1495,6 +1551,7 @@ const NFTDetail = (props) => {
             confirmed={confirmed}
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
+            disabled={disabled}
           />
           <BuyModal
             show={modalShow1}
@@ -1515,6 +1572,7 @@ const NFTDetail = (props) => {
             confirmed={confirmed}
             transactionHash={transactionHash}
             transactionSuccess={transactionSuccess}
+            disabled={disabled}
           />
 
           <BidModal

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../../components/header/header';
 import Breadcrumb from '../../components/breadcrumb/breadcrumb';
 import Footer from '../../components/footer/footer';
-import ModalSearch from '../../components/modal-search/modal-search';
-import ModalMenu from '../../components/modal-menu/modal-menu';
+
 import Scrollup from '../../components/scroll-up/sroll-up';
 const bannerImg = '/img/placeholder.png';
 
@@ -32,8 +31,7 @@ class Layout1 extends Component {
                 <Breadcrumb title={title} banner={this.state.banner || bannerImg}/>
                 {this.props.children}
                 <Footer />
-                <ModalSearch />
-                <ModalMenu />
+            
                 <Scrollup />
             </div>
         );

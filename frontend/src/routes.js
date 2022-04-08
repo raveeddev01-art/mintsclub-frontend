@@ -4,25 +4,17 @@ import layout4 from "./layouts/layout4/layout4";
 // components
 import Home from "./components/home/home";
 import ExploreAll from "./components/explore/explore-all";
-import ItemDetails from "./components/item-detail/item-detail";
-import Activity from "./components/activity/activity";
-import Blog from "./components/blog/blog";
-import BlogSingle from "./components/blog-single/blog-single";
-import HelpCenter from "./components/help-center/help-center";
+
 import Populars from "./components/popular-collections-list/popular-collections-list";
-import Author from "./components/author/author";
-import Profile from "./components/profile/profile";
+
 import CreateNFT from "./components/create-nft/create-nft";
-import MyCollections from "./components/collections/my-collections";
+
 // import CreateCollections from "./components/create-collection/create-collection";
 import CollectionDetails from "./components/collections/collection-details";
 import Wallet from "./components/wallet/wallet";
 import Signup from "./components/signup/signup";
-import Contact from "./components/contact/contact";
 import SellNFT from "./components/sell-nft/SellNFT";
 import NotFound from "./components/not-found/not-found";
-import HowItWorks from "./components/how-it-works/how-it-works";
-import PrivacyTerms from "./components/privacy-&-terms/privacy-&-terms";
 import ExploreCollections from "./components/collections/explore-collections";
 import AllNFT from "./components/explore/all-nft/allnft";
 import CollectionDetailsPage from "./components/collection-details/collectiondetails";
@@ -59,14 +51,7 @@ const routes = [
     layout: layout2,
     component: AuctionsList,
   },
-  {
-    path: "/item-details",
-    access: true,
-    exact: true,
-    title: "Item Details",
-    layout: layout2,
-    component: ItemDetails,
-  },
+
   {
     path: "/sell-item/:id?",
     access: true,
@@ -76,39 +61,7 @@ const routes = [
     component: SellNFT,
   },
 
-  {
-    path: "/activity",
-    access: true,
-    exact: true,
-    title: "Activity",
-    layout: layout2,
-    component: Activity,
-  },
  
-  {
-    path: "/blog",
-    access: true,
-    exact: true,
-    title: "Blog",
-    layout: layout2,
-    component: Blog,
-  },
-  {
-    path: "/blog-single",
-    access: true,
-    exact: true,
-    title: "Blog Single",
-    layout: layout2,
-    component: BlogSingle,
-  },
-  {
-    path: "/help-center",
-    access: true,
-    exact: true,
-    title: "Help Center",
-    layout: layout2,
-    component: HelpCenter,
-  },
   {
     path: "/popular-collections",
     access: true,
@@ -127,22 +80,6 @@ const routes = [
   },
 
   {
-    path: "/author/:authorId?",
-    access: true,
-    exact: true,
-    title: "Author Profile",
-    layout: layout2,
-    component: Author,
-  },
-  {
-    path: "/profile",
-    access: true,
-    exact: true,
-    title: "Profile",
-    layout: layout2,
-    component: Profile,
-  },
-  {
     path: "/create",
     access: true,
     exact: true,
@@ -158,14 +95,7 @@ const routes = [
     layout: layout2,
     component: NFTDetail,
   },
-  {
-    path: "/collections",
-    access: true,
-    exact: true,
-    title: "Collections",
-    layout: layout2,
-    component: MyCollections,
-  },
+
   {
     path: "/createcollection",
     access: true,
@@ -246,30 +176,7 @@ const routes = [
     layout: layout4,
     component: Signup,
   },
-  {
-    path: "/contact",
-    access: true,
-    exact: true,
-    title: "Contact",
-    layout: layout2,
-    component: Contact,
-  },
-  {
-    path: "/how-it-works",
-    access: true,
-    exact: true,
-    title: "How It Works",
-    layout: layout2,
-    component: HowItWorks,
-  },
-  {
-    path: "/privacy-and-terms",
-    access: true,
-    exact: true,
-    title: "Privacy & Terms",
-    layout: layout2,
-    component: PrivacyTerms,
-  },
+
   {
     path: "/*",
     access: true,

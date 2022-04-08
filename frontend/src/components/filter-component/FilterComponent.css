@@ -5,6 +5,9 @@
 .collection-filter-accordion .accordion {
   border-radius: 10px;
 }
+.active-class{
+  background: linear-gradient(to top, #4355ff, #5695fd) !important
+}
 .apply-btn {
   background: linear-gradient(to top, #4355ff, #5695fd) !important;
   border: none !important;

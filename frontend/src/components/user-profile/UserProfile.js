@@ -18,6 +18,10 @@ import { Images } from "../../assets/assets";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import { Link } from "react-router-dom";
 import VideoCard from "../test-video-card/videoCard";
+import {
+  validateNetwork,
+} from "../../utils/web3";
+import { toast } from "react-toastify";
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -37,6 +41,7 @@ const UserProfile = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [keyword, setKeyword] = useState("");
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [disabled,setDisabled]=useState(false)
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -81,6 +86,13 @@ const UserProfile = (props) => {
         const Nfts = props.profileNFTs.nfts.filter(
           (item) => item.creatorId !== ENV.getUserKeys("_id")._id
         );
+        if(Nfts.length>0){
+          setDisabled(false)
+        }
+        else {
+          setDisabled(true)
+
+        }
         setNFTs(Nfts);
         setNFTsCopy(props.profileNFTs.nfts);
         setLoader(false);
@@ -380,8 +392,8 @@ const UserProfile = (props) => {
       id == "New" ? true : false
     );
   };
-  const handleLikesTogleApi = (nftId, status, likesCount) => {
-    // increOrDecreLikes(nftId);
+  const handleLikesTogleApi = async (nftId, status, likesCount) => {
+    if (await validateNetwork()) {
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       let userId = ENV.getUserKeys("_id")._id;
@@ -417,6 +429,9 @@ const UserProfile = (props) => {
       }
       // setNFTs(nfts);
     }
+  }else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+  }
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -474,8 +489,7 @@ const UserProfile = (props) => {
   };
 
   const menuData = ["Collected", "Created", "Favourited"];
-  // console.log(nfts, "nfts");
-  // console.log(likedNfts, "likedNfts");
+
   return (
     <>
       <NavbarMain />
@@ -558,6 +572,7 @@ const UserProfile = (props) => {
                             className={`${
                               id === isActive ? "active-explore-nav" : ""
                             } me-2 me-xl-3`}
+                            disabled={disabled}
                           >
                             {item}
                           </button>
@@ -595,7 +610,7 @@ const UserProfile = (props) => {
                     {itemoptions &&
                       itemoptions.map((collection, index) => {
                         return (
-                          <option key={index} value={collection.label}>
+                          <option key={index} value={collection.label} >
                             {collection.label}
                           </option>
                         );
@@ -613,7 +628,7 @@ const UserProfile = (props) => {
                     {priceoptions &&
                       priceoptions.map((collection, index) => {
                         return (
-                          <option key={index} value={collection.label}>
+                          <option key={index} value={collection.label} disabled={disabled}>
                             {collection.label}
                           </option>
                         );
@@ -641,6 +656,15 @@ const UserProfile = (props) => {
                     <FilterComponent
                       Status={filterData.status}
                       Chains={filterData.chains}
+                      collectionsLabel={"Collections"}
+                      onChangeMinPrice={onChangeMinPrice}
+                      onChangeMaxPrice={onChangeMaxPrice}
+                      minValue={minValue}
+                      maxValue={maxValue}
+                      applyMinMaxFilter={applyMinMaxFilter}
+                      handleCollectionsFilter={handleCollectionsFilter}
+                      handleStatusFilter={handleStatusFilter}
+                      disabled={disabled}
                     />
                   </div>
                 </div>
@@ -659,6 +683,7 @@ const UserProfile = (props) => {
                   applyMinMaxFilter={applyMinMaxFilter}
                   handleCollectionsFilter={handleCollectionsFilter}
                   handleStatusFilter={handleStatusFilter}
+                  disabled={disabled}
                 />
               </div>
               <div className="col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0">
