@@ -22,6 +22,7 @@ const AuctionsList = (props) => {
   const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("all");
+
   const [auctionSettings, setAuctionSettings] = useState();
   useEffect(() => {
     window.scroll(0, 0);
@@ -37,6 +38,7 @@ const AuctionsList = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions, pagination } = props.auction;
+      console.log(pagination, "pagination");
       setAuctions(auctions);
       props.beforeAuction();
     }
@@ -136,13 +138,16 @@ const AuctionsList = (props) => {
               ) : (
                 <p className="text-white text-center">No Live Auctions Found</p>
               )}
-              {console.log(auctions, "auctionsssss")}
 
               <div className="col-12">
                 <div className="mt-5 text-center">
-                  <button className="btn btn-linear-gradient px-5">
-                    Load more
-                  </button>
+                  {auctions &&
+                    props.auction.pagination.total > auctions.length &&
+                    auctions.length > 10 && (
+                      <button className="btn btn-linear-gradient px-5">
+                        Load more
+                      </button>
+                    )}
                 </div>
               </div>
             </div>

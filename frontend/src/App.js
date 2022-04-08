@@ -11,41 +11,49 @@ import {getWalletAddress} from './utils/web3'
 import { toast } from "react-toastify";
 // import 'swiper/swiper-bundle.css';
 
-const App = () => {
-  const [walletAddress, setWalletAddress] = useState("");
+const App = React.memo(props => {
+  // const [walletAddress, setWalletAddress] = useState("");
+  let walletAddress=false
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
 const history=useHistory()
-  useEffect(() => {
+  useEffect( async () => {
     tawkTo(tawkToPropertyId, tawkToKey);
+  
   }, [ENV]);
 
+
   // ///set Interval
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   const interval = setInterval(() => {
-  //     handleMetamaskStatus();
-  //   }, 2000);
+    const interval = setInterval(() => {
+      handleMetamaskStatus();
+    }, 2000);
 
-  //   return () => clearInterval(interval);
-  // }, [walletAddress]);
+    return () => clearInterval(interval);
+  }, []);
 
 
-  // const handleMetamaskStatus = async () => {
-  //   const address = await getWalletAddress();
+  const handleMetamaskStatus = async () => {
+    const address = await getWalletAddress();
   
-  //   if (walletAddress) {
-  //     if (walletAddress !== address) {
-  //       toast.info("Please login with new address")
-  //      history.push('/login')
-  //     }
-  //   } else {
-  //     const address = await getWalletAddress();
-  //     setWalletAddress(address);
-  //   }
-  //   // }
-  // };
-  // console.log()
+    if (walletAddress) {
+  
+      if (walletAddress !== address) {
+        toast.info("Please login with new address")
+        walletAddress=address
+        // setWalletAddress(address)
+        history.push('/login')
+      }
+    } 
+    else {
+      const address = await getWalletAddress();
+      walletAddress=address
+      // setWalletAddress(address);
+    }
+    // }
+  };
+
 
   return (
     <React.Fragment>
@@ -72,6 +80,6 @@ const history=useHistory()
       </Suspense>
     </React.Fragment>
   );
-};
+});
 
 export default App;

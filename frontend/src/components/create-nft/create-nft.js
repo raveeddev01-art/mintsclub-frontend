@@ -91,7 +91,7 @@ class CreateNFT extends Component {
       const collections =
         this.props.collection.myCollections.collections.Collections;
 
-      this.props.beforeCollection();
+   
 
       if (!collections.length) {
         toast.info('Please add a collection first');
@@ -138,6 +138,8 @@ class CreateNFT extends Component {
   };
 
   submit = async (e) => {
+    console.log("submit")
+    console.log(await validateNetwork() )
     e.preventDefault();
     if(await validateNetwork())
     {
@@ -394,6 +396,7 @@ class CreateNFT extends Component {
     } = this.state;
 
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
+console.log(collections,"collections")
 
     return (
       <div>
@@ -605,7 +608,9 @@ class CreateNFT extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state"),
+  {
   error: state.error,
   collection: state.collection,
 });

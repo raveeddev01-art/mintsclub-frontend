@@ -51,7 +51,7 @@ export const getNetworkNameByChainId=async ()=>{
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
-  if (prevNetwork !== "Ethereum Rinkby") {
+  if (prevNetwork === "Ethereum Rinkby") {
     return true;
   } else {
     return false;
@@ -261,7 +261,7 @@ export const connectMetamaskCopy = async (address) => {
     } else {
       let address = await signRequest();
 
-      toast.success("wallet connected");
+      // toast.success("wallet connected");
       return address[0];
     }
   } else {

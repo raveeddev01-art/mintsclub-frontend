@@ -90,6 +90,7 @@ const CollectionDetailsPage = (props) => {
   }, [props.myLikedNftsStatus]);
 
   useEffect(() => {
+    console.log(props.nfts)
     if (props.nftsAuth) {
       if(props.nfts.length>0){
         setDisabled(false)
@@ -98,7 +99,7 @@ const CollectionDetailsPage = (props) => {
         setDisabled(true)
       }
       setNfts(props.nfts);
-      props.beforeNFT();
+     
       setLoader(false);
 
       setFilterationLoader(false);
@@ -129,7 +130,7 @@ const CollectionDetailsPage = (props) => {
     latest
   ) => {
     setFilterationLoader(true);
-
+    props.beforeNFT();
     const nftQS = { page, limit };
 
     nftQS.collectionId = location.state._id;
@@ -410,10 +411,10 @@ const CollectionDetailsPage = (props) => {
   const { name, banner, logo, description } = location.state;
   return (
     <>
-      {loader ? (
+      {loader &&
         <FullPageLoader />
-      ) : (
-        <>
+}
+        
           <NavbarMain />
           <Breadcrumb title1={"Collections"} title2={"CollectionDetail"} />
           <div className="collection-detail-hero w-100">
@@ -643,18 +644,34 @@ const CollectionDetailsPage = (props) => {
                       </p>
                     )}
                   </div>
+                  <div className="col-12">
+                  <div className="mt-5 text-center">
+                    {nfts &&
+                      props.pagination > nfts.length &&
+                      nfts.length > 10 && (
+                        <button
+                          className="btn btn-linear-gradient px-5"
+                          onClick={() => handlePagination()}
+                        >
+                          Load more
+                        </button>
+                      )}
+                  </div>
+                </div>
                 
                 </div>
               </div>
             </div>
           </div>
           <Footer />
-        </>
-      )}
+        
+      
     </>
   );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state"),
+  {
   nft: state.nft,
   user: state.user,
   getAuth: state.collection.getAuth,
@@ -662,7 +679,7 @@ const mapStateToProps = (state) => ({
   nftsByCollection: state.nft.nftsByCollection,
   nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
   nfts: state.nft.nftsData.nfts,
-  pagination: state.nft.nftAll.pagination,
+  pagination: state.nft.nftsData.pagination,
   nftsAuth: state.nft.nftsAuth,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
