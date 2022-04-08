@@ -37,7 +37,7 @@ const HeroCards = ({ CardImg, NftName, OwnerName }) => {
         </div>
         <button className="auction-bit-btn d-flex align-items-center justify-content-center">
           <img src={Bucket} alt="" className="me-1" />
-          <p>Place a Bit</p>
+          <p>Place a Bid</p>
         </button>
       </Card.Body>
     </Card>
