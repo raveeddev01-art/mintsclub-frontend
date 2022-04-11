@@ -54,7 +54,6 @@ const history=useHistory()
     // }
   };
 
-
   return (
     <React.Fragment>
       <Suspense fallback={<FullPageLoader />}>
@@ -66,7 +65,7 @@ const history=useHistory()
                   key={index}
                   path={route.path}
                   exact={route.exact}
-                  access={true}
+                  access={(ENV.getUserKeys("_id")._id||route.path==='/login')?true:false}
                   component={(props) => (
                     <route.layout {...props} title={route.title}>
                       <route.component {...props} />

@@ -1,13 +1,21 @@
 import React from 'react';
-import { Route } from "react-router-dom";
+import { Route,  Redirect } from "react-router-dom";
+import { useHistory } from 'react-router';
+import { ENV } from "./config/config";
+export const PrivateRoute = ({ component: Component, access,path, ...rest }) => (
+  
 
-export const PrivateRoute = ({ component: Component, access, ...rest }) => (
     <Route
         {...rest}
         render={props =>
-            access === true ?
+            ENV.getUserKeys("_id")._id ||path==='/login' ?
                 (<Component {...props} />)
                 :
-                ''
+                <Redirect
+                to={{
+                  pathname: '/login',
+               
+                }}
+              />
         } />
 );
