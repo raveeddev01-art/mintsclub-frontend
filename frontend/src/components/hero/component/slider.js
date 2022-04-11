@@ -63,7 +63,7 @@ const Slider = (props) => {
         );
       })}
       {auctions &&
-      auctions.filter((item) => item.fileType === 'image').length >= 7 ? (
+      auctions.filter((item) => item.fileType === 'image').length >= 7 && (
         auctions
           .filter((item) => item.fileType === 'image')
           .map((item, id) => {
@@ -84,7 +84,8 @@ const Slider = (props) => {
               );
             }
           })
-      ) : (
+      ) 
+      // : (
         // : nfts &&
         //   nfts.filter((item) => item.fileType === 'image').length >= 7 ? (
         //   nfts
@@ -108,30 +109,31 @@ const Slider = (props) => {
         //       }
         //     })
         // )
-        <>
-          <label for='s1' id='slide1' onClick={() => props.setHandler(1)}>
-            <HeroCards CardImg={ListingImg.listingImg1} className='slide' />
-          </label>
-          <label for='s2' id='slide2' onClick={() => props.setHandler(2)}>
-            <HeroCards CardImg={ListingImg.listingImg2} className='slide' />
-          </label>
-          <label for='s3' id='slide3' onClick={() => props.setHandler(3)}>
-            <HeroCards CardImg={ListingImg.listingImg3} className='slide' />
-          </label>
-          <label for='s4' id='slide4' onClick={() => props.setHandler(4)}>
-            <HeroCards CardImg={ListingImg.listingImg4} className='slide' />
-          </label>
-          <label foCopiesr='s5' id='slide5' onClick={() => props.setHandler(5)}>
-            <HeroCards CardImg={CollectionImages.mainImg1} className='slide' />
-          </label>
-          <label for='s6' id='slide6' onClick={() => props.setHandler(6)}>
-            <HeroCards CardImg={CollectionImages.mainImg2} className='slide' />
-          </label>
-          <label for='s7' id='slide7' onClick={() => props.setHandler(7)}>
-            <HeroCards CardImg={CollectionImages.mainImg3} className='slide' />
-          </label>
-        </>
-      )}
+      //   <>
+      //     <label for='s1' id='slide1' onClick={() => props.setHandler(1)}>
+      //       <HeroCards CardImg={ListingImg.listingImg1} className='slide' />
+      //     </label>
+      //     <label for='s2' id='slide2' onClick={() => props.setHandler(2)}>
+      //       <HeroCards CardImg={ListingImg.listingImg2} className='slide' />
+      //     </label>
+      //     <label for='s3' id='slide3' onClick={() => props.setHandler(3)}>
+      //       <HeroCards CardImg={ListingImg.listingImg3} className='slide' />
+      //     </label>
+      //     <label for='s4' id='slide4' onClick={() => props.setHandler(4)}>
+      //       <HeroCards CardImg={ListingImg.listingImg4} className='slide' />
+      //     </label>
+      //     <label foCopiesr='s5' id='slide5' onClick={() => props.setHandler(5)}>
+      //       <HeroCards CardImg={CollectionImages.mainImg1} className='slide' />
+      //     </label>
+      //     <label for='s6' id='slide6' onClick={() => props.setHandler(6)}>
+      //       <HeroCards CardImg={CollectionImages.mainImg2} className='slide' />
+      //     </label>
+      //     <label for='s7' id='slide7' onClick={() => props.setHandler(7)}>
+      //       <HeroCards CardImg={CollectionImages.mainImg3} className='slide' />
+      //     </label>
+      //   </>
+      // )
+      }
     </section>
   );
 };
