@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route,  Redirect } from "react-router-dom";
-import { useHistory } from 'react-router';
 import { ENV } from "./config/config";
 export const PrivateRoute = ({ component: Component, access,path, ...rest }) => (
   
