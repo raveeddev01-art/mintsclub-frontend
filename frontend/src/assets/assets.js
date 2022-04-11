@@ -21,10 +21,13 @@ import Twitter from './images/edit-twitter.svg';
 import Insta from './images/edit-insta.svg';
 import Website from './images/edit-website.svg';
 import popularCollectionPlaceholder from './images/placeholderImgPopular.png';
+import profilePic from './images/profilePic.png';
+
 export const Images = {
   uploadImage,
   placeholderImg,
   popularCollectionPlaceholder,
+  profilePic,
 };
 
 export const CollectionImages = {
