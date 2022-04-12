@@ -67,7 +67,9 @@ const Populars = forwardRef((props, ref) => {
           }
           collectionListing[i].likesCount = 0;
 
-          collectionListing[i].totalNfts = element.nfts.length;
+          collectionListing[i].totalNfts = element.nfts[0].image
+            ? element.nfts?.length
+            : 0;
           if (element.soldCopies.length > 0) {
             var soldCopiesSum = element.soldCopies.reduce(function (a, b) {
               return a + b;
@@ -153,6 +155,18 @@ const Populars = forwardRef((props, ref) => {
     getPopularCollections(category, 1, 10);
   };
 
+  const handleImage = (item, index) => {
+    if (item.nfts[index]?.image) {
+      if (item.nfts[index]?.fileType === 'image') {
+        return item.nfts[index]?.image;
+      } else {
+        return Images.popularCollectionPlaceholder;
+      }
+    } else {
+      return Images.popularCollectionPlaceholder;
+    }
+  };
+
   return (
     <>
       <NavbarMain />
@@ -228,21 +242,9 @@ const Populars = forwardRef((props, ref) => {
                     <div className='col-sm-6 col-lg-4'>
                       <CollectionsCard
                         CardImg={item.featuredImg}
-                        Subimg1={
-                          item?.nfts[0]
-                            ? item?.nfts[0]
-                            : Images.popularCollectionPlaceholder
-                        }
-                        Subimg2={
-                          item?.nfts[1]
-                            ? item?.nfts[1]
-                            : Images.popularCollectionPlaceholder
-                        }
-                        Subimg3={
-                          item?.nfts[2]
-                            ? item?.nfts[2]
-                            : Images.popularCollectionPlaceholder
-                        }
+                        Subimg1={handleImage(item, 0)}
+                        Subimg2={handleImage(item, 1)}
+                        Subimg3={handleImage(item, 2)}
                         name={item.name}
                         id={item._id}
                         collection={item}

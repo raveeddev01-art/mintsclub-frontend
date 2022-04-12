@@ -3,32 +3,34 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
-} from "react";
+} from 'react';
 
-import NavbarMain from "../navbar-main/NavbarMain";
-import "./explore-collections.css";
-import CollectionsCard from "../collections-cards/CollectionsCard";
-import Footer from "../footer/footer";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
+import NavbarMain from '../navbar-main/NavbarMain';
+import './explore-collections.css';
+import CollectionsCard from '../collections-cards/CollectionsCard';
+import Footer from '../footer/footer';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
 import {
   beforeCollection,
   getCollections,
   toggleLikeDislike,
-} from "./collections.actions";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
-import { beforeCategory, getCategories } from "./collections.actions";
-import Breadcrumb from "../breadcrumb/breadcrumb";
+} from './collections.actions';
+import { Images } from '../../assets/assets';
+
+import FullPageLoader from '../../components/full-page-loader/full-page-loader';
+import { beforeCategory, getCategories } from './collections.actions';
+import Breadcrumb from '../breadcrumb/breadcrumb';
 
 const ExploreCollections = forwardRef((props, ref) => {
-  const [isActive, setIsActive] = useState("All");
+  const [isActive, setIsActive] = useState('All');
   const [collections, setCollections] = useState(null);
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
   const [collectionsLoader, setColLoader] = useState(true); // collections loader
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState();
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -48,8 +50,8 @@ const ExploreCollections = forwardRef((props, ref) => {
     if (props.collection.getAuth) {
       const { collections, pagination } = props.collection;
       setPagination(pagination);
-
-      const userId = ENV.getUserKeys("_id")._id;
+      // console.log('collections', collections.nftDetail);
+      const userId = ENV.getUserKeys('_id')._id;
       if (props.mycollections) {
         let myCollections = collections.filter(
           (item) => item.userId === userId
@@ -117,26 +119,38 @@ const ExploreCollections = forwardRef((props, ref) => {
     getCollections(category, 1, 10);
   };
 
+  const handleImage = (item, index) => {
+    if (item.nftDetail[index]?.image) {
+      if (item.nftDetail[index]?.fileType === 'image') {
+        return item.nftDetail[index]?.image;
+      } else {
+        return Images.popularCollectionPlaceholder;
+      }
+    } else {
+      return Images.popularCollectionPlaceholder;
+    }
+  };
+
   return (
     <>
       <NavbarMain />
-      <Breadcrumb title1={"Explore"} title2={"ExploreAll"} />
+      <Breadcrumb title1={'Explore'} title2={'ExploreAll'} />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
-        <section className="explore-collection-section padding-wrapper">
-          <div className="container">
-            <div className="row mb-5">
-              <div className="col-12">
-                <div className="intro">
-                  <div className="intro-content">
+        <section className='explore-collection-section padding-wrapper'>
+          <div className='container'>
+            <div className='row mb-5'>
+              <div className='col-12'>
+                <div className='intro'>
+                  <div className='intro-content'>
                     <span>Collections</span>
-                    <h3 className="mb-0">Explore all</h3>
+                    <h3 className='mb-0'>Explore all</h3>
                   </div>
                 </div>
               </div>
-              <div className="col-12 explore-collection-nav">
-                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+              <div className='col-12 explore-collection-nav'>
+                <div className='d-none d-xxl-flex justify-content-lg-end text-end align-items-center'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
@@ -148,7 +162,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                             handleFilterCategory(item.description);
                           }}
                           className={`${
-                            item.name === isActive ? "active-explore-nav" : ""
+                            item.name === isActive ? 'active-explore-nav' : ''
                           } me-2 me-xl-3`}
                         >
                           {item.name}
@@ -156,12 +170,12 @@ const ExploreCollections = forwardRef((props, ref) => {
                       );
                     })}
                 </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
                       return (
-                        <div className="col-6 col-sm-3">
+                        <div className='col-6 col-sm-3'>
                           <button
                             onClick={() => {
                               setIsActive(item.name);
@@ -169,7 +183,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                               handleFilterCategory(item.description);
                             }}
                             className={
-                              isActive === item.name ? "active-explore-nav" : ""
+                              isActive === item.name ? 'active-explore-nav' : ''
                             }
                           >
                             {item.name}
@@ -180,46 +194,48 @@ const ExploreCollections = forwardRef((props, ref) => {
                 </div>
               </div>
             </div>
-            <div className="row g-4 align-items-center justify-content-center">
+            <div className='row g-4 align-items-center justify-content-center'>
               {loader ? (
-                <div class="spinner-border text-white" role="status">
-                  <span class="sr-only">Loading...</span>
+                <div class='spinner-border text-white' role='status'>
+                  <span class='sr-only'>Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
                 collections.map((collection) => {
                   return (
-                    <div className="col-sm-6 col-lg-4">
+                    <div className='col-sm-6 col-lg-4'>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
-                        Subimg1={collection.featuredImg}
-                        Subimg2={collection.logo}
-                        Subimg3={collection.featuredImg}
+                        Subimg1={handleImage(collection, 0)}
+                        Subimg2={handleImage(collection, 1)}
+                        Subimg3={handleImage(collection, 2)}
                         name={collection.name}
                         id={collection._id}
                         collection={collection}
                         userName={
-                          collection?.user[0]?.username
-                            ? collection?.user[0]?.username
-                            : ""
+                          collection?.username[0] ? collection.username[0] : ''
                         }
-                        NFTCount={collection.NFTCount}
-                        profileImage={collection?.user[0]?.profileImage}
+                        NFTCount={
+                          collection.nftDetail[0].image
+                            ? collection.nftDetail?.length
+                            : 0
+                        }
+                        profileImage={collection?.profileImage[0]}
                       />
                     </div>
                   );
                 })
               ) : (
-                <p className="text-center text-white not-found-title mt-5">
+                <p className='text-center text-white not-found-title mt-5'>
                   No Collections found
                 </p>
               )}
-              <div className="col-12">
-                <div className="mt-5 text-center">
+              <div className='col-12'>
+                <div className='mt-5 text-center'>
                   {!empty &&
                     collections?.length === 10 &&
                     pagination.totalRecords > collections.length && (
                       <button
-                        className="btn btn-linear-gradient px-5"
+                        className='btn btn-linear-gradient px-5'
                         onClick={() => handlePagination()}
                       >
                         Load more
