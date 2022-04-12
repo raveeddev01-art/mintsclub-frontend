@@ -16,6 +16,7 @@ import {
   getCollections,
 } from "../../collections/collections.actions";
 import Breadcrumb from "../../breadcrumb/breadcrumb";
+import {IoCloseSharp}from 'react-icons/all';
 import VideoCard from "../../test-video-card/videoCard";
 import {
   validateNetwork,
@@ -506,7 +507,7 @@ console.log(props.location.state,"props.location.state")
           <div className="collections-listing">
             <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
+                <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0 position-relative">
                   <img
                     src={SearchIcon}
                     alt="search-icon"
@@ -523,6 +524,8 @@ console.log(props.location.state,"props.location.state")
                     }
                     value={keyword}
                   />
+                  {/* <IoCloseSharp className="position-absolute input-clear"/> */}
+
                 </div>
               </div>
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">

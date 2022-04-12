@@ -209,6 +209,10 @@ const SellNFT = (props) => {
   const submit = async (e) => {
 
     e.preventDefault();
+    if(copies>nftDetail.copies){
+      toast.info(`Copies should b less than or equal to ${nftDetail.copies}`)
+      return ''
+    }
     if(await validateNetwork())
     {
 
@@ -331,7 +335,7 @@ const SellNFT = (props) => {
         }
       } catch (err) {
         setLoader(false);
-        toast.error(err.message);
+        toast.error(err);
       }
     } else {
       try {
@@ -614,7 +618,7 @@ const SellNFT = (props) => {
                                           borderRadius: "4px",
                                         }}
                                         min={"1"}
-                                        max={`${copies <= nftDetail.copies}`}
+                                        max={`${nftDetail.copies}`}
                                         onChange={(e) =>
                                           setCopies(e.target.value)
                                         }
@@ -852,7 +856,7 @@ const SellNFT = (props) => {
                                           borderRadius: "4px",
                                         }}
                                         min={"1"}
-                                        max={`${copies <= nftDetail.copies}`}
+                                        max={`${nftDetail.copies}`}
                                         maxLength={3}
                                         onChange={(e) =>
                                           setCopies(e.target.value)

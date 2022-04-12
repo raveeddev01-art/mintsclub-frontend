@@ -210,7 +210,7 @@ const BuyModal = (props) => {
                 </>
               )}
             </div>
-            <div className="status-address">
+            <div className="status-address" onClick={()=>window.open(`https://rinkeby.etherscan.io/tx/${transactionHash}`,'_blank')}>
               <p>
                 {transactionHash.slice(0, 6) +
                   "....." +

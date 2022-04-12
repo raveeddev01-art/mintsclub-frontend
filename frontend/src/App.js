@@ -43,6 +43,7 @@ const history=useHistory()
         toast.info("Please login with new address")
         walletAddress=address
         // setWalletAddress(address)
+        localStorage.clear();
         history.push('/login')
       }
     } 
