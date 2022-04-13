@@ -252,6 +252,7 @@ const Populars = forwardRef((props, ref) => {
                         userName={item.username[0]}
                         NFTCount={item.totalNfts}
                         profileImage={item.profileImage[0]}
+
                         // handleLikesTogle={handleLikesTogleApi}
                       />
                     </div>
