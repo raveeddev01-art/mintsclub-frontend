@@ -20,85 +20,11 @@ const initData = {
   btnText: 'Explore More',
 };
 
-const collectionData = [
-  {
-    mainImg: CollectionImages.mainImg1,
-    subImg1: CollectionImages.subImg1,
-    subImg2: CollectionImages.subImg2,
-    subImg3: CollectionImages.subImg3,
-  },
-  {
-    mainImg: CollectionImages.mainImg2,
-    subImg1: CollectionImages.subImg4,
-    subImg2: CollectionImages.subImg5,
-    subImg3: CollectionImages.subImg6,
-  },
-  {
-    mainImg: CollectionImages.mainImg3,
-    subImg1: CollectionImages.subImg1,
-    subImg2: CollectionImages.subImg2,
-    subImg3: CollectionImages.subImg3,
-  },
-  {
-    mainImg: CollectionImages.mainImg1,
-    subImg1: CollectionImages.subImg4,
-    subImg2: CollectionImages.subImg5,
-    subImg3: CollectionImages.subImg6,
-  },
-  {
-    mainImg: CollectionImages.mainImg2,
-    subImg1: CollectionImages.subImg1,
-    subImg2: CollectionImages.subImg2,
-    subImg3: CollectionImages.subImg3,
-  },
-  {
-    mainImg: CollectionImages.mainImg3,
-    subImg1: CollectionImages.subImg4,
-    subImg2: CollectionImages.subImg5,
-    subImg3: CollectionImages.subImg6,
-  },
-  {
-    mainImg: CollectionImages.mainImg1,
-    subImg1: CollectionImages.subImg1,
-    subImg2: CollectionImages.subImg2,
-    subImg3: CollectionImages.subImg3,
-  },
-  {
-    mainImg: CollectionImages.mainImg2,
-    subImg1: CollectionImages.subImg4,
-    subImg2: CollectionImages.subImg5,
-    subImg3: CollectionImages.subImg6,
-  },
-  {
-    mainImg: CollectionImages.mainImg3,
-    subImg1: CollectionImages.subImg1,
-    subImg2: CollectionImages.subImg2,
-    subImg3: CollectionImages.subImg3,
-  },
-  {
-    mainImg: CollectionImages.mainImg1,
-    subImg1: CollectionImages.subImg4,
-    subImg2: CollectionImages.subImg5,
-    subImg3: CollectionImages.subImg6,
-  },
-  {
-    mainImg: CollectionImages.mainImg2,
-    subImg1: CollectionImages.subImg1,
-    subImg2: CollectionImages.subImg2,
-    subImg3: CollectionImages.subImg3,
-  },
-  {
-    mainImg: CollectionImages.mainImg3,
-    subImg1: CollectionImages.subImg4,
-    subImg2: CollectionImages.subImg5,
-    subImg3: CollectionImages.subImg6,
-  },
-];
-
 const PopularCollections = (props) => {
   const [popular, setpopular] = useState([]);
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState('all');
+  const [popularSettings, settPopularSettings] = useState();
   const [isActive, setIsActive] = useState(0);
 
   useEffect(() => {
@@ -145,7 +71,13 @@ const PopularCollections = (props) => {
       const finalCollectionListing = collectionListing.sort(
         (a, b) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
       );
-
+      let popularCollectionsSettings = ENV.popularCollectionsSettings;
+      if (finalCollectionListing.length > 3) {
+        popularCollectionsSettings.infinite = true;
+      } else {
+        popularCollectionsSettings.infinite = false;
+      }
+      settPopularSettings(popularCollectionsSettings);
       setpopular(finalCollectionListing);
       props.beforePopularCollection();
     }
