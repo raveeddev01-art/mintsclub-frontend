@@ -497,7 +497,7 @@ const AllNFT = (props) => {
     }
   };
 
-console.log(props.location.state,"props.location.state")
+
   return (
     <>
       <NavbarMain />
