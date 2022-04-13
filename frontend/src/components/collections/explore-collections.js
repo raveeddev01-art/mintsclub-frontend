@@ -120,9 +120,10 @@ const ExploreCollections = forwardRef((props, ref) => {
   };
 
   const handleImage = (item, index) => {
-    if (item.nftDetail[index]?.image) {
-      if (item.nftDetail[index]?.fileType === 'image') {
-        return item.nftDetail[index]?.image;
+    if (item?.nftDetail[index]?.image) {
+      let result = item.nftDetail.filter((nft) => nft.fileType === 'image');
+      if (result.length >= index) {
+        return result[index]?.image;
       } else {
         return Images.popularCollectionPlaceholder;
       }
