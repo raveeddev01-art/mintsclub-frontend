@@ -44,8 +44,7 @@ export const getUser = () => (dispatch) => {
 export const login = (payload) => (dispatch) => {
   dispatch(emptyError());
   const url = `${ENV.url}auth/login/`;
-  // const url = `http://localhost:5000/v1/front/auth/login/`;
-  console.log(payload, 'payload');
+
 
   fetch(url, {
     method: 'POST',
@@ -126,7 +125,7 @@ export const signup = (payload) => (dispatch) => {
 export const updateProfile = (body) => (dispatch) => {
   dispatch(emptyError());
   const url = `${ENV.url}users/updateProfile`;
-  console.log(body,"sendin body")
+
   fetch(url, {
     method: 'PUT',
     headers: {
@@ -143,7 +142,7 @@ export const updateProfile = (body) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data, 'update profile response');
+    console.log(data,"data")
       if (data.status) {
         // ENV.encryptUserData(data.data);
         dispatch({
@@ -152,10 +151,13 @@ export const updateProfile = (body) => (dispatch) => {
         });
         toast.success(data.message);
       } else {
+        toast.success(data.message);
         dispatch({
           type: GET_ERRORS,
           payload: data,
         });
+   
+       
       }
     })
     .catch((errors) => {
@@ -164,6 +166,7 @@ export const updateProfile = (body) => (dispatch) => {
         type: GET_ERRORS,
         payload: errors,
       });
+      throw new Error(errors);
     });
 };
 export const getApprovals = () => (dispatch) => {
@@ -186,7 +189,7 @@ export const getApprovals = () => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.data,"approvals record")
+   
       if(data.success){
         dispatch({
           type:GET_APPROVALS,
@@ -253,7 +256,7 @@ export const getTopSellers =
     if (qs) {
       url += `?${qs}`;
     }
-    console.log(url, 'url sending');
+   
 
     fetch(url, {
       method: 'GET',
@@ -272,7 +275,7 @@ export const getTopSellers =
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log('fetching data', data);
+        
           dispatch({
             type: TOP_SELLERS,
             payload: data.data,
@@ -353,7 +356,7 @@ export const getUserById = (userId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data, 'user response by id');
+     
       if (data.success) {
         dispatch({
           type: SET_INDIVIDUAL_USER,

@@ -24,7 +24,7 @@ export const placeBid = (body) => dispatch => {
         },
         body: JSON.stringify(body)
     }).then(res => res.json()).then(data => {
-      console.log('data', data)
+     
         if (data.success) {
           
             toast.success(data.message)
@@ -102,7 +102,7 @@ export const getBids = (qs = '') => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        console.log(data,"bids reponse==>")
+      
         if (data.success) {
             dispatch({
                 type: GET_BIDS,
@@ -143,7 +143,7 @@ export const deleteBid = (bidId) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        console.log(data,"delete bid response")
+       
         if (data.success) {
             toast.success(data.message)
             dispatch({

@@ -14,7 +14,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_OFFERS:
-            console.log(action.payload.offers,"reducer")
+          
             
             return {
                 ...state,

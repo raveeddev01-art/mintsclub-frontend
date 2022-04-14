@@ -17,7 +17,6 @@ import {
   setIndividualUserData,
   getUserById,
   beforeUser,
-
 } from "./../user/user.action";
 import { signRequest } from "./../../utils/web3";
 import { ENV } from "./../../config/config";
@@ -45,6 +44,7 @@ const EditProfile = (props) => {
   const [instaLink, setInstaLink] = useState("");
   const [webLink, setWebLink] = useState("");
   const [_id, setUserId] = useState("");
+  const [bioError, setBioError] = useState(false);
   const history = useHistory();
   let validator = new SimpleReactValidator({
     autoForceUpdate: this,
@@ -54,13 +54,12 @@ const EditProfile = (props) => {
   });
   useEffect(() => {
     let user = ENV.getUserKeys("");
-  
+
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
-
       const {
         address,
         email,
@@ -84,8 +83,8 @@ const EditProfile = (props) => {
       setUsername(username ? username : "");
       setImageUrl(profileImage ? profileImage : "");
       setBannerUrl(bannerImage ? bannerImage : "");
-      setImage(profileImage?profileImage:'');
-      setBannerImage(bannerImage?bannerImage:"");
+      setImage(profileImage ? profileImage : "");
+      setBannerImage(bannerImage ? bannerImage : "");
       setInstaLink(instaLink ? instaLink : "");
       setWebLink(webLink ? webLink : "");
     }
@@ -93,9 +92,8 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     if (props.user.userAuth) {
-  
       setLoader(false);
-      props.beforeUser()
+      props.beforeUser();
       history.push("/userprofile");
     }
   }, [props.user.userAuth]);
@@ -160,7 +158,12 @@ const EditProfile = (props) => {
       instaLink,
       twitterLink,
     };
-
+    if (description && description.length < 3) {
+      setBioError(true);
+      return "";
+    } else {
+      setBioError(false);
+    }
     setErrors("");
     setLoader(true);
     setIsSubmitted(true);
@@ -169,7 +172,7 @@ const EditProfile = (props) => {
       try {
         // let signature = await signRequest();
         setLoader(true);
-        console.log(ENV.getUserKeys("_id")._id, "id");
+
         var formData = new FormData();
         formData.append("userId", ENV.getUserKeys("_id")._id);
         if (image) {
@@ -184,10 +187,13 @@ const EditProfile = (props) => {
         formData.append("email", email);
         formData.append("webLink", webLink);
         formData.append("instaLink", instaLink);
-        console.log("sending request");
+
         // return ''
         props.updateProfile(formData);
-      } catch (e) {}
+      } catch (e) {
+        console.log("in catch block");
+        setLoader(false);
+      }
     } else {
       validator.showMessages();
       setErrors("Please fill all required fields in valid format.");
@@ -319,9 +325,13 @@ const EditProfile = (props) => {
                       <h6>Bio</h6>
                     </div>
                     <div className="edit-inp pt-4">
+                      {bioError && (
+                        <p className="text-danger ">Minimum 3 words required</p>
+                      )}
                       <textarea
                         name="bio"
                         placeholder="Bio"
+                        maxLength="200"
                         onChange={(e) => setDescription(e.target.value)}
                         defaultValue={description}
                       ></textarea>
@@ -342,7 +352,7 @@ const EditProfile = (props) => {
                           name="twitterlink"
                           placeholder="Twitter Link"
                           autocomplete="off"
-                          ype="url"
+                          type="url"
                           onChange={(e) => setTwitterLink(e.target.value)}
                           defaultValue={twitterLink}
                         />
@@ -401,13 +411,11 @@ const EditProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
-    wallet: state.wallet,
-    user: state.user,
-    error: state.error,
-  }
-);
+const mapStateToProps = (state) => ({
+  wallet: state.wallet,
+  user: state.user,
+  error: state.error,
+});
 
 export default connect(mapStateToProps, {
   updateProfile,

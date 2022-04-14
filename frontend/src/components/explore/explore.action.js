@@ -16,7 +16,7 @@ export const toggleLikeDislike = (body) => dispatch => {
     
     axios.post(url,body)
       .then(function (response) {
-        console.log(response);
+       
         dispatch({
           type: TOGGLE_LIKE_RES,
           payload: true,

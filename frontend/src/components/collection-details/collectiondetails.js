@@ -90,7 +90,7 @@ const CollectionDetailsPage = (props) => {
   }, [props.myLikedNftsStatus]);
 
   useEffect(() => {
-    console.log(props.nfts)
+  
     if (props.nftsAuth) {
       if(props.nfts.length>0){
         setDisabled(false)
@@ -147,7 +147,7 @@ const CollectionDetailsPage = (props) => {
     if (latest) nftQS.latest = latest;
 
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "query string in ");
+   
     props.getNFTs(qs);
   };
 
@@ -344,7 +344,7 @@ const CollectionDetailsPage = (props) => {
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       let userId = ENV.getUserKeys("_id")._id;
-      console.log(likesCount, "likesCount");
+   
       let body = {
         userId,
         nftId,
@@ -670,7 +670,7 @@ const CollectionDetailsPage = (props) => {
   );
 };
 const mapStateToProps = (state) => (
-  console.log(state,"state"),
+
   {
   nft: state.nft,
   user: state.user,

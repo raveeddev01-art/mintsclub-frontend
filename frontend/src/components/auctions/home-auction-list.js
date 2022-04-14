@@ -38,7 +38,7 @@ const AuctionsList = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions, pagination } = props.auction;
-      console.log(pagination, "pagination");
+    
       setAuctions(auctions);
       props.beforeAuction();
     }

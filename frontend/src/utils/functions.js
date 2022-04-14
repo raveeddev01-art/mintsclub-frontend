@@ -55,11 +55,14 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
 
     axios.post(ENV.url + url, body, config).then(
       (res) => {
+        console.log(res,"response")
         // console.log(res,"res success");
         resolve(res.data)
       },
       (error) => {
-        console.log(error,"res error");
+        console.log(error.message,"error")
+        console.log(error.data,"error")
+      toast.error(error.message)
         resolve(error)
       },
     );
@@ -196,7 +199,6 @@ export const acceptBit = (tokenId,body)  => {
 
 export const placeBidApi = (body) =>  {
 
-  console.log('im here')
 
 
   const url = `${ENV.url}bid/create`;
@@ -212,7 +214,7 @@ export const placeBidApi = (body) =>  {
         },
         body: JSON.stringify(body)
     }).then(res => res.json()).then(data => {
-      console.log('data', data)
+     
         if (data.success) {
     //    placeBidNft(body,tokenId,price,toAddress,fromAddress)
            
