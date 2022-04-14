@@ -36,6 +36,7 @@ const CollectionDetailsPage = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [keyword, setKeyword] = useState("");
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [initial,setInitial]=useState(true)
   const [disabled,setDisabled]=useState(false)
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -96,7 +97,10 @@ const CollectionDetailsPage = (props) => {
         setDisabled(false)
       }
       else {
-        setDisabled(true)
+        if(initial){
+
+          setDisabled(true) 
+        }
       }
       setNfts(props.nfts);
      
@@ -152,6 +156,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleSortOptions = (e) => {
+setInitial(false)
     setFilterationLoader(true);
 
     const { value } = e.target;
@@ -260,6 +265,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handlePagination = () => {
+    setInitial(false)
     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
       filter.page,
@@ -280,6 +286,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const applyMinMaxFilter = () => {
+    setInitial(false)
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
@@ -302,6 +309,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleStatusFilter = (id) => {
+    setInitial(false)
     getNFTs(
       filter.page,
       filter.limit ,
@@ -321,6 +329,7 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleSearchKeyword = () => {
+    setInitial(false)
     getNFTs(
       filter.page,
       filter.limit ,
@@ -448,7 +457,7 @@ const CollectionDetailsPage = (props) => {
                         <p>{description}</p>
                       </div>
                     </div>
-                    <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
+                    {/* <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
                       <button className="me-1 me-sm-2 me-lg-3">
                         <img src={FlagIcon} alt="" flag-icon />
                       </button>
@@ -456,7 +465,7 @@ const CollectionDetailsPage = (props) => {
                         <img src={ShareIcon} alt="" flag-icon />
                       </button>
                       <button>+ Add to wishlist</button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="col-12 col-sm-7 col-md-6 col-lg-5 d-none d-md-block">
@@ -516,7 +525,7 @@ const CollectionDetailsPage = (props) => {
                         {itemoptions &&
                           itemoptions.map((collection, index) => {
                             return (
-                              <option key={index} value={collection.label} >
+                              <option key={index} value={collection.label} disabled={disabled} >
                                 {collection.label}
                               </option>
                             );
@@ -537,7 +546,7 @@ const CollectionDetailsPage = (props) => {
                         {sortoptions &&
                           sortoptions.map((collection, index) => {
                             return (
-                              <option key={index} value={collection.label }>
+                              <option key={index} value={collection.label } disabled={disabled}>
                                 {collection.label}
                               </option>
                             );

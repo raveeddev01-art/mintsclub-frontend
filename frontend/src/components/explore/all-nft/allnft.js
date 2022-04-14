@@ -38,7 +38,6 @@ const AllNFT = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [initial,setInitial]=useState(true)
   const [disabled,setDisabled]=useState(false)
-
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -110,12 +109,16 @@ const AllNFT = (props) => {
     if (props.nft.nftsAuth) {
       const { nfts, pagination } = props.nft.nftsData;
       if (nfts) {
-        if(nfts.length>0){
+
+        if(nfts.length>0 ){
           setDisabled(false)
         
         }
         else {
-          setDisabled(true)
+          if(initial){
+
+            setDisabled(true) 
+          }
 
         }
         setNFTs(nfts);
@@ -203,6 +206,7 @@ const AllNFT = (props) => {
 
   const handleSortOptions = (e) => {
     setFilterationLoader(true);
+    setInitial(false)
 
     const { value } = e.target;
   
@@ -326,6 +330,7 @@ const AllNFT = (props) => {
   };
 
   const handlePagination = () => {
+    setInitial(false)
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
@@ -347,6 +352,7 @@ const AllNFT = (props) => {
   };
 
   const applyMinMaxFilter = () => {
+    setInitial(false)
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
@@ -370,6 +376,7 @@ const AllNFT = (props) => {
   };
 
   const handleCollectionsFilter = (id) => {
+    setInitial(false)
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, collectionId: id }));
     getNFTs(
@@ -391,6 +398,7 @@ const AllNFT = (props) => {
   };
 
   const handleSearchKeyword = (value) => {
+    setInitial(false)
     setFilterationLoader(true)
     getNFTs(
       filter.page,
@@ -411,6 +419,7 @@ const AllNFT = (props) => {
   };
 
   const handleStatusFilter = (id) => {
+    setInitial(false)
     setFilterationLoader(true)
     getNFTs(
       filter.page,
@@ -539,7 +548,7 @@ const AllNFT = (props) => {
                     {itemoptions &&
                       itemoptions.map((collection, index) => {
                         return (
-                          <option key={index} value={collection.label}>
+                          <option key={index} value={collection.label} disabled={disabled}>
                             {collection.label}
                           </option>
                         );
@@ -557,7 +566,7 @@ const AllNFT = (props) => {
                     {sortoptions &&
                       sortoptions.map((collection, index) => {
                         return (
-                          <option key={index} value={collection.label}>
+                          <option key={index} value={collection.label} disabled={disabled}>
                             {collection.label}
                           </option>
                         );

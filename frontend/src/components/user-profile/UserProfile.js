@@ -41,6 +41,7 @@ const UserProfile = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [keyword, setKeyword] = useState("");
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [initial,setInitial]=useState(true)
   const [disabled,setDisabled]=useState(false)
   const [filter, setFilter] = useState({
     collectionId: false,
@@ -90,7 +91,10 @@ const UserProfile = (props) => {
           setDisabled(false)
         }
         else {
-          setDisabled(true)
+          if(initial){
+
+            setDisabled(true) 
+          }
 
         }
         setNFTs(Nfts);
@@ -169,6 +173,7 @@ const UserProfile = (props) => {
     props.getProfileNfts(qs);
   };
   const handleSortOptions = (e) => {
+    setInitial(false)
     setFilterationLoader(true);
 
     const { value } = e.target;
@@ -292,6 +297,7 @@ const UserProfile = (props) => {
   };
 
   const handlePagination = () => {
+    setInitial(false)
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
@@ -313,6 +319,7 @@ const UserProfile = (props) => {
   };
 
   const applyMinMaxFilter = () => {
+    setInitial(false)
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
     getNFTs(
@@ -334,6 +341,7 @@ const UserProfile = (props) => {
   };
 
   const handleCollectionsFilter = (id) => {
+    setInitial(false)
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, collectionId: id }));
@@ -356,6 +364,7 @@ const UserProfile = (props) => {
   };
 
   const handleSearchKeyword = () => {
+    setInitial(false)
     getNFTs(
       filter.page,
       filter.limit + 10,
@@ -375,6 +384,7 @@ const UserProfile = (props) => {
   };
 
   const handleStatusFilter = (id) => {
+    setInitial(false)
     getNFTs(
       filter.page,
       filter.limit + 10,

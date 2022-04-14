@@ -331,7 +331,7 @@ const EditProfile = (props) => {
                       <textarea
                         name="bio"
                         placeholder="Bio"
-                        maxLength="200"
+                        maxLength="300"
                         onChange={(e) => setDescription(e.target.value)}
                         defaultValue={description}
                       ></textarea>

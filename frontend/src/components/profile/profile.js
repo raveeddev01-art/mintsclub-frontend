@@ -34,6 +34,7 @@ const Profile = (props) => {
   const [gPlusLink, setgPlusLink] = useState("");
   const [vineLink, setVineLink] = useState("");
   const [_id, setUserId] = useState("");
+
   const history = useHistory();
   let validator = new SimpleReactValidator({
     autoForceUpdate: this,

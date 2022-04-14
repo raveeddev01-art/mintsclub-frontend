@@ -49,6 +49,7 @@ const FilterComponent = ({
                         <button
                         className={`${Status===activeStatus?"active-class":""}`}
                          onClick={() => {handleStatusFilter(Status);setActiveStatus(Status)}}
+                         disabled={disabled}
                          
                          >
 
@@ -105,6 +106,7 @@ const FilterComponent = ({
                 <button
                   className="mt-3 apply-btn"
                   onClick={() => applyMinMaxFilter()}
+                  disabled={disabled}
                  
                 >
                   Apply
