@@ -16,7 +16,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_BIDS:
-            console.log(action.payload.Bids,"action.payload.Bids")
+            
             return {
                 ...state,
                 bids: action.payload.Bids,

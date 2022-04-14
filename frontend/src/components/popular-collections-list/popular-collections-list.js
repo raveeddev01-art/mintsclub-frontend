@@ -156,9 +156,10 @@ const Populars = forwardRef((props, ref) => {
   };
 
   const handleImage = (item, index) => {
-    if (item.nfts[index]?.image) {
-      if (item.nfts[index]?.fileType === 'image') {
-        return item.nfts[index]?.image;
+    if (item?.nfts[index]?.image) {
+      let result = item.nfts.filter((nft) => nft.fileType === 'image');
+      if (result.length >= index) {
+        return result[index]?.image;
       } else {
         return Images.popularCollectionPlaceholder;
       }
@@ -258,7 +259,7 @@ const Populars = forwardRef((props, ref) => {
                 })
               ) : (
                 <p className='text-center text-white not-found-title mt-5'>
-                  No Popular Collections found
+                  No popular collections Found
                 </p>
               )}
               <div className='col-12'>

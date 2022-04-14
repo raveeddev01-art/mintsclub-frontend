@@ -32,7 +32,7 @@ export const upsertNFT =
   (dispatch) => {
     dispatch(emptyError());
     const url = `${ENV.url}/nfts/${type}`;
-    console.log(url, "upsert nft ==}}}}}}}}}}}}}}}}}}}}}");
+
     fetch(url, {
       method,
       headers: {
@@ -49,7 +49,7 @@ export const upsertNFT =
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "response of upser nft ");
+       
         if (data.success) {
           toast.success(data.message);
           dispatch({
@@ -194,7 +194,7 @@ export const createActivity = (body) => (dispatch) => {
   axios
     .post(url, body)
     .then(function (response) {
-      console.log(response, "response");
+    
     })
     .catch(function (error) {
       console.log(error);
@@ -347,7 +347,7 @@ export const getProfileNfts =
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "profile nfts");
+       
         if (data.success) {
           dispatch({
             type: GET_PROFILE_NFTS,

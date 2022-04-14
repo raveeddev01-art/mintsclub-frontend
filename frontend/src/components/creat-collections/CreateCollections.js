@@ -98,7 +98,7 @@ class CreateCollections extends Component {
     const userId = ENV.getUserKeys("_id")._id;
     let { collection } = this.state;
     collection = { ...collection, [name]: value, userId: userId };
-    console.log(collection, "collection input");
+   
     this.setState({ collection });
   }
 
@@ -378,7 +378,7 @@ class CreateCollections extends Component {
                           placeholder="Discription"
                           onChange={(e) => this.onChange(e)}
                           value={collection.description}
-                          maxLength="230"
+                          maxLength="150"
                         ></textarea>
                       </div>
                     </div>

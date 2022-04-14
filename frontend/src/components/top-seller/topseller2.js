@@ -179,7 +179,7 @@ const TopSeller = (props) => {
               }
             })
           ) : (
-            <p className='text-white text-center'>Top Sellers not available</p>
+            <p className='text-white text-center'>No Top Sellers Found</p>
           )}
         </div>
       </div>

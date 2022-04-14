@@ -36,6 +36,7 @@ const AllNFT = (props) => {
   const [keyword, setKeyword] = useState(props?.location?.state?props.location.state:"");
   const [likedNfts, setLikedNfts] = useState();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [initial,setInitial]=useState(true)
   const [disabled,setDisabled]=useState(false)
 
   const [filter, setFilter] = useState({
@@ -67,12 +68,10 @@ const AllNFT = (props) => {
     props.getCreators();
     props.getCollections();
     if(props?.location?.state){
-
       let searchQs = { keyword: props.location.state};
       searchQs = ENV.objectToQueryString(searchQs);
       props.getNFTs(searchQs);
     }else {
-
       getNFTs();
     }
 
@@ -113,9 +112,11 @@ const AllNFT = (props) => {
       if (nfts) {
         if(nfts.length>0){
           setDisabled(false)
+        
         }
         else {
           setDisabled(true)
+
         }
         setNFTs(nfts);
         setNFTPagination(pagination);
@@ -168,7 +169,7 @@ const AllNFT = (props) => {
     auction,
     latest
   ) => {
-    console.log(gtePriceFilter, "gtePriceFilter");
+    
     const nftQS = { page, limit };
     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
@@ -204,7 +205,7 @@ const AllNFT = (props) => {
     setFilterationLoader(true);
 
     const { value } = e.target;
-    console.log(value, "value");
+  
 
     if (value === "Low To High") {
       setFilter((prev) => ({
@@ -349,7 +350,7 @@ const AllNFT = (props) => {
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
-    console.log(filter, "filter");
+    
     getNFTs(
       filter.page,
       filter.limit,
@@ -433,7 +434,7 @@ const AllNFT = (props) => {
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       let userId = ENV.getUserKeys("_id")._id;
-      console.log(likesCount, "likesCount");
+  
       let body = {
         userId,
         nftId,

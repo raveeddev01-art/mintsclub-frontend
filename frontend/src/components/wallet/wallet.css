@@ -21,6 +21,13 @@
   padding: 1rem !important;
   height: 3.2rem !important;
 }
+.back-link{
+  background: -webkit-linear-gradient(#5666fe, #5666fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2rem;
+  text-decoration: underline !important;
+}
 .text-gray {
   color: gray !important;
 }
