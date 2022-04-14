@@ -20,12 +20,11 @@ const initData = {
   btnText: 'Explore More',
 };
 
-
 const PopularCollections = (props) => {
   const [popular, setpopular] = useState([]);
   const [categories, setCategories] = useState(null);
-  const [categoryId, setCategoryId] = useState("all");
-  const [popularSettings,settPopularSettings]=useState()
+  const [categoryId, setCategoryId] = useState('all');
+  const [popularSettings, settPopularSettings] = useState();
   const [isActive, setIsActive] = useState(0);
 
   useEffect(() => {
@@ -73,13 +72,12 @@ const PopularCollections = (props) => {
         (a, b) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
       );
       let popularCollectionsSettings = ENV.popularCollectionsSettings;
-      if(finalCollectionListing.length>3){
-
+      if (finalCollectionListing.length > 3) {
         popularCollectionsSettings.infinite = true;
       } else {
         popularCollectionsSettings.infinite = false;
       }
-      settPopularSettings(popularCollectionsSettings)
+      settPopularSettings(popularCollectionsSettings);
       setpopular(finalCollectionListing);
       props.beforePopularCollection();
     }
@@ -93,9 +91,10 @@ const PopularCollections = (props) => {
   };
 
   const handleImage = (item, index) => {
-    if (item.nfts[index]?.image) {
-      if (item.nfts[index]?.fileType === 'image') {
-        return item.nfts[index]?.image;
+    if (item?.nfts[index]?.image) {
+      let result = item.nfts.filter((nft) => nft.fileType === 'image');
+      if (result.length >= index) {
+        return result[index]?.image;
       } else {
         return Images.popularCollectionPlaceholder;
       }
@@ -103,6 +102,7 @@ const PopularCollections = (props) => {
       return Images.popularCollectionPlaceholder;
     }
   };
+
   return (
     <>
       <section className='popular-collections-area padding-wrapper'>
@@ -162,15 +162,13 @@ const PopularCollections = (props) => {
               )}
             </div>
           </div>
-
-          <CardSlider
-            settings={popularSettings}
-            homeAuction={false}
-            data={[1, 2, 3, 4]}
-          >
-            {popular &&
-              popular.length > 0 &&
-              popular.map((item, i) => {
+          {popular && popular.length && popular.length > 0 ? (
+            <CardSlider
+              settings={ENV.popularCollectionsSettings}
+              data={popular}
+              homeAuction
+            >
+              {popular.map((item, i) => {
                 if (i < 8) {
                   return (
                     <CollectionsCard
@@ -188,7 +186,12 @@ const PopularCollections = (props) => {
                   );
                 }
               })}
-          </CardSlider>
+            </CardSlider>
+          ) : (
+            <p className='text-center text-white not-found-title mt-5'>
+              No popular collections Found
+            </p>
+          )}
         </div>
       </section>
     </>
