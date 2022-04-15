@@ -166,7 +166,7 @@ export const updateProfile = (body) => (dispatch) => {
         type: GET_ERRORS,
         payload: errors,
       });
-      throw new Error(errors);
+  
     });
 };
 export const getApprovals = () => (dispatch) => {
