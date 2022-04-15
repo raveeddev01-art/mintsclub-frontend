@@ -262,6 +262,7 @@ const Populars = forwardRef((props, ref) => {
                   No popular collections Found
                 </p>
               )}
+
               <div className='col-12'>
                 <div className='mt-5 text-center'>
                   {!empty &&
