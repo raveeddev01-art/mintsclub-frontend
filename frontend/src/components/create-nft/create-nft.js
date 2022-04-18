@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   axiosPostFormData,
   decimalNumberValidator,
+  firstInputCharacterSpace,
 } from './../../utils/functions';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -92,7 +93,7 @@ class CreateNFT extends Component {
         this.props.collection.myCollections.collections.Collections;
 
       if (!collections.length) {
-        toast.info('Please add a collection first');
+        toast.info('Please create a collection first');
         return this.props.history.push('/createcollection');
       } else {
         this.setState({
@@ -230,7 +231,7 @@ class CreateNFT extends Component {
         }
       );
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error('Please Connect Your Metamask With Ethereum Rinkeby Network');
     }
   };
 
@@ -472,10 +473,13 @@ class CreateNFT extends Component {
                       <div className='col-12'>
                         <input
                           name='name'
-                          placeholder='Title'
+                          placeholder='Title*'
                           required='required'
                           maxLength='30'
                           minLength='3'
+                          onKeyDown={(e) =>
+                            firstInputCharacterSpace(e, nft.name.length)
+                          }
                           onChange={(e) => this.onChange(e)}
                           value={nft.name}
                           defaultValue={nft.name}
@@ -493,6 +497,9 @@ class CreateNFT extends Component {
                           placeholder='Description*'
                           maxLength='100'
                           onChange={(e) => this.onChange(e)}
+                          onKeyDown={(e) =>
+                            firstInputCharacterSpace(e, nft.description.length)
+                          }
                           value={nft.description}
                           defaultValue={nft.description}
                         ></textarea>
@@ -526,7 +533,7 @@ class CreateNFT extends Component {
                       <div className='col-12 col-lg-6'>
                         <input
                           name='size'
-                          placeholder='Size'
+                          placeholder='Size*'
                           required='required'
                           onChange={(e) => this.onChange(e)}
                           value={nft.size}
