@@ -135,7 +135,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   return (
     <>
       <NavbarMain />
-      <Breadcrumb title1={'Explore'} title2={'ExploreAll'} />
+      <Breadcrumb title1={'Explore'} title2={'Explore All'} />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
