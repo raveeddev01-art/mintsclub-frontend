@@ -973,6 +973,7 @@ const SellNFT = (props) => {
                                         defaultValue={
                                           timedAuctionConfig.duration.endTime
                                         }
+                                     
                                         required
                                         autoComplete="off"
                                       />
