@@ -176,7 +176,7 @@ class CreateCollections extends Component {
       return (
         <>
           <NavbarMain />
-          <Breadcrumb title1={'Collections'} title2={'Create Collection'} />
+          <Breadcrumb title1={'Create'} title2={'Create Collection'} />
           <section className='edit-profile padding-wrapper create-collection-container'>
             {loader && <FullPageLoader />}
             <div className='container'>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useHistory } from 'react-router-dom';
 import NavbarMain from '../navbar-main/NavbarMain';
 import Footer from '../footer/footer';
 import './collectiondetails.css';
@@ -55,6 +55,7 @@ const CollectionDetailsPage = (props) => {
     latest: false,
   });
   const location = useLocation();
+  const history=useHistory()
 
   const itemoptions = [
     { value: 'single', label: 'Single' },
@@ -421,7 +422,7 @@ const CollectionDetailsPage = (props) => {
       {loader && <FullPageLoader />}
 
       <NavbarMain />
-      <Breadcrumb title1={'Collections'} title2={'CollectionDetail'} />
+      <Breadcrumb title1={'Collections'} title2={'CollectionDetail'} title1Handler={()=>history.push('/explore/exploreAll')} />
       <div className='collection-detail-hero w-100'>
         <img className='w-100' src={BannerPh} alt='BannerImg' />
       </div>

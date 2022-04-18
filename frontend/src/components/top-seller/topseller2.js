@@ -168,7 +168,7 @@ const TopSeller = (props) => {
                           </Link>
                           <span className='text-end'>
                             {' '}
-                            {author.totalETH.toFixed(0)}
+                            {author.totalETH.toFixed(2)}
                           </span>
                         </div>
                       </div>
