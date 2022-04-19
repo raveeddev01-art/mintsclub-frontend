@@ -681,7 +681,8 @@ const NFTDetail = (props) => {
 
   // console.log(itemsListing, "itemsListing");
   // console.log(ENV.getUserKeys("_id")._id, "id");
-  console.log(nftDetail, "nftDetail");
+  // console.log(nftDetail, "nftDetail");
+
   // console.log(offers, "offers");
   // console.log(props,"props")
 
@@ -1316,7 +1317,8 @@ const NFTDetail = (props) => {
                             disabled={disabled}
                             onClick={() => handleRouting()}
                           >
-                            {ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                            {(ENV.getUserKeys("_id")._id == nftDetail.ownerId &&nftDetail.sellingMethod)?"Resale":
+                            ENV.getUserKeys("_id")._id == nftDetail.ownerId
                               ? "Sell"
                               : nftDetail?.sellingMethod === 2
                               ? "Place Bid"

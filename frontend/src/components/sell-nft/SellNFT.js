@@ -736,7 +736,7 @@ const SellNFT = (props) => {
                           </>
                         ) : (
                           <>
-                            <div className="accordion-item">
+                            {/* <div className="accordion-item">
                               <h2
                                 className="accordion-header"
                                 id="flush-headingThree"
@@ -777,7 +777,7 @@ const SellNFT = (props) => {
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
 
                             <div className="accordion-item">
                               <h2
