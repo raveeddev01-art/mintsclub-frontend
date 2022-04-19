@@ -101,6 +101,7 @@ const NFTDetail = (props) => {
   const [bidModalShow, setBidModalShow] = useState(false);
   const [balance, setBalance] = useState("");
   const [disabled, setDisabled] = useState(false);
+
   const history = useHistory();
 
   const videoElement = React.useRef(null);
@@ -680,7 +681,7 @@ const NFTDetail = (props) => {
 
   // console.log(itemsListing, "itemsListing");
   // console.log(ENV.getUserKeys("_id")._id, "id");
-  // console.log(nftDetail, "nftDetail");
+  console.log(nftDetail, "nftDetail");
   // console.log(offers, "offers");
   // console.log(props,"props")
 
@@ -1515,7 +1516,7 @@ const NFTDetail = (props) => {
                                 className="btn btn-rounded-bordered"
                                 onClick={() =>
                                   history.push(
-                                    `http://localhost:3000/collection/detailPage/${nftDetail.colectionId}`
+                                    `/collection/detailPage/${nftDetail.collectionId}`
                                   )
                                 }
                               >

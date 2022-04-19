@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
@@ -25,9 +24,9 @@ const PropertiesModal = (props) => {
           Add Properties
         </Modal.Title>
         <div className="modal-close-container">
-          <Button onClick={onHide}>
+          <button onClick={onHide}>
             <img src={ModalClose} alt="closemodal" />
-          </Button>
+          </button>
         </div>
         <div className="buy-modal-subheadings-container d-flex align-items-center">
           <div className="buy-modal-subheadings">
@@ -36,8 +35,8 @@ const PropertiesModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body>
-        <div className="row align-items-center justify-content-between">
-          <div className="col-md-5">
+        <div className="row g-2 align-items-center justify-content-between">
+          <div className="col-sm-5 order-1 order-sm-0">
             <div className="bid-inp-container d-flex align-items-center">
               <div className="ps-2">
                 <h6>Type:</h6>
@@ -47,7 +46,7 @@ const PropertiesModal = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-md-5">
+          <div className="col-sm-5 order-2 order-sm-1">
             <div className="bid-inp-container d-flex align-items-center">
               <div className="ps-2">
                 <h6>Name:</h6>
@@ -57,11 +56,11 @@ const PropertiesModal = (props) => {
               </div>
             </div>
           </div>
-          <div className="col-md-2">
-            <div className="inp-close">
-              <Button>
+          <div className="col-sm-1 order-0 order-sm-2">
+            <div className="inp-close text-end">
+              <button>
                 <img src={InputClose} alt="closemodal" />
-              </Button>
+              </button>
             </div>
           </div>
         </div>

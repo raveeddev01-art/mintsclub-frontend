@@ -209,6 +209,10 @@ const SellNFT = (props) => {
   const submit = async (e) => {
 
     e.preventDefault();
+    if(copies>nftDetail.copies){
+      toast.info(`Copies should b less than or equal to ${nftDetail.copies}`)
+      return ''
+    }
     if(await validateNetwork())
     {
 
@@ -254,6 +258,11 @@ const SellNFT = (props) => {
     };
 
     if (sellingMethod === 2) {
+      if(Number(timedConfig.startPrice.amount)===0)
+      {
+        toast.error("Price should be greater then 0")
+        return ''
+      }
       let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
       let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
 
@@ -288,7 +297,9 @@ const SellNFT = (props) => {
         sellingConfig: JSON.stringify(auctionConfig),
         copiesForAuction: copies,
       };
+   
     } else {
+      
       //  fixedConfig.price.amount;
       delete fixedConfig.listingSchedule.startTime;
       delete fixedConfig.listingSchedule.endTime;
@@ -296,7 +307,11 @@ const SellNFT = (props) => {
       delete fixedConfig.listingSchedule.endDate;
       delete fixedConfig.listingSchedule;
       price = Number(fixedConfig.price.amount);
-
+      if(price===0)
+      {
+        toast.error("Price should be greater then 0")
+        return ''
+      }
       payload = {
         _id: location.state._id,
         sellingMethod,
@@ -331,7 +346,7 @@ const SellNFT = (props) => {
         }
       } catch (err) {
         setLoader(false);
-        toast.error(err.message);
+        toast.error(err);
       }
     } else {
       try {
@@ -557,6 +572,7 @@ const SellNFT = (props) => {
                                         style={{
                                           borderRadius: "4px",
                                         }}
+                                        maxLength={"8"}
                                         onChange={(e) => onChange(e)}
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
@@ -609,14 +625,19 @@ const SellNFT = (props) => {
                                         type="text"
                                         name="timedAuctionConfig.startPrice.amount"
                                         placeholder="Copies"
-                                        maxLength={nftDetail.copies >= copies}
+                                        maxLength={"3"}
                                         style={{
                                           borderRadius: "4px",
                                         }}
                                         min={"1"}
-                                        max={`${copies <= nftDetail.copies}`}
-                                        onChange={(e) =>
+                                        max={`${nftDetail.copies}`}
+                                        onChange={(e) =>{
+                                            if((e.target.value && e.target.value==='.')||(e.target.value && e.target.value=='0'))
+                                            {
+                                              return false
+                                            }
                                           setCopies(e.target.value)
+                                        }
                                         }
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
@@ -794,6 +815,7 @@ const SellNFT = (props) => {
                                         type="text"
                                         name="timedAuctionConfig.startPrice.amount"
                                         placeholder="Amount"
+                                        maxLength="8"
                                         style={{
                                           borderRadius: "4px",
                                         }}
@@ -851,11 +873,18 @@ const SellNFT = (props) => {
                                         style={{
                                           borderRadius: "4px",
                                         }}
+                                        maxLength="3"
                                         min={"1"}
-                                        max={`${copies <= nftDetail.copies}`}
+                                        max={`${nftDetail.copies}`}
                                         maxLength={3}
-                                        onChange={(e) =>
+                                        onChange={(e) =>{
+                                          if((e.target.value && e.target.value==='.')||(e.target.value && e.target.value=='0'))
+                                          {
+                                            return false
+                                          }
                                           setCopies(e.target.value)
+                                        }
+                                          
                                         }
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
@@ -944,6 +973,7 @@ const SellNFT = (props) => {
                                         defaultValue={
                                           timedAuctionConfig.duration.endTime
                                         }
+                                     
                                         required
                                         autoComplete="off"
                                       />

@@ -14,7 +14,7 @@ export const getLiveAuctions = (qs = null) => dispatch => {
    
     if (qs)
         url += `?${qs}`
-       console.log(url,"sending uril")
+     
     fetch(url, {
         method: 'GET',
         headers: {
@@ -25,7 +25,7 @@ export const getLiveAuctions = (qs = null) => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        console.log(data,"records=>")
+       
      
         if (data.success) {
             dispatch({

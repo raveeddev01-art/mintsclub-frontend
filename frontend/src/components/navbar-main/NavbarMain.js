@@ -36,7 +36,7 @@ const NavbarMain = (props) => {
     if (userId) {
       localStorage.clear();
     }
-    console.log("clicked");
+   
     history.push("/login");
   };
   React.useEffect(() => {

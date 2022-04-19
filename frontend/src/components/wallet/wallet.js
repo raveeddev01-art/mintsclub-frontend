@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import {
   getCollections,
   beforeCategory,
+  beforeCollection,
 } from "../collections/collections.actions";
 import { ENV } from "../../config/config";
 import { login, signup } from "../user/user.action";
@@ -21,9 +22,14 @@ const Wallet = (props) => {
   const [showSignUpComponent, setShowSignUpComponent] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [disabled,setDisabled]=useState(false)
 
   const connectMetamaskCall = async () => {
+    setDisabled(true)
     let connectedAddress = await connectMetamaskCopy();
+    if (connectedAddress){
+      setDisabled(false)
+    }
     setConnectedAddress(connectedAddress);
     setWalletAddress(connectedAddress);
   };
@@ -35,6 +41,7 @@ const Wallet = (props) => {
 
       setErrorMessage(props.error.message);
       if (props.error.notExist) {
+        setDisabled(false)
         setShowSignUp(true);
       } else {
         setShowSignUp(false);
@@ -43,23 +50,27 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
+    console.log(props.collection.getAuth, "props.collection.getAuth");
     if (props.collection.getAuth === true) {
       let collections = props.collection.collections;
 
       const userId = ENV.getUserKeys("_id")._id;
 
-      let myCollections = collections.filter((el) => el.userId === userId);
+      // let myCollections = collections.filter((el) => el.userId === userId);
 
-      if (myCollections && myCollections.length > 0) {
-        history.push("/");
-      } else {
-        history.push("/");
-      }
+      // if (myCollections && myCollections.length > 0) {
+      props.beforeCollection();
+      //   history.push("/");
+      // } else {
+      // }
+      history.push("/");
     }
   }, [props.collection.getAuth]);
 
   const signup = async (e) => {
+    
     e.preventDefault();
+    setDisabled(true)
     try {
       if (validator.isEmail(email)) {
         let sign = await signRequest();
@@ -70,24 +81,28 @@ const Wallet = (props) => {
           username: username,
           isApproved: false,
         };
-        console.log(payload, "payload");
+        // console.log(payload, "payload");
         props.signup(payload);
       } else {
         setErrorMessage("please enter valid email");
       }
     } catch (err) {
       toast.error(err.message);
+      setDisabled(false)
     }
   };
 
   const login = async () => {
     try {
+      setDisabled(true)
       let sign = await signRequest();
       let payload = {
         address: connectedAddress,
       };
+      
       props.login(payload);
     } catch (err) {
+      setDisabled(false)
       toast.error(err.message);
     }
   };
@@ -133,17 +148,23 @@ const Wallet = (props) => {
                 <div className="card single-wallet sign-in-card">
                   <span className="d-block text-center" href="/login">
                     <h4 className="mb-0">Address</h4>
-                    <p id="connected-address mt-2">{connectedAddress}</p>
+                    <p id="connected-address mt-3">{connectedAddress}</p>
                     {errorMessage && (
                       <p className="text-gray">{errorMessage}</p>
                     )}
-                    <button
-                      className="btn btn-linear-gradient btn-signin mt-3 mt-sm-4"
-                      type="button"
-                      onClick={() => login()}
-                    >
-                      Sign In
-                    </button>
+                    {!showSignUp && (
+                      <>
+                        <button
+                          className="btn btn-linear-gradient btn-signin mt-3 mt-sm-4"
+                          type="button"
+                          disabled={disabled}
+                          onClick={() => login()}
+                        >
+                          Sign In
+                        </button>
+                      </>
+                    )}
+                  
                     {showSignUp && (
                       <button
                         className="btn btn-linear-gradient btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
@@ -153,6 +174,17 @@ const Wallet = (props) => {
                         Would you like to Signup?
                       </button>
                     )}
+                      {/* <div className="mt-3">
+                      <a
+                        className="text-white back-link "
+                        onClick={() => {
+                          setConnectedAddress("");
+                          setWalletAddress("");
+                        }}
+                      >
+                        Back
+                      </a>
+                    </div> */}
                   </span>
                 </div>
               </div>
@@ -244,6 +276,7 @@ const Wallet = (props) => {
                       <button
                         className="btn btn-linear-gradient btn-signin mt-3 mt-sm-4  text-white "
                         type="submit"
+                        disabled={disabled}
                       >
                         Sign Up
                       </button>
@@ -310,4 +343,5 @@ export default connect(mapStateToProps, {
   login,
   signup,
   beforeCategory,
+  beforeCollection,
 })(Wallet);

@@ -39,19 +39,19 @@ const getNetworkName = (chainId) => {
   return networks[chainId];
 };
 
-export const getNetworkNameByChainId=async ()=>{
+export const getNetworkNameByChainId = async () => {
   if (window.ethereum) {
     let web3 = await getWeb3();
     let chainId = await web3.eth.getChainId();
     let currentNetwork = getNetworkName(chainId);
-    return currentNetwork
+    return currentNetwork;
   }
-}
+};
 
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
-  if (prevNetwork !== "Ethereum Rinkby") {
+  if (prevNetwork === "Ethereum Rinkby") {
     return true;
   } else {
     return false;
@@ -80,7 +80,6 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let result = await contractM.methods
-      // .mint(connectedAddress, nftAmount, "0x", metaData,connectedAddress,recipientValue)
       .mint(connectedAddress, nftAmount, metaData)
       .send({ from: connectedAddress, gassPrice: 5000000 });
     console.log(result, "result of minting");
@@ -142,7 +141,7 @@ export const putonsale = async (tokenId, amount, price) => {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let weiAmount = BigInt(Number(price) * 1000000000000000000);
-  
+
     let id = Number(tokenId);
 
     const result = await contractM.methods
@@ -182,13 +181,10 @@ export const BuyFixedPriceNFT = async (
       .BuyFixedPriceNFT(tokenId)
       .send({ from: connectedAddress, value: weiAmount, gas: 5000000 })
       .on("transactionHash", function (hash) {
-       
         setTransactionHash(hash);
         setConfirmed(true);
       })
-      .on("confirmation", function (confirmationNumber, receipt) {
-       
-      });
+      .on("confirmation", function (confirmationNumber, receipt) {});
     if (result) {
       return result;
     }
@@ -261,7 +257,7 @@ export const connectMetamaskCopy = async (address) => {
     } else {
       let address = await signRequest();
 
-      toast.success("wallet connected");
+      // toast.success("wallet connected");
       return address[0];
     }
   } else {
@@ -286,10 +282,6 @@ export const connectMetamask = async () => {
     toast.error("Please install metamask to connect to the Marketplace");
   }
 };
-
-
-
-
 
 export const signRequest = async () => {
   if (window.ethereum) {

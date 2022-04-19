@@ -1,42 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import NavbarMain from "../navbar-main/NavbarMain";
-import Footer from "../footer/footer";
-import "./collectiondetails.css";
-import FlagIcon from "../../assets/images/detail-flag.svg";
-import ShareIcon from "../../assets/images/detail-share.svg";
-import TickIcon from "../../assets/images/seller-tick-icon.svg";
-import SearchIcon from "../../assets/images/nav-search-icon.svg";
-import ListingCards from "../listing-cards/ListingCards";
-import FilterComponent from "../filter-component/FilterComponent";
+import React, { useState, useEffect } from 'react';
+import { useLocation,useHistory } from 'react-router-dom';
+import NavbarMain from '../navbar-main/NavbarMain';
+import Footer from '../footer/footer';
+import './collectiondetails.css';
+import FlagIcon from '../../assets/images/detail-flag.svg';
+import ShareIcon from '../../assets/images/detail-share.svg';
+import TickIcon from '../../assets/images/seller-tick-icon.svg';
+import SearchIcon from '../../assets/images/nav-search-icon.svg';
+import ListingCards from '../listing-cards/ListingCards';
+import FilterComponent from '../filter-component/FilterComponent';
 import {
   getNFTsByCollection,
   getNFTs,
   beforeNFT,
   getMyLikedNfts,
-} from "../nfts/nfts.action";
-import { connect } from "react-redux";
-import FullPageLoader from "../full-page-loader/full-page-loader";
-import { ENV } from "../../config/config";
-import { toggleLikeDislike,  beforeTogleLikeDislike, } from "../explore/explore.action";
-import Breadcrumb from "../breadcrumb/breadcrumb";
-import VideoCard from "../test-video-card/videoCard";
-import BannerPh from "../../assets/images/collection-detailBg.png";
+} from '../nfts/nfts.action';
+import { connect } from 'react-redux';
+import FullPageLoader from '../full-page-loader/full-page-loader';
+import { ENV } from '../../config/config';
 import {
-  validateNetwork,
-} from "../../utils/web3";
-import { toast } from "react-toastify";
+  toggleLikeDislike,
+  beforeTogleLikeDislike,
+} from '../explore/explore.action';
+import Breadcrumb from '../breadcrumb/breadcrumb';
+import VideoCard from '../test-video-card/videoCard';
+import BannerPh from '../../assets/images/collection-detailBg.png';
+import { validateNetwork } from '../../utils/web3';
+import { toast } from 'react-toastify';
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [loader, setLoader] = useState(true);
   const [nfts, setNfts] = useState([]);
-  const [minValue, setMinValue] = useState("");
-  const [maxValue, setMaxValue] = useState("");
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [likedNfts, setLikedNfts] = useState();
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
-  const [disabled,setDisabled]=useState(false)
+  const [initial, setInitial] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -53,33 +55,34 @@ const CollectionDetailsPage = (props) => {
     latest: false,
   });
   const location = useLocation();
+  const history=useHistory()
 
   const itemoptions = [
-    { value: "single", label: "Single" },
-    { value: "double", label: "Double" },
+    { value: 'single', label: 'Single' },
+    { value: 'double', label: 'Double' },
   ];
 
   const sortoptions = [
-    { value: "lowtohigh", label: "Low To High" },
-    { value: "hightolow", label: "High To Low" },
-    { value: "oldest", label: "Oldest" },
-    { value: "newest", label: "Recantly Created" },
+    { value: 'lowtohigh', label: 'Low To High' },
+    { value: 'hightolow', label: 'High To Low' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'newest', label: 'Recantly Created' },
   ];
 
   const filterData = {
     status: {
-      label: "Status",
-      option: ["Buy Now", "On Auction", "New", "Has Offer"],
+      label: 'Status',
+      option: ['Buy Now', 'On Auction', 'New', 'Has Offer'],
     },
     chains: {
-      label: "Chains",
-      option: ["Ethereum"],
+      label: 'Chains',
+      option: ['Ethereum'],
     },
   };
 
   useEffect(() => {
     getNFTs();
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    let qs = { userId: ENV.getUserKeys('_id')._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
   }, []);
@@ -91,14 +94,15 @@ const CollectionDetailsPage = (props) => {
 
   useEffect(() => {
     if (props.nftsAuth) {
-      if(props.nfts.length>0){
-        setDisabled(false)
-      }
-      else {
-        setDisabled(true)
+      if (props.nfts.length > 0) {
+        setDisabled(false);
+      } else {
+        if (initial) {
+          setDisabled(true);
+        }
       }
       setNfts(props.nfts);
-      props.beforeNFT();
+
       setLoader(false);
 
       setFilterationLoader(false);
@@ -110,7 +114,6 @@ const CollectionDetailsPage = (props) => {
       props.beforeTogleLikeDislike();
     }
   }, [props.togleLikeRes]);
-
 
   const getNFTs = (
     page = 1,
@@ -129,7 +132,7 @@ const CollectionDetailsPage = (props) => {
     latest
   ) => {
     setFilterationLoader(true);
-
+    props.beforeNFT();
     const nftQS = { page, limit };
 
     nftQS.collectionId = location.state._id;
@@ -146,16 +149,17 @@ const CollectionDetailsPage = (props) => {
     if (latest) nftQS.latest = latest;
 
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "query string in ");
+
     props.getNFTs(qs);
   };
 
   const handleSortOptions = (e) => {
+    setInitial(false);
     setFilterationLoader(true);
 
     const { value } = e.target;
 
-    if (value === "Low To High") {
+    if (value === 'Low To High') {
       setFilter((prev) => ({
         ...prev,
         lowToHigh: true,
@@ -175,7 +179,7 @@ const CollectionDetailsPage = (props) => {
         false,
         false
       );
-    } else if (value === "High To Low") {
+    } else if (value === 'High To Low') {
       setFilter((prev) => ({
         ...prev,
         highToLow: true,
@@ -199,7 +203,7 @@ const CollectionDetailsPage = (props) => {
         filter.auction,
         filter.latest
       );
-    } else if (value === "Oldest") {
+    } else if (value === 'Oldest') {
       setFilter((prev) => ({
         ...prev,
         oldest: true,
@@ -223,7 +227,7 @@ const CollectionDetailsPage = (props) => {
         filter.auction,
         filter.latest
       );
-    } else if (value === "Recantly Created") {
+    } else if (value === 'Recantly Created') {
       setFilter((prev) => ({
         ...prev,
         newest: true,
@@ -259,10 +263,11 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handlePagination = () => {
+    setInitial(false);
     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
       filter.page,
-      filter.limit ,
+      filter.limit,
       filter.collectionId,
       filter.gtePrice,
       filter.ltePrice,
@@ -279,12 +284,13 @@ const CollectionDetailsPage = (props) => {
   };
 
   const applyMinMaxFilter = () => {
+    setInitial(false);
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
     getNFTs(
       filter.page,
-      filter.limit ,
+      filter.limit,
       filter.collectionId,
       minValue,
       maxValue,
@@ -301,9 +307,10 @@ const CollectionDetailsPage = (props) => {
   };
 
   const handleStatusFilter = (id) => {
+    setInitial(false);
     getNFTs(
       filter.page,
-      filter.limit ,
+      filter.limit,
       filter.collectionId,
       minValue,
       maxValue,
@@ -313,16 +320,17 @@ const CollectionDetailsPage = (props) => {
       filter.highToLow,
       filter.newest,
       keyword,
-      id == "Buy Now" ? true : false,
-      id == "On Auction" ? true : false,
-      id == "New" ? true : false
+      id == 'Buy Now' ? true : false,
+      id == 'On Auction' ? true : false,
+      id == 'New' ? true : false
     );
   };
 
   const handleSearchKeyword = () => {
+    setInitial(false);
     getNFTs(
       filter.page,
-      filter.limit ,
+      filter.limit,
       filter.collectionId,
       minValue,
       maxValue,
@@ -338,53 +346,53 @@ const CollectionDetailsPage = (props) => {
     );
   };
   ///////////Likes
-  const handleLikesTogleApi =async (nftId, status, likesCount) => {
+  const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
-    if (!likeButtonDisable) {
-      setLikeBtnDisable(true);
-      let userId = ENV.getUserKeys("_id")._id;
-      console.log(likesCount, "likesCount");
-      let body = {
-        userId,
-        nftId,
-        count: 1,
-      };
+      if (!likeButtonDisable) {
+        setLikeBtnDisable(true);
+        let userId = ENV.getUserKeys('_id')._id;
 
-      if (status === "dislike" && likesCount > 0) {
-        let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-        setLikedNfts(result);
-        increOrDecreLikes(nftId, "dec");
-
-        props.toggleLikeDislike(body);
-      }
-
-      if (status === "like") {
-        let myLikedNfts = [];
-        if (likedNfts && likedNfts.length > 0) {
-          myLikedNfts = likedNfts;
-        }
-
-        let obj = {
-          _id: "1234455",
+        let body = {
+          userId,
           nftId,
+          count: 1,
         };
 
-        myLikedNfts.push(obj);
+        if (status === 'dislike' && likesCount > 0) {
+          let result = likedNfts.filter((item) => item.nftId !== nftId);
 
-        setLikedNfts(myLikedNfts);
-        increOrDecreLikes(nftId, "inc");
-        props.toggleLikeDislike(body);
+          setLikedNfts(result);
+          increOrDecreLikes(nftId, 'dec');
+
+          props.toggleLikeDislike(body);
+        }
+
+        if (status === 'like') {
+          let myLikedNfts = [];
+          if (likedNfts && likedNfts.length > 0) {
+            myLikedNfts = likedNfts;
+          }
+
+          let obj = {
+            _id: '1234455',
+            nftId,
+          };
+
+          myLikedNfts.push(obj);
+
+          setLikedNfts(myLikedNfts);
+          increOrDecreLikes(nftId, 'inc');
+          props.toggleLikeDislike(body);
+        }
+        // setNFTs(nfts);
       }
-      // setNFTs(nfts);
+    } else {
+      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
     }
-  }else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
-  }
   };
 
   const increOrDecreLikes = (id, status) => {
-    if (status === "dec") {
+    if (status === 'dec') {
       let newResult = nfts.map((item) => {
         if (item._id !== id) {
           return item;
@@ -407,47 +415,44 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
-  const { name, banner, logo, description } = location.state;
+  const { name, banner, logo, description, username } = location.state;
+
   return (
     <>
-      {loader ? (
-        <FullPageLoader />
-      ) : (
-        <>
-          <NavbarMain />
-          <Breadcrumb title1={"Collections"} title2={"CollectionDetail"} />
-          <div className="collection-detail-hero w-100">
-            <img className="w-100" src={BannerPh} alt="BannerImg" />
-          </div>
-          <div className="collection-detail-content">
-            <div className="container">
-              <div className="row">
-                <div className="col-12">
-                  <div className="collection-owner-avatar">
-                    <img src={logo} alt="owner-avatar" />
+      {loader && <FullPageLoader />}
+
+      <NavbarMain />
+      <Breadcrumb title1={'Collections'} title2={'CollectionDetail'} title1Handler={()=>history.push('/explore/exploreAll')} />
+      <div className='collection-detail-hero w-100'>
+        <img className='w-100' src={BannerPh} alt='BannerImg' />
+      </div>
+      <div className='collection-detail-content'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-12'>
+              <div className='collection-owner-avatar'>
+                <img src={logo} alt='owner-avatar' />
+              </div>
+              <div className='d-md-flex align-items-center justify-content-between mt-5'>
+                <div className='collection-owner-detail'>
+                  <div className='collection-owner-name d-flex align-items-center'>
+                    <h3>
+                      {name}{' '}
+                      <img src={TickIcon} alt='tick-icon' className='ms-2' />
+                    </h3>
                   </div>
-                  <div className="d-md-flex align-items-center justify-content-between mt-5">
-                    <div className="collection-owner-detail">
-                      <div className="collection-owner-name d-flex align-items-center">
-                        <h3>
-                          {name}{" "}
-                          <img
-                            src={TickIcon}
-                            alt="tick-icon"
-                            className="ms-2"
-                          />
-                        </h3>
-                      </div>
-                      <p>
-                        Created by <span>brendannorth</span>
-                      </p>
-                    </div>
-                    <div className=" d-block d-md-none">
-                      <div className="collection-owner-detail pe-xl-5 mt-4">
-                        <p>{description}</p>
-                      </div>
-                    </div>
-                    <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
+                  {username && username?.[0] && (
+                    <p>
+                      Created by <span>{username?.[0]}</span>
+                    </p>
+                  )}
+                </div>
+                <div className=' d-block d-md-none'>
+                  <div className='collection-owner-detail pe-xl-5 mt-4'>
+                    <p>{description}</p>
+                  </div>
+                </div>
+                {/* <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
                       <button className="me-1 me-sm-2 me-lg-3">
                         <img src={FlagIcon} alt="" flag-icon />
                       </button>
@@ -455,15 +460,15 @@ const CollectionDetailsPage = (props) => {
                         <img src={ShareIcon} alt="" flag-icon />
                       </button>
                       <button>+ Add to wishlist</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-7 col-md-6 col-lg-5 d-none d-md-block">
-                  <div className="collection-owner-detail pe-xl-5 mt-4">
-                    <p>{description}</p>
-                  </div>
-                </div>
-                {/* <div className="col-12 col-lg-7 mt-3 mt-sm-5">
+                    </div> */}
+              </div>
+            </div>
+            <div className='col-12 col-sm-7 col-md-6 col-lg-5 d-none d-md-block'>
+              <div className='collection-owner-detail pe-xl-5 mt-4'>
+                <p>{description}</p>
+              </div>
+            </div>
+            {/* <div className="col-12 col-lg-7 mt-3 mt-sm-5">
                   <div className="d-flex align-items-center justify-content-center justify-content-lg-end">
                     <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
                       <span>50</span>
@@ -483,174 +488,186 @@ const CollectionDetailsPage = (props) => {
                     </div>
                   </div>
                 </div> */}
-              </div>
-              <div className="collections-listing padding-wrapper">
-                <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
-                  <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                    <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                      <img
-                        src={SearchIcon}
-                        alt="search-icon"
-                        className="ms-3"
-                        onClick={handleSearchKeyword}
-                      />
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search"
-                        onChange={(e) => setKeyword(e.target.value)}
-                        onKeyPress={(e) =>
-                          e.key === "Enter" && handleSearchKeyword()
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                    <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                      <div className="ms-2">
-                        <p>Item:</p>
-                      </div>
-
-                      <select name="collection-select">
-                        {itemoptions &&
-                          itemoptions.map((collection, index) => {
-                            return (
-                              <option key={index} value={collection.label} >
-                                {collection.label}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                    <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                      <div className="ms-2">
-                        <p>Sort:</p>
-                      </div>
-
-                      <select
-                        name="collection-select"
-                        onChange={handleSortOptions}
-                      >
-                        {sortoptions &&
-                          sortoptions.map((collection, index) => {
-                            return (
-                              <option key={index} value={collection.label }>
-                                {collection.label}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-12 d-sm-none">
-                    <div className="sm-filter-btn d-flex align-items-center justify-content-center">
-                      <button
-                        className={`${
-                          activeFilter
-                            ? "filter-btn-active"
-                            : "filter-btn-inactive"
-                        } ps-2`}
-                        onClick={() => setActiveFilter(!activeFilter)}
-                      >
-                        Filters
-                      </button>
-                    </div>
-                    <div
-                      className={`${
-                        activeFilter ? "d-block" : "d-none"
-                      } sm-filter-options`}
-                    >
-                      <div className="col-10 mx-auto mt-2">
-                        <FilterComponent
-                           Status={filterData.status}
-                           Chains={filterData.chains}
-                           onChangeMinPrice={onChangeMinPrice}
-                           onChangeMaxPrice={onChangeMaxPrice}
-                           minValue={minValue}
-                           maxValue={maxValue}
-                           applyMinMaxFilter={applyMinMaxFilter}
-                           handleStatusFilter={handleStatusFilter}
-                          disabled={disabled}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-5">
-                <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
-                  <FilterComponent
-                    Status={filterData.status}
-                    Chains={filterData.chains}
-                    onChangeMinPrice={onChangeMinPrice}
-                    onChangeMaxPrice={onChangeMaxPrice}
-                    minValue={minValue}
-                    maxValue={maxValue}
-                    applyMinMaxFilter={applyMinMaxFilter}
-                    handleStatusFilter={handleStatusFilter}
-                    disabled={disabled}
+          </div>
+          <div className='collections-listing padding-wrapper'>
+            <div className='row g-3 align-items-center justify-content-center justify-content-lg-start '>
+              <div className='col-12 col-sm-10 col-md-4 col-lg-3'>
+                <div className='collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0'>
+                  <img
+                    src={SearchIcon}
+                    alt='search-icon'
+                    className='ms-3'
+                    onClick={handleSearchKeyword}
+                  />
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Search'
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onKeyPress={(e) =>
+                      e.key === 'Enter' && handleSearchKeyword()
+                    }
                   />
                 </div>
-                <div className="col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0">
-                  <div className="row g-3">
-                    {filterationLoader ? (
-                      <div className="text-center">
-                        <div
-                          class="spinner-border text-secondary text-white "
-                          role="status"
-                        >
-                          <span class="sr-only">Loading...</span>
-                        </div>
-                      </div>
-                    ) : nfts && nfts.length > 0 ? (
-                      nfts.map((listing) => {
-                        return (
-                          <div className="col-6 col-md-4 col-lg-3 px-1">
-                            {listing.fileType === "image" ? (
-                              <ListingCards
-                                CardImg={listing.image}
-                                name={listing.name}
-                                price={listing.currentPrice}
-                                handleLikesTogleApi={handleLikesTogleApi}
-                                id={listing._id}
-                                likesCount={listing.likeCount}
-                                likedNfts={likedNfts}
-                                ownerId={listing.ownerId}
-                                sellingMethod={listing.sellingMethod}
-                              />
-                            ) : (
-                              <VideoCard
-                                CardImg={listing.image}
-                                name={listing.name}
-                                price={listing.currentPrice}
-                                handleLikesTogleApi={handleLikesTogleApi}
-                                id={listing._id}
-                                likesCount={listing.likeCount}
-                                likedNfts={likedNfts}
-                                ownerId={listing.ownerId}
-                                fileType={listing.fileType}
-                                sellingMethod={listing.sellingMethod}
-                              />
-                            )}
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <p className="text-white mt-5 text-center no-nfts-title">
-                        No NFT's Found
-                      </p>
-                    )}
+              </div>
+              <div className='col-12 col-sm-10 col-md-4 col-lg-3'>
+                <div className='collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0'>
+                  <div className='ms-2'>
+                    <p>Item:</p>
                   </div>
-                
+
+                  <select name='collection-select'>
+                    {itemoptions &&
+                      itemoptions.map((collection, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={collection.label}
+                            disabled={disabled}
+                          >
+                            {collection.label}
+                          </option>
+                        );
+                      })}
+                  </select>
+                </div>
+              </div>
+              <div className='col-12 col-sm-10 col-md-4 col-lg-3'>
+                <div className='collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0'>
+                  <div className='ms-2'>
+                    <p>Sort:</p>
+                  </div>
+
+                  <select name='collection-select' onChange={handleSortOptions}>
+                    {sortoptions &&
+                      sortoptions.map((collection, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={collection.label}
+                            disabled={disabled}
+                          >
+                            {collection.label}
+                          </option>
+                        );
+                      })}
+                  </select>
+                </div>
+              </div>
+              <div className='col-12 d-sm-none'>
+                <div className='sm-filter-btn d-flex align-items-center justify-content-center'>
+                  <button
+                    className={`${
+                      activeFilter ? 'filter-btn-active' : 'filter-btn-inactive'
+                    } ps-2`}
+                    onClick={() => setActiveFilter(!activeFilter)}
+                  >
+                    Filters
+                  </button>
+                </div>
+                <div
+                  className={`${
+                    activeFilter ? 'd-block' : 'd-none'
+                  } sm-filter-options`}
+                >
+                  <div className='col-10 mx-auto mt-2'>
+                    <FilterComponent
+                      Status={filterData.status}
+                      Chains={filterData.chains}
+                      onChangeMinPrice={onChangeMinPrice}
+                      onChangeMaxPrice={onChangeMaxPrice}
+                      minValue={minValue}
+                      maxValue={maxValue}
+                      applyMinMaxFilter={applyMinMaxFilter}
+                      handleStatusFilter={handleStatusFilter}
+                      disabled={disabled}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <Footer />
-        </>
-      )}
+          <div className='row mt-5'>
+            <div className='col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block'>
+              <FilterComponent
+                Status={filterData.status}
+                Chains={filterData.chains}
+                onChangeMinPrice={onChangeMinPrice}
+                onChangeMaxPrice={onChangeMaxPrice}
+                minValue={minValue}
+                maxValue={maxValue}
+                applyMinMaxFilter={applyMinMaxFilter}
+                handleStatusFilter={handleStatusFilter}
+                disabled={disabled}
+              />
+            </div>
+            <div className='col-12 col-sm-8 col-md-9 col-lg-9 mt-5 mt-sm-0'>
+              <div className='row g-3'>
+                {filterationLoader ? (
+                  <div className='text-center'>
+                    <div
+                      class='spinner-border text-secondary text-white '
+                      role='status'
+                    >
+                      <span class='sr-only'>Loading...</span>
+                    </div>
+                  </div>
+                ) : nfts && nfts.length > 0 ? (
+                  nfts.map((listing) => {
+                    return (
+                      <div className='col-6 col-md-4 col-lg-3 px-1'>
+                        {listing.fileType === 'image' ? (
+                          <ListingCards
+                            CardImg={listing.image}
+                            name={listing.name}
+                            price={listing.currentPrice}
+                            handleLikesTogleApi={handleLikesTogleApi}
+                            id={listing._id}
+                            likesCount={listing.likeCount}
+                            likedNfts={likedNfts}
+                            ownerId={listing.ownerId}
+                            sellingMethod={listing.sellingMethod}
+                          />
+                        ) : (
+                          <VideoCard
+                            CardImg={listing.image}
+                            name={listing.name}
+                            price={listing.currentPrice}
+                            handleLikesTogleApi={handleLikesTogleApi}
+                            id={listing._id}
+                            likesCount={listing.likeCount}
+                            likedNfts={likedNfts}
+                            ownerId={listing.ownerId}
+                            fileType={listing.fileType}
+                            sellingMethod={listing.sellingMethod}
+                          />
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p className='text-white mt-5 text-center no-nfts-title'>
+                    No NFT's Found
+                  </p>
+                )}
+              </div>
+              <div className='col-12'>
+                <div className='mt-5 text-center'>
+                  {nfts && props.pagination > nfts.length && nfts.length > 10 && (
+                    <button
+                      className='btn btn-linear-gradient px-5'
+                      onClick={() => handlePagination()}
+                    >
+                      Load more
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </>
   );
 };
@@ -662,7 +679,7 @@ const mapStateToProps = (state) => ({
   nftsByCollection: state.nft.nftsByCollection,
   nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
   nfts: state.nft.nftsData.nfts,
-  pagination: state.nft.nftAll.pagination,
+  pagination: state.nft.nftsData.pagination,
   nftsAuth: state.nft.nftsAuth,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,

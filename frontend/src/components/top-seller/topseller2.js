@@ -147,18 +147,17 @@ const TopSeller = (props) => {
                     {/* Single Seller */}
                     <div className='card'>
                       <div className='single-seller d-flex align-items-center'>
-                        <Link to={`/author/${author._id}`}>
-                          <div className='seller-avatar-container'>
-                            <img
-                              className='avatar-md rounded-circle'
-                              src={AvatarImg}
-                              alt=''
-                            />
-                            <span className='seller-avatar-active'>
-                              <img src={SellerTickIcon} alt='tick-icon' />
-                            </span>
-                          </div>
-                        </Link>
+                        <div className='seller-avatar-container'>
+                          <img
+                            className='avatar-md rounded-circle'
+                            src={AvatarImg}
+                            alt=''
+                          />
+                          <span className='seller-avatar-active'>
+                            <img src={SellerTickIcon} alt='tick-icon' />
+                          </span>
+                        </div>
+
                         {/* Seller Info */}
                         <div className='seller-info ml-3 w-100'>
                           <Link
@@ -169,7 +168,7 @@ const TopSeller = (props) => {
                           </Link>
                           <span className='text-end'>
                             {' '}
-                            {author.totalETH.toFixed(0)}
+                            {author.totalETH.toFixed(2)}
                           </span>
                         </div>
                       </div>
@@ -179,7 +178,7 @@ const TopSeller = (props) => {
               }
             })
           ) : (
-            <p className='text-white text-center'>Top Sellers not available</p>
+            <p className='text-white text-center'>No Top Sellers Found</p>
           )}
         </div>
       </div>

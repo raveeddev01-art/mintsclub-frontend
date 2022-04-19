@@ -17,6 +17,7 @@ import {
 } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
+import { CgData } from 'react-icons/cg';
 
 export const beforeCollection = () => {
   return {
@@ -195,7 +196,7 @@ export const upsertCollection =
             type: UPSERT_COLLECTION,
             payload: data,
           });
-        } else {
+        } else {         
           toast.error(data.message);
           dispatch({
             type: GET_ERRORS,
@@ -204,6 +205,7 @@ export const upsertCollection =
         }
       })
       .catch((error) => {
+        console.log(error.response.data)
         if (error.response && error.response.data) {
           const { data } = error.response;
           if (data.message) toast.error(data.message);

@@ -157,6 +157,25 @@
   padding: 5px;
 }
 
+.nft-stat-container {
+  max-height: 128px;
+  height: max-content;
+  overflow-y: auto;
+}
+
+.nft-level-container {
+  max-height: 180px;
+  height: max-content;
+  overflow-y: auto;
+}
+
+.nft-properties-container {
+  max-height: 137px;
+  height: max-content;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 @media (max-width: 991.9px) {
   .nft-inputs-container {
     max-width: 100%;
