@@ -1,0 +1,41 @@
+.buy-modal.properties-modal .buy-modal-content .modal-body {
+  margin: 0 1rem;
+  align-items: start;
+}
+
+.buy-modal.properties-modal .modal-body .bid-inp-container {
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  height: 60px;
+}
+
+.buy-modal.properties-modal
+  .modal-body
+  .bid-inp-container
+  .inp-container
+  input {
+  padding: 0 10px;
+  border: none;
+  font-size: 14px;
+  color: #fff;
+  background-color: transparent;
+  height: 40px;
+}
+
+.buy-modal.properties-modal .modal-body .bid-inp-container h6 {
+  margin: 0;
+  line-height: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.buy-modal.properties-modal .buy-modal-content {
+  height: 500px;
+  overflow-y: auto;
+}
+
+.buy-modal.properties-modal .modal-body .inp-close button {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+}

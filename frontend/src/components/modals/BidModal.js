@@ -68,12 +68,14 @@ const BidModal = (props) => {
               onKeyDown={(e) => decimalNumberValidator(e)}
               defaultValue={calculatePricePercantage()}
               // disabled={balance===0?true:false}
-         
+
               value={price}
             />
 
             <div className="dollar-rate text-end">
-              <p className="">${price ? (price * exchangeRate).toFixed(2) : 0}</p>
+              <p className="">
+                ${price ? (price * exchangeRate).toFixed(2) : 0}
+              </p>
             </div>
           </div>
           <div className="inp-currency">
@@ -83,10 +85,11 @@ const BidModal = (props) => {
         <div className="bid-balance">
           <p>Balance: {Number(balance).toFixed(4)} ETH</p>
         </div>
-        {(balance !==''&& balance===0)&&
-
-          <p className="text-center text-danger">Please Add Balance to place bid</p>
-        }
+        {balance !== "" && balance === 0 && (
+          <p className="text-center text-danger">
+            Please Add Balance to place bid
+          </p>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <div className="modal-nft-footer">
@@ -110,16 +113,16 @@ const BidModal = (props) => {
             </p>
           </div>
         </div>
-        <Button
+        <button
           className="btn btn-linear-gradient mt-2"
           onClick={() => {
             handleModalSubmit();
             onHide();
           }}
-          disabled={price < calculatePricePercantage()|| balance===0}
+          disabled={price < calculatePricePercantage() || balance === 0}
         >
           Confirm Checkout
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );
