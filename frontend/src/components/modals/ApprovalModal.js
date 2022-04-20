@@ -11,12 +11,6 @@ const ApprovalModal = (props) => {
   const [approved, setApproved] = useState(false);
   const address = "0xe0106f010067B130e4C96f119C214c30c94Cead1";
 
-  //   useEffect(() => {
-  //     setTimeout(function () {
-  //       setApproved(true);
-  //     }, 10000);
-  //   }, []);
-
   return (
     <>
       {approval ? (
