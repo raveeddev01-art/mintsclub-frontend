@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { GET_ERRORS, BEFORE_OFFER, GET_OFFERS, DELETE_OFFER, CREATE_OFFER, ACCEPT_OFFER,BUY_NOW } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
-import {SellOnFixedPrice, acceptNftOffer} from '../../utils/web3'
+import {SellOnFixedPrice} from '../../utils/web3'
 export const beforeOffer = () => {
     return {
         type: BEFORE_OFFER
@@ -154,7 +154,7 @@ export const acceptOffer = (body) => dispatch => {
     }).then(res => res.json()).then(data => {
 
         if (data.success) {
-            acceptNftOffer(body);
+            
             toast.success(data.message)
             dispatch({
                 type: ACCEPT_OFFER,

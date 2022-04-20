@@ -679,12 +679,7 @@ const NFTDetail = (props) => {
     }
   };
 
-  // console.log(itemsListing, "itemsListing");
-  // console.log(ENV.getUserKeys("_id")._id, "id");
-  // console.log(nftDetail, "nftDetail");
 
-  // console.log(offers, "offers");
-  // console.log(props,"props")
 
   return (
     <>

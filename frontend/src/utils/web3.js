@@ -250,7 +250,7 @@ export const connectMetamaskCopy = async (address) => {
       if (accounts[0] === address) {
         toast.success("wallet is already connected");
       } else {
-        toast.success("wallet connected");
+        // toast.success("wallet connected");
       }
 
       return accounts[0];

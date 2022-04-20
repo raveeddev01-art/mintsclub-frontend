@@ -27,7 +27,7 @@ import {
   putonsale,
   getWalletAddress,
   setApprovalForAll,
-  validateNetwork
+  validateNetwork,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../full-page-loader/full-page-loader";
@@ -39,7 +39,7 @@ import {
 import axios from "axios";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import {updateProfile } from "../user/user.action";
+import { updateProfile } from "../user/user.action";
 
 const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
 const config1 = {
@@ -68,20 +68,15 @@ const config2 = {
     startTime: moment(new Date()).format("HH:mm"),
     endTime: "23:59",
   },
- 
 };
 
 const SellNFT = (props) => {
-
   const [activeBtn, setActiveBtn] = useState(0);
   const [toggle, setToggle] = React.useState(true);
-  const [activeBidBtn, setActiveBidBtn] = useState(false);
   const [sellingMethod, setSellingMethod] = useState(1); // 1 = Fixed Price, 2 = Timed Auction
   const [fixedPriceConfig, setFixedPriceConfig] = useState(config1);
   const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
   const [nftDetail, setNftDetail] = useState("");
-  const [liked, setLiked] = useState(false);
-  const [nft, setNft] = useState(null);
   const [loader, setLoader] = useState(true); // NFT loader
   const [tokensData, setTokensData] = useState([]);
   const location = useLocation();
@@ -113,9 +108,6 @@ const SellNFT = (props) => {
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
-    const { itemId } = props.match.params;
-    // if (itemId) props.getNFT(window.atob(itemId));
-    // else props.history.push("/explore-all");
     getTokens();
   }, []);
 
@@ -124,7 +116,7 @@ const SellNFT = (props) => {
     if (props.nft.nftsAuth) {
       const nft = props.nft.nftsData;
       setNftDetail(props.nftDetail);
-      setNft(nft);
+
       setLoader(false);
       validateIfLiked(likedNfts, props.nftDetail);
       props.beforeNFT();
@@ -152,7 +144,7 @@ const SellNFT = (props) => {
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
-      // validateIfLiked(props.myLikedNfts);
+   
     }
   }, [props.myLikedNftsStatus]);
 
@@ -207,174 +199,165 @@ const SellNFT = (props) => {
   };
 
   const submit = async (e) => {
-
     e.preventDefault();
-    if(copies>nftDetail.copies){
-      toast.info(`Copies should b less than or equal to ${nftDetail.copies}`)
-      return ''
+    if (copies > nftDetail.copies) {
+      toast.info(`Copies should b less than or equal to ${nftDetail.copies}`);
+      return "";
     }
-    if(await validateNetwork())
-    {
+    if (await validateNetwork()) {
+      if (!nftDetail.user.isApproved) {
+        var formData = new FormData();
+        formData.append("isApproved", true);
+        formData.append("userId", nftDetail.user._id);
+        try {
+          let profilePayload = {
+            isApproved: true,
+            userId: nftDetail.user._id,
+          };
 
-    
-    if(!nftDetail.user.isApproved){
+          let accApproved = await setApprovalForAll();
+          if (accApproved) {
+            let updatedNFTDetail = nftDetail;
+            updatedNFTDetail.user.isApproved = true;
+            setNftDetail(updatedNFTDetail);
+            props.updateProfile(formData);
+            toast.success("Your Account is Approved!");
+            return "";
+          }
+        } catch (err) {
+          toast.error(err);
+          return "";
+        }
+      }
+
+      let price = "";
+      let payload = "";
+
+      let timedConfig = { ...timedAuctionConfig };
+
+      let fixedConfig = { ...fixedPriceConfig };
+      const { _id, ownerId, ownerAddress } = nftDetail;
+
+      let activityPayload = {
+        nftId: _id,
+        ownerId,
+        fromAddress: await getWalletAddress(),
+        activityType: "List",
+      };
+
+      if (sellingMethod === 2) {
+        if (Number(timedConfig.startPrice.amount) === 0) {
+          toast.error("Price should be greater then 0");
+          return "";
+        }
+        let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+        let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+
+        timedAuctionEndTime = timedAuctionEndTime.toString();
+        timedAuctionEndTime =
+          timedAuctionEndTime.slice(0, 15) +
+          " " +
+          timedConfig.duration.endTime +
+          ":59" +
+          timedAuctionEndTime.slice(24);
+        timedConfig.duration.endDate = timedAuctionEndTime;
+
+        timedAuctionStartTime = timedAuctionStartTime.toString();
+        timedAuctionStartTime =
+          timedAuctionStartTime.slice(0, 15) +
+          " " +
+          timedConfig.duration.startTime +
+          ":59" +
+          timedAuctionStartTime.slice(24);
+        timedConfig.duration.startDate = timedAuctionStartTime;
+
+        let auctionConfig = timedConfig;
+        delete auctionConfig.duration.startTime;
+        delete auctionConfig.duration.endTime;
+        delete auctionConfig.method;
+        price = Number(auctionConfig.startPrice.amount);
+        auctionConfig.startPrice.amount = Number(
+          auctionConfig.startPrice.amount
+        );
+
+        payload = {
+          _id: location.state._id,
+          sellingMethod,
+          sellingConfig: JSON.stringify(auctionConfig),
+          copiesForAuction: copies,
+        };
+      } else {
+        //  fixedConfig.price.amount;
+        delete fixedConfig.listingSchedule.startTime;
+        delete fixedConfig.listingSchedule.endTime;
+        delete fixedConfig.listingSchedule.startDate;
+        delete fixedConfig.listingSchedule.endDate;
+        delete fixedConfig.listingSchedule;
+        price = Number(fixedConfig.price.amount);
+        if (price === 0) {
+          toast.error("Price should be greater then 0");
+          return "";
+        }
+        payload = {
+          _id: location.state._id,
+          sellingMethod,
+          sellingConfig: JSON.stringify(fixedConfig),
+          copiesForAuction: copies,
+        };
+      }
+
+      setLoader(true);
+
       var formData = new FormData();
-      formData.append("isApproved", true);
-      formData.append("userId", nftDetail.user._id);
-      try{
-        let profilePayload={
-          isApproved:true,
-          userId:nftDetail.user._id
+      for (const key in payload) formData.append(key, payload[key]);
+      if (sellingMethod === 2) {
+        try {
+          let auctionEndDate = timedAuctionConfig.duration.endDate;
+          let auctionStartDate = timedAuctionConfig.duration.startDate;
+
+          const biddingTime = new Date(auctionEndDate).getTime();
+          const startTime = new Date(auctionStartDate).getTime();
+
+          let result = await openNFTForBidding(
+            biddingTime,
+            startTime,
+            location.state.nftToken
+          );
+          if (result) {
+            activityPayload.price = price;
+
+            props.createActivity(activityPayload);
+            props.upsertNFT("edit", formData, "PUT");
+          }
+        } catch (err) {
+          setLoader(false);
+          toast.error(err);
         }
-        
-        let accApproved=  await setApprovalForAll()
-        if(accApproved){
-          let updatedNFTDetail=nftDetail
-          updatedNFTDetail.user.isApproved=true;
-          setNftDetail(updatedNFTDetail)
-          props.updateProfile(formData)
-          toast.success("Your Account is Approved!")
-          return ''
+      } else {
+        try {
+          let result = await putonsale(
+            nftDetail.nftToken,
+            1,
+            fixedConfig.price.amount
+          );
+
+          if (result) {
+            activityPayload.price = price;
+
+            props.createActivity(activityPayload);
+            props.upsertNFT("edit", formData, "PUT");
+          }
+        } catch (err) {
+          setLoader(false);
+          toast.error(err);
         }
-      }catch(err){
-        toast.error(err)
-        return ''
-      }
-    }
-
-    let price = "";
-    let payload = "";
-
-    let timedConfig = { ...timedAuctionConfig };
-
-    let fixedConfig = { ...fixedPriceConfig };
-    const { _id, ownerId, ownerAddress } = nftDetail;
-
-    let activityPayload = {
-      nftId: _id,
-      ownerId,
-      fromAddress: await getWalletAddress(),
-      activityType: "List",
-    };
-
-    if (sellingMethod === 2) {
-      if(Number(timedConfig.startPrice.amount)===0)
-      {
-        toast.error("Price should be greater then 0")
-        return ''
-      }
-      let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-      let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
-
-      timedAuctionEndTime = timedAuctionEndTime.toString();
-      timedAuctionEndTime =
-        timedAuctionEndTime.slice(0, 15) +
-        " " +
-        timedConfig.duration.endTime +
-        ":59" +
-        timedAuctionEndTime.slice(24);
-      timedConfig.duration.endDate = timedAuctionEndTime;
-
-      timedAuctionStartTime = timedAuctionStartTime.toString();
-      timedAuctionStartTime =
-        timedAuctionStartTime.slice(0, 15) +
-        " " +
-        timedConfig.duration.startTime +
-        ":59" +
-        timedAuctionStartTime.slice(24);
-      timedConfig.duration.startDate = timedAuctionStartTime;
-
-      let auctionConfig = timedConfig;
-      delete auctionConfig.duration.startTime;
-      delete auctionConfig.duration.endTime;
-      delete auctionConfig.method;
-      price = Number(auctionConfig.startPrice.amount);
-      auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
-
-      payload = {
-        _id: location.state._id,
-        sellingMethod,
-        sellingConfig: JSON.stringify(auctionConfig),
-        copiesForAuction: copies,
-      };
-   
-    } else {
-      
-      //  fixedConfig.price.amount;
-      delete fixedConfig.listingSchedule.startTime;
-      delete fixedConfig.listingSchedule.endTime;
-      delete fixedConfig.listingSchedule.startDate;
-      delete fixedConfig.listingSchedule.endDate;
-      delete fixedConfig.listingSchedule;
-      price = Number(fixedConfig.price.amount);
-      if(price===0)
-      {
-        toast.error("Price should be greater then 0")
-        return ''
-      }
-      payload = {
-        _id: location.state._id,
-        sellingMethod,
-        sellingConfig: JSON.stringify(fixedConfig),
-        copiesForAuction: copies,
-      };
-    }
-
-    setLoader(true);
-
-    var formData = new FormData();
-    for (const key in payload) formData.append(key, payload[key]);
-    if (sellingMethod === 2) {
-      try {
-
-        let auctionEndDate = timedAuctionConfig.duration.endDate;
-        let auctionStartDate = timedAuctionConfig.duration.startDate;
-
-        const biddingTime = new Date(auctionEndDate).getTime();
-        const startTime = new Date(auctionStartDate).getTime();
-
-        let result = await openNFTForBidding(
-          biddingTime,
-          startTime,
-          location.state.nftToken
-        );
-        if (result) {
-          activityPayload.price = price;
-
-          props.createActivity(activityPayload);
-          props.upsertNFT("edit", formData, "PUT");
-        }
-      } catch (err) {
-        setLoader(false);
-        toast.error(err);
       }
     } else {
-      try {
-        let result = await putonsale(
-          nftDetail.nftToken,
-          1,
-          fixedConfig.price.amount
-        );
-
-        if (result) {
-          activityPayload.price = price;
-
-          props.createActivity(activityPayload);
-          props.upsertNFT("edit", formData, "PUT");
-        }
-      } catch (err) {
-        setLoader(false);
-        toast.error(err);
-      }
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
-  }else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
-  }
   };
 
   const handleLikesTogleApi = (nftId, status) => {
-   
-
     if (!likeButtonDisable) {
       setLikeBtnDisable(true);
       setToggle(!toggle);
@@ -390,7 +373,7 @@ const SellNFT = (props) => {
       if ((status === "dislike") & (nftDetail.likesCount > 0)) {
         let nft = nftDetail;
         nft.likesCount = nft.likesCount - 1;
-        setLiked(false);
+
         setNftDetail(nft);
         props.toggleLikeDislike(data);
       } else {
@@ -398,7 +381,7 @@ const SellNFT = (props) => {
         nft.likesCount = nft.likesCount + 1;
 
         setNftDetail(nft);
-        setLiked(true);
+
         props.toggleLikeDislike(data);
       }
     }
@@ -631,14 +614,17 @@ const SellNFT = (props) => {
                                         }}
                                         min={"1"}
                                         max={`${nftDetail.copies}`}
-                                        onChange={(e) =>{
-                                            if((e.target.value && e.target.value==='.')||(e.target.value && e.target.value=='0'))
-                                            {
-                                              return false
-                                            }
-                                          setCopies(e.target.value)
-                                        }
-                                        }
+                                        onChange={(e) => {
+                                          if (
+                                            (e.target.value &&
+                                              e.target.value === ".") ||
+                                            (e.target.value &&
+                                              e.target.value == "0")
+                                          ) {
+                                            return false;
+                                          }
+                                          setCopies(e.target.value);
+                                        }}
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
                                         }
@@ -779,7 +765,6 @@ const SellNFT = (props) => {
                               </div>
                             </div> */}
 
-
                             <div className="accordion-item">
                               <h2
                                 className="accordion-header"
@@ -878,15 +863,17 @@ const SellNFT = (props) => {
                                         min={"1"}
                                         max={`${nftDetail.copies}`}
                                         maxLength={3}
-                                        onChange={(e) =>{
-                                          if((e.target.value && e.target.value==='.')||(e.target.value && e.target.value=='0'))
-                                          {
-                                            return false
+                                        onChange={(e) => {
+                                          if (
+                                            (e.target.value &&
+                                              e.target.value === ".") ||
+                                            (e.target.value &&
+                                              e.target.value == "0")
+                                          ) {
+                                            return false;
                                           }
-                                          setCopies(e.target.value)
-                                        }
-                                          
-                                        }
+                                          setCopies(e.target.value);
+                                        }}
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
                                         }
@@ -974,7 +961,6 @@ const SellNFT = (props) => {
                                         defaultValue={
                                           timedAuctionConfig.duration.endTime
                                         }
-                                     
                                         required
                                         autoComplete="off"
                                       />
@@ -1102,17 +1088,23 @@ const SellNFT = (props) => {
                     )}
 
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
-                      {
-                        nftDetail &&
-                      <div className="detail-nft-owner">
-                        <p>
-                          Owned by <span>{nftDetail.ownerId===ENV.getUserKeys("_id")._id ?"You":nftDetail.user.username}</span>
-                        </p>
-                      </div>
-                      }
+                      {nftDetail && (
+                        <div className="detail-nft-owner">
+                          <p>
+                            Owned by{" "}
+                            <span>
+                              {nftDetail.ownerId === ENV.getUserKeys("_id")._id
+                                ? "You"
+                                : nftDetail.user.username}
+                            </span>
+                          </p>
+                        </div>
+                      )}
                       <div className="detail-nft-copies">
                         <p>
-                        {nftDetail?.remainingCopies?nftDetail?.remainingCopies:nftDetail.copies}{" "}
+                          {nftDetail?.remainingCopies
+                            ? nftDetail?.remainingCopies
+                            : nftDetail.copies}{" "}
                           {nftDetail.copies === 1 ? "Copy" : "Copies"}
                         </p>
                       </div>
@@ -1161,5 +1153,5 @@ export default connect(mapStateToProps, {
   getMyLikedNfts,
   beforeTogleLikeDislike,
   createActivity,
-  updateProfile
+  updateProfile,
 })(SellNFT);
