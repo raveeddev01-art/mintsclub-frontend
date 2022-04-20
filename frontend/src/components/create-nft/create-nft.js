@@ -32,6 +32,7 @@ import StatsModal from "../modals/StatsModal";
 import StatsInfo from "./components/statsinfo";
 import LevelsInfo from "./components/levelsinfo";
 import PropertiesInfo from "./components/propertiesinfo";
+import ApprovalModal from "../modals/ApprovalModal";
 
 const placeholderImg = "";
 class CreateNFT extends Component {
@@ -66,7 +67,8 @@ class CreateNFT extends Component {
       audioUrl: "",
       propertiesmodalShow: false,
       levelsmodalShow: false,
-      statsmodalShow: false,
+      approvalmodalShow: false,
+      approvalModalShow: false,
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -674,7 +676,7 @@ class CreateNFT extends Component {
                             <button
                               onClick={() => {
                                 this.setState({
-                                  statsmodalShow: true,
+                                  approvalmodalShow: true,
                                 });
                               }}
                             >
@@ -745,6 +747,14 @@ class CreateNFT extends Component {
             onHide={() => {
               this.setState({
                 statsmodalShow: false,
+              });
+            }}
+          />
+          <ApprovalModal
+            show={this.state.approvalmodalShow}
+            onHide={() => {
+              this.setState({
+                approvalmodalShow: false,
               });
             }}
           />

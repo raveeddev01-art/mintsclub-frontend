@@ -11788,6 +11788,11 @@ react-countdown@^2.3.2:
   dependencies:
     prop-types "^15.7.2"
 
+react-cssfx-loading@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-cssfx-loading/-/react-cssfx-loading-1.1.0.tgz#16ae92c715124faf637bf86fb002477bb9bb1a8a"
+  integrity sha512-3uhsKRtXtcGPGnQcbB3d3X54ZGLpouosZ081f/EhlEC9kpZ2C9ZqViXGFXxHqKg3jZGLY8hF33GPgwscsR60tQ==
+
 react-dev-utils@^11.0.1:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
