@@ -161,10 +161,10 @@ const Populars = forwardRef((props, ref) => {
       if (result.length >= index) {
         return result[index]?.image;
       } else {
-        return Images.popularCollectionPlaceholder;
+        return Images.imagePlaceholder;
       }
     } else {
-      return Images.popularCollectionPlaceholder;
+      return Images.imagePlaceholder;
     }
   };
 

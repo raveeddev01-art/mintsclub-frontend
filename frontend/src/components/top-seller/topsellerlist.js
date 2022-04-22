@@ -9,6 +9,7 @@ import './topseller.css';
 import NavbarMain from '../navbar-main/NavbarMain';
 import Footer from '../footer/footer';
 import Breadcrumb from '../breadcrumb/breadcrumb';
+import { Images } from '../../assets/assets';
 
 const TopSellerList = (props) => {
   const [sellers, setSellers] = useState([]);
@@ -75,12 +76,20 @@ const TopSellerList = (props) => {
                         <div className='seller-avatar-container'>
                           <img
                             className='avatar-md rounded-circle'
-                            src={AvatarImg}
-                            alt=''
+                            src={
+                              author.profileImage === null
+                                ? Images.profilePlaceholder
+                                : author.profileImage
+                            }
+                            alt='AvatarImg'
                           />
-                          <span className='seller-avatar-active'>
-                            <img src={SellerTickIcon} alt='tick-icon' />
-                          </span>
+                          {author.profileImage ? (
+                            <span className='seller-avatar-active'>
+                              <img src={SellerTickIcon} alt='tick-icon' />
+                            </span>
+                          ) : (
+                            ''
+                          )}
                         </div>
 
                         {/* Seller Info */}

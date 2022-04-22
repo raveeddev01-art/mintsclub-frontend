@@ -20,14 +20,14 @@ import EditBanner from './images/edit-profile-banner.svg';
 import Twitter from './images/edit-twitter.svg';
 import Insta from './images/edit-insta.svg';
 import Website from './images/edit-website.svg';
-import popularCollectionPlaceholder from './images/placeholderImgPopular.png';
-import profilePic from './images/profilePic.png';
+import profilePlaceholder from './images/profilePlaceholder.png';
+import imagePlaceholder from './images/imagePlaceholder.png';
 
 export const Images = {
   uploadImage,
   placeholderImg,
-  popularCollectionPlaceholder,
-  profilePic,
+  profilePlaceholder,
+  imagePlaceholder,
 };
 
 export const CollectionImages = {

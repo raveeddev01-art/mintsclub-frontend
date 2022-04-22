@@ -7,6 +7,7 @@ import ViewAllIcon from '../../assets/images/view-all-arrow.svg';
 import AvatarImg from '../../assets/images/seller-avatar.png';
 import SellerTickIcon from '../../assets/images/seller-tick-icon.svg';
 import './topseller.css';
+import { Images } from '../../assets/assets';
 
 const exmpData = [
   {
@@ -150,12 +151,20 @@ const TopSeller = (props) => {
                         <div className='seller-avatar-container'>
                           <img
                             className='avatar-md rounded-circle'
-                            src={AvatarImg}
-                            alt=''
+                            src={
+                              author.profileImage === null
+                                ? Images.profilePlaceholder
+                                : author.profileImage
+                            }
+                            alt='AvatarImg'
                           />
-                          <span className='seller-avatar-active'>
-                            <img src={SellerTickIcon} alt='tick-icon' />
-                          </span>
+                          {author.profileImage ? (
+                            <span className='seller-avatar-active'>
+                              <img src={SellerTickIcon} alt='tick-icon' />
+                            </span>
+                          ) : (
+                            ''
+                          )}
                         </div>
 
                         {/* Seller Info */}

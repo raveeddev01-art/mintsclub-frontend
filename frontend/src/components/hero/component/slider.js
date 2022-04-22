@@ -1,12 +1,12 @@
-import "./slider.css";
-import React, { useState, useEffect } from "react";
-import HeroCards from "../../hero-cards/HeroCards";
-import { map } from "jquery";
-import { ListingImg, CollectionImages } from "../../../assets/assets";
-import { connect } from "react-redux";
-import { beforeAuction, getLiveAuctions } from "../../auctions/auctions.action";
-import { beforeNFT, getNFTs } from "../../nfts/nfts.action";
-import { ENV } from "../../../config/config";
+import './slider.css';
+import React, { useState, useEffect } from 'react';
+import HeroCards from '../../hero-cards/HeroCards';
+import { map } from 'jquery';
+import { ListingImg, CollectionImages } from '../../../assets/assets';
+import { connect } from 'react-redux';
+import { beforeAuction, getLiveAuctions } from '../../auctions/auctions.action';
+import { beforeNFT, getNFTs } from '../../nfts/nfts.action';
+import { ENV } from '../../../config/config';
 
 const Slider = (props) => {
   const [auctions, setAuctions] = useState([]);
@@ -16,7 +16,7 @@ const Slider = (props) => {
     window.scroll(0, 0);
     // get live auctions
     const qs = ENV.objectToQueryString({
-      myFilter: "all",
+      myFilter: 'all',
     });
     props.getLiveAuctions(qs);
     props.getNFTs();
@@ -28,10 +28,7 @@ const Slider = (props) => {
       const { auctions } = props.auction;
       if (auctions) {
         auctions.forEach((element, i) => {
-          if (element.bidInfo.bidBy.length > 0) {
-            auctions[i].totalBids = element.bidInfo.bidBy.length;
-          }
-          auctions[i].totalBids = 0;
+          auctions[i].totalBids = element.bidInfo?.bidBy?.length;
         });
       }
       setAuctions(auctions);
@@ -49,13 +46,13 @@ const Slider = (props) => {
   }, [props.nft.nftsAuth]);
 
   return (
-    <section id="slider">
+    <section id='slider'>
       {props.sliderRadioButtons.map((item, index) => {
         return (
           <input
             key={index}
-            type="radio"
-            name="slider"
+            type='radio'
+            name='slider'
             value={item.value}
             checked={props.sliderChecked === item.value}
             onChange={(e) => props.handleRadioInputs(e)}
@@ -64,9 +61,9 @@ const Slider = (props) => {
         );
       })}
       {auctions &&
-      auctions.filter((item) => item.fileType === "image").length >= 7 ? (
+      auctions.filter((item) => item.fileType === 'image').length >= 7 ? (
         auctions
-          .filter((item) => item.fileType === "image")
+          .filter((item) => item.fileType === 'image')
           .map((item, id) => {
             if (id <= 6) {
               return (
@@ -80,7 +77,10 @@ const Slider = (props) => {
                     CardImg={item.image}
                     NftName={item.name}
                     OwnerName={item.owner.username}
-                    className="slide"
+                    HighestBid={item.highestBid}
+                    BidsProfile={item.bidInfo?.bidByProfile}
+                    TotalBids={item.totalBids}
+                    className='slide'
                   />
                 </label>
               );
@@ -111,26 +111,26 @@ const Slider = (props) => {
         //     })
         // )
         <>
-          <label for="s1" id="slide1" onClick={() => props.setHandler(1)}>
-            <HeroCards CardImg={ListingImg.listingImg1} className="slide" />
+          <label for='s1' id='slide1' onClick={() => props.setHandler(1)}>
+            <HeroCards CardImg={ListingImg.listingImg1} className='slide' />
           </label>
-          <label for="s2" id="slide2" onClick={() => props.setHandler(2)}>
-            <HeroCards CardImg={ListingImg.listingImg2} className="slide" />
+          <label for='s2' id='slide2' onClick={() => props.setHandler(2)}>
+            <HeroCards CardImg={ListingImg.listingImg2} className='slide' />
           </label>
-          <label for="s3" id="slide3" onClick={() => props.setHandler(3)}>
-            <HeroCards CardImg={ListingImg.listingImg3} className="slide" />
+          <label for='s3' id='slide3' onClick={() => props.setHandler(3)}>
+            <HeroCards CardImg={ListingImg.listingImg3} className='slide' />
           </label>
-          <label for="s4" id="slide4" onClick={() => props.setHandler(4)}>
-            <HeroCards CardImg={ListingImg.listingImg4} className="slide" />
+          <label for='s4' id='slide4' onClick={() => props.setHandler(4)}>
+            <HeroCards CardImg={ListingImg.listingImg4} className='slide' />
           </label>
-          <label foCopiesr="s5" id="slide5" onClick={() => props.setHandler(5)}>
-            <HeroCards CardImg={CollectionImages.mainImg1} className="slide" />
+          <label foCopiesr='s5' id='slide5' onClick={() => props.setHandler(5)}>
+            <HeroCards CardImg={CollectionImages.mainImg1} className='slide' />
           </label>
-          <label for="s6" id="slide6" onClick={() => props.setHandler(6)}>
-            <HeroCards CardImg={CollectionImages.mainImg2} className="slide" />
+          <label for='s6' id='slide6' onClick={() => props.setHandler(6)}>
+            <HeroCards CardImg={CollectionImages.mainImg2} className='slide' />
           </label>
-          <label for="s7" id="slide7" onClick={() => props.setHandler(7)}>
-            <HeroCards CardImg={CollectionImages.mainImg3} className="slide" />
+          <label for='s7' id='slide7' onClick={() => props.setHandler(7)}>
+            <HeroCards CardImg={CollectionImages.mainImg3} className='slide' />
           </label>
         </>
       )}

@@ -34,14 +34,18 @@ const HeroCards = ({
               if (i <= 2) {
                 return (
                   <img
-                    src={item === null ? Images.profilePic : item}
+                    src={item === null ? Images.profilePlaceholder : item}
                     alt='AvatarImg'
                   />
                 );
               }
             })}
           <span className='ms-4'>
-            {TotalBids > 0 ? TotalBids + '+ People Place Bid' : 'No Bid Found'}
+            {TotalBids === 0
+              ? 'No Bid Found'
+              : TotalBids < 4
+              ? TotalBids + ' People Place Bid'
+              : TotalBids - 1 + '+ People Place Bid'}
           </span>
         </div>
 
