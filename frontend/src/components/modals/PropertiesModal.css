@@ -66,6 +66,16 @@
   border: none;
 }
 
+.buy-modal.properties-modal
+  .buy-modal-content
+  .modal-body
+  .nft-modalfields-container {
+  max-height: 240px;
+  height: max-content;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 @media (max-width: 767.9px) {
   .buy-modal.properties-modal .modal-body .bid-inp-container {
     min-width: unset;

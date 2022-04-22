@@ -48,7 +48,7 @@ const StatsModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body>
-        <form >
+        <div className="nft-modalfields-container">
           {stats &&
             stats.length > 0 &&
             stats.map((item, i) => {
@@ -66,6 +66,7 @@ const StatsModal = (props) => {
                           maxLength="40"
                           value={item.name}
                           onChange={(e) => handleChange(i, e, "stats")}
+                          autoComplete="off"
                         />
                       </div>
                     </div>
@@ -80,13 +81,13 @@ const StatsModal = (props) => {
                           type="number"
                           name="value"
                           value={item.value}
-                          onChange={(e) =>{
-                           
-                            if((+e.target.value>5)||(+e.target.value===0)){
-                              return ''
+                          onChange={(e) => {
+                            if (+e.target.value > 5 || +e.target.value === 0) {
+                              return "";
                             }
-                             handleChange(i, e, "stats")
-                            }}
+                            handleChange(i, e, "stats");
+                          }}
+                          autoComplete="off"
                         />
                       </div>
                       <div className="w-100 d-flex align-items-center justify-content-between pe-3 pe-sm-4 pe-md-5">
@@ -109,7 +110,7 @@ const StatsModal = (props) => {
                 </div>
               );
             })}
-        </form>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <div className="modal-nft-footer d-flex align-items-center">
@@ -121,7 +122,7 @@ const StatsModal = (props) => {
           </button>
           <button
             className="btn btn-linear-gradient mt-2 ms-3"
-            disabled={stats&&stats.length===0}
+            disabled={stats && stats.length === 0}
             onClick={handleSubmit}
           >
             Save
