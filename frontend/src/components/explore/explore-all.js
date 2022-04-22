@@ -3,10 +3,9 @@ import { connect } from "react-redux";
 import { beforeNFT, getNFTs } from "../nfts/nfts.action";
 import { ENV } from "../../config/config";
 import FullPageLoader from "../full-page-loader/full-page-loader";
-import ExploreItems from "./explore-items";
 import NftCard from "../collections/components/NftCard/NftCard";
-import { Link, useHistory } from "react-router-dom";
-import { getCreators, beforeUser } from "./../user/user.action";
+import { useHistory } from "react-router-dom";
+import { getCreators } from "./../user/user.action";
 
 const initData = {
   pre_heading: "Explore",
@@ -99,7 +98,7 @@ function ExploreAll(props) {
           {nfts && nfts.length > 0 && creators.length > 0 ? (
             nfts.map((item, idx) => {
               return (
-                <div className="col-3 mt-5" style={{}}>
+                <div key={idx} className="col-3 mt-5">
                   <NftCard
                     nft={item}
                     creators={creators}

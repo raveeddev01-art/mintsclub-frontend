@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import "./FilterComponent.css";
 
 const FilterComponent = ({
@@ -13,10 +13,10 @@ const FilterComponent = ({
   collectionsLabel,
   handleCollectionsFilter,
   handleStatusFilter,
-  disabled
+  disabled,
 }) => {
-  const [activeStatus,setActiveStatus]=useState('')
-  const [activeCollection,setActiveCollection]=useState('')
+  const [activeStatus, setActiveStatus] = useState("");
+  const [activeCollection, setActiveCollection] = useState("");
 
   return (
     <div className="collection-filter-accordion">
@@ -31,7 +31,6 @@ const FilterComponent = ({
                 data-target="#flush-collapseOne"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
-                
               >
                 {Status.label}
               </button>
@@ -44,15 +43,19 @@ const FilterComponent = ({
               <div className="accordion-body">
                 <div className="d-flex flex-column">
                   {Status.option &&
-                    Status.option.map((Status) => {
+                    Status.option.map((Status, index) => {
                       return (
                         <button
-                        className={`${Status===activeStatus?"active-class":""}`}
-                         onClick={() => {handleStatusFilter(Status);setActiveStatus(Status)}}
-                         disabled={disabled}
-                         
-                         >
-
+                          key={index}
+                          className={`${
+                            Status === activeStatus ? "active-class" : ""
+                          }`}
+                          onClick={() => {
+                            handleStatusFilter(Status);
+                            setActiveStatus(Status);
+                          }}
+                          disabled={disabled}
+                        >
                           {Status}
                         </button>
                       );
@@ -107,7 +110,6 @@ const FilterComponent = ({
                   className="mt-3 apply-btn"
                   onClick={() => applyMinMaxFilter()}
                   disabled={disabled}
-                 
                 >
                   Apply
                 </button>
@@ -138,8 +140,12 @@ const FilterComponent = ({
               <div className="accordion-body">
                 <div className="d-flex flex-column">
                   {Chains.option &&
-                    Chains.option.map((Chains) => {
-                      return <button  disabled={disabled}>{Chains}</button>;
+                    Chains.option.map((Chains, index) => {
+                      return (
+                        <button key={index} disabled={disabled}>
+                          {Chains}
+                        </button>
+                      );
                     })}
                 </div>
               </div>
@@ -160,7 +166,6 @@ const FilterComponent = ({
                   data-target="#flush-collapseThree"
                   aria-expanded="false"
                   aria-controls="flush-collapseThree"
-                 
                 >
                   {collectionsLabel}
                 </button>
@@ -175,13 +180,19 @@ const FilterComponent = ({
                 <div className="d-flex flex-column">
                   {Collections &&
                     Collections.length > 0 &&
-                    Collections.map((collection) => {
+                    Collections.map((collection, index) => {
                       return (
                         <button
-                        className={`${collection._id===activeCollection?"active-class":""}`}
-                          onClick={() =>
-                            {handleCollectionsFilter(collection._id);setActiveCollection(collection._id)}
-                          }
+                          key={index}
+                          className={`${
+                            collection._id === activeCollection
+                              ? "active-class"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            handleCollectionsFilter(collection._id);
+                            setActiveCollection(collection._id);
+                          }}
                           disabled={disabled}
                         >
                           {collection.name}

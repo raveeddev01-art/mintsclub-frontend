@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import './allnft.css';
-import { beforeNFT, getNFTs, getMyLikedNfts } from '../../nfts/nfts.action';
-import { ENV } from '../../../config/config';
-import NavbarMain from '../../navbar-main/NavbarMain';
-import Footer from '../../footer/footer';
-import SearchIcon from '../../../assets/images/nav-search-icon.svg';
-import ListingCards from '../../listing-cards/ListingCards';
-import FilterComponent from '../../filter-component/FilterComponent';
-import { getCreators, beforeUser } from './../../user/user.action';
-import FullPageLoader from '../../full-page-loader/full-page-loader';
-import { toggleLikeDislike, beforeTogleLikeDislike } from '../explore.action';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import "./allnft.css";
+import { beforeNFT, getNFTs, getMyLikedNfts } from "../../nfts/nfts.action";
+import { ENV } from "../../../config/config";
+import NavbarMain from "../../navbar-main/NavbarMain";
+import Footer from "../../footer/footer";
+import SearchIcon from "../../../assets/images/nav-search-icon.svg";
+import ListingCards from "../../listing-cards/ListingCards";
+import FilterComponent from "../../filter-component/FilterComponent";
+import { getCreators, beforeUser } from "./../../user/user.action";
+import FullPageLoader from "../../full-page-loader/full-page-loader";
+import { toggleLikeDislike, beforeTogleLikeDislike } from "../explore.action";
 import {
   beforeCollection,
   getCollections,
-} from '../../collections/collections.actions';
-import Breadcrumb from '../../breadcrumb/breadcrumb';
-import { IoCloseSharp } from 'react-icons/all';
-import VideoCard from '../../test-video-card/videoCard';
-import { validateNetwork } from '../../../utils/web3';
-import { toast } from 'react-toastify';
+} from "../../collections/collections.actions";
+import Breadcrumb from "../../breadcrumb/breadcrumb";
+import VideoCard from "../../test-video-card/videoCard";
+import { validateNetwork } from "../../../utils/web3";
+import { toast } from "react-toastify";
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [nftPagination, setNFTPagination] = useState(null);
@@ -27,12 +26,12 @@ const AllNFT = (props) => {
   const [loader, setLoader] = useState(true);
   const [loadMoreBtn, setLoadMoreBtn] = useState(false);
   const [creators, setCreator] = useState([]);
-  const [minValue, setMinValue] = useState('');
-  const [maxValue, setMaxValue] = useState('');
+  const [minValue, setMinValue] = useState("");
+  const [maxValue, setMaxValue] = useState("");
   const [collections, setCollections] = useState([]);
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [keyword, setKeyword] = useState(
-    props?.location?.state ? props.location.state : ''
+    props?.location?.state ? props.location.state : ""
   );
   const [likedNfts, setLikedNfts] = useState();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
@@ -72,7 +71,7 @@ const AllNFT = (props) => {
       getNFTs();
     }
 
-    let qs = { userId: ENV.getUserKeys('_id')._id };
+    let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
   }, []);
@@ -180,20 +179,20 @@ const AllNFT = (props) => {
     if (latest) nftQS.latest = latest;
 
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, 'query string of all nfts');
+    console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
 
   const itemoptions = [
-    { value: 'single', label: 'Single' },
-    { value: 'double', label: 'Double' },
+    { value: "single", label: "Single" },
+    { value: "double", label: "Double" },
   ];
 
   const sortoptions = [
-    { value: 'lowtohigh', label: 'Low To High' },
-    { value: 'hightolow', label: 'High To Low' },
-    { value: 'oldest', label: 'Oldest' },
-    { value: 'newest', label: 'Recantly Created' },
+    { value: "lowtohigh", label: "Low To High" },
+    { value: "hightolow", label: "High To Low" },
+    { value: "oldest", label: "Oldest" },
+    { value: "newest", label: "Recantly Created" },
   ];
 
   const handleSortOptions = (e) => {
@@ -202,7 +201,7 @@ const AllNFT = (props) => {
 
     const { value } = e.target;
 
-    if (value === 'Low To High') {
+    if (value === "Low To High") {
       setFilter((prev) => ({
         ...prev,
         lowToHigh: true,
@@ -226,7 +225,7 @@ const AllNFT = (props) => {
         filter.auction,
         filter.latest
       );
-    } else if (value === 'High To Low') {
+    } else if (value === "High To Low") {
       setFilter((prev) => ({
         ...prev,
         highToLow: true,
@@ -250,7 +249,7 @@ const AllNFT = (props) => {
         filter.auction,
         filter.latest
       );
-    } else if (value === 'Oldest') {
+    } else if (value === "Oldest") {
       setFilter((prev) => ({
         ...prev,
         oldest: true,
@@ -274,7 +273,7 @@ const AllNFT = (props) => {
         filter.auction,
         filter.latest
       );
-    } else if (value === 'Recantly Created') {
+    } else if (value === "Recantly Created") {
       setFilter((prev) => ({
         ...prev,
         newest: true,
@@ -311,12 +310,12 @@ const AllNFT = (props) => {
 
   const filterData = {
     status: {
-      label: 'Status',
-      option: ['Buy Now', 'On Auction', 'New'],
+      label: "Status",
+      option: ["Buy Now", "On Auction", "New"],
     },
     collections: {
-      label: 'Collections',
-      option: ['Art', 'Music'],
+      label: "Collections",
+      option: ["Art", "Music"],
     },
   };
 
@@ -424,16 +423,16 @@ const AllNFT = (props) => {
       filter.highToLow,
       filter.newest,
       keyword,
-      id == 'Buy Now' ? true : false,
-      id == 'On Auction' ? true : false,
-      id == 'New' ? true : false
+      id == "Buy Now" ? true : false,
+      id == "On Auction" ? true : false,
+      id == "New" ? true : false
     );
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
         setLikeBtnDisable(true);
-        let userId = ENV.getUserKeys('_id')._id;
+        let userId = ENV.getUserKeys("_id")._id;
 
         let body = {
           userId,
@@ -441,41 +440,41 @@ const AllNFT = (props) => {
           count: 1,
         };
 
-        if (status === 'dislike' && likesCount > 0) {
+        if (status === "dislike" && likesCount > 0) {
           let result = likedNfts.filter((item) => item.nftId !== nftId);
 
           setLikedNfts(result);
-          increOrDecreLikes(nftId, 'dec');
+          increOrDecreLikes(nftId, "dec");
 
           props.toggleLikeDislike(body);
         }
 
-        if (status === 'like') {
+        if (status === "like") {
           let myLikedNfts = [];
           if (likedNfts && likedNfts.length > 0) {
             myLikedNfts = likedNfts;
           }
 
           let obj = {
-            _id: '1234455',
+            _id: "1234455",
             nftId,
           };
 
           myLikedNfts.push(obj);
 
           setLikedNfts(myLikedNfts);
-          increOrDecreLikes(nftId, 'inc');
+          increOrDecreLikes(nftId, "inc");
           props.toggleLikeDislike(body);
         }
         // setNFTs(nfts);
       }
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
 
   const increOrDecreLikes = (id, status) => {
-    if (status === 'dec') {
+    if (status === "dec") {
       let newResult = nfts.map((item) => {
         if (item._id !== id) {
           return item;
@@ -501,39 +500,39 @@ const AllNFT = (props) => {
   return (
     <>
       <NavbarMain />
-      <Breadcrumb title1={'Explore'} title2={'All NFT'} />
-      <div className='collection-detail-content all-nft-content'>
-        <div className='container padding-wrapper pb-1'>
-          <div className='collections-listing'>
-            <div className='row g-3 align-items-center justify-content-center justify-content-lg-start '>
-              <div className='col-12 col-sm-10 col-md-4 col-lg-3'>
-                <div className='collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0 position-relative'>
+      <Breadcrumb title1={"Explore"} title2={"All NFT"} />
+      <div className="collection-detail-content all-nft-content">
+        <div className="container padding-wrapper pb-1">
+          <div className="collections-listing">
+            <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
+              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+                <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0 position-relative">
                   <img
                     src={SearchIcon}
-                    alt='search-icon'
-                    className='ms-3'
+                    alt="search-icon"
+                    className="ms-3"
                     onClick={handleSearchKeyword}
                   />
                   <input
-                    type='text'
-                    className='form-control'
-                    placeholder='Search'
+                    type="text"
+                    className="form-control"
+                    placeholder="Search"
                     onChange={(e) => setKeyword(e.target.value)}
                     onKeyPress={(e) =>
-                      e.key === 'Enter' && handleSearchKeyword()
+                      e.key === "Enter" && handleSearchKeyword()
                     }
                     value={keyword}
                   />
                   {/* <IoCloseSharp className="position-absolute input-clear"/> */}
                 </div>
               </div>
-              <div className='col-12 col-sm-10 col-md-4 col-lg-3'>
-                <div className='collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0'>
-                  <div className='ms-2'>
+              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+                <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
+                  <div className="ms-2">
                     <p>Item:</p>
                   </div>
 
-                  <select name='collection-select'>
+                  <select name="collection-select">
                     {itemoptions &&
                       itemoptions.map((collection, index) => {
                         return (
@@ -549,13 +548,13 @@ const AllNFT = (props) => {
                   </select>
                 </div>
               </div>
-              <div className='col-12 col-sm-10 col-md-4 col-lg-3'>
-                <div className='collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0'>
-                  <div className='ms-2'>
+              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+                <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
+                  <div className="ms-2">
                     <p>Sort:</p>
                   </div>
 
-                  <select name='collection-select' onChange={handleSortOptions}>
+                  <select name="collection-select" onChange={handleSortOptions}>
                     {sortoptions &&
                       sortoptions.map((collection, index) => {
                         return (
@@ -571,11 +570,11 @@ const AllNFT = (props) => {
                   </select>
                 </div>
               </div>
-              <div className='col-12 d-sm-none'>
-                <div className='sm-filter-btn d-flex align-items-center justify-content-center'>
+              <div className="col-12 d-sm-none">
+                <div className="sm-filter-btn d-flex align-items-center justify-content-center">
                   <button
                     className={`${
-                      activeFilter ? 'filter-btn-active' : 'filter-btn-inactive'
+                      activeFilter ? "filter-btn-active" : "filter-btn-inactive"
                     } ps-2`}
                     onClick={() => setActiveFilter(!activeFilter)}
                   >
@@ -584,14 +583,14 @@ const AllNFT = (props) => {
                 </div>
                 <div
                   className={`${
-                    activeFilter ? 'd-block' : 'd-none'
+                    activeFilter ? "d-block" : "d-none"
                   } sm-filter-options`}
                 >
-                  <div className='col-10 mx-auto mt-2'>
+                  <div className="col-10 mx-auto mt-2">
                     <FilterComponent
                       Status={filterData.status}
                       Collections={collections}
-                      collectionsLabel={'Collections'}
+                      collectionsLabel={"Collections"}
                       onChangeMinPrice={onChangeMinPrice}
                       onChangeMaxPrice={onChangeMaxPrice}
                       minValue={minValue}
@@ -605,20 +604,20 @@ const AllNFT = (props) => {
                 </div>
               </div>
             </div>
-            <div className='row mt-5'>
-              <div className='col-12'>
-                <div className='no-of-items text-end mb-3'>
+            <div className="row mt-5">
+              <div className="col-12">
+                <div className="no-of-items text-end mb-3">
                   <p>
                     {nfts?.length}
-                    {'  items'}
+                    {"  items"}
                   </p>
                 </div>
               </div>
-              <div className='col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block'>
+              <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
                 <FilterComponent
                   Status={filterData.status}
                   Collections={collections}
-                  collectionsLabel={'Collections'}
+                  collectionsLabel={"Collections"}
                   onChangeMinPrice={onChangeMinPrice}
                   onChangeMaxPrice={onChangeMaxPrice}
                   minValue={minValue}
@@ -629,25 +628,28 @@ const AllNFT = (props) => {
                   disabled={disabled}
                 />
               </div>
-              <div className='col-12 col-sm-8 col-md-9 col-lg-9'>
+              <div className="col-12 col-sm-8 col-md-9 col-lg-9">
                 {loader ? (
                   <FullPageLoader />
                 ) : (
-                  <div className='row g-3'>
+                  <div className="row g-3">
                     {filterationLoader ? (
-                      <div className='text-center'>
+                      <div className="text-center">
                         <div
-                          class='spinner-border text-secondary text-white '
-                          role='status'
+                          className="spinner-border text-secondary text-white "
+                          role="status"
                         >
-                          <span class='sr-only'>Loading...</span>
+                          <span className="sr-only">Loading...</span>
                         </div>
                       </div>
                     ) : nfts && nfts.length > 0 ? (
-                      nfts.map((listing) => {
+                      nfts.map((listing, index) => {
                         return (
-                          <div className='col-6 col-md-4 col-lg-3 px-1'>
-                            {listing.fileType === 'image' ? (
+                          <div
+                            key={index}
+                            className="col-6 col-md-4 col-lg-3 px-1"
+                          >
+                            {listing.fileType === "image" ? (
                               <ListingCards
                                 CardImg={listing.image}
                                 name={listing.name}
@@ -682,17 +684,17 @@ const AllNFT = (props) => {
                         );
                       })
                     ) : (
-                      <p className='text-white text-center mt-5 no-nft-title'>
+                      <p className="text-white text-center mt-5 no-nft-title">
                         No NFTs Found
                       </p>
                     )}
-                    <div className='col-12'>
-                      <div className='mt-5 text-center'>
+                    <div className="col-12">
+                      <div className="mt-5 text-center">
                         {nftPagination?.total === nfts?.length
-                          ? ''
+                          ? ""
                           : !filterationLoader && (
                               <button
-                                className='btn btn-linear-gradient px-5'
+                                className="btn btn-linear-gradient px-5"
                                 onClick={() => handlePagination()}
                               >
                                 Load more
@@ -707,7 +709,7 @@ const AllNFT = (props) => {
           </div>
         </div>
       </div>
-      <div className='all-nft-footer'>
+      <div className="all-nft-footer">
         <Footer />
       </div>
     </>

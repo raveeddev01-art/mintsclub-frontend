@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connectMetamaskCopy } from "../../utils/web3";
-import { ENV } from "./../../config/config";
 import "./hero.css";
 import CreateIcon from "../../assets/images/create-icon.svg";
-import ExploreIcon from "../../assets/images/explore-icon.svg";
 import PlayIcon from "../../assets/images/play-icon.svg";
 import Slider from "./component/slider";
 
@@ -132,13 +130,13 @@ const Hero = (props) => {
                 className="hero-slider-btn card-slider-btn me-3"
                 onClick={prevBtnHandler}
               >
-                <i class="fas fa-arrow-left"></i>
+                <i className="fas fa-arrow-left"></i>
               </button>
               <button
                 className="hero-slider-btn card-slider-btn"
                 onClick={nextBtnHandler}
               >
-                <i class="fas fa-arrow-right"></i>
+                <i className="fas fa-arrow-right"></i>
               </button>
             </div>
           </div>
