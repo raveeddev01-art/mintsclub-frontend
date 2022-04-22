@@ -60,6 +60,10 @@
   border-radius: 10px;
 }
 
+.nft-inputs-container textarea {
+  resize: none;
+}
+
 .nft-inputs-container input,
 .nft-inputs-container textarea,
 .nft-inputs-container select {
@@ -96,6 +100,11 @@
   background-repeat: no-repeat;
   border-color: grey;
   outline: 0;
+}
+
+.nft-inputs-container select option {
+  background: #000;
+  color: #5666fe;
 }
 
 .nft-form-btns .btn-link a {

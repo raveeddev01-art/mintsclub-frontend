@@ -172,7 +172,7 @@ class CreateNFT extends Component {
       this.setState(
         {
           isSubmitted: true,
-          loader:true,
+          loader: true,
           formValid:
             this.validator.allValid() && nft.collectionId ? true : false,
         },
@@ -510,7 +510,7 @@ class CreateNFT extends Component {
         <NavbarMain />
         <Breadcrumb title1={"NFT"} title2={"Create NFT"} />
         <section className="author-area padding-wrapper">
-           {loader && <FullPageLoader />} 
+          {loader && <FullPageLoader />}
 
           <div className="container">
             <form>
@@ -696,11 +696,11 @@ class CreateNFT extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12">
-                        <div className="nft-properties-container">
-                          <div className="row g-2">
-                            {this.state.nft.properties.length > 0 &&
-                              this.state.nft.properties.map((item) => {
+                      {this.state.nft.properties.length > 0 && (
+                        <div className="col-12">
+                          <div className="nft-properties-container">
+                            <div className="row g-2">
+                              {this.state.nft.properties.map((item) => {
                                 return (
                                   <div className="col-md-6 col-lg-4">
                                     <PropertiesInfo
@@ -710,9 +710,10 @@ class CreateNFT extends Component {
                                   </div>
                                 );
                               })}
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      )}
                       <div className="col-12">
                         <div className="create-properties-container d-flex align-items-center justify-content-between">
                           <div className="properties-content">
@@ -731,10 +732,10 @@ class CreateNFT extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12">
-                        <div className="nft-level-container">
-                          {this.state.nft.levels.length > 0 &&
-                            this.state.nft.levels.map((item) => {
+                      {this.state.nft.levels.length > 0 && (
+                        <div className="col-12">
+                          <div className="nft-level-container">
+                            {this.state.nft.levels.map((item) => {
                               return (
                                 <LevelsInfo
                                   name={item.name}
@@ -742,8 +743,9 @@ class CreateNFT extends Component {
                                 />
                               );
                             })}
+                          </div>
                         </div>
-                      </div>
+                      )}
                       <div className="col-12">
                         <div className="create-properties-container d-flex align-items-center justify-content-between">
                           <div className="properties-content">
@@ -762,10 +764,10 @@ class CreateNFT extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-12">
-                        <div className="nft-stat-container">
-                          {this.state.nft.stats.length > 0 &&
-                            this.state.nft.stats.map((item) => {
+                      {this.state.nft.stats.length > 0 && (
+                        <div className="col-12">
+                          <div className="nft-stat-container">
+                            {this.state.nft.stats.map((item) => {
                               return (
                                 <StatsInfo
                                   name={item.name}
@@ -773,8 +775,9 @@ class CreateNFT extends Component {
                                 />
                               );
                             })}
+                          </div>
                         </div>
-                      </div>
+                      )}
                       {/* <div className="col-12">
                         <select
                           id="collectionId"
@@ -795,7 +798,7 @@ class CreateNFT extends Component {
                               typ="submit"
                               onClick={(e) => this.submit(e)}
                             >
-                              Create Item
+                              Create NFT
                             </button>
                             {/* <button className="cancel-collection-btn mt-2">
                               Cancel

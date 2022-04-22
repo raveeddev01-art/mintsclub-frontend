@@ -6,7 +6,15 @@ import "./PropertiesModal.css";
 import { toast } from "react-toastify";
 
 const PropertiesModal = (props) => {
-  const { show, onHide,addMoreValues, handleChange, removeFormFields, properties,onSave } = props;
+  const {
+    show,
+    onHide,
+    addMoreValues,
+    handleChange,
+    removeFormFields,
+    properties,
+    onSave,
+  } = props;
   const handleSubmit = () => {
     if (properties && properties.length > 0) {
       let isEmpty = properties.filter(
@@ -20,7 +28,6 @@ const PropertiesModal = (props) => {
       }
     }
   };
-
 
   return (
     <Modal
@@ -49,51 +56,55 @@ const PropertiesModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body>
-        {properties.map((item, i) => {
-          return (
-            <div className="row g-2 align-items-center justify-content-between mt-2">
-              <div className="col-sm-5 order-1 order-sm-0">
-                <div className="bid-inp-container d-flex align-items-center">
-                  <div className="ps-2">
-                    <h6>Type:</h6>
+        <div className="nft-modalfields-container">
+          {properties.map((item, i) => {
+            return (
+              <div className="row g-2 align-items-center justify-content-between mt-2">
+                <div className="col-sm-5 order-1 order-sm-0">
+                  <div className="bid-inp-container d-flex align-items-center">
+                    <div className="ps-2">
+                      <h6>Type:</h6>
+                    </div>
+                    <div className="inp-container">
+                      <input
+                        type="text"
+                        name="type"
+                        maxLength="40"
+                        value={item.type}
+                        onChange={(e) => handleChange(i, e, "properties")}
+                        autoComplete="off"
+                      />
+                    </div>
                   </div>
-                  <div className="inp-container">
-                    <input
-                      type="text"
-                      name="type"
-                      maxLength="40"
-                      value={item.type}
-                      onChange={(e) => handleChange(i, e,"properties")}
-                    />
+                </div>
+                <div className="col-sm-5 order-2 order-sm-1">
+                  <div className="bid-inp-container d-flex align-items-center">
+                    <div className="ps-2">
+                      <h6>Name:</h6>
+                    </div>
+                    <div className="inp-container">
+                      <input
+                        type="text"
+                        name="name"
+                        maxLength="40"
+                        value={item.name}
+                        onChange={(e) => handleChange(i, e, "properties")}
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-sm-1 order-0 order-sm-2">
+                  <div className="inp-close text-end">
+                    <button onClick={() => removeFormFields(i, "properties")}>
+                      <img src={InputClose} alt="closemodal" />
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="col-sm-5 order-2 order-sm-1">
-                <div className="bid-inp-container d-flex align-items-center">
-                  <div className="ps-2">
-                    <h6>Name:</h6>
-                  </div>
-                  <div className="inp-container">
-                    <input
-                      type="text"
-                      name="name"
-                      maxLength="40"
-                      value={item.name}
-                      onChange={(e) => handleChange(i, e,"properties")}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-1 order-0 order-sm-2">
-                <div className="inp-close text-end">
-                  <button onClick={() => removeFormFields(i,"properties")}>
-                    <img src={InputClose} alt="closemodal" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <div className="modal-nft-footer d-flex align-items-center">
@@ -103,7 +114,13 @@ const PropertiesModal = (props) => {
           >
             Add more
           </button>
-          <button className="btn btn-linear-gradient mt-2 ms-3"  disabled={properties&&properties.length===0}onClick={handleSubmit}>Save</button>
+          <button
+            className="btn btn-linear-gradient mt-2 ms-3"
+            disabled={properties && properties.length === 0}
+            onClick={handleSubmit}
+          >
+            Save
+          </button>
         </div>
       </Modal.Footer>
     </Modal>

@@ -414,7 +414,7 @@ const NFTDetail = (props) => {
       return setToggle(false);
     }
   };
- 
+
   const calculatePricePercantage = () => {
     let fivePerc = "";
     let result = "";
@@ -472,33 +472,33 @@ const NFTDetail = (props) => {
   };
   const placeBid = async () => {
     if (await validateNetwork()) {
-    try {
-      let result = await placeABid(price, nftDetail.nftToken);
-      if (result) {
-        const payload = {
-          ownerId: nftDetail.ownerId,
-          bidAmount: price,
-          nftId: nftDetail._id,
-          bidBy: ENV.getUserKeys("_id")._id,
-          isAccepted: false,
-          // expiryDate: nftConfig.expiry.datetime,
-          toAddress: nftDetail.ownerAddress,
-          fromAddress: await connectMetamask(),
-        };
-        const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
+      try {
+        let result = await placeABid(price, nftDetail.nftToken);
+        if (result) {
+          const payload = {
+            ownerId: nftDetail.ownerId,
+            bidAmount: price,
+            nftId: nftDetail._id,
+            bidBy: ENV.getUserKeys("_id")._id,
+            isAccepted: false,
+            // expiryDate: nftConfig.expiry.datetime,
+            toAddress: nftDetail.ownerAddress,
+            fromAddress: await connectMetamask(),
+          };
+          const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
 
-        props.placeBid(payload);
-        createActivity("Bid", price);
+          props.placeBid(payload);
+          createActivity("Bid", price);
+        }
+      } catch (err) {
+        console.log(err, "error");
+        setLoader(false);
+        setIsOpen(false);
+        toast.error(err);
       }
-    } catch (err) {
-      console.log(err, "error");
-      setLoader(false);
-      setIsOpen(false);
-      toast.error(err);
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
-  }else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network")
-  }
   };
 
   const makeOffer = async () => {
@@ -650,8 +650,6 @@ const NFTDetail = (props) => {
       return true;
     }
   };
-
-
 
   return (
     <>
@@ -1172,6 +1170,27 @@ const NFTDetail = (props) => {
                     {/* //InCaseOfVideoCard */}
                   </div>
                   <Card.Body>
+                    <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
+                      <div className="detail-nft-owner">
+                        <p>
+                          Total {nftDetail.copies === 1 ? "Copy" : "Copies"}
+                        </p>
+                      </div>
+                      <div className="detail-nft-copies d-flex align-items-center">
+                        <p>
+                          {nftDetail?.remainingCopies
+                            ? nftDetail?.remainingCopies
+                            : nftDetail.copies}{" "}
+                          Sold
+                        </p>
+                        <p className="ps-2">
+                          {nftDetail?.remainingCopies
+                            ? nftDetail?.remainingCopies
+                            : nftDetail.copies}{" "}
+                          Remaining
+                        </p>
+                      </div>
+                    </div>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">
                       <div className="detail-nft-name ">
                         <h5>{nftDetail.name}</h5>
@@ -1223,7 +1242,7 @@ const NFTDetail = (props) => {
                         </>
                       )}
                     </div>
-                    <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
+                    <div className="detail-card-owner-container mb-2">
                       <div className="detail-nft-owner">
                         {nftDetail && (
                           <p>
@@ -1235,14 +1254,6 @@ const NFTDetail = (props) => {
                             </span>
                           </p>
                         )}
-                      </div>
-                      <div className="detail-nft-copies">
-                        <p>
-                          {nftDetail?.remainingCopies
-                            ? nftDetail?.remainingCopies
-                            : nftDetail.copies}{" "}
-                          {nftDetail.copies === 1 ? "Copy" : "Copies"}
-                        </p>
                       </div>
                     </div>
                     <div className=" d-flex justify-content-between align-items-center mb-2">
@@ -1284,8 +1295,10 @@ const NFTDetail = (props) => {
                             disabled={disabled}
                             onClick={() => handleRouting()}
                           >
-                            {(ENV.getUserKeys("_id")._id == nftDetail.ownerId &&nftDetail.sellingMethod)?"Resale":
-                            ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                            {ENV.getUserKeys("_id")._id == nftDetail.ownerId &&
+                            nftDetail.sellingMethod
+                              ? "Resale"
+                              : ENV.getUserKeys("_id")._id == nftDetail.ownerId
                               ? "Sell"
                               : nftDetail?.sellingMethod === 2
                               ? "Place Bid"
@@ -1563,8 +1576,7 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
+const mapStateToProps = (state) => ({
   nftDetail: state.nft.nftsData,
   nftsAuth: state.nft.nftsAuth,
   nftsByCollection: state.nft.nftsByCollection,
