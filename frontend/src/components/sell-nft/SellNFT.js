@@ -201,7 +201,12 @@ const SellNFT = (props) => {
   const submit = async (e) => {
     e.preventDefault();
     if (copies > nftDetail.copies) {
-      toast.info(`Copies should b less than or equal to ${nftDetail.copies}`);
+      if(Number(nftDetail.copies)===1)
+      {
+        toast.info(`Copies should be equal to ${nftDetail.copies}`);
+      }else {
+        toast.info(`Copies should be less than or equal to ${nftDetail.copies}`);
+      }
       return "";
     }
     if (await validateNetwork()) {
@@ -258,7 +263,7 @@ const SellNFT = (props) => {
           timedAuctionEndTime.slice(0, 15) +
           " " +
           timedConfig.duration.endTime +
-          ":59" +
+          ":00" +
           timedAuctionEndTime.slice(24);
         timedConfig.duration.endDate = timedAuctionEndTime;
 
@@ -267,7 +272,7 @@ const SellNFT = (props) => {
           timedAuctionStartTime.slice(0, 15) +
           " " +
           timedConfig.duration.startTime +
-          ":59" +
+          ":00" +
           timedAuctionStartTime.slice(24);
         timedConfig.duration.startDate = timedAuctionStartTime;
 

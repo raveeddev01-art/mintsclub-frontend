@@ -497,7 +497,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-
+  console.log(nfts,"nfts=>")
   return (
     <>
       <NavbarMain />
@@ -714,7 +714,9 @@ const AllNFT = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+ 
+  {
   nft: state.nft,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,

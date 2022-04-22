@@ -141,6 +141,41 @@
   border: 1px solid #7e8aff;
 }
 
+.create-properties-container {
+  background-color: #101029;
+  height: 50px;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+}
+
+.create-properties-container .properties-btn button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  padding: 5px;
+}
+
+.nft-stat-container {
+  max-height: 128px;
+  height: max-content;
+  overflow-y: auto;
+}
+
+.nft-level-container {
+  max-height: 180px;
+  height: max-content;
+  overflow-y: auto;
+}
+
+.nft-properties-container {
+  max-height: 137px;
+  height: max-content;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 @media (max-width: 991.9px) {
   .nft-inputs-container {
     max-width: 100%;

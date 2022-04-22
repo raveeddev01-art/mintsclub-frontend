@@ -123,7 +123,6 @@ export const getCollections =
   };
 export const myCollections = (userId) => (dispatch) => {
   dispatch(emptyError());
-  // let url = `http://3.142.91.8/v1/front/collection/list`;
   let url = `${ENV.url}collection/myCollectionList`;
 
   if (userId) url += `?userId=${userId}`;
@@ -144,6 +143,7 @@ export const myCollections = (userId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data,"res of collection getting")
       if (data.success) {
         dispatch({
           type: MY_COLLECTIONS,
@@ -158,6 +158,7 @@ export const myCollections = (userId) => (dispatch) => {
       }
     })
     .catch((error) => {
+      console.lof(error,"erro while getting collections")
       if (error.response && error.response.data) {
         const { data } = error.response;
         if (data.message) toast.error(data.message);

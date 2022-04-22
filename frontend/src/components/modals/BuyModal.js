@@ -22,12 +22,10 @@ const BuyModal = (props) => {
     transactionHash,
     transactionSuccess,
     onHide,
-    disabled
+    disabled,
   } = props;
 
-  return (
-
-  (confirmed === ""||confirmed===false) ? (
+  return confirmed === "" || confirmed === false ? (
     <Modal
       {...props}
       size="lg"
@@ -131,20 +129,17 @@ const BuyModal = (props) => {
             </p>
           </div>
         </div>
-        <Button
+        <button
           onClick={() => {
-            buyNow()
+            buyNow();
           }}
           disabled={disabled}
           className="btn btn-linear-gradient mt-2"
         >
           Checkout
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
-  
-        
-     
   ) : (
     <Modal
       {...props}
@@ -175,14 +170,14 @@ const BuyModal = (props) => {
         <div className="modal-nft-purchased mt-3">
           {!transactionSuccess ? (
             <p>
-              Woo! You just Purchased FancyLaday. It should be confirmed on the
-              blockchain shortly
+          {  `  Woo! You just Purchased ${name}. It should be confirmed on the
+              blockchain shortly`}
             </p>
           ) : (
             <p>
               {" "}
-              Woo! You just Purchased FancyLaday. It's been confirmed on the
-              blockchain shortly
+            {`  Woo! You just Purchased ${name}. It's been confirmed on the
+              blockchain shortly`}
             </p>
           )}
         </div>
@@ -240,9 +235,6 @@ const BuyModal = (props) => {
         </div>
       </Modal.Footer>
     </Modal>
-  )
-  )
- };
+  );
+};
 export default BuyModal;
-
-

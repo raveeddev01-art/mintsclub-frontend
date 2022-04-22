@@ -144,7 +144,7 @@ export const getNFT = (nftId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      // alert("called")
+   
       if (data.success) {
         dispatch({
           type: NFTALL,
@@ -311,17 +311,33 @@ export const getMyLikedNfts =
         }
       })
       .catch(function (error) {
-        console.log(error);
+        dispatch({
+          type: GET_ERRORS,
+          payload: error,
+        });
       });
   };
 
-export const createNFT = async (formData) => {
+export const createNFT = async (formData) => async (dispatch)=>{
   try {
     const res = await axiosPostFormData("nfts/create", formData, true);
-  } catch (err) {}
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error,
+    });
+  }
 };
 export const addNFTRecord = (formData) => async (dispatch) => {
-  const res = await axiosPostFormData("nfts/storeNFTData", formData, true);
+  try{
+
+    const res = await axiosPostFormData("nfts/storeNFTData", formData, true);
+  }catch(error){
+    dispatch({
+      type: GET_ERRORS,
+      payload: error,
+    });
+  }
 };
 
 export const getProfileNfts =

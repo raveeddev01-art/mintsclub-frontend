@@ -414,35 +414,7 @@ const NFTDetail = (props) => {
       return setToggle(false);
     }
   };
-  const onChangeModal = (e) => {
-    const { name, value } = e.target;
-    let data = nftConfig;
-
-    const keys = name.split("."); // nftConfig, price, currency
-    if (keys && keys[2]) data[keys[1]][keys[2]] = value;
-    else if (keys && keys[1]) data[keys[1]] = value;
-
-    if (keys && keys[1] === "price" && keys[2] === "amount")
-      data[keys[1]]["amount"] = Number(value);
-
-    if (keys && keys[1] === "expiry" && keys[2] === "date")
-      data[keys[1]]["type"] = Number(value) === -1 ? 2 : 1;
-
-    // set datetime for days / months
-    if (data.expiry.type === 1)
-      data.expiry.datetime = moment(
-        data.expiry.date + " " + data.expiry.time,
-        "DD/MM/YYYY HH:mm"
-      );
-    // set datetime for custom date
-    else if (data.expiry.type === 2) {
-      data.expiry.datetime = moment(data.expiry.time, "DD/MM/YYYY HH:mm");
-      data.expiry.date = moment(data.expiry.time, "DD/MM/YYYY");
-    }
-
-    setNftConfig(data);
-  };
-
+ 
   const calculatePricePercantage = () => {
     let fivePerc = "";
     let result = "";
@@ -1591,7 +1563,8 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  {
   nftDetail: state.nft.nftsData,
   nftsAuth: state.nft.nftsAuth,
   nftsByCollection: state.nft.nftsByCollection,
