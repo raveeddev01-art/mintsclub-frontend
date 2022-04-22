@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
-import DemoImg from "../../assets/images/cl-cr-mainimg.png";
 import AuctionsCards from "../auctions-cards/AuctionsCards";
 import Breadcrumb from "../breadcrumb/breadcrumb";
-
 import { connect } from "react-redux";
 import { beforeAuction, getLiveAuctions } from "./auctions.action";
 import { getCreators } from "./../user/user.action";
@@ -23,7 +21,6 @@ const AuctionsList = (props) => {
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("all");
 
-  const [auctionSettings, setAuctionSettings] = useState();
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
@@ -38,7 +35,7 @@ const AuctionsList = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions, pagination } = props.auction;
-    
+
       setAuctions(auctions);
       props.beforeAuction();
     }
