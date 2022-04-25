@@ -1,16 +1,16 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
-import { useHistory } from 'react-router';
-import ThreeDots from '../../assets/images/threeDots.svg';
-import ArrowUp from '../../assets/images/arrowUp.svg';
-import Bucket from '../../assets/images/bucket.png';
-import Countdown from 'react-countdown';
-import { ENV } from '../../config/config';
-import useVideoPlayer from '../test-video-card/components/useVideoPlayer';
-import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
-import { connect } from 'react-redux';
-import './AuctionsCard.css';
-import { Images } from '../../assets/assets';
+import React from "react";
+import { Card } from "react-bootstrap";
+import { useHistory } from "react-router";
+import ThreeDots from "../../assets/images/threeDots.svg";
+import ArrowUp from "../../assets/images/arrowUp.svg";
+import Bucket from "../../assets/images/bucket.png";
+import Countdown from "react-countdown";
+import { ENV } from "../../config/config";
+import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import { connect } from "react-redux";
+import "./AuctionsCard.css";
+import { Images } from "../../assets/assets";
 
 const AuctionsCards = (props) => {
   const { countDownRenderer } = ENV;
@@ -19,23 +19,36 @@ const AuctionsCards = (props) => {
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
+  const {
+    image,
+    endDate,
+    totalBids,
+    id,
+    ownerName,
+    name,
+    currentPrice,
+    fileType,
+    bidsProfile,
+    highestBid,
+  } = props;
+
   return (
-    <Card className='auction-card mx-2'>
-      <div className='auction-img-wrapper'>
-        {props.fileType === 'image' ? (
-          <Card.Img variant='top' src={props.image} alt='AuctionTopImg' />
+    <Card className="auction-card mx-2">
+      <div className="auction-img-wrapper">
+        {fileType === "image" ? (
+          <Card.Img variant="top" src={image} alt="AuctionTopImg" />
         ) : (
-          <div className='card-img-top'>
-            <div className='video-wrapper'>
+          <div className="card-img-top">
+            <div className="video-wrapper">
               <video
-                src={props.image}
+                src={image}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
               />
-              <div className='controls'>
-                <div className='actions'>
+              <div className="controls">
+                <div className="actions">
                   <button
-                    className='play-pause-btn d-flex align-items-center justify-content-center'
+                    className="play-pause-btn d-flex align-items-center justify-content-center"
                     onClick={togglePlay}
                   >
                     {playerState.isPlaying ? (
@@ -50,63 +63,63 @@ const AuctionsCards = (props) => {
           </div>
         )}
 
-        <div className='auction-countdown'>
-          <Countdown date={props.endDate} renderer={countDownRenderer} />
+        <div className="auction-countdown">
+          <Countdown date={endDate} renderer={countDownRenderer} />
         </div>
       </div>
       <Card.Body>
-        <div className='auction-card-avatar-container d-flex align-items-center justify-content-between'>
-          <div className='auction-card-avatar d-flex align-items-center'>
-            {props.bidsProfile &&
-              props.bidsProfile.length > 0 &&
-              props.bidsProfile.map((item, i) => {
+        <div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
+          <div className="auction-card-avatar d-flex align-items-center">
+            {bidsProfile &&
+              bidsProfile.length > 0 &&
+              bidsProfile.map((item, i) => {
                 if (i <= 2) {
                   return (
                     <img
                       src={item === null ? Images.profilePlaceholder : item}
-                      alt='AvatarImg'
+                      alt="AvatarImg"
                     />
                   );
                 }
               })}
 
-            <span className='ms-4'>
-              {props.totalBids === 0
-                ? 'No Bid Found'
-                : props.totalBids < 4
-                ? props.totalBids + ' People Place Bid'
-                : props.totalBids - 1 + '+ People Place Bid'}
+            <span className="ms-4">
+              {totalBids === 0
+                ? "No Bid Found"
+                : totalBids < 4
+                ? totalBids + " People Place Bid"
+                : totalBids - 1 + "+ People Place Bid"}
             </span>
           </div>
 
-          <div className='options-icon'>
-            <img src={ThreeDots} alt='OptionsIcon' />
+          <div className="options-icon">
+            <img src={ThreeDots} alt="OptionsIcon" />
           </div>
         </div>
-        <Card.Title onClick={() => history.push(`nftdetail/${props.id}`)}>
-          {props.name}
+        <Card.Title onClick={() => history.push(`nftdetail/${id}`)}>
+          {name}
         </Card.Title>
-        <div className='auction-card-owner-container d-flex justify-content-between align-items-center mb-2'>
-          <div className='auction-owner-name'>
+        <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
+          <div className="auction-owner-name">
             <p>
-              {'Owned by '}
-              {props.ownerName.length > 8
-                ? props.ownerName.substring(0, 6) + '...'
-                : props.ownerName}
+              {"Owned by "}
+              {ownerName.length > 8
+                ? ownerName.substring(0, 6) + "..."
+                : ownerName}
             </p>
           </div>
-          <div className='auction-owner-price d-flex align-items-center'>
-            <img src={ArrowUp} alt='' className='me-1' />
-            <span>{props.highestBid}</span>
+          <div className="auction-owner-price d-flex align-items-center">
+            <img src={ArrowUp} alt="" className="me-1" />
+            <span>{totalBids > 0 ? highestBid : currentPrice}</span>
           </div>
         </div>
         <button
-          className='auction-bit-btn d-flex align-items-center justify-content-center'
-          onClick={() => history.push(`nftdetail/${props.id}`)}
+          className="auction-bit-btn d-flex align-items-center justify-content-center"
+          onClick={() => history.push(`nftdetail/${id}`)}
         >
-          <img src={Bucket} alt='' className='me-1' />
+          <img src={Bucket} alt="" className="me-1" />
 
-          <p>{userId === ownerId ? 'View' : 'Place a Bid'}</p>
+          <p>{userId === ownerId ? "View" : "Place a Bid"}</p>
         </button>
       </Card.Body>
     </Card>

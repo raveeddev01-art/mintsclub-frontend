@@ -29,13 +29,13 @@ const Upload = ({
       onDragLeave={(e) => dragLeave(e)}
     >
       <div className="upload-image-border p-4 position-relative">
+        <MdClose
+          color="#e33d0bc2"
+          className="uploaded-cross-icon"
+          onClick={() => clearData()}
+        />
         {imageURL ? (
           <div className="nft-uploaded-img-container">
-            <MdClose
-              color="#e33d0bc2"
-              className="uploaded-cross-icon"
-              onClick={() => clearData()}
-            />
             <img className="upload-image" src={imageURL} alt="upload-image" />
             <img
               src={UploadIcon}
