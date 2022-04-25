@@ -504,7 +504,6 @@ class CreateNFT extends Component {
     } = this.state;
 
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
-    console.log(this.state.nft.properties, "this.state.nft.properties");
     return (
       <div>
         <NavbarMain />

@@ -3,7 +3,6 @@ const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
 
-console.log(process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS, "process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS config");
 
 export const ENV = {
   // blockchain variables
