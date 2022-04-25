@@ -105,6 +105,7 @@ function AuctionsOne(props) {
     props.getLiveAuctions(qs);
   };
 
+  
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
