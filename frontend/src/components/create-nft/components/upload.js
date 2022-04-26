@@ -21,89 +21,113 @@ const Upload = ({
   clearData,
 }) => {
   return (
-    <label
-      className="w-100"
-      onDrop={(e) => onDrop(e)}
-      onDragOver={(e) => dragOver(e)}
-      onDragEnter={(e) => dragEnter(e)}
-      onDragLeave={(e) => dragLeave(e)}
-    >
-      <div className="upload-image-border p-4 position-relative">
-        <MdClose
-          color="#e33d0bc2"
-          className="uploaded-cross-icon"
-          onClick={() => clearData()}
-        />
-        {imageURL ? (
-          <div className="nft-uploaded-img-container">
-            <img className="upload-image" src={imageURL} alt="upload-image" />
-            <img
-              src={UploadIcon}
-              alt="upload-icon"
-              className="nft-upload-icon"
-            />
-            <input
-              type="file"
-              style={{ display: "none" }}
-              onChange={onFileChange}
-              accept=".mp4, .png,.jpeg"
-              name="image"
-            />
-          </div>
-        ) : videoURL ? (
-          <div className="nft-uploaded-img-container">
-            <MdClose color="#e33d0bc2" className="uploaded-cross-icon" />
-            <VideoComponent
-              videoUrl={videoURL}
-              videoStyles={videoStyles}
-              videoWidth="300"
-            />
-            <img
-              src={UploadIcon}
-              alt="upload-icon"
-              className="nft-upload-icon"
-            />
-          </div>
-        ) : audioSrc ? (
-          <div className="nft-uploaded-img-container">
-            <MdClose color="#e33d0bc2" className="uploaded-cross-icon" />
-            <AudioPlayer audioSrc={audioSrc} />
-            <img
-              src={UploadIcon}
-              alt="upload-icon"
-              className="nft-upload-icon"
-            />
-            <input
-              type="file"
-              style={{ display: "none" }}
-              onChange={onFileChange}
-              accept=".mp4, .png,.jpeg"
-              name="image"
-            />
-          </div>
+    <div className="upload-image-border p-4 position-relative">
+      <div className="nft-uploaded-img-container">
+        {imageURL || videoURL || audioSrc ? (
+          <MdClose
+            color="#e33d0bc2"
+            className="uploaded-cross-icon"
+            onClick={() => clearData()}
+          />
         ) : (
-          <>
-            {" "}
-            <img
-              className="upload-image-place-holder"
-              src={Images.uploadImage}
-              alt="upload-image"
-            />
-            <div className="upload-details text-center mt-2">
-              <p>Drag and drop your file</p>
-              <p>PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
-            </div>
-            <input
-              type="file"
-              style={{ display: "none" }}
-              onChange={(e) => onFileChange(e, "onChange")}
-              accept=".mp4, .png,.jpeg"
-              name="image"
-            />
-          </>
+          ""
         )}
+        <label
+          className="w-100"
+          onDrop={(e) => onDrop(e)}
+          onDragOver={(e) => dragOver(e)}
+          onDragEnter={(e) => dragEnter(e)}
+          onDragLeave={(e) => dragLeave(e)}
+        >
+          <div className="">
+            {imageURL ? (
+              <div className="nft-uploaded-img-container">
+                {/* <MdClose
+                color="#e33d0bc2"
+                className="uploaded-cross-icon"
+                onClick={() => clearData()}
+              /> */}
+                <img
+                  className="upload-image"
+                  src={imageURL}
+                  alt="upload-image"
+                />
+                <img
+                  src={UploadIcon}
+                  alt="upload-icon"
+                  className="nft-upload-icon"
+                />
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={onFileChange}
+                  accept=".mp4, .png,.jpeg"
+                  name="image"
+                />
+              </div>
+            ) : videoURL ? (
+              <div className="nft-uploaded-img-container">
+                {/* <MdClose color="#e33d0bc2" className="uploaded-cross-icon" /> */}
+                <VideoComponent
+                  videoUrl={videoURL}
+                  videoStyles={videoStyles}
+                  videoWidth="300"
+                />
+                <img
+                  src={UploadIcon}
+                  alt="upload-icon"
+                  className="nft-upload-icon"
+                />
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={onFileChange}
+                  accept=".mp4, .png,.jpeg"
+                  name="image"
+                />
+              </div>
+            ) : audioSrc ? (
+              <div className="nft-uploaded-img-container">
+                {/* <MdClose color="#e33d0bc2" className="uploaded-cross-icon" /> */}
+                <AudioPlayer audioSrc={audioSrc} />
+                <img
+                  src={UploadIcon}
+                  alt="upload-icon"
+                  className="nft-upload-icon"
+                />
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={onFileChange}
+                  accept=".mp4, .png,.jpeg"
+                  name="image"
+                />
+              </div>
+            ) : (
+              <>
+                {" "}
+                <img
+                  className="upload-image-place-holder"
+                  src={Images.uploadImage}
+                  alt="upload-image"
+                />
+                <div className="upload-details text-center mt-2">
+                  <p>Drag and drop your file</p>
+                  <p>PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+                </div>
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={(e) => onFileChange(e, "onChange")}
+                  accept=".mp4, .png,.jpeg"
+                  name="image"
+                />
+              </>
+            )}
+          </div>
+        </label>
       </div>
-    </label>
+    </div>
   );
 };
 

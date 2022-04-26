@@ -197,7 +197,10 @@ const NFTDetail = (props) => {
     },
   ];
 
-  
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
   useEffect(async () => {
     props.getNFT(nftId);
     let qs = { userId: ENV.getUserKeys("_id")._id };

@@ -25,12 +25,14 @@
 }
 
 .nft-uploaded-img-container img {
+  max-height: 320px;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
 .nft-uploaded-img-container video {
+  max-height: 320px;
   width: 100%;
   height: 100%;
   object-fit: contain;
