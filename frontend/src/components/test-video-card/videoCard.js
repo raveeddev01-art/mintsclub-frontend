@@ -124,7 +124,14 @@ const VideoCard = ({
             </div>
           )}
         </div>
-
+        <div className="auction-card-owner-container d-flex justify-content-between align-items-center">
+          <div className="auction-owner-name">
+            <p>{2} Sold</p>
+          </div>
+          <div className="auction-owner-name">
+            <p>{3} Remaining</p>
+          </div>
+        </div>
         <div
           className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2"
           onClick={() => history.push(`/nftdetail/${id}`)}
@@ -134,6 +141,14 @@ const VideoCard = ({
           </div>
           <div className="d-flex align-items-center">
             <span>{price} ETH</span>
+          </div>
+        </div>
+        <div className="auction-card-owner-container d-flex justify-content-between align-items-center  mb-2">
+          <div className="auction-owner-name">
+            <p>Owner</p>
+          </div>
+          <div className="d-flex align-items-center ps-1">
+            <span>{"adnan"}</span>
           </div>
         </div>
         <button

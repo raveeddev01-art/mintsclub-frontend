@@ -100,9 +100,16 @@ const ListingCards = ({
             </div>
           )}
         </div>
-
+        <div className="auction-card-owner-container d-flex justify-content-between align-items-center">
+          <div className="auction-owner-name">
+            <p>{2} Sold</p>
+          </div>
+          <div className="auction-owner-name">
+            <p>{3} Remaining</p>
+          </div>
+        </div>
         <div
-          className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2"
+          className="auction-card-owner-container d-flex justify-content-between align-items-center"
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
           <div className="auction-owner-name">
@@ -112,8 +119,16 @@ const ListingCards = ({
             <span>{price} ETH</span>
           </div>
         </div>
+        <div className="auction-card-owner-container d-flex justify-content-between align-items-center  mb-2">
+          <div className="auction-owner-name">
+            <p>Owner</p>
+          </div>
+          <div className="d-flex align-items-center ps-1">
+            <span>{"adnan"}</span>
+          </div>
+        </div>
         <button
-          className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center"
+          className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center "
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
           <p>
