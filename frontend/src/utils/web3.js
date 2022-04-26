@@ -91,14 +91,19 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
   }
 };
 
-export const openNFTForBidding = async (biddingTime, startTime, tokenId) => {
+export const openNFTForBidding = async (
+  biddingTime,
+  startTime,
+  tokenId,
+  copies
+) => {
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let id = Number(tokenId);
 
     const result = await contractM.methods
-      .startAuction(biddingTime, startTime, connectedAddress, id, 1)
+      .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
     if (result) {
       console.log(result, "open for bidding result");
@@ -136,6 +141,7 @@ export const placeABid = async (amount, tokenId) => {
 };
 
 export const putonsale = async (tokenId, amount, price) => {
+  console.log(tokenId,amount,price,"token,amount,price")
   try {
     /* global BigInt */
     let connectedAddress = await connectMetamask();
@@ -195,7 +201,7 @@ export const BuyFixedPriceNFT = async (
     throw new Error(err);
   }
 };
-export const setApprovalForAll = async () => {
+export const setApprovalForAll = async (setApprovalStatus) => {
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -203,14 +209,23 @@ export const setApprovalForAll = async () => {
       .setApprovalForAll(ENV.mintsClubContractAddress, true)
       .send({
         from: connectedAddress,
-      });
+      }).on("transactionHash", function (hash) {
+        // setTransactionHash(hash);
+        setApprovalStatus("in-progress")
+      })
     if (result) {
       return result;
     }
   } catch (err) {
+    toast.error(err.message)
     throw new Error(err);
   }
 };
+export const getMetamaskConnectedAddress=async()=>{
+  let web3=await getWeb3();
+  let accounts = await web3.eth.getAccounts();
+  return accounts[0]
+}
 
 // export const acceptOffer= async (amount,tokenId)=>{
 //   try{

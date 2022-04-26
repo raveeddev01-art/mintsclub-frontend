@@ -149,7 +149,6 @@ export const updateProfile = (body) => (dispatch) => {
           type: SET_USER,
           payload: data.data,
         });
-        toast.success(data.message);
       } else {
         toast.success(data.message);
         dispatch({

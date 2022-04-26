@@ -172,7 +172,6 @@ class CreateNFT extends Component {
       this.setState(
         {
           isSubmitted: true,
-          loader: true,
           formValid:
             this.validator.allValid() && nft.collectionId ? true : false,
         },
@@ -513,271 +512,263 @@ class CreateNFT extends Component {
 
           <div className="container">
             <form>
-              <div className="row">
-                <div className="col-12">
-                  {/* Intro */}
-                  <div className="intro">
-                    <div className="intro-content">
-                      <span>Get started</span>
-                      <h3 className="mb-0">Create NFT</h3>
+            <div className="row">
+              <div className="col-12">
+                {/* Intro */}
+                <div className="intro">
+                  <div className="intro-content">
+                    <span>Get started</span>
+                    <h3 className="mb-0">Create NFT</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-6 col-md-6 col-lg-4 left-container">
+                <p className="upload-title">Upload</p>
+                <div className="nft-left-upload p-3">
+                  <div
+                    className="upload-image-container"
+                    onDrop={(e) => onDrop(e)}
+                    onDragOver={(e) => dragOver(e)}
+                    onDragEnter={(e) => dragEnter(e)}
+                    onDragLeave={(e) => dragLeave(e)}
+                  >
+                    <Upload
+                      onFileChange={(e, status) => this.onFileChange(e, status)}
+                      clearData={this.clearData}
+                      Images={Images}
+                      imageURL={imageURL}
+                      videoURL={videoURL}
+                      audioSrc={audioUrl}
+                      dragOver={dragOver}
+                      onDrop={onDrop}
+                      dragEnter={dragEnter}
+                      dragLeave={dragLeave}
+                    />
+                    <span className="text-danger text-center mt-3">
+                      {this.validator.message("image", nft.image, "required")}
+                    </span>
+
+                    {error && (
+                      <p className="text-danger text-center mt-3">
+                        {errorMessage}
+                      </p>
+                    )}
+
+                    <div className="choose-file text-center my-5 ">
+                      <p className="mb-4">or choose a file</p>
+
+                      <label>
+                        <span className="browse-files-btn mt-2">
+                          Browse file
+                        </span>
+                        <input
+                          type="file"
+                          style={{ display: "none" }}
+                          onChange={(e) => this.onFileChange(e, "onChange")}
+                          accept=".mp4, .png,.jpeg"
+                          name="image"
+                        />
+                      </label>
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 col-md-6 col-lg-4 left-container">
-                  <p className="upload-title">Upload</p>
-                  <div className="nft-left-upload p-3">
-                    <div
-                      className="upload-image-container"
-                      onDrop={(e) => onDrop(e)}
-                      onDragOver={(e) => dragOver(e)}
-                      onDragEnter={(e) => dragEnter(e)}
-                      onDragLeave={(e) => dragLeave(e)}
-                    >
-                      <Upload
-                        onFileChange={(e, status) =>
-                          this.onFileChange(e, status)
+              </div>
+
+              <div className="col-sm-6 col-md-6 col-lg-8 mt-5 mt-sm-0">
+                <p className="upload-title">Create</p>
+                <div className="nft-inputs-container p-4">
+                  <div className="row g-4">
+                    <div className="col-12">
+                      <input
+                        name="name"
+                        placeholder="Title*"
+                        required="required"
+                        maxLength="30"
+                        minLength="3"
+                        onKeyDown={(e) =>
+                          firstInputCharacterSpace(e, nft.name.length)
                         }
-                        clearData={this.clearData}
-                        Images={Images}
-                        imageURL={imageURL}
-                        videoURL={videoURL}
-                        audioSrc={audioUrl}
-                        dragOver={dragOver}
-                        onDrop={onDrop}
-                        dragEnter={dragEnter}
-                        dragLeave={dragLeave}
+                        onChange={(e) => this.onChange(e)}
+                        value={nft.name}
+                        defaultValue={nft.name}
+                        autoComplete="off"
                       />
-                      <span className="text-danger text-center mt-3">
-                        {this.validator.message("image", nft.image, "required")}
+                      <span className="text-danger">
+                        {this.validator.message("name", nft.name, "required")}
                       </span>
+                    </div>
+                    <div className="col-12">
+                      <textarea
+                        className="create-collection-textarea"
+                        name="description"
+                        rows="3"
+                        placeholder="Description*"
+                        maxLength="500"
+                        onChange={(e) => this.onChange(e)}
+                        onKeyDown={(e) =>
+                          firstInputCharacterSpace(e, nft.description.length)
+                        }
+                        value={nft.description}
+                        defaultValue={nft.description}
+                      ></textarea>
+                      <span className="text-danger">
+                        {this.validator.message(
+                          "name",
+                          nft.description,
+                          "required"
+                        )}
+                      </span>
+                    </div>
+                    <div className="col-12 col-lg-6">
+                      <input
+                        name="copies"
+                        placeholder="No. of Copies*"
+                        type="number"
+                        type="text"
+                        maxLength={"3"}
+                        autoComplete="off"
+                        required="required"
+                        onKeyDown={(e) => decimalNumberValidator(e)}
+                        onChange={(e) => {
+                          if ((e.target.value.length && e.target.value === "0"))
+                          {
 
-                      {error && (
-                        <p className="text-danger text-center mt-3">
-                          {errorMessage}
-                        </p>
-                      )}
+                            return false;
+                          }else{
 
-                      <div className="choose-file text-center my-5 ">
-                        <p className="mb-4">or choose a file</p>
+                            this.onChange(e);
+                          }
+                        }}
+                        value={nft.copies}
+                        defaultValue={nft.copies}
+                      />
+                      <span className="text-danger">
+                        {this.validator.message("name", nft.copies, "required")}
+                      </span>
+                    </div>
 
-                        <label>
-                          <span className="browse-files-btn mt-2">
-                            Browse file
-                          </span>
-                          <input
-                            type="file"
-                            style={{ display: "none" }}
-                            onChange={(e) => this.onFileChange(e, "onChange")}
-                            accept=".mp4, .png,.jpeg"
-                            name="image"
-                          />
-                        </label>
+                    <div className="col-12 col-lg-6">
+                      <select
+                        id="collectionId"
+                        name="collectionId"
+                        onChange={(e) => this.onChange(e)}
+                      >
+                        <option value="" className="d-none">
+                          Select Collection
+                        </option>
+                        {collections &&
+                          collections.length > 0 &&
+                          collections.map((collection, index) => {
+                            return (
+                              <option key={index} value={collection._id}>
+                                {collection.name}
+                              </option>
+                            );
+                          })}
+                      </select>
+                      <span className="text-danger">
+                        {this.validator.message(
+                          "name",
+                          nft.collectionId,
+                          "required"
+                        )}
+                      </span>
+                    </div>
+                    <div className="col-12">
+                      <div className="create-properties-container d-flex align-items-center justify-content-between">
+                        <div className="properties-content">
+                          <p>Properties</p>
+                        </div>
+                        <div className="properties-btn">
+                          <button
+                            onClick={() => {
+                              this.setState({
+                                propertiesmodalShow: true,
+                              });
+                            }}
+                          >
+                            <img src={AddIcon} alt="add" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                <div className="col-sm-6 col-md-6 col-lg-8 mt-5 mt-sm-0">
-                  <p className="upload-title">Create</p>
-                  <div className="nft-inputs-container p-4">
-                    <div className="row g-4">
+                    {this.state.nft.properties.length > 0 && (
                       <div className="col-12">
-                        <input
-                          name="name"
-                          placeholder="Title*"
-                          required="required"
-                          maxLength="30"
-                          minLength="3"
-                          onKeyDown={(e) =>
-                            firstInputCharacterSpace(e, nft.name.length)
-                          }
-                          onChange={(e) => this.onChange(e)}
-                          value={nft.name}
-                          defaultValue={nft.name}
-                          autoComplete="off"
-                        />
-                        <span className="text-danger">
-                          {this.validator.message("name", nft.name, "required")}
-                        </span>
-                      </div>
-                      <div className="col-12">
-                        <textarea
-                          className="create-collection-textarea"
-                          name="description"
-                          rows="3"
-                          placeholder="Description*"
-                          maxLength="100"
-                          onChange={(e) => this.onChange(e)}
-                          onKeyDown={(e) =>
-                            firstInputCharacterSpace(e, nft.description.length)
-                          }
-                          value={nft.description}
-                          defaultValue={nft.description}
-                        ></textarea>
-                        <span className="text-danger">
-                          {this.validator.message(
-                            "name",
-                            nft.description,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-                      <div className="col-12 col-lg-6">
-                        <input
-                          name="copies"
-                          placeholder="No. of Copies*"
-                          type="number"
-                          min="0"
-                          max="999"
-                          maxLength={"3"}
-                          type="text"
-                          required="required"
-                          onKeyDown={(e) => decimalNumberValidator(e)}
-                          onChange={(e) => {
-                            if (e.target.value.length && e.target.value === "0")
-                              return false;
-                            this.onChange(e);
-                          }}
-                          value={nft.copies}
-                          defaultValue={nft.copies}
-                        />
-                        <span className="text-danger">
-                          {this.validator.message(
-                            "name",
-                            nft.copies,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-
-                      <div className="col-12 col-lg-6">
-                        <select
-                          id="collectionId"
-                          name="collectionId"
-                          onChange={(e) => this.onChange(e)}
-                        >
-                          <option value="" className="d-none">
-                            Select Collection
-                          </option>
-                          {collections &&
-                            collections.length > 0 &&
-                            collections.map((collection, index) => {
+                        <div className="nft-properties-container">
+                          <div className="row g-2">
+                            {this.state.nft.properties.map((item) => {
                               return (
-                                <option key={index} value={collection._id}>
-                                  {collection.name}
-                                </option>
-                              );
-                            })}
-                        </select>
-                        <span className="text-danger">
-                          {this.validator.message(
-                            "name",
-                            nft.collectionId,
-                            "required"
-                          )}
-                        </span>
-                      </div>
-                      <div className="col-12">
-                        <div className="create-properties-container d-flex align-items-center justify-content-between">
-                          <div className="properties-content">
-                            <p>Properties</p>
-                          </div>
-                          <div className="properties-btn">
-                            <button
-                              onClick={() => {
-                                this.setState({
-                                  propertiesmodalShow: true,
-                                });
-                              }}
-                            >
-                              <img src={AddIcon} alt="add" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      {this.state.nft.properties.length > 0 && (
-                        <div className="col-12">
-                          <div className="nft-properties-container">
-                            <div className="row g-2">
-                              {this.state.nft.properties.map((item) => {
-                                return (
-                                  <div className="col-md-6 col-lg-4">
-                                    <PropertiesInfo
-                                      name={item.name}
-                                      type={item.type}
-                                    />
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      <div className="col-12">
-                        <div className="create-properties-container d-flex align-items-center justify-content-between">
-                          <div className="properties-content">
-                            <p>Levels</p>
-                          </div>
-                          <div className="properties-btn">
-                            <button
-                              onClick={() => {
-                                this.setState({
-                                  levelsmodalShow: true,
-                                });
-                              }}
-                            >
-                              <img src={AddIcon} alt="add" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      {this.state.nft.levels.length > 0 && (
-                        <div className="col-12">
-                          <div className="nft-level-container">
-                            {this.state.nft.levels.map((item) => {
-                              return (
-                                <LevelsInfo
-                                  name={item.name}
-                                  value={item.value}
-                                />
+                                <div className="col-md-6 col-lg-4">
+                                  <PropertiesInfo
+                                    name={item.name}
+                                    type={item.type}
+                                  />
+                                </div>
                               );
                             })}
                           </div>
                         </div>
-                      )}
-                      <div className="col-12">
-                        <div className="create-properties-container d-flex align-items-center justify-content-between">
-                          <div className="properties-content">
-                            <p>Stats</p>
-                          </div>
-                          <div className="properties-btn">
-                            <button
-                              onClick={() => {
-                                this.setState({
-                                  statsmodalShow: true,
-                                });
-                              }}
-                            >
-                              <img src={AddIcon} alt="add" />
-                            </button>
-                          </div>
+                      </div>
+                    )}
+                    <div className="col-12">
+                      <div className="create-properties-container d-flex align-items-center justify-content-between">
+                        <div className="properties-content">
+                          <p>Levels</p>
+                        </div>
+                        <div className="properties-btn">
+                          <button
+                            onClick={() => {
+                              this.setState({
+                                levelsmodalShow: true,
+                              });
+                            }}
+                          >
+                            <img src={AddIcon} alt="add" />
+                          </button>
                         </div>
                       </div>
-                      {this.state.nft.stats.length > 0 && (
-                        <div className="col-12">
-                          <div className="nft-stat-container">
-                            {this.state.nft.stats.map((item) => {
-                              return (
-                                <StatsInfo
-                                  name={item.name}
-                                  value={item.value}
-                                />
-                              );
-                            })}
-                          </div>
+                    </div>
+                    {this.state.nft.levels.length > 0 && (
+                      <div className="col-12">
+                        <div className="nft-level-container">
+                          {this.state.nft.levels.map((item) => {
+                            return (
+                              <LevelsInfo name={item.name} value={item.value} />
+                            );
+                          })}
                         </div>
-                      )}
-                      {/* <div className="col-12">
+                      </div>
+                    )}
+                    <div className="col-12">
+                      <div className="create-properties-container d-flex align-items-center justify-content-between">
+                        <div className="properties-content">
+                          <p>Stats</p>
+                        </div>
+                        <div className="properties-btn">
+                          <button
+                            onClick={() => {
+                              this.setState({
+                                statsmodalShow: true,
+                              });
+                            }}
+                          >
+                            <img src={AddIcon} alt="add" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    {this.state.nft.stats.length > 0 && (
+                      <div className="col-12">
+                        <div className="nft-stat-container">
+                          {this.state.nft.stats.map((item) => {
+                            return (
+                              <StatsInfo name={item.name} value={item.value} />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    {/* <div className="col-12">
                         <select
                           id="collectionId"
                           name="collectionId"
@@ -788,27 +779,27 @@ class CreateNFT extends Component {
                           </option>
                         </select>
                       </div> */}
-                      <div className="col-12">
-                        <div className="nft-form-btns text-center ">
-                          <div className="d-flex  flex-column flex-md-row justify-content-center align-items-center">
-                            <button
-                              disabled={loader}
-                              className="create-collection-btn mt-2 me-md-2"
-                              typ="submit"
-                              onClick={(e) => this.submit(e)}
-                            >
-                              Create NFT
-                            </button>
-                            {/* <button className="cancel-collection-btn mt-2">
+                    <div className="col-12">
+                      <div className="nft-form-btns text-center ">
+                        <div className="d-flex  flex-column flex-md-row justify-content-center align-items-center">
+                          <button
+                            disabled={loader}
+                            className="create-collection-btn mt-2 me-md-2"
+                            typ="submit"
+                            onClick={(e) => this.submit(e)}
+                          >
+                            Create NFT
+                          </button>
+                          {/* <button className="cancel-collection-btn mt-2">
                               Cancel
                             </button> */}
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
             </form>
           </div>
 

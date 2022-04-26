@@ -197,7 +197,6 @@ const NFTDetail = (props) => {
     },
   ];
 
-  
   useEffect(async () => {
     props.getNFT(nftId);
     let qs = { userId: ENV.getUserKeys("_id")._id };
@@ -547,8 +546,10 @@ const NFTDetail = (props) => {
     props.deleteOffer(id);
   };
   const auctionEndTimeConversion = (auctionEndDate) => {
-    var dateString = moment.utc(auctionEndDate).format("MMMM D, Y");
-    var timeString = moment.utc(auctionEndDate).format("h:mma");
+    var dateString = moment(new Date(auctionEndDate))
+      .utc(true)
+      .format("MMMM D, Y");
+    var timeString = moment(new Date(auctionEndDate)).utc(true).format("h:mma");
     var totalDateTime = dateString + " at " + timeString + " PKT";
     return totalDateTime;
   };
@@ -633,16 +634,20 @@ const NFTDetail = (props) => {
   };
 
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
-    if (startDate && endDate) {
+    //check if i am owner
+    if (ENV.getUserKeys("_id")._id == nftDetail.ownerId) {
+      return true;
+    }
+    if (startDate && endDate && nftDetail.sellingMethod) {
       let currentDate = new Date();
       let auctionStartDate = new Date(startDate);
       let auctionEndDate = new Date(endDate);
-
-      if (
-        auctionStartDate.setHours(0, 0, 0, 0) <=
-          currentDate.setHours(0, 0, 0, 0) &&
-        auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0)
-      ) {
+      // if (
+      //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
+      //     currentDate.setHours(0, 0, 0, 0) )&&
+      //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
+      // )
+      if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
       } else {
         return false;
@@ -1173,22 +1178,15 @@ const NFTDetail = (props) => {
                   <Card.Body>
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
                       <div className="detail-nft-owner">
-                        <p>
-                          Total {nftDetail.copies === 1 ? "Copy" : "Copies"}
-                        </p>
+                        <p>Total Copies</p>
                       </div>
                       <div className="detail-nft-copies d-flex align-items-center">
-                        <p>
-                          {nftDetail?.remainingCopies
-                            ? nftDetail?.remainingCopies
-                            : nftDetail.copies}{" "}
-                          Sold
-                        </p>
+                        <p>Sold: {nftDetail?.sold} </p>
                         <p className="ps-2">
+                          Remaining:{""}
                           {nftDetail?.remainingCopies
                             ? nftDetail?.remainingCopies
                             : nftDetail.copies}{" "}
-                          Remaining
                         </p>
                       </div>
                     </div>
@@ -1275,7 +1273,7 @@ const NFTDetail = (props) => {
                                   <span>
                                     Sale ends{" "}
                                     {auctionEndTimeConversion(
-                                      nftDetail.auctionEndDate
+                                      new Date(nftDetail?.auctionEndDate)
                                     )}{" "}
                                   </span>
                                 </>
@@ -1284,31 +1282,29 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
-                    {(nftDetail?.sellingMethod ||
-                      ENV.getUserKeys("_id")._id == nftDetail.ownerId) &&
-                      checkIfAuctionStartedorEnded(
-                        nftDetail?.auctionStartDate,
-                        nftDetail?.auctionEndDate
-                      ) && (
-                        <>
-                          <button
-                            className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
-                            disabled={disabled}
-                            onClick={() => handleRouting()}
-                          >
-                            {ENV.getUserKeys("_id")._id == nftDetail.ownerId &&
-                            nftDetail.sellingMethod
-                              ? "Resale"
-                              : ENV.getUserKeys("_id")._id == nftDetail.ownerId
-                              ? "Sell"
-                              : nftDetail?.sellingMethod === 2
-                              ? "Place Bid"
-                              : nftDetail?.sellingMethod === 1
-                              ? "Buy Now"
-                              : ""}
-                          </button>
-                        </>
-                      )}
+                    {checkIfAuctionStartedorEnded(
+                      nftDetail?.auctionStartDate,
+                      nftDetail?.auctionEndDate
+                    ) && (
+                      <>
+                        <button
+                          className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto"
+                          disabled={disabled}
+                          onClick={() => handleRouting()}
+                        >
+                          {ENV.getUserKeys("_id")._id == nftDetail.ownerId &&
+                          nftDetail.sellingMethod
+                            ? "Resale"
+                            : ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                            ? "Sell"
+                            : nftDetail?.sellingMethod === 2
+                            ? "Place Bid"
+                            : nftDetail?.sellingMethod === 1
+                            ? "Buy Now"
+                            : ""}
+                        </button>
+                      </>
+                    )}
                   </Card.Body>
                 </Card>
                 <div className="detail-description-content mt-5">
