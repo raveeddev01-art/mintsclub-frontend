@@ -661,6 +661,7 @@ const NFTDetail = (props) => {
     }
   };
 
+  
   return (
     <>
       {loader && <FullPageLoader />}
