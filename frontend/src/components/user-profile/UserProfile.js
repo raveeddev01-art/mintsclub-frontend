@@ -721,7 +721,10 @@ const UserProfile = (props) => {
                               likesCount={listing.likeCount}
                               likedNfts={likedNfts}
                               ownerId={listing.ownerId}
+                              fileType={listing.fileType}
                               sellingMethod={listing.sellingMethod}
+                              ownerName={listing.owner.username}
+                              listing={listing}
                               // userProfile
                             />
                           ) : (
@@ -736,6 +739,7 @@ const UserProfile = (props) => {
                               ownerId={listing.ownerId}
                               fileType={listing.fileType}
                               sellingMethod={listing.sellingMethod}
+                              ownerName={listing.owner.username}
                             />
                           )}
                         </div>

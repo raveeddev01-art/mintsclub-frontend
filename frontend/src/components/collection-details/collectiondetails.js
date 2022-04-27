@@ -631,6 +631,8 @@ const CollectionDetailsPage = (props) => {
                             likedNfts={likedNfts}
                             ownerId={listing.ownerId}
                             sellingMethod={listing.sellingMethod}
+                            fileType={listing.fileType}
+                            ownerName={listing.owner.username}
                           />
                         ) : (
                           <VideoCard
@@ -644,6 +646,7 @@ const CollectionDetailsPage = (props) => {
                             ownerId={listing.ownerId}
                             fileType={listing.fileType}
                             sellingMethod={listing.sellingMethod}
+                            ownerName={listing.owner.username}
                           />
                         )}
                       </div>

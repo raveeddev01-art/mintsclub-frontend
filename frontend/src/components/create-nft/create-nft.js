@@ -622,7 +622,6 @@ class CreateNFT extends Component {
                       <input
                         name="copies"
                         placeholder="No. of Copies*"
-                        type="number"
                         type="text"
                         maxLength={"3"}
                         autoComplete="off"

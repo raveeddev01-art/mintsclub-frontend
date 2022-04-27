@@ -22,6 +22,7 @@ const ListingCards = ({
   auctionEndDate,
   ownerName
 }) => {
+
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
   React.useEffect(() => {
