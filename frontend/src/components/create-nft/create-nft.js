@@ -511,7 +511,6 @@ class CreateNFT extends Component {
           {loader && <FullPageLoader />}
 
           <div className="container">
-            <form>
             <div className="row">
               <div className="col-12">
                 {/* Intro */}
@@ -623,19 +622,15 @@ class CreateNFT extends Component {
                       <input
                         name="copies"
                         placeholder="No. of Copies*"
-                        type="number"
                         type="text"
                         maxLength={"3"}
                         autoComplete="off"
                         required="required"
                         onKeyDown={(e) => decimalNumberValidator(e)}
                         onChange={(e) => {
-                          if ((e.target.value.length && e.target.value === "0"))
-                          {
-
+                          if (e.target.value.length && e.target.value === "0") {
                             return false;
-                          }else{
-
+                          } else {
                             this.onChange(e);
                           }
                         }}
@@ -800,7 +795,6 @@ class CreateNFT extends Component {
                 </div>
               </div>
             </div>
-            </form>
           </div>
 
           <PropertiesModal
