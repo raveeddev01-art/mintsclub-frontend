@@ -1518,6 +1518,7 @@ const NFTDetail = (props) => {
             </div>
           </div>
 
+
           <BuyModal
             show={modalShow}
             onHide={() => {
