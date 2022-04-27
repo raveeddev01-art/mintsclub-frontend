@@ -639,29 +639,30 @@ const NFTDetail = (props) => {
 
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
-    if (ENV.getUserKeys("_id")._id == nftDetail.ownerId) {
-      return true;
-    }
-    if (startDate && endDate && nftDetail.sellingMethod) {
-      let currentDate = new Date();
-      let auctionStartDate = new Date(startDate);
-      let auctionEndDate = new Date(endDate);
-      // if (
-      //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
-      //     currentDate.setHours(0, 0, 0, 0) )&&
-      //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
-      // )
-      if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
+  
+      if (ENV.getUserKeys("_id")._id == nftDetail.ownerId) {
         return true;
+      }
+      if (startDate && endDate && nftDetail.sellingMethod) {
+        let currentDate = new Date();
+        let auctionStartDate = new Date(startDate);
+        let auctionEndDate = new Date(endDate);
+        // if (
+        //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
+        //     currentDate.setHours(0, 0, 0, 0) )&&
+        //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
+        // )
+        if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
-    } else {
-      return true;
-    }
+    
   };
 
-  
   return (
     <>
       {loader && <FullPageLoader />}
