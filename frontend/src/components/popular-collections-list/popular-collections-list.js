@@ -3,27 +3,27 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
-} from 'react';
-import NavbarMain from '../navbar-main/NavbarMain';
-import CollectionsCard from '../collections-cards/CollectionsCard';
-import Footer from '../footer/footer';
-import { connect } from 'react-redux';
-import { ENV } from '../../config/config';
+} from "react";
+import NavbarMain from "../navbar-main/NavbarMain";
+import CollectionsCard from "../collections-cards/CollectionsCard";
+import Footer from "../footer/footer";
+import { connect } from "react-redux";
+import { ENV } from "../../config/config";
 import {
   beforePopularCollection,
   getPopularCollections,
   toggleLikeDislike,
   beforeCategory,
   getCategories,
-} from '../collections/collections.actions';
-import FullPageLoader from '../full-page-loader/full-page-loader';
+} from "../collections/collections.actions";
+import FullPageLoader from "../full-page-loader/full-page-loader";
 
-import Breadcrumb from '../breadcrumb/breadcrumb';
-import { Images } from '../../assets/assets';
+import Breadcrumb from "../breadcrumb/breadcrumb";
+import { Images } from "../../assets/assets";
 
 const Populars = forwardRef((props, ref) => {
   const [popular, setpopular] = useState([]);
-  const [isActive, setIsActive] = useState('All');
+  const [isActive, setIsActive] = useState("All");
   const [collections, setCollections] = useState(null);
 
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
@@ -31,7 +31,7 @@ const Populars = forwardRef((props, ref) => {
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [categories, setCategories] = useState();
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -45,7 +45,7 @@ const Populars = forwardRef((props, ref) => {
 
     getPopularCollections(null, 1);
     const qs = ENV.objectToQueryString({
-      myFilter: 'all',
+      myFilter: "all",
     });
 
     props.getPopularCollections(qs);
@@ -86,7 +86,7 @@ const Populars = forwardRef((props, ref) => {
       );
 
       setPagination(pagination);
-      const userId = ENV.getUserKeys('_id')._id;
+      const userId = ENV.getUserKeys("_id")._id;
       if (props.finalCollectionListing) {
         let finalCollectionListing = finalCollectionListing.filter(
           (item) => item.userId === userId
@@ -157,7 +157,7 @@ const Populars = forwardRef((props, ref) => {
 
   const handleImage = (item, index) => {
     if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft) => nft.fileType === 'image');
+      let result = item.nfts.filter((nft) => nft.fileType === "image");
       if (result.length >= index) {
         return result[index]?.image;
       } else {
@@ -171,24 +171,24 @@ const Populars = forwardRef((props, ref) => {
   return (
     <>
       <NavbarMain />
-      <Breadcrumb title1={'Collections'} title2={'PopularCollections'} />
+      <Breadcrumb title1={"Collections"} title2={"PopularCollections"} />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
-        <section className='explore-collection-section padding-wrapper'>
-          <div className='container'>
-            <div className='row mb-5'>
-              <div className='col-12'>
+        <section className="explore-collection-section padding-wrapper">
+          <div className="container">
+            <div className="row mb-5">
+              <div className="col-12">
                 {/* Intro */}
-                <div className='intro'>
-                  <div className='intro-content'>
+                <div className="intro">
+                  <div className="intro-content">
                     <span>Most Popular</span>
-                    <h3 className='mb-0'>Popular Collections</h3>
+                    <h3 className="mb-0">Popular Collections</h3>
                   </div>
                 </div>
               </div>
-              <div className='col-12 explore-collection-nav'>
-                <div className='d-none d-lg-flex justify-content-lg-end text-end align-items-center'>
+              <div className="col-12 explore-collection-nav">
+                <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
@@ -200,7 +200,7 @@ const Populars = forwardRef((props, ref) => {
                             handleFilterCategory(item.description);
                           }}
                           className={`${
-                            item.name === isActive ? 'active-explore-nav' : ''
+                            item.name === isActive ? "active-explore-nav" : ""
                           } me-2 me-xl-3`}
                         >
                           {item.name}
@@ -208,12 +208,12 @@ const Populars = forwardRef((props, ref) => {
                       );
                     })}
                 </div>
-                <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none'>
+                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
                       return (
-                        <div className='col-6 col-sm-3'>
+                        <div className="col-6 col-sm-3">
                           <button
                             onClick={() => {
                               setIsActive(item.name);
@@ -221,7 +221,7 @@ const Populars = forwardRef((props, ref) => {
                               handleFilterCategory(item.description);
                             }}
                             className={
-                              isActive === item.name ? 'active-explore-nav' : ''
+                              isActive === item.name ? "active-explore-nav" : ""
                             }
                           >
                             {item.name}
@@ -232,15 +232,15 @@ const Populars = forwardRef((props, ref) => {
                 </div>
               </div>
             </div>
-            <div className='row g-4 align-items-center justify-content-center'>
+            <div className="row g-4 align-items-center justify-content-center">
               {loader ? (
-                <div class='spinner-border text-white' role='status'>
-                  <span class='sr-only'>Loading...</span>
+                <div class="spinner-border text-white" role="status">
+                  <span class="sr-only">Loading...</span>
                 </div>
               ) : popular && popular.length > 0 ? (
                 popular.map((item) => {
                   return (
-                    <div className='col-sm-6 col-lg-4'>
+                    <div className="col-sm-6 col-lg-4">
                       <CollectionsCard
                         CardImg={item.featuredImg}
                         Subimg1={handleImage(item, 0)}
@@ -252,24 +252,23 @@ const Populars = forwardRef((props, ref) => {
                         userName={item.username[0]}
                         NFTCount={item.totalNfts}
                         profileImage={item.profileImage[0]}
-                        // handleLikesTogle={handleLikesTogleApi}
                       />
                     </div>
                   );
                 })
               ) : (
-                <p className='text-center text-white not-found-title mt-5'>
+                <p className="text-center text-white not-found-title mt-5">
                   No popular collections Found
                 </p>
               )}
 
-              <div className='col-12'>
-                <div className='mt-5 text-center'>
+              <div className="col-12">
+                <div className="mt-5 text-center">
                   {!empty &&
                     popular?.length === 10 &&
                     pagination.totalRecords > popular.length && (
                       <button
-                        className='btn btn-linear-gradient px-5'
+                        className="btn btn-linear-gradient px-5"
                         onClick={() => handlePagination()}
                       >
                         Load more

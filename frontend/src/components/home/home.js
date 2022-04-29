@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Table, Pagination } from "react-bootstrap";
 import Hero from "../hero/hero";
 import Auctions from "../auctions/home-auctions";
-import TopSeller from "../top-seller/topseller2";
+import TopSeller from "../top-seller/topseller";
 
 import NavbarMain from "../navbar-main/NavbarMain";
 import OwnCollection from "../owncollection/OwnCollection";
@@ -17,17 +17,15 @@ function Home() {
 
   return (
     <>
-  
       <NavbarMain />
       <Hero />
 
       <Auctions />
-   
-  
+
       <TopSeller viewAll={"View All"} />
-   
+
       <PopularCollections />
-     
+
       <OwnCollection />
       <Buysell />
       <Footer />

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/MintsClub-White.png";
 import { connect } from "react-redux";
 import { getFooter } from "./footer.action";
-import { ENV } from "./../../config/config";
 
 const Footer = (props) => {
   const [data, setData] = useState({
@@ -18,12 +16,6 @@ const Footer = (props) => {
   useEffect(() => {
     props.getFooter();
   }, []);
-
-  // useEffect(() => {
-  //   if (props.settings.settingsAuth) {
-  //     setData(props.settings.settings);
-  //   }
-  // }, [props.settings.settingsAuth]);
 
   return (
     <footer className="footer-area">
@@ -57,16 +49,6 @@ const Footer = (props) => {
                     aria-describedby="basic-addon1"
                   />
                 </div>
-                {/* <div className="subscribe-form d-flex align-items-center">
-                  <button type="submit" className="btn">
-                    Notify
-                  </button>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="info@yourmail.com"
-                  />
-                </div> */}
                 <p>{data.desc}</p>
                 {/* Social Icons */}
                 <div className="social-icons d-flex justify-content-center justify-content-lg-start">
@@ -82,50 +64,6 @@ const Footer = (props) => {
                   <a href={data.twitter} target="_blank">
                     <i className={"fab fa-twitter"} />
                   </a>
-                  {/* {data.facebook ? (
-                    <a href={data.facebook} target="_blank">
-                      <i className={"fab fa-facebook-f"} />
-                      <i className={"fab fa-facebook-f"} />
-                    </a>
-                  ) : (
-                    ""
-                  )}
-
-                  {data.twitter ? (
-                    <a href={data.twitter} target="_blank">
-                      <i className={"fab fa-twitter"} />
-                      <i className={"fab fa-twitter"} />
-                    </a>
-                  ) : (
-                    ""
-                  )}
-
-                  {data.instagram ? (
-                    <a href={data.instagram} target="_blank">
-                      <i className={"fab fa-instagram"} />
-                      <i className={"fab fa-instagram"} />
-                    </a>
-                  ) : (
-                    ""
-                  )}
-
-                  {data.youtube ? (
-                    <a href={data.youtube} target="_blank">
-                      <i className={"fab fa-youtube"} />
-                      <i className={"fab fa-youtube"} />
-                    </a>
-                  ) : (
-                    ""
-                  )}
-
-                  {data.vine ? (
-                    <a href={data.vine} target="_blank">
-                      <i className={"fab fa-vine"} />
-                      <i className={"fab fa-vine"} />
-                    </a>
-                  ) : (
-                    ""
-                  )} */}
                 </div>
               </div>
             </div>

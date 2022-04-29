@@ -12,26 +12,22 @@ import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
 
-const AuctionsCards = (props) => {
+const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
-  const { userId, ownerId } = props;
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
   const {
     image,
-    endDate,
-    totalBids,
-    id,
-    ownerName,
+    auctionEndDate,
     name,
+    _id,
+    highestBid,
+    totalBids,
     currentPrice,
     fileType,
-    bidsProfile,
-    highestBid,
-  } = props;
-
+  } = item;
   return (
     <Card className="auction-card mx-2">
       <div className="auction-img-wrapper">
@@ -64,7 +60,7 @@ const AuctionsCards = (props) => {
         )}
 
         <div className="auction-countdown">
-          <Countdown date={endDate} renderer={countDownRenderer} />
+          <Countdown date={auctionEndDate} renderer={countDownRenderer} />
         </div>
       </div>
       <Card.Body>
@@ -96,7 +92,7 @@ const AuctionsCards = (props) => {
             <img src={ThreeDots} alt="OptionsIcon" />
           </div>
         </div>
-        <Card.Title onClick={() => history.push(`nftdetail/${id}`)}>
+        <Card.Title onClick={() => history.push(`nftdetail/${_id}`)}>
           {name}
         </Card.Title>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
@@ -115,7 +111,7 @@ const AuctionsCards = (props) => {
         </div>
         <button
           className="auction-bit-btn d-flex align-items-center justify-content-center"
-          onClick={() => history.push(`nftdetail/${id}`)}
+          onClick={() => history.push(`nftdetail/${_id}`)}
         >
           <img src={Bucket} alt="" className="me-1" />
 

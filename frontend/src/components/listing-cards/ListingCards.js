@@ -20,9 +20,8 @@ const ListingCards = ({
   sellingMethod,
   auctionStartDate,
   auctionEndDate,
-  ownerName
+  ownerName,
 }) => {
-
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
   React.useEffect(() => {
@@ -121,17 +120,18 @@ const ListingCards = ({
             <span>{price} ETH</span>
           </div>
         </div>
-        {
-          ownerName&&
-        <div className="auction-card-owner-container d-flex justify-content-between align-items-center  mb-2">
-          <div className="auction-owner-name">
-            <p>Owner</p>
+        {ownerName && (
+          <div className="auction-card-owner-container d-flex justify-content-between align-items-center  mb-2">
+            <div className="auction-owner-name">
+              <p>Owner</p>
+            </div>
+            <div className="d-flex align-items-center ps-1">
+              <span>
+                {ownerId === ENV.getUserKeys("_id")._id ? "You" : ownerName}
+              </span>
+            </div>
           </div>
-          <div className="d-flex align-items-center ps-1">
-            <span>{ownerName}</span>
-          </div>
-        </div>
-        }
+        )}
         <button
           className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center "
           onClick={() => history.push(`/nftdetail/${id}`)}

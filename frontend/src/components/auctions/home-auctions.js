@@ -104,8 +104,6 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-
-  
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -182,18 +180,11 @@ function AuctionsOne(props) {
                     return (
                       <AuctionsCards
                         key={index}
-                        endDate={item.auctionEndDate}
-                        image={item.image}
+                        item={item}
                         ownerName={item.owner.username}
-                        name={item.name}
-                        id={item._id}
-                        highestBid={item.highestBid}
-                        totalBids={item.totalBids}
-                        currentPrice={item.currentPrice}
-                        bidsProfile={item.bidInfo.bidByProfile}
                         userId={ENV.getUserKeys("_id")._id}
                         ownerId={item.owner._id}
-                        fileType={item.fileType}
+                        bidsProfile={item.bidInfo.bidByProfile}
                       />
                     );
                   })}

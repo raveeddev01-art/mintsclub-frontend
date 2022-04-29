@@ -54,7 +54,6 @@ const AuctionsList = (props) => {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
-
   return (
     <>
       <NavbarMain />
@@ -118,16 +117,16 @@ const AuctionsList = (props) => {
             </div>
             <div className="row g-4 align-items-center justify-content-center">
               {auctions && auctions.length > 0 ? (
-                auctions.map((item) => {
+                auctions.map((item, index) => {
                   return (
                     <div className="col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
                       <AuctionsCards
-                        endDate={item.auctionEndDate}
-                        image={item.image}
+                        key={index}
+                        item={item}
                         ownerName={item.owner.username}
-                        name={item.name}
-                        id={item._id}
-                        fileType={item.fileType}
+                        userId={ENV.getUserKeys("_id")._id}
+                        ownerId={item.owner._id}
+                        bidsProfile={item.bidInfo.bidByProfile}
                       />
                     </div>
                   );

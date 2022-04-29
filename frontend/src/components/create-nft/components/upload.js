@@ -42,11 +42,6 @@ const Upload = ({
           <div className="">
             {imageURL ? (
               <div className="nft-uploaded-img-container">
-                {/* <MdClose
-                color="#e33d0bc2"
-                className="uploaded-cross-icon"
-                onClick={() => clearData()}
-              /> */}
                 <img
                   className="upload-image"
                   src={imageURL}
@@ -67,7 +62,6 @@ const Upload = ({
               </div>
             ) : videoURL ? (
               <div className="nft-uploaded-img-container">
-                {/* <MdClose color="#e33d0bc2" className="uploaded-cross-icon" /> */}
                 <VideoComponent
                   videoUrl={videoURL}
                   videoStyles={videoStyles}
@@ -88,7 +82,6 @@ const Upload = ({
               </div>
             ) : audioSrc ? (
               <div className="nft-uploaded-img-container">
-                {/* <MdClose color="#e33d0bc2" className="uploaded-cross-icon" /> */}
                 <AudioPlayer audioSrc={audioSrc} />
                 <img
                   src={UploadIcon}

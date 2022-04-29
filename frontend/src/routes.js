@@ -3,14 +3,8 @@ import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
 // components
 import Home from "./components/home/home";
-import ExploreAll from "./components/explore/explore-all";
-
 import Populars from "./components/popular-collections-list/popular-collections-list";
-
 import CreateNFT from "./components/create-nft/create-nft";
-
-// import CreateCollections from "./components/create-collection/create-collection";
-import CollectionDetails from "./components/collections/collection-details";
 import Wallet from "./components/wallet/wallet";
 import Signup from "./components/signup/signup";
 import SellNFT from "./components/sell-nft/SellNFT";
@@ -36,14 +30,6 @@ const routes = [
     component: Home,
   },
   {
-    path: "/explore-all",
-    access: true,
-    exact: true,
-    title: "Explore",
-    layout: layout2,
-    component: ExploreAll,
-  },
-  {
     path: "/auctions",
     access: true,
     exact: true,
@@ -61,7 +47,6 @@ const routes = [
     component: SellNFT,
   },
 
- 
   {
     path: "/popular-collections",
     access: true,
@@ -104,14 +89,7 @@ const routes = [
     layout: layout2,
     component: CreateCollections,
   },
-  {
-    path: "/collection-details/:collectionId?",
-    access: true,
-    exact: true,
-    title: "Collection Details",
-    layout: layout2,
-    component: CollectionDetails,
-  },
+
   {
     path: "/explore/exploreAll",
     access: true,
