@@ -82,7 +82,7 @@ const StatsModal = (props) => {
                           name="value"
                           value={item.value}
                           onChange={(e) => {
-                            if (+e.target.value > 5 || +e.target.value === 0) {
+                            if (+e.target.value > 5 ) {
                               return "";
                             }
                             handleChange(i, e, "stats");

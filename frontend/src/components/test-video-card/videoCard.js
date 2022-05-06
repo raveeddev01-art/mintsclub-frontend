@@ -15,13 +15,15 @@ const VideoCard = ({
   name,
   price,
   likesCount,
-  liked,
   likedNfts,
   ownerId,
   sellingMethod,
   userProfile,
   auctionStartDate,
   auctionEndDate,
+  copies,
+  remainingCopies,
+  ownerName
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -126,10 +128,10 @@ const VideoCard = ({
         </div>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center">
           <div className="auction-owner-name">
-            <p>{2} Sold</p>
+            <p>{copies-remainingCopies} Sold</p>
           </div>
           <div className="auction-owner-name">
-            <p>{3} Remaining</p>
+            <p>{remainingCopies} Remaining</p>
           </div>
         </div>
         <div
@@ -148,7 +150,7 @@ const VideoCard = ({
             <p>Owner</p>
           </div>
           <div className="d-flex align-items-center ps-1">
-            <span>{"adnan"}</span>
+            <span>{ownerName}</span>
           </div>
         </div>
         <button

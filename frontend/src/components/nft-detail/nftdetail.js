@@ -1449,7 +1449,7 @@ console.log(nftsList,"nftsList")
                                           auctionEndDate={
                                             listing?.auctionEndDate
                                           }
-                                          // ownerName={listing.owner.username}
+                                          ownerName={listing.owner[0].username}
                                           copies={listing.copies}
                                           remainingCopies={listing.remainingCopies}
                                         />
@@ -1473,7 +1473,7 @@ console.log(nftsList,"nftsList")
                                           auctionEndDate={
                                             listing?.auctionEndDate
                                           }
-                                          // ownerName={listing.owner.username}
+                                          ownerName={listing.owner[0].username}
                                           copies={listing.copies}
                                           remainingCopies={listing.remainingCopies}
                                         />
