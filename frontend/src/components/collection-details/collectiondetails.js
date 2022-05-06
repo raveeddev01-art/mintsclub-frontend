@@ -81,6 +81,9 @@ const CollectionDetailsPage = (props) => {
   };
 
   useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+  useEffect(() => {
     getNFTs();
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);

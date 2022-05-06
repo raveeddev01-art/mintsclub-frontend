@@ -58,7 +58,6 @@ const CollectionsCard = ({
                   alt="avatar-img"
                   className="me-2"
                 />
-
                 <span>{userName}</span>
               </div>
               {/* <div className="collection-footer-right d-flex align-items-center">
