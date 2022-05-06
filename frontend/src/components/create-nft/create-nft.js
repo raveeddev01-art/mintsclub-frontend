@@ -58,8 +58,8 @@ class CreateNFT extends Component {
         status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
       },
       properties: [{ name: "", type: "" }],
-      levels: [{ name: "", value: "", total: "5" }],
-      stats: [{ name: "", value: "", total: "5" }],
+      levels: [{ name: "", value: "", total: 5 }],
+      stats: [{ name: "", value: "", total: 5 }],
       imageURL: "",
       videoURL: "",
       collections: [],
@@ -150,6 +150,7 @@ class CreateNFT extends Component {
 
   submit = async (e) => {
     e.preventDefault();
+    console.log(this.state.nft, "nft");
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
@@ -420,13 +421,15 @@ class CreateNFT extends Component {
       });
     } else if (status === "stats") {
       let newFormValues = [...this.state.stats];
-      newFormValues[i][e.target.name] = e.target.value;
+      newFormValues[i][e.target.name] =
+        e.target.name === "value"&&e.target.value!=='' ? +e.target.value : e.target.value;
       this.setState({
         stats: newFormValues,
       });
     } else {
       let newFormValues = [...this.state.levels];
-      newFormValues[i][e.target.name] = e.target.value;
+      newFormValues[i][e.target.name] =
+        e.target.name === "value"&&e.target.value!==''  ? +e.target.value : e.target.value;
       this.setState({
         levels: newFormValues,
       });

@@ -90,8 +90,7 @@ const LevelsModal = (props) => {
                           name="value"
                           value={item.value}
                           onChange={(e) => {
-                          
-                            if (+e.target.value > 5 ) {
+                            if (+e.target.value > 5 ||e.target.value==='0') {
                               return "";
                             }
                             handleChange(i, e, "levels");
