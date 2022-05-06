@@ -13,7 +13,7 @@ const TopSeller = (props) => {
   useEffect(() => {
     props.getTopSellers();
   }, []);
-
+  
   useEffect(() => {
     if (props.user.topSellersAuth) {
       setSellers(props.user.sellers.topSellers);
@@ -80,12 +80,12 @@ const TopSeller = (props) => {
 
                         {/* Seller Info */}
                         <div className="seller-info ml-3 w-100">
-                          <Link
+                          <p
                             className="seller mb-2"
-                            to={`/author/${author._id}`}
+                           
                           >
                             {author.username}
-                          </Link>
+                          </p>
                           <span className="text-end">
                             {" "}
                             {author.totalETH.toFixed(2)}

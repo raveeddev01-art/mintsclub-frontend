@@ -65,6 +65,7 @@ const AllNFT = (props) => {
     props.getCollections();
     if (props?.location?.state) {
       let searchQs = { keyword: props.location.state };
+      window.history.replaceState(null, '')
       searchQs = ENV.objectToQueryString(searchQs);
       props.getNFTs(searchQs);
     } else {
@@ -496,7 +497,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-  console.log(nfts, "nfts=>");
+
   return (
     <>
       <NavbarMain />
@@ -525,7 +526,8 @@ const AllNFT = (props) => {
                     placeholder="Search"
                     maxLength="50"
                     onChange={(e) => {
-                      if (e.target.value === " ") {
+                      if (keyword===''&& e.target.value === "") {
+                     console.log("inside")
                         return false;
                       } else {
                         setKeyword(e.target.value);

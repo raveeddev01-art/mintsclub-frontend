@@ -520,7 +520,7 @@ const UserProfile = (props) => {
                   src={
                     user?.profileImage
                       ? user.profileImage
-                      : Images.placeholderImg
+                      : Images.profilePlaceholder
                   }
                   alt="owner-avatar"
                 />
