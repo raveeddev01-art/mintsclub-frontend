@@ -403,11 +403,11 @@ class CreateNFT extends Component {
       });
     } else if (status === "stats") {
       this.setState({
-        stats: [...this.state.stats, { name: "", type: "" }],
+        stats: [...this.state.stats, { name: "", value: "" ,total:5}],
       });
     } else {
       this.setState({
-        levels: [...this.state.levels, { name: "", type: "" }],
+        levels: [...this.state.levels, { name: "",value: "" ,total:5 }],
       });
     }
   };

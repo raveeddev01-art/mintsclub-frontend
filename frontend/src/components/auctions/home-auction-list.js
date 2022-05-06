@@ -16,7 +16,7 @@ import FullPageLoader from "../full-page-loader/full-page-loader";
 const AuctionsList = (props) => {
   const [isActive, setIsActive] = useState(0);
   const [auctions, setAuctions] = useState(null);
-  const [loader, setLoader] = useState(false); // auctions loader
+  const [loader, setLoader] = useState(true); // auctions loader
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("all");
 
@@ -36,6 +36,7 @@ const AuctionsList = (props) => {
       const { auctions, pagination } = props.auction;
 
       setAuctions(auctions);
+      setLoader(false)
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
@@ -49,6 +50,7 @@ const AuctionsList = (props) => {
   }, [props.collectionFlag]);
 
   const handleCategoryFilter = (desc) => {
+    setLoader(true)
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
@@ -58,9 +60,10 @@ const AuctionsList = (props) => {
       <NavbarMain />
       <Breadcrumb title1={"Auctions"} title2={"LiveAuctions"} />
       <section className="explore-collection-section padding-wrapper">
-        {loader ? (
-          <FullPageLoader />
-        ) : (
+        {
+        // loader ? (
+        //   <FullPageLoader />
+        // ) : (
           <div className="container">
             <div className="row mb-5">
               <div className="col-12">
@@ -115,7 +118,9 @@ const AuctionsList = (props) => {
               </div>
             </div>
             <div className="row g-4 align-items-center justify-content-center">
-              {auctions && auctions.length > 0 ? (
+              {loader ? (
+                <div class="spinner-border text-white" role="status"></div>
+              ) : auctions && auctions.length > 0 ? (
                 auctions.map((item, index) => {
                   return (
                     <div className="col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
@@ -131,7 +136,7 @@ const AuctionsList = (props) => {
                   );
                 })
               ) : (
-                <p className="text-white text-center">No Live Auctions Found</p>
+                <p className="text-white text-center mt-5">No Live Auctions Found</p>
               )}
 
               <div className="col-12">
@@ -147,7 +152,7 @@ const AuctionsList = (props) => {
               </div>
             </div>
           </div>
-        )}
+        }
       </section>
       <Footer />
     </>

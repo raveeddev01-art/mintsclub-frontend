@@ -74,8 +74,6 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
         resolve(res.data);
       },
       (error) => {
-        console.log(error.message, 'error');
-        console.log(error.data, 'error');
         toast.error(error.message);
         resolve(error);
       }

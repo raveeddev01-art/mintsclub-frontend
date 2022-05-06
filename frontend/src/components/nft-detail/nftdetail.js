@@ -39,7 +39,6 @@ import axios from "axios";
 import {
   AiFillHeart,
   BsTagFill,
-
   BiTransferAlt,
   MdShoppingCart,
   FaHandPaper,
@@ -74,9 +73,10 @@ import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import VideoCard from "../test-video-card/videoCard";
+import StatsInfo from "../create-nft/components/statsinfo";
+import LevelsInfo from "../create-nft/components/levelsinfo";
 
 const NFTDetail = (props) => {
-
   const [exchangeRate, setExchangeRate] = useState(0);
   const [toggle, setToggle] = React.useState(true);
   const [likedNfts, setLikedNfts] = useState();
@@ -108,7 +108,7 @@ const NFTDetail = (props) => {
 
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
- 
+
   const expiryOptions = [
     { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
     { label: "7 Days", value: moment().add(7, "days").format("DD/MM/YYYY") },
@@ -128,7 +128,6 @@ const NFTDetail = (props) => {
       datetime: "", // for payload
     },
   };
-
 
   const propertiesData = [
     {
@@ -194,7 +193,7 @@ const NFTDetail = (props) => {
 
     let balance = await getBalance();
     setBalance(balance);
-  }, []);
+  }, [props.match.params.id]);
 
   useEffect(() => {
     if (props.createAuth) {
@@ -368,7 +367,7 @@ const NFTDetail = (props) => {
         if ((status === "dislike") & (nftDetail.likesCount > 0)) {
           let nft = nftDetail;
           nft.likesCount = nft.likesCount - 1;
-         
+
           setNftDetail(nft);
           props.toggleLikeDislike(data);
         } else {
@@ -376,7 +375,7 @@ const NFTDetail = (props) => {
           nft.likesCount = nft.likesCount + 1;
 
           setNftDetail(nft);
-       
+
           props.toggleLikeDislike(data);
         }
       }
@@ -444,10 +443,9 @@ const NFTDetail = (props) => {
   const handleModalSubmit = async () => {
     if (await validateNetwork()) {
       setLoader(true);
-  
+
       if (nftDetail.sellingMethod === 2) {
         placeBid();
-       
       } else {
         makeOffer();
       }
@@ -470,14 +468,14 @@ const NFTDetail = (props) => {
             toAddress: nftDetail.ownerAddress,
             fromAddress: await connectMetamask(),
           };
-        
+
           props.placeBid(payload);
           createActivity("Bid", price);
         }
       } catch (err) {
         console.log(err, "error");
         setLoader(false);
-      
+
         toast.error(err);
       }
     } else {
@@ -507,7 +505,7 @@ const NFTDetail = (props) => {
       }
     } catch (err) {
       setLoader(false);
-     
+
       toast.error(err);
     }
   };
@@ -619,30 +617,29 @@ const NFTDetail = (props) => {
 
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
-  
-      if (ENV.getUserKeys("_id")._id == nftDetail.ownerId) {
+
+    if (ENV.getUserKeys("_id")._id == nftDetail.ownerId) {
+      return true;
+    }
+    if (startDate && endDate && nftDetail.sellingMethod) {
+      let currentDate = new Date();
+      let auctionStartDate = new Date(startDate);
+      let auctionEndDate = new Date(endDate);
+      // if (
+      //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
+      //     currentDate.setHours(0, 0, 0, 0) )&&
+      //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
+      // )
+      if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
-      }
-      if (startDate && endDate && nftDetail.sellingMethod) {
-        let currentDate = new Date();
-        let auctionStartDate = new Date(startDate);
-        let auctionEndDate = new Date(endDate);
-        // if (
-        //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
-        //     currentDate.setHours(0, 0, 0, 0) )&&
-        //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
-        // )
-        if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
-          return true;
-        } else {
-          return false;
-        }
       } else {
         return false;
       }
-    
+    } else {
+      return false;
+    }
   };
-
+  console.log(nftDetail, "nftDetail");
   return (
     <>
       {loader && <FullPageLoader />}
@@ -983,15 +980,18 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body">
                               <div className="row g-2 justify-content-center align-items-center">
-                                {propertiesData &&
-                                  propertiesData.map((data) => {
+                                {nftDetail?.properties &&
+                                  nftDetail?.properties.length > 0 &&
+                                  nftDetail?.properties.map((item) => {
                                     return (
                                       <div className="col-6 col-sm-4 col-md-6">
                                         <div className="properties-content-container d-flex flex-column justify-content-center align-items-center text-center">
                                           <div className="properties-content">
-                                            <span>{data.subTitle}</span>
-                                            <h3>{data.title}</h3>
-                                            <p>{data.content}</p>
+                                            <span>{item.type}</span>
+                                            <h3 className="mb-2">
+                                              {item.name}
+                                            </h3>
+                                            {/* <p>{data.content}</p> */}
                                           </div>
                                         </div>
                                       </div>
@@ -1022,7 +1022,18 @@ const NFTDetail = (props) => {
                             className="accordion-collapse collapse"
                             aria-labelledby="flush-headingSix"
                           >
-                            <div className="accordion-body"></div>
+                            <div className="accordion-body">
+                              {nftDetail?.levels &&
+                                nftDetail?.stats?.length > 0 &&
+                                nftDetail?.stats.map((item) => {
+                                  return (
+                                    <StatsInfo
+                                      name={item.name}
+                                      value={item.value}
+                                    />
+                                  );
+                                })}
+                            </div>
                           </div>
                         </div>
                         <div className="accordion-item">
@@ -1046,7 +1057,18 @@ const NFTDetail = (props) => {
                             className="accordion-collapse collapse"
                             aria-labelledby="flush-headingSeven"
                           >
-                            <div className="accordion-body"></div>
+                            <div className="accordion-body">
+                              {nftDetail?.levels &&
+                                nftDetail?.levels.length > 0 &&
+                                nftDetail?.levels.map((item) => {
+                                  return (
+                                    <LevelsInfo
+                                      name={item.name}
+                                      value={item.value}
+                                    />
+                                  );
+                                })}
+                            </div>
                           </div>
                         </div>
                         {/* <div className="accordion-item">
@@ -1167,7 +1189,9 @@ const NFTDetail = (props) => {
                         <p>Total Copies:{nftDetail.copies}</p>
                       </div>
                       <div className="detail-nft-copies d-flex align-items-center">
-                        <p>Sold: {nftDetail?.copies-nftDetail.remainingCopies} </p>
+                        <p>
+                          Sold: {nftDetail?.copies - nftDetail.remainingCopies}{" "}
+                        </p>
                         <p className="ps-2">
                           Remaining:{""}
                           {nftDetail?.remainingCopies
@@ -1211,7 +1235,7 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
-                    <div className="d-flex align-items-center justify-content-between"> 
+                    <div className="d-flex align-items-center justify-content-between">
                       {nftDetail.currentPrice !== null && (
                         <>
                           <h3>
@@ -1226,11 +1250,15 @@ const NFTDetail = (props) => {
                           </h3>
                         </>
                       )}
-                     
+
                       <div>
-                        <p className="text-white">Copies On Sale:{nftDetail?.copiesForAuction?nftDetail?.copiesForAuction:0}</p>
+                        <p className="text-white">
+                          Copies On Sale:
+                          {nftDetail?.copiesForAuction
+                            ? nftDetail?.copiesForAuction
+                            : 0}
+                        </p>
                       </div>
-                      
                     </div>
                     <div className="detail-card-owner-container mb-2">
                       <div className="detail-nft-owner">
@@ -1451,7 +1479,9 @@ const NFTDetail = (props) => {
                                           }
                                           ownerName={listing.owner[0].username}
                                           copies={listing.copies}
-                                          remainingCopies={listing.remainingCopies}
+                                          remainingCopies={
+                                            listing.remainingCopies
+                                          }
                                         />
                                       ) : (
                                         <VideoCard
@@ -1475,7 +1505,9 @@ const NFTDetail = (props) => {
                                           }
                                           ownerName={listing.owner[0].username}
                                           copies={listing.copies}
-                                          remainingCopies={listing.remainingCopies}
+                                          remainingCopies={
+                                            listing.remainingCopies
+                                          }
                                         />
                                       )}
                                     </div>
@@ -1491,14 +1523,12 @@ const NFTDetail = (props) => {
                               <button
                                 className="btn btn-rounded-bordered"
                                 onClick={() =>
-                               
                                   history.push({
                                     pathname: `/collection/detailPage/${nftDetail.collectionId}`,
                                     state: nftDetail.collection,
                                   })
                                 }
                               >
-
                                 View collection
                               </button>
                             )}
@@ -1511,7 +1541,6 @@ const NFTDetail = (props) => {
               </div>
             </div>
           </div>
-
 
           <BuyModal
             show={modalShow}
