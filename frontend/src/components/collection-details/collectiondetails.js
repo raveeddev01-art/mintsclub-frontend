@@ -418,9 +418,6 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
-  const patternValidation = (val) => {
-    return /\s/g.test(val);
-  };
   const { name, banner, logo, description, username } = location.state;
 
   return (
