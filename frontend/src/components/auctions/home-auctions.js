@@ -39,7 +39,7 @@ const initData = {
 function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
-  const [creators, setCreator] = useState([]);
+  // const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
@@ -54,12 +54,12 @@ function AuctionsOne(props) {
     props.getCreators();
   }, []);
 
-  useEffect(() => {
-    if (props.user.topSellersAuth) {
-      setCreator(props.user.sellers);
-      setLoader(false);
-    }
-  }, [props.user.topSellersAuth]);
+  // useEffect(() => {
+  //   if (props.user.topSellersAuth) {
+  //     setCreator(props.user.sellers);
+  //     setLoader(false);
+  //   }
+  // }, [props.user.topSellersAuth]);
 
   // set live auctions
   useEffect(() => {

@@ -109,7 +109,7 @@ const FilterComponent = ({
                 <button
                   className="mt-3 apply-btn"
                   onClick={() => applyMinMaxFilter()}
-                  disabled={disabled}
+                  disabled={disabled||(minValue===''||maxValue==='')}
                 >
                   Apply
                 </button>

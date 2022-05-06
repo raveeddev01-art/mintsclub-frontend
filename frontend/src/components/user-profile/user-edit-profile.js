@@ -275,6 +275,7 @@ const EditProfile = (props) => {
                       <input
                         name="username"
                         placeholder="User Name"
+                        maxLength="50"
                         required="required"
                         autocomplete="off"
                         onChange={(e) => setUsername(e.target.value)}

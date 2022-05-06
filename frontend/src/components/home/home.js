@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Table, Pagination } from "react-bootstrap";
 import Hero from "../hero/hero";
 import Auctions from "../auctions/home-auctions";
 import TopSeller from "../top-seller/topseller";

@@ -17,7 +17,6 @@ const AuctionsList = (props) => {
   const [isActive, setIsActive] = useState(0);
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
-  const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("all");
 

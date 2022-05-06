@@ -19,7 +19,7 @@ const Buysell = () => {
                 <p>Purchase digital NFT products from the biggest directory.</p>
                 <Link
                   className="btn btn-rounded-bordered btn-start-selling"
-                  to="/"
+                  to="/explore/allNFT"
                 >
                   Start buying
                 </Link>
@@ -36,7 +36,7 @@ const Buysell = () => {
                 <p>Sell one of your NFT products to make a huge profit.</p>
                 <Link
                   className="btn btn-rounded-bordered btn-start-selling"
-                  to="/"
+                  to="/userprofile"
                 >
                   Start selling
                 </Link>

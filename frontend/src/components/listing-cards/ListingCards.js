@@ -21,6 +21,8 @@ const ListingCards = ({
   auctionStartDate,
   auctionEndDate,
   ownerName,
+  copies,
+  remainingCopies,
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -102,12 +104,16 @@ const ListingCards = ({
           )}
         </div>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center">
-          <div className="auction-owner-name">
-            <p>{2} Sold</p>
-          </div>
-          <div className="auction-owner-name">
-            <p>{3} Remaining</p>
-          </div>
+          {remainingCopies && (
+            <div className="auction-owner-name">
+              <p>{copies - remainingCopies} Sold</p>
+            </div>
+          )}
+          {remainingCopies && (
+            <div className="auction-owner-name">
+              <p>{remainingCopies} Remaining</p>
+            </div>
+          )}
         </div>
         <div
           className="auction-card-owner-container d-flex justify-content-between align-items-center"
