@@ -119,7 +119,8 @@ export const placeABid = async (amount, tokenId) => {
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
-    let bidAmount = Number(amount) * 1000000000000000000;
+    const bidAmount = Web3.utils.toWei(amount, 'ether');
+    // let bidAmount = Number(amount) * 1000000000000000000;
 
     let id = Number(tokenId);
 

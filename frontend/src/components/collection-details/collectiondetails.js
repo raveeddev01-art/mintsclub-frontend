@@ -418,6 +418,9 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
+  const patternValidation = (val) => {
+    return /\s/g.test(val);
+  };
   const { name, banner, logo, description, username } = location.state;
 
   return (
@@ -504,16 +507,34 @@ const CollectionDetailsPage = (props) => {
                     src={SearchIcon}
                     alt="search-icon"
                     className="ms-3"
-                    onClick={handleSearchKeyword}
+                    onClick={() => {
+                      if (keyword === "") {
+                        return false;
+                      } else {
+                        handleSearchKeyword();
+                      }
+                    }}
                   />
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Search"
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onKeyPress={(e) =>
-                      e.key === "Enter" && handleSearchKeyword()
-                    }
+                    maxLength="50"
+                    onChange={(e) => {
+                      if (e.target.value.trimStart()==='') {
+                        console.log(e.target.value,"e.target.value")
+                        return false;
+                      } else {
+                        setKeyword(e.target.value);
+                      }
+                    }}
+                    onKeyPress={(e) => {
+                      if (keyword === "") {
+                        return false;
+                      } else {
+                        e.key === "Enter" && handleSearchKeyword();
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -636,6 +657,8 @@ const CollectionDetailsPage = (props) => {
                             sellingMethod={listing.sellingMethod}
                             fileType={listing.fileType}
                             ownerName={listing.owner.username}
+                            copies={listing.copies}
+                            remainingCopies={listing.remainingCopies}
                           />
                         ) : (
                           <VideoCard
@@ -650,6 +673,8 @@ const CollectionDetailsPage = (props) => {
                             fileType={listing.fileType}
                             sellingMethod={listing.sellingMethod}
                             ownerName={listing.owner.username}
+                            copies={listing.copies}
+                            remainingCopies={listing.remainingCopies}
                           />
                         )}
                       </div>

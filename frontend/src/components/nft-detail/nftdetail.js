@@ -746,7 +746,7 @@ const NFTDetail = (props) => {
                                         <th scope="col">Floor Difference</th>
                                         {/* <th scope="col">Expiration</th> */}
                                         <th scope="col">From</th>
-                                        <th scope="col">{""}</th>
+                                        {/* <th scope="col">{""}</th> */}
                                       </tr>
                                     </thead>
                                   )}
@@ -781,7 +781,7 @@ const NFTDetail = (props) => {
                                                 <td>
                                                   {bid.fromAddress.slice(3, 8)}
                                                 </td>
-                                                {ENV.getUserKeys("_id")._id ===
+                                                {/* {ENV.getUserKeys("_id")._id ===
                                                   bid.bidBy && (
                                                   <td>
                                                     <button
@@ -793,7 +793,7 @@ const NFTDetail = (props) => {
                                                       Cancel
                                                     </button>
                                                   </td>
-                                                )}
+                                                )} */}
                                               </tr>
                                             );
                                           })
@@ -1069,7 +1069,7 @@ const NFTDetail = (props) => {
                             <div className="accordion-body"></div>
                           </div>
                         </div>
-                        <div className="accordion-item">
+                        {/* <div className="accordion-item">
                           <h2
                             className="accordion-header"
                             id="flush-headingEight"
@@ -1092,7 +1092,7 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body"></div>
                           </div>
-                        </div>
+                        </div> */}
 
                         <div className="accordion-item">
                           <h2
@@ -1187,7 +1187,7 @@ const NFTDetail = (props) => {
                         <p>Total Copies</p>
                       </div>
                       <div className="detail-nft-copies d-flex align-items-center">
-                        <p>Sold: {nftDetail?.sold} </p>
+                        <p>Sold: {nftDetail?.copies-nftDetail.remainingCopies} </p>
                         <p className="ps-2">
                           Remaining:{""}
                           {nftDetail?.remainingCopies
@@ -1231,7 +1231,7 @@ const NFTDetail = (props) => {
                         )}
                       </div>
                     </div>
-                    <div>
+                    <div className="d-flex align-items-center justify-content-between"> 
                       {nftDetail.currentPrice !== null && (
                         <>
                           <h3>
@@ -1246,6 +1246,15 @@ const NFTDetail = (props) => {
                           </h3>
                         </>
                       )}
+                      {
+                        checkIfAuctionStartedorEnded(
+                          nftDetail?.auctionStartDate,
+                          nftDetail?.auctionEndDate
+                        ) &&
+                      <div>
+                        <p className="text-white">Copies On Sale:{nftDetail?.copiesForAuction}</p>
+                      </div>
+                      }
                     </div>
                     <div className="detail-card-owner-container mb-2">
                       <div className="detail-nft-owner">

@@ -604,6 +604,7 @@ const UserProfile = (props) => {
                     type="text"
                     className="form-control"
                     placeholder="Search"
+                    maxLength="50"
                     onChange={(e) => setKeyword(e.target.value)}
                     onKeyPress={(e) =>
                       e.key === "Enter" && handleSearchKeyword()
@@ -725,6 +726,8 @@ const UserProfile = (props) => {
                               sellingMethod={listing.sellingMethod}
                               ownerName={listing.owner.username}
                               listing={listing}
+                              copies={listing.copies}
+                              remainingCopies={listing.remainingCopies}
                               // userProfile
                             />
                           ) : (
@@ -740,6 +743,8 @@ const UserProfile = (props) => {
                               fileType={listing.fileType}
                               sellingMethod={listing.sellingMethod}
                               ownerName={listing.owner.username}
+                              copies={listing.copies}
+                              remainingCopies={listing.remainingCopies}
                             />
                           )}
                         </div>

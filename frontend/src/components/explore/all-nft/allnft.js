@@ -510,17 +510,34 @@ const AllNFT = (props) => {
                   <img
                     src={SearchIcon}
                     alt="search-icon"
-                    className="ms-3"
-                    onClick={handleSearchKeyword}
+                    className="ms-3 search-icon"
+                    onClick={() => {
+                      if (keyword === "") {
+                        return false;
+                      } else {
+                        handleSearchKeyword();
+                      }
+                    }}
                   />
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Search"
-                    onChange={(e) => setKeyword(e.target.value)}
-                    onKeyPress={(e) =>
-                      e.key === "Enter" && handleSearchKeyword()
-                    }
+                    maxLength="50"
+                    onChange={(e) => {
+                      if (e.target.value === " ") {
+                        return false;
+                      } else {
+                        setKeyword(e.target.value);
+                      }
+                    }}
+                    onKeyPress={(e) => {
+                      if (keyword === "") {
+                        return false;
+                      } else {
+                        e.key === "Enter" && handleSearchKeyword();
+                      }
+                    }}
                     value={keyword}
                   />
                   {/* <IoCloseSharp className="position-absolute input-clear"/> */}
@@ -664,6 +681,8 @@ const AllNFT = (props) => {
                                 auctionStartDate={listing?.auctionStartDate}
                                 auctionEndDate={listing?.auctionEndDate}
                                 ownerName={listing.owner.username}
+                                copies={listing.copies}
+                                remainingCopies={listing.remainingCopies}
                               />
                             ) : (
                               <VideoCard
@@ -680,6 +699,8 @@ const AllNFT = (props) => {
                                 auctionStartDate={listing?.auctionStartDate}
                                 auctionEndDate={listing?.auctionEndDate}
                                 ownerName={listing.owner.username}
+                                copies={listing.copies}
+                                remainingCopies={listing.remainingCopies}
                               />
                             )}
                           </div>
