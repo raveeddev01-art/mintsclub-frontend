@@ -18,10 +18,19 @@
   border-radius: 50%;
   width: 32px;
   height: 32px;
+  margin-left: -18px;
+}
+
+.auction-card-avatar img:first-child {
+  margin-left: 0;
 }
 
 .auction-card-avatar .avatar-above-img {
   margin-left: -10px;
+}
+
+.auction-card .auction-card-avatar-container {
+  min-height: 32px;
 }
 
 .auction-card .auction-card-avatar-container span {

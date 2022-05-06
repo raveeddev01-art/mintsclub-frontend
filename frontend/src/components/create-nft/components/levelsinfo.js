@@ -2,6 +2,21 @@ import React from "react";
 import "./nftinfo.css";
 
 const LevelsInfo = ({ name, value }) => {
+  const filled = () => {
+    let filledArray=[]
+    for (let i = 1; i <= value; i++) {
+      filledArray.push( <div className="level-filled"></div>)
+    }
+    return filledArray
+  };
+
+  const unFilled = () => {
+    let unFilledArray=[]
+    for (let i = 1; i <= 5-value; i++) {
+       unFilledArray.push( <div className="level-unfilled"></div>)
+    }
+    return unFilledArray
+  };
   return (
     <>
       <div className="nft-info-container">
@@ -10,11 +25,8 @@ const LevelsInfo = ({ name, value }) => {
         </div>
         <div className="levels-info-container">
           <div className="levels-content">
-            <div className="level-filled"></div>
-            <div className="level-filled"></div>
-            <div className="level-filled"></div>
-            <div className="level-unfilled"></div>
-            <div className="level-unfilled"></div>
+            {filled()}
+            {unFilled()}
           </div>
           <div className="stats-content">
             <h6>{value} of 5</h6>

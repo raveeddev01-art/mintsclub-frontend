@@ -192,7 +192,7 @@ class CreateCollections extends Component {
 
                 <div className="col-12 col-sm-10 col-md-8 col-lg-4 col-xl-3">
                   <div className="edit-inp-subheading">
-                    <h6>Logo Image</h6>
+                    <h6>Logo Image*</h6>
                     <span className="text-danger">
                       {this.validator.message(
                         "logo",
@@ -226,7 +226,7 @@ class CreateCollections extends Component {
                   </div>
                   <div className="">
                     <div className="edit-inp-subheading">
-                      <h6>Featured Image</h6>
+                      <h6>Featured Image*</h6>
                       <span className="text-danger">
                         {this.validator.message(
                           "logo",
@@ -296,7 +296,7 @@ class CreateCollections extends Component {
                   <div className="row g-4">
                     <div className="col-md-4 col-lg-4">
                       <div className="edit-inp-subheading position-relative">
-                        <h6>Name</h6>
+                        <h6>Name*</h6>
                         <span className="text-danger position-absolute top-0">
                           {this.validator.message(
                             "name",
@@ -339,7 +339,7 @@ class CreateCollections extends Component {
                     </div>
                     <div className="col-md-4 col-lg-4">
                       <div className="edit-inp-subheading position-relative">
-                        <h6>Select Category</h6>
+                        <h6>Select Category*</h6>
                         <span className="text-danger position-absolute top-0">
                           {this.validator.message(
                             "category",

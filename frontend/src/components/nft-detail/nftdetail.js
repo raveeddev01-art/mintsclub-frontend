@@ -642,7 +642,7 @@ const NFTDetail = (props) => {
       }
     
   };
-console.log(nftsList,"nftsList")
+
   return (
     <>
       {loader && <FullPageLoader />}
@@ -1449,7 +1449,7 @@ console.log(nftsList,"nftsList")
                                           auctionEndDate={
                                             listing?.auctionEndDate
                                           }
-                                          // ownerName={listing.owner.username}
+                                          ownerName={listing.owner[0].username}
                                           copies={listing.copies}
                                           remainingCopies={listing.remainingCopies}
                                         />
@@ -1473,7 +1473,7 @@ console.log(nftsList,"nftsList")
                                           auctionEndDate={
                                             listing?.auctionEndDate
                                           }
-                                          // ownerName={listing.owner.username}
+                                          ownerName={listing.owner[0].username}
                                           copies={listing.copies}
                                           remainingCopies={listing.remainingCopies}
                                         />
@@ -1491,11 +1491,14 @@ console.log(nftsList,"nftsList")
                               <button
                                 className="btn btn-rounded-bordered"
                                 onClick={() =>
-                                  history.push(
-                                    `/collection/detailPage/${nftDetail.collectionId}`
-                                  )
+                               
+                                  history.push({
+                                    pathname: `/collection/detailPage/${nftDetail.collectionId}`,
+                                    state: nftDetail.collection,
+                                  })
                                 }
                               >
+
                                 View collection
                               </button>
                             )}
