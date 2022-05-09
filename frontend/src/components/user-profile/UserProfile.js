@@ -645,6 +645,7 @@ const UserProfile = (props) => {
                   </select>
                 </div>
               </div>
+              
               <div className="col-12 d-sm-none">
                 <div className="sm-filter-btn d-flex align-items-center justify-content-center">
                   <button
