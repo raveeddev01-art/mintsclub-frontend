@@ -111,25 +111,25 @@ const Slider = (props) => {
         //     })
         // )
         <>
-          <label for='s1' id='slide1' onClick={() => props.setHandler(1)}>
+          <label htmlFor='s1' id='slide1' onClick={() => props.setHandler(1)}>
             <HeroCards CardImg={ListingImg.listingImg1} className='slide' />
           </label>
-          <label for='s2' id='slide2' onClick={() => props.setHandler(2)}>
+          <label htmlFor='s2' id='slide2' onClick={() => props.setHandler(2)}>
             <HeroCards CardImg={ListingImg.listingImg2} className='slide' />
           </label>
-          <label for='s3' id='slide3' onClick={() => props.setHandler(3)}>
+          <label htmlFor='s3' id='slide3' onClick={() => props.setHandler(3)}>
             <HeroCards CardImg={ListingImg.listingImg3} className='slide' />
           </label>
-          <label for='s4' id='slide4' onClick={() => props.setHandler(4)}>
+          <label htmlFor='s4' id='slide4' onClick={() => props.setHandler(4)}>
             <HeroCards CardImg={ListingImg.listingImg4} className='slide' />
           </label>
           <label foCopiesr='s5' id='slide5' onClick={() => props.setHandler(5)}>
             <HeroCards CardImg={CollectionImages.mainImg1} className='slide' />
           </label>
-          <label for='s6' id='slide6' onClick={() => props.setHandler(6)}>
+          <label htmlFor='s6' id='slide6' onClick={() => props.setHandler(6)}>
             <HeroCards CardImg={CollectionImages.mainImg2} className='slide' />
           </label>
-          <label for='s7' id='slide7' onClick={() => props.setHandler(7)}>
+          <label htmlFor='s7' id='slide7' onClick={() => props.setHandler(7)}>
             <HeroCards CardImg={CollectionImages.mainImg3} className='slide' />
           </label>
         </>

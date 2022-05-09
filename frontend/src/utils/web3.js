@@ -75,7 +75,6 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
   }
 
   const nftAmount = Number(amount);
-  const value = Number(recipientValue) * 1000000000000000000;
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -171,10 +170,7 @@ export const BuyFixedPriceNFT = async (
   setTransactionHash
 ) => {
   try {
-    let obj = {
-      amount,
-      tokenId,
-    };
+   
 
     /* global BigInt */
     let connectedAddress = await connectMetamask();

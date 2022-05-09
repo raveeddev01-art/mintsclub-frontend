@@ -1,17 +1,8 @@
 import axios from 'axios';
 import { ENV } from '../config/config';
-import { Redirect } from 'react-router-dom';
+
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { emptyError } from '../redux/shared/error/error.action';
-import {
-  GET_ERRORS,
-  BEFORE_BID,
-  GET_BIDS,
-  DELETE_BID,
-  CREATE_BID,
-  ACCEPT_BID,
-} from '../redux/types';
+
 let baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const axiosSyncPost = (url, data, isMultipart = false) => {

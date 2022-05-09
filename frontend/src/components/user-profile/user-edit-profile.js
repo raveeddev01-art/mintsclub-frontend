@@ -8,7 +8,6 @@ import { ReactComponent as ProfileEditSVG } from "../../assets/images/edit-pen.s
 /////////
 
 import { connect } from "react-redux";
-import { SET_INDIVIDUAL_USER } from "../../redux/types";
 import "react-toastify/dist/ReactToastify.css";
 import $ from "jquery";
 import SimpleReactValidator from "simple-react-validator";
@@ -18,14 +17,14 @@ import {
   getUserById,
   beforeUser,
 } from "./../user/user.action";
-import { signRequest } from "./../../utils/web3";
+
 import { ENV } from "./../../config/config";
-import { toast } from "react-toastify";
+
 import { useHistory } from "react-router-dom";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 
 const EditProfile = (props) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
   const [connectedAddress, setConnectedAddress] = useState("");
@@ -37,10 +36,9 @@ const EditProfile = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
-  const [facebookLink, setFbLink] = useState("");
+ 
   const [twitterLink, setTwitterLink] = useState("");
-  const [gPlusLink, setgPlusLink] = useState("");
-  const [vineLink, setVineLink] = useState("");
+  
   const [instaLink, setInstaLink] = useState("");
   const [webLink, setWebLink] = useState("");
   const [_id, setUserId] = useState("");
@@ -60,6 +58,7 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
+      console.log(props.user.individualUser,"props.user.individualUser")
       const {
         address,
         email,
@@ -166,7 +165,7 @@ const EditProfile = (props) => {
     }
     setErrors("");
     setLoader(true);
-    setIsSubmitted(true);
+
     let isFormValid = validator.allValid() ? true : false;
     if (isFormValid) {
       try {
@@ -181,6 +180,8 @@ const EditProfile = (props) => {
         if (banner) {
           formData.append("bannerImage", banner);
         }
+        console.log(username,"user name on submit")
+        
         formData.append("bio", description);
         formData.append("twitterLink", twitterLink);
         formData.append("username", username);
@@ -200,7 +201,7 @@ const EditProfile = (props) => {
       goToTop();
     }
   };
-
+console.log(username,"username")
   return (
     <>
       {loader && <FullPageLoader />}
@@ -279,6 +280,7 @@ const EditProfile = (props) => {
                         required="required"
                         autocomplete="off"
                         onChange={(e) => setUsername(e.target.value)}
+                        required={true}
                         defaultValue={username}
                       />
                       <span className="text-danger">
@@ -293,10 +295,11 @@ const EditProfile = (props) => {
                     <div className="edit-inp pt-4">
                       <input
                         name="email"
+                        type="email"
                         placeholder="Email Address"
                         required="required"
                         autocomplete="off"
-                        readOnly
+                        onChange={(e) => setEmail(e.target.value)}
                         value={email}
                       />
                       <span className="text-danger">

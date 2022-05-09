@@ -154,9 +154,10 @@ const ExploreCollections = forwardRef((props, ref) => {
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item) => {
+                    categories.map((item,index) => {
                       return (
                         <button
+                        key={index}
                           onClick={() => {
                             setIsActive(item.name);
                             setSelectedCategory(item.description);
@@ -174,9 +175,9 @@ const ExploreCollections = forwardRef((props, ref) => {
                 <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item) => {
+                    categories.map((item,index) => {
                       return (
-                        <div className="col-6 col-sm-3">
+                        <div className="col-6 col-sm-3" key={index}>
                           <button
                             onClick={() => {
                               setIsActive(item.name);
@@ -197,13 +198,13 @@ const ExploreCollections = forwardRef((props, ref) => {
             </div>
             <div className="row g-4 align-items-center justify-content-center">
               {loader ? (
-                <div class="spinner-border text-white" role="status">
-                  <span class="sr-only">Loading...</span>
+                <div className="spinner-border text-white" role="status">
+                  <span className="sr-only">Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
-                collections.map((collection) => {
+                collections.map((collection,index) => {
                   return (
-                    <div className="col-sm-6 col-lg-4">
+                    <div className="col-sm-6 col-lg-4" key={index}>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
                         Subimg1={handleImage(collection, 0)}

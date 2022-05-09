@@ -34,7 +34,7 @@ import {
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
 import moment from "moment";
-import SimpleReactValidator from "simple-react-validator";
+
 import axios from "axios";
 import {
   AiFillHeart,
@@ -116,69 +116,19 @@ const NFTDetail = (props) => {
     { label: "Custom Date", value: -1 },
   ];
 
-  const config1 = {
-    price: {
-      currency: ENV.currency,
-      amount: "",
-    },
-    expiry: {
-      date: expiryOptions[0].value,
-      time: moment(new Date()).format("HH:mm"),
-      type: 1, // 1 for time & 2 for datetime-local
-      datetime: "", // for payload
-    },
-  };
+  // const config1 = {
+  //   price: {
+  //     currency: ENV.currency,
+  //     amount: "",
+  //   },
+  //   expiry: {
+  //     date: expiryOptions[0].value,
+  //     time: moment(new Date()).format("HH:mm"),
+  //     type: 1, // 1 for time & 2 for datetime-local
+  //     datetime: "", // for payload
+  //   },
+  // };
 
-  const propertiesData = [
-    {
-      id: 1,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 2,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 3,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 4,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 5,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 6,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 7,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-    {
-      id: 8,
-      subTitle: "ACCESSORIES1",
-      title: "Rings",
-      content: "30% have this trait",
-    },
-  ];
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -639,7 +589,7 @@ const NFTDetail = (props) => {
       return false;
     }
   };
-  console.log(nftDetail, "nftDetail");
+ 
   return (
     <>
       {loader && <FullPageLoader />}
@@ -714,7 +664,7 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body">
                               <div className="table-container listing-table">
-                                <table class="table table-borderless">
+                                <table className="table table-borderless">
                                   {bids && bids.length > 0 && (
                                     <thead>
                                       <tr>
@@ -731,9 +681,9 @@ const NFTDetail = (props) => {
                                     {nftDetail?.sellingMethod === 2 ? (
                                       <>
                                         {bids && bids.length > 0 ? (
-                                          bids.map((bid) => {
+                                          bids.map((bid,index) => {
                                             return (
-                                              <tr>
+                                              <tr key={index}>
                                                 <th scope="row">
                                                   {bid.bidAmount}
                                                 </th>
@@ -783,9 +733,9 @@ const NFTDetail = (props) => {
                                     ) : (
                                       <>
                                         {offers && offers.length > 0 ? (
-                                          offers.map((offer) => {
+                                          offers.map((offer,index) => {
                                             return (
-                                              <tr>
+                                              <tr key={index}>
                                                 <th scope="row">
                                                   {offer.price}
                                                 </th>
@@ -868,7 +818,7 @@ const NFTDetail = (props) => {
                             >
                               <div className="accordion-body">
                                 <div className="table-container listing-table">
-                                  <table class="table table-borderless">
+                                  <table className="table table-borderless">
                                     {itemsListing &&
                                     itemsListing.length > 0 &&
                                     itemsListing.filter(
@@ -895,9 +845,9 @@ const NFTDetail = (props) => {
                                                   item.ownerId !== userId &&
                                                   item._id !== nftDetail._id
                                               )
-                                              .map((item) => {
+                                              .map((item,index) => {
                                                 return (
-                                                  <tr>
+                                                  <tr key={index}>
                                                     <th scope="row">
                                                       {item.currentPrice}
                                                     </th>
@@ -982,9 +932,9 @@ const NFTDetail = (props) => {
                               <div className="row g-2 justify-content-center align-items-center">
                                 {nftDetail?.properties &&
                                   nftDetail?.properties.length > 0 &&
-                                  nftDetail?.properties.map((item) => {
+                                  nftDetail?.properties.map((item,index) => {
                                     return (
-                                      <div className="col-6 col-sm-4 col-md-6">
+                                      <div className="col-6 col-sm-4 col-md-6" key={index}>
                                         <div className="properties-content-container d-flex flex-column justify-content-center align-items-center text-center">
                                           <div className="properties-content">
                                             <span>{item.type}</span>
@@ -1370,7 +1320,7 @@ const NFTDetail = (props) => {
                         <div className="accordion-body">
                           <div className="table-container">
                             {activities && activities.length > 0 && (
-                              <table class="table table-borderless">
+                              <table className="table table-borderless">
                                 <thead>
                                   <tr>
                                     <th scope="col">Event</th>
@@ -1381,10 +1331,10 @@ const NFTDetail = (props) => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {activities.map((activity) => {
+                                  {activities.map((activity,index) => {
                                     return (
                                       <tr>
-                                        <th scope="row">
+                                        <th scope="row" key={index}>
                                           <div className="d-flex align-items-center">
                                             {handleAcitivityIcon(
                                               activity.activityType
@@ -1456,7 +1406,7 @@ const NFTDetail = (props) => {
                               nftsList.map((listing, id) => {
                                 if (id <= 3) {
                                   return (
-                                    <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1">
+                                    <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1" key={id}>
                                       {listing.fileType === "image" ? (
                                         <ListingCards
                                           CardImg={listing.image}

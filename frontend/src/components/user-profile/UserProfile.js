@@ -27,13 +27,10 @@ const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
   const [isAddressCopied, setAddressCopied] = useState(false);
   const [activeFilter, setActiveFilter] = useState(false);
-  const [nftPagination, setNFTPagination] = useState(null);
   const [nfts, setNFTs] = useState([]); // NFTs for explore section
   const [nftsCopy, setNFTsCopy] = useState([]);
   const [loader, setLoader] = useState(true);
-  const [loadMoreBtn, setLoadMoreBtn] = useState(false);
-  const [intro, setIntro] = useState(false);
-  const [creators, setCreator] = useState([]);
+
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [filterationLoader, setFilterationLoader] = useState(true);
@@ -574,6 +571,7 @@ const UserProfile = (props) => {
                       {menuData.map((item, id) => {
                         return (
                           <button
+                          key={id}
                             onClick={() => {
                               setIsActive(id);
                               handleNftFilter(item);
@@ -702,16 +700,16 @@ const UserProfile = (props) => {
                   {filterationLoader ? (
                     <div className="text-center">
                       <div
-                        class="spinner-border text-secondary text-white "
+                        className="spinner-border text-secondary text-white "
                         role="status"
                       >
-                        <span class="sr-only">Loading...</span>
+                        <span className="sr-only">Loading...</span>
                       </div>
                     </div>
                   ) : nfts && nfts.length > 0 ? (
-                    nfts.map((listing) => {
+                    nfts.map((listing,index) => {
                       return (
-                        <div className="col-6 col-md-4 col-lg-3 px-1">
+                        <div className="col-6 col-md-4 col-lg-3 px-1" key={index}>
                           {listing.fileType === "image" ? (
                             <ListingCards
                               CardImg={listing.image}

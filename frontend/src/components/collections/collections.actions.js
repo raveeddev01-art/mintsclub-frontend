@@ -7,9 +7,9 @@ import {
   GET_COLLECTIONS,
   UPSERT_COLLECTION,
   DELETE_COLLECTION,
-  ALL_COLLECTIONS,
+
   BEFORE_CATEGORY,
-  GET_CATEGORIES,
+
   COLLECTION_CATEGORES,
   MY_COLLECTIONS,
   GET_POPULAR_COLLECTIONS,
@@ -17,7 +17,7 @@ import {
 } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
-import { CgData } from 'react-icons/cg';
+
 
 export const beforeCollection = () => {
   return {

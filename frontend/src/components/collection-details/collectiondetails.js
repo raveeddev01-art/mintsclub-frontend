@@ -3,8 +3,6 @@ import { useLocation, useHistory } from "react-router-dom";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./collectiondetails.css";
-import FlagIcon from "../../assets/images/detail-flag.svg";
-import ShareIcon from "../../assets/images/detail-share.svg";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../listing-cards/ListingCards";
@@ -418,7 +416,7 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
-  const { name, banner, logo, description, username } = location.state;
+  const { name, logo, description, username } = location.state;
 
   return (
     <>
@@ -631,16 +629,16 @@ const CollectionDetailsPage = (props) => {
                 {filterationLoader ? (
                   <div className="text-center">
                     <div
-                      class="spinner-border text-secondary text-white "
+                      className="spinner-border text-secondary text-white "
                       role="status"
                     >
-                      <span class="sr-only">Loading...</span>
+                      <span className="sr-only">Loading...</span>
                     </div>
                   </div>
                 ) : nfts && nfts.length > 0 ? (
-                  nfts.map((listing) => {
+                  nfts.map((listing,index) => {
                     return (
-                      <div className="col-6 col-md-4 col-lg-3 px-1">
+                      <div className="col-6 col-md-4 col-lg-3 px-1" key={index}>
                         {listing.fileType === "image" ? (
                           <ListingCards
                             CardImg={listing.image}

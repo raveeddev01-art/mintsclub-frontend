@@ -8,13 +8,13 @@ import walletReducer from "./../components/wallet/wallet.reducer";
 import categoryReducer from "./../components/categories/categories.reducer";
 import collectionReducer from "./../components/collections/collections.reducer";
 import errorReducer from "./shared/error/error.reducer";
-import settingsReducer from "../components/footer/footer.reducer";
+
 
 import offersReducer from "../components/offers/offers.reducer";
 import bidsReducer from "../components/bids/bids.reducer";
 
 import exploreAllReducer from "../components/explore/explore.reducer";
-import createNftReducer from "../components/create-nft/create-nft-reducer";
+
 
 export default combineReducers({
   home: homeReducer,

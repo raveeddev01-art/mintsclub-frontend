@@ -11,7 +11,7 @@ import {
   getCategories,
 } from "../collections/collections.actions";
 import { ENV } from "../../config/config";
-import FullPageLoader from "../full-page-loader/full-page-loader";
+
 
 const AuctionsList = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -33,7 +33,7 @@ const AuctionsList = (props) => {
   // set live auctions
   useEffect(() => {
     if (props.auction.auctionsAuth) {
-      const { auctions, pagination } = props.auction;
+      const { auctions } = props.auction;
 
       setAuctions(auctions);
       setLoader(false)

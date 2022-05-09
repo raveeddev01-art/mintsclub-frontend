@@ -7,15 +7,11 @@ import {
   beforeCollection,
   getCollection,
 } from "../collections/collections.actions";
-import { Link } from "react-router-dom";
-import { ENV } from "../../config/config";
-import { Accordion, Dropdown } from "react-bootstrap";
-import Select from "react-select";
+
+
 import NftCard from "./components/NftCard/NftCard";
 import { getNFTs } from "../nfts/nfts.action";
 import { getCreators, beforeUser } from "./../user/user.action";
-import { toast } from "react-toastify";
-const { collectionFeaturedImg, userDefaultImg, categoryDefaultImg } = ENV;
 
 const CollectionDetails = (props) => {
   const [collection, setCollection] = useState(null);
@@ -89,12 +85,12 @@ const CollectionDetails = (props) => {
     }
   };
 
-  const getNFTs = (page = 1, limit = 2) => {
-    const nftQS = { page, limit };
-    if (props.collectionId) nftQS.collectionId = props.collectionId;
-    const qs = ENV.objectToQueryString(nftQS);
-    props.getNFTs(qs);
-  };
+  // const getNFTs = (page = 1, limit = 2) => {
+  //   const nftQS = { page, limit };
+  //   if (props.collectionId) nftQS.collectionId = props.collectionId;
+  //   const qs = ENV.objectToQueryString(nftQS);
+  //   props.getNFTs(qs);
+  // };
 
   useEffect(() => {
     if (props.nft.nftsAuth) {

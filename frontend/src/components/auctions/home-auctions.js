@@ -126,7 +126,7 @@ function AuctionsOne(props) {
               </div>
             </div>
             <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
-              {categoryId === "all" && auctions && auctions?.length <= 0 ? (
+              {categoryId === "all" && auctions && auctions?.length <= 1 ? (
                 ""
               ) : (
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
