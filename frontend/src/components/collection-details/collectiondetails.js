@@ -316,6 +316,7 @@ const CollectionDetailsPage = (props) => {
     } else {
       setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
     }
+    
     getNFTs(
       filter.page,
       filter.limit,
