@@ -412,6 +412,14 @@ const AllNFT = (props) => {
   const handleStatusFilter = (id) => {
     setInitial(false);
     setFilterationLoader(true);
+    if(id === "Buy Now" ){
+
+      setFilter((prev) => ({ ...prev, buy: true,auction:false,new:false }));
+    }else if(id === "On Auction"){
+      setFilter((prev) => ({ ...prev, auction: true,buy:false,new:false }));
+    }else {
+      setFilter((prev) => ({ ...prev, new: true ,buy:false,auction:false}));
+    }
     getNFTs(
       filter.page,
       filter.limit,
@@ -428,6 +436,7 @@ const AllNFT = (props) => {
       id == "On Auction" ? true : false,
       id == "New" ? true : false
     );
+
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {

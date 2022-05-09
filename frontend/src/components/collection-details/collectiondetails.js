@@ -309,6 +309,13 @@ const CollectionDetailsPage = (props) => {
 
   const handleStatusFilter = (id) => {
     setInitial(false);
+    if (id === "Buy Now") {
+      setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
+    } else if (id === "On Auction") {
+      setFilter((prev) => ({ ...prev, auction: true, buy: false, new: false }));
+    } else {
+      setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
+    }
     getNFTs(
       filter.page,
       filter.limit,
@@ -516,8 +523,8 @@ const CollectionDetailsPage = (props) => {
                     placeholder="Search"
                     maxLength="50"
                     onChange={(e) => {
-                      if (e.target.value.trimStart()==='') {
-                        console.log(e.target.value,"e.target.value")
+                      if (e.target.value.trimStart() === "") {
+                        console.log(e.target.value, "e.target.value");
                         return false;
                       } else {
                         setKeyword(e.target.value);
@@ -636,7 +643,7 @@ const CollectionDetailsPage = (props) => {
                     </div>
                   </div>
                 ) : nfts && nfts.length > 0 ? (
-                  nfts.map((listing,index) => {
+                  nfts.map((listing, index) => {
                     return (
                       <div className="col-6 col-md-4 col-lg-3 px-1" key={index}>
                         {listing.fileType === "image" ? (
