@@ -376,9 +376,11 @@ class CreateCollections extends Component {
                         <textarea
                           name="description"
                           placeholder="Discription"
+                          maxLength="500"
+                          rows="3"
                           onChange={(e) => this.onChange(e)}
                           value={collection.description}
-                          maxLength="150"
+                          
                         ></textarea>
                       </div>
                     </div>

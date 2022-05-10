@@ -81,16 +81,16 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
 
             <span className="ms-4">
               {totalBids === 0
-                ? "No Bid Found"
+                ? "No Bids Found"
                 : totalBids < 4
                 ? totalBids + " People Place Bid"
                 : totalBids - 1 + "+ People Place Bid"}
             </span>
           </div>
 
-          <div className="options-icon">
+          {/* <div className="options-icon">
             <img src={ThreeDots} alt="OptionsIcon" />
-          </div>
+          </div> */}
         </div>
         <Card.Title onClick={() => history.push(`nftdetail/${_id}`)}>
           {name}
@@ -113,9 +113,9 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
           className="auction-bit-btn d-flex align-items-center justify-content-center"
           onClick={() => history.push(`nftdetail/${_id}`)}
         >
-          <img src={Bucket} alt="" className="me-1" />
+          <img src={Images.placeBid} alt="" className="me-2" />
 
-          <p>{userId === ownerId ? "View" : "Place a Bid"}</p>
+          <p >{userId === ownerId ? "View" : "Place a Bid"}</p>
         </button>
       </Card.Body>
     </Card>

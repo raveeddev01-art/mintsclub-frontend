@@ -75,13 +75,14 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
   }
 
   const nftAmount = Number(amount);
+ 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let result = await contractM.methods
       .mint(connectedAddress, nftAmount, metaData)
       .send({ from: connectedAddress, gassPrice: 5000000 });
-    console.log(result, "result of minting");
+   
     return result;
   } catch (err) {
     console.log(err, "error while minting");
@@ -105,7 +106,7 @@ export const openNFTForBidding = async (
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
     if (result) {
-      console.log(result, "open for bidding result");
+   
       return result;
     }
   } catch (err) {
@@ -141,12 +142,11 @@ export const placeABid = async (amount, tokenId) => {
 };
 
 export const putonsale = async (tokenId, amount, price) => {
-  console.log(tokenId,amount,price,"token,amount,price")
   try {
     /* global BigInt */
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
-    let weiAmount = BigInt(Number(price) * 1000000000000000000);
+    let weiAmount = Web3.utils.toWei(price, 'ether');;
 
     let id = Number(tokenId);
 
@@ -170,7 +170,7 @@ export const BuyFixedPriceNFT = async (
   setTransactionHash
 ) => {
   try {
-   
+ 
 
     /* global BigInt */
     let connectedAddress = await connectMetamask();
@@ -178,7 +178,7 @@ export const BuyFixedPriceNFT = async (
 
     // const weiAmount =BigInt( Web3.utils.toWei(`${amount}`, 'ether'));
 
-    let weiAmount = Number(amount) * 1000000000000000000;
+    let weiAmount = Web3.utils.toWei(amount, 'ether');;
 
     const result = await contractM.methods
       .BuyFixedPriceNFT(tokenId)

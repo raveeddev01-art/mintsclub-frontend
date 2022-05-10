@@ -55,10 +55,10 @@ const CollectionDetailsPage = (props) => {
   const location = useLocation();
   const history = useHistory();
 
-  const itemoptions = [
-    { value: "single", label: "Single" },
-    { value: "double", label: "Double" },
-  ];
+  // const itemoptions = [
+  //   { value: "single", label: "Single" },
+  //   { value: "double", label: "Double" },
+  // ];
 
   const sortoptions = [
     { value: "lowtohigh", label: "Low To High" },
@@ -541,7 +541,7 @@ const CollectionDetailsPage = (props) => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+              {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
                     <p>Item:</p>
@@ -562,7 +562,7 @@ const CollectionDetailsPage = (props) => {
                       })}
                   </select>
                 </div>
-              </div>
+              </div> */}
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">

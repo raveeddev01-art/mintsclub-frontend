@@ -23,9 +23,9 @@ const HeroCards = ({
       <Card.Body className='d-flex flex-column'>
         <div className='hero-card-title-container d-flex align-items-center justify-content-between'>
           <Card.Title>{NftName}</Card.Title>
-          <div className='options-icon'>
+          {/* <div className='options-icon'>
             <img src={ThreeDots} alt='OptionsIcon' />
-          </div>
+          </div> */}
         </div>
         <div className='auction-card-avatar d-flex align-items-center mb-4'>
           {BidsProfile &&
@@ -42,7 +42,7 @@ const HeroCards = ({
             })}
           <span className='ms-4'>
             {TotalBids === 0
-              ? 'No Bid Found'
+              ? 'No Bids Found'
               : TotalBids < 4
               ? TotalBids + ' People Place Bid'
               : TotalBids - 1 + '+ People Place Bid'}

@@ -206,7 +206,6 @@ class CreateNFT extends Component {
                         res.nft.metaData,
                         res.nft._id,
                         this.state.nft.copies,
-
                         2
                       );
 
@@ -585,7 +584,7 @@ class CreateNFT extends Component {
                         name="name"
                         placeholder="Title*"
                         required="required"
-                        maxLength="30"
+                        maxLength="100"
                         minLength="3"
                         onKeyDown={(e) =>
                           firstInputCharacterSpace(e, nft.name.length)

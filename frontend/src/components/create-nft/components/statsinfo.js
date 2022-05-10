@@ -7,7 +7,7 @@ const StatsInfo = ({ name, value }) => {
       <div className="nft-info-container">
         <div className="stats-info-container">
           <div className="stats-content">
-            <h6>{name}</h6>
+            <h6>{name.length>8?name.slice(0,8)+"...":name}</h6>
           </div>
           <div className="stats-content">
             <h6>{value} of 5</h6>

@@ -45,8 +45,9 @@ const CollectionsCard = ({
               <img src={CardImg} alt="card-img" />
             </div>
           </div>
+
           <Card.Body>
-            <Card.Title>{name}</Card.Title>
+            <Card.Title>{name.length>20?name.slice(0,20)+"...":name}</Card.Title>
             <Card.Text>
               {NFTCount}
               {" items"}

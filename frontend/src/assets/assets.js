@@ -23,11 +23,13 @@ import Website from './images/edit-website.svg';
 import profilePlaceholder from './images/profilePlaceholder.png';
 import imagePlaceholder from './images/imagePlaceholder.png';
 
+import placeBid from './images/placeBid.png'
 export const Images = {
   uploadImage,
   placeholderImg,
   profilePlaceholder,
   imagePlaceholder,
+  placeBid
 };
 
 export const CollectionImages = {

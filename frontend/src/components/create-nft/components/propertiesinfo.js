@@ -6,8 +6,8 @@ const PropertiesInfo = ({ name, type }) => {
     <>
       <div className="nft-propinfo-container">
         <div className="properties-content">
-          <h6>{name}:</h6>
-          <p>{type}</p>
+          <h6>{name.length>5?name.slice(0,5)+"...":name}:</h6>
+          <p>{type.length>5?type.slice(0,5)+"...":type}</p>
         </div>
       </div>
     </>

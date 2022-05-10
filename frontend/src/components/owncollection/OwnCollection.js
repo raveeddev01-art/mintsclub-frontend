@@ -23,7 +23,7 @@ const OwnCollection = () => {
               </p>
               <Link
                 className="btn btn-rounded-bordered mt-3 mt-xl-5"
-                to="/explore/allNFT"
+                to="/createcollection"
               >
                 Start collecting
               </Link>

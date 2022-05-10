@@ -22,6 +22,7 @@ import {
   validateNetwork,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -56,10 +57,10 @@ const UserProfile = (props) => {
     latest: false,
   });
   const [menuFilter, setMenuFilter] = useState("");
-  const itemoptions = [
-    { value: "single", label: "Single" },
-    { value: "double", label: "Double" },
-  ];
+  // const itemoptions = [
+  //   { value: "single", label: "Single" },
+  //   { value: "double", label: "Double" },
+  // ];
 
   const priceoptions = [
     { value: "lowtohigh", label: "Low To High" },
@@ -564,7 +565,7 @@ const UserProfile = (props) => {
                 </div>
                 {user && (
                   <p>
-                    Joined <span>February 2022</span>
+                    Joined <span>{moment(user.createdAt).format('MMMM DD YYYY')}</span>
                   </p>
                 )}
               </div>
@@ -618,7 +619,7 @@ const UserProfile = (props) => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+              {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
                     <p>Item:</p>
@@ -634,7 +635,7 @@ const UserProfile = (props) => {
                       })}
                   </select>
                 </div>
-              </div>
+              </div> */}
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">

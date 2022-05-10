@@ -82,7 +82,7 @@ const NFTDetail = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [nftDetail, setNftDetail] = useState("");
   const [listedItem, setListedItem] = useState([]);
-  const [nftsList, setNftList] = useState([]);
+  const [nfts, setNFTs] = useState([]);
   const [activities, setActivities] = useState([]);
   const [itemsListing, setItemsListing] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -109,12 +109,12 @@ const NFTDetail = (props) => {
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
 
-  const expiryOptions = [
-    { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
-    { label: "7 Days", value: moment().add(7, "days").format("DD/MM/YYYY") },
-    { label: "A Month", value: moment().add(1, "months").format("DD/MM/YYYY") },
-    { label: "Custom Date", value: -1 },
-  ];
+  // const expiryOptions = [
+  //   { label: "5 Days", value: moment().add(5, "days").format("DD/MM/YYYY") },
+  //   { label: "7 Days", value: moment().add(7, "days").format("DD/MM/YYYY") },
+  //   { label: "A Month", value: moment().add(1, "months").format("DD/MM/YYYY") },
+  //   { label: "Custom Date", value: -1 },
+  // ];
 
   // const config1 = {
   //   price: {
@@ -128,7 +128,6 @@ const NFTDetail = (props) => {
   //     datetime: "", // for payload
   //   },
   // };
-
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -254,7 +253,7 @@ const NFTDetail = (props) => {
           (item) => item._id !== nftDetail._id
         );
       }
-      setNftList(moreCollection);
+      setNFTs(moreCollection);
     }
   }, [props.nftsByCollectionStatus]);
 
@@ -334,6 +333,79 @@ const NFTDetail = (props) => {
     }
   };
 
+  const handleCollectionLikesTogleApi = async (nftId, status, likesCount) => {
+    console.log(nftId,status,likesCount,"nftId,status,likescount")
+    if (await validateNetwork()) {
+      if (!likeButtonDisable) {
+        console.log("inside")
+        setLikeBtnDisable(true);
+        let userId = ENV.getUserKeys("_id")._id;
+
+        let body = {
+          userId,
+          nftId,
+          count: 1,
+        };
+
+        if (status === "dislike" && likesCount > 0) {
+          console.log("dislike")
+          let result = likedNfts.filter((item) => item.nftId !== nftId);
+
+          setLikedNfts(result);
+          increOrDecreLikes(nftId, "dec");
+
+          props.toggleLikeDislike(body);
+        }
+
+        if (status === "like") {
+          console.log("like")
+          let myLikedNfts = [];
+          if (likedNfts && likedNfts.length > 0) {
+            myLikedNfts = likedNfts;
+          }
+
+          let obj = {
+            _id: "1234455",
+            nftId,
+          };
+
+          myLikedNfts.push(obj);
+
+          setLikedNfts(myLikedNfts);
+          increOrDecreLikes(nftId, "inc");
+          props.toggleLikeDislike(body);
+        }
+        // setNFTs(nfts);
+      }
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    }
+  };
+  const increOrDecreLikes = (id, status) => {
+    let updatedNfts=[]
+    if (status === "dec") {
+      updatedNfts = nfts.map((item) => {
+        if (item._id !== id) {
+          return item;
+        } else {
+          if (item?.likeCount > 0) {
+            return { ...item, likeCount: item.likeCount - 1 };
+          }
+        }
+      });
+      setNFTs(updatedNfts);
+    } else {
+      let updatedNfts = nfts.map((item) => {
+        if (item._id !== id) {
+          return item;
+        } else {
+          return { ...item, likeCount: item.likeCount + 1 };
+        }
+      });
+      setNFTs(updatedNfts);
+    }
+  };
+
   //match if nft liked
 
   const validateIfLiked = (nfts, nft) => {
@@ -378,6 +450,7 @@ const NFTDetail = (props) => {
         setExchangeRate(currentUSD);
       });
   }, []);
+
   useEffect(() => {
     if (props.togleLikeRes) {
       setLikeBtnDisable(false);
@@ -589,7 +662,30 @@ const NFTDetail = (props) => {
       return false;
     }
   };
- 
+  const {
+    name,
+    _id,
+    copies,
+    remainingCopies,
+    likesCount,
+    sellingMethod,
+    properties,
+    levels,
+    stats,
+    nftToken,
+    lowestNftPrice,
+    fileType,
+    image,
+    user,
+    ownerId,
+    auctionEndDate,
+    description,
+    currentPrice,
+    collectionId,
+    collection,
+  } = nftDetail;
+  console.log(nfts)
+
   return (
     <>
       {loader && <FullPageLoader />}
@@ -681,7 +777,7 @@ const NFTDetail = (props) => {
                                     {nftDetail?.sellingMethod === 2 ? (
                                       <>
                                         {bids && bids.length > 0 ? (
-                                          bids.map((bid,index) => {
+                                          bids.map((bid, index) => {
                                             return (
                                               <tr key={index}>
                                                 <th scope="row">
@@ -696,11 +792,11 @@ const NFTDetail = (props) => {
                                                 <td>
                                                   {getPercentageChange(
                                                     bid.bidAmount,
-                                                    nftDetail.lowestNftPrice
+                                                    lowestNftPrice
                                                   ).toFixed(0)}
                                                   %{" "}
                                                   {bid.bidAmount >
-                                                  nftDetail.lowestNftPrice
+                                                  lowestNftPrice
                                                     ? "above"
                                                     : "below"}
                                                 </td>
@@ -733,7 +829,7 @@ const NFTDetail = (props) => {
                                     ) : (
                                       <>
                                         {offers && offers.length > 0 ? (
-                                          offers.map((offer,index) => {
+                                          offers.map((offer, index) => {
                                             return (
                                               <tr key={index}>
                                                 <th scope="row">
@@ -748,11 +844,10 @@ const NFTDetail = (props) => {
                                                 <td>
                                                   {getPercentageChange(
                                                     offer.price,
-                                                    nftDetail.lowestNftPrice
+                                                    lowestNftPrice
                                                   ).toFixed(0)}
                                                   %{" "}
-                                                  {offer.price >
-                                                  nftDetail.lowestNftPrice
+                                                  {offer.price > lowestNftPrice
                                                     ? "above"
                                                     : "below"}
                                                 </td>
@@ -824,7 +919,7 @@ const NFTDetail = (props) => {
                                     itemsListing.filter(
                                       (item) =>
                                         item.ownerId !== userId &&
-                                        item._id !== nftDetail._id
+                                        item._id !== _id
                                     ).length > 0 ? (
                                       <>
                                         <thead>
@@ -843,9 +938,9 @@ const NFTDetail = (props) => {
                                               .filter(
                                                 (item) =>
                                                   item.ownerId !== userId &&
-                                                  item._id !== nftDetail._id
+                                                  item._id !== _id
                                               )
-                                              .map((item,index) => {
+                                              .map((item, index) => {
                                                 return (
                                                   <tr key={index}>
                                                     <th scope="row">
@@ -930,16 +1025,25 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body">
                               <div className="row g-2 justify-content-center align-items-center">
-                                {nftDetail?.properties &&
-                                  nftDetail?.properties.length > 0 &&
-                                  nftDetail?.properties.map((item,index) => {
+                                {properties &&
+                                  properties.length > 0 &&
+                                  properties.map((item, index) => {
                                     return (
-                                      <div className="col-6 col-sm-4 col-md-6" key={index}>
+                                      <div
+                                        className="col-6 col-sm-4 col-md-6"
+                                        key={index}
+                                      >
                                         <div className="properties-content-container d-flex flex-column justify-content-center align-items-center text-center">
                                           <div className="properties-content">
-                                            <span>{item.type}</span>
+                                            <span>
+                                              {item.type.length > 5
+                                                ? item.type.slice(0, 5) + "..."
+                                                : item.type}
+                                            </span>
                                             <h3 className="mb-2">
-                                              {item.name}
+                                              {item.name.length > 7
+                                                ? item.name.slice(0, 7) + "..."
+                                                : item.name}
                                             </h3>
                                             {/* <p>{data.content}</p> */}
                                           </div>
@@ -973,9 +1077,9 @@ const NFTDetail = (props) => {
                             aria-labelledby="flush-headingSix"
                           >
                             <div className="accordion-body">
-                              {nftDetail?.levels &&
-                                nftDetail?.stats?.length > 0 &&
-                                nftDetail?.stats.map((item) => {
+                              {stats &&
+                                stats?.length > 0 &&
+                                stats.map((item) => {
                                   return (
                                     <StatsInfo
                                       name={item.name}
@@ -1008,9 +1112,9 @@ const NFTDetail = (props) => {
                             aria-labelledby="flush-headingSeven"
                           >
                             <div className="accordion-body">
-                              {nftDetail?.levels &&
-                                nftDetail?.levels.length > 0 &&
-                                nftDetail?.levels.map((item) => {
+                              {levels &&
+                                levels.length > 0 &&
+                                levels.map((item) => {
                                   return (
                                     <LevelsInfo
                                       name={item.name}
@@ -1078,7 +1182,7 @@ const NFTDetail = (props) => {
                               </div>
                               <div className="d-flex justify-content-between">
                                 <p>Token ID</p>
-                                <p>{nftDetail.nftToken}</p>
+                                <p>{nftToken}</p>
                               </div>
                               <div className="d-flex justify-content-between">
                                 <p>Token Standard </p>
@@ -1099,17 +1203,13 @@ const NFTDetail = (props) => {
               <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
-                    {nftDetail.fileType === "image" ? (
-                      <Card.Img
-                        variant="top"
-                        src={nftDetail.image}
-                        alt="AuctionTopImg"
-                      />
+                    {fileType === "image" ? (
+                      <Card.Img variant="top" src={image} alt="AuctionTopImg" />
                     ) : (
                       <div className="card-img-top">
                         <div className="video-wrapper">
                           <video
-                            src={nftDetail.image}
+                            src={image}
                             ref={videoElement}
                             onTimeUpdate={handleOnTimeUpdate}
                           />
@@ -1136,23 +1236,25 @@ const NFTDetail = (props) => {
                   <Card.Body>
                     <div className="detail-card-owner-container d-flex justify-content-between align-items-center mb-2">
                       <div className="detail-nft-owner">
-                        <p>Total Copies:{nftDetail.copies}</p>
+                        <p>Total Copies:{copies}</p>
                       </div>
                       <div className="detail-nft-copies d-flex align-items-center">
-                        <p>
-                          Sold: {nftDetail?.copies - nftDetail.remainingCopies}{" "}
-                        </p>
+                        <p>Sold: {nftDetail?.copies - remainingCopies} </p>
                         <p className="ps-2">
                           Remaining:{""}
                           {nftDetail?.remainingCopies
                             ? nftDetail?.remainingCopies
-                            : nftDetail.copies}{" "}
+                            : copies}{" "}
                         </p>
                       </div>
                     </div>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">
                       <div className="detail-nft-name ">
-                        <h5>{nftDetail.name}</h5>
+                        <h5>
+                          {name && name.length > 8
+                            ? name.slice(0, 8) + "..."
+                            : name}
+                        </h5>
                       </div>
                       <div className="likes-container d-flex align-items-center">
                         {toggle ? (
@@ -1160,11 +1262,11 @@ const NFTDetail = (props) => {
                             <AiFillHeart
                               className="heart-fill-icon "
                               onClick={() => {
-                                handleLikesTogleApi(nftDetail._id, "dislike");
+                                handleLikesTogleApi(_id, "dislike");
                               }}
                             />
                             <p className="text-white">
-                              {nftDetail.likesCount ? nftDetail.likesCount : 0}{" "}
+                              {likesCount ? likesCount : 0}{" "}
                             </p>
                           </>
                         ) : (
@@ -1174,28 +1276,24 @@ const NFTDetail = (props) => {
                               alt="heart-icon"
                               className="ms-1"
                               onClick={() => {
-                                handleLikesTogleApi(nftDetail._id, "like");
+                                handleLikesTogleApi(_id, "like");
                               }}
                             />
 
                             <span className="ms-1">
-                              {nftDetail.likesCount ? nftDetail.likesCount : 0}
+                              {likesCount ? likesCount : 0}
                             </span>
                           </>
                         )}
                       </div>
                     </div>
                     <div className="d-flex align-items-center justify-content-between">
-                      {nftDetail.currentPrice !== null && (
+                      {currentPrice !== null && (
                         <>
                           <h3>
-                            {nftDetail.currentPrice}
+                            {currentPrice}
                             <span>
-                              (${" "}
-                              {(nftDetail.currentPrice * exchangeRate).toFixed(
-                                2
-                              )}
-                              )
+                              ($ {(currentPrice * exchangeRate).toFixed(2)})
                             </span>
                           </h3>
                         </>
@@ -1216,9 +1314,7 @@ const NFTDetail = (props) => {
                           <p>
                             Owned by{" "}
                             <span>
-                              {nftDetail.ownerId === userId
-                                ? "You"
-                                : nftDetail.user.username}
+                              {ownerId === userId ? "You" : user.username}
                             </span>
                           </p>
                         )}
@@ -1226,9 +1322,9 @@ const NFTDetail = (props) => {
                     </div>
                     <div className=" d-flex justify-content-between align-items-center mb-2">
                       <div className="d-flex align-items-center">
-                        {nftDetail.sellingMethod === 2 && (
+                        {sellingMethod === 2 && (
                           <>
-                            {nftDetail.auctionEndDate &&
+                            {auctionEndDate &&
                               checkIfAuctionStartedorEnded(
                                 nftDetail?.auctionStartDate,
                                 nftDetail?.auctionEndDate
@@ -1261,10 +1357,10 @@ const NFTDetail = (props) => {
                           disabled={disabled}
                           onClick={() => handleRouting()}
                         >
-                          {ENV.getUserKeys("_id")._id == nftDetail.ownerId &&
-                          nftDetail.sellingMethod
+                          {ENV.getUserKeys("_id")._id == ownerId &&
+                          sellingMethod
                             ? "Resale"
-                            : ENV.getUserKeys("_id")._id == nftDetail.ownerId
+                            : ENV.getUserKeys("_id")._id == ownerId
                             ? "Sell"
                             : nftDetail?.sellingMethod === 2
                             ? "Place Bid"
@@ -1285,7 +1381,7 @@ const NFTDetail = (props) => {
                     />
                     <h6>Discription</h6>
                   </div>
-                  <p>{nftDetail.description}</p>
+                  <p>{description}</p>
                 </div>
               </div>
               <div className="col-12 mt-0 mt-md-4 order-3">
@@ -1331,7 +1427,7 @@ const NFTDetail = (props) => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {activities.map((activity,index) => {
+                                  {activities.map((activity, index) => {
                                     return (
                                       <tr>
                                         <th scope="row" key={index}>
@@ -1402,62 +1498,57 @@ const NFTDetail = (props) => {
                       >
                         <div className="accordion-body">
                           <div className="row justify-content-center align-items-center g-3">
-                            {nftsList && nftsList.length > 0 ? (
-                              nftsList.map((listing, id) => {
+                            {nfts && nfts.length > 0 ? (
+                              nfts.map((nft, id) => {
                                 if (id <= 3) {
                                   return (
-                                    <div className="col-10 col-sm-6 col-md-4 col-lg-3 px-1" key={id}>
-                                      {listing.fileType === "image" ? (
+                                    <div
+                                      className="col-10 col-sm-6 col-md-4 col-lg-3 px-1"
+                                      key={id}
+                                    >
+                                      {nft.fileType === "image" ? (
                                         <ListingCards
-                                          CardImg={listing.image}
-                                          name={listing.name}
-                                          price={listing.currentPrice}
+                                          CardImg={nft.image}
+                                          name={nft.name}
+                                          price={nft.currentPrice}
                                           handleLikesTogleApi={
-                                            handleLikesTogleApi
+                                            handleCollectionLikesTogleApi
                                           }
-                                          id={listing._id}
-                                          likesCount={listing.likeCount}
+                                          id={nft._id}
+                                          likesCount={nft.likeCount}
                                           likedNfts={likedNfts}
-                                          ownerId={listing.ownerId}
-                                          fileType={listing.fileType}
-                                          sellingMethod={listing.sellingMethod}
+                                          ownerId={nft.ownerId}
+                                          fileType={nft.fileType}
+                                          sellingMethod={nft.sellingMethod}
                                           auctionStartDate={
-                                            listing?.auctionStartDate
+                                            nft?.auctionStartDate
                                           }
-                                          auctionEndDate={
-                                            listing?.auctionEndDate
-                                          }
-                                          ownerName={listing.owner[0].username}
-                                          copies={listing.copies}
-                                          remainingCopies={
-                                            listing.remainingCopies
-                                          }
+                                          auctionEndDate={nft?.auctionEndDate}
+                                          ownerName={nft.owner[0].username}
+                                          copies={nft.copies}
+                                          remainingCopies={nft.remainingCopies}
                                         />
                                       ) : (
                                         <VideoCard
-                                          CardImg={listing.image}
-                                          name={listing.name}
-                                          price={listing.currentPrice}
+                                          CardImg={nft.image}
+                                          name={nft.name}
+                                          price={nft.currentPrice}
                                           handleLikesTogleApi={
                                             handleLikesTogleApi
                                           }
-                                          id={listing._id}
-                                          likesCount={listing.likeCount}
+                                          id={nft._id}
+                                          likesCount={nft.likeCount}
                                           likedNfts={likedNfts}
-                                          ownerId={listing.ownerId}
-                                          fileType={listing.fileType}
-                                          sellingMethod={listing.sellingMethod}
+                                          ownerId={nft.ownerId}
+                                          fileType={nft.fileType}
+                                          sellingMethod={nft.sellingMethod}
                                           auctionStartDate={
-                                            listing?.auctionStartDate
+                                            nft?.auctionStartDate
                                           }
-                                          auctionEndDate={
-                                            listing?.auctionEndDate
-                                          }
-                                          ownerName={listing.owner[0].username}
-                                          copies={listing.copies}
-                                          remainingCopies={
-                                            listing.remainingCopies
-                                          }
+                                          auctionEndDate={nft?.auctionEndDate}
+                                          ownerName={nft.owner[0].username}
+                                          copies={nft.copies}
+                                          remainingCopies={nft.remainingCopies}
                                         />
                                       )}
                                     </div>
@@ -1469,13 +1560,13 @@ const NFTDetail = (props) => {
                             )}
                           </div>
                           <div className="mt-4 detail-btn-collection text-center">
-                            {nftsList.length > 0 && nftsList.length > 4 && (
+                            {nfts.length > 0 && nfts.length > 4 && (
                               <button
                                 className="btn btn-rounded-bordered"
                                 onClick={() =>
                                   history.push({
-                                    pathname: `/collection/detailPage/${nftDetail.collectionId}`,
-                                    state: nftDetail.collection,
+                                    pathname: `/collection/detailPage/${collectionId}`,
+                                    state: collection,
                                   })
                                 }
                               >
@@ -1500,11 +1591,11 @@ const NFTDetail = (props) => {
               setModal(1);
               setTransactionSuccess(false);
             }}
-            name={nftDetail.name}
-            price={nftDetail.currentPrice}
-            image={nftDetail.image}
+            name={name}
+            price={currentPrice}
+            image={image}
             exchangeRate={exchangeRate}
-            tokenId={nftDetail.nftToken}
+            tokenId={nftToken}
             modal={modal}
             setModal={setModal}
             buyNow={BuyNow}
