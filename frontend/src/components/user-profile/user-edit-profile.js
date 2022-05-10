@@ -24,7 +24,6 @@ import { useHistory } from "react-router-dom";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 
 const EditProfile = (props) => {
-
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
   const [connectedAddress, setConnectedAddress] = useState("");
@@ -36,9 +35,9 @@ const EditProfile = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
- 
+
   const [twitterLink, setTwitterLink] = useState("");
-  
+
   const [instaLink, setInstaLink] = useState("");
   const [webLink, setWebLink] = useState("");
   const [_id, setUserId] = useState("");
@@ -58,7 +57,7 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
-      console.log(props.user.individualUser,"props.user.individualUser")
+      console.log(props.user.individualUser, "props.user.individualUser");
       const {
         address,
         email,
@@ -180,8 +179,8 @@ const EditProfile = (props) => {
         if (banner) {
           formData.append("bannerImage", banner);
         }
-        console.log(username,"user name on submit")
-        
+        console.log(username, "user name on submit");
+
         formData.append("bio", description);
         formData.append("twitterLink", twitterLink);
         formData.append("username", username);
@@ -201,7 +200,7 @@ const EditProfile = (props) => {
       goToTop();
     }
   };
-console.log(username,"username")
+  console.log(username, "username");
   return (
     <>
       {loader && <FullPageLoader />}
@@ -275,13 +274,22 @@ console.log(username,"username")
                     <div className="edit-inp pt-4">
                       <input
                         name="username"
+                        type="text"
                         placeholder="User Name"
                         maxLength="50"
                         required="required"
                         autocomplete="off"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                          if (e.target.value.trim() === "" && username === "") {
+                            return false;
+                          } else {
+                            console.log("else")
+                            setUsername(e.target.value);
+                          }
+                        }}
                         required={true}
-                        defaultValue={username}
+                        value={username}
+                     
                       />
                       <span className="text-danger">
                         {validator.message("username", username, "required")}
@@ -299,7 +307,15 @@ console.log(username,"username")
                         placeholder="Email Address"
                         required="required"
                         autocomplete="off"
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) =>{
+                          
+                          if (e.target.value.trim() === "" && email === "") {
+                            return '';
+                          } else {
+                            setEmail(e.target.value)
+                          }
+                       
+                        } }
                         value={email}
                       />
                       <span className="text-danger">
@@ -335,9 +351,17 @@ console.log(username,"username")
                       <textarea
                         name="bio"
                         placeholder="Bio"
-                        maxLength="300"
-                        onChange={(e) => setDescription(e.target.value)}
-                        defaultValue={description}
+                        maxLength="500"
+                        onChange={(e) =>{
+                          if (e.target.value.trim() === "" && description === "") {
+                            return false;
+                          } else {
+                            console.log("else")
+                            setDescription(e.target.value);
+                          }
+                       
+                        }}
+                        value={description}
                       ></textarea>
                     </div>
                   </div>
@@ -357,8 +381,16 @@ console.log(username,"username")
                           placeholder="Twitter Link"
                           autocomplete="off"
                           type="url"
-                          onChange={(e) => setTwitterLink(e.target.value)}
-                          defaultValue={twitterLink}
+                          onChange={(e) =>{
+                            if (e.target.value.trim() === "" && twitterLink === "") {
+                              return false;
+                            } else {
+                              console.log("else")
+                              setTwitterLink(e.target.value)
+                            }
+                          
+                          } }
+                          value={twitterLink}
                         />
                       </div>
                     </div>
@@ -374,8 +406,15 @@ console.log(username,"username")
                           placeholder="Instagram Link"
                           type="url"
                           autocomplete="off"
-                          onChange={(e) => setInstaLink(e.target.value)}
-                          defaultValue={instaLink}
+                          onChange={(e) =>{
+                            if (e.target.value.trim() === "" && instaLink === "") {
+                              return false;
+                            } else {
+                           
+                              setInstaLink(e.target.value)
+                            }
+                          } }
+                          value={instaLink}
                         />
                       </div>
                     </div>
@@ -391,8 +430,16 @@ console.log(username,"username")
                           placeholder="Website Link"
                           ype="url"
                           autocomplete="off"
-                          onChange={(e) => setWebLink(e.target.value)}
-                          defaultValue={webLink}
+                          onChange={(e) =>{
+                            if (e.target.value.trim() === "" && webLink === "") {
+                              return false;
+                            } else {
+                           
+                              setWebLink(e.target.value)
+                            }
+                       
+                          } }
+                          value={webLink}
                         />
                       </div>
                     </div>

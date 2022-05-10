@@ -41,6 +41,7 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
               />
+              
               <div className="controls">
                 <div className="actions">
                   <button
@@ -93,13 +94,13 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
           </div> */}
         </div>
         <Card.Title onClick={() => history.push(`nftdetail/${_id}`)}>
-          {name}
+          {name&&name.length>10?name.slice(0,10)+"...":name}
         </Card.Title>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
           <div className="auction-owner-name">
             <p>
               {"Owned by "}
-              {ownerName.length > 8
+              {ownerName&&ownerName.length > 8
                 ? ownerName.substring(0, 6) + "..."
                 : ownerName}
             </p>

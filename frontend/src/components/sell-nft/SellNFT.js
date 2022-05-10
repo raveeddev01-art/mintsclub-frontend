@@ -41,17 +41,11 @@ import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { updateProfile } from "../user/user.action";
 import ApprovalModal from "../modals/ApprovalModal";
-const { currencies, dateRangeInitialSettings, serviceFee } = ENV;
+const { dateRangeInitialSettings } = ENV;
 const config1 = {
   price: {
     currency: ENV.currency,
     amount: "",
-  },
-  listingSchedule: {
-    startDate: moment(),
-    endDate: moment().add(6, "months"),
-    startTime: moment(new Date()).format("HH:mm"),
-    endTime: "23:59",
   },
   reserveFor: "", // if user selects reserve buyer
 };
@@ -78,7 +72,6 @@ const SellNFT = (props) => {
   const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
   const [nftDetail, setNftDetail] = useState("");
   const [loader, setLoader] = useState(true); // NFT loader
-  const [tokensData, setTokensData] = useState([]);
   const location = useLocation();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [likedNfts, setLikedNfts] = useState();
@@ -113,7 +106,7 @@ const SellNFT = (props) => {
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
-    getTokens();
+  
   }, []);
 
   // when NFT data is received
@@ -121,11 +114,6 @@ const SellNFT = (props) => {
     if (props.nft.nftsAuth) {
       const nft = props.nft.nftsData;
       setNftDetail(props.nftDetail)
-      // if (!props.nftDetail.user.isApproved) {
-      //   setShow(true);
-      // }
-  
-
       setLoader(false);
       validateIfLiked(likedNfts, props.nftDetail);
       props.beforeNFT();
@@ -230,7 +218,7 @@ const SellNFT = (props) => {
       let timedConfig = { ...timedAuctionConfig };
 
       let fixedConfig = { ...fixedPriceConfig };
-      const { _id, ownerId, ownerAddress } = nftDetail;
+      const { _id, ownerId } = nftDetail;
 
       let activityPayload = {
         nftId: _id,
@@ -247,6 +235,7 @@ const SellNFT = (props) => {
         let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
         let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
 
+        //calculate end time
         timedAuctionEndTime = timedAuctionEndTime.toString();
         timedAuctionEndTime =
           timedAuctionEndTime.slice(0, 15) +
@@ -256,6 +245,7 @@ const SellNFT = (props) => {
           timedAuctionEndTime.slice(24);
         timedConfig.duration.endDate = timedAuctionEndTime;
 
+        //calculate start time
         timedAuctionStartTime = timedAuctionStartTime.toString();
         timedAuctionStartTime =
           timedAuctionStartTime.slice(0, 15) +
@@ -265,6 +255,7 @@ const SellNFT = (props) => {
           timedAuctionStartTime.slice(24);
         timedConfig.duration.startDate = timedAuctionStartTime;
 
+       //Deleting unused data from payload
         let auctionConfig = timedConfig;
         delete auctionConfig.duration.startTime;
         delete auctionConfig.duration.endTime;
@@ -281,12 +272,7 @@ const SellNFT = (props) => {
           copiesForAuction: copies,
         };
       } else {
-        //  fixedConfig.price.amount;
-        delete fixedConfig.listingSchedule.startTime;
-        delete fixedConfig.listingSchedule.endTime;
-        delete fixedConfig.listingSchedule.startDate;
-        delete fixedConfig.listingSchedule.endDate;
-        delete fixedConfig.listingSchedule;
+     
         price = Number(fixedConfig.price.amount);
         if (price === 0) {
           toast.error("Price should be greater then 0");
@@ -411,11 +397,7 @@ const SellNFT = (props) => {
     formData.append("isApproved", true);
     formData.append("userId", nftDetail.user._id);
     try {
-      let profilePayload = {
-        isApproved: true,
-        userId: nftDetail.user._id,
-      };
-
+  
       let accApproved = await setApprovalForAll(setApprovalStatus);
       if (accApproved) {
         let updatedNFTDetail = { ...nftDetail };
@@ -431,33 +413,9 @@ const SellNFT = (props) => {
       return "";
     }
   };
-  const getTokens = () => {
-    const url = process.env.REACT_APP_BASE_URL + "nftTokens/tokens";
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTokensData(data);
-      })
-      .catch((error) => {
-        console.log(error, "error in catch blcok");
-      });
-  };
 
-  const { image, currentPrice, likesCount, auctionEndDate } = nftDetail;
+  const { image, currentPrice, likesCount, auctionEndDate,name,_id ,ownerId,user,fileType} = nftDetail;
 
   return (
     <>
@@ -586,7 +544,7 @@ const SellNFT = (props) => {
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
                                         }
-                                        defaultValue={
+                                        value={
                                           fixedPriceConfig.price.amount
                                         }
                                         required
@@ -642,6 +600,7 @@ const SellNFT = (props) => {
                                         min={"1"}
                                         max={`${nftDetail.copies}`}
                                         onChange={(e) => {
+                                        
                                           if (
                                             (e.target.value &&
                                               e.target.value === ".") ||
@@ -834,7 +793,7 @@ const SellNFT = (props) => {
                                           borderRadius: "4px",
                                         }}
                                         onChange={(e) => {
-                                        
+                                      
                                           if (e.target.value === "00") {
                                             return false;
                                           } else {
@@ -844,9 +803,8 @@ const SellNFT = (props) => {
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
                                         }
-                                        defaultValue={
-                                          fixedPriceConfig.price.amount
-                                        }
+                                        value={timedAuctionConfig.startPrice.amount}
+                                        
                                         required
                                         autoComplete="off"
                                       />
@@ -1043,9 +1001,9 @@ const SellNFT = (props) => {
               <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
-                    {nftDetail && nftDetail.fileType === "image" ? (
+                    {fileType && fileType === "image" ? (
                       <Card.Img variant="top" src={image} alt="AuctionTopImg" />
-                    ) : nftDetail && nftDetail.fileType === "video" ? (
+                    ) : fileType && fileType === "video" ? (
                       <div className="card-img-top">
                         <div className="video-wrapper">
                           <video
@@ -1078,7 +1036,7 @@ const SellNFT = (props) => {
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">
                       <div className="detail-nft-name">
-                        <h5>{nftDetail.name}</h5>
+                        <h5>{name&&name.length>20?name.slice(0,20)+"...":name}</h5>
                       </div>
                       <div className="likes-container d-flex align-items-center">
                         {toggle ? (
@@ -1086,11 +1044,11 @@ const SellNFT = (props) => {
                             <AiFillHeart
                               className="heart-fill-icon "
                               onClick={() => {
-                                handleLikesTogleApi(nftDetail._id, "dislike");
+                                handleLikesTogleApi(_id, "dislike");
                               }}
                             />
                             <p className="text-white">
-                              {nftDetail.likesCount ? nftDetail.likesCount : 0}{" "}
+                              {likesCount ? likesCount : 0}{" "}
                             </p>
                           </>
                         ) : (
@@ -1100,12 +1058,12 @@ const SellNFT = (props) => {
                               alt="heart-icon"
                               className="ms-1"
                               onClick={() => {
-                                handleLikesTogleApi(nftDetail._id, "like");
+                                handleLikesTogleApi(_id, "like");
                               }}
                             />
 
                             <span className="ms-1">
-                              {nftDetail.likesCount ? nftDetail.likesCount : 0}
+                              {likesCount ? likesCount : 0}
                             </span>
                           </>
                         )}
@@ -1146,7 +1104,7 @@ const SellNFT = (props) => {
                       </div>
                     </div>
                     <div className=" d-flex justify-content-between align-items-center mb-2">
-                      {nftDetail.sellingMethod === 2 && (
+                      {nftDetail?.sellingMethod === 2 && (
                         <div className="d-flex align-items-center">
                           <img
                             src={ClockIcon}

@@ -525,8 +525,11 @@ const CollectionDetailsPage = (props) => {
                     maxLength="50"
                     onChange={(e) => {
                       if (e.target.value.trimStart() === "") {
-                        console.log(e.target.value, "e.target.value");
+                    
                         return false;
+                      }else if(e.target.value===''){
+                        handleSearchKeyword(false)
+                        setKeyword(e.target.value);
                       } else {
                         setKeyword(e.target.value);
                       }

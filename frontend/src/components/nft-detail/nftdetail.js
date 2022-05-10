@@ -229,7 +229,7 @@ const NFTDetail = (props) => {
       }
 
       let fivePerc = "";
-      if (props.nftDetail.highestBid === 0) {
+      if (props.nftDetail.highestBid === 0||props.nftDetail.highestBid===undefined) {
         fivePerc = (5 / 100) * props.nftDetail.currentPrice;
         fivePerc = fivePerc + props.nftDetail.currentPrice;
       } else {
@@ -427,7 +427,7 @@ const NFTDetail = (props) => {
   const calculatePricePercantage = () => {
     let fivePerc = "";
     let result = "";
-    if (nftDetail.highestBid === 0) {
+    if (nftDetail.highestBid === 0||nftDetail.highestBid === undefined) {
       fivePerc = (5 / 100) * nftDetail.currentPrice;
 
       result = fivePerc + nftDetail.currentPrice;
@@ -641,7 +641,7 @@ const NFTDetail = (props) => {
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
 
-    if (ENV.getUserKeys("_id")._id == nftDetail.ownerId) {
+    if (ENV.getUserKeys("_id")._id == nftDetail.ownerId||nftDetail.sellingMethod===1) {
       return true;
     }
     if (startDate && endDate && nftDetail.sellingMethod) {
@@ -684,7 +684,7 @@ const NFTDetail = (props) => {
     collectionId,
     collection,
   } = nftDetail;
-  console.log(nfts)
+
 
   return (
     <>
@@ -767,16 +767,16 @@ const NFTDetail = (props) => {
                                         <th scope="col">Price</th>
                                         <th scope="col">USD Price</th>
                                         <th scope="col">Floor Difference</th>
-                                        {/* <th scope="col">Expiration</th> */}
+                                      
                                         <th scope="col">From</th>
-                                        {/* <th scope="col">{""}</th> */}
+                                      
                                       </tr>
                                     </thead>
                                   )}
                                   <tbody>
-                                    {nftDetail?.sellingMethod === 2 ? (
+                                    {nftDetail?.sellingMethod === 2 &&bids&&bids.length>0? (
                                       <>
-                                        {bids && bids.length > 0 ? (
+                                        {
                                           bids.map((bid, index) => {
                                             return (
                                               <tr key={index}>
@@ -820,64 +820,15 @@ const NFTDetail = (props) => {
                                               </tr>
                                             );
                                           })
+                                        }
+                                      </>
                                         ) : (
                                           <p className="text-center d-flex justify-content-center align-items-center">
                                             No Offers Found
                                           </p>
-                                        )}
-                                      </>
-                                    ) : (
-                                      <>
-                                        {offers && offers.length > 0 ? (
-                                          offers.map((offer, index) => {
-                                            return (
-                                              <tr key={index}>
-                                                <th scope="row">
-                                                  {offer.price}
-                                                </th>
-                                                <td>
-                                                  $
-                                                  {(
-                                                    offer.price * exchangeRate
-                                                  ).toFixed(2)}
-                                                </td>
-                                                <td>
-                                                  {getPercentageChange(
-                                                    offer.price,
-                                                    lowestNftPrice
-                                                  ).toFixed(0)}
-                                                  %{" "}
-                                                  {offer.price > lowestNftPrice
-                                                    ? "above"
-                                                    : "below"}
-                                                </td>
-                                                {/* <td>an hour ago</td> */}
-                                                <td>
-                                                  {offer.fromAddress.slice(-6)}
-                                                </td>
-                                                {ENV.getUserKeys("_id")._id ===
-                                                  offer.offerBy && (
-                                                  <td>
-                                                    <button
-                                                      className="cancel-Bid-btn"
-                                                      onClick={() =>
-                                                        deleteBid(offer._id)
-                                                      }
-                                                    >
-                                                      Accept
-                                                    </button>
-                                                  </td>
-                                                )}
-                                              </tr>
-                                            );
-                                          })
-                                        ) : (
-                                          <p className="text-center d-flex justify-content-center align-items-center">
-                                            No Offers Found
-                                          </p>
-                                        )}
-                                      </>
-                                    )}
+                                        )
+                                    } 
+                                  
                                   </tbody>
                                 </table>
                               </div>
@@ -1026,7 +977,7 @@ const NFTDetail = (props) => {
                             <div className="accordion-body">
                               <div className="row g-2 justify-content-center align-items-center">
                                 {properties &&
-                                  properties.length > 0 &&
+                                  properties.length > 0 ?
                                   properties.map((item, index) => {
                                     return (
                                       <div
@@ -1050,7 +1001,9 @@ const NFTDetail = (props) => {
                                         </div>
                                       </div>
                                     );
-                                  })}
+                                  }):
+                                  <p className="text-white text-center">No Properties Foud</p>
+                                }
                               </div>
                             </div>
                           </div>
@@ -1078,7 +1031,7 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body">
                               {stats &&
-                                stats?.length > 0 &&
+                                stats?.length > 0 ?
                                 stats.map((item) => {
                                   return (
                                     <StatsInfo
@@ -1086,7 +1039,7 @@ const NFTDetail = (props) => {
                                       value={item.value}
                                     />
                                   );
-                                })}
+                                }):   <p className="text-white text-center">No Stats Foud</p>}
                             </div>
                           </div>
                         </div>
@@ -1113,7 +1066,7 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body">
                               {levels &&
-                                levels.length > 0 &&
+                                levels.length > 0 ?
                                 levels.map((item) => {
                                   return (
                                     <LevelsInfo
@@ -1121,7 +1074,7 @@ const NFTDetail = (props) => {
                                       value={item.value}
                                     />
                                   );
-                                })}
+                                }):   <p className="text-white text-center">No Levels Foud</p>}
                             </div>
                           </div>
                         </div>
@@ -1415,7 +1368,7 @@ const NFTDetail = (props) => {
                       >
                         <div className="accordion-body">
                           <div className="table-container">
-                            {activities && activities.length > 0 && (
+                            {activities && activities.length > 0 ? (
                               <table className="table table-borderless">
                                 <thead>
                                   <tr>
@@ -1467,7 +1420,7 @@ const NFTDetail = (props) => {
                                   })}
                                 </tbody>
                               </table>
-                            )}
+                            ):<p className="text-white d-flex align-items-center justify-content-center w-100 h-100">No Activities Found</p>}
                           </div>
                         </div>
                       </div>
@@ -1625,7 +1578,6 @@ const NFTDetail = (props) => {
             transactionSuccess={transactionSuccess}
             disabled={disabled}
           />
-
           <BidModal
             show={bidModalShow}
             calculatePricePercantage={calculatePricePercantage}

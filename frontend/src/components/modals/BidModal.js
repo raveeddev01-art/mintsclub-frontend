@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../assets/images/modal-close.svg";
-import NftImg from "../../assets/images/listingImg3.png";
+
 import "./BuyModal.css";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import TickIcon from "../../assets/images/tick-checkbox.svg";
 import axios from "axios";
 
 const BidModal = (props) => {
-  const [bid, setBid] = useState();
+
   const [checkBox, setCheckBox] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(0);
   useEffect(() => {

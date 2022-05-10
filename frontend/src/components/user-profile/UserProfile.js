@@ -18,9 +18,7 @@ import { Images } from "../../assets/assets";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import { Link } from "react-router-dom";
 import VideoCard from "../test-video-card/videoCard";
-import {
-  validateNetwork,
-} from "../../utils/web3";
+import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -39,8 +37,8 @@ const UserProfile = (props) => {
   const [likedNfts, setLikedNfts] = useState();
   const [keyword, setKeyword] = useState("");
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
-  const [initial,setInitial]=useState(true)
-  const [disabled,setDisabled]=useState(false)
+  const [initial, setInitial] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -85,15 +83,12 @@ const UserProfile = (props) => {
         const Nfts = props.profileNFTs.nfts.filter(
           (item) => item.creatorId !== ENV.getUserKeys("_id")._id
         );
-        if(Nfts.length>0){
-          setDisabled(false)
-        }
-        else {
-          if(initial){
-
-            setDisabled(true) 
+        if (Nfts.length > 0) {
+          setDisabled(false);
+        } else {
+          if (initial) {
+            setDisabled(true);
           }
-
         }
         setNFTs(Nfts);
         setNFTsCopy(props.profileNFTs.nfts);
@@ -171,7 +166,7 @@ const UserProfile = (props) => {
     props.getProfileNfts(qs);
   };
   const handleSortOptions = (e) => {
-    setInitial(false)
+    setInitial(false);
     setFilterationLoader(true);
 
     const { value } = e.target;
@@ -295,7 +290,7 @@ const UserProfile = (props) => {
   };
 
   const handlePagination = () => {
-    setInitial(false)
+    setInitial(false);
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
     getNFTs(
@@ -317,7 +312,7 @@ const UserProfile = (props) => {
   };
 
   const applyMinMaxFilter = () => {
-    setInitial(false)
+    setInitial(false);
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
     getNFTs(
@@ -339,7 +334,7 @@ const UserProfile = (props) => {
   };
 
   const handleCollectionsFilter = (id) => {
-    setInitial(false)
+    setInitial(false);
     setFilterationLoader(true);
 
     setFilter((prev) => ({ ...prev, collectionId: id }));
@@ -362,7 +357,8 @@ const UserProfile = (props) => {
   };
 
   const handleSearchKeyword = () => {
-    setInitial(false)
+    setInitial(false);
+    setFilterationLoader(true);
     getNFTs(
       filter.page,
       filter.limit + 10,
@@ -382,14 +378,13 @@ const UserProfile = (props) => {
   };
 
   const handleStatusFilter = (id) => {
-    setInitial(false)
-    if(id === "Buy Now" ){
-
-      setFilter((prev) => ({ ...prev, buy: true,auction:false,new:false }));
-    }else if(id === "On Auction"){
-      setFilter((prev) => ({ ...prev, auction: true,buy:false,new:false }));
-    }else {
-      setFilter((prev) => ({ ...prev, new: true ,buy:false,auction:false}));
+    setInitial(false);
+    if (id === "Buy Now") {
+      setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
+    } else if (id === "On Auction") {
+      setFilter((prev) => ({ ...prev, auction: true, buy: false, new: false }));
+    } else {
+      setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
     }
     getNFTs(
       filter.page,
@@ -410,44 +405,44 @@ const UserProfile = (props) => {
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
-    if (!likeButtonDisable) {
-      setLikeBtnDisable(true);
-      let userId = ENV.getUserKeys("_id")._id;
+      if (!likeButtonDisable) {
+        setLikeBtnDisable(true);
+        let userId = ENV.getUserKeys("_id")._id;
 
-      let data = {
-        userId,
-        nftId,
-        count: 1,
-      };
-      if ((status === "dislike") & (likesCount > 0)) {
-        let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-        setLikedNfts(result);
-        increOrDecreLikes(nftId, "dec");
-        props.toggleLikeDislike(data);
-      }
-      if (status === "like") {
-        let myLikedNfts = [];
-        if (likedNfts && likedNfts.length > 0) {
-          myLikedNfts = likedNfts;
-        }
-
-        let obj = {
-          _id: "1234455",
+        let data = {
+          userId,
           nftId,
+          count: 1,
         };
+        if ((status === "dislike") & (likesCount > 0)) {
+          let result = likedNfts.filter((item) => item.nftId !== nftId);
 
-        myLikedNfts.push(obj);
+          setLikedNfts(result);
+          increOrDecreLikes(nftId, "dec");
+          props.toggleLikeDislike(data);
+        }
+        if (status === "like") {
+          let myLikedNfts = [];
+          if (likedNfts && likedNfts.length > 0) {
+            myLikedNfts = likedNfts;
+          }
 
-        setLikedNfts(myLikedNfts);
-        increOrDecreLikes(nftId, "inc");
-        props.toggleLikeDislike(data);
+          let obj = {
+            _id: "1234455",
+            nftId,
+          };
+
+          myLikedNfts.push(obj);
+
+          setLikedNfts(myLikedNfts);
+          increOrDecreLikes(nftId, "inc");
+          props.toggleLikeDislike(data);
+        }
+        // setNFTs(nfts);
       }
-      // setNFTs(nfts);
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
-  }else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-  }
   };
 
   const increOrDecreLikes = (id, status) => {
@@ -565,7 +560,8 @@ const UserProfile = (props) => {
                 </div>
                 {user && (
                   <p>
-                    Joined <span>{moment(user.createdAt).format('MMMM DD YYYY')}</span>
+                    Joined{" "}
+                    <span>{moment(user.createdAt).format("MMMM DD YYYY")}</span>
                   </p>
                 )}
               </div>
@@ -580,7 +576,7 @@ const UserProfile = (props) => {
                       {menuData.map((item, id) => {
                         return (
                           <button
-                          key={id}
+                            key={id}
                             onClick={() => {
                               setIsActive(id);
                               handleNftFilter(item);
@@ -612,11 +608,22 @@ const UserProfile = (props) => {
                     className="form-control"
                     placeholder="Search"
                     maxLength="50"
-                    onChange={(e) => setKeyword(e.target.value)}
+                    onChange={(e) => {
+                      if (keyword === "" && e.target.value === "") {
+                        return false;
+                      } else if (e.target.value === "") {
+                        handleSearchKeyword(false);
+                        setKeyword(e.target.value);
+                      } else {
+                        setKeyword(e.target.value);
+                      }
+                    }}
                     onKeyPress={(e) =>
                       e.key === "Enter" && handleSearchKeyword()
                     }
+                    value={keyword}
                   />
+
                 </div>
               </div>
               {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
@@ -646,7 +653,11 @@ const UserProfile = (props) => {
                     {priceoptions &&
                       priceoptions.map((collection, index) => {
                         return (
-                          <option key={index} value={collection.label} disabled={disabled}>
+                          <option
+                            key={index}
+                            value={collection.label}
+                            disabled={disabled}
+                          >
                             {collection.label}
                           </option>
                         );
@@ -654,7 +665,7 @@ const UserProfile = (props) => {
                   </select>
                 </div>
               </div>
-              
+
               <div className="col-12 d-sm-none">
                 <div className="sm-filter-btn d-flex align-items-center justify-content-center">
                   <button
@@ -717,9 +728,12 @@ const UserProfile = (props) => {
                       </div>
                     </div>
                   ) : nfts && nfts.length > 0 ? (
-                    nfts.map((listing,index) => {
+                    nfts.map((listing, index) => {
                       return (
-                        <div className="col-6 col-md-4 col-lg-3 px-1" key={index}>
+                        <div
+                          className="col-6 col-md-4 col-lg-3 px-1"
+                          key={index}
+                        >
                           {listing.fileType === "image" ? (
                             <ListingCards
                               CardImg={listing.image}

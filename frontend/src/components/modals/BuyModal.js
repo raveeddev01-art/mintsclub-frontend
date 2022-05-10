@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../assets/images/modal-close.svg";
-import NftImg from "../../assets/images/listingImg3.png";
 import "./BuyModal.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TickIcon from "../../assets/images/tick-checkbox.svg";
@@ -65,7 +64,11 @@ const BuyModal = (props) => {
             <div className="modal-nft-conntent">
               <div className="row align-items-center justify-content-between">
                 <div className="col-6">
-                  <p>{name}</p>
+                  <p>
+                    {name && name.length > 10
+                      ? name.slice(0, 10) + "..."
+                      : name}
+                  </p>
                 </div>
                 <div className="col-6">
                   <div className="modal-nft-detail text-end">
@@ -75,7 +78,10 @@ const BuyModal = (props) => {
                 <div className="col-6">
                   <div className="modal-nft-detail">
                     <p>
-                      {name} # {tokenId}
+                      {name && name.length > 10
+                        ? name.slice(0, 10) + "..."
+                        : name}{" "}
+                      # {tokenId}
                     </p>
                   </div>
                 </div>
@@ -125,7 +131,7 @@ const BuyModal = (props) => {
             )}
             <p>
               By checking this box,I agree to MintsClub{" "}
-              <Link >Terms of Services</Link>
+              <Link>Terms of Services</Link>
             </p>
           </div>
         </div>
@@ -133,7 +139,7 @@ const BuyModal = (props) => {
           onClick={() => {
             buyNow();
           }}
-          disabled={disabled}
+          disabled={disabled||checkBox}
           className="btn btn-linear-gradient mt-2"
         >
           Checkout
@@ -170,13 +176,17 @@ const BuyModal = (props) => {
         <div className="modal-nft-purchased mt-3">
           {!transactionSuccess ? (
             <p>
-          {  `  Woo! You just Purchased ${name}. It should be confirmed on the
+              {`  Woo! You just Purchased ${
+                name && name.length > 10 ? name.slice(0, 10) + "..." : name
+              }. It should be confirmed on the
               blockchain shortly`}
             </p>
           ) : (
             <p>
               {" "}
-            {`  Woo! You just Purchased ${name}. It's been confirmed on the
+              {`  Woo! You just Purchased ${
+                name && name.length > 10 ? name.slice(0, 10) + "..." : name
+              }. It's been confirmed on the
               blockchain shortly`}
             </p>
           )}
@@ -205,7 +215,15 @@ const BuyModal = (props) => {
                 </>
               )}
             </div>
-            <div className="status-address" onClick={()=>window.open(`https://rinkeby.etherscan.io/tx/${transactionHash}`,'_blank')}>
+            <div
+              className="status-address"
+              onClick={() =>
+                window.open(
+                  `https://rinkeby.etherscan.io/tx/${transactionHash}`,
+                  "_blank"
+                )
+              }
+            >
               <p>
                 {transactionHash.slice(0, 6) +
                   "....." +

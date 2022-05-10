@@ -529,15 +529,20 @@ const AllNFT = (props) => {
                       }
                     }}
                   />
+
                   <input
                     type="text"
                     className="form-control"
                     placeholder="Search"
                     maxLength="50"
                     onChange={(e) => {
+                      
                       if (keyword===''&& e.target.value === "") {
-                     console.log("inside")
                         return false;
+                        
+                      }else if(e.target.value===''){
+                        handleSearchKeyword(false)
+                        setKeyword(e.target.value);
                       } else {
                         setKeyword(e.target.value);
                       }
