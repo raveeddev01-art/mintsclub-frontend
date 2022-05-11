@@ -101,9 +101,9 @@ export const openNFTForBidding = async (
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let id = Number(tokenId);
-
+console.log(biddingTime,startTime)
     const result = await contractM.methods
-      .startAuction(biddingTime, startTime, connectedAddress, id, copies)
+      .startAuction(1652220480, 1652220000, connectedAddress, id, copies)
       .send({ from: connectedAddress });
     if (result) {
       return result;
