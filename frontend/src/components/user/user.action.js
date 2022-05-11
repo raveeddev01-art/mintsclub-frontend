@@ -144,7 +144,6 @@ export const updateProfile = (body) => (dispatch) => {
     .then((data) => {
     console.log(data,"data")
       if (data.status) {
-        // ENV.encryptUserData(data.data);
         dispatch({
           type: SET_USER,
           payload: data.data,
@@ -154,9 +153,7 @@ export const updateProfile = (body) => (dispatch) => {
         dispatch({
           type: GET_ERRORS,
           payload: data,
-        });
-   
-       
+        });     
       }
     })
     .catch((errors) => {

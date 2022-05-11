@@ -60,12 +60,11 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
 
     axios.post(ENV.url + url, body, config).then(
       (res) => {
-        console.log(res, 'response');
-        // console.log(res,"res success");
+      
         resolve(res.data);
       },
       (error) => {
-        toast.error(error.message);
+      
         resolve(error);
       }
     );

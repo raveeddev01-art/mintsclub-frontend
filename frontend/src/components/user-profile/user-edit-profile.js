@@ -17,11 +17,12 @@ import {
   getUserById,
   beforeUser,
 } from "./../user/user.action";
-
+import { emptyError } from "../../redux/shared/error/error.action";
 import { ENV } from "./../../config/config";
 
 import { useHistory } from "react-router-dom";
 import FullPageLoader from "../full-page-loader/full-page-loader";
+import { toast } from "react-toastify";
 
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
@@ -54,10 +55,17 @@ const EditProfile = (props) => {
 
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
+  useEffect(() => {
+    if (props.error !== null) {
+      setLoader(false)
+      toast.error(props.error.messasge);
+      props.emptyError()
+    }
+  }, [props.error]);
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
-      console.log(props.user.individualUser, "props.user.individualUser");
+   
       const {
         address,
         email,
@@ -96,12 +104,6 @@ const EditProfile = (props) => {
     }
   }, [props.user.userAuth]);
 
-  useEffect(() => {
-    if (props.error) {
-      setErrors(props.error.message);
-      goToTop();
-    }
-  }, [props.error]);
 
   const goToTop = () => {
     $("html, body").animate(
@@ -179,7 +181,7 @@ const EditProfile = (props) => {
         if (banner) {
           formData.append("bannerImage", banner);
         }
-        console.log(username, "user name on submit");
+       
 
         formData.append("bio", description);
         formData.append("twitterLink", twitterLink);
@@ -200,7 +202,7 @@ const EditProfile = (props) => {
       goToTop();
     }
   };
-  console.log(username, "username");
+
   return (
     <>
       {loader && <FullPageLoader />}
@@ -283,13 +285,12 @@ const EditProfile = (props) => {
                           if (e.target.value.trim() === "" && username === "") {
                             return false;
                           } else {
-                            console.log("else")
+                            console.log("else");
                             setUsername(e.target.value);
                           }
                         }}
                         required={true}
                         value={username}
-                     
                       />
                       <span className="text-danger">
                         {validator.message("username", username, "required")}
@@ -307,15 +308,13 @@ const EditProfile = (props) => {
                         placeholder="Email Address"
                         required="required"
                         autocomplete="off"
-                        onChange={(e) =>{
-                          
+                        onChange={(e) => {
                           if (e.target.value.trim() === "" && email === "") {
-                            return '';
+                            return "";
                           } else {
-                            setEmail(e.target.value)
+                            setEmail(e.target.value);
                           }
-                       
-                        } }
+                        }}
                         value={email}
                       />
                       <span className="text-danger">
@@ -352,14 +351,16 @@ const EditProfile = (props) => {
                         name="bio"
                         placeholder="Bio"
                         maxLength="500"
-                        onChange={(e) =>{
-                          if (e.target.value.trim() === "" && description === "") {
+                        onChange={(e) => {
+                          if (
+                            e.target.value.trim() === "" &&
+                            description === ""
+                          ) {
                             return false;
                           } else {
-                            console.log("else")
+                            console.log("else");
                             setDescription(e.target.value);
                           }
-                       
                         }}
                         value={description}
                       ></textarea>
@@ -381,15 +382,17 @@ const EditProfile = (props) => {
                           placeholder="Twitter Link"
                           autocomplete="off"
                           type="url"
-                          onChange={(e) =>{
-                            if (e.target.value.trim() === "" && twitterLink === "") {
+                          onChange={(e) => {
+                            if (
+                              e.target.value.trim() === "" &&
+                              twitterLink === ""
+                            ) {
                               return false;
                             } else {
-                              console.log("else")
-                              setTwitterLink(e.target.value)
+                              console.log("else");
+                              setTwitterLink(e.target.value);
                             }
-                          
-                          } }
+                          }}
                           value={twitterLink}
                         />
                       </div>
@@ -406,14 +409,16 @@ const EditProfile = (props) => {
                           placeholder="Instagram Link"
                           type="url"
                           autocomplete="off"
-                          onChange={(e) =>{
-                            if (e.target.value.trim() === "" && instaLink === "") {
+                          onChange={(e) => {
+                            if (
+                              e.target.value.trim() === "" &&
+                              instaLink === ""
+                            ) {
                               return false;
                             } else {
-                           
-                              setInstaLink(e.target.value)
+                              setInstaLink(e.target.value);
                             }
-                          } }
+                          }}
                           value={instaLink}
                         />
                       </div>
@@ -430,15 +435,16 @@ const EditProfile = (props) => {
                           placeholder="Website Link"
                           ype="url"
                           autocomplete="off"
-                          onChange={(e) =>{
-                            if (e.target.value.trim() === "" && webLink === "") {
+                          onChange={(e) => {
+                            if (
+                              e.target.value.trim() === "" &&
+                              webLink === ""
+                            ) {
                               return false;
                             } else {
-                           
-                              setWebLink(e.target.value)
+                              setWebLink(e.target.value);
                             }
-                       
-                          } }
+                          }}
                           value={webLink}
                         />
                       </div>
@@ -473,4 +479,5 @@ export default connect(mapStateToProps, {
   setIndividualUserData,
   beforeUser,
   getUserById,
+  emptyError,
 })(EditProfile);

@@ -3,7 +3,6 @@ import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import "./CreateCollections.css";
-import { editImages } from "../../assets/assets";
 import { ReactComponent as ProfileEditSVG } from "../../assets/images/edit-pen.svg";
 import CollectionUploadIcon from "../../assets/images/collection-upload-icon.svg";
 import { connect } from "react-redux";
@@ -58,8 +57,9 @@ class CreateCollections extends Component {
     // this.props.getUser()
   }
 
-  componentDidUpdate() {
-    if (this.props.error) {
+  componentDidUpdate(prevProps) {
+    if (this.props.error!==null&&prevProps.error===null) {
+      toast.error(this.props.error.message)
       this.setState({ loader: false }, () => {
         this.props.emptyError();
       });
@@ -407,7 +407,8 @@ class CreateCollections extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  {
   collection: state.collection,
   // user: state.user,
   error: state.error,

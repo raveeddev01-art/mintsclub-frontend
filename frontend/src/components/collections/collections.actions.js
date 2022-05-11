@@ -192,13 +192,13 @@ export const upsertCollection =
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          toast.success(data.message);
+          // toast.success(data.message);
           dispatch({
             type: UPSERT_COLLECTION,
             payload: data,
           });
         } else {         
-          toast.error(data.message);
+          // toast.error(data.message);
           dispatch({
             type: GET_ERRORS,
             payload: data,
@@ -206,11 +206,7 @@ export const upsertCollection =
         }
       })
       .catch((error) => {
-        console.log(error.response.data)
-        if (error.response && error.response.data) {
-          const { data } = error.response;
-          if (data.message) toast.error(data.message);
-        }
+        
         dispatch({
           type: GET_ERRORS,
           payload: error,

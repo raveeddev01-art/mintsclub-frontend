@@ -550,6 +550,7 @@ const NFTDetail = (props) => {
   //   setOffers(result);
   //   props.deleteOffer(id);
   // };
+  
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment(new Date(auctionEndDate))
       .utc(true)
@@ -1204,8 +1205,8 @@ const NFTDetail = (props) => {
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">
                       <div className="detail-nft-name ">
                         <h5>
-                          {name && name.length > 8
-                            ? name.slice(0, 8) + "..."
+                          {name && name.length > 14
+                            ? name.slice(0, 14) + "..."
                             : name}
                         </h5>
                       </div>
@@ -1261,13 +1262,14 @@ const NFTDetail = (props) => {
                         </p>
                       </div>
                     </div>
+                    
                     <div className="detail-card-owner-container mb-2">
                       <div className="detail-nft-owner">
                         {nftDetail && (
                           <p>
                             Owned by{" "}
                             <span>
-                              {ownerId === userId ? "You" : user.username}
+                              {ownerId === userId ? "You" : user.username&& user.username}
                             </span>
                           </p>
                         )}

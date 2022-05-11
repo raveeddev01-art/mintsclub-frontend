@@ -506,7 +506,7 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-
+console.log(nfts,"nfts")
   return (
     <>
       <NavbarMain />

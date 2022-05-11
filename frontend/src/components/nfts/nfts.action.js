@@ -49,7 +49,7 @@ export const upsertNFT =
     })
       .then((res) => res.json())
       .then((data) => {
-       
+       console.log(data)
         if (data.success) {
           toast.success(data.message);
           dispatch({
@@ -57,7 +57,7 @@ export const upsertNFT =
             payload: data,
           });
         } else {
-          toast.error(data.message);
+        
           dispatch({
             type: GET_ERRORS,
             payload: data,
@@ -65,10 +65,7 @@ export const upsertNFT =
         }
       })
       .catch((error) => {
-        if (error.response && error.response.data) {
-          const { data } = error.response;
-          if (data.message) toast.error(data.message);
-        }
+      
         dispatch({
           type: GET_ERRORS,
           payload: error,
@@ -321,6 +318,7 @@ export const getMyLikedNfts =
 export const createNFT = async (formData) => async (dispatch)=>{
   try {
     const res = await axiosPostFormData("nfts/create", formData, true);
+    
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
@@ -328,6 +326,7 @@ export const createNFT = async (formData) => async (dispatch)=>{
     });
   }
 };
+
 export const addNFTRecord = (formData) => async (dispatch) => {
   try{
 

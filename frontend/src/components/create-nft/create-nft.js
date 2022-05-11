@@ -18,6 +18,7 @@ import {
 } from "../collections/collections.actions";
 import { addNFTRecord, createNFT, createActivity } from "../nfts/nfts.action";
 import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
+import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.css";
 import { Images } from "../../assets/assets.js";
 import Upload from "./components/upload";
@@ -97,6 +98,14 @@ class CreateNFT extends Component {
   };
 
   componentDidUpdate(prevProps) {
+
+    if (this.props.error) {
+      this.setState({ loader: false }, () => {
+        this.props.emptyError();
+      });
+    }
+
+
     if (
       this.props.collection.myCollectionsResult &&
       prevProps.collection.myCollectionsResult !==
@@ -150,7 +159,7 @@ class CreateNFT extends Component {
 
   submit = async (e) => {
     e.preventDefault();
-    console.log(this.state.nft, "nft");
+   
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
@@ -161,7 +170,7 @@ class CreateNFT extends Component {
       nftInfo.levels = JSON.stringify(nftInfo.levels);
 
       nftInfo.stats = JSON.stringify(nftInfo.stats);
-      console.log(nftInfo, "nftInfo");
+     
       if (videoURL) {
         nftInfo.fileType = "video";
       } else if (audioUrl !== "") {
@@ -195,8 +204,10 @@ class CreateNFT extends Component {
                   formData,
                   true
                 );
+              
 
                 if (res.success) {
+               
                   // this.reset();
 
                   nft.remainingCopies = nft.copies;
@@ -229,7 +240,9 @@ class CreateNFT extends Component {
                       this.setState({ loader: false });
                     }
                   }
-                } else this.setState({ errors: res.message, loader: false });
+                } else {
+                  toast.error(res.response.data.message)
+                  this.setState({ errors: res.message, loader: false })};
               }
             );
           } else {
@@ -858,4 +871,5 @@ export default connect(mapStateToProps, {
   createNFT,
   myCollections,
   createActivity,
+  emptyError
 })(CreateNFT);

@@ -27,6 +27,7 @@ const initialState = {
   myCollectionsResult: false,
   popularCollections: null,
   beforePopularCollection: false,
+  error:null
 };
 
 export default function (state = initialState, action) {

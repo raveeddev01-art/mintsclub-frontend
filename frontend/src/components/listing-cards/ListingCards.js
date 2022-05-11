@@ -72,7 +72,7 @@ const ListingCards = ({
       <Card.Body className="d-flex flex-column">
         <div className="listing-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
-            {name.length>10 ? name.slice(0,10)+"..." : name}
+            {name.length>16 ? name.slice(0,16)+"..." : name}
           </Card.Title>
           {!userProfile && (
             <div className="options-icon like-icon text-white">

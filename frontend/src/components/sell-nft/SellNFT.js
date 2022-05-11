@@ -41,6 +41,7 @@ import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { updateProfile } from "../user/user.action";
 import ApprovalModal from "../modals/ApprovalModal";
+import { emptyError } from "../../redux/shared/error/error.action";
 const { dateRangeInitialSettings } = ENV;
 const config1 = {
   price: {
@@ -109,6 +110,14 @@ const SellNFT = (props) => {
   
   }, []);
 
+  useEffect(() => {
+    if (props.error !== null) {
+      toast.error(props.error.message);
+      setLoader(false)
+      props.emptyError()
+    }
+  }, [props.error]);
+
   // when NFT data is received
   useEffect(() => {
     if (props.nft.nftsAuth) {
@@ -144,10 +153,7 @@ const SellNFT = (props) => {
     }
   }, [props.myLikedNftsStatus]);
 
-  // when an error is received
-  useEffect(() => {
-    setLoader(false);
-  }, [props.error]);
+
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -1136,7 +1142,9 @@ const SellNFT = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+
+  {
   nft: state.nft,
   error: state.error,
   nftDetail: state.nft.nftsData,
@@ -1144,6 +1152,7 @@ const mapStateToProps = (state) => ({
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
   togleLikeRes: state.explore.togleLikeRes,
+  
 });
 
 export default connect(mapStateToProps, {
@@ -1155,4 +1164,5 @@ export default connect(mapStateToProps, {
   beforeTogleLikeDislike,
   createActivity,
   updateProfile,
+  emptyError
 })(SellNFT);
