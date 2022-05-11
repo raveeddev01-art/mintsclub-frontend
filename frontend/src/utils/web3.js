@@ -91,6 +91,7 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
   }
 };
 
+
 export const openNFTForBidding = async (
   biddingTime,
   startTime,
