@@ -84,8 +84,8 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
               {totalBids === 0
                 ? "No Bids Found"
                 : totalBids < 4
-                ? totalBids + " People Place Bid"
-                : totalBids - 1 + "+ People Place Bid"}
+                ? totalBids + " People Placed Bid"
+                : totalBids - 1 + "+ People Placed Bid"}
             </span>
           </div>
 

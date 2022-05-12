@@ -335,7 +335,6 @@ const NFTDetail = (props) => {
   };
 
   const handleCollectionLikesTogleApi = async (nftId, status, likesCount) => {
-    
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
         console.log("inside");
@@ -669,22 +668,18 @@ const NFTDetail = (props) => {
   };
   const EndAuction = async () => {
     try {
-      axios
-      .patch(
-     `${ENV.url}nfts/endAuction/${nftDetail._id}`
-      )
-      .then((res) => {
-      if(res.data.success){
-        toast.success(res.data.message)
-        history.push('/explore/allNFT')
+      setLoader(true)
+      let result = await endAuction(nftDetail.tokenId);
+      if (result) {
+        let res = await axios.patch(`${ENV.url}nfts/endAuction/${nftDetail._id}`);
+        if (res.data.success) {
+          toast.success(res.data.message);
+          history.push("/explore/allNFT");
+        }
       }
-      });
-      // let result = await endAuction(nftDetail.nftToken);
-      // if (result) {
-      //   toast.success("Auction Ended Successfully");
-      // }
     } catch (err) {
       toast.error(err);
+      setLoader(false)
     }
   };
 
@@ -1359,16 +1354,17 @@ const NFTDetail = (props) => {
                         </button>
                       </>
                     )}
-                     {nftDetail?.sellingMethod === 2 && (ENV.getUserKeys("_id")._id == ownerId) &&( 
-                      <button
-                        className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
-                        onClick={() => {
-                          EndAuction();
-                        }}
-                      >
-                        End Auction
-                      </button>
-                    )} 
+                    {nftDetail?.sellingMethod === 2 &&
+                      ENV.getUserKeys("_id")._id == ownerId && (
+                        <button
+                          className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
+                          onClick={() => {
+                            EndAuction();
+                          }}
+                        >
+                          End Auction
+                        </button>
+                      )}
                   </Card.Body>
                 </Card>
                 <div className="detail-description-content mt-5">
