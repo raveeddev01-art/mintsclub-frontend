@@ -26,7 +26,6 @@ import {
 } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
-
 import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
 import {
@@ -34,7 +33,6 @@ import {
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
 import moment from "moment";
-
 import axios from "axios";
 import {
   AiFillHeart,
@@ -50,6 +48,7 @@ import {
   getWalletAddress,
   getBalance,
   validateNetwork,
+  endAuction,
 } from "../../utils/web3";
 import {
   placeBid,
@@ -67,7 +66,6 @@ import {
 } from "../offers/offers.action";
 import { toast } from "react-toastify";
 import BuyModal from "../modals/BuyModal";
-
 import BidModal from "../modals/BidModal";
 import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
@@ -229,7 +227,10 @@ const NFTDetail = (props) => {
       }
 
       let fivePerc = "";
-      if (props.nftDetail.highestBid === 0||props.nftDetail.highestBid===undefined) {
+      if (
+        props.nftDetail.highestBid === 0 ||
+        props.nftDetail.highestBid === undefined
+      ) {
         fivePerc = (5 / 100) * props.nftDetail.currentPrice;
         fivePerc = fivePerc + props.nftDetail.currentPrice;
       } else {
@@ -334,10 +335,10 @@ const NFTDetail = (props) => {
   };
 
   const handleCollectionLikesTogleApi = async (nftId, status, likesCount) => {
-    console.log(nftId,status,likesCount,"nftId,status,likescount")
+    
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
-        console.log("inside")
+        console.log("inside");
         setLikeBtnDisable(true);
         let userId = ENV.getUserKeys("_id")._id;
 
@@ -348,7 +349,7 @@ const NFTDetail = (props) => {
         };
 
         if (status === "dislike" && likesCount > 0) {
-          console.log("dislike")
+          console.log("dislike");
           let result = likedNfts.filter((item) => item.nftId !== nftId);
 
           setLikedNfts(result);
@@ -358,7 +359,7 @@ const NFTDetail = (props) => {
         }
 
         if (status === "like") {
-          console.log("like")
+          console.log("like");
           let myLikedNfts = [];
           if (likedNfts && likedNfts.length > 0) {
             myLikedNfts = likedNfts;
@@ -382,7 +383,7 @@ const NFTDetail = (props) => {
     }
   };
   const increOrDecreLikes = (id, status) => {
-    let updatedNfts=[]
+    let updatedNfts = [];
     if (status === "dec") {
       updatedNfts = nfts.map((item) => {
         if (item._id !== id) {
@@ -427,7 +428,7 @@ const NFTDetail = (props) => {
   const calculatePricePercantage = () => {
     let fivePerc = "";
     let result = "";
-    if (nftDetail.highestBid === 0||nftDetail.highestBid === undefined) {
+    if (nftDetail.highestBid === 0 || nftDetail.highestBid === undefined) {
       fivePerc = (5 / 100) * nftDetail.currentPrice;
 
       result = fivePerc + nftDetail.currentPrice;
@@ -550,7 +551,7 @@ const NFTDetail = (props) => {
   //   setOffers(result);
   //   props.deleteOffer(id);
   // };
-  
+
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment(new Date(auctionEndDate))
       .utc(true)
@@ -642,7 +643,10 @@ const NFTDetail = (props) => {
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
 
-    if (ENV.getUserKeys("_id")._id == nftDetail.ownerId||nftDetail.sellingMethod===1) {
+    if (
+      ENV.getUserKeys("_id")._id == nftDetail.ownerId ||
+      nftDetail.sellingMethod === 1
+    ) {
       return true;
     }
     if (startDate && endDate && nftDetail.sellingMethod) {
@@ -663,6 +667,27 @@ const NFTDetail = (props) => {
       return false;
     }
   };
+  const EndAuction = async () => {
+    try {
+      axios
+      .patch(
+     `${ENV.url}nfts/endAuction/${nftDetail._id}`
+      )
+      .then((res) => {
+      if(res.data.success){
+        toast.success(res.data.message)
+        history.push('/explore/allNFT')
+      }
+      });
+      // let result = await endAuction(nftDetail.nftToken);
+      // if (result) {
+      //   toast.success("Auction Ended Successfully");
+      // }
+    } catch (err) {
+      toast.error(err);
+    }
+  };
+
   const {
     name,
     _id,
@@ -685,7 +710,6 @@ const NFTDetail = (props) => {
     collectionId,
     collection,
   } = nftDetail;
-
 
   return (
     <>
@@ -768,44 +792,43 @@ const NFTDetail = (props) => {
                                         <th scope="col">Price</th>
                                         <th scope="col">USD Price</th>
                                         <th scope="col">Floor Difference</th>
-                                      
+
                                         <th scope="col">From</th>
-                                      
                                       </tr>
                                     </thead>
                                   )}
                                   <tbody>
-                                    {nftDetail?.sellingMethod === 2 &&bids&&bids.length>0? (
+                                    {nftDetail?.sellingMethod === 2 &&
+                                    bids &&
+                                    bids.length > 0 ? (
                                       <>
-                                        {
-                                          bids.map((bid, index) => {
-                                            return (
-                                              <tr key={index}>
-                                                <th scope="row">
-                                                  {bid.bidAmount}
-                                                </th>
-                                                <td>
-                                                  $
-                                                  {(
-                                                    bid.bidAmount * exchangeRate
-                                                  ).toFixed(2)}
-                                                </td>
-                                                <td>
-                                                  {getPercentageChange(
-                                                    bid.bidAmount,
-                                                    lowestNftPrice
-                                                  ).toFixed(0)}
-                                                  %{" "}
-                                                  {bid.bidAmount >
+                                        {bids.map((bid, index) => {
+                                          return (
+                                            <tr key={index}>
+                                              <th scope="row">
+                                                {bid.bidAmount}
+                                              </th>
+                                              <td>
+                                                $
+                                                {(
+                                                  bid.bidAmount * exchangeRate
+                                                ).toFixed(2)}
+                                              </td>
+                                              <td>
+                                                {getPercentageChange(
+                                                  bid.bidAmount,
                                                   lowestNftPrice
-                                                    ? "above"
-                                                    : "below"}
-                                                </td>
-                                                {/* <td>an hour ago</td> */}
-                                                <td>
-                                                  {bid.fromAddress.slice(3, 8)}
-                                                </td>
-                                                {/* {ENV.getUserKeys("_id")._id ===
+                                                ).toFixed(0)}
+                                                %{" "}
+                                                {bid.bidAmount > lowestNftPrice
+                                                  ? "above"
+                                                  : "below"}
+                                              </td>
+                                              {/* <td>an hour ago</td> */}
+                                              <td>
+                                                {bid.fromAddress.slice(3, 8)}
+                                              </td>
+                                              {/* {ENV.getUserKeys("_id")._id ===
                                                   bid.bidBy && (
                                                   <td>
                                                     <button
@@ -818,18 +841,15 @@ const NFTDetail = (props) => {
                                                     </button>
                                                   </td>
                                                 )} */}
-                                              </tr>
-                                            );
-                                          })
-                                        }
+                                            </tr>
+                                          );
+                                        })}
                                       </>
-                                        ) : (
-                                          <p className="text-center d-flex justify-content-center align-items-center">
-                                            No Offers Found
-                                          </p>
-                                        )
-                                    } 
-                                  
+                                    ) : (
+                                      <p className="text-center d-flex justify-content-center align-items-center">
+                                        No Offers Found
+                                      </p>
+                                    )}
                                   </tbody>
                                 </table>
                               </div>
@@ -977,8 +997,7 @@ const NFTDetail = (props) => {
                           >
                             <div className="accordion-body">
                               <div className="row g-2 justify-content-center align-items-center">
-                                {properties &&
-                                  properties.length > 0 ?
+                                {properties && properties.length > 0 ? (
                                   properties.map((item, index) => {
                                     return (
                                       <div
@@ -1002,9 +1021,12 @@ const NFTDetail = (props) => {
                                         </div>
                                       </div>
                                     );
-                                  }):
-                                  <p className="text-white text-center">No Properties Foud</p>
-                                }
+                                  })
+                                ) : (
+                                  <p className="text-white text-center">
+                                    No Properties Foud
+                                  </p>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -1031,8 +1053,7 @@ const NFTDetail = (props) => {
                             aria-labelledby="flush-headingSix"
                           >
                             <div className="accordion-body">
-                              {stats &&
-                                stats?.length > 0 ?
+                              {stats && stats?.length > 0 ? (
                                 stats.map((item) => {
                                   return (
                                     <StatsInfo
@@ -1040,7 +1061,12 @@ const NFTDetail = (props) => {
                                       value={item.value}
                                     />
                                   );
-                                }):   <p className="text-white text-center">No Stats Foud</p>}
+                                })
+                              ) : (
+                                <p className="text-white text-center">
+                                  No Stats Foud
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -1066,8 +1092,7 @@ const NFTDetail = (props) => {
                             aria-labelledby="flush-headingSeven"
                           >
                             <div className="accordion-body">
-                              {levels &&
-                                levels.length > 0 ?
+                              {levels && levels.length > 0 ? (
                                 levels.map((item) => {
                                   return (
                                     <LevelsInfo
@@ -1075,7 +1100,12 @@ const NFTDetail = (props) => {
                                       value={item.value}
                                     />
                                   );
-                                }):   <p className="text-white text-center">No Levels Foud</p>}
+                                })
+                              ) : (
+                                <p className="text-white text-center">
+                                  No Levels Foud
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -1262,14 +1292,18 @@ const NFTDetail = (props) => {
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="detail-card-owner-container mb-2">
                       <div className="detail-nft-owner">
                         {nftDetail && (
                           <p>
                             Owned by{" "}
                             <span>
-                              {ownerId === userId ? "You" : user.username&& user.username}
+                              {ownerId === userId
+                                ? "You"
+                                : user?.username
+                                ? user.username
+                                : "unnamed"}
                             </span>
                           </p>
                         )}
@@ -1325,6 +1359,16 @@ const NFTDetail = (props) => {
                         </button>
                       </>
                     )}
+                     {nftDetail?.sellingMethod === 2 && (ENV.getUserKeys("_id")._id == ownerId) &&( 
+                      <button
+                        className="btn btn-linear-gradient d-flex align-items-center justify-content-center w-75 mx-auto mt-3"
+                        onClick={() => {
+                          EndAuction();
+                        }}
+                      >
+                        End Auction
+                      </button>
+                    )} 
                   </Card.Body>
                 </Card>
                 <div className="detail-description-content mt-5">
@@ -1422,7 +1466,11 @@ const NFTDetail = (props) => {
                                   })}
                                 </tbody>
                               </table>
-                            ):<p className="text-white d-flex align-items-center justify-content-center w-100 h-100">No Activities Found</p>}
+                            ) : (
+                              <p className="text-white d-flex align-items-center justify-content-center w-100 h-100">
+                                No Activities Found
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>

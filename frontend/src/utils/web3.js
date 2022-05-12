@@ -102,6 +102,7 @@ export const openNFTForBidding = async (
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let id = Number(tokenId);
+    console.log(biddingTime,startTime)
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
@@ -214,6 +215,28 @@ export const setApprovalForAll = async (setApprovalStatus) => {
     throw new Error(err);
   }
 };
+
+export const endAuction=async (tokenId)=>{
+
+  try{
+    let connectedAddress=await getMetamaskConnectedAddress();
+    const contractM = await getContractMethods();
+    const result = contractM.methods.auctionEnd(tokenId)
+    .send({
+      from: connectedAddress,
+      gassPrice: 5000000
+    })
+    if (result) {
+      console.log(result,"result")
+      return result;
+    }
+  }catch(err){
+    console.log(err,"error")
+    throw new Error(err);
+  }
+
+}
+
 export const getMetamaskConnectedAddress = async () => {
   let web3 = await getWeb3();
   let accounts = await web3.eth.getAccounts();

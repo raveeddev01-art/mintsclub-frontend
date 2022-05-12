@@ -50,7 +50,7 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
-    console.log(props.collection.getAuth, "props.collection.getAuth");
+    
     if (props.collection.getAuth === true) {
       let collections = props.collection.collections;
 
