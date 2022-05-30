@@ -1502,11 +1502,20 @@ line-height: 33px;
 }
 
 .btn.btn-linear-gradient {
-  background: #387fff;
+  /* background: #387fff; */
+  border: 1px solid #3c66f3;
+  background: transparent;
   padding: 10px 25px;
-  color: #ffffff;
+  color: #1A1A1A;
   border-radius: 55px;
   border: 1px solid #387fff;
+  font-style: normal;
+    font-weight: 700;
+   
+    line-height: 16px;
+    color: #1a1a1a;
+    min-width: 100px;
+    min-height: 40px;
 }
 
 .btn.btn-rounded-bordered {

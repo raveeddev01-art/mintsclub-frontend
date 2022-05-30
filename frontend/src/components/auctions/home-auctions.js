@@ -44,6 +44,7 @@ function AuctionsOne(props) {
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
   const [isActive, setIsActive] = useState(0);
+  
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions

@@ -134,8 +134,7 @@ const ExploreCollections = forwardRef((props, ref) => {
 
   return (
     <>
-      <NavbarMain />
-      <Breadcrumb title1={"Explore"} title2={"Explore All"} />
+      
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
@@ -204,7 +203,7 @@ const ExploreCollections = forwardRef((props, ref) => {
               ) : collections && collections.length > 0 ? (
                 collections.map((collection,index) => {
                   return (
-                    <div className="col-sm-6 col-lg-4" key={index}>
+                    <div className="col-sm-6 col-md-4 col-lg-3" key={index}>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
                         Subimg1={handleImage(collection, 0)}
@@ -233,23 +232,23 @@ const ExploreCollections = forwardRef((props, ref) => {
               )}
               <div className="col-12">
                 <div className="mt-5 text-center">
-                  {!empty &&
+                  {/* {!empty &&
                     collections?.length === 10 &&
-                    pagination.totalRecords > collections.length && (
+                    pagination.totalRecords > collections.length && ( */}
                       <button
                         className="btn btn-linear-gradient px-5"
                         onClick={() => handlePagination()}
                       >
-                        Load more
+                        Load more...
                       </button>
-                    )}
+                    {/* // )} */}
                 </div>
               </div>
             </div>
           </div>
         </section>
       )}
-      <Footer />
+   
     </>
   );
 });

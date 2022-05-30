@@ -1,9 +1,12 @@
 .explore-collection-section .explore-collection-nav button {
   border: none;
   background-color: transparent;
+  font-style: normal;
+  font-weight: 700;
   font-size: 14px;
-  font-weight: bold;
-  color: #fff;
+  line-height: 16px;
+
+  color: #1a1a1a;
   /* padding-top: 10px;
   padding-bottom: 10px; */
   min-width: 100px;
