@@ -112,7 +112,7 @@ const PopularCollections = (props) => {
               <div className="intro d-flex justify-content-between align-items-end m-0">
                 <div className="intro-content">
                   <span>{initData.pre_heading}</span>
-                  <h3 className=" mb-0">{initData.heading}</h3>
+                  <h3 className=" mb-1">{initData.heading}</h3>
                   <p>
                     Explore on the world's best & largest NFT marketplace with
                     our beautiful NFT products. We want to be a part of your
@@ -133,9 +133,9 @@ const PopularCollections = (props) => {
                         return (
                           <button
                             key={id}
-                            className={`${
+                            className={`collection-category ${
                               id === isActive ? "home-active-category" : ""
-                            } me-1 me-sm-2`}
+                            } me-5 me-sm-2`}
                             onClick={() => {
                               setIsActive(id);
                               handleCategoryFilter(item.description);

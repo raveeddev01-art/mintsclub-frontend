@@ -8,6 +8,7 @@ import OwnCollection from "../owncollection/OwnCollection";
 import Buysell from "../buy-sell/Buysell";
 import Footer from "../footer/footer";
 import PopularCollections from "../collections/popular-collections";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 function Home() {
   useEffect(() => {
@@ -24,8 +25,8 @@ function Home() {
 
       <PopularCollections />
 
-      <OwnCollection />
       <Buysell />
+      <OwnCollectionToday />
     </>
   );
 }

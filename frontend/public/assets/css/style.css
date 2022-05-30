@@ -1221,25 +1221,32 @@ aside {
 
 .intro span {
   display: inline-block;
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 20px;
+  font-weight: 700;
+  /* line-height: 43px; */
   /* text-transform: uppercase; */
-  background: -webkit-linear-gradient(#5666fe, #5666fe);
+  background: #387FFF;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .intro .intro-content h3 {
-  font-size: 36px;
-  font-weight: 800;
-  color: #ffffff;
+  font-size: 40px;
+  font-weight: 700;
+  color: #000;
+  line-height: 47px;
+  margin-top: 1rem;
 }
 
 .intro .intro-content p {
-  font-size: 14px;
+  /* font-size: 14px;
   font-weight: normal;
-  text-align: left;
-  color: #fff;
+  text-align: left; */
+
+  font-weight: 300;
+font-size: 20px;
+line-height: 33px;
+  color: #000;
 }
 
 /* .single-work i {
@@ -2105,7 +2112,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 .card {
   padding: 1.5rem;
   border: none !important;
-  border-radius: 10px !important;
+  border-radius: 22px !important;
   background-color: var(--card-bg-color);
   -webkit-box-shadow: 0 3px 20px 0px var(--primary-l-color);
   box-shadow: 0 3px 20px 0px var(--primary-l-color);
@@ -2301,15 +2308,15 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 }
 
 .top-seller-area .top-seller-cards .card {
-  background-color: #10103c;
+  background-color: #fff;
   border-radius: 10px;
 }
-
+/* 
 .top-seller-area .top-seller-cards .card:hover {
   background-image: linear-gradient(to top, #2a6285, #2a6285);
   cursor: pointer;
-  /* linear-gradient(to top, #2a6285, #2a6285) */
-}
+
+} */
 
 .top-seller-area .top-seller-cards .card .seller-avatar-container {
   position: relative;
@@ -2333,7 +2340,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 .top-seller-area .card .single-seller .seller-info span {
   font-size: 14px;
   font-weight: bold;
-  color: #ffffff;
+  color: #000;
 }
 
 .load-more .item {
@@ -2359,8 +2366,8 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 
 .single-seller .seller-info .seller {
   font-size: 14px;
-  font-weight: bold;
-  color: #ffffff;
+  font-weight: 700;
+  color: #000;
 }
 
 /* ==================Collection details ====================== */
@@ -2524,13 +2531,16 @@ svg.svg-inline--fa.fa-users.fa-w-20 {
 }
 
 /* ========================================================== */
-.seller-info .seller:hover {
+/* .seller-info .seller:hover {
   color: var(--primary-color) !important;
-}
+} */
 .popular-collections-content-right button {
-  font-weight: bold;
-  background-color: transparent;
-  color: #fff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  background: transparent;
+  color: #1A1A1A;
   border: none;
 }
 

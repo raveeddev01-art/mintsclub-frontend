@@ -1,0 +1,21 @@
+.own-collection-content .own-collection-title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 48px;
+  color: #000000;
+}
+.own-collection-content .own-collection-title span {
+  color: #387fff;
+}
+.own-collection-description {
+  width: 80%;
+}
+.own-collection-padding {
+  padding: 5rem 0rem;
+}
+@media screen and (max-width: 992px) {
+    .own-collection-description {
+        width: 100%;
+      }
+  }

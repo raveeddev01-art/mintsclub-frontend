@@ -28,22 +28,20 @@ const TopSeller = (props) => {
             {/* Intro */}
             <div className="intro d-flex justify-content-between align-items-end m-0">
               <div className="intro-content">
-                <span>CREATIVE ARTIST</span>
-                <h3 className="mb-0">Top Sellers</h3>
+                <span>Creative Artists</span>
+                <h3 className="mb-5">Top Sellers</h3>
               </div>
-              {sellers && sellers.length > 12 && props.viewAll ? (
-                <div className="intro-btn">
+              {sellers && sellers.length > 12 && props.viewAll && (
+                <div className="intro-btn mb-5">
                   <Link
-                    className="btn btn-rounded-bordered btn-viewAll"
+                    className="btn btn-rounded-bordered btn-viewAll "
                     to="/top-sellers-list"
                   >
                     {props.viewAll}
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>
                 </div>
-              ) : (
-                ""
-              )}
+               )} 
             </div>
           </div>
         </div>
@@ -72,6 +70,8 @@ const TopSeller = (props) => {
                           {author.profileImage ? (
                             <span className="seller-avatar-active">
                               <img src={SellerTickIcon} alt="tick-icon" />
+                               
+                             
                             </span>
                           ) : (
                             ""
@@ -98,7 +98,7 @@ const TopSeller = (props) => {
               }
             })
           ) : (
-            <p className="text-white text-center">No Top Sellers Found</p>
+            <p className="text-center">No Top Sellers Found</p>
           )}
         </div>
       </div>

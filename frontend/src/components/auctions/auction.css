@@ -32,6 +32,14 @@
   border-radius: 0.6rem !important;
 }
 
+.collection-category {
+  font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 16px;
+
+color: #1A1A1A;
+}
 .popular-collections-content-right .home-active-category {
   color: #5666fe;
 }

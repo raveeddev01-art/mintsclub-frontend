@@ -22,14 +22,21 @@ import Insta from './images/edit-insta.svg';
 import Website from './images/edit-website.svg';
 import profilePlaceholder from './images/profilePlaceholder.png';
 import imagePlaceholder from './images/imagePlaceholder.png';
-
-import placeBid from './images/placeBid.png'
+import placeBid from './images/placeBid.png';
+import community from './images/community.png';
+import ownCollection from './images/ownCollection.png';
+import buyNft from './images/Group 34195.png';
+import sellNft from './images/Group 34196.png';
 export const Images = {
   uploadImage,
   placeholderImg,
   profilePlaceholder,
   imagePlaceholder,
-  placeBid
+  placeBid,
+  community,
+  ownCollection,
+  buyNft,
+  sellNft
 };
 
 export const CollectionImages = {

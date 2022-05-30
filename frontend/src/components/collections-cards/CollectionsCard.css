@@ -6,13 +6,37 @@
 }
 
 .card.collection-cards-container {
-  background: linear-gradient(to top, #10103c, #2a6285);
+  background: #F2F7FF;
+  border-radius: 22px;
 }
+
 
 .collection-cards-container .card-body {
   padding-top: 20px;
 }
-
+.collection-card-title {
+  background-color: white;
+  height: 48px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  border-radius: 44px;
+}
+.collection-card-title .collection-card-title-btn{
+  width: 76px;
+    height: 32px;
+    background: #387FFF;
+    color: white;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 13px;
+    border: none;
+    border-radius: 77px;
+}
 .collection-cards-container .card-title {
   margin-bottom: 0;
   font-size: 20px;
@@ -38,25 +62,26 @@
 .collection-cards-container .collection-subImg1 img {
   height: 80px;
   width: 100%;
-  border-top-left-radius: 10px;
+  border-radius: 10px;
 }
 
 .collection-cards-container .collection-subImg2 img {
   height: 80px;
   width: 100%;
+  border-radius: 10px;
 }
 
 .collection-cards-container .collection-subImg3 img {
   height: 80px;
   width: 100%;
-  border-top-right-radius: 10px;
+  border-radius: 10px;
+  border-radius: 10px;
 }
 
 .collection-cards-container .collection-mainImg img {
-  height: 220px;
+  height: 324px;
   width: 100%;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 22px;
   background-size: cover;
   object-fit: cover;
 }
@@ -75,15 +100,22 @@
   border-radius: 50%;
   object-fit: cover;
 }
+.collection-cards-container
+  .card-body
+  .collection-card-footer
+  .collection-footer-left
+   p {
+    color: #6A6A6A;
+}
 
 .collection-cards-container
   .card-body
   .collection-card-footer
   .collection-footer-left
   span {
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+  color: #000;
 }
 
 .collection-cards-container

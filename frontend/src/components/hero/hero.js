@@ -15,7 +15,7 @@ const Hero = (props) => {
   }, []);
 
   const [sliderChecked, setSliderChecked] = useState(1);
-  const length = sliderRadioButtons.length;
+  const length =0;
   const handleRadioInputs = (e) => {
     setSliderChecked(e.target.value);
   };
@@ -82,12 +82,12 @@ const Hero = (props) => {
             </div>
           </div>
           <div className="col-12 col-lg-6 col-xl-7 ">
-            <Slider
+            {/* <Slider
               setHandler={setHandler}
               sliderRadioButtons={sliderRadioButtons}
               handleRadioInputs={handleRadioInputs}
               sliderChecked={sliderChecked}
-            />
+            /> */}
           </div>
           {/* <div className="col-12 col-lg-5">
             <div className="btn-container mx-auto mx-lg-0">

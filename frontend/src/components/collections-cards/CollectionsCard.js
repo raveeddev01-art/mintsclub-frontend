@@ -47,11 +47,17 @@ const CollectionsCard = ({
           </div>
 
           <Card.Body>
-            <Card.Title>{name.length>20?name.slice(0,20)+"...":name}</Card.Title>
+            {/* <Card.Title>
+              {name.length > 20 ? name.slice(0, 20) + "..." : name}
+            </Card.Title>
             <Card.Text>
               {NFTCount}
               {" items"}
-            </Card.Text>
+            </Card.Text> */}
+            <div className="collection-card-title">
+              <span>  {name.length > 17 ? name.slice(0, 17) + "..." : name}</span>
+              <button className="collection-card-title-btn">  {NFTCount} items</button>
+            </div>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">
                 <img
@@ -59,7 +65,9 @@ const CollectionsCard = ({
                   alt="avatar-img"
                   className="me-2"
                 />
-                <span>{userName}</span>
+                <p>
+                  Owned by: <span className="text-capitalize">{userName}</span>
+                </p>
               </div>
               {/* <div className="collection-footer-right d-flex align-items-center">
                 <img src={HeartIcon} alt="like-icon" className="me-1" onClick={()=>handleLikesTogle(id)} />

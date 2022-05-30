@@ -1,40 +1,55 @@
+.buy-sell-section{
+background: #FAFAFA;
+}
+
+
 .buy-sell-section .buy-card {
-  background-color: #10103c;
   padding: 50px 0;
   border-radius: 10px;
   height: 100%;
 }
 
 .buy-sell-section .sell-card {
-  background-color: #10103c;
   padding: 50px 0;
   border-radius: 10px;
   height: 100%;
 }
 
 .buy-sell-section .buy-card-img {
-  width: 50%;
+  /* width: 50%; */
 }
 
 .buy-sell-section .buy-card-content {
-  width: 50%;
-  padding-right: 7%;
+  /* width: 50%; */
+  /* padding-right: 7%; */
+  padding-left: 4%;
 }
 
 .buy-sell-section .buy-card-content h5 {
-  font-size: 20px;
-  font-weight: 800;
-  color: #fff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+  /* identical to box height */
+  
+  
+  color: #101010
 }
 
 .buy-sell-section .buy-card-content p {
-  font-size: 14px;
-  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 35px;
+  /* identical to box height, or 219% */
+  
+  
+  color: #101010
 }
 
 .btn.btn-rounded-bordered.btn-start-selling {
-  background: transparent;
-  color: #5666fe;
+  background: #3C66F3;
+  color: #FFFFFF;
 }
 
 .btn.btn-rounded-bordered.btn-start-selling:hover {
