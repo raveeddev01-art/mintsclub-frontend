@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Slider from 'react-slick';
-import './CardSlider.css';
+import React, { Component } from "react";
+import Slider from "react-slick";
+import "./CardSlider.css";
 
 export default class CardSlider extends Component {
   constructor(props) {
@@ -33,17 +33,17 @@ export default class CardSlider extends Component {
     const { settings } = this.props;
 
     return (
-      <div className='container'>
+      <div className="container">
         {this.handleArrows() && (
-          <div className='text-end'>
+          <div className="text-end">
             <button
-              className='card-slider-btn mb-4 me-3'
+              className="card-slider-btn mb-4 me-3"
               onClick={this.previous}
             >
-              <i class='fas fa-arrow-left'></i>
+              <i class="fas fa-arrow-left"></i>
             </button>
-            <button className='card-slider-btn mb-4' onClick={this.next}>
-              <i class='fas fa-arrow-right'></i>
+            <button className="card-slider-btn mb-4" onClick={this.next}>
+              <i class="fas fa-arrow-right"></i>
             </button>
           </div>
         )}

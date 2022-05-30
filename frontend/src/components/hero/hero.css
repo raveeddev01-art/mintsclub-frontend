@@ -3,7 +3,7 @@
   background: url("../../assets/images/hero-bg.png");
   background-position: center;
   background-size: cover;
-  min-height: 855px;
+  padding-bottom: 50px;
 }
 
 .hero-section h1 {
@@ -42,8 +42,22 @@
   justify-content: center;
 }
 
-.hero-section .btn-hero-create img {
-  height: 16px;
+.hero-section .btn-hero-create,
+.hero-section .btn-hero-explore {
+  width: 150px;
+}
+
+.hero-section .hero-play-btn {
+  outline: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: 0px 6px 22px rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
 }
 
 .hero-section .btn-hero-create p {
@@ -99,4 +113,55 @@
   color: #272727;
   font-size: 22px;
   font-weight: 300;
+}
+
+.slick-slider .slick-dots li {
+  width: unset !important;
+}
+
+.slick-slider .slick-dots li button {
+  width: 20px !important;
+  height: 8px !important;
+  border: 1px solid #387fff !important;
+  border-radius: 44px !important;
+  background-color: transparent !important;
+  margin: 20px 2px !important;
+  color: transparent;
+}
+
+.slick-slider .slick-dots li button:hover {
+  background-color: #387fff !important;
+}
+
+.slick-slider .slick-dots .slick-active button {
+  width: 20px !important;
+  height: 8px !important;
+  border: 1px solid #387fff !important;
+  border-radius: 44px !important;
+  background-color: #387fff !important;
+  margin: 20px 2px !important;
+}
+
+/* .slick-slider .slick-dots .slick-active button::after {
+  width: 15px !important;
+  height: 8px !important;
+  border: 1px solid #387fff !important;
+  border-radius: 44px !important;
+  background-color: #387fff !important;
+  margin: 20px 2px !important;
+} */
+
+@media (max-width: 1400px) {
+  .hero-section h1 {
+    font-size: 50px;
+  }
+  .hero-section h1 br {
+    display: none;
+  }
+}
+
+@media (max-width: 575.9px) {
+  .hero-section h1 {
+    font-size: 39px;
+  }
 }
