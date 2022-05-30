@@ -18,33 +18,6 @@ const Hero = (props) => {
     setConnectedAddress(connectedAddress);
   }, []);
 
-<<<<<<< HEAD
-  const [sliderChecked, setSliderChecked] = useState(1);
-  const length = sliderRadioButtons.length;
-  const handleRadioInputs = (e) => {
-    setSliderChecked(e.target.value);
-  };
-
-  const nextBtnHandler = () => {
-    if (sliderChecked < length) {
-      setSliderChecked(sliderChecked + 1);
-    } else {
-      setSliderChecked(1);
-    }
-  };
-
-  const prevBtnHandler = () => {
-    if (sliderChecked === 1) {
-      setSliderChecked(7);
-    } else {
-      setSliderChecked(sliderChecked - 1);
-    }
-  };
-  const setHandler = (id) => {
-    setSliderChecked(id);
-  };
-=======
->>>>>>> 0be1e97d33304f82f9e54dfc88ab0fb6ae6b4aa2
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
