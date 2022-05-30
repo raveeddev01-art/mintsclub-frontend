@@ -1,6 +1,31 @@
-.mp-explore-text {
-  color: white !important;
+.hero-section {
+  background-color: #fafbfe;
+  background: url("../../assets/images/hero-bg.png");
+  background-position: center;
+  background-size: cover;
+  min-height: 855px;
 }
+
+.hero-section h1 {
+  font-weight: 700;
+  font-size: 55px;
+  color: #000000;
+}
+
+.hero-section h1 span {
+  color: #387fff;
+}
+
+.hero-section p {
+  font-weight: 300;
+  font-size: 20px;
+  color: #272727;
+}
+
+.hero-section .mp-explore-text {
+  padding-top: 50px;
+}
+
 .test-container {
   margin: 0;
   background: #eee;
@@ -9,4 +34,69 @@
 }
 .btn-container {
   width: max-content;
+}
+
+.hero-section .btn-hero-create {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section .btn-hero-create img {
+  height: 16px;
+}
+
+.hero-section .btn-hero-create p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 22px;
+}
+
+.hero-section .btn-hero-explore {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 55px;
+  border: 1px solid #316feb;
+  padding: 10px 25px;
+}
+
+.hero-section .btn-hero-explore svg {
+  height: 16px;
+}
+
+.hero-section .btn-hero-explore svg path {
+  fill: #151515;
+}
+
+.hero-section .btn-hero-explore p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #151515;
+  line-height: 22px;
+}
+
+.hero-section .btn-hero-explore:hover {
+  background: #7e8aff;
+  border: 1px solid #7e8aff;
+}
+
+.hero-section .btn-hero-explore:hover svg path {
+  fill: #fff;
+}
+
+.hero-section .btn-hero-explore:hover p {
+  color: #fff;
+}
+
+.hero-left-content {
+  position: relative;
+}
+
+.watch-video span {
+  color: #272727;
+  font-size: 22px;
+  font-weight: 300;
 }

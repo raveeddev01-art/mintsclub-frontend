@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation, NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import LoginIcon from "../../assets/images/login-icon.svg";
-import SearchIcon from "../../assets/images/nav-search-icon.svg";
+import { ReactComponent as SearchIcon } from "../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ENV } from "../../config/config";
 import "./NavbarMain.css";
@@ -14,29 +14,27 @@ const NavbarMain = (props) => {
   const [path, setPath] = React.useState(null);
   const [activeTab, setActiveTab] = React.useState(null);
   const [searchactive, setSearchActive] = useState(false);
-  const [searchValue,setSearchValue]=useState('')
+  const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
   const location = useLocation();
 
   const handleChange = (e) => {
-    setSearchValue(e.target.value)
+    setSearchValue(e.target.value);
     e.target.value ? setSearchActive(true) : setSearchActive(false);
   };
-  const handleSearchKeyword=()=>{
-    if(searchValue!=='' && searchValue.length>=3){
-
+  const handleSearchKeyword = () => {
+    if (searchValue !== "" && searchValue.length >= 3) {
       history.push({
-        pathname:"/explore/allNFT",
-        state:searchValue
-      })
+        pathname: "/explore/allNFT",
+        state: searchValue,
+      });
     }
-
-  }
+  };
   const clearLocalStorage = () => {
     if (userId) {
       localStorage.clear();
     }
-   
+
     history.push("/login");
   };
   React.useEffect(() => {
@@ -49,113 +47,67 @@ const NavbarMain = (props) => {
         <Navbar
           bg="light"
           expand="xl"
-          variant="dark"
+          variant="light"
           className="navbar-main-custom align-items-center px-0 py-4"
         >
-          <Navbar.Brand to="/" href="/" className="navbar-brand-logo">
+          <NavLink to="/" className="navbar-brand-logo">
             <img src={MintsClub} alt="logo" />
-          </Navbar.Brand>
+          </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav
-              className="mx-xl-auto"
-              defaultActiveKey={`${location.pathname}`}
-            >
-              <Nav.Link to="/" href="/" className="nav-main-link">
-                Home
+            <Nav className={"mx-xl-auto"}>
+              <Nav.Link className="nav-main-link">
+                <NavLink to="/">Home</NavLink>
               </Nav.Link>
               <NavDropdown
                 title="Explore"
                 id="navbarScrollingDropdown"
-                active={activeTab === 1}
-                defaultactivekey={activeTab}
                 className={`nav-main-link dropdown-bg`}
               >
-                <NavDropdown.Item
-                  to="/explore/exploreAll"
-                  href="/explore/exploreAll"
-                  active={activeTab === 1}
-                  eventKey={1}
-                  className={`nav-main-link main-nav-dd-items ${
-                    location.pathname === "/explore/exploreAll"
-                      ? "active-item"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setActiveTab(1);
-                  }}
-                >
-                  Explore All
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/explore/allNFT"
+                    className={`nav-main-link main-nav-dd-items`}
+                  >
+                    Explore All
+                  </NavLink>
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  to="/explore/allNFT"
-                  href="/explore/allNFT"
-                  className={`nav-main-link main-nav-dd-items ${
-                    location.pathname === "/explore/allNFT" ? "active-item" : ""
-                  }`}
-                  eventKey={2}
-                  active={activeTab === 2}
-                  onClick={() => {
-                    setActiveTab(2);
-                  }}
-                >
-                  All NFT
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/explore/allNFT"
+                    className={`nav-main-link main-nav-dd-items`}
+                  >
+                    All NFT
+                  </NavLink>
                 </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown
                 title="Create"
                 id="navbarScrollingDropdown"
-                active={activeTab === 1}
-                defaultactivekey={activeTab}
-                className={`nav-main-link dropdown-bg ${
-                  location.pathname === "/create" ? "active-item" : ""
-                }`}
+                className={`nav-main-link dropdown-bg`}
               >
-                <NavDropdown.Item
-                  to="/create"
-                  href="/create"
-                  active={activeTab === 1}
-                  eventKey={1}
-                  className={`nav-main-link main-nav-dd-items ${
-                    location.pathname === "/create" ? "active-item" : ""
-                  }`}
-                  onClick={() => {
-                    setActiveTab(1);
-                  }}
-                >
-                  Create NFT
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/create"
+                    className={`nav-main-link main-nav-dd-itemss`}
+                  >
+                    Create NFT
+                  </NavLink>
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  to="/createcollection"
-                  href="/createcollection"
-                  className={`nav-main-link main-nav-dd-items ${
-                    location.pathname === "/createcollection"
-                      ? "active-item"
-                      : ""
-                  }`}
-                  eventKey={2}
-                  active={activeTab === 2}
-                  onClick={() => {
-                    setActiveTab(2);
-                  }}
-                >
-                  Create Collection
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/createcollection"
+                    className={`nav-main-link main-nav-dd-items`}
+                  >
+                    Create Collection
+                  </NavLink>
                 </NavDropdown.Item>
               </NavDropdown>
-
-              {/* <Nav.Link to="/create" href="/create" className="nav-main-link">
-                Create
-              </Nav.Link> */}
-              <Nav.Link
-                to="/userprofile"
-                href="/userprofile"
-                className="nav-main-link"
-              >
-                Profile
+              <Nav.Link className="nav-main-link">
+                <NavLink to="/userprofile" className="nav-main-link">
+                  Profile
+                </NavLink>
               </Nav.Link>
-           
-             
-             
               <Link
                 to={`/login`}
                 onClick={() => clearLocalStorage()}
@@ -174,17 +126,15 @@ const NavbarMain = (props) => {
                   name=""
                   placeholder="Type to Search"
                   onChange={handleChange}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && handleSearchKeyword()
-                  }
+                  onKeyPress={(e) => e.key === "Enter" && handleSearchKeyword()}
                 />
                 <button
                   className={`search-btn me-1 mt-1 ${
                     searchactive ? "activeSearchBtn" : ""
                   }`}
-                  onClick={()=>handleSearchKeyword()}
+                  onClick={() => handleSearchKeyword()}
                 >
-                  <img src={SearchIcon}  alt="search-icon" />
+                  <SearchIcon className="search-icon" />
                 </button>
               </div>
             </Nav>
@@ -197,23 +147,21 @@ const NavbarMain = (props) => {
                 name=""
                 placeholder="Type to Search"
                 onChange={handleChange}
-                onKeyPress={(e) =>
-                  e.key === "Enter" && handleSearchKeyword()
-                }
+                onKeyPress={(e) => e.key === "Enter" && handleSearchKeyword()}
               />
               <button
                 className={`search-btn me-1 mt-1 ${
                   searchactive ? "activeSearchBtn" : ""
                 }`}
-                onClick={()=>handleSearchKeyword()}
+                onClick={() => handleSearchKeyword()}
               >
-                <img src={SearchIcon} alt="search-icon" />
+                <SearchIcon className="search-icon" />
               </button>
             </div>
             <Link
               to="/login"
               id="wallet-address"
-              className="btn ml-lg-auto btn-linear-gradient"
+              className="btn ml-lg-auto btn-linear-gradient btn-login"
             >
               <div
                 onClick={() => {

@@ -1,4 +1,4 @@
-import layout2 from "./layouts/layout2/layout2";
+import layout from "./layouts/layout/layout";
 import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
 // components
@@ -26,7 +26,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Home",
-    layout: layout2,
+    layout: layout,
     component: Home,
   },
   {
@@ -34,7 +34,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Live Auctions",
-    layout: layout2,
+    layout: layout,
     component: AuctionsList,
   },
 
@@ -43,7 +43,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Sell Item",
-    layout: layout2,
+    layout: layout,
     component: SellNFT,
   },
 
@@ -52,7 +52,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Popular Collections",
-    layout: layout2,
+    layout: layout,
     component: Populars,
   },
   {
@@ -60,7 +60,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Popular Collections",
-    layout: layout2,
+    layout: layout,
     component: TopSellerList,
   },
 
@@ -69,7 +69,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Create",
-    layout: layout2,
+    layout: layout,
     component: CreateNFT,
   },
   {
@@ -77,7 +77,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Detail",
-    layout: layout2,
+    layout: layout,
     component: NFTDetail,
   },
 
@@ -86,7 +86,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Create Collection",
-    layout: layout2,
+    layout: layout,
     component: CreateCollections,
   },
 
@@ -95,7 +95,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Explore All",
-    layout: layout2,
+    layout: layout,
     component: ExploreCollections,
   },
   {
@@ -103,7 +103,7 @@ const routes = [
     access: true,
     exact: true,
     title: "All NFTs",
-    layout: layout2,
+    layout: layout,
     component: AllNFT,
   },
   {
@@ -111,7 +111,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Sell NFT",
-    layout: layout2,
+    layout: layout,
     component: SellNFT,
   },
   {
@@ -119,7 +119,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Collection Detail Page",
-    layout: layout2,
+    layout: layout,
     component: CollectionDetailsPage,
   },
   {
@@ -127,7 +127,7 @@ const routes = [
     access: true,
     exact: true,
     title: "User Profile",
-    layout: layout2,
+    layout: layout,
     component: UserProfile,
   },
   {
@@ -135,7 +135,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Edit Profile",
-    layout: layout2,
+    layout: layout,
     component: EditProfile,
   },
   {

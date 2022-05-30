@@ -16,7 +16,6 @@ function Home() {
 
   return (
     <>
-      <NavbarMain />
       <Hero />
 
       <Auctions />
@@ -27,7 +26,6 @@ function Home() {
 
       <OwnCollection />
       <Buysell />
-      <Footer />
     </>
   );
 }
