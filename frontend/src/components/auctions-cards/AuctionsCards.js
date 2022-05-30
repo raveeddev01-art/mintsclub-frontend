@@ -11,8 +11,16 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
+import AuctionAvatar from "../../assets/images/auctionAvatar.png";
 
-const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
+const AuctionsCards = ({
+  ownerName,
+  userId,
+  ownerId,
+  bidsProfile,
+  item,
+  cardBg,
+}) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
   const videoElement = React.useRef(null);
@@ -29,7 +37,7 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
     fileType,
   } = item;
   return (
-    <Card className="auction-card mx-2">
+    <Card className={`auction-card ${cardBg} mx-2`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
           <Card.Img variant="top" src={image} alt="AuctionTopImg" />
@@ -41,7 +49,7 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
               />
-              
+
               <div className="controls">
                 <div className="actions">
                   <button
@@ -60,63 +68,64 @@ const AuctionsCards = ({ ownerName, userId, ownerId, bidsProfile, item }) => {
           </div>
         )}
 
-        <div className="auction-countdown">
+        <div className="auction-countdown d-flex flex-column justify-content-center align-items-center">
           <Countdown date={auctionEndDate} renderer={countDownRenderer} />
+          <div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
+            <div className="auction-card-avatar d-flex align-items-center">
+              {bidsProfile &&
+                bidsProfile.length > 0 &&
+                bidsProfile.map((item, i) => {
+                  if (i <= 2) {
+                    return (
+                      <img
+                        src={item === null ? Images.profilePlaceholder : item}
+                        alt="AvatarImg"
+                      />
+                    );
+                  }
+                })}
+
+              <span className="ms-4">
+                {totalBids === 0
+                  ? "No Bids Found"
+                  : totalBids < 4
+                  ? totalBids + " People Placed Bid"
+                  : totalBids - 1 + "+ People Placed Bid"}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <Card.Body>
-        <div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
-          <div className="auction-card-avatar d-flex align-items-center">
-            {bidsProfile &&
-              bidsProfile.length > 0 &&
-              bidsProfile.map((item, i) => {
-                if (i <= 2) {
-                  return (
-                    <img
-                      src={item === null ? Images.profilePlaceholder : item}
-                      alt="AvatarImg"
-                    />
-                  );
-                }
-              })}
-
-            <span className="ms-4">
-              {totalBids === 0
-                ? "No Bids Found"
-                : totalBids < 4
-                ? totalBids + " People Placed Bid"
-                : totalBids - 1 + "+ People Placed Bid"}
-            </span>
-          </div>
-
-          {/* <div className="options-icon">
-            <img src={ThreeDots} alt="OptionsIcon" />
-          </div> */}
-        </div>
         <Card.Title onClick={() => history.push(`nftdetail/${_id}`)}>
-          {name&&name.length>10?name.slice(0,10)+"...":name}
-        </Card.Title>
-        <div className="auction-card-owner-container d-flex justify-content-between align-items-center mb-2">
-          <div className="auction-owner-name">
-            <p>
-              {"Owned by "}
-              {ownerName&&ownerName.length > 8
-                ? ownerName.substring(0, 6) + "..."
-                : ownerName}
-            </p>
+          <div>
+            {name && name.length > 10 ? name.slice(0, 10) + "..." : name}
           </div>
           <div className="auction-owner-price d-flex align-items-center">
             <img src={ArrowUp} alt="" className="me-1" />
             <span>{totalBids > 0 ? highestBid : currentPrice}</span>
           </div>
+        </Card.Title>
+        <div className="auction-card-owner-container d-flex align-items-center mb-2">
+          <div className="auction-owner-avatar">
+            <img src={AuctionAvatar} alt="avatar" />
+          </div>
+          <div className="ms-2 auction-owner-name">
+            <p>
+              {"Owned by "}
+              <span>
+                {ownerName && ownerName.length > 8
+                  ? ownerName.substring(0, 6) + "..."
+                  : ownerName}
+              </span>
+            </p>
+          </div>
         </div>
         <button
-          className="auction-bit-btn d-flex align-items-center justify-content-center"
+          className="auction-bit-btn"
           onClick={() => history.push(`nftdetail/${_id}`)}
         >
-          <img src={Images.placeBid} alt="" className="me-2" />
-
-          <p >{userId === ownerId ? "View" : "Place a Bid"}</p>
+          {userId === ownerId ? "View" : "Place a Bid"}
         </button>
       </Card.Body>
     </Card>

@@ -1,13 +1,22 @@
 .card.auction-card {
-  padding: 15px;
-  background: linear-gradient(to top, #10103c, #2a6285);
-  box-shadow: 6.5px 33.4px 57px 0 rgba(0, 0, 0, 0.31);
+  padding: 10px;
   cursor: pointer;
+  background-color: #f2f7ff;
+  border-radius: 32px;
 }
+
+.card.auction-card .card-body {
+  padding: 0;
+}
+
+.card.auction-card.card-bg-gray {
+  background-color: #f7f7f7;
+}
+
 .auction-card.card .card-img-top {
   width: 100%;
-  height: 250px;
-  border-radius: 10px;
+  height: 310px;
+  border-radius: 30px;
 }
 
 .auction-card.card .card-img-top img {
@@ -34,7 +43,7 @@
 }
 
 .auction-card .auction-card-avatar-container span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   color: #feffff;
 }
@@ -51,25 +60,54 @@
   width: 100%;
   position: absolute;
   bottom: 0px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  border-radius: 10px;
+  margin-bottom: 16px;
 }
 
 .auction-card .card-body .card-title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #454545;
   margin-top: 20px;
+  background: #ffffff;
+  box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 44px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.auction-card .card-body .card-title .auction-owner-price {
+  background: #387fff;
+  box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 77px;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.auction-card .auction-card-owner-container .auction-owner-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.auction-card .auction-card-owner-container .auction-owner-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .auction-card .auction-card-owner-container .auction-owner-name p {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: normal;
-  color: #feffff;
+  color: #6a6a6a;
+}
+
+.auction-card .auction-card-owner-container .auction-owner-name p span {
+  color: #000000;
+  font-weight: bold;
 }
 
 .auction-card .auction-card-owner-container img {
@@ -77,24 +115,14 @@
   height: 13px;
 }
 
-.auction-card .auction-card-owner-container span {
-  font-size: 14px;
-  font-weight: bold;
-  color: #26bd29;
-}
-
 .auction-card .card-body .auction-bit-btn {
-  background-color: black;
+  background: #282828;
   border: none;
-  border-radius: 8px;
+  border-radius: 55px;
   width: 100%;
   padding: 10px 0;
-}
-
-.auction-card .card-body .auction-bit-btn p {
-  margin-top: 5px;
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
 }
 

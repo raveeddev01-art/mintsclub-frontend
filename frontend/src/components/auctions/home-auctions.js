@@ -111,10 +111,10 @@ function AuctionsOne(props) {
       ) : (
         <div className="container">
           <div className="row mb-5">
-            <div className="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+            <div className="col-12 col-sm-8 col-md-6">
               {/* Intro */}
               <div className="intro d-flex justify-content-between align-items-end m-0">
-                <div className="intro-content">
+                <div className="intro-content clr-yellow">
                   <span>{initData.pre_heading}</span>
                   <h3 className="mb-0">{initData.heading}</h3>
                   <p>
@@ -125,7 +125,7 @@ function AuctionsOne(props) {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-lg-7 col-xl-8 mt-3 mt-lg-0">
+            <div className="col-12 col-md-6 mt-3 mt-lg-0">
               {categoryId === "all" && auctions && auctions?.length <= 1 ? (
                 ""
               ) : (
@@ -156,11 +156,6 @@ function AuctionsOne(props) {
                       to="/auctions"
                     >
                       View All
-                      <img
-                        src={ViewAllIcon}
-                        alt="arrow-left"
-                        className="ms-2 d-none d-sm-block"
-                      />
                     </Link>
                   </div>
                 </div>
@@ -179,6 +174,7 @@ function AuctionsOne(props) {
                   {auctions.map((item, index) => {
                     return (
                       <AuctionsCards
+                        cardBg={"card-bg-gray"}
                         key={index}
                         item={item}
                         ownerName={item.owner.username}
