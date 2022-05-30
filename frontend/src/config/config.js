@@ -3,7 +3,6 @@ const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
 
-
 export const ENV = {
   // blockchain variables
   mintsClubContractAddress: process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS,
@@ -215,6 +214,16 @@ export const ENV = {
     ],
   },
 
+  heroSettings: {
+    dots: true,
+    arrows: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 0,
+  },
+
   dateRangeInitialSettings: {
     startDate: moment(),
     endDate: moment().add(6, "months").toDate(),
@@ -230,8 +239,8 @@ export const ENV = {
   countDownRenderer: ({ days, hours, minutes, seconds }) => {
     return (
       <div
-        className="countdown-container d-flex mx-auto mb-2"
-        style={{ justifyContent: "space-between", width: "85%" }}
+        className="countdown-container d-flex justify-content-center mx-auto mb-2"
+        style={{ width: "85%" }}
       >
         <div className="countdown-wrapper m-1">
           <div className="countdown-heading">D</div>

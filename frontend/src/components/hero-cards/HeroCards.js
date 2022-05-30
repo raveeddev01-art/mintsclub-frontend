@@ -1,11 +1,12 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
-import AvatarImg from '../../assets/images/seller-avatar.png';
-import ThreeDots from '../../assets/images/threeDots.svg';
-import ArrowUp from '../../assets/images/arrowUp.png';
-import Bucket from '../../assets/images/bucket.png';
-import './HeroCards.css';
-import { Images } from '../../assets/assets';
+import React from "react";
+import { Card } from "react-bootstrap";
+import AvatarImg from "../../assets/images/seller-avatar.png";
+import ThreeDots from "../../assets/images/threeDots.svg";
+import ArrowUp from "../../assets/images/arrowUp.png";
+import Bucket from "../../assets/images/bucket.png";
+import "./HeroCards.css";
+import { Images } from "../../assets/assets";
+import OwnerBg from "../../assets/images/heroownerbg.png";
 
 const HeroCards = ({
   CardImg,
@@ -16,59 +17,18 @@ const HeroCards = ({
   TotalBids,
 }) => {
   return (
-    <Card className='auction-card hero-card mx-2'>
-      <div className='auction-img-wrapper'>
-        <Card.Img variant='top' src={CardImg} alt='AuctionTopImg' />
+    <div className="hero-new-card">
+      <div className="hero-img-container">
+        <img src={CardImg} alt="heroImg" />
+        <div className="hero-owner text-center">
+          <p>Owned by: Steve Jackson</p>
+        </div>
+        <button className="hero-btn-bid">Place a bid</button>
       </div>
-      <Card.Body className='d-flex flex-column'>
-        <div className='hero-card-title-container d-flex align-items-center justify-content-between'>
-          <Card.Title>{NftName}</Card.Title>
-          {/* <div className='options-icon'>
-            <img src={ThreeDots} alt='OptionsIcon' />
-          </div> */}
-        </div>
-        <div className='auction-card-avatar d-flex align-items-center mb-4'>
-          {BidsProfile &&
-            BidsProfile.length > 0 &&
-            BidsProfile.map((item, i) => {
-              if (i <= 2) {
-                return (
-                  <img
-                    src={item === null ? Images.profilePlaceholder : item}
-                    alt='AvatarImg'
-                  />
-                );
-              }
-            })}
-          <span className='ms-4'>
-            {TotalBids === 0
-              ? 'No Bids Found'
-              : TotalBids < 4
-              ? TotalBids + ' People Place Bid'
-              : TotalBids - 1 + '+ People Place Bid'}
-          </span>
-        </div>
-
-        <div className='auction-card-owner-container d-flex justify-content-between align-items-center mb-2'>
-          <div className='auction-owner-name'>
-            <p>
-              {'Owned by '}
-              {OwnerName && OwnerName.length > 8
-                ? OwnerName.substring(0, 6) + '...'
-                : OwnerName}
-            </p>
-          </div>
-          <div className='d-flex align-items-center'>
-            <img src={ArrowUp} alt='' className='me-1' />
-            <span>{HighestBid}</span>
-          </div>
-        </div>
-        <button className='auction-bit-btn d-flex align-items-center justify-content-center'>
-          <img src={Bucket} alt='' className='me-1' />
-          <p>Place a Bid</p>
-        </button>
-      </Card.Body>
-    </Card>
+      <div className="hero-placed-bid text-center">
+        <h6>9+ People Place Bid</h6>
+      </div>
+    </div>
   );
 };
 
