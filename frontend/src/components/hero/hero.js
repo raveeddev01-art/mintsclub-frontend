@@ -18,6 +18,7 @@ const Hero = (props) => {
     setConnectedAddress(connectedAddress);
   }, []);
 
+  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
