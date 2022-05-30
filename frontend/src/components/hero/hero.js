@@ -14,37 +14,6 @@ const Hero = (props) => {
     setConnectedAddress(connectedAddress);
   }, []);
 
-  const sliderRadioButtons = [
-    {
-      id: "s1",
-      value: 1,
-    },
-    {
-      id: "s2",
-      value: 2,
-    },
-    {
-      id: "s3",
-      value: 3,
-    },
-    {
-      id: "s4",
-      value: 4,
-    },
-    {
-      id: "s5",
-      value: 5,
-    },
-    {
-      id: "s6",
-      value: 6,
-    },
-    {
-      id: "s7",
-      value: 7,
-    },
-  ];
-
   const [sliderChecked, setSliderChecked] = useState(1);
   const length = sliderRadioButtons.length;
   const handleRadioInputs = (e) => {
