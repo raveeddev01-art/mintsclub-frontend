@@ -1,0 +1,57 @@
+
+
+
+.nft-status {
+    display: flex;
+    justify-content: space-between;
+}
+.nft-status .status-info{
+    background: #FFFFFF;
+    padding: 0.6rem 1.6rem;
+    border-radius: 44px;
+}
+.nft-status .status-info .status{
+    font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 14px;
+
+color: #454545;
+}
+.nft-status .status-info .status-count{
+    font-weight: 400;
+}
+.nft-price {
+    font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 14px;
+
+color: #454545;
+}
+.nft-price .price{
+    font-style: normal;
+font-weight: 700;
+font-size: 15px;
+line-height: 18px;
+/* identical to box height */
+
+text-decoration-line: underline !important;
+
+color: #DC1B1B !important;
+}
+@media (max-width: 1400px) {
+    .nft-status {
+        display: flex;
+        flex-direction: column;
+    }
+    .status-sold{
+        margin-top: 0.8rem;
+        text-align: center;
+    }
+    .status-remaining {
+        margin-top: 1rem;
+        text-align: center;
+
+    }
+}

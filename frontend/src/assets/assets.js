@@ -27,6 +27,13 @@ import community from './images/community.png';
 import ownCollection from './images/ownCollection.png';
 import buyNft from './images/Group 34195.png';
 import sellNft from './images/Group 34196.png';
+import whiteFillHeart from './images/whiteFillHeart.png';
+import nftPriceTag from './images/nftPriceTag.svg';
+import whiteEmptyHeart from './images/dislikeEmptyHeart.svg';
+import featureImageInputBG from './images/featureImageInputBG.svg';
+import editIconSmall from './images/editIconSmall.svg';
+import editIconLarge from './images/editIconLarge.svg';
+
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -36,7 +43,13 @@ export const Images = {
   community,
   ownCollection,
   buyNft,
-  sellNft
+  sellNft,
+  whiteFillHeart,
+  nftPriceTag,
+  whiteEmptyHeart,
+  featureImageInputBG,
+  editIconSmall,
+  editIconLarge
 };
 
 export const CollectionImages = {
