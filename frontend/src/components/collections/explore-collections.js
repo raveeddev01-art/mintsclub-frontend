@@ -21,6 +21,7 @@ import { Images } from "../../assets/assets";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { beforeCategory, getCategories } from "./collections.actions";
 import Breadcrumb from "../breadcrumb/breadcrumb";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const ExploreCollections = forwardRef((props, ref) => {
   const [isActive, setIsActive] = useState("All");
@@ -134,7 +135,6 @@ const ExploreCollections = forwardRef((props, ref) => {
 
   return (
     <>
-      
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
@@ -153,10 +153,10 @@ const ExploreCollections = forwardRef((props, ref) => {
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item,index) => {
+                    categories.map((item, index) => {
                       return (
                         <button
-                        key={index}
+                          key={index}
                           onClick={() => {
                             setIsActive(item.name);
                             setSelectedCategory(item.description);
@@ -174,7 +174,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                 <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item,index) => {
+                    categories.map((item, index) => {
                       return (
                         <div className="col-6 col-sm-3" key={index}>
                           <button
@@ -195,15 +195,15 @@ const ExploreCollections = forwardRef((props, ref) => {
                 </div>
               </div>
             </div>
-            <div className="row g-4 align-items-center justify-content-center">
+            <div className="row g-1 align-items-center justify-content-center">
               {loader ? (
                 <div className="spinner-border text-white" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
-                collections.map((collection,index) => {
+                collections.map((collection, index) => {
                   return (
-                    <div className="col-sm-6 col-md-4 col-lg-3" key={index}>
+                    <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
                         Subimg1={handleImage(collection, 0)}
@@ -226,7 +226,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                   );
                 })
               ) : (
-                <p className="text-center text-white not-found-title mt-5">
+                <p className="text-center not-found-title mt-5">
                   No Collections found
                 </p>
               )}
@@ -236,7 +236,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                     collections?.length === 10 &&
                     pagination.totalRecords > collections.length && ( 
                       <button
-                        className="btn btn-linear-gradient px-5"
+                        className="btn btn-rounded-bordered px-5"
                         onClick={() => handlePagination()}
                       >
                         Load more...
@@ -246,9 +246,9 @@ const ExploreCollections = forwardRef((props, ref) => {
               </div>
             </div>
           </div>
+          <OwnCollectionToday />
         </section>
       )}
-   
     </>
   );
 });

@@ -66,7 +66,7 @@ const TopSellerList = (props) => {
                     className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
                   >
                     {/* Single Seller */}
-                    <div className="card">
+                    <div className="card top-seller-card">
                       <div className="single-seller d-flex align-items-center">
                         <div className="seller-avatar-container">
                           <img

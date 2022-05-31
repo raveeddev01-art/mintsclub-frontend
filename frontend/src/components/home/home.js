@@ -10,7 +10,6 @@ import Footer from "../footer/footer";
 import PopularCollections from "../collections/popular-collections";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
-
 function Home() {
   useEffect(() => {
     window.scroll(0, 0);

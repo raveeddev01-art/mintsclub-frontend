@@ -9,30 +9,30 @@ const OwnCollectionToday = () => {
             <div className="own-collection-content text-center  text-lg-start">
               <img src={Images.community} alt="community" />
               <p className="own-collection-title mt-3">
-                Join the community,
+                Join the community,{" "}
                 <span>
-                  Change <br /> the world.
+                  Change <br className="d-none d-sm-block" /> the world.
                 </span>
               </p>
-              <p className="own-collection-description mt-5 text-center  text-lg-start">
-                MintsClub is a shared liquidity NFT market smart contract which 
+              <p className="own-collection-description mt-4 text-center  text-lg-start">
+                MintsClub is a shared liquidity NFT market smart contract which
                 is used by multiple websites to provide the users the best
                 possible experience.
               </p>
             </div>
           </div>
 
-          <div className="col-lg-6 col-md-12 mt-5 mt-lg-0 ">
+          <div className="col-lg-6 col-md-12 mt-5 mt-lg-0">
             <div className="own-collection-content text-center  text-lg-start">
               <img src={Images.ownCollection} alt="community" />
               <p className="own-collection-title mt-3">
-                Start your own,
+                Start your own{" "}
                 <span>
-                  Collection <br />
+                  collection <br className="d-none d-sm-block" />
                   today.
                 </span>
-              </p> 
-              <p className="own-collection-description mt-5 text-center  text-lg-start">
+              </p>
+              <p className="own-collection-description mt-4 text-center  text-lg-start">
                 MintsClub is a shared liquidity NFT market smart contract which
                 is used by multiple websites to provide the users the best
                 possible experience.

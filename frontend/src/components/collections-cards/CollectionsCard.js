@@ -21,7 +21,7 @@ const CollectionsCard = ({
 
   return (
     <Card
-      className="collection-cards-container"
+      className="collection-cards-container m-1"
       onClick={() => {
         history.push({
           pathname: `/collection/detailPage/${id}`,
@@ -47,17 +47,14 @@ const CollectionsCard = ({
           </div>
 
           <Card.Body>
-            {/* <Card.Title>
-              {name.length > 20 ? name.slice(0, 20) + "..." : name}
+            <Card.Title>
+              <div>
+                {name && name.length > 10 ? name.slice(0, 10) + "..." : name}
+              </div>
+              <div className="collection-items d-flex align-items-center">
+                <span>11 items</span>
+              </div>
             </Card.Title>
-            <Card.Text>
-              {NFTCount}
-              {" items"}
-            </Card.Text> */}
-            <div className="collection-card-title">
-              <span>  {name.length > 17 ? name.slice(0, 17) + "..." : name}</span>
-              <button className="collection-card-title-btn">  {NFTCount} items</button>
-            </div>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">
                 <img
@@ -69,10 +66,6 @@ const CollectionsCard = ({
                   Owned by: <span className="text-capitalize">{userName}</span>
                 </p>
               </div>
-              {/* <div className="collection-footer-right d-flex align-items-center">
-                <img src={HeartIcon} alt="like-icon" className="me-1" onClick={()=>handleLikesTogle(id)} />
-                <span>212k</span>
-              </div> */}
             </div>
           </Card.Body>
         </div>

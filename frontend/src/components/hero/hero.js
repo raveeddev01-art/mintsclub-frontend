@@ -33,12 +33,11 @@ const Hero = (props) => {
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
-  console.log(auctions, "auctions blah");
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-12 col-lg-6 col-xl-5">
+          <div className="col-12 col-lg-6">
             <h1 className="mt-4">
               Discover, collect, <br /> <span>and sell </span>
               <br />
@@ -69,7 +68,7 @@ const Hero = (props) => {
               <span className="ms-2">Watch video to learn more</span>
             </div>
           </div>
-          <div className="col-12 col-lg-6 col-xl-7 ">
+          <div className="col-12 col-lg-6">
             <CardSlider settings={heroSettings}>
               {auctions &&
                 auctions.length > 0 &&

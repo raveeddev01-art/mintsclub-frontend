@@ -112,7 +112,7 @@ function AuctionsOne(props) {
       ) : (
         <div className="container">
           <div className="row mb-5">
-            <div className="col-12 col-sm-8 col-md-6">
+            <div className="col-12 col-md-8">
               {/* Intro */}
               <div className="intro d-flex justify-content-between align-items-end m-0">
                 <div className="intro-content clr-yellow">
@@ -120,13 +120,15 @@ function AuctionsOne(props) {
                   <h3 className="mb-0">{initData.heading}</h3>
                   <p>
                     Explore on the world's best & largest NFT marketplace with
-                    our beautiful NFT products. We want to be a part of your
-                    smile, success and future growth.
+                    our beautiful NFT products.{" "}
+                    <br className="d-none d-xl-block" />
+                    We want to be a part of your smile, success and future
+                    growth.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-12 col-md-6 mt-3 mt-lg-0">
+            <div className="col-12 col-lg-4 mt-3 mt-lg-0">
               {categoryId === "all" && auctions && auctions?.length <= 1 ? (
                 ""
               ) : (
@@ -140,7 +142,7 @@ function AuctionsOne(props) {
                             key={id}
                             className={`${
                               id === isActive ? "home-active-category" : ""
-                            } me-1 me-sm-2`}
+                            } me-1 me-sm-3 me-lg-4`}
                             onClick={() => {
                               setIsActive(id);
                               handleCategoryFilter(item.description);
