@@ -19,6 +19,8 @@ import Breadcrumb from "../../breadcrumb/breadcrumb";
 import VideoCard from "../../test-video-card/videoCard";
 import { validateNetwork } from "../../../utils/web3";
 import { toast } from "react-toastify";
+import NftCard from "../../nft-card/nft-card";
+
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [nftPagination, setNFTPagination] = useState(null);
@@ -65,7 +67,7 @@ const AllNFT = (props) => {
     props.getCollections();
     if (props?.location?.state) {
       let searchQs = { keyword: props.location.state };
-      window.history.replaceState(null, '')
+      window.history.replaceState(null, "");
       searchQs = ENV.objectToQueryString(searchQs);
       props.getNFTs(searchQs);
     } else {
@@ -412,13 +414,12 @@ const AllNFT = (props) => {
   const handleStatusFilter = (id) => {
     setInitial(false);
     setFilterationLoader(true);
-    if(id === "Buy Now" ){
-
-      setFilter((prev) => ({ ...prev, buy: true,auction:false,new:false }));
-    }else if(id === "On Auction"){
-      setFilter((prev) => ({ ...prev, auction: true,buy:false,new:false }));
-    }else {
-      setFilter((prev) => ({ ...prev, new: true ,buy:false,auction:false}));
+    if (id === "Buy Now") {
+      setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
+    } else if (id === "On Auction") {
+      setFilter((prev) => ({ ...prev, auction: true, buy: false, new: false }));
+    } else {
+      setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
     }
     getNFTs(
       filter.page,
@@ -436,11 +437,10 @@ const AllNFT = (props) => {
       id == "On Auction" ? true : false,
       id == "New" ? true : false
     );
-
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
-      if (!likeButtonDisable) {
+      if (!likeButtonDisable || likeButtonDisable === null) {
         setLikeBtnDisable(true);
         let userId = ENV.getUserKeys("_id")._id;
 
@@ -506,11 +506,10 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-
+  console.log(likeButtonDisable, "likeButtonDisable");
   return (
     <>
-      <NavbarMain />
-      <Breadcrumb title1={"Explore"} title2={"All NFT"} />
+    
       <div className="collection-detail-content all-nft-content">
         <div className="container padding-wrapper pb-1">
           <div className="collections-listing">
@@ -536,12 +535,10 @@ const AllNFT = (props) => {
                     placeholder="Search"
                     maxLength="50"
                     onChange={(e) => {
-                      
-                      if (keyword===''&& e.target.value === "") {
+                      if (keyword === "" && e.target.value === "") {
                         return false;
-                        
-                      }else if(e.target.value===''){
-                        handleSearchKeyword(false)
+                      } else if (e.target.value === "") {
+                        handleSearchKeyword(false);
                         setKeyword(e.target.value);
                       } else {
                         setKeyword(e.target.value);
@@ -676,49 +673,19 @@ const AllNFT = (props) => {
                         </div>
                       </div>
                     ) : nfts && nfts.length > 0 ? (
-                      nfts.map((listing, index) => {
+                      nfts.map((nft, index) => {
                         return (
                           <div
                             key={index}
-                            className="col-6 col-md-4 col-lg-3 px-1"
+                            className="col-12 col-md-6 col-lg-4 px-1"
                           >
-                            {listing.fileType === "image" ? (
-                              <ListingCards
-                                CardImg={listing.image}
-                                name={listing.name}
-                                price={listing.currentPrice}
+                            {
+                              <NftCard
+                                data={nft}
                                 handleLikesTogleApi={handleLikesTogleApi}
-                                id={listing._id}
-                                likesCount={listing.likeCount}
                                 likedNfts={likedNfts}
-                                ownerId={listing.ownerId}
-                                fileType={listing.fileType}
-                                sellingMethod={listing?.sellingMethod}
-                                auctionStartDate={listing?.auctionStartDate}
-                                auctionEndDate={listing?.auctionEndDate}
-                                ownerName={listing.owner.username}
-                                copies={listing.copies}
-                                remainingCopies={listing.remainingCopies}
                               />
-                            ) : (
-                              <VideoCard
-                                CardImg={listing.image}
-                                name={listing.name}
-                                price={listing.currentPrice}
-                                handleLikesTogleApi={handleLikesTogleApi}
-                                id={listing._id}
-                                likesCount={listing.likeCount}
-                                likedNfts={likedNfts}
-                                ownerId={listing.ownerId}
-                                fileType={listing.fileType}
-                                sellingMethod={listing?.sellingMethod}
-                                auctionStartDate={listing?.auctionStartDate}
-                                auctionEndDate={listing?.auctionEndDate}
-                                ownerName={listing.owner.username}
-                                copies={listing.copies}
-                                remainingCopies={listing.remainingCopies}
-                              />
-                            )}
+                            }
                           </div>
                         );
                       })

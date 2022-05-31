@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import UploadIcon from "../../assets/images/uploadIcon.png";
 import { MdClose } from "react-icons/md";
+import { Images } from "../../assets/assets";
 
 class CreateCollections extends Component {
   constructor(props) {
@@ -58,8 +59,8 @@ class CreateCollections extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.error!==null&&prevProps.error===null) {
-      toast.error(this.props.error.message)
+    if (this.props.error !== null && prevProps.error === null) {
+      toast.error(this.props.error.message);
       this.setState({ loader: false }, () => {
         this.props.emptyError();
       });
@@ -175,9 +176,75 @@ class CreateCollections extends Component {
     } else {
       return (
         <>
-          <NavbarMain />
-          <Breadcrumb title1={"Create"} title2={"Create Collection"} />
-          <section className="edit-profile padding-wrapper create-collection-container">
+          <section className="create-collection">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="feature-wrapper">
+                    <div className="feature-image">
+                      <span className="feature-img-round">
+                        <img src={Images.featureImageInputBG} />
+                        <div className="feature-img-round-info">
+                          <p className="text-center mb-2 browse-file">
+                            Browse Files
+                          </p>
+                          <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p>
+                          <p className="text-center mb-0">Max 100mb</p>
+                        </div>
+                      </span>
+                    </div>
+                    <div className="upload-feature-icon">
+                      <img src={Images.editIconLarge} />
+                    </div>
+                  </div>
+                    <p className="feature-img-title mt-3 mx-2">Feature Image*</p>
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-12">
+                  <label className="create-collection-label">Name:*</label>
+                  <input
+                    className="create-collection-input mt-2"
+                    placeholder="Type here to search"
+                  />
+                </div>
+
+                <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+                  <label className="create-collection-label">URL:*</label>
+                  <input
+                    className="create-collection-input mt-2"
+                    placeholder="Type here to search"
+                  />
+                </div>
+
+                <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
+                  <label className="create-collection-label">
+                    Select Category:*
+                  </label>
+                  <input
+                    className="create-collection-input mt-2"
+                    placeholder="Type here to search"
+                  />
+                </div>
+
+                <div className="col-12 mt-5">
+                  <label className="create-collection-label">
+                    Description:*
+                  </label>
+
+                  <textarea
+                    className="create-collection-area mt-2"
+                    placeholder="Enter Description..."
+                  ></textarea>
+                </div>
+                <div className="create-collection-btn-container">
+                  <button className="btn create-collection-btn btn-linear-gradient mt-5">
+                    Create Collection
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* <section className="edit-profile padding-wrapper create-collection-container">
             {loader && <FullPageLoader />}
             <div className="container">
               <div className="row">
@@ -399,7 +466,7 @@ class CreateCollections extends Component {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
           <Footer />
         </>
       );
@@ -407,8 +474,7 @@ class CreateCollections extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  {
+const mapStateToProps = (state) => ({
   collection: state.collection,
   // user: state.user,
   error: state.error,
