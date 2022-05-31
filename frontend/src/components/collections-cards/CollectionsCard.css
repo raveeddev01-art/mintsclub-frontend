@@ -1,55 +1,40 @@
 .card.collection-cards-container {
-  padding: 20px;
-  border-radius: 10px;
-  margin: 0 5px;
+  padding: 10px;
+  border-radius: 22px;
   cursor: pointer;
 }
 
 .card.collection-cards-container {
-  background: #F2F7FF;
+  background: #f2f7ff;
   border-radius: 22px;
 }
 
-
-.collection-cards-container .card-body {
-  padding-top: 20px;
+.card.collection-cards-container .card-body {
+  padding: 0;
 }
-.collection-card-title {
-  background-color: white;
-  height: 48px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-weight: 700;
+
+.collection-cards-container .card-body .card-title {
   font-size: 12px;
-  line-height: 14px;
+  font-weight: 700;
+  color: #454545;
+  margin-top: 20px;
+  background: #ffffff;
+  box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
   border-radius: 44px;
-}
-.collection-card-title .collection-card-title-btn{
-  width: 76px;
-    height: 32px;
-    background: #387FFF;
-    color: white;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 11px;
-    line-height: 13px;
-    border: none;
-    border-radius: 77px;
-}
-.collection-cards-container .card-title {
-  margin-bottom: 0;
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
-  width: max-content;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.collection-cards-container .card-title:hover {
-  background: -webkit-linear-gradient(#5666fe, #5666fe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  cursor: pointer;
+.collection-cards-container .card-body .card-title .collection-items {
+  background: #387fff;
+  box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 77px;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .collection-cards-container .card-text {
@@ -62,32 +47,31 @@
 .collection-cards-container .collection-subImg1 img {
   height: 80px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .collection-cards-container .collection-subImg2 img {
   height: 80px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .collection-cards-container .collection-subImg3 img {
   height: 80px;
   width: 100%;
-  border-radius: 10px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .collection-cards-container .collection-mainImg img {
   height: 324px;
   width: 100%;
-  border-radius: 22px;
+  border-radius: 20px;
   background-size: cover;
   object-fit: cover;
 }
 
 .collection-cards-container .card-body .collection-card-footer {
-  padding-top: 20px;
+  padding: 10px 0;
 }
 
 .collection-cards-container
@@ -95,8 +79,8 @@
   .collection-card-footer
   .collection-footer-left
   img {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -104,8 +88,9 @@
   .card-body
   .collection-card-footer
   .collection-footer-left
-   p {
-    color: #6A6A6A;
+  p {
+  color: #6a6a6a;
+  font-size: 11px;
 }
 
 .collection-cards-container
@@ -113,26 +98,6 @@
   .collection-card-footer
   .collection-footer-left
   span {
-    font-weight: 500;
-    font-size: 14px;
-  color: #000;
-}
-
-.collection-cards-container
-  .card-body
-  .collection-card-footer
-  .collection-footer-right
-  span {
-  font-size: 14px;
-  font-weight: normal;
-  color: #feffff;
-}
-
-.collection-cards-container
-  .card-body
-  .collection-card-footer
-  .collection-footer-right
-  img {
-  width: 15px;
-  height: 15px;
+  font-weight: bold;
+  color: #000000;
 }

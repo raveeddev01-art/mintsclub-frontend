@@ -18,12 +18,11 @@ const Hero = (props) => {
     setConnectedAddress(connectedAddress);
   }, []);
 
-  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-12 col-lg-6 col-xl-5">
+          <div className="col-12 col-lg-6">
             <h1 className="mt-4">
               Discover, collect, <br /> <span>and sell </span>
               <br />
@@ -54,8 +53,8 @@ const Hero = (props) => {
               <span className="ms-2">Watch video to learn more</span>
             </div>
           </div>
-          <div className="col-12 col-lg-6 col-xl-7 ">
-            <CardSlider settings={heroSettings}>
+          <div className="col-12 col-lg-6">
+            <CardSlider settings={heroSettings} className="hero-card-slider">
               <HeroCards CardImg={ListingImg.listingImg1} className="slide" />
               <HeroCards CardImg={ListingImg.listingImg2} className="slide" />
               <HeroCards CardImg={ListingImg.listingImg3} className="slide" />

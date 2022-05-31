@@ -111,7 +111,7 @@
 
 .watch-video span {
   color: #272727;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 300;
 }
 
@@ -139,7 +139,8 @@
   border: 1px solid #387fff !important;
   border-radius: 44px !important;
   background-color: #387fff !important;
-  margin: 20px 2px !important;
+  margin: 20px 3px !important;
+  box-shadow: -7px 0 0 rgb(56 127 255 / 46%);
 }
 
 /* .slick-slider .slick-dots .slick-active button::after {

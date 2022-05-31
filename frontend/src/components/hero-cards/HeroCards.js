@@ -26,7 +26,7 @@ const HeroCards = ({
         <button className="hero-btn-bid">Place a bid</button>
       </div>
       <div className="hero-placed-bid text-center">
-        <h6>9+ People Place Bid</h6>
+        <h6 className="mb-0">9+ People Place Bid</h6>
       </div>
     </div>
   );

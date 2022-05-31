@@ -13,7 +13,7 @@ const TopSeller = (props) => {
   useEffect(() => {
     props.getTopSellers();
   }, []);
-  
+
   useEffect(() => {
     if (props.user.topSellersAuth) {
       setSellers(props.user.sellers.topSellers);
@@ -27,7 +27,7 @@ const TopSeller = (props) => {
           <div className="col-12">
             {/* Intro */}
             <div className="intro d-flex justify-content-between align-items-end m-0">
-              <div className="intro-content">
+              <div className="intro-content clr-blue">
                 <span>Creative Artists</span>
                 <h3 className="mb-5">Top Sellers</h3>
               </div>
@@ -41,7 +41,7 @@ const TopSeller = (props) => {
                     <img src={ViewAllIcon} alt="arrow-left" className="ms-2" />
                   </Link>
                 </div>
-               )} 
+              )}
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@ const TopSeller = (props) => {
                     className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
                   >
                     {/* Single Seller */}
-                    <div className="card">
+                    <div className="card top-seller-card">
                       <div className="single-seller d-flex align-items-center">
                         <div className="seller-avatar-container">
                           <img
@@ -70,8 +70,6 @@ const TopSeller = (props) => {
                           {author.profileImage ? (
                             <span className="seller-avatar-active">
                               <img src={SellerTickIcon} alt="tick-icon" />
-                               
-                             
                             </span>
                           ) : (
                             ""
@@ -80,12 +78,7 @@ const TopSeller = (props) => {
 
                         {/* Seller Info */}
                         <div className="seller-info ml-3 w-100">
-                          <p
-                            className="seller mb-2"
-                           
-                          >
-                            {author.username}
-                          </p>
+                          <p className="seller mb-2">{author.username}</p>
                           <span className="text-end">
                             {" "}
                             {author.totalETH.toFixed(2)}
