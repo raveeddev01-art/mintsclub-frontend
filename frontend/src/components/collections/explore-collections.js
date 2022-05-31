@@ -4,11 +4,8 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-
-import NavbarMain from "../navbar-main/NavbarMain";
 import "./explore-collections.css";
 import CollectionsCard from "../collections-cards/CollectionsCard";
-import Footer from "../footer/footer";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
 import {
@@ -20,8 +17,10 @@ import { Images } from "../../assets/assets";
 
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { beforeCategory, getCategories } from "./collections.actions";
-import Breadcrumb from "../breadcrumb/breadcrumb";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import BannerImage from "../../assets/images/bannerimg.png";
 
 const ExploreCollections = forwardRef((props, ref) => {
   const [isActive, setIsActive] = useState("All");
@@ -133,22 +132,27 @@ const ExploreCollections = forwardRef((props, ref) => {
     }
   };
 
+  const bannerData = {
+    subHeading: "Collections",
+    heading: "Explore all",
+    content:
+      " Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+  };
   return (
     <>
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
-        <section className="explore-collection-section padding-wrapper">
+        <section className="explore-collection-section padding-wrapper pt-0">
+          <Banner
+            subHeading={bannerData.subHeading}
+            heading={bannerData.heading}
+            content={bannerData.content}
+            bgImg={BannerBg}
+            bannerImg={BannerImage}
+          />
           <div className="container">
             <div className="row mb-5">
-              <div className="col-12">
-                <div className="intro">
-                  <div className="intro-content">
-                    <span>Collections</span>
-                    <h3 className="mb-0">Explore all</h3>
-                  </div>
-                </div>
-              </div>
               <div className="col-12 explore-collection-nav">
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categories &&

@@ -65,7 +65,7 @@ const AllNFT = (props) => {
     props.getCollections();
     if (props?.location?.state) {
       let searchQs = { keyword: props.location.state };
-      window.history.replaceState(null, '')
+      window.history.replaceState(null, "");
       searchQs = ENV.objectToQueryString(searchQs);
       props.getNFTs(searchQs);
     } else {
@@ -412,13 +412,12 @@ const AllNFT = (props) => {
   const handleStatusFilter = (id) => {
     setInitial(false);
     setFilterationLoader(true);
-    if(id === "Buy Now" ){
-
-      setFilter((prev) => ({ ...prev, buy: true,auction:false,new:false }));
-    }else if(id === "On Auction"){
-      setFilter((prev) => ({ ...prev, auction: true,buy:false,new:false }));
-    }else {
-      setFilter((prev) => ({ ...prev, new: true ,buy:false,auction:false}));
+    if (id === "Buy Now") {
+      setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
+    } else if (id === "On Auction") {
+      setFilter((prev) => ({ ...prev, auction: true, buy: false, new: false }));
+    } else {
+      setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
     }
     getNFTs(
       filter.page,
@@ -436,7 +435,6 @@ const AllNFT = (props) => {
       id == "On Auction" ? true : false,
       id == "New" ? true : false
     );
-
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
@@ -536,12 +534,10 @@ const AllNFT = (props) => {
                     placeholder="Search"
                     maxLength="50"
                     onChange={(e) => {
-                      
-                      if (keyword===''&& e.target.value === "") {
+                      if (keyword === "" && e.target.value === "") {
                         return false;
-                        
-                      }else if(e.target.value===''){
-                        handleSearchKeyword(false)
+                      } else if (e.target.value === "") {
+                        handleSearchKeyword(false);
                         setKeyword(e.target.value);
                       } else {
                         setKeyword(e.target.value);

@@ -1,0 +1,21 @@
+.banner-wrapper {
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 420px;
+  margin-bottom: 50px;
+}
+
+.banner-img {
+  width: max-content;
+  margin: 0 auto;
+}
+
+@media (max-width: 991.9px) {
+  .banner-wrapper {
+    min-height: unset;
+  }
+}

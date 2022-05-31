@@ -585,7 +585,6 @@ const UserProfile = (props) => {
                             className={`${
                               id === isActive ? "active-explore-nav" : ""
                             } me-2 me-xl-3`}
-                            // disabled={disabled}
                           >
                             {item}
                           </button>
@@ -623,7 +622,6 @@ const UserProfile = (props) => {
                     }
                     value={keyword}
                   />
-
                 </div>
               </div>
               {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
