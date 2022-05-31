@@ -1,17 +1,18 @@
 .explore-collection-section .explore-collection-nav button {
   border: none;
   background-color: transparent;
+  font-style: normal;
+  font-weight: 700;
   font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  /* padding-top: 10px;
-  padding-bottom: 10px; */
+  line-height: 16px;
+  color: #1a1a1a;
   min-width: 100px;
   min-height: 40px;
 }
 
-.explore-collection-section .active-explore-nav {
+.explore-collection-section .explore-collection-nav .active-explore-nav {
+  border: 1px solid #3c66f3;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  border-radius: 44px;
   min-width: 100px;
-  border-radius: 8px;
-  background: linear-gradient(to top, #4355ff, #5695fd);
 }

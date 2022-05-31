@@ -66,7 +66,7 @@ const NavbarMain = (props) => {
               >
                 <NavDropdown.Item>
                   <NavLink
-                    to="/explore/allNFT"
+                    to="/explore/exploreAll"
                     className={`nav-main-link main-nav-dd-items`}
                   >
                     Explore All

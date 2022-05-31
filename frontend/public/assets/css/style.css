@@ -1490,9 +1490,15 @@ aside {
 .btn.btn-linear-gradient {
   background: #387fff;
   padding: 10px 25px;
-  color: #ffffff;
+  color: #1a1a1a;
   border-radius: 55px;
   border: 1px solid #387fff;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  color: #ffffff;
+  min-width: 100px;
+  min-height: 40px;
 }
 
 .btn.btn-rounded-bordered {

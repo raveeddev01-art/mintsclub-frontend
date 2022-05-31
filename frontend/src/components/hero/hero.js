@@ -7,17 +7,32 @@ import CardSlider from "../card-slider/CardSlider";
 import HeroCards from "../hero-cards/HeroCards";
 import { ListingImg } from "../../assets/assets";
 import { ENV } from "../../config/config";
-
+import { beforeAuction, getLiveAuctions } from "../auctions/auctions.action";
+import { connect } from "react-redux";
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
-
+  const [auctions, setAuctions] = useState(null);
   const heroSettings = ENV.heroSettings;
 
   useEffect(async () => {
     let connectedAddress = await connectMetamaskCopy();
     setConnectedAddress(connectedAddress);
   }, []);
+  useEffect(() => {
+    const qs = ENV.objectToQueryString({
+      myFilter: "all",
+    });
+    props.getLiveAuctions(qs);
+  }, []);
+  useEffect(() => {
+    if (props.auction.auctionsAuth) {
+      const { auctions } = props.auction;
 
+      setAuctions(auctions);
+
+      props.beforeAuction();
+    }
+  }, [props.auction.auctionsAuth]);
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -54,13 +69,12 @@ const Hero = (props) => {
             </div>
           </div>
           <div className="col-12 col-lg-6">
-            <CardSlider settings={heroSettings} className="hero-card-slider">
-              <HeroCards CardImg={ListingImg.listingImg1} className="slide" />
-              <HeroCards CardImg={ListingImg.listingImg2} className="slide" />
-              <HeroCards CardImg={ListingImg.listingImg3} className="slide" />
-              <HeroCards CardImg={ListingImg.listingImg4} className="slide" />
-              <HeroCards CardImg={ListingImg.listingImg2} className="slide" />
-              <HeroCards CardImg={ListingImg.listingImg4} className="slide" />
+            <CardSlider settings={heroSettings}>
+              {auctions &&
+                auctions.length > 0 &&
+                auctions.map((auction) => {
+                  return <HeroCards auction={auction} className="slide" />;
+                })}
             </CardSlider>
           </div>
         </div>
@@ -69,4 +83,10 @@ const Hero = (props) => {
   );
 };
 
-export default Hero;
+const mapStateToProps = (state) => ({
+  auction: state.auction,
+});
+export default connect(mapStateToProps, {
+  beforeAuction,
+  getLiveAuctions,
+})(Hero);

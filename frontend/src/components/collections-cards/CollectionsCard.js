@@ -21,7 +21,7 @@ const CollectionsCard = ({
 
   return (
     <Card
-      className="collection-cards-container mx-2"
+      className="collection-cards-container m-1"
       onClick={() => {
         history.push({
           pathname: `/collection/detailPage/${id}`,
@@ -66,10 +66,6 @@ const CollectionsCard = ({
                   Owned by: <span className="text-capitalize">{userName}</span>
                 </p>
               </div>
-              {/* <div className="collection-footer-right d-flex align-items-center">
-                <img src={HeartIcon} alt="like-icon" className="me-1" onClick={()=>handleLikesTogle(id)} />
-                <span>212k</span>
-              </div> */}
             </div>
           </Card.Body>
         </div>

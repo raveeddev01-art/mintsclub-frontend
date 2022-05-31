@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Hero from "../hero/hero";
 import Auctions from "../auctions/home-auctions";
 import TopSeller from "../top-seller/topseller";
-
+import { connect } from "react-redux";
 import NavbarMain from "../navbar-main/NavbarMain";
 import OwnCollection from "../owncollection/OwnCollection";
 import Buysell from "../buy-sell/Buysell";
