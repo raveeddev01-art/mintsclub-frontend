@@ -21,8 +21,11 @@ import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Banner from "../banner/banner";
-import BannerBg from "../../assets/images/profileBg.svg";
+import BannerBg from "../../assets/images/profileBg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
+import EthIcon from "../../assets/images/eth-icon.svg";
+import CopyIcon from "../../assets/images/copy-icon.svg";
+import FilterHoc from "../filter-hoc/filterHoc";
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -41,6 +44,7 @@ const UserProfile = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const [copy, setCopy] = useState(false);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -519,7 +523,7 @@ const UserProfile = (props) => {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <div className="d-flex">
+                <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
                   <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
                     <img
                       src={
@@ -529,47 +533,71 @@ const UserProfile = (props) => {
                       }
                       alt="owner-avatar"
                     />
+                    {/* <div className="upload-feature-icon">
+                      <img src={Images.editIconLarge} />
+                    </div> */}
                   </div>
-                  <div className="collection-owner-detail mt-4">
+                  <div className="collection-owner-detail text-center text-sm-start mt-4">
                     {user && (
                       <div className="collection-owner-name">
                         <h3>{user.username ? user.username : "unnamed"}</h3>
                       </div>
                     )}
-                    <div
-                      className="user-address mt-4 d-flex align-items-center "
-                      onClick={() => {
-                        navigator.clipboard.writeText(user.address);
-                        setAddressCopied(true);
-                        ChangeTooltip();
-                      }}
-                    >
-                      <span>{isAddressCopied ? "Copied" : "Copy"}</span>
-                      {user && (
-                        <>
-                          <i className="fab fa-ethereum"></i>
-                          <p className="acc-adress">
-                            {user.address.slice(0, 10) +
-                              "..." +
-                              user.address.slice(-10)}
+                    <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                      <div className="user-address mt-2 d-flex  align-items-center ">
+                        <span className={`${copy ? "d-block" : "d-none"}`}>
+                          {isAddressCopied ? "Copied" : "Copy"}
+                        </span>
+                        {user && (
+                          <>
+                            <img src={EthIcon} alt="eth-icon" />
+
+                            <p className="acc-adress d-none d-md-block">
+                              {user.address}
+                            </p>
+                            <p className="acc-address d-md-none">
+                              {user.address.slice(0, 10) +
+                                "..." +
+                                user.address.slice(-10)}
+                            </p>
+
+                            <img
+                              onMouseLeave={() => {
+                                setCopy(false);
+                              }}
+                              onMouseOver={() => {
+                                setCopy(true);
+                              }}
+                              onClick={() => {
+                                navigator.clipboard.writeText(user.address);
+                                setAddressCopied(true);
+                                ChangeTooltip();
+                              }}
+                              src={CopyIcon}
+                              alt="copy-icon"
+                              className="user-address-copy ms-4"
+                            />
+                          </>
+                        )}
+                      </div>
+                      <div className="mt-2 mt-sm-0">
+                        {user && (
+                          <p>
+                            Joined:{" "}
+                            <span>
+                              {moment(user.createdAt).format("MMMM DD YYYY")}
+                            </span>
                           </p>
-                        </>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                  {/* {user && (
-                    <p>
-                      Joined{" "}
-                      <span>
-                        {moment(user.createdAt).format("MMMM DD YYYY")}
-                      </span>
-                    </p>
-                  )} */}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <FilterHoc />
       </section>
       {/* <NavbarMain />
       <Breadcrumb title1={"User"} title2={"UserProfile"} />
