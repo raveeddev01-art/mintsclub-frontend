@@ -6,7 +6,6 @@ import "./UserProfile.css";
 import { ENV } from "../../config/config";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../listing-cards/ListingCards";
-import FilterComponent from "../filter-component/FilterComponent";
 import BannerImg from "../../assets/images/collection-detailBg.png";
 import { getProfileNfts, beforeNFT, getMyLikedNfts } from "../nfts/nfts.action";
 import {
