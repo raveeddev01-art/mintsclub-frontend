@@ -1,6 +1,4 @@
 .collection-detail-hero {
-  /* background-image: url("../../assets/images/collection-detailBg.png");
-  padding: 100px 0; */
   height: 300px;
   width: 100%;
 }
@@ -15,14 +13,19 @@
 }
 
 .collection-detail-content .collection-owner-avatar {
-  margin-top: -60px;
+  margin-top: -75px;
+  border: 1px solid #2269ff;
+  border-radius: 50%;
+  width: max-content;
+  height: max-content;
 }
 
 .collection-detail-content .collection-owner-avatar img {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
+  border: 10px solid #fff;
 }
 
 .collection-detail-content .collection-owner-detail .collection-owner-name h3 {

@@ -21,6 +21,9 @@ import VideoCard from "../test-video-card/videoCard";
 import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
 import moment from "moment";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/profileBg.svg";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const UserProfile = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -500,10 +503,76 @@ const UserProfile = (props) => {
   };
 
   const menuData = ["Collected", "Created", "Favourited"];
-
+  const bannerData = {
+    subHeading: "Information",
+    heading: "User Profile",
+  };
   return (
     <>
-      <NavbarMain />
+      <section className="user-profile padding-wrapper pt-0">
+        <Banner
+          subHeading={bannerData.subHeading}
+          heading={bannerData.heading}
+          bgImg={BannerBg}
+          className="mb-0"
+        />
+        <div className="collection-detail-content">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="d-flex">
+                  <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
+                    <img
+                      src={
+                        user?.profileImage
+                          ? user.profileImage
+                          : Images.profilePlaceholder
+                      }
+                      alt="owner-avatar"
+                    />
+                  </div>
+                  <div className="collection-owner-detail mt-4">
+                    {user && (
+                      <div className="collection-owner-name">
+                        <h3>{user.username ? user.username : "unnamed"}</h3>
+                      </div>
+                    )}
+                    <div
+                      className="user-address mt-4 d-flex align-items-center "
+                      onClick={() => {
+                        navigator.clipboard.writeText(user.address);
+                        setAddressCopied(true);
+                        ChangeTooltip();
+                      }}
+                    >
+                      <span>{isAddressCopied ? "Copied" : "Copy"}</span>
+                      {user && (
+                        <>
+                          <i className="fab fa-ethereum"></i>
+                          <p className="acc-adress">
+                            {user.address.slice(0, 10) +
+                              "..." +
+                              user.address.slice(-10)}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {/* {user && (
+                    <p>
+                      Joined{" "}
+                      <span>
+                        {moment(user.createdAt).format("MMMM DD YYYY")}
+                      </span>
+                    </p>
+                  )} */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* <NavbarMain />
       <Breadcrumb title1={"User"} title2={"UserProfile"} />
       <div className="collection-detail-hero">
         <img
@@ -623,8 +692,8 @@ const UserProfile = (props) => {
                     value={keyword}
                   />
                 </div>
-              </div>
-              {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+              </div> */}
+      {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
                     <p>Item:</p>
@@ -641,7 +710,7 @@ const UserProfile = (props) => {
                   </select>
                 </div>
               </div> */}
-              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
+      {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
                     <p>Sort:</p>
@@ -793,7 +862,7 @@ const UserProfile = (props) => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer /> */}
     </>
   );
 };

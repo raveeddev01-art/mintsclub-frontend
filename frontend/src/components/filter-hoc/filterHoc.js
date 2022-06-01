@@ -35,16 +35,16 @@ const FilterHoc = (props) => {
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
-        <div className="row">
+        <div className="row justify-content-center justify-content-lg-start">
           <div className="col-12 order-0">
             <div
-              className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between mb-4 mb-md-0`}
+              className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between`}
             >
               <div className="search-input mb-4 mb-md-0">
                 <input type="text" placeholder="Type here to Search..." />
                 <img src={SearchIcon} alt="search-input" />
               </div>
-              <div className="sort-by-select">
+              <div className="sort-by-select mb-4 mb-md-0">
                 <p className="me-3">Sort by:</p>
                 <Select
                   className="react-select-cls"
@@ -57,17 +57,17 @@ const FilterHoc = (props) => {
                   options={options}
                 />
               </div>
-            </div>
-            <div className="mob-filters-btn d-flex d-md-none align-items-center justify-content-center">
-              <button
-                className={`${filterActive ? "mob-active-filter" : ""}`}
-                onClick={handleFilters}
-              >
-                Filters
-              </button>
+              <div className="mob-filters-btn d-flex d-lg-none align-items-center justify-content-center">
+                <button
+                  className={`${filterActive ? "mob-active-filter" : ""}`}
+                  onClick={handleFilters}
+                >
+                  Filters
+                </button>
+              </div>
             </div>
           </div>
-          <div className="col-12 my-5 order-2 order-md-1 ">
+          <div className="col-12 my-5 order-2 order-lg-1 ">
             <div className="hero-nav d-flex flex-column flex-sm-row align-items-center justify-content-between">
               <div>
                 {" "}
@@ -96,8 +96,8 @@ const FilterHoc = (props) => {
           </div>
           <div
             className={`${
-              filterActive ? "d-block d-md-block" : "d-none d-md-block"
-            } col-md-5 col-lg-4 col-xl-3 order-1 order-md-2 mt-4 mt-md-0`}
+              filterActive ? "d-block d-lg-block" : "d-none d-lg-block"
+            } col-md-5 col-lg-4 col-xl-3 order-1 order-lg-2 mt-4 mt-lg-0`}
           >
             <div className="filter-container mb-4">
               <h6>Status</h6>
@@ -187,9 +187,7 @@ const FilterHoc = (props) => {
               <button>Clear All Filters</button>
             </div>
           </div>
-          <div className="col-md-7 col-lg-8 col-xl-9 order-3">
-            {props.children}
-          </div>
+          <div className="col-lg-8 col-xl-9 order-3">{props.children}</div>
         </div>
       </div>
     </div>

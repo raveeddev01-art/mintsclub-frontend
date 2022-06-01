@@ -20,6 +20,11 @@ import VideoCard from "../../test-video-card/videoCard";
 import { validateNetwork } from "../../../utils/web3";
 import { toast } from "react-toastify";
 import NftCard from "../../nft-card/nft-card";
+import FilterHoc from "../../filter-hoc/filterHoc";
+import Banner from "../../banner/banner";
+import BannerBg from "../../../assets/images/hero-bg.png";
+import BannerImage from "../../../assets/images/bannerimg.png";
+import OwnCollectionToday from "../../own-collection-today/own-collection-today";
 
 const AllNFT = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
@@ -185,11 +190,6 @@ const AllNFT = (props) => {
     console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
-
-  // const itemoptions = [
-  //   { value: "single", label: "Single" },
-  //   { value: "double", label: "Double" },
-  // ];
 
   const sortoptions = [
     { value: "lowtohigh", label: "Low To High" },
@@ -506,218 +506,78 @@ const AllNFT = (props) => {
       setNFTs(final);
     }
   };
-  console.log(likeButtonDisable, "likeButtonDisable");
+  const bannerData = {
+    subHeading: "Explore",
+    heading: "All NFTs",
+    content:
+      "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+  };
   return (
     <>
-    
-      <div className="collection-detail-content all-nft-content">
-        <div className="container padding-wrapper pb-1">
-          <div className="collections-listing">
-            <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
-              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                <div className="collection-search-bar d-flex align-items-center justify-content-around mx-auto mx-md-0 position-relative">
-                  <img
-                    src={SearchIcon}
-                    alt="search-icon"
-                    className="ms-3 search-icon"
-                    onClick={() => {
-                      if (keyword === "") {
-                        return false;
-                      } else {
-                        handleSearchKeyword();
-                      }
-                    }}
-                  />
+      <section className="explore-collection-section padding-wrapper pt-0">
+        <Banner
+          subHeading={bannerData.subHeading}
+          heading={bannerData.heading}
+          content={bannerData.content}
+          bgImg={BannerBg}
+          bannerImg={BannerImage}
+        />
 
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search"
-                    maxLength="50"
-                    onChange={(e) => {
-                      if (keyword === "" && e.target.value === "") {
-                        return false;
-                      } else if (e.target.value === "") {
-                        handleSearchKeyword(false);
-                        setKeyword(e.target.value);
-                      } else {
-                        setKeyword(e.target.value);
-                      }
-                    }}
-                    onKeyPress={(e) => {
-                      if (keyword === "") {
-                        return false;
-                      } else {
-                        e.key === "Enter" && handleSearchKeyword();
-                      }
-                    }}
-                    value={keyword}
-                  />
-                  {/* <IoCloseSharp className="position-absolute input-clear"/> */}
-                </div>
-              </div>
-              {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                  <div className="ms-2">
-                    <p>Item:</p>
-                  </div>
-
-                   <select name="collection-select">
-                    {itemoptions &&
-                      itemoptions.map((collection, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={collection.label}
-                            disabled={disabled}
-                          >
-                            {collection.label}
-                          </option>
-                        );
-                      })}
-                  </select> 
-                </div>
-              </div> */}
-              <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                  <div className="ms-2">
-                    <p>Sort:</p>
-                  </div>
-
-                  <select name="collection-select" onChange={handleSortOptions}>
-                    {sortoptions &&
-                      sortoptions.map((collection, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={collection.label}
-                            disabled={disabled}
-                          >
-                            {collection.label}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-              </div>
-              <div className="col-12 d-sm-none">
-                <div className="sm-filter-btn d-flex align-items-center justify-content-center">
-                  <button
-                    className={`${
-                      activeFilter ? "filter-btn-active" : "filter-btn-inactive"
-                    } ps-2`}
-                    onClick={() => setActiveFilter(!activeFilter)}
+        <FilterHoc>
+          {loader ? (
+            <FullPageLoader />
+          ) : (
+            <div className="row g-1">
+              {filterationLoader ? (
+                <div className="text-center">
+                  <div
+                    className="spinner-border text-secondary text-white "
+                    role="status"
                   >
-                    Filters
-                  </button>
-                </div>
-                <div
-                  className={`${
-                    activeFilter ? "d-block" : "d-none"
-                  } sm-filter-options`}
-                >
-                  <div className="col-10 mx-auto mt-2">
-                    <FilterComponent
-                      Status={filterData.status}
-                      Collections={collections}
-                      collectionsLabel={"Collections"}
-                      onChangeMinPrice={onChangeMinPrice}
-                      onChangeMaxPrice={onChangeMaxPrice}
-                      minValue={minValue}
-                      maxValue={maxValue}
-                      applyMinMaxFilter={applyMinMaxFilter}
-                      handleCollectionsFilter={handleCollectionsFilter}
-                      handleStatusFilter={handleStatusFilter}
-                      disabled={disabled}
-                    />
+                    <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="row mt-5">
-              <div className="col-12">
-                <div className="no-of-items text-end mb-3">
-                  <p>
-                    {nfts?.length}
-                    {"  items"}
-                  </p>
-                </div>
-              </div>
-              <div className="col-10 col-sm-4 col-md-3 col-lg-3 d-none d-sm-block">
-                <FilterComponent
-                  Status={filterData.status}
-                  Collections={collections}
-                  collectionsLabel={"Collections"}
-                  onChangeMinPrice={onChangeMinPrice}
-                  onChangeMaxPrice={onChangeMaxPrice}
-                  minValue={minValue}
-                  maxValue={maxValue}
-                  applyMinMaxFilter={applyMinMaxFilter}
-                  handleCollectionsFilter={handleCollectionsFilter}
-                  handleStatusFilter={handleStatusFilter}
-                  disabled={disabled}
-                />
-              </div>
-              <div className="col-12 col-sm-8 col-md-9 col-lg-9">
-                {loader ? (
-                  <FullPageLoader />
-                ) : (
-                  <div className="row g-3">
-                    {filterationLoader ? (
-                      <div className="text-center">
-                        <div
-                          className="spinner-border text-secondary text-white "
-                          role="status"
-                        >
-                          <span className="sr-only">Loading...</span>
-                        </div>
-                      </div>
-                    ) : nfts && nfts.length > 0 ? (
-                      nfts.map((nft, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="col-12 col-md-6 col-lg-4 px-1"
-                          >
-                            {
-                              <NftCard
-                                data={nft}
-                                handleLikesTogleApi={handleLikesTogleApi}
-                                likedNfts={likedNfts}
-                              />
-                            }
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <p className="text-white text-center mt-5 no-nft-title">
-                        No NFTs Found
-                      </p>
-                    )}
-                    <div className="col-12">
-                      <div className="mt-5 text-center">
-                        {nftPagination?.total === nfts?.length
-                          ? ""
-                          : !filterationLoader && (
-                              <button
-                                className="btn btn-linear-gradient px-5"
-                                onClick={() => handlePagination()}
-                              >
-                                Load more
-                              </button>
-                            )}
-                      </div>
+              ) : nfts && nfts.length > 0 ? (
+                nfts.map((nft, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4"
+                    >
+                      {
+                        <NftCard
+                          data={nft}
+                          handleLikesTogleApi={handleLikesTogleApi}
+                          likedNfts={likedNfts}
+                        />
+                      }
                     </div>
-                  </div>
-                )}
+                  );
+                })
+              ) : (
+                <p className="text-white text-center mt-5 no-nft-title">
+                  No NFTs Found
+                </p>
+              )}
+              <div className="col-12">
+                <div className="mt-5 text-center">
+                  {nftPagination?.total === nfts?.length
+                    ? ""
+                    : !filterationLoader && (
+                        <button
+                          className="btn btn-linear-gradient px-5"
+                          onClick={() => handlePagination()}
+                        >
+                          Load more
+                        </button>
+                      )}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="all-nft-footer">
-        <Footer />
-      </div>
+          )}
+        </FilterHoc>
+      </section>
+      <OwnCollectionToday />
     </>
   );
 };

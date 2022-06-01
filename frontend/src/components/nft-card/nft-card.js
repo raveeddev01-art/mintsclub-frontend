@@ -10,7 +10,6 @@ import "./nft-card.css";
 import { Images } from "../../assets/assets";
 
 const NFTCard = (props) => {
-
   const history = useHistory();
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
@@ -28,10 +27,10 @@ const NFTCard = (props) => {
     sellingMethod,
     auctionStartDate,
     auctionEndDate,
-    currentPrice
+    currentPrice,
   } = props.data;
   const { username, profilePhoto } = owner;
-  const {likedNfts}=props
+  const { likedNfts } = props;
   const validateIfLiked = (likedNfts1, id) => {
     if (likedNfts && likedNfts?.length > 0) {
       let result = likedNfts.find((item) => item.nftId == id);
@@ -62,7 +61,7 @@ const NFTCard = (props) => {
     }
   };
   return (
-    <Card className={`auction-card nft-card ${cardBg} mx-2`}>
+    <Card className={`auction-card nft-card ${cardBg} m-1`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
           <Card.Img variant="top" src={image} alt="AuctionTopImg" />
@@ -92,34 +91,6 @@ const NFTCard = (props) => {
             </div>
           </div>
         )}
-
-        <div className="auction-countdown d-flex flex-column justify-content-center align-items-center">
-          {/* <Countdown date={auctionEndDate} renderer={countDownRenderer} /> */}
-          {/* <div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
-            <div className="auction-card-avatar d-flex align-items-center">
-              {bidsProfile &&
-                bidsProfile.length > 0 &&
-                bidsProfile.map((item, i) => {
-                  if (i <= 2) {
-                    return (
-                      <img
-                        src={item === null ? Images.profilePlaceholder : item}
-                        alt="AvatarImg"
-                      />
-                    );
-                  }
-                })}
-
-              <span className="ms-4">
-                {totalBids === 0
-                  ? "No Bids Found"
-                  : totalBids < 4
-                  ? totalBids + " People Placed Bid"
-                  : totalBids - 1 + "+ People Placed Bid"}
-              </span>
-            </div>
-          </div> */}
-        </div>
       </div>
       <Card.Body>
         <Card.Title>
@@ -148,12 +119,12 @@ const NFTCard = (props) => {
           </div>
         </Card.Title>
         <div className="nft-status ">
-          <div className="status-info mt-2 status-sold">
+          <div className="status-info status-sold">
             <span className="status">
               Sold: <span className="status-count">323</span>{" "}
             </span>
           </div>
-          <div className="status-info status-remaining ">
+          <div className="status-info status-remaining">
             <span className="status">
               Remaining: <span className="status-count">323</span>{" "}
             </span>
@@ -185,7 +156,7 @@ const NFTCard = (props) => {
           className="auction-bit-btn"
           onClick={() => history.push(`nftdetail/${_id}`)}
         >
-           {"View Detail"}
+          {"View Detail"}
         </button>
       </Card.Body>
     </Card>
