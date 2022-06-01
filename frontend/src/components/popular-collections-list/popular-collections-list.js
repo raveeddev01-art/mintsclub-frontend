@@ -170,8 +170,7 @@ const Populars = forwardRef((props, ref) => {
 
   return (
     <>
-      <NavbarMain />
-      <Breadcrumb title1={"Collections"} title2={"PopularCollections"} />
+    
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
@@ -280,7 +279,6 @@ const Populars = forwardRef((props, ref) => {
           </div>
         </section>
       )}
-      <Footer />
     </>
   );
 });

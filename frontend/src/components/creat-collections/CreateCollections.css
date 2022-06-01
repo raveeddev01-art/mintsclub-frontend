@@ -153,6 +153,10 @@
 .create-collection-container.edit-profile .edit-inp textarea::placeholder {
   color: #fff !important;
 } */
+.upload-container {
+  display: flex;
+  padding: 0rem 0rem 4rem 4rem;
+}
 .create-collection-label {
   font-style: normal;
   font-weight: 700;
@@ -202,21 +206,53 @@
 .feature-wrapper {
   position: relative;
 }
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: 9rem;
+}
+.logo-image {
+  border: 1px solid #2269ff;
+  width: max-content;
+
+  padding: 10px;
+  border-radius: 50%;
+}
+.uploaded-logo-img {
+  width: 128.43px;
+  height: 128.43px;
+  border-radius: 50%;
+}
+.logo-image .logo-image-round {
+  position: relative;
+  cursor: pointer;
+}
+.upload-icon{
+  cursor: pointer;
+}
 .upload-feature-icon {
   position: absolute;
   left: 4;
-  bottom: 23px;
+  bottom: 67px;
   left: 8px;
-
+  cursor: pointer;
 }
-.feature-img-title{
+.upload-feature-icon-logo {
+  position: absolute;
+  left: 4;
+  bottom: 49px;
+  left: 2px;
+  cursor: pointer;
+}
+.feature-img-title {
   font-style: normal;
-font-weight: 700;
-font-size: 22px;
-line-height: 26px;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
 
-color: #000000;
-
+  color: #000000;
 }
 .feature-image {
   border: 1px solid #2269ff;
@@ -224,10 +260,14 @@ color: #000000;
 
   padding: 10px;
   border-radius: 50%;
-  
 }
 .feature-image .feature-img-round {
   position: relative;
+}
+.uploaded-feature-img {
+  width: 226px;
+  height: 226px;
+  border-radius: 50%;
 }
 .feature-image .feature-img-round .feature-img-round-info {
   position: absolute;
@@ -247,4 +287,47 @@ color: #000000;
   line-height: 14px;
 
   color: #ffffff;
+}
+/* .react-select-cls {
+  width: 230px;
+  max-height: 40px;
+} */
+
+.react-select-cls .react-select__control {
+  /* max-height: 40px; */
+  margin-top: 0.45rem;
+  background: #ffffff;
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  border-radius: 44px;
+}
+
+.react-select-cls .react-select__value-container {
+  max-height: 40px;
+  display: flex;
+  align-items: start;
+  padding: 8px;
+}
+
+.react-select-cls .react-select__input-container {
+  max-height: 40px;
+}
+
+.react-select-cls .react-select__input-container:after {
+  display: none;
+}
+
+.react-select-cls .react-select__indicator-separator {
+  display: none;
+}
+
+.react-select-cls .react-select__single-value {
+  font-weight: 700;
+  color: #393939;
+}
+
+@media (max-width: 768px) {
+  .logo-wrapper {
+    padding-right: 0rem;
+  }
 }

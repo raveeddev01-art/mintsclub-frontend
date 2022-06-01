@@ -5,33 +5,46 @@ import Select from "react-select";
 
 const FilterHoc = (props) => {
   const [isActive, setIsActive] = useState(0);
-  const [statusActive, setStatusActive] = useState(0);
-  const [collectionActive, setCollectionActive] = useState(0);
+  const [statusActive, setStatusActive] = useState(null);
+  const [collectionActive, setCollectionActive] = useState(null);
   const [selectedOption, setSelectedOption] = useState();
   const [filterActive, setFilterActive] = useState(false);
 
   const options = [
-    { value: "lowtohigh", label: "Low To Hight" },
+    { value: "lowtohigh", label: "Low To High" },
     { value: "hightolow", label: "High To Low" },
     { value: "oldest", label: "Oldest" },
-    { value: "recentlyCreated", label: "Recently Created" },
+    { value: "newest", label: "Recantly Created" },
   ];
   const handleSelectChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
   const selectCustomStyles = {};
-  const menuData = ["Collected", "Created", "Favourited"];
+  // const menuData = ["Collected", "Created", "Favourited"];
   const statusData = ["Buy Now", "On Auction", "New"];
-  const collectionData = [
-    "Leo",
-    "New Collection",
-    "Fish",
-    "Latest Collection",
-    "Latest Collection",
-  ];
   const handleFilters = () => {
     setFilterActive(!filterActive);
   };
+  const {
+    collections,
+    handleCollectionsFilter,
+    handleStatusFilter,
+    minValue,
+    maxValue,
+    onChangeMinPrice,
+    onChangeMaxPrice,
+    applyMinMaxFilter,
+    disabled,
+    menuData,
+    totalItems,
+    priceOptions,
+    handleSortOptions,
+    keyword,
+    handleSearchKeyword,
+    setKeyword,
+    handleClearFilter
+  } = props;
+
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -41,7 +54,25 @@ const FilterHoc = (props) => {
               className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between`}
             >
               <div className="search-input mb-4 mb-md-0">
-                <input type="text" placeholder="Type here to Search..." />
+                <input
+                  type="text"
+                  placeholder="Type here to Search..."
+                  maxLength="50"
+                  onChange={(e) => {
+                    if (keyword.trim() === "" && e.target.value.trim() === "") {
+                      return false;
+                    } else if (e.target.value === "") {
+                      handleSearchKeyword(false);
+                      setKeyword(e.target.value);
+                    } else {
+                      setKeyword(e.target.value);
+                    }
+                  }}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" && handleSearchKeyword()
+                  }
+                  value={keyword}
+                />
                 <img src={SearchIcon} alt="search-input" />
               </div>
               <div className="sort-by-select mb-4 mb-md-0">
@@ -50,11 +81,14 @@ const FilterHoc = (props) => {
                   className="react-select-cls"
                   classNamePrefix="react-select"
                   styles={selectCustomStyles}
-                  defaultValue={options[0]}
+                  defaultValue={options[3]}
                   value={selectedOption}
                   isSearchable={false}
-                  onChange={handleSelectChange}
-                  options={options}
+                  onChange={(value) => {
+                    handleSelectChange(value);
+                    handleSortOptions(value);
+                  }}
+                  options={priceOptions}
                 />
               </div>
               <div className="mob-filters-btn d-flex d-lg-none align-items-center justify-content-center">
@@ -71,25 +105,27 @@ const FilterHoc = (props) => {
             <div className="hero-nav d-flex flex-column flex-sm-row align-items-center justify-content-between">
               <div>
                 {" "}
-                {menuData.map((item, id) => {
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => {
-                        setIsActive(id);
-                      }}
-                      className={`${
-                        id === isActive ? "active-hero-nav" : ""
-                      } me-2 me-xl-3`}
-                    >
-                      {item}
-                    </button>
-                  );
-                })}
+                {menuData &&
+                  menuData.length > 0 &&
+                  menuData.map((item, id) => {
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => {
+                          setIsActive(id);
+                        }}
+                        className={`${
+                          id === isActive ? "active-hero-nav" : ""
+                        } me-2 me-xl-3`}
+                      >
+                        {item}
+                      </button>
+                    );
+                  })}
               </div>
               <div className="total-items mt-3 mt-sm-0">
                 <p>
-                  Total items: <span>{" 7854"}</span>
+                  Total items: <span>{totalItems ? totalItems : 0}</span>
                 </p>
               </div>
             </div>
@@ -103,18 +139,19 @@ const FilterHoc = (props) => {
               <h6>Status</h6>
               <hr />
               <div className="d-flex flex-wrap align-items-center ">
-                {statusData.map((item, id) => {
+                {statusData.map((status, id) => {
                   return (
                     <button
                       key={id}
                       onClick={() => {
+                        handleStatusFilter(status);
                         setStatusActive(id);
                       }}
                       className={`${
                         id === statusActive ? "active-filter-btn" : ""
                       } filter-btn me-3`}
                     >
-                      {item}
+                      {status}
                     </button>
                   );
                 })}
@@ -124,6 +161,7 @@ const FilterHoc = (props) => {
                   className="filter-clear-btn"
                   onClick={() => {
                     setStatusActive();
+                    handleClearFilter("status")
                   }}
                 >
                   Clear
@@ -139,35 +177,46 @@ const FilterHoc = (props) => {
                     type="number"
                     placeholder="Min"
                     className="me-sm-2"
+                    value={minValue}
+                    onChange={onChangeMinPrice}
                   ></input>
                   <input
                     type="number"
                     placeholder="Max"
                     className="mt-3 mt-sm-0"
+                    value={maxValue}
+                    onChange={onChangeMaxPrice}
                   ></input>
                 </div>
-                <button className="mt-3 mt-sm-0">Apply</button>
+                <button
+                  className="mt-3 mt-sm-0"
+                  onClick={() => applyMinMaxFilter()}
+                  disabled={disabled || minValue === "" || maxValue === ""}
+                >
+                  Apply
+                </button>
               </div>
               <div className="d-flex align-items-end justify-content-end">
-                <button className="filter-clear-btn">Clear</button>
+                <button className="filter-clear-btn" onClick={()=>  handleClearFilter("price")}>Clear</button>
               </div>
             </div>
             <div className="filter-container mb-4">
               <h6>Collections</h6>
               <hr />
               <div className="d-flex flex-wrap align-items-center ">
-                {collectionData.map((item, id) => {
+                {collections.map((collection, id) => {
                   return (
                     <button
                       key={id}
                       onClick={() => {
+                        handleCollectionsFilter(collection._id);
                         setCollectionActive(id);
                       }}
                       className={`${
                         id === collectionActive ? "active-filter-btn" : ""
                       } filter-btn me-2 me-xl-3`}
                     >
-                      {item}
+                      {collection.name}
                     </button>
                   );
                 })}
@@ -176,7 +225,8 @@ const FilterHoc = (props) => {
                 <button
                   className="filter-clear-btn"
                   onClick={() => {
-                    setCollectionActive();
+                    setCollectionActive(null);
+                    handleClearFilter("collections")
                   }}
                 >
                   Clear
