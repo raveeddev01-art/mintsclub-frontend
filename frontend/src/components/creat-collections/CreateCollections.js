@@ -169,19 +169,19 @@ class CreateCollections extends Component {
     );
   };
   handleSelectChange = (selectedOption) => {
-    console.log(selectedOption,"selected ")
+    console.log(selectedOption, "selected ");
     let { collection } = this.state;
-    collection = { ...collection, categoryId:selectedOption.value};
+    collection = { ...collection, categoryId: selectedOption.value };
     this.setState({
       selectedOption,
-      collection
+      collection,
     });
   };
   handleValidation = () => {
     console.log("func");
     const { categoryId, logo, name, description, featuredImg } =
       this.state.collection;
-    console.log(this.state.collection,"collection")
+    console.log(this.state.collection, "collection");
     if (
       description === "" ||
       logo === "" ||
@@ -200,7 +200,6 @@ class CreateCollections extends Component {
     collection = { ...collection, featuredImg: "", featuredImgUrl: "" };
     this.setState({ collection });
   };
-  
 
   render() {
     const {
@@ -223,17 +222,16 @@ class CreateCollections extends Component {
           "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
       };
       return (
-        
         <>
           {loader && <FullPageLoader />}
           <section className="create-collection">
-          <Banner
-          subHeading={bannerData.subHeading}
-          heading={bannerData.heading}
-          content={bannerData.content}
-          bgImg={BannerBg}
-          bannerImg={BannerImage}
-        />
+            <Banner
+              subHeading={bannerData.subHeading}
+              heading={bannerData.heading}
+              content={bannerData.content}
+              bgImg={BannerBg}
+              bannerImg={BannerImage}
+            />
             <div className="container">
               <div className="row">
                 <div className="upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0">
@@ -302,7 +300,7 @@ class CreateCollections extends Component {
                               <p className="text-center mb-2 browse-file">
                                 Browse Files
                               </p>
-                              <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p>
+                              {/* <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p> */}
                               <p className="text-center mb-0">Max 100mb</p>
                             </div>
                           </label>
@@ -322,7 +320,7 @@ class CreateCollections extends Component {
                         <img src={Images.editIconLarge} />
                       </label>
                     </div>
-                    <p className="feature-img-title mt-3 mx-2 text-sm-center text-md-start">
+                    <p className="feature-img-title mt-3 mx-2 text-center text-md-start">
                       Feature Image*
                     </p>
                   </div>
@@ -332,7 +330,6 @@ class CreateCollections extends Component {
                   <label className="create-collection-label">Name:*</label>
                   <input
                     className="create-collection-input mt-2"
-                    placeholder="Type here to search"
                     id="name"
                     type="text"
                     name="name"
@@ -351,7 +348,6 @@ class CreateCollections extends Component {
                   </span>
                   <input
                     className="create-collection-input mt-2"
-                    placeholder="Type here to search"
                     id="url"
                     type="text"
                     name="url"
@@ -378,16 +374,15 @@ class CreateCollections extends Component {
                   />
                 </div>
 
-                <div className="col-12 mt-5">
+                <div className="col-12 mt-3 mt-lg-5">
                   <label className="create-collection-label">
                     Description:*
                   </label>
 
                   <textarea
                     className="create-collection-area mt-2"
-                    placeholder="Enter Description..."
                     name="description"
-                    placeholder="Discription"
+                    placeholder="Description"
                     maxLength="500"
                     rows="3"
                     onChange={(e) => this.onChange(e)}
@@ -632,7 +627,7 @@ class CreateCollections extends Component {
               </div>
             </div>
           </section> */}
-          <Footer />
+          {/* <Footer /> */}
         </>
       );
     }

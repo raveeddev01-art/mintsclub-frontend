@@ -4,7 +4,6 @@ import SearchIcon from "../../assets/images/search-inp.svg";
 import Select from "react-select";
 
 const FilterHoc = (props) => {
-
   const options = [
     { value: "lowtohigh", label: "Low To High" },
     { value: "hightolow", label: "High To Low" },
@@ -20,18 +19,17 @@ const FilterHoc = (props) => {
   const handleFilters = () => {
     setFilterActive(!filterActive);
   };
-  const isHideCollection=()=>{
-    if(props.userProfile){
-      if(props.isActive===1){
-        return true
-      }else {
-        return false
+  const isHideCollection = () => {
+    if (props.userProfile) {
+      if (props.isActive === 1) {
+        return true;
+      } else {
+        return false;
       }
-    }else {
-      return true
+    } else {
+      return true;
     }
-
-  }
+  };
   const {
     collections,
     handleCollectionsFilter,
@@ -61,7 +59,7 @@ const FilterHoc = (props) => {
     setStatusActive,
     setCollectionActive,
     setSelectedOption,
-    setFilterActive
+    setFilterActive,
   } = props;
 
   return (
@@ -177,18 +175,17 @@ const FilterHoc = (props) => {
                   })}
               </div>
               <div className="d-flex align-items-end justify-content-end">
-                {
-                  statusActive&&
-                <button
-                  className="filter-clear-btn"
-                  onClick={() => {
-                    setStatusActive();
-                    handleClearFilter("status");
-                  }}
-                >
-                  Clear
-                </button>
-                }
+                {statusActive && (
+                  <button
+                    className="filter-clear-btn"
+                    onClick={() => {
+                      setStatusActive();
+                      handleClearFilter("status");
+                    }}
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
             </div>
             <div className="filter-container mb-4">
@@ -218,20 +215,19 @@ const FilterHoc = (props) => {
                 >
                   Apply
                 </button>
-                
               </div>
               <div className="d-flex align-items-end justify-content-end">
-                {minValue&&maxValue&&
-                <button
-                  className="filter-clear-btn"
-                  onClick={() => handleClearFilter("price")}
-                >
-                  Clear
-                </button>
-                }
+                {minValue && maxValue && (
+                  <button
+                    className="filter-clear-btn"
+                    onClick={() => handleClearFilter("price")}
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
             </div>
-            {isHideCollection()&& (
+            {isHideCollection() && (
               <div className="filter-container mb-4">
                 <h6>Collections</h6>
                 <hr />
@@ -255,23 +251,24 @@ const FilterHoc = (props) => {
                     })}
                 </div>
                 <div className="d-flex align-items-end justify-content-end">
-                  {
-                    collectionActive!==null&&
-                  <button
-                    className="filter-clear-btn"
-                    onClick={() => {
-                      setCollectionActive(null);
-                      handleClearFilter("collections");
-                    }}
-                  >
-                    Clear
-                  </button>
-                  }
+                  {collectionActive !== null && (
+                    <button
+                      className="filter-clear-btn"
+                      onClick={() => {
+                        setCollectionActive(null);
+                        handleClearFilter("collections");
+                      }}
+                    >
+                      Clear
+                    </button>
+                  )}
                 </div>
               </div>
             )}
             <div className="d-flex align-items-center justify-content-center btn-clear-all">
-              <button  onClick={()=>handleClearFilter()}>Clear All Filters</button>
+              <button onClick={() => handleClearFilter()}>
+                Clear All Filters
+              </button>
             </div>
           </div>
           <div className="col-lg-8 col-xl-9 order-3">{props.children}</div>

@@ -63,7 +63,7 @@ const CollectionsCard = ({
                   className="me-2"
                 />
                 <p>
-                  Owned by: <span className="text-capitalize">{userName}</span>
+                  Owned by: <span className="text-capitalize">{userName?userName:"unnamed"}</span>
                 </p>
               </div>
             </div>

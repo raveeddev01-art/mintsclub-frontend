@@ -148,7 +148,6 @@ const AllNFT = (props) => {
     }
   }, [props.togleLikeRes]);
   useEffect(() => {
-  
     getNFTs();
   }, [filter]);
 
@@ -366,7 +365,7 @@ const AllNFT = (props) => {
     }
   };
   const handleClearFilter = (id) => {
-    console.log()
+    console.log();
     if (id === "status") {
       setFilter((prev) => ({
         ...prev,
@@ -381,11 +380,11 @@ const AllNFT = (props) => {
     } else if (id === "collections") {
       setFilter((prev) => ({ ...prev, collectionId: false }));
     } else {
-      console.log("else")
-      setStatusActive(null)
-      setCollectionActive(null)
-      setSelectedOption(null)
-      setFilterActive(null)
+      console.log("else");
+      setStatusActive(null);
+      setCollectionActive(null);
+      setSelectedOption(null);
+      setFilterActive(null);
 
       setFilter({
         collectionId: false,
@@ -449,7 +448,7 @@ const AllNFT = (props) => {
               {filterationLoader ? (
                 <div className="text-center">
                   <div
-                    className="spinner-border text-secondary text-white "
+                    className="spinner-border text-secondary"
                     role="status"
                   >
                     <span className="sr-only">Loading...</span>
@@ -473,7 +472,7 @@ const AllNFT = (props) => {
                   );
                 })
               ) : (
-                <p className="text-white text-center mt-5 no-nft-title">
+                <p className="text-center mt-5 no-nft-title">
                   No NFTs Found
                 </p>
               )}

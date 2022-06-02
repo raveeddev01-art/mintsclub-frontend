@@ -201,7 +201,7 @@ const ExploreCollections = forwardRef((props, ref) => {
             </div>
             <div className="row g-1 align-items-center justify-content-center">
               {loader ? (
-                <div className="spinner-border text-white" role="status">
+                <div className="spinner-border" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
@@ -235,17 +235,17 @@ const ExploreCollections = forwardRef((props, ref) => {
                 </p>
               )}
               <div className="col-12">
-                <div className="mt-5 text-center">
-                   {!empty &&
+                <div className="mt-5">
+                  {!empty &&
                     collections?.length === 10 &&
-                    pagination.totalRecords > collections.length && ( 
+                    pagination.totalRecords > collections.length && (
                       <button
                         className="btn btn-rounded-bordered px-5"
                         onClick={() => handlePagination()}
                       >
                         Load more...
                       </button>
-                     )}
+                    )}
                 </div>
               </div>
             </div>

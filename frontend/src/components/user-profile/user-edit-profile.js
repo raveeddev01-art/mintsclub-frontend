@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import NavbarMain from "../navbar-main/NavbarMain";
-import Footer from "../footer/footer";
-import Breadcrumb from "../breadcrumb/breadcrumb";
+
 import "./user-edit-profile.css";
-import { editImages } from "../../assets/assets";
-import { ReactComponent as ProfileEditSVG } from "../../assets/images/edit-pen.svg";
+
 /////////
 
 import { connect } from "react-redux";
@@ -19,10 +16,12 @@ import {
 } from "./../user/user.action";
 import { emptyError } from "../../redux/shared/error/error.action";
 import { ENV } from "./../../config/config";
-
+import { Images } from "../../assets/assets";
 import { useHistory } from "react-router-dom";
-import FullPageLoader from "../full-page-loader/full-page-loader";
 import { toast } from "react-toastify";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/profileBg.png";
+import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
@@ -36,13 +35,16 @@ const EditProfile = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
-
   const [twitterLink, setTwitterLink] = useState("");
-
+  const [copy, setCopy] = useState(false);
   const [instaLink, setInstaLink] = useState("");
   const [webLink, setWebLink] = useState("");
   const [_id, setUserId] = useState("");
   const [bioError, setBioError] = useState(false);
+  const [userProfile, setUserProfile] = useState({});
+  const [user, setUser] = useState(null);
+  const [isAddressCopied, setAddressCopied] = useState(false);
+
   const history = useHistory();
   let validator = new SimpleReactValidator({
     autoForceUpdate: this,
@@ -57,15 +59,14 @@ const EditProfile = (props) => {
   }, []);
   useEffect(() => {
     if (props.error !== null) {
-      setLoader(false)
+      setLoader(false);
       toast.error(props.error.messasge);
-      props.emptyError()
+      props.emptyError();
     }
   }, [props.error]);
 
   useEffect(() => {
     if (props.user.individualUserAuth) {
-   
       const {
         address,
         email,
@@ -77,6 +78,7 @@ const EditProfile = (props) => {
         instaLink,
         webLink,
       } = props.user.individualUser;
+      setUser(props.user.individualUser);
       props.beforeUser();
       setLoader(false);
 
@@ -100,19 +102,11 @@ const EditProfile = (props) => {
     if (props.user.userAuth) {
       setLoader(false);
       props.beforeUser();
-      history.push("/userprofile");
+      toast.success("Profile Updated SuccessFully")
+      history.push('/userprofile')
     }
   }, [props.user.userAuth]);
 
-
-  const goToTop = () => {
-    $("html, body").animate(
-      {
-        scrollTop: 0,
-      },
-      600
-    );
-  };
 
   const onFileChange = (e) => {
     let file = e.target.files[0];
@@ -123,41 +117,16 @@ const EditProfile = (props) => {
       } else {
         file = {};
         fileURL = "";
+        return toast.error("Invalid File")
       }
       setImageUrl(fileURL);
       setImage(file);
     }
   };
 
-  const onBannerChange = (e) => {
-    let file = e.target.files[0];
-    let fileURL = "";
-    if (file) {
-      if (file.type.includes("image")) {
-        fileURL = URL.createObjectURL(file);
-      } else {
-        file = {};
-        fileURL = "";
-      }
-      setBannerUrl(fileURL);
-      setBannerImage(file);
-    }
-  };
-
   const submit = async (e) => {
     e.preventDefault();
-    let obj = {
-      image,
-      banner,
-      username,
-      instaLink,
-      webLink,
-      description,
-      email,
-      address,
-      instaLink,
-      twitterLink,
-    };
+  
     if (description && description.length < 3) {
       setBioError(true);
       return "";
@@ -166,10 +135,6 @@ const EditProfile = (props) => {
     }
     setErrors("");
     setLoader(true);
-
-    let isFormValid = validator.allValid() ? true : false;
-    if (isFormValid) {
-      try {
         // let signature = await signRequest();
         setLoader(true);
 
@@ -181,7 +146,6 @@ const EditProfile = (props) => {
         if (banner) {
           formData.append("bannerImage", banner);
         }
-       
 
         formData.append("bio", description);
         formData.append("twitterLink", twitterLink);
@@ -192,20 +156,243 @@ const EditProfile = (props) => {
 
         // return ''
         props.updateProfile(formData);
-      } catch (e) {
-        console.log("in catch block");
-        setLoader(false);
-      }
-    } else {
-      validator.showMessages();
-      setErrors("Please fill all required fields in valid format.");
-      goToTop();
-    }
+   
+  };
+  const bannerData = {
+    subHeading: "Information",
+    heading: "User Profile",
   };
 
   return (
     <>
-      {loader && <FullPageLoader />}
+      <section className="user-profile padding-wrapper pt-0">
+
+        <Banner
+          subHeading={bannerData.subHeading}
+          heading={bannerData.heading}
+          bgImg={BannerBg}
+          className="mb-0"
+          />
+          {loader && <FullPageLoader />}
+        <div className="collection-detail-content">
+          <div className="container">
+              <form onSubmit={submit}>
+            <div className="row">
+              <div className="col-12 mt-5">
+                <div className="logo-wrapper">
+                  <div className="logo-image">
+                    {image && image ? (
+                      <img className="uploaded-logo-img" src={imageUrl ? imageUrl : Images.EditAvatar} />
+                    ) : (
+                      <label>
+                        <input
+                          id="logo"
+                          type="file"
+                          accept=".png,.jpeg,.jpg"
+                          onChange={(e) => onFileChange(e)}
+                          style={{ display: "none" }}
+                          name="logo"
+                        />
+                        <span className="logo-img-round">
+                          <img className="upload-icon" src={imageUrl} />
+                        </span>
+                      </label>
+                    )}
+                  </div>
+
+                  <div className="upload-feature-icon-logo">
+                    <label>
+                      <input
+                        id="logo"
+                        type="file"
+                        accept=".png,.jpeg,.jpg"
+                        onChange={(e) => onFileChange(e)}
+                        style={{ display: "none" }}
+                        name="logo"
+                      />
+                      <img src={Images.editIconSmall} />
+                    </label>
+                  </div>
+                  <p className="feature-img-title mt-3 mx-2">Profile Image:</p>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <label className="create-collection-label">Username:*</label>
+                <input
+                  className="create-collection-input mt-2"
+                  id="name"
+                  type="text"
+                  name="name"
+                  required
+                  onChange={(e) => {
+                    if (e.target.value.trim() === "" && username === "") {
+                      return false;
+                    } else {
+                      setUsername(e.target.value);
+                    }
+                  }}
+                  value={username}
+                  placeholder="Username"
+                  maxLength="55"
+                  minLength="3"
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+                <label className="create-collection-label">
+                  Email Address:*
+                </label>
+
+                <input
+                  className="create-collection-input mt-2"
+                  id="url"
+                  type="text"
+                  name="url"
+                  placeholder="Email Address"
+                  required
+                  onChange={(e) => {
+                    if (e.target.value.trim() === "" && email === "") {
+                      return "";
+                    } else {
+                      setEmail(e.target.value);
+                    }
+                  }}
+                  value={email}
+                  maxLength="55"
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
+                <label className="create-collection-label">
+                  Wallet Address:
+                </label>
+
+                <input
+                  className="create-collection-input mt-2"
+                  id="url"
+                  type="text"
+                  name="url"
+                  placeholder="URL"
+                  required
+                  readOnly={true}
+                  autoComplete="off"
+                  value={address}
+                />
+              </div>
+
+              <div className="col-12 mt-3 mt-lg-5">
+                <label className="create-collection-label">BioData:*</label>
+
+                <textarea
+                  className="create-collection-area mt-2"
+                  name="description"
+                  placeholder="Enter BioData"
+                  maxLength="500"
+                  minLength="3"
+                  onChange={(e) => {
+                    if (
+                      e.target.value.trim() === "" &&
+                      description === ""
+                    ) {
+                      return false;
+                    } else {
+                      setDescription(e.target.value);
+                    }
+                  }}
+                  value={description}
+                ></textarea>
+              </div>
+
+              <div className="col-lg-4 col-md-6 col-sm-12 mt-3 mt-lg-5">
+                <label className="create-collection-label">Twitter Link:</label>
+                <input
+                  className="create-collection-input mt-2"
+                  id="name"
+                  type="text"
+                  name="name"
+                  onChange={(e) => {
+                    if (
+                      e.target.value.trim() === "" &&
+                      twitterLink === ""
+                    ) {
+                      return false;
+                    } else {
+                      setTwitterLink(e.target.value);
+                    }
+                  }}
+                  value={twitterLink}
+                  placeholder="Name"
+                  maxLength="55"
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 mt-3 mt-md-0  mt-3 mt-lg-5">
+                <label className="create-collection-label">
+                  Instagram Link:
+                </label>
+
+                <input
+                  className="create-collection-input mt-2"
+                  id="url"
+                  type="text"
+                  name="url"
+                  placeholder="URL"
+                  onChange={(e) => {
+                    if (
+                      e.target.value.trim() === "" &&
+                      instaLink === ""
+                    ) {
+                      return false;
+                    } else {
+                      setInstaLink(e.target.value);
+                    }
+                  }}
+                  value={instaLink}
+                  maxLength="55"
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6  mt-3 mt-lg-0  mt-3 mt-lg-5 ">
+                <label className="create-collection-label">Website Link:</label>
+                <input
+                  className="create-collection-input mt-2"
+                  id="url"
+                  type="text"
+                  name="url"
+                  placeholder="URL"
+                  onChange={(e) => {
+                    if (
+                      e.target.value.trim() === "" &&
+                      webLink === ""
+                    ) {
+                      return false;
+                    } else {
+                      setWebLink(e.target.value);
+                    }
+                  }}
+                  value={webLink}
+                  maxLength="55"
+                  autoComplete="off"
+                />
+              </div>
+              <div className="create-collection-btn-container">
+                <button
+                  className="btn create-collection-btn btn-linear-gradient mt-5"
+                  type="submit"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+              </form>
+          </div>
+        </div>
+      </section>
+      {/* {loader && <FullPageLoader />}
       <NavbarMain />
       <Breadcrumb title1={"Profile"} title2={"EditProfile"} />
       <section className="edit-profile padding-wrapper">
@@ -463,7 +650,7 @@ const EditProfile = (props) => {
           </div>
         </form>
       </section>
-      <Footer />
+      <Footer /> */}
     </>
   );
 };

@@ -8,7 +8,10 @@
   background-color: #10103c !important;
 }
 .sign-in-card {
-  background-color: #10103c !important;
+  background: #E2ECFF;
+  border: 1px solid rgba(56, 127, 255, 0.18);
+  border-radius: 20px;
+  height: 296px;
 }
 .signup-card {
   background: #10103c !important;
@@ -21,7 +24,7 @@
   padding: 1rem !important;
   height: 3.2rem !important;
 }
-.back-link{
+.back-link {
   background: -webkit-linear-gradient(#5666fe, #5666fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -50,4 +53,82 @@
   box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3) !important;
   -webkit-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
   -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
+}
+.connect-metamask-container {
+  background: #387fff;
+  border-radius: 20px;
+  height: 296px;
+  max-width: 480px;
+  cursor: pointer;
+}
+
+.metamask-title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 33px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+.metamask-desc {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 24px;
+  /* or 141% */
+
+  text-align: center;
+
+  color: #ffffff;
+}
+.intro.wallet-intro span {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 43px;
+  color: #2269ff;
+}
+.intro.wallet-intro h3 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  color: #000000;
+}
+.intro.wallet-intro p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 33px;
+  color: #272727;
+}
+.sign-content-wrapper h4 {
+  font-style: normal;
+font-weight: 700;
+font-size: 28px;
+line-height: 33px;
+/* identical to box height */
+
+
+color: #387FFF;
+}
+.sign-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+}
+.sign-content-wrapper p{
+  font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 24px;
+/* identical to box height, or 160% */
+
+text-align: center;
+
+color: #232323;
 }

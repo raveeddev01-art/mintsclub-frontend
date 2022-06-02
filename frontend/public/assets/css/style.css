@@ -1210,10 +1210,10 @@ aside {
   width: 70px;
 }
 
-.avatar-lg {
+/* .avatar-lg {
   height: 5rem;
   width: 5rem;
-}
+} */
 
 .intro {
   margin-bottom: 60px;
@@ -3385,9 +3385,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
   /* #endregion General */
   /* #region Section */
-  body section {
+  /* body section {
     padding: 90px 0;
-  }
+  } */
   /* #endregion Section */
   /* #region Helper Class */
   body .netstorm-preloader .preloader-animation .spinner {

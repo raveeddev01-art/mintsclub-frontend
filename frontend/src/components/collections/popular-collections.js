@@ -26,6 +26,7 @@ const PopularCollections = (props) => {
   const [categoryId, setCategoryId] = useState("all");
   const [popularSettings, settPopularSettings] = useState();
   const [isActive, setIsActive] = useState(0);
+  const [filterationLoader, setFilterationLoader] = useState(true);
 
   useEffect(() => {
     const qs = ENV.objectToQueryString({
@@ -79,11 +80,13 @@ const PopularCollections = (props) => {
       }
       settPopularSettings(popularCollectionsSettings);
       setpopular(finalCollectionListing);
+      setFilterationLoader(false);
       props.beforePopularCollection();
     }
   }, [props.getPopularAuth]);
 
   const handleCategoryFilter = (desc) => {
+    setFilterationLoader(true);
     props.beforePopularCollection();
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
@@ -164,7 +167,13 @@ const PopularCollections = (props) => {
               )}
             </div>
           </div>
-          {popular && popular.length && popular.length > 0 ? (
+          {filterationLoader ? (
+            <div className="text-center">
+              <div className="spinner-border text-secondary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : popular && popular.length && popular.length > 0 ? (
             <CardSlider
               settings={ENV.popularCollectionsSettings}
               data={popular}
@@ -191,7 +200,7 @@ const PopularCollections = (props) => {
               })}
             </CardSlider>
           ) : (
-            <p className="text-center text-white not-found-title mt-5">
+            <p className="text-center not-found-title mt-5">
               No popular collections Found
             </p>
           )}
