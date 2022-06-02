@@ -73,16 +73,15 @@ const UserProfile = (props) => {
     let likedNftsQs = { userId: ENV.getUserKeys("_id")._id };
     likedNftsQs = ENV.objectToQueryString(likedNftsQs);
     props.getMyLikedNfts(likedNftsQs);
-
+    props.beforeUser()
+    props.getUserById(ENV.getUserKeys("_id")._id);
     props.getCollections();
   }, []);
   useEffect(() => {
     if (props.getAuth) {
-      console.log(ENV.getUserKeys("_id")._id, "id mydkflkdj");
       let myCollections = props.collections.filter(
         (item) => item.userId === ENV.getUserKeys("_id")._id
       );
-      console.log(myCollections, "myCollections");
       setCollections(myCollections);
       props.beforeCollection();
     }
@@ -367,9 +366,7 @@ const UserProfile = (props) => {
           item.ownerId === ENV.getUserKeys("_id")._id &&
           item.creatorId === ENV.getUserKeys("_id")._id
       );
-      console.log(nftsCopy, "nftsCopy");
-      console.log(ENV.getUserKeys("_id")._id, "id");
-      console.log(Nfts, "nfts of created");
+     
       setNFTs(Nfts);
     } else {
       handleFavFilter();
@@ -428,7 +425,7 @@ const UserProfile = (props) => {
     subHeading: "Information",
     heading: "User Profile",
   };
-  console.log(isActive, "props.collection");
+  console.log(user,"user")
   return (
     <>
       <section className="user-profile padding-wrapper pt-0">
@@ -558,7 +555,7 @@ const UserProfile = (props) => {
             {filterationLoader ? (
               <div className="text-center">
                 <div
-                  className="spinner-border text-secondary text-white "
+                  className="spinner-border text-secondary"
                   role="status"
                 >
                   <span className="sr-only">Loading...</span>
@@ -577,7 +574,7 @@ const UserProfile = (props) => {
                 );
               })
             ) : (
-              <p className="text-white text-center mt-5">No NFTs Found</p>
+              <p className="text-center mt-5">No NFTs Found</p>
             )}
           </div>
         </FilterHoc>
@@ -877,7 +874,8 @@ const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  {
   profileNFTs: state.nft.profileNFTs,
   profileNFTsStatus: state.nft.profileNFTsStatus,
   myLikedNfts: state.nft.myLikedNfts,

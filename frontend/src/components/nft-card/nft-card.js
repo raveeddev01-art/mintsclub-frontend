@@ -147,7 +147,9 @@ const NFTCard = (props) => {
               <span>
                 {username && username.length > 8
                   ? username.substring(0, 6) + "..."
-                  : username}
+                  : username
+                  ? username
+                  : "unnamed"}
               </span>
             </p>
           </div>

@@ -11,7 +11,10 @@ import {
   getCategories,
 } from "../collections/collections.actions";
 import { ENV } from "../../config/config";
-
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import BannerImage from "../../assets/images/bannerimg.png";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const AuctionsList = (props) => {
   const [isActive, setIsActive] = useState(0);
@@ -55,10 +58,23 @@ const AuctionsList = (props) => {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
+  const bannerData = {
+    subHeading: "Auctions",
+    heading: "Live Auctions",
+    content:
+      " Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+  };
   return (
     <>
  
       <section className="explore-collection-section padding-wrapper">
+      <Banner
+            subHeading={bannerData.subHeading}
+            heading={bannerData.heading}
+            content={bannerData.content}
+            bgImg={BannerBg}
+            bannerImg={BannerImage}
+          />
         {
         // loader ? (
         //   <FullPageLoader />
@@ -75,7 +91,10 @@ const AuctionsList = (props) => {
               </div>
               <div className="col-12 explore-collection-nav">
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
-                  {categories &&
+                  {
+                  categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!loader? (
+                    ""
+                  ) :categories &&
                     categories.length > 0 &&
                     categories.map((item, id) => {
                       return (
@@ -94,7 +113,9 @@ const AuctionsList = (props) => {
                     })}
                 </div>
                 <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
-                  {categories &&
+                  {categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!loader? (
+                ""
+              ) : categories &&
                     categories.length > 0 &&
                     categories.map((item, id) => {
                       return (
@@ -118,7 +139,7 @@ const AuctionsList = (props) => {
             </div>
             <div className="row g-4 align-items-center justify-content-center">
               {loader ? (
-                <div class="spinner-border text-white" role="status"></div>
+                <div class="spinner-border" role="status"></div>
               ) : auctions && auctions.length > 0 ? (
                 auctions.map((item, index) => {
                   return (
@@ -135,7 +156,7 @@ const AuctionsList = (props) => {
                   );
                 })
               ) : (
-                <p className="text-white text-center mt-5">No Live Auctions Found</p>
+                <p className="text-center mt-5">No Live Auctions Found</p>
               )}
 
               <div className="col-12">
@@ -152,8 +173,9 @@ const AuctionsList = (props) => {
             </div>
           </div>
         }
+          <OwnCollectionToday />
+
       </section>
-      <Footer />
     </>
   );
 };

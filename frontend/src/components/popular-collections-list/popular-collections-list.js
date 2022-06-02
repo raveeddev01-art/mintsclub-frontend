@@ -4,9 +4,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import NavbarMain from "../navbar-main/NavbarMain";
 import CollectionsCard from "../collections-cards/CollectionsCard";
-import Footer from "../footer/footer";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
 import {
@@ -17,15 +15,17 @@ import {
   getCategories,
 } from "../collections/collections.actions";
 import FullPageLoader from "../full-page-loader/full-page-loader";
-
-import Breadcrumb from "../breadcrumb/breadcrumb";
 import { Images } from "../../assets/assets";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import BannerImage from "../../assets/images/bannerimg.png";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const Populars = forwardRef((props, ref) => {
   const [popular, setpopular] = useState([]);
   const [isActive, setIsActive] = useState("All");
   const [collections, setCollections] = useState(null);
-
+  const [categoryId, setCategoryId] = useState("all");
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
   const [collectionsLoader, setColLoader] = useState(true); // collections loader
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
@@ -149,6 +149,7 @@ const Populars = forwardRef((props, ref) => {
   };
 
   const handleFilterCategory = (category) => {
+    setCategoryId(category);
     setLoader(true);
     setPage(1);
     setLimit(10);
@@ -167,7 +168,12 @@ const Populars = forwardRef((props, ref) => {
       return Images.imagePlaceholder;
     }
   };
-
+  const bannerData = {
+    subHeading: "Collections",
+    heading: "Popular Collections",
+    content:
+      " Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+  };
   return (
     <>
     
@@ -175,6 +181,13 @@ const Populars = forwardRef((props, ref) => {
         <FullPageLoader />
       ) : (
         <section className="explore-collection-section padding-wrapper">
+           <Banner
+            subHeading={bannerData.subHeading}
+            heading={bannerData.heading}
+            content={bannerData.content}
+            bgImg={BannerBg}
+            bannerImg={BannerImage}
+          />
           <div className="container">
             <div className="row mb-5">
               <div className="col-12">
@@ -188,7 +201,9 @@ const Populars = forwardRef((props, ref) => {
               </div>
               <div className="col-12 explore-collection-nav">
                 <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
-                  {categories &&
+                  {categoryId === "all" && popular && popular?.length == 0&&!loader ? (
+                ""
+              ) : categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
                       return (
@@ -208,7 +223,9 @@ const Populars = forwardRef((props, ref) => {
                     })}
                 </div>
                 <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
-                  {categories &&
+                  {categoryId === "all" && popular && popular?.length == 0 &&!loader? (
+                ""
+              ) : categories &&
                     categories.length > 0 &&
                     categories.map((item) => {
                       return (
@@ -233,7 +250,7 @@ const Populars = forwardRef((props, ref) => {
             </div>
             <div className="row g-4 align-items-center justify-content-center">
               {loader ? (
-                <div class="spinner-border text-white" role="status">
+                <div class="spinner-border" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               ) : popular && popular.length > 0 ? (
@@ -256,7 +273,7 @@ const Populars = forwardRef((props, ref) => {
                   );
                 })
               ) : (
-                <p className="text-center text-white not-found-title mt-5">
+                <p className="text-center  not-found-title mt-5">
                   No popular collections Found
                 </p>
               )}
@@ -277,6 +294,8 @@ const Populars = forwardRef((props, ref) => {
               </div>
             </div>
           </div>
+          <OwnCollectionToday />
+
         </section>
       )}
     </>

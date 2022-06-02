@@ -19,7 +19,6 @@ import "swiper/swiper-bundle.css";
 import "./auction.css";
 
 import { getCreators } from "./../user/user.action";
-import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 //CardSliders
 import CardSlider from "../card-slider/CardSlider";
 import AuctionsCards from "../auctions-cards/AuctionsCards";
@@ -44,7 +43,8 @@ function AuctionsOne(props) {
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
   const [isActive, setIsActive] = useState(0);
-  
+  const [filterationLoader,setFilterationLoader]=useState(true)
+
   useEffect(() => {
     window.scroll(0, 0);
     // get live auctions
@@ -55,12 +55,6 @@ function AuctionsOne(props) {
     props.getCreators();
   }, []);
 
-  // useEffect(() => {
-  //   if (props.user.topSellersAuth) {
-  //     setCreator(props.user.sellers);
-  //     setLoader(false);
-  //   }
-  // }, [props.user.topSellersAuth]);
 
   // set live auctions
   useEffect(() => {
@@ -73,6 +67,8 @@ function AuctionsOne(props) {
       }
 
       setAuctions(auctions);
+      setFilterationLoader(false)
+
       let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
       if (auctions.length > 4) {
         auctionCollectionsSettings.infinite = true;
@@ -101,6 +97,7 @@ function AuctionsOne(props) {
   }, [props.collectionFlag]);
 
   const handleCategoryFilter = (desc) => {
+    setFilterationLoader(true)
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
@@ -129,7 +126,7 @@ function AuctionsOne(props) {
               </div>
             </div>
             <div className="col-12 col-lg-4 mt-3 mt-lg-0">
-              {categoryId === "all" && auctions && auctions?.length <= 1 ? (
+              {categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!filterationLoader? (
                 ""
               ) : (
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
@@ -168,7 +165,13 @@ function AuctionsOne(props) {
 
           <div className="auctions-slides">
             <div className="">
-              {auctions && auctions.length > 0 ? (
+              {filterationLoader ? (
+                <div className="text-center">
+                  <div className="spinner-border text-secondary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : auctions && auctions.length > 0 ? (
                 <CardSlider
                   settings={auctionSettings}
                   data={auctions}
@@ -189,7 +192,7 @@ function AuctionsOne(props) {
                   })}
                 </CardSlider>
               ) : (
-                <p className="text-white text-center">No Live Auctions Found</p>
+                <p className="text-center">No Live Auctions Found</p>
               )}
             </div>
           </div>

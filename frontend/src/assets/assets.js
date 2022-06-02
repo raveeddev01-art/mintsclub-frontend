@@ -34,7 +34,7 @@ import featureImageInputBG from "./images/featureImageInputBG.svg";
 import editIconSmall from "./images/editIconSmall.svg";
 import editIconLarge from "./images/editIconLarge.svg";
 import logoImage from './images/logoImage.svg';
-
+import metamaskImg from './images/metamaskIcon.png'
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -51,7 +51,8 @@ export const Images = {
   featureImageInputBG,
   editIconSmall,
   editIconLarge,
-  logoImage
+  logoImage,
+  metamaskImg
 };
 
 export const CollectionImages = {

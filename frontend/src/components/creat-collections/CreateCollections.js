@@ -300,7 +300,7 @@ class CreateCollections extends Component {
                               <p className="text-center mb-2 browse-file">
                                 Browse Files
                               </p>
-                              <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p>
+                              {/* <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p> */}
                               <p className="text-center mb-0">Max 100mb</p>
                             </div>
                           </label>
@@ -320,7 +320,7 @@ class CreateCollections extends Component {
                         <img src={Images.editIconLarge} />
                       </label>
                     </div>
-                    <p className="feature-img-title mt-3 mx-2 text-sm-center text-md-start">
+                    <p className="feature-img-title mt-3 mx-2 text-center text-md-start">
                       Feature Image*
                     </p>
                   </div>

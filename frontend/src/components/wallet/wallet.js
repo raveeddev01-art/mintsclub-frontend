@@ -12,6 +12,7 @@ import {
 } from "../collections/collections.actions";
 import { ENV } from "../../config/config";
 import { login, signup } from "../user/user.action";
+import { Images } from "../../assets/assets";
 import "./wallet.css";
 
 const Wallet = (props) => {
@@ -22,13 +23,13 @@ const Wallet = (props) => {
   const [showSignUpComponent, setShowSignUpComponent] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [disabled,setDisabled]=useState(false)
+  const [disabled, setDisabled] = useState(false);
 
   const connectMetamaskCall = async () => {
-    setDisabled(true)
+    setDisabled(true);
     let connectedAddress = await connectMetamaskCopy();
-    if (connectedAddress){
-      setDisabled(false)
+    if (connectedAddress) {
+      setDisabled(false);
     }
     setConnectedAddress(connectedAddress);
     setWalletAddress(connectedAddress);
@@ -41,7 +42,7 @@ const Wallet = (props) => {
 
       setErrorMessage(props.error.message);
       if (props.error.notExist) {
-        setDisabled(false)
+        setDisabled(false);
         setShowSignUp(true);
       } else {
         setShowSignUp(false);
@@ -50,7 +51,6 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
-    
     if (props.collection.getAuth === true) {
       let collections = props.collection.collections;
 
@@ -68,9 +68,8 @@ const Wallet = (props) => {
   }, [props.collection.getAuth]);
 
   const signup = async (e) => {
-    
     e.preventDefault();
-    setDisabled(true)
+    setDisabled(true);
     try {
       if (validator.isEmail(email)) {
         let sign = await signRequest();
@@ -88,21 +87,21 @@ const Wallet = (props) => {
       }
     } catch (err) {
       toast.error(err.message);
-      setDisabled(false)
+      setDisabled(false);
     }
   };
 
   const login = async () => {
     try {
-      setDisabled(true)
+      setDisabled(true);
       let sign = await signRequest();
       let payload = {
         address: connectedAddress,
       };
-      
+
       props.login(payload);
     } catch (err) {
-      setDisabled(false)
+      setDisabled(false);
       toast.error(err.message);
     }
   };
@@ -137,18 +136,22 @@ const Wallet = (props) => {
             <div className="row justify-content-center">
               <div className="col-12 col-md-8 col-lg-7">
                 {/* Intro */}
-                <div className="intro text-center">
+                <div className="intro wallet-intro  text-center">
                   <span>Sign In</span>
                   <h3 className="mt-3 mb-0">SignIn to your account</h3>
+                  <p className="mt-3">Please Click to Sing In your Account.</p>
                 </div>
               </div>
             </div>
             <div className="row justify-content-center items">
               <div className="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-5 item">
-                <div className="card single-wallet sign-in-card">
-                  <span className="d-block text-center" href="/login">
+                <div className="sign-in-card">
+                  <span
+                    className="sign-content-wrapper text-center"
+                    href="/login"
+                  >
                     <h4 className="mb-0">Address</h4>
-                    <p id="connected-address mt-3">{connectedAddress}</p>
+                    <p className="mt-4">{connectedAddress}</p>
                     {errorMessage && (
                       <p className="text-gray">{errorMessage}</p>
                     )}
@@ -164,7 +167,7 @@ const Wallet = (props) => {
                         </button>
                       </>
                     )}
-                  
+
                     {showSignUp && (
                       <button
                         className="btn btn-linear-gradient btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
@@ -174,17 +177,6 @@ const Wallet = (props) => {
                         Would you like to Signup?
                       </button>
                     )}
-                      {/* <div className="mt-3">
-                      <a
-                        className="text-white back-link "
-                        onClick={() => {
-                          setConnectedAddress("");
-                          setWalletAddress("");
-                        }}
-                      >
-                        Back
-                      </a>
-                    </div> */}
                   </span>
                 </div>
               </div>
@@ -290,23 +282,34 @@ const Wallet = (props) => {
           <>
             <div className="row justify-content-center">
               <div className="col-12 col-md-8 col-lg-7">
-                {/* Intro */}
-                <div className="intro text-center">
+                <div className="intro wallet-intro text-center">
                   <span>Wallet Connect</span>
                   <h3 className="mt-3 mb-0">Connect your Wallet</h3>
-                  <p className="text-white mt-3">
+                  <p className=" mt-3">
                     Please select the wallet you want to connect to.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="row justify-content-center items">
-              {errorMessage && <p className="text-white">{errorMessage}</p>}
+            {/* {errorMessage && <p className="text-white">{errorMessage}</p>} */}
+
+            <div
+              className="connect-metamask-container text-center mx-auto"
+              onClick={() => connectMetamaskCall()}
+            >
+              <img className="avatar-lg mt-4" src={Images.metamaskImg} alt="" />
+              <p className="metamask-title mt-2">Metamask</p>
+              <p className="metamask-desc px-sm-0 px-3">
+                A browser extension with great flexibility.
+                <br className="d-none d-sm-block" /> The web's most popular
+                wallet
+              </p>
+            </div>
+            {/* <div className="row justify-content-center items">
               <div
                 className="col-12 col-md-6 col-lg-4 item"
                 onClick={() => connectMetamaskCall()}
               >
-                {/* Single Wallet */}
                 <div className="card single-wallet whole-hover wallet-metamask-card">
                   <span className="d-block text-center" href="/login">
                     <img
@@ -322,7 +325,7 @@ const Wallet = (props) => {
                   </span>
                 </div>
               </div>
-            </div>
+            </div> */}
           </>
         )}
       </div>

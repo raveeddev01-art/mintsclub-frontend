@@ -448,7 +448,7 @@ const AllNFT = (props) => {
               {filterationLoader ? (
                 <div className="text-center">
                   <div
-                    className="spinner-border text-secondary text-white "
+                    className="spinner-border text-secondary"
                     role="status"
                   >
                     <span className="sr-only">Loading...</span>
@@ -472,7 +472,7 @@ const AllNFT = (props) => {
                   );
                 })
               ) : (
-                <p className="text-white text-center mt-5 no-nft-title">
+                <p className="text-center mt-5 no-nft-title">
                   No NFTs Found
                 </p>
               )}
