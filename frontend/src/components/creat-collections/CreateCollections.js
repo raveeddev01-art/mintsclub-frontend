@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
-import Breadcrumb from "../breadcrumb/breadcrumb";
 import "./CreateCollections.css";
-import { ReactComponent as ProfileEditSVG } from "../../assets/images/edit-pen.svg";
-import CollectionUploadIcon from "../../assets/images/collection-upload-icon.svg";
 import { connect } from "react-redux";
 import {
   beforeCollection,
@@ -17,9 +13,12 @@ import { ENV } from "../../config/config";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
-import UploadIcon from "../../assets/images/uploadIcon.png";
-import { MdClose } from "react-icons/md";
 import { Images } from "../../assets/assets";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import BannerImage from "../../assets/images/bannerimg.png";
+import Select from "react-select";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 class CreateCollections extends Component {
   constructor(props) {
@@ -43,6 +42,7 @@ class CreateCollections extends Component {
         description: "",
       },
       categories: null,
+      selectedCategory: "",
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -72,7 +72,15 @@ class CreateCollections extends Component {
     }
     if (this.props.category.getAuth) {
       const { categories } = this.props.category;
-      this.setState({ categories, loader: false }, () => {
+      let updatedCategories = [];
+      for (var item of categories) {
+        let obj = {
+          value: item._id,
+          label: item.name,
+        };
+        updatedCategories.push(obj);
+      }
+      this.setState({ categories: updatedCategories, loader: false }, () => {
         this.props.beforeCategory();
       });
     }
@@ -160,6 +168,32 @@ class CreateCollections extends Component {
       }
     );
   };
+  handleSelectChange = (selectedOption) => {
+    console.log(selectedOption, "selected ");
+    let { collection } = this.state;
+    collection = { ...collection, categoryId: selectedOption.value };
+    this.setState({
+      selectedOption,
+      collection,
+    });
+  };
+  handleValidation = () => {
+    console.log("func");
+    const { categoryId, logo, name, description, featuredImg } =
+      this.state.collection;
+    console.log(this.state.collection, "collection");
+    if (
+      description === "" ||
+      logo === "" ||
+      categoryId === "" ||
+      name === "" ||
+      featuredImg === ""
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   clearData = () => {
     let { collection } = this.state;
@@ -168,50 +202,160 @@ class CreateCollections extends Component {
   };
 
   render() {
-    const { collection, errors, loader, isSubmitted, categories } = this.state;
+    const {
+      collection,
+      errors,
+      loader,
+      isSubmitted,
+      categories,
+      selectedOption,
+    } = this.state;
     if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");
       this.props.history.push("/");
       return " ";
     } else {
+      const bannerData = {
+        subHeading: "Create New",
+        heading: "Create New Collection",
+        content:
+          "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+      };
       return (
         <>
+          {loader && <FullPageLoader />}
           <section className="create-collection">
+            <Banner
+              subHeading={bannerData.subHeading}
+              heading={bannerData.heading}
+              content={bannerData.content}
+              bgImg={BannerBg}
+              bannerImg={BannerImage}
+            />
             <div className="container">
               <div className="row">
-                <div className="col-12">
-                  <div className="feature-wrapper">
+                <div className="upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0">
+                  <div className="logo-wrapper">
+                    <div className="logo-image">
+                      {collection && collection.logo ? (
+                        <img
+                          className="uploaded-logo-img"
+                          src={collection.logoUrl}
+                        />
+                      ) : (
+                        <label>
+                          <input
+                            id="logo"
+                            type="file"
+                            accept=".png,.jpeg,.jpg"
+                            onChange={(e) => this.onFileChange(e)}
+                            style={{ display: "none" }}
+                            name="logo"
+                          />
+                          <span className="logo-img-round">
+                            <img
+                              className="upload-icon"
+                              src={Images.logoImage}
+                            />
+                          </span>
+                        </label>
+                      )}
+                    </div>
+
+                    <div className="upload-feature-icon-logo">
+                      <label>
+                        <input
+                          id="logo"
+                          type="file"
+                          accept=".png,.jpeg,.jpg"
+                          onChange={(e) => this.onFileChange(e)}
+                          style={{ display: "none" }}
+                          name="logo"
+                        />
+                        <img src={Images.editIconSmall} />
+                      </label>
+                    </div>
+                    <p className="feature-img-title mt-3 mx-2">Logo Image*</p>
+                  </div>
+                  <div className="feature-wrapper pt-md-0 pt-5">
                     <div className="feature-image">
                       <span className="feature-img-round">
-                        <img src={Images.featureImageInputBG} />
-                        <div className="feature-img-round-info">
-                          <p className="text-center mb-2 browse-file">
-                            Browse Files
-                          </p>
-                          <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p>
-                          <p className="text-center mb-0">Max 100mb</p>
-                        </div>
+                        {collection && collection.featuredImg ? (
+                          <img
+                            className="uploaded-feature-img"
+                            src={collection.featuredImgUrl}
+                          />
+                        ) : (
+                          <label className="upload-icon">
+                            <input
+                              id="featuredImg"
+                              type="file"
+                              accept=".png,.jpeg,.jpg"
+                              style={{ display: "none" }}
+                              name="featuredImg"
+                              onChange={(e) => this.onFileChange(e)}
+                            />
+                            <img src={Images.featureImageInputBG} />
+                            <div className="feature-img-round-info">
+                              <p className="text-center mb-2 browse-file">
+                                Browse Files
+                              </p>
+                              <p className="mb-0">PNG, GIF, WEBP, MP4, MP3 </p>
+                              <p className="text-center mb-0">Max 100mb</p>
+                            </div>
+                          </label>
+                        )}
                       </span>
                     </div>
                     <div className="upload-feature-icon">
-                      <img src={Images.editIconLarge} />
+                      <label>
+                        <input
+                          id="featuredImg"
+                          type="file"
+                          accept=".png,.jpeg,.jpg"
+                          style={{ display: "none" }}
+                          name="featuredImg"
+                          onChange={(e) => this.onFileChange(e)}
+                        />
+                        <img src={Images.editIconLarge} />
+                      </label>
                     </div>
+                    <p className="feature-img-title mt-3 mx-2 text-sm-center text-md-start">
+                      Feature Image*
+                    </p>
                   </div>
-                    <p className="feature-img-title mt-3 mx-2">Feature Image*</p>
                 </div>
+
                 <div className="col-lg-4 col-md-6 col-sm-12">
                   <label className="create-collection-label">Name:*</label>
                   <input
                     className="create-collection-input mt-2"
-                    placeholder="Type here to search"
+                    id="name"
+                    type="text"
+                    name="name"
+                    onChange={(e) => this.onChange(e)}
+                    value={collection.name}
+                    placeholder="Name"
+                    maxLength="55"
+                    autoComplete="off"
                   />
                 </div>
 
                 <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
-                  <label className="create-collection-label">URL:*</label>
+                  <label className="create-collection-label">URL:</label>
+                  <span className="text-danger position-absolute top-0">
+                    {this.validator.message("url", collection.url, "url")}
+                  </span>
                   <input
                     className="create-collection-input mt-2"
-                    placeholder="Type here to search"
+                    id="url"
+                    type="text"
+                    name="url"
+                    placeholder="URL"
+                    onChange={(e) => this.onChange(e)}
+                    value={collection.url}
+                    maxLength="55"
+                    autoComplete="off"
                   />
                 </div>
 
@@ -219,30 +363,46 @@ class CreateCollections extends Component {
                   <label className="create-collection-label">
                     Select Category:*
                   </label>
-                  <input
-                    className="create-collection-input mt-2"
-                    placeholder="Type here to search"
+
+                  <Select
+                    className="react-select-cls"
+                    classNamePrefix="react-select"
+                    value={selectedOption}
+                    isSearchable={false}
+                    onChange={this.handleSelectChange}
+                    options={categories}
                   />
                 </div>
 
-                <div className="col-12 mt-5">
+                <div className="col-12 mt-3 mt-lg-5">
                   <label className="create-collection-label">
                     Description:*
                   </label>
 
                   <textarea
                     className="create-collection-area mt-2"
-                    placeholder="Enter Description..."
+                    name="description"
+                    placeholder="Description"
+                    maxLength="500"
+                    rows="3"
+                    onChange={(e) => this.onChange(e)}
+                    value={collection.description}
                   ></textarea>
                 </div>
+
                 <div className="create-collection-btn-container">
-                  <button className="btn create-collection-btn btn-linear-gradient mt-5">
+                  <button
+                    className="btn create-collection-btn btn-linear-gradient mt-5"
+                    disabled={this.handleValidation()}
+                    onClick={(e) => this.submit(e)}
+                  >
                     Create Collection
                   </button>
                 </div>
               </div>
             </div>
           </section>
+          <OwnCollectionToday />
 
           {/* <section className="edit-profile padding-wrapper create-collection-container">
             {loader && <FullPageLoader />}
@@ -467,7 +627,7 @@ class CreateCollections extends Component {
               </div>
             </div>
           </section> */}
-          <Footer />
+          {/* <Footer /> */}
         </>
       );
     }

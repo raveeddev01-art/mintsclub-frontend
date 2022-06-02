@@ -78,7 +78,7 @@ export const getCollections =
     let url = `${ENV.url}collection/list`;
 
     if (qs) url += `?${qs}`;
-    //console.log(url, 'url sending');
+    console.log(url, 'url sending=======>');
 
     fetch(url, {
       method: 'GET',

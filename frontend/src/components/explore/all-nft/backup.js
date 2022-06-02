@@ -1,0 +1,766 @@
+// import React, { useState, useEffect } from "react";
+// import { connect } from "react-redux";
+// import "./allnft.css";
+// import { beforeNFT, getNFTs, getMyLikedNfts } from "../../nfts/nfts.action";
+// import { ENV } from "../../../config/config";
+// import NavbarMain from "../../navbar-main/NavbarMain";
+// import Footer from "../../footer/footer";
+// import SearchIcon from "../../../assets/images/nav-search-icon.svg";
+// import ListingCards from "../../listing-cards/ListingCards";
+// import FilterComponent from "../../filter-component/FilterComponent";
+// import { getCreators, beforeUser } from "./../../user/user.action";
+// import FullPageLoader from "../../full-page-loader/full-page-loader";
+// import { toggleLikeDislike, beforeTogleLikeDislike } from "../explore.action";
+// import {
+//   beforeCollection,
+//   getCollections,
+// } from "../../collections/collections.actions";
+// import Breadcrumb from "../../breadcrumb/breadcrumb";
+// import VideoCard from "../../test-video-card/videoCard";
+// import { validateNetwork } from "../../../utils/web3";
+// import { toast } from "react-toastify";
+// import NftCard from "../../nft-card/nft-card";
+// import FilterHoc from "../../filter-hoc/filterHoc";
+// import Banner from "../../banner/banner";
+// import BannerBg from "../../../assets/images/hero-bg.png";
+// import BannerImage from "../../../assets/images/bannerimg.png";
+// import OwnCollectionToday from "../../own-collection-today/own-collection-today";
+// const bannerData = {
+//   subHeading: "Explore",
+//   heading: "All NFTs",
+//   content:
+//     "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+// };
+
+// const priceOptions = [
+//   { value: "lowtohigh", label: "Low To High" },
+//   { value: "hightolow", label: "High To Low" },
+//   { value: "oldest", label: "Oldest" },
+//   { value: "newest", label: "Recantly Created" },
+// ];
+
+// const AllNFT = (props) => {
+//   const [activeFilter, setActiveFilter] = useState(false);
+//   const [nftPagination, setNFTPagination] = useState(null);
+//   const [nfts, setNFTs] = useState([]); // NFTs for explore section
+//   const [loader, setLoader] = useState(true);
+//   const [loadMoreBtn, setLoadMoreBtn] = useState(false);
+//   const [creators, setCreator] = useState([]);
+//   const [minValue, setMinValue] = useState("");
+//   const [maxValue, setMaxValue] = useState("");
+//   const [collections, setCollections] = useState([]);
+//   const [filterationLoader, setFilterationLoader] = useState(true);
+//   const [keyword, setKeyword] = useState(
+//     props?.location?.state ? props.location.state : ""
+//   );
+//   const [likedNfts, setLikedNfts] = useState();
+//   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+//   const [initial, setInitial] = useState(true);
+//   const [disabled, setDisabled] = useState(false);
+//   const [filter, setFilter] = useState({
+//     collectionId: false,
+//     gtePrice: false,
+//     ltePrice: false,
+//     categoryId: false,
+//     oldest: false,
+//     lowToHigh: false,
+//     highToLow: false,
+//     newest: false,
+//     page: 1,
+//     limit: 10,
+//     buy: false,
+//     auction: false,
+//     latest: false,
+//   });
+//   useEffect(() => {
+//     if (props?.location?.state) {
+//       setKeyword(props?.location?.state);
+//       handleSearchKeyword(props?.location?.state);
+//     }
+//   }, [props?.location?.state]);
+
+//   useEffect(() => {
+//     window.scroll(0, 0);
+//     props.getCreators();
+//     props.getCollections();
+//     if (props?.location?.state) {
+//       let searchQs = { keyword: props.location.state };
+//       window.history.replaceState(null, "");
+//       searchQs = ENV.objectToQueryString(searchQs);
+//       props.getNFTs(searchQs);
+//     } else {
+//       getNFTs();
+//     }
+
+//     let qs = { userId: ENV.getUserKeys("_id")._id };
+//     qs = ENV.objectToQueryString(qs);
+//     props.getMyLikedNfts(qs);
+//   }, []);
+
+//   // Get Liked Nfts
+//   useEffect(() => {
+//     if (props.myLikedNftsStatus) {
+//       setLikedNfts(props.myLikedNfts);
+//       // props.beforeUser()
+//       props.beforeNFT();
+//     }
+//   }, [props.myLikedNftsStatus]);
+
+//   //Get Top Sellers
+//   useEffect(() => {
+//     if (props.user.topSellersAuth) {
+//       setCreator(props.user.sellers);
+//       props.beforeUser();
+//     }
+//   }, [props.user.topSellersAuth]);
+
+//   useEffect(() => {
+//     if (props.user.creatorsAuth) {
+//       setCreator(props.user.creators);
+//       props.beforeUser();
+//       setLoader(false);
+//     }
+//   }, [props.user.creatorsAuth]);
+
+//   //Get NFt's
+//   useEffect(() => {
+//     if (props.nft.nftsAuth) {
+//       const { nfts, pagination } = props.nft.nftsData;
+//       if (nfts) {
+//         if (nfts.length > 0) {
+//           setDisabled(false);
+//         } else {
+//           if (initial) {
+//             setDisabled(true);
+//           }
+//         }
+//         setNFTs(nfts);
+//         setNFTPagination(pagination);
+//         setFilterationLoader(false);
+//         props.beforeNFT();
+
+//         setLoader(false);
+//       }
+//       setLoader(false);
+//     }
+//   }, [props.nft.nftsAuth]);
+
+//   //pagination
+//   useEffect(() => {
+//     if (nftPagination)
+//       setLoadMoreBtn(
+//         nftPagination.total > 0 &&
+//           nftPagination.total > nfts.length &&
+//           nfts.length > 0
+//       );
+//   }, [nftPagination]);
+
+//   useEffect(() => {
+//     if (props.getAuth) {
+//       setCollections(props.collections);
+//       props.beforeCollection();
+//     }
+//   }, [props.getAuth]);
+
+//   useEffect(() => {
+//     if (props.togleLikeRes) {
+//       setLikeBtnDisable(false);
+//       props.beforeTogleLikeDislike();
+//     }
+//   }, [props.togleLikeRes]);
+//   useEffect(()=>{
+
+//   },[filter])
+
+//   const getNFTs = (
+//     page = 1,
+//     limit = 10,
+//     collectionIdFilter,
+//     gtePriceFilter,
+//     ltePriceFilter,
+//     categoryIdFilter,
+//     oldestFilter,
+//     lowToHighFilter,
+//     highToLowFilter,
+//     newestFilter,
+//     keyword,
+//     buy,
+//     auction,
+//     latest
+//   ) => {
+//     const nftQS = { page, limit };
+//     if (collectionIdFilter) nftQS.collectionId = collectionIdFilter;
+//     if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
+//     if (gtePriceFilter) nftQS.ltePrice = ltePriceFilter;
+//     if (categoryIdFilter) nftQS.categoryId = categoryIdFilter;
+//     if (oldestFilter) nftQS.oldest = oldestFilter;
+//     if (lowToHighFilter) nftQS.lowToHigh = lowToHighFilter;
+//     if (highToLowFilter) nftQS.highToLow = highToLowFilter;
+//     if (newestFilter) nftQS.newest = newestFilter;
+//     if (keyword) nftQS.keyword = keyword;
+//     if (buy) nftQS.buy = buy;
+//     if (auction) nftQS.auction = auction;
+//     if (latest) nftQS.latest = latest;
+
+//     const qs = ENV.objectToQueryString(nftQS);
+//     console.log(qs, "query string of all nfts");
+//     props.getNFTs(qs);
+//   };
+
+//   const sortoptions = [
+//     { value: "lowtohigh", label: "Low To High" },
+//     { value: "hightolow", label: "High To Low" },
+//     { value: "oldest", label: "Oldest" },
+//     { value: "newest", label: "Recantly Created" },
+//   ];
+
+//   const handleSortOptions = (e) => {
+//     setFilterationLoader(true);
+//     setInitial(false);
+
+//     const { label } = e;
+//     if (label === "Low To High") {
+//       setFilter((prev) => ({
+//         ...prev,
+//         lowToHigh: true,
+//         highToLow: false,
+//         oldest: false,
+//         newest: false,
+//       }));
+//       getNFTs(
+//         filter.page,
+//         filter.limit,
+//         filter.collectionId ? filter.collectionId : false,
+//         filter.gtePrice,
+//         filter.ltePrice,
+//         false,
+//         false,
+//         true,
+//         false,
+//         false,
+//         keyword,
+//         filter.buy,
+//         filter.auction,
+//         filter.latest
+//       );
+//     } else if (label === "High To Low") {
+//       setFilter((prev) => ({
+//         ...prev,
+//         highToLow: true,
+//         lowToHigh: false,
+//         oldest: false,
+//         newest: false,
+//       }));
+//       getNFTs(
+//         filter.page,
+//         filter.limit,
+//         filter.collectionId ? filter.collectionId : false,
+//         filter.gtePrice,
+//         filter.ltePrice,
+//         false,
+//         false,
+//         false,
+//         true,
+//         false,
+//         keyword,
+//         filter.buy,
+//         filter.auction,
+//         filter.latest
+//       );
+//     } else if (label === "Oldest") {
+//       setFilter((prev) => ({
+//         ...prev,
+//         oldest: true,
+//         highToLow: false,
+//         lowToHigh: false,
+//         newest: false,
+//       }));
+//       getNFTs(
+//         filter.page,
+//         filter.limit,
+//         filter.collectionId ? filter.collectionId : false,
+//         filter.gtePrice,
+//         filter.ltePrice,
+//         false,
+//         true,
+//         false,
+//         false,
+//         false,
+//         keyword,
+//         filter.buy,
+//         filter.auction,
+//         filter.latest
+//       );
+//     } else if (label === "Recantly Created") {
+//       setFilter((prev) => ({
+//         ...prev,
+//         newest: true,
+//         oldest: false,
+//         highToLow: false,
+//         lowToHigh: false,
+//       }));
+//       getNFTs(
+//         filter.page,
+//         filter.limit,
+//         filter.collectionId ? filter.collectionId : false,
+//         filter.gtePrice,
+//         filter.ltePrice,
+//         false,
+//         false,
+//         false,
+//         false,
+//         true,
+//         keyword,
+//         filter.buy,
+//         filter.auction,
+//         filter.latest
+//       );
+//     } else {
+//     }
+//   };
+
+//   const onChangeMinPrice = (e) => {
+//     setMinValue(e.target.value);
+//   };
+//   const onChangeMaxPrice = (e) => {
+//     setMaxValue(e.target.value);
+//   };
+
+//   const filterData = {
+//     status: {
+//       label: "Status",
+//       option: ["Buy Now", "On Auction", "New"],
+//     },
+//     collections: {
+//       label: "Collections",
+//       option: ["Art", "Music"],
+//     },
+//   };
+
+//   const handlePagination = () => {
+//     const {
+//       page,
+//       limit,
+//       categoryId,
+//       collectionId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       buy,
+//       auction,
+//       latest,
+//       gtePrice,
+//       ltePrice
+//     } = filter;
+//     setInitial(false);
+//     setFilterationLoader(true);
+//     setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
+//     getNFTs(
+//       page,
+//       limit + 10,
+//       collectionId,
+//       gtePrice,
+//       ltePrice,
+//       categoryId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       keyword,
+//       buy,
+//       auction,
+//       latest
+//     );
+//   };
+
+//   const applyMinMaxFilter = () => {
+//     const {
+//       page,
+//       limit,
+//       categoryId,
+//       collectionId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       buy,
+//       auction,
+//       latest,
+//     } = filter;
+//     setInitial(false);
+//     setFilterationLoader(true);
+
+//     setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
+
+//     getNFTs(
+//       page,
+//       limit,
+//       collectionId,
+//       minValue,
+//       maxValue,
+//       categoryId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       keyword,
+//       buy,
+//       auction,
+//       latest
+//     );
+//   };
+
+//   const handleCollectionsFilter = (id) => {
+//     const {
+//       page,
+//       limit,
+//       categoryId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       buy,
+//       auction,
+//       latest,
+//     } = filter;
+//     setInitial(false);
+//     setFilterationLoader(true);
+//     setFilter((prev) => ({ ...prev, collectionId: id }));
+//     getNFTs(
+//       page,
+//       limit,
+//       id,
+//       minValue,
+//       maxValue,
+//       categoryId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       keyword,
+//       buy,
+//       auction,
+//       latest
+//     );
+//   };
+
+//   const handleSearchKeyword = (value) => {
+//     const {
+//       page,
+//       limit,
+//       categoryId,
+//       collectionId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       buy,
+//       auction,
+//       latest,
+//     } = filter;
+//     setInitial(false);
+//     setFilterationLoader(true);
+//     getNFTs(
+//       page,
+//       limit,
+//       collectionId,
+//       minValue,
+//       maxValue,
+//       categoryId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       value ? value : keyword,
+//       buy,
+//       auction,
+//       latest
+//     );
+//   };
+
+//   const handleStatusFilter = (id) => {
+//     const {
+//       page,
+//       limit,
+//       categoryId,
+//       collectionId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//     } = filter;
+//     setInitial(false);
+//     setFilterationLoader(true);
+//     if (id === "Buy Now") {
+//       setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
+//     } else if (id === "On Auction") {
+//       setFilter((prev) => ({ ...prev, auction: true, buy: false, new: false }));
+//     } else {
+//       setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
+//     }
+//     getNFTs(
+//      page,
+//      limit,
+//      collectionId,
+//       minValue,
+//       maxValue,
+//      categoryId,
+//      oldest,
+//      lowToHigh,
+//      highToLow,
+//      newest,
+//       keyword,
+//       id == "Buy Now" ? true : false,
+//       id == "On Auction" ? true : false,
+//       id == "New" ? true : false
+//     );
+//   };
+//   const handleLikesTogleApi = async (nftId, status, likesCount) => {
+//     if (await validateNetwork()) {
+//       if (!likeButtonDisable || likeButtonDisable === null) {
+//         setLikeBtnDisable(true);
+//         let userId = ENV.getUserKeys("_id")._id;
+
+//         let body = {
+//           userId,
+//           nftId,
+//           count: 1,
+//         };
+
+//         if (status === "dislike" && likesCount > 0) {
+//           let result = likedNfts.filter((item) => item.nftId !== nftId);
+
+//           setLikedNfts(result);
+//           increOrDecreLikes(nftId, "dec");
+
+//           props.toggleLikeDislike(body);
+//         }
+
+//         if (status === "like") {
+//           let myLikedNfts = [];
+//           if (likedNfts && likedNfts.length > 0) {
+//             myLikedNfts = likedNfts;
+//           }
+
+//           let obj = {
+//             _id: "1234455",
+//             nftId,
+//           };
+
+//           myLikedNfts.push(obj);
+
+//           setLikedNfts(myLikedNfts);
+//           increOrDecreLikes(nftId, "inc");
+//           props.toggleLikeDislike(body);
+//         }
+//         // setNFTs(nfts);
+//       }
+//     } else {
+//       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+//     }
+//   };
+
+//   const increOrDecreLikes = (id, status) => {
+//     if (status === "dec") {
+//       let newResult = nfts.map((item) => {
+//         if (item._id !== id) {
+//           return item;
+//         } else {
+//           if (item?.likeCount > 0) {
+//             return { ...item, likeCount: item.likeCount - 1 };
+//           }
+//         }
+//       });
+//       setNFTs(newResult);
+//     } else {
+//       let final = nfts.map((item) => {
+//         if (item._id !== id) {
+//           return item;
+//         } else {
+//           return { ...item, likeCount: item.likeCount + 1 };
+//         }
+//       });
+//       setNFTs(final);
+//     }
+//   };
+//   const handleClearFilter = (id) => {
+//     const {
+//       page,
+//       limit,
+//       categoryId,
+//       collectionId,
+//       oldest,
+//       lowToHigh,
+//       highToLow,
+//       newest,
+//       buy,
+//       auction,
+//       latest,
+//     } = filter;
+//     if (id === "status") {
+//       setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
+//       getNFTs(
+//         page,
+//         limit,
+//         collectionId,
+//         minValue,
+//         maxValue,
+//         categoryId,
+//         oldest,
+//         lowToHigh,
+//         highToLow,
+//         newest,
+//         keyword,
+//         false,
+//         false,
+//         false
+//       );
+//     } else if (id === "price") {
+//       setMinValue("");
+//       setMaxValue("");
+//       getNFTs(
+//         page,
+//         limit,
+//         collectionId,
+//         false,
+//         false,
+//         categoryId,
+//         oldest,
+//         lowToHigh,
+//         highToLow,
+//         newest,
+//         keyword,
+//         buy,
+//         auction,
+//         latest
+//       );
+//     } else {
+//       setFilter((prev) => ({ ...prev, collectionId: "" }));
+//       getNFTs(
+//         page,
+//         limit,
+//         collectionId,
+//         minValue,
+//         maxValue,
+//         false,
+//         oldest,
+//         lowToHigh,
+//         highToLow,
+//         newest,
+//         keyword,
+//         buy,
+//         auction,
+//         latest
+//       );
+//     }
+//   };
+
+//   return (
+//     <>
+//       <section className="explore-collection-section padding-wrapper pt-0">
+//         <Banner
+//           subHeading={bannerData.subHeading}
+//           heading={bannerData.heading}
+//           content={bannerData.content}
+//           bgImg={BannerBg}
+//           bannerImg={BannerImage}
+//         />
+
+//         <FilterHoc
+//           handleCollectionsFilter={handleCollectionsFilter}
+//           handleStatusFilter={handleStatusFilter}
+//           collections={collections}
+//           onChangeMinPrice={onChangeMinPrice}
+//           onChangeMaxPrice={onChangeMaxPrice}
+//           minValue={minValue}
+//           maxValue={maxValue}
+//           applyMinMaxFilter={applyMinMaxFilter}
+//           disabled={disabled}
+//           totalItems={nfts && nfts.length}
+//           priceOptions={priceOptions}
+//           handleSortOptions={handleSortOptions}
+//           keyword={keyword}
+//           setKeyword={setKeyword}
+//           handleSearchKeyword={handleSearchKeyword}
+//           handleClearFilter={handleClearFilter}
+//         >
+//           {loader ? (
+//             <FullPageLoader />
+//           ) : (
+//             <div className="row g-1">
+//               {filterationLoader ? (
+//                 <div className="text-center">
+//                   <div
+//                     className="spinner-border text-secondary text-white "
+//                     role="status"
+//                   >
+//                     <span className="sr-only">Loading...</span>
+//                   </div>
+//                 </div>
+//               ) : nfts && nfts.length > 0 ? (
+//                 nfts.map((nft, index) => {
+//                   return (
+//                     <div
+//                       key={index}
+//                       className="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4"
+//                     >
+//                       {
+//                         <NftCard
+//                           data={nft}
+//                           handleLikesTogleApi={handleLikesTogleApi}
+//                           likedNfts={likedNfts}
+//                         />
+//                       }
+//                     </div>
+//                   );
+//                 })
+//               ) : (
+//                 <p className="text-white text-center mt-5 no-nft-title">
+//                   No NFTs Found
+//                 </p>
+//               )}
+//               <div className="col-12">
+//                 <div className="mt-5 text-center">
+//                   {nftPagination?.total === nfts?.length
+//                     ? ""
+//                     : !filterationLoader && (
+//                         <button
+//                           className="btn btn-linear-gradient px-5"
+//                           onClick={() => handlePagination()}
+//                         >
+//                           Load more
+//                         </button>
+//                       )}
+//                 </div>
+//               </div>
+//             </div>
+//           )}
+//         </FilterHoc>
+//       </section>
+//       <OwnCollectionToday />
+//     </>
+//   );
+// };
+
+// const mapStateToProps = (state) => ({
+//   nft: state.nft,
+//   myLikedNfts: state.nft.myLikedNfts,
+//   myLikedNftsStatus: state.nft.myLikedNftsStatus,
+//   user: state.user,
+//   getAuth: state.collection.getAuth,
+//   collections: state.collection.collections,
+//   togleLikeRes: state.explore.togleLikeRes,
+// });
+
+// export default connect(mapStateToProps, {
+//   beforeNFT,
+//   getNFTs,
+//   getCreators,
+//   toggleLikeDislike,
+//   getCollections,
+//   getMyLikedNfts,
+//   beforeCollection,
+//   beforeUser,
+//   beforeTogleLikeDislike,
+// })(AllNFT);

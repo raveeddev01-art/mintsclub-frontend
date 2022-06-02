@@ -57,8 +57,7 @@ const AuctionsList = (props) => {
   };
   return (
     <>
-      <NavbarMain />
-      <Breadcrumb title1={"Auctions"} title2={"LiveAuctions"} />
+ 
       <section className="explore-collection-section padding-wrapper">
         {
         // loader ? (

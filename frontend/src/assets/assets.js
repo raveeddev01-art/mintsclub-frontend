@@ -33,6 +33,7 @@ import whiteEmptyHeart from "./images/dislikeEmptyHeart.svg";
 import featureImageInputBG from "./images/featureImageInputBG.svg";
 import editIconSmall from "./images/editIconSmall.svg";
 import editIconLarge from "./images/editIconLarge.svg";
+import logoImage from './images/logoImage.svg';
 
 export const Images = {
   uploadImage,
@@ -50,6 +51,7 @@ export const Images = {
   featureImageInputBG,
   editIconSmall,
   editIconLarge,
+  logoImage
 };
 
 export const CollectionImages = {
