@@ -218,6 +218,7 @@ const FilterHoc = (props) => {
                 >
                   Apply
                 </button>
+                
               </div>
               <div className="d-flex align-items-end justify-content-end">
                 {minValue&&maxValue&&
