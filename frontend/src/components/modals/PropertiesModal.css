@@ -4,10 +4,23 @@
 }
 
 .buy-modal.properties-modal .modal-body .bid-inp-container {
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
-  height: 60px;
-  min-width: 280px;
+  background: #ffffff;
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  border-radius: 44px;
+  height: 40px;
+  padding-left: 10px;
+}
+
+.buy-modal.properties-modal .modal-body .bid-inp-container.modal-value-inp {
+  padding-left: 5px;
+}
+
+.value-inp-of h6 {
+  font-weight: 400;
+  font-size: 12px;
+  color: #414141;
+  margin-bottom: 0;
 }
 
 .buy-modal.properties-modal
@@ -17,9 +30,9 @@
   input {
   padding: 0 10px;
   border: none;
-  font-size: 14px;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 400;
+  font-size: 12px;
+  color: #414141;
   background-color: transparent;
   height: 40px;
 }
@@ -49,10 +62,10 @@
 }
 
 .buy-modal.properties-modal .modal-body .bid-inp-container h6 {
+  font-weight: 400;
+  font-size: 12px;
+  color: #414141;
   margin: 0;
-  line-height: 0;
-  font-size: 14px;
-  font-weight: 800;
 }
 
 .buy-modal.properties-modal .buy-modal-content {
@@ -70,14 +83,35 @@
   .buy-modal-content
   .modal-body
   .nft-modalfields-container {
-  max-height: 240px;
+  max-height: 300px;
   height: max-content;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 100%;
 }
 
-@media (max-width: 767.9px) {
-  .buy-modal.properties-modal .modal-body .bid-inp-container {
-    min-width: unset;
+.btn.btn-linear-gradient.modal-btn-save {
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffffff;
+  min-width: 120px;
+}
+
+.btn.modal-btn-addMore {
+  border: 1px solid #316feb;
+  border-radius: 55px;
+  height: 40px;
+  min-width: 120px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #151515;
+}
+
+@media (max-width: 575.9px) {
+  .buy-modal.properties-modal
+    .buy-modal-content
+    .modal-body
+    .nft-modalfields-container {
+    max-height: 330px;
   }
 }

@@ -22,9 +22,6 @@ import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.css";
 import { Images } from "../../assets/assets.js";
 import Upload from "./components/upload";
-import Footer from "../footer/footer";
-import NavbarMain from "../navbar-main/NavbarMain";
-import Breadcrumb from "../breadcrumb/breadcrumb";
 import AddIcon from "../../assets/images/add-icon.svg";
 import PropertiesModal from "../modals/PropertiesModal";
 import LevelsModal from "../modals/LevelsModal";
@@ -32,6 +29,12 @@ import StatsModal from "../modals/StatsModal";
 import StatsInfo from "./components/statsinfo";
 import LevelsInfo from "./components/levelsinfo";
 import PropertiesInfo from "./components/propertiesinfo";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import BannerImage from "../../assets/images/bannerimg2.png";
+import Select from "react-select";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
+import UploadIcon from "../../assets/images/upload-icon.png";
 
 const placeholderImg = "";
 class CreateNFT extends Component {
@@ -98,13 +101,11 @@ class CreateNFT extends Component {
   };
 
   componentDidUpdate(prevProps) {
-
     if (this.props.error) {
       this.setState({ loader: false }, () => {
         this.props.emptyError();
       });
     }
-
 
     if (
       this.props.collection.myCollectionsResult &&
@@ -159,7 +160,7 @@ class CreateNFT extends Component {
 
   submit = async (e) => {
     e.preventDefault();
-   
+
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
@@ -170,7 +171,7 @@ class CreateNFT extends Component {
       nftInfo.levels = JSON.stringify(nftInfo.levels);
 
       nftInfo.stats = JSON.stringify(nftInfo.stats);
-     
+
       if (videoURL) {
         nftInfo.fileType = "video";
       } else if (audioUrl !== "") {
@@ -204,10 +205,8 @@ class CreateNFT extends Component {
                   formData,
                   true
                 );
-              
 
                 if (res.success) {
-               
                   // this.reset();
 
                   nft.remainingCopies = nft.copies;
@@ -241,8 +240,9 @@ class CreateNFT extends Component {
                     }
                   }
                 } else {
-                  toast.error(res.response.data.message)
-                  this.setState({ errors: res.message, loader: false })};
+                  toast.error(res.response.data.message);
+                  this.setState({ errors: res.message, loader: false });
+                }
               }
             );
           } else {
@@ -415,11 +415,11 @@ class CreateNFT extends Component {
       });
     } else if (status === "stats") {
       this.setState({
-        stats: [...this.state.stats, { name: "", value: "" ,total:5}],
+        stats: [...this.state.stats, { name: "", value: "", total: 5 }],
       });
     } else {
       this.setState({
-        levels: [...this.state.levels, { name: "",value: "" ,total:5 }],
+        levels: [...this.state.levels, { name: "", value: "", total: 5 }],
       });
     }
   };
@@ -434,14 +434,18 @@ class CreateNFT extends Component {
     } else if (status === "stats") {
       let newFormValues = [...this.state.stats];
       newFormValues[i][e.target.name] =
-        e.target.name === "value"&&e.target.value!=='' ? +e.target.value : e.target.value;
+        e.target.name === "value" && e.target.value !== ""
+          ? +e.target.value
+          : e.target.value;
       this.setState({
         stats: newFormValues,
       });
     } else {
       let newFormValues = [...this.state.levels];
       newFormValues[i][e.target.name] =
-        e.target.name === "value"&&e.target.value!==''  ? +e.target.value : e.target.value;
+        e.target.name === "value" && e.target.value !== ""
+          ? +e.target.value
+          : e.target.value;
       this.setState({
         levels: newFormValues,
       });
@@ -518,17 +522,185 @@ class CreateNFT extends Component {
     } = this.state;
 
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
+    const bannerData = {
+      subHeading: "Get Started",
+      heading: "Create NFT",
+      content:
+        "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+    };
     return (
-      <div>
-        <NavbarMain />
-        <Breadcrumb title1={"NFT"} title2={"Create NFT"} />
-        <section className="author-area padding-wrapper">
+      <>
+        <section className="create-collection create-nft">
+          <Banner
+            subHeading={bannerData.subHeading}
+            heading={bannerData.heading}
+            content={bannerData.content}
+            bgImg={BannerBg}
+            bannerImg={BannerImage}
+          />
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="upload-nft-container mb-4 mb-lg-5 mx-auto mx-md-0">
+                  <div className="upload-icon-container text-center">
+                    <img src={UploadIcon} alt="upload" className="mb-2" />
+                    <h6 className="mb-2">Drag and drop your files</h6>
+                    <p className="mb-2">
+                      PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+                    </p>
+                    <div className="mb-5">
+                      <span>|</span>
+                      <h6>OR</h6>
+                      <span>|</span>
+                    </div>
+                    <button className="btn btn-linear-gradient upload-nft-btn">
+                      Browse File
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <label className="create-collection-label">Title:*</label>
+                <input
+                  className="create-collection-input mt-2"
+                  type="text"
+                  name="title"
+                  placeholder="Enter title"
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+                <label className="create-collection-label">
+                  No of Copies:*
+                </label>
+                <input
+                  className="create-collection-input mt-2"
+                  type="text"
+                  name="copies"
+                  placeholder="No of copies"
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
+                <label className="create-collection-label">
+                  Select Collection:*
+                </label>
+
+                <Select
+                  className="react-select-cls"
+                  classNamePrefix="react-select"
+                  placeholder="Select Collection"
+                  isSearchable={false}
+                />
+              </div>
+              <div className="col-12 col-lg-6 mt-3">
+                <label className="create-collection-label">Properties:*</label>
+                <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
+                  <div className="properties-content">
+                    <p>Properties</p>
+                  </div>
+                  <div className="properties-btn">
+                    <button
+                      onClick={() => {
+                        this.setState({
+                          propertiesmodalShow: true,
+                        });
+                      }}
+                    >
+                      <img src={AddIcon} alt="add" />
+                    </button>
+                  </div>
+                </div>
+                <div className="nft-properties-container mx-2 mt-3">
+                  <div className="row g-2">
+                    {this.state.nft.properties.map((item) => {
+                      return (
+                        <div className="col-md-6">
+                          <PropertiesInfo name={item.name} type={item.type} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-lg-6 mt-3">
+                <label className="create-collection-label">Levels:*</label>
+                <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
+                  <div className="properties-content">
+                    <p>Levels</p>
+                  </div>
+                  <div className="properties-btn">
+                    <button
+                      onClick={() => {
+                        this.setState({
+                          levelsmodalShow: true,
+                        });
+                      }}
+                    >
+                      <img src={AddIcon} alt="add" />
+                    </button>
+                  </div>
+                </div>
+                <div className="nft-level-container mx-3 mt-3">
+                  {this.state.nft.levels.map((item) => {
+                    return <LevelsInfo name={item.name} value={item.value} />;
+                  })}
+                </div>
+              </div>
+              <div className="col-12 col-lg-6 mt-3">
+                <label className="create-collection-label">Stats:*</label>
+                <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
+                  <div className="properties-content">
+                    <p>Stats</p>
+                  </div>
+                  <div className="properties-btn">
+                    <button
+                      onClick={() => {
+                        this.setState({
+                          statsmodalShow: true,
+                        });
+                      }}
+                    >
+                      <img src={AddIcon} alt="add" />
+                    </button>
+                  </div>
+                </div>
+                <div className="nft-stat-container mx-2 mt-3">
+                  {this.state.nft.stats.map((item) => {
+                    return <StatsInfo name={item.name} value={item.value} />;
+                  })}
+                </div>
+              </div>
+
+              <div className="col-12 mt-3 mt-lg-5">
+                <label className="create-collection-label">Description:*</label>
+
+                <textarea
+                  className="create-collection-area mt-2"
+                  name="description"
+                  placeholder="Description"
+                  maxLength="500"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div className="create-collection-btn-container">
+                <button className="btn create-collection-btn btn-linear-gradient mt-5">
+                  Create NFT
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* <section className="author-area padding-wrapper">
           {loader && <FullPageLoader />}
 
           <div className="container">
             <div className="row">
               <div className="col-12">
-                {/* Intro */}
                 <div className="intro">
                   <div className="intro-content">
                     <span>Get started</span>
@@ -778,17 +950,6 @@ class CreateNFT extends Component {
                         </div>
                       </div>
                     )}
-                    {/* <div className="col-12">
-                        <select
-                          id="collectionId"
-                          name="collectionId"
-                          onChange={(e) => this.onChange(e)}
-                        >
-                          <option value="" className="d-none">
-                            Blockchain
-                          </option>
-                        </select>
-                      </div> */}
                     <div className="col-12">
                       <div className="nft-form-btns text-center ">
                         <div className="d-flex  flex-column flex-md-row justify-content-center align-items-center">
@@ -800,9 +961,6 @@ class CreateNFT extends Component {
                           >
                             Create NFT
                           </button>
-                          {/* <button className="cancel-collection-btn mt-2">
-                              Cancel
-                            </button> */}
                         </div>
                       </div>
                     </div>
@@ -810,51 +968,50 @@ class CreateNFT extends Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <PropertiesModal
-            show={this.state.propertiesmodalShow}
-            addMoreValues={this.addMoreValues}
-            handleChange={this.handleChange}
-            removeFormFields={this.removeFormFields}
-            properties={this.state.properties}
-            onSave={this.onSave}
-            onHide={() => {
-              this.setState({
-                propertiesmodalShow: false,
-              });
-            }}
-          />
+        <PropertiesModal
+          show={this.state.propertiesmodalShow}
+          addMoreValues={this.addMoreValues}
+          handleChange={this.handleChange}
+          removeFormFields={this.removeFormFields}
+          properties={this.state.properties}
+          onSave={this.onSave}
+          onHide={() => {
+            this.setState({
+              propertiesmodalShow: false,
+            });
+          }}
+        />
 
-          <LevelsModal
-            show={this.state.levelsmodalShow}
-            addMoreValues={this.addMoreValues}
-            handleChange={this.handleChange}
-            removeFormFields={this.removeFormFields}
-            levels={this.state.levels}
-            onSave={this.onSave}
-            onHide={() => {
-              this.setState({
-                levelsmodalShow: false,
-              });
-            }}
-          />
-          <StatsModal
-            show={this.state.statsmodalShow}
-            addMoreValues={this.addMoreValues}
-            handleChange={this.handleChange}
-            removeFormFields={this.removeFormFields}
-            stats={this.state.stats}
-            onSave={this.onSave}
-            onHide={() => {
-              this.setState({
-                statsmodalShow: false,
-              });
-            }}
-          />
-        </section>
-        <Footer />
-      </div>
+        <LevelsModal
+          show={this.state.levelsmodalShow}
+          addMoreValues={this.addMoreValues}
+          handleChange={this.handleChange}
+          removeFormFields={this.removeFormFields}
+          levels={this.state.levels}
+          onSave={this.onSave}
+          onHide={() => {
+            this.setState({
+              levelsmodalShow: false,
+            });
+          }}
+        />
+        <StatsModal
+          show={this.state.statsmodalShow}
+          addMoreValues={this.addMoreValues}
+          handleChange={this.handleChange}
+          removeFormFields={this.removeFormFields}
+          stats={this.state.stats}
+          onSave={this.onSave}
+          onHide={() => {
+            this.setState({
+              statsmodalShow: false,
+            });
+          }}
+        />
+        <OwnCollectionToday />
+      </>
     );
   }
 }
@@ -871,5 +1028,5 @@ export default connect(mapStateToProps, {
   createNFT,
   myCollections,
   createActivity,
-  emptyError
+  emptyError,
 })(CreateNFT);

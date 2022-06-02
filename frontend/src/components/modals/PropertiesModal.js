@@ -49,18 +49,13 @@ const PropertiesModal = (props) => {
             <img src={ModalClose} alt="closemodal" />
           </button>
         </div>
-        <div className="buy-modal-subheadings-container d-flex align-items-center">
-          <div className="buy-modal-subheadings">
-            <p>Item</p>
-          </div>
-        </div>
       </Modal.Header>
-      <Modal.Body>
-        <div className="nft-modalfields-container">
+      <Modal.Body className="mt-0 pt-0 px-0 px-sm-3">
+        <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
           {properties.map((item, i) => {
             return (
-              <div className="row g-2 align-items-center justify-content-between mt-2">
-                <div className="col-sm-5 order-1 order-sm-0">
+              <div className="row g-2 align-items-center justify-content-between mt-3">
+                <div className="col-sm-5 order-1 order-sm-0 mt-0">
                   <div className="bid-inp-container d-flex align-items-center">
                     <div className="ps-2">
                       <h6>Type:</h6>
@@ -77,7 +72,7 @@ const PropertiesModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-5 order-2 order-sm-1">
+                <div className="col-sm-5 order-2 order-sm-1 mt-3 mt-sm-0">
                   <div className="bid-inp-container d-flex align-items-center">
                     <div className="ps-2">
                       <h6>Name:</h6>
@@ -94,7 +89,7 @@ const PropertiesModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-1 order-0 order-sm-2">
+                <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
                   <div className="inp-close text-end">
                     <button onClick={() => removeFormFields(i, "properties")}>
                       <img src={InputClose} alt="closemodal" />
@@ -109,13 +104,13 @@ const PropertiesModal = (props) => {
       <Modal.Footer>
         <div className="modal-nft-footer d-flex align-items-center">
           <button
-            className="btn btn-linear-gradient mt-2"
+            className="btn modal-btn-addMore mt-2"
             onClick={() => addMoreValues("properties")}
           >
             Add more
           </button>
           <button
-            className="btn btn-linear-gradient mt-2 ms-3"
+            className="btn btn-linear-gradient modal-btn-save mt-2 ms-3"
             disabled={properties && properties.length === 0}
             onClick={handleSubmit}
           >

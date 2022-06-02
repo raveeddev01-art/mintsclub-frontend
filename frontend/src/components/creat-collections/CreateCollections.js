@@ -16,7 +16,7 @@ import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { Images } from "../../assets/assets";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
+import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 

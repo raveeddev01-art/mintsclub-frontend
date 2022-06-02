@@ -4,10 +4,16 @@ import "./nftinfo.css";
 const PropertiesInfo = ({ name, type }) => {
   return (
     <>
-      <div className="nft-propinfo-container">
+      <div className="nft-propinfo-container mx-1">
         <div className="properties-content">
-          <h6>{name.length>5?name.slice(0,5)+"...":name}:</h6>
-          <p>{type.length>5?type.slice(0,5)+"...":type}</p>
+          <p>
+            <span>Type: </span>
+            {name.length > 5 ? name.slice(0, 5) + "..." : name}
+          </p>
+          <p>
+            <span>Name: </span>
+            {type.length > 5 ? type.slice(0, 5) + "..." : type}
+          </p>
         </div>
       </div>
     </>

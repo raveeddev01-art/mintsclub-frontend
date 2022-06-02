@@ -3,9 +3,11 @@
 }
 
 .buy-modal .buy-modal-content {
-  background-color: #171729;
-  color: #fff;
-  border-radius: 10px;
+  background-color: #ffffff;
+  color: #343434;
+  border-radius: 16px;
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
 }
 
 .buy-modal .buy-modal-content .modal-header {
@@ -16,10 +18,9 @@
 }
 
 .buy-modal .buy-modal-content .modal-header .modal-title.h4 {
-  color: #fff;
-  font-family: Manrope;
-  font-size: 20px;
-  font-weight: bold;
+  color: #343434;
+  font-weight: 700;
+  font-size: 22px;
 }
 
 .buy-modal .buy-modal-content .modal-header .modal-close-container {
