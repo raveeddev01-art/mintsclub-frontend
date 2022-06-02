@@ -28,10 +28,16 @@
   border: 10px solid #fff;
 }
 
+.collection-detail-content .collection-owner-detail {
+  width: calc(100% - 160px);
+}
+
 .collection-detail-content .collection-owner-detail .collection-owner-name h3 {
-  font-size: 36px;
-  font-weight: 800;
-  line-height: 1;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 29px;
+  color: #000000;
+  margin-bottom: 0;
 }
 
 .collection-detail-content .collection-owner-detail .collection-owner-name img {
@@ -40,15 +46,15 @@
 }
 
 .collection-detail-content .collection-owner-detail p {
-  font-size: 14;
-  font-weight: normal;
-  color: #d6d6d6;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000000;
 }
 
 .collection-detail-content .collection-owner-detail p span {
-  background: -webkit-linear-gradient(#5666fe, #5666fe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 400;
+  font-size: 12px;
+  color: #2269ff;
 }
 
 .collection-detail-content .collection-owner-btns button {
@@ -205,6 +211,12 @@
   background-repeat: no-repeat;
   border-color: grey;
   outline: 0;
+}
+
+@media (max-width: 767.9px) {
+  .collection-detail-content .collection-owner-detail {
+    width: 100%;
+  }
 }
 
 @media (max-width: 575.9px) {

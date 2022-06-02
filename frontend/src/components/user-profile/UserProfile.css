@@ -1,13 +1,16 @@
 .user-profile .banner-wrapper {
   margin-bottom: 0;
+  padding: 90px 0;
 }
 
 .user-address {
   max-width: max-content;
-  margin: 5px auto;
+  margin: 5px 0;
   border: 1px solid #d6d6d6;
   border-radius: 50px;
-  cursor: pointer;
+  padding: 7px;
+  border: 1px solid #8db3fe;
+  border-radius: 66px;
 }
 
 .user-address {
@@ -20,17 +23,15 @@
   padding-left: 5px;
 }
 
-.user-address p {
-  border: none;
-  background-color: transparent;
-  font-size: 14;
-  font-weight: bold;
-  color: #fff;
+.collection-owner-detail .user-address p {
+  font-weight: 400;
+  font-size: 13px;
+  color: #262626;
   padding: 5px;
+  margin-bottom: 0;
 }
 
 .user-address span {
-  display: none;
   position: absolute;
   top: -35px;
   left: 0;
@@ -43,7 +44,7 @@
   color: #fff;
   width: max-content;
   margin: 0 auto;
-  background-color: #5666fe;
+  background-color: #387fff;
   clip-path: polygon(
     0% 0%,
     100% 0%,
@@ -55,6 +56,23 @@
   );
 }
 
-.user-address:hover span {
-  display: block;
+.user-address-copy {
+  cursor: pointer;
 }
+
+.user-avatar-container {
+  position: relative;
+}
+
+.user-avatar-container .upload-feature-icon img {
+  position: absolute;
+  bottom: 23px;
+  left: 8px;
+  width: 30px;
+  height: 30px;
+  border: unset;
+}
+
+/* .user-address-copy:hover .user-address span {
+  display: block;
+} */

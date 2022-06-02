@@ -48,6 +48,10 @@ const AllNFT = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const [statusActive, setStatusActive] = useState(null);
+  const [collectionActive, setCollectionActive] = useState(null);
+  const [selectedOption, setSelectedOption] = useState();
+  const [filterActive, setFilterActive] = useState(false);
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -144,6 +148,7 @@ const AllNFT = (props) => {
     }
   }, [props.togleLikeRes]);
   useEffect(() => {
+  
     getNFTs();
   }, [filter]);
 
@@ -181,13 +186,6 @@ const AllNFT = (props) => {
     console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
-
-  const sortoptions = [
-    { value: "lowtohigh", label: "Low To High" },
-    { value: "hightolow", label: "High To Low" },
-    { value: "oldest", label: "Oldest" },
-    { value: "newest", label: "Recantly Created" },
-  ];
 
   const handleSortOptions = (e) => {
     setFilterationLoader(true);
@@ -368,6 +366,7 @@ const AllNFT = (props) => {
     }
   };
   const handleClearFilter = (id) => {
+    console.log()
     if (id === "status") {
       setFilter((prev) => ({
         ...prev,
@@ -381,6 +380,28 @@ const AllNFT = (props) => {
       setFilter((prev) => ({ ...prev, ltePrice: false, gtePrice: false }));
     } else if (id === "collections") {
       setFilter((prev) => ({ ...prev, collectionId: false }));
+    } else {
+      console.log("else")
+      setStatusActive(null)
+      setCollectionActive(null)
+      setSelectedOption(null)
+      setFilterActive(null)
+
+      setFilter({
+        collectionId: false,
+        gtePrice: false,
+        ltePrice: false,
+        categoryId: false,
+        oldest: false,
+        lowToHigh: false,
+        highToLow: false,
+        newest: false,
+        page: filter.page,
+        limit: filter.limit,
+        buy: false,
+        auction: false,
+        latest: false,
+      });
     }
   };
 
@@ -412,6 +433,14 @@ const AllNFT = (props) => {
           setKeyword={setKeyword}
           handleSearchKeyword={handleSearchKeyword}
           handleClearFilter={handleClearFilter}
+          statusActive={statusActive}
+          collectionActive={collectionActive}
+          selectedOption={selectedOption}
+          filterActive={filterActive}
+          setStatusActive={setStatusActive}
+          setCollectionActive={setCollectionActive}
+          setSelectedOption={setSelectedOption}
+          setFilterActive={setFilterActive}
         >
           {loader ? (
             <FullPageLoader />

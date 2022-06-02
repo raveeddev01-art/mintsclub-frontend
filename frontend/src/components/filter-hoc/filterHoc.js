@@ -4,11 +4,6 @@ import SearchIcon from "../../assets/images/search-inp.svg";
 import Select from "react-select";
 
 const FilterHoc = (props) => {
-  const [isActive, setIsActive] = useState(0);
-  const [statusActive, setStatusActive] = useState(null);
-  const [collectionActive, setCollectionActive] = useState(null);
-  const [selectedOption, setSelectedOption] = useState();
-  const [filterActive, setFilterActive] = useState(false);
 
   const options = [
     { value: "lowtohigh", label: "Low To High" },
@@ -20,11 +15,23 @@ const FilterHoc = (props) => {
     setSelectedOption(selectedOption);
   };
   const selectCustomStyles = {};
-  // const menuData = ["Collected", "Created", "Favourited"];
+
   const statusData = ["Buy Now", "On Auction", "New"];
   const handleFilters = () => {
     setFilterActive(!filterActive);
   };
+  const isHideCollection=()=>{
+    if(props.userProfile){
+      if(props.isActive===1){
+        return true
+      }else {
+        return false
+      }
+    }else {
+      return true
+    }
+
+  }
   const {
     collections,
     handleCollectionsFilter,
@@ -42,7 +49,19 @@ const FilterHoc = (props) => {
     keyword,
     handleSearchKeyword,
     setKeyword,
-    handleClearFilter
+    handleClearFilter,
+    isActive,
+    setIsActive,
+    handleNftFilter,
+    setMenuFilter,
+    statusActive,
+    collectionActive,
+    selectedOption,
+    filterActive,
+    setStatusActive,
+    setCollectionActive,
+    setSelectedOption,
+    setFilterActive
   } = props;
 
   return (
@@ -68,9 +87,7 @@ const FilterHoc = (props) => {
                       setKeyword(e.target.value);
                     }
                   }}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && handleSearchKeyword()
-                  }
+                  onKeyPress={(e) => e.key === "Enter" && handleSearchKeyword()}
                   value={keyword}
                 />
                 <img src={SearchIcon} alt="search-input" />
@@ -113,6 +130,8 @@ const FilterHoc = (props) => {
                         key={id}
                         onClick={() => {
                           setIsActive(id);
+                          handleNftFilter(item);
+                          setMenuFilter(item);
                         }}
                         className={`${
                           id === isActive ? "active-hero-nav" : ""
@@ -139,33 +158,37 @@ const FilterHoc = (props) => {
               <h6>Status</h6>
               <hr />
               <div className="d-flex flex-wrap align-items-center ">
-                {statusData.map((status, id) => {
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => {
-                        handleStatusFilter(status);
-                        setStatusActive(id);
-                      }}
-                      className={`${
-                        id === statusActive ? "active-filter-btn" : ""
-                      } filter-btn me-3`}
-                    >
-                      {status}
-                    </button>
-                  );
-                })}
+                {statusData &&
+                  statusData.map((status, id) => {
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => {
+                          handleStatusFilter(status);
+                          setStatusActive(id);
+                        }}
+                        className={`${
+                          id === statusActive ? "active-filter-btn" : ""
+                        } filter-btn me-3`}
+                      >
+                        {status}
+                      </button>
+                    );
+                  })}
               </div>
               <div className="d-flex align-items-end justify-content-end">
+                {
+                  statusActive&&
                 <button
                   className="filter-clear-btn"
                   onClick={() => {
                     setStatusActive();
-                    handleClearFilter("status")
+                    handleClearFilter("status");
                   }}
                 >
                   Clear
                 </button>
+                }
               </div>
             </div>
             <div className="filter-container mb-4">
@@ -197,44 +220,57 @@ const FilterHoc = (props) => {
                 </button>
               </div>
               <div className="d-flex align-items-end justify-content-end">
-                <button className="filter-clear-btn" onClick={()=>  handleClearFilter("price")}>Clear</button>
-              </div>
-            </div>
-            <div className="filter-container mb-4">
-              <h6>Collections</h6>
-              <hr />
-              <div className="d-flex flex-wrap align-items-center ">
-                {collections.map((collection, id) => {
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => {
-                        handleCollectionsFilter(collection._id);
-                        setCollectionActive(id);
-                      }}
-                      className={`${
-                        id === collectionActive ? "active-filter-btn" : ""
-                      } filter-btn me-2 me-xl-3`}
-                    >
-                      {collection.name}
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="d-flex align-items-end justify-content-end">
+                {minValue&&maxValue&&
                 <button
                   className="filter-clear-btn"
-                  onClick={() => {
-                    setCollectionActive(null);
-                    handleClearFilter("collections")
-                  }}
+                  onClick={() => handleClearFilter("price")}
                 >
                   Clear
                 </button>
+                }
               </div>
             </div>
+            {isHideCollection()&& (
+              <div className="filter-container mb-4">
+                <h6>Collections</h6>
+                <hr />
+                <div className="d-flex flex-wrap align-items-center ">
+                  {collections &&
+                    collections.map((collection, id) => {
+                      return (
+                        <button
+                          key={id}
+                          onClick={() => {
+                            handleCollectionsFilter(collection._id);
+                            setCollectionActive(id);
+                          }}
+                          className={`${
+                            id === collectionActive ? "active-filter-btn" : ""
+                          } filter-btn me-2 me-xl-3`}
+                        >
+                          {collection.name}
+                        </button>
+                      );
+                    })}
+                </div>
+                <div className="d-flex align-items-end justify-content-end">
+                  {
+                    collectionActive!==null&&
+                  <button
+                    className="filter-clear-btn"
+                    onClick={() => {
+                      setCollectionActive(null);
+                      handleClearFilter("collections");
+                    }}
+                  >
+                    Clear
+                  </button>
+                  }
+                </div>
+              </div>
+            )}
             <div className="d-flex align-items-center justify-content-center btn-clear-all">
-              <button>Clear All Filters</button>
+              <button  onClick={()=>handleClearFilter()}>Clear All Filters</button>
             </div>
           </div>
           <div className="col-lg-8 col-xl-9 order-3">{props.children}</div>
