@@ -26,10 +26,10 @@ const LevelsInfo = ({ name, value }) => {
             {name.length > 8 ? name.slice(0, 8) + "..." : name}
           </p>
           <div className="stats-content">
-            <h6>{value} of 5</h6>
+            <p>{value} of 5</p>
           </div>
         </div>
-        <div className="levels-info-container mt-3">
+        <div className="levels-info-container mt-2">
           <div className="levels-content">
             {filled()}
             {unFilled()}

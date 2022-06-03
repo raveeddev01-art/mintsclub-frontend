@@ -176,127 +176,138 @@ const Populars = forwardRef((props, ref) => {
   };
   return (
     <>
-    
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
-        <section className="explore-collection-section padding-wrapper">
-           <Banner
+        <>
+          {" "}
+          <Banner
             subHeading={bannerData.subHeading}
             heading={bannerData.heading}
             content={bannerData.content}
             bgImg={BannerBg}
             bannerImg={BannerImage}
           />
-          <div className="container">
-            <div className="row mb-5">
-              <div className="col-12">
-                {/* Intro */}
-                <div className="intro">
-                  <div className="intro-content">
-                    <span>Most Popular</span>
-                    <h3 className="mb-0">Popular Collections</h3>
+          <section className="explore-collection-section padding-wrapper">
+            <div className="container">
+              <div className="row mb-5">
+                <div className="col-12">
+                  {/* Intro */}
+                  <div className="intro">
+                    <div className="intro-content">
+                      <span>Most Popular</span>
+                      <h3 className="mb-0">Popular Collections</h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 explore-collection-nav">
+                  <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+                    {categoryId === "all" &&
+                    popular &&
+                    popular?.length == 0 &&
+                    !loader
+                      ? ""
+                      : categories &&
+                        categories.length > 0 &&
+                        categories.map((item) => {
+                          return (
+                            <button
+                              onClick={() => {
+                                setIsActive(item.name);
+                                setSelectedCategory(item.description);
+                                handleFilterCategory(item.description);
+                              }}
+                              className={`${
+                                item.name === isActive
+                                  ? "active-explore-nav"
+                                  : ""
+                              } me-2 me-xl-3`}
+                            >
+                              {item.name}
+                            </button>
+                          );
+                        })}
+                  </div>
+                  <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                    {categoryId === "all" &&
+                    popular &&
+                    popular?.length == 0 &&
+                    !loader
+                      ? ""
+                      : categories &&
+                        categories.length > 0 &&
+                        categories.map((item) => {
+                          return (
+                            <div className="col-6 col-sm-3">
+                              <button
+                                onClick={() => {
+                                  setIsActive(item.name);
+                                  setSelectedCategory(item.description);
+                                  handleFilterCategory(item.description);
+                                }}
+                                className={
+                                  isActive === item.name
+                                    ? "active-explore-nav"
+                                    : ""
+                                }
+                              >
+                                {item.name}
+                              </button>
+                            </div>
+                          );
+                        })}
                   </div>
                 </div>
               </div>
-              <div className="col-12 explore-collection-nav">
-                <div className="d-none d-lg-flex justify-content-lg-end text-end align-items-center">
-                  {categoryId === "all" && popular && popular?.length == 0&&!loader ? (
-                ""
-              ) : categories &&
-                    categories.length > 0 &&
-                    categories.map((item) => {
-                      return (
+              <div className="row g-4 align-items-center justify-content-center">
+                {loader ? (
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                ) : popular && popular.length > 0 ? (
+                  popular.map((item) => {
+                    return (
+                      <div className="col-sm-6 col-lg-4">
+                        <CollectionsCard
+                          CardImg={item.featuredImg}
+                          Subimg1={handleImage(item, 0)}
+                          Subimg2={handleImage(item, 1)}
+                          Subimg3={handleImage(item, 2)}
+                          name={item.name}
+                          id={item._id}
+                          collection={item}
+                          userName={item.username[0]}
+                          NFTCount={item.totalNfts}
+                          profileImage={item.profileImage[0]}
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p className="text-center  not-found-title mt-5">
+                    No popular collections Found
+                  </p>
+                )}
+
+                <div className="col-12">
+                  <div className="mt-5 text-center">
+                    {!empty &&
+                      popular?.length === 10 &&
+                      pagination.totalRecords > popular.length && (
                         <button
-                          onClick={() => {
-                            setIsActive(item.name);
-                            setSelectedCategory(item.description);
-                            handleFilterCategory(item.description);
-                          }}
-                          className={`${
-                            item.name === isActive ? "active-explore-nav" : ""
-                          } me-2 me-xl-3`}
+                          className="btn btn-linear-gradient px-5"
+                          onClick={() => handlePagination()}
                         >
-                          {item.name}
+                          Load more
                         </button>
-                      );
-                    })}
-                </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-lg-none">
-                  {categoryId === "all" && popular && popular?.length == 0 &&!loader? (
-                ""
-              ) : categories &&
-                    categories.length > 0 &&
-                    categories.map((item) => {
-                      return (
-                        <div className="col-6 col-sm-3">
-                          <button
-                            onClick={() => {
-                              setIsActive(item.name);
-                              setSelectedCategory(item.description);
-                              handleFilterCategory(item.description);
-                            }}
-                            className={
-                              isActive === item.name ? "active-explore-nav" : ""
-                            }
-                          >
-                            {item.name}
-                          </button>
-                        </div>
-                      );
-                    })}
+                      )}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="row g-4 align-items-center justify-content-center">
-              {loader ? (
-                <div class="spinner-border" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-              ) : popular && popular.length > 0 ? (
-                popular.map((item) => {
-                  return (
-                    <div className="col-sm-6 col-lg-4">
-                      <CollectionsCard
-                        CardImg={item.featuredImg}
-                        Subimg1={handleImage(item, 0)}
-                        Subimg2={handleImage(item, 1)}
-                        Subimg3={handleImage(item, 2)}
-                        name={item.name}
-                        id={item._id}
-                        collection={item}
-                        userName={item.username[0]}
-                        NFTCount={item.totalNfts}
-                        profileImage={item.profileImage[0]}
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <p className="text-center  not-found-title mt-5">
-                  No popular collections Found
-                </p>
-              )}
-
-              <div className="col-12">
-                <div className="mt-5 text-center">
-                  {!empty &&
-                    popular?.length === 10 &&
-                    pagination.totalRecords > popular.length && (
-                      <button
-                        className="btn btn-linear-gradient px-5"
-                        onClick={() => handlePagination()}
-                      >
-                        Load more
-                      </button>
-                    )}
-                </div>
-              </div>
-            </div>
-          </div>
+          </section>
           <OwnCollectionToday />
-
-        </section>
+        </>
       )}
     </>
   );

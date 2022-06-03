@@ -33,8 +33,10 @@ import whiteEmptyHeart from "./images/dislikeEmptyHeart.svg";
 import featureImageInputBG from "./images/featureImageInputBG.svg";
 import editIconSmall from "./images/editIconSmall.svg";
 import editIconLarge from "./images/editIconLarge.svg";
-import logoImage from './images/logoImage.svg';
-import metamaskImg from './images/metamaskIcon.png'
+import logoImage from "./images/logoImage.svg";
+import metamaskImg from "./images/metamaskIcon.png";
+import onsale from "./images/onsale.svg";
+import ClockIcon from "./images/clock-icon.svg";
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -52,7 +54,9 @@ export const Images = {
   editIconSmall,
   editIconLarge,
   logoImage,
-  metamaskImg
+  metamaskImg,
+  onsale,
+  ClockIcon,
 };
 
 export const CollectionImages = {

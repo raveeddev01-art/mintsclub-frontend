@@ -39,7 +39,7 @@ const AuctionsList = (props) => {
       const { auctions } = props.auction;
 
       setAuctions(auctions);
-      setLoader(false)
+      setLoader(false);
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
@@ -53,7 +53,7 @@ const AuctionsList = (props) => {
   }, [props.collectionFlag]);
 
   const handleCategoryFilter = (desc) => {
-    setLoader(true)
+    setLoader(true);
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
@@ -66,19 +66,18 @@ const AuctionsList = (props) => {
   };
   return (
     <>
- 
-      <section className="explore-collection-section padding-wrapper">
       <Banner
-            subHeading={bannerData.subHeading}
-            heading={bannerData.heading}
-            content={bannerData.content}
-            bgImg={BannerBg}
-            bannerImg={BannerImage}
-          />
+        subHeading={bannerData.subHeading}
+        heading={bannerData.heading}
+        content={bannerData.content}
+        bgImg={BannerBg}
+        bannerImg={BannerImage}
+      />
+      <section className="explore-collection-section padding-wrapper">
         {
-        // loader ? (
-        //   <FullPageLoader />
-        // ) : (
+          // loader ? (
+          //   <FullPageLoader />
+          // ) : (
           <div className="container">
             <div className="row mb-5">
               <div className="col-12">
@@ -91,35 +90,14 @@ const AuctionsList = (props) => {
               </div>
               <div className="col-12 explore-collection-nav">
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
-                  {
-                  categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!loader? (
-                    ""
-                  ) :categories &&
-                    categories.length > 0 &&
-                    categories.map((item, id) => {
-                      return (
-                        <button
-                          onClick={() => {
-                            setIsActive(id);
-                            handleCategoryFilter(item.description);
-                          }}
-                          className={`${
-                            id === isActive ? "active-explore-nav" : ""
-                          } me-2 me-xl-3`}
-                        >
-                          {item.name}
-                        </button>
-                      );
-                    })}
-                </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
-                  {categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!loader? (
-                ""
-              ) : categories &&
-                    categories.length > 0 &&
-                    categories.map((item, id) => {
-                      return (
-                        <div className="col-6 col-sm-3">
+                  {categoryId === "all" &&
+                  (!auctions || (auctions && auctions?.length <= 1)) &&
+                  !loader
+                    ? ""
+                    : categories &&
+                      categories.length > 0 &&
+                      categories.map((item, id) => {
+                        return (
                           <button
                             onClick={() => {
                               setIsActive(id);
@@ -131,9 +109,33 @@ const AuctionsList = (props) => {
                           >
                             {item.name}
                           </button>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                </div>
+                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                  {categoryId === "all" &&
+                  (!auctions || (auctions && auctions?.length <= 1)) &&
+                  !loader
+                    ? ""
+                    : categories &&
+                      categories.length > 0 &&
+                      categories.map((item, id) => {
+                        return (
+                          <div className="col-6 col-sm-3">
+                            <button
+                              onClick={() => {
+                                setIsActive(id);
+                                handleCategoryFilter(item.description);
+                              }}
+                              className={`${
+                                id === isActive ? "active-explore-nav" : ""
+                              } me-2 me-xl-3`}
+                            >
+                              {item.name}
+                            </button>
+                          </div>
+                        );
+                      })}
                 </div>
               </div>
             </div>
@@ -173,8 +175,7 @@ const AuctionsList = (props) => {
             </div>
           </div>
         }
-          <OwnCollectionToday />
-
+        <OwnCollectionToday />
       </section>
     </>
   );
