@@ -73,6 +73,20 @@
   border: unset;
 }
 
-/* .user-address-copy:hover .user-address span {
-  display: block;
-} */
+.user-avatar-edit {
+  position: relative;
+}
+
+.user-avatar-edit .user-edit-icon {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+}
+
+@media (max-width: 991.9px) {
+  .user-avatar-edit .user-edit-icon {
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+  }
+}

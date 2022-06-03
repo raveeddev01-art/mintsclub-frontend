@@ -1,14 +1,14 @@
-.wallet-wrapper {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.log-in-banner .banner-wrapper {
+  min-height: unset;
+}
+.log-in-banner .banner-wrapper.padding-wrapper {
+  padding: 25px 0;
 }
 .wallet-metamask-card {
   background-color: #10103c !important;
 }
 .sign-in-card {
-  background: #E2ECFF;
+  background: #e2ecff;
   border: 1px solid rgba(56, 127, 255, 0.18);
   border-radius: 20px;
   height: 296px;
@@ -105,13 +105,12 @@
 }
 .sign-content-wrapper h4 {
   font-style: normal;
-font-weight: 700;
-font-size: 28px;
-line-height: 33px;
-/* identical to box height */
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 33px;
+  /* identical to box height */
 
-
-color: #387FFF;
+  color: #387fff;
 }
 .sign-content-wrapper {
   display: flex;
@@ -119,16 +118,15 @@ color: #387FFF;
   align-items: center;
   justify-content: center;
   height: 100%;
-
 }
-.sign-content-wrapper p{
+.sign-content-wrapper p {
   font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 24px;
-/* identical to box height, or 160% */
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  /* identical to box height, or 160% */
 
-text-align: center;
+  text-align: center;
 
-color: #232323;
+  color: #232323;
 }
