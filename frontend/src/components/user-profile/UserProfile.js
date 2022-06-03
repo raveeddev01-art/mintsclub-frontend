@@ -21,6 +21,7 @@ import {
   beforeCollection,
   getCollections,
 } from "../collections/collections.actions";
+import { Link } from "react-router-dom";
 
 const UserProfile = (props) => {
   const [isAddressCopied, setAddressCopied] = useState(false);
@@ -45,7 +46,7 @@ const UserProfile = (props) => {
     let likedNftsQs = { userId: ENV.getUserKeys("_id")._id };
     likedNftsQs = ENV.objectToQueryString(likedNftsQs);
     props.getMyLikedNfts(likedNftsQs);
-    props.beforeUser()
+    props.beforeUser();
     props.getUserById(ENV.getUserKeys("_id")._id);
     props.getCollections();
   }, []);
@@ -76,10 +77,10 @@ const UserProfile = (props) => {
         }
         setNFTs(Nfts);
         setNFTsCopy(props.profileNFTs.nfts);
-        setNFTPagination(props.profileNFTs.pagination)
+        setNFTPagination(props.profileNFTs.pagination);
         setLoader(false);
       } else {
-        setNFTPagination(props.profileNFTs.pagination)
+        setNFTPagination(props.profileNFTs.pagination);
         setNFTsCopy(props.profileNFTs.nfts);
         handleNftFilter(menuFilter);
         setLoader(false);
@@ -113,7 +114,7 @@ const UserProfile = (props) => {
     }, 1000);
 
   const getNFTs = (filter) => {
-    props.beforeNFT()
+    props.beforeNFT();
     let nftQS = {};
     if (filter) {
       const {
@@ -229,7 +230,7 @@ const UserProfile = (props) => {
           item.ownerId === ENV.getUserKeys("_id")._id &&
           item.creatorId === ENV.getUserKeys("_id")._id
       );
-     
+
       setNFTs(Nfts);
     } else {
       handleFavFilter();
@@ -238,7 +239,7 @@ const UserProfile = (props) => {
 
   const handleFavFilter = () => {
     let favNfts = [];
-     nftsCopy.map((item) => {
+    nftsCopy.map((item) => {
       let foundNft = likedNfts.find((liked) => liked.nftId === item._id);
       if (foundNft) {
         favNfts.push(item);
@@ -247,9 +248,9 @@ const UserProfile = (props) => {
 
     setNFTs(favNfts);
   };
- 
+
   const fetchData = (filterObj) => {
-    console.log("fetching data",filterObj)
+    console.log("fetching data", filterObj);
     getNFTs(filterObj);
   };
 
@@ -276,18 +277,20 @@ const UserProfile = (props) => {
             <div className="row">
               <div className="col-12">
                 <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
-                  <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
-                    <img
-                      src={
-                        user?.profileImage
-                          ? user.profileImage
-                          : Images.profilePlaceholder
-                      }
-                      alt="owner-avatar"
-                    />
-                    {/* <div className="upload-feature-icon">
-                      <img src={Images.editIconLarge} />
-                    </div> */}
+                  <div className="user-avatar-edit">
+                    <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
+                      <img
+                        src={
+                          user?.profileImage
+                            ? user.profileImage
+                            : Images.profilePlaceholder
+                        }
+                        alt="owner-avatar"
+                      />
+                    </div>
+                    <Link to="/editprofile" className="user-edit-icon">
+                      <img src={Images.editIconSmall} />
+                    </Link>
                   </div>
                   <div className="collection-owner-detail text-center text-sm-start mt-4">
                     {user && (
@@ -362,7 +365,6 @@ const UserProfile = (props) => {
           nfts={nfts}
           loader={loader}
           likedNfts={likedNfts}
-          nftPagination={20}
           handleLikesTogleApi={handleLikesTogleApi}
           handleNftFilter={handleNftFilter}
           nftPagination={nftPagination}
@@ -376,8 +378,7 @@ const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
+const mapStateToProps = (state) => ({
   profileNFTs: state.nft.profileNFTs,
   profileNFTsStatus: state.nft.profileNFTsStatus,
   myLikedNfts: state.nft.myLikedNfts,
