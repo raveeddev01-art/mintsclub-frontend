@@ -277,3 +277,36 @@
   font-size: 13px;
   min-width: 150px;
 }
+.create-nft .uploaded-img-container {
+  max-width: 378px;
+height: 293px;
+}
+.uploaded-img-container:hover > .uploaded-img{
+  opacity: 0.8;
+}
+.uploaded-img-container:hover > .uploaded-img-content{
+  display: block;
+}
+.create-nft .uploaded-img {
+  width: 100%;
+  border-radius: 20px;
+    height: 293px;
+  position: relative;
+}
+.uploaded-img-content {
+  position: absolute;
+  top: 44px;
+  left: 156px;
+  display: none;
+}
+.create-nft .uploaded-img-browse {
+  color: #436bc1;
+    background: #FFFFFF;
+    border-radius: 55px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    /* padding: 10px; */
+    padding: 10px 27px;
+}

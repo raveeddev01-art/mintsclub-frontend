@@ -695,10 +695,10 @@ span#create-collection-err {
 form#create-collection .custom-file {
   width: inherit;
 }
-
+/* 
 .srv-validation-message {
   margin-top: 0.8rem;
-}
+} */
 
 /* ================================= */
 
@@ -1824,10 +1824,10 @@ aside {
   font-size: 3rem;
   line-height: 1;
 }
-
+/* 
 .items .item {
   margin-top: 30px !important;
-}
+} */
 
 .card-columns {
   margin: 0 15px;

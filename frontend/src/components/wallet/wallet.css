@@ -130,3 +130,9 @@
 
   color: #232323;
 }
+.change-wallet-btn {
+  background: #3D3D3D;
+border-radius: 55px;
+    color: white;
+    padding: 7px 33px;
+}

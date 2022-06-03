@@ -26,7 +26,7 @@ const Wallet = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [disabled, setDisabled] = useState(false);
-
+  const [loader, setLoader] = useState(false);
   const connectMetamaskCall = async () => {
     setDisabled(true);
     let connectedAddress = await connectMetamaskCopy();
@@ -65,6 +65,7 @@ const Wallet = (props) => {
       //   history.push("/");
       // } else {
       // }
+      toast.success("User Logged In Successfully")
       history.push("/");
     }
   }, [props.collection.getAuth]);
@@ -96,14 +97,15 @@ const Wallet = (props) => {
   const login = async () => {
     try {
       setDisabled(true);
+      setLoader(true);
       let sign = await signRequest();
       let payload = {
         address: connectedAddress,
       };
-
       props.login(payload);
     } catch (err) {
       setDisabled(false);
+      setLoader(false);
       toast.error(err.message);
     }
   };
@@ -180,17 +182,28 @@ const Wallet = (props) => {
                       <h4 className="mb-0">Address</h4>
                       <p className="mt-4">{connectedAddress}</p>
                       {errorMessage && (
-                        <p className="text-gray">{errorMessage}</p>
+                        <p className="text-danger">{errorMessage}</p>
                       )}
                       {!showSignUp && (
                         <>
                           <button
                             className="btn btn-linear-gradient btn-signin mt-3 mt-sm-4"
                             type="button"
-                            disabled={disabled}
+                            disabled={disabled ||loader}
                             onClick={() => login()}
                           >
-                            Sign In
+                            {loader ? (
+                              <div className="text-center">
+                                <div
+                                  className="spinner-border text-white"
+                                  role="status"
+                                >
+                                  <span className="sr-only">Loading...</span>
+                                </div>
+                              </div>
+                            ) : (
+                              "Sign In"
+                            )}
                           </button>
                         </>
                       )}
@@ -206,6 +219,7 @@ const Wallet = (props) => {
                       )}
                     </span>
                   </div>
+                  <button className="change-wallet-btn mt-5 d-flex mx-auto" onClick={()=>setConnectedAddress(null)}>Change Wallet Address</button>
                 </div>
               </div>
             </div>
