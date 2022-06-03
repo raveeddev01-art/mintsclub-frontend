@@ -115,7 +115,7 @@ const AuctionsCards = ({
               {"Owned by "}
               <span>
                 {ownerName && ownerName.length > 8
-                  ? ownerName.substring(0, 6) + "..."
+                  ? ownerName.substring(0, 6) + "...."
                   : ownerName}
               </span>
             </p>
