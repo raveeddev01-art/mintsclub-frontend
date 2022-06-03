@@ -216,6 +216,7 @@ const UserProfile = (props) => {
     }
   };
 
+  
   const handleNftFilter = (id) => {
     if (id === "Collected") {
       const Nfts = nftsCopy.filter(
