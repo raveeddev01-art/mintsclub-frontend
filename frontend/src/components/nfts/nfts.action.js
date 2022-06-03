@@ -79,7 +79,7 @@ export const getNFTs =
     dispatch(emptyError());
     let url = `${ENV.url}nfts/list`;
     if (qs) url += `?${qs}`;
-
+console.log("sending url of getNFTs",url)
     fetch(url, {
       method: "GET",
       headers: {

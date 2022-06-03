@@ -3,7 +3,6 @@ import "./HeroCards.css";
 
 const HeroCards = ({ auction }) => {
   const { image, totalBids, owner } = auction;
-  console.log(auction, "image");
   return (
     <div className="hero-new-card">
       <div className="hero-img-container">
