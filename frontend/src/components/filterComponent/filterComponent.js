@@ -224,7 +224,6 @@ const FilterHoc = (props) => {
     fetchData,
     UserProfile,
   } = props;
-
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -462,6 +461,7 @@ const FilterHoc = (props) => {
                             data={nft}
                             handleLikesTogleApi={handleLikesTogleApi}
                             likedNfts={likedNfts}
+                            owner={nft.owner}
                           />
                         }
                       </div>
@@ -473,8 +473,8 @@ const FilterHoc = (props) => {
                 <div className="col-12">
                   <div className="mt-5 text-center">
                     {nfts &&
-                      nftPagination > nfts.length &&
-                      nfts.length > 10 &&
+                      nftPagination?.total > nfts.length &&
+                      // nfts.length > 10 &&
                       !filterationLoader && (
                         <button
                           className="btn btn-linear-gradient px-5"
