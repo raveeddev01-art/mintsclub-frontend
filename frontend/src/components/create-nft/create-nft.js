@@ -35,6 +35,7 @@ import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import UploadIcon from "../../assets/images/upload-icon.png";
+import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import VideoComponent from "../videoComponent/videoComponent";
 
 const placeholderImg = "";
@@ -126,7 +127,7 @@ class CreateNFT extends Component {
           let obj = {
             value: item._id,
             label: item.name,
-            categoryId:item.categoryId,
+            categoryId: item.categoryId,
           };
           updatedCollections.push(obj);
         }
@@ -151,15 +152,15 @@ class CreateNFT extends Component {
     nft = { ...nft, [name]: value, categoryId: category };
     this.setState({ nft });
   }
-  onChangeSelect=(value)=>{
-    console.log(value,"value")
+  onChangeSelect = (value) => {
+    console.log(value, "value");
     let { nft } = this.state;
-    nft = { ...nft,collectionId: value.value,categoryId:value.categoryId };
+    nft = { ...nft, collectionId: value.value, categoryId: value.categoryId };
     this.setState({
       nft,
-      selectedCollection:value
+      selectedCollection: value,
     });
-  }
+  };
 
   reset = () => {
     const nft = {
@@ -565,7 +566,7 @@ class CreateNFT extends Component {
           />
           <div className="container">
             {/* <form> */}
-          {loader && <FullPageLoader />}
+            {loader && <FullPageLoader />}
 
             <div className="row">
               <div className="col-12">
@@ -590,7 +591,11 @@ class CreateNFT extends Component {
                         </label>
                         <img className="uploaded-img" src={imageURL} />
                         <div className="upload-icon-container uploaded-img-content text-center">
-                          <img src={UploadIcon} alt="upload" className="mb-2" />
+                          <img
+                            src={UploadWhiteIcon}
+                            alt="upload"
+                            className="mb-2"
+                          />
                           <h6 className="mb-2 text-white">
                             Drag and drop your files
                           </h6>
@@ -621,15 +626,18 @@ class CreateNFT extends Component {
                           />
                         </label>
                         <div className="video-wrapper">
-
-                        <VideoComponent
-                          videoUrl={videoURL}
-                          videoStyles={videoStyles}
-                          videoWidth="300"
-                        />
+                          <VideoComponent
+                            videoUrl={videoURL}
+                            videoStyles={videoStyles}
+                            videoWidth="300"
+                          />
                         </div>
                         <div className="upload-icon-container uploaded-img-content text-center">
-                          <img src={UploadIcon} alt="upload" className="mb-2" />
+                          <img
+                            src={UploadWhiteIcon}
+                            alt="upload"
+                            className="mb-2"
+                          />
                           <h6 className="mb-2 text-white">
                             Drag and drop your files
                           </h6>
@@ -646,8 +654,12 @@ class CreateNFT extends Component {
                           </span>
                         </div>
                         <span className="text-danger text-center mt-3">
-                      {this.validator.message("image", nft.image, "required")}
-                    </span>
+                          {this.validator.message(
+                            "image",
+                            nft.image,
+                            "required"
+                          )}
+                        </span>
                       </div>
                     </label>
                   ) : (
@@ -680,9 +692,12 @@ class CreateNFT extends Component {
                 </div>
               </div>
               <div className="col-lg-4 col-md-6 col-sm-12">
-                <label className="create-collection-label d-flex">Title:*     <span className="text-danger ms-2">
-                        {this.validator.message("name", nft.name, "required")}
-                      </span></label>
+                <label className="create-collection-label d-flex">
+                  Title:*{" "}
+                  <span className="text-danger ms-2">
+                    {this.validator.message("name", nft.name, "required")}
+                  </span>
+                </label>
                 <input
                   className="create-collection-input mt-2"
                   name="name"
@@ -704,8 +719,8 @@ class CreateNFT extends Component {
                 <label className="create-collection-label d-flex">
                   No of Copies:*
                   <span className="text-danger ms-2">
-                        {this.validator.message("name", nft.copies, "required")}
-                      </span>
+                    {this.validator.message("name", nft.copies, "required")}
+                  </span>
                 </label>
                 <input
                   className="create-collection-input mt-2"
@@ -732,12 +747,12 @@ class CreateNFT extends Component {
                 <label className="create-collection-label d-flex">
                   Select Collection:*
                   <span className="text-danger ms-2">
-                        {this.validator.message(
-                          "name",
-                          nft.collectionId,
-                          "required"
-                        )}
-                      </span>
+                    {this.validator.message(
+                      "name",
+                      nft.collectionId,
+                      "required"
+                    )}
+                  </span>
                 </label>
 
                 <Select
@@ -746,7 +761,6 @@ class CreateNFT extends Component {
                   placeholder="Select Collection"
                   isSearchable={false}
                   value={selectedCollection}
-                  isSearchable={false}
                   name="collectionId"
                   onChange={this.onChangeSelect}
                   options={collections}
@@ -832,13 +846,16 @@ class CreateNFT extends Component {
               </div>
 
               <div className="col-12 mt-3 mt-lg-5">
-                <label className="create-collection-label d-flex" >Description:*       <span className="text-danger ms-2">
-                        {this.validator.message(
-                          "description",
-                          nft.description,
-                          "required"
-                        )}
-                      </span></label>
+                <label className="create-collection-label d-flex">
+                  Description:*{" "}
+                  <span className="text-danger ms-2">
+                    {this.validator.message(
+                      "description",
+                      nft.description,
+                      "required"
+                    )}
+                  </span>
+                </label>
 
                 <textarea
                   className="create-collection-area mt-2"

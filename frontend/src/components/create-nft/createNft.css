@@ -207,7 +207,7 @@
 
 .create-nft .upload-nft-container {
   max-width: 500px;
-  height: 350px;
+  height: 359px;
   background: #fbfcff;
   border: 1px solid #c9daff;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
@@ -279,34 +279,35 @@
 }
 .create-nft .uploaded-img-container {
   max-width: 378px;
-height: 293px;
+  height: 293px;
+  position: relative;
 }
-.uploaded-img-container:hover > .uploaded-img{
+.uploaded-img-container:hover > .uploaded-img {
   opacity: 0.8;
 }
-.uploaded-img-container:hover > .uploaded-img-content{
+.uploaded-img-container:hover > .uploaded-img-content {
   display: block;
 }
 .create-nft .uploaded-img {
   width: 100%;
   border-radius: 20px;
-    height: 293px;
+  height: 293px;
   position: relative;
 }
 .uploaded-img-content {
   position: absolute;
-  top: 44px;
-  left: 156px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: none;
 }
 .create-nft .uploaded-img-browse {
   color: #436bc1;
-    background: #FFFFFF;
-    border-radius: 55px;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 13px;
-    line-height: 15px;
-    /* padding: 10px; */
-    padding: 10px 27px;
+  background: #ffffff;
+  border-radius: 55px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+  padding: 10px 27px;
 }

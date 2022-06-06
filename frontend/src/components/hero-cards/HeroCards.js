@@ -8,7 +8,7 @@ const HeroCards = ({ auction }) => {
       <div className="hero-img-container">
         <img src={image} alt="heroImg" />
         <div className="hero-owner text-center">
-          <p>Owned by:{owner?.username ? owner.username : "unnamed"}</p>
+          <p>Owned by: {owner?.username ? owner.username : "unnamed"}</p>
         </div>
         <button className="hero-btn-bid">Place a bid</button>
       </div>
