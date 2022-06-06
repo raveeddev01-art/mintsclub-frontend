@@ -97,7 +97,7 @@ const AuctionsCards = ({
         </div>
       </div>
       <Card.Body>
-        <Card.Title onClick={() => history.push(`nftdetail/${_id}`)}>
+        <Card.Title onClick={() => history.push(`explore/nftdetail/${_id}`)}>
           <div>
             {name && name.length > 10 ? name.slice(0, 10) + "..." : name}
           </div>
@@ -123,7 +123,7 @@ const AuctionsCards = ({
         </div>
         <button
           className="auction-bit-btn"
-          onClick={() => history.push(`nftdetail/${_id}`)}
+          onClick={() => history.push(`explore/nftdetail/${_id}`)}
         >
           {userId === ownerId ? "View" : "Place a Bid"}
         </button>

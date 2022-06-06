@@ -245,7 +245,6 @@ const AllNFT = (props) => {
       getNFTs(filterObj);
     }
   };
-
   return (
     <>
       <section className="explore-collection-section padding-wrapper pt-0">
