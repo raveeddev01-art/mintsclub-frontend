@@ -45,7 +45,6 @@ const UserProfile = (props) => {
   const [dataLimit, setDataLimit] = useState(10);
   const [menuFilter, setMenuFilter] = useState(false);
   const userId = ENV.getUserKeys("_id")._id;
-  console.log(userId, "userId");
   useEffect(() => {
     // let qs = { ownerId: ENV.getUserKeys("_id")._id };
     // qs = ENV.objectToQueryString(qs);
@@ -78,7 +77,7 @@ const UserProfile = (props) => {
       const { nfts, pagination } = props.nft.nftsData;
       
       if (!menuFilter) {
-        console.log(props.nft.nftsData, "nfts");
+        // console.log(props.nft.nftsData, "nfts");
 
         const Nfts = nfts?.filter(
           (item) =>  item.ownerId === userId
@@ -98,15 +97,18 @@ const UserProfile = (props) => {
         // setNFTPagination(pagination);
         setLoader(false);
       } else {
+        console.log(nfts,"nfts on else")
         // setNFTPagination(pagination);
         setInitial(false)
         setNFTsCopy(nfts);
+        // handleFavFilter(nfts)
         setNFTPagination(nfts.length)
-        handleNftFilter(menuFilter);
+        handleNftFilter(menuFilter,nfts);
         setLoader(false);
       }
     }
   }, [props.nft.nftsAuth]);
+
 
   useEffect(() => {
     if (props.myLikedNftsStatus) {
@@ -138,7 +140,6 @@ const UserProfile = (props) => {
     props.beforeNFT();
     let nftQS = {};
     if (filter) {
-      console.log("inside=====>123",filter)
       const {
         page,
         categoryId,
@@ -237,44 +238,49 @@ const UserProfile = (props) => {
     }
   };
 
-  const handleNftFilter = (id) => {
+  const handleNftFilter = (id,data=false) => {
+    let itemsToFilter=data?data:nftsCopy;
+    setInitial(false)
     if (id === "Collected") {
-      const Nfts = nftsCopy.filter(
+      const Nfts = itemsToFilter.filter(
         (item) => item.creatorId !== userId && item.ownerId === userId
       );
-      setDataLimit(1);
+      setDataLimit(10);
       setNFTPagination({ total: Nfts.length });
       setNFTs(Nfts);
     } else if (id === "Created") {
-      const Nfts = nftsCopy.filter(
+      const Nfts = itemsToFilter.filter(
         (item) => item.ownerId === userId && item.creatorId === userId
       );
-      setDataLimit(1);
+
+      setDataLimit(10);
       setNFTPagination({ total: Nfts.length });
       setNFTs(Nfts);
     } else {
-      handleFavFilter();
+      handleFavFilter(itemsToFilter);
     }
   };
 
-  const handleFavFilter = () => {
+  const handleFavFilter = (data=false) => {
+    let itemToFilter=data?data:nftsCopy;
+    console.log(itemToFilter,"itemToFilter")
     let favNfts = [];
-    for (var item of nftsCopy) {
+    for (var item of itemToFilter) {
       let foundNft = likedNfts.find((liked) => liked.nftId === item._id);
       if (foundNft) {
         favNfts.push(item);
       }
     }
-    setDataLimit(1);
+    setDataLimit(10);
     setNFTPagination({ total: favNfts.length });
     setNFTs(favNfts);
   };
 
   const fetchData = (filterObj) => {
-    if(!setInitial){
+    // if(!setInitial){
 
       getNFTs(filterObj);
-    }
+    // }
   };
   const getPaginatedData = () => {
     setDataLimit((prev) => prev + 10);
@@ -285,7 +291,7 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-  console.log(nftsCopy?.length,"length")
+  console.log(nftsCopy.length)
   return (
     <>
       <section className="user-profile padding-wrapper pt-0">

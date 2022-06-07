@@ -561,6 +561,7 @@ const NFTDetail = (props) => {
   };
 
   const BuyNow = async () => {
+    alert("buy now")
     if (await validateNetwork()) {
       setDisabled(true);
       try {
@@ -706,8 +707,8 @@ const NFTDetail = (props) => {
     currentPrice,
     collectionId,
     collection,
+    tokenId
   } = nftDetail;
-  console.log(nfts, "nfts");
   const bannerData = {
     subHeading: "NFT",
     heading: "NFT Details",
@@ -715,20 +716,6 @@ const NFTDetail = (props) => {
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
 
-  const detailProp = [
-    {
-      title: "Type 1",
-      content: "Property type 1",
-    },
-    {
-      title: "Type 2",
-      content: "Property type 2",
-    },
-    {
-      title: "Type 3",
-      content: "Property type 3",
-    },
-  ];
 
   const detailWallet = [
     {
@@ -748,6 +735,27 @@ const NFTDetail = (props) => {
       content: "Ethereum",
     },
   ];
+  let nftInfo=[
+    {
+      title:"Contract Address",
+      value:ENV.mintsClubContractAddress.slice(0, 6) +
+      "...." +
+      ENV.mintsClubContractAddress.slice(-6),
+
+    },
+    {
+      title:"Token ID",
+      value:tokenId
+    },
+    {
+      title:"Token Standard",
+      value:"ERC-1155"
+    },
+    {
+      title:"Blockchain",
+      value:"Ethereum"
+    }
+  ]
   console.log(nftDetail, "nftDetail");
 
   return (
@@ -814,34 +822,24 @@ const NFTDetail = (props) => {
               <div className="detail-box">
                 <h6>Details</h6>
                 <hr />
+                {
+                  nftInfo.map((item)=>{
+                    return (
+                      <div className="detail-rounded-type d-flex align-items-center">
+                      <div className="detail-rounded-name">
+                        <p>{item.title}:</p>
+                      </div>
+                      <div className="detail-content">
+                        <p>
+                          {" "}
+                          {item.value}
+                        </p>
+                      </div>
+                    </div>
+                    )
+                  })
+                }
 
-                <div className="detail-rounded-type d-flex align-items-center">
-                  <div className="detail-rounded-name">
-                    <p>Contract Address:</p>
-                  </div>
-                  <div className="detail-content">
-                    <p>
-                      {" "}
-                      {ENV.mintsClubContractAddress.slice(0, 6) +
-                        "...." +
-                        ENV.mintsClubContractAddress.slice(-6)}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="detail-rounded-type d-flex align-items-center">
-                  <div className="detail-rounded-name">
-                    <p>Contract Address:</p>
-                  </div>
-                  <div className="detail-content">
-                    <p>
-                      {" "}
-                      {ENV.mintsClubContractAddress.slice(0, 6) +
-                        "...." +
-                        ENV.mintsClubContractAddress.slice(-6)}
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
 

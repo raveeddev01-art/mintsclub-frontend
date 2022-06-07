@@ -59,8 +59,8 @@ const FilterHoc = (props) => {
     setFilterActive(!filterActive);
   };
   const isHideCollection = () => {
-    if (props.userProfile || props.collectionDetail) {
-      if (props.isActive === 1) {
+    if (props.UserProfile || props.collectionDetail) {
+      if (isActive === 1) {
         return true;
       } else {
         return false;
@@ -143,7 +143,6 @@ const FilterHoc = (props) => {
   };
 
   const handleSearchKeyword = (value) => {
-    console.log(value);
     setInitial(false);
     setFilterationLoader(true);
     setFilter((prev) => ({ ...prev, keyword: value }));
@@ -177,6 +176,7 @@ const FilterHoc = (props) => {
   };
   const handleClearFilter = (id) => {
     if (id === "status") {
+      setFilterationLoader(true)
       setFilter((prev) => ({
         ...prev,
         buy: false,
@@ -184,12 +184,16 @@ const FilterHoc = (props) => {
         new: false,
       }));
     } else if (id === "price") {
+      setFilterationLoader(true)
       setMinValue("");
       setMaxValue("");
       setFilter((prev) => ({ ...prev, ltePrice: false, gtePrice: false }));
     } else if (id === "collections") {
+      setFilterationLoader(true)
       setFilter((prev) => ({ ...prev, collectionId: false }));
     } else {
+      setMinValue("");
+      setMaxValue("");
       setStatusActive(null);
       setCollectionActive(null);
       setSelectedOption(null);

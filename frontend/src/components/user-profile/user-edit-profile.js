@@ -283,7 +283,7 @@ const EditProfile = (props) => {
               </div>
 
               <div className="col-12 mt-3 mt-lg-5">
-                <label className="create-collection-label">BioData:*</label>
+                <label className="create-collection-label">BioData:</label>
 
                 <textarea
                   className="create-collection-area mt-2"
@@ -323,7 +323,7 @@ const EditProfile = (props) => {
                     }
                   }}
                   value={twitterLink}
-                  placeholder="Name"
+                  placeholder="Twitter Link"
                   maxLength="55"
                   autoComplete="off"
                 />
@@ -339,7 +339,7 @@ const EditProfile = (props) => {
                   id="url"
                   type="text"
                   name="url"
-                  placeholder="URL"
+                  placeholder="Instagram Link"
                   onChange={(e) => {
                     if (
                       e.target.value.trim() === "" &&
@@ -363,7 +363,7 @@ const EditProfile = (props) => {
                   id="url"
                   type="text"
                   name="url"
-                  placeholder="URL"
+                  placeholder="Website Link"
                   onChange={(e) => {
                     if (
                       e.target.value.trim() === "" &&

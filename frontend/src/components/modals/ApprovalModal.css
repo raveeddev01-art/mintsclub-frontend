@@ -1,10 +1,57 @@
 .approval-modal .approval-modal-dialog {
   max-width: 700px;
 }
+.acc-title {
+  font-style: normal;
+font-weight: 700;
+font-size: 22px;
+line-height: 26px;
+/* identical to box height */
 
+
+color: #343434;
+}
+.pproval-modal-content .approve-msg {
+  font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 16px;
+
+color: #3563FF;
+}
+.approval-modal-content .processing-title {
+  font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 19px;
+color: #1D1D1D;
+}
+.success-icon {
+  width: 56px;
+height: 56px;
+}
+.approval-modal-content .acc-approved-container {
+  background: rgba(25, 175, 85, 0.12);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 2px solid #25DC6E;
+}
+.acc-approved-container .acc-approved {
+  font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 24px;
+color: #3FA26B;
+padding: 2.2rem 0rem;
+}
+
+.approval-modal-content  .get-approved-btn {
+  padding: 15px 34px !important;
+  font-weight: 500 !important;
+}
 .approval-modal .approval-modal-content {
-  background-color: #171729;
-  color: #fff;
   border-radius: 10px;
 }
 .approve-spinner{
@@ -36,7 +83,7 @@
 }
 
 .approval-modal .approval-modal-content .modal-header .modal-title.h4 {
-  color: #fff;
+  /* color: #fff; */
   font-family: Manrope;
   font-size: 24px;
   font-weight: 700;

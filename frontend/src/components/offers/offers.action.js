@@ -194,7 +194,7 @@ console.log("sending buy now djfjlkdjsfljsdklf")
         },
         body: JSON.stringify(body)
     }).then(res => res.json()).then(data => {
-
+console.log("buy now reponse")
         if (data.success) {
             
             dispatch({

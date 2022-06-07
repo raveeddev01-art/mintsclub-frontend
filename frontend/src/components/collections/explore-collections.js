@@ -237,7 +237,7 @@ const ExploreCollections = forwardRef((props, ref) => {
               <div className="col-12">
                 <div className="mt-5 d-flex justify-content-center align-items-center">
                   {!empty &&
-                    collections?.length === 10 &&
+                    collections?.length === 10 &&!loader&&
                     pagination.totalRecords > collections.length && (
                       <button
                         className="btn btn-rounded-bordered px-5"

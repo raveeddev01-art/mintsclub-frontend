@@ -772,7 +772,7 @@ class CreateNFT extends Component {
                 />
               </div>
               <div className="col-12 col-lg-6 mt-3">
-                <label className="create-collection-label">Properties:*</label>
+                <label className="create-collection-label">Properties:</label>
                 <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
                   <div className="properties-content">
                     <p>Properties</p>
@@ -802,7 +802,7 @@ class CreateNFT extends Component {
                 </div>
               </div>
               <div className="col-12 col-lg-6 mt-3">
-                <label className="create-collection-label">Levels:*</label>
+                <label className="create-collection-label">Levels:</label>
                 <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
                   <div className="properties-content">
                     <p>Levels</p>
@@ -826,7 +826,7 @@ class CreateNFT extends Component {
                 </div>
               </div>
               <div className="col-12 col-lg-6 mt-3">
-                <label className="create-collection-label">Stats:*</label>
+                <label className="create-collection-label">Stats:</label>
                 <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
                   <div className="properties-content">
                     <p>Stats</p>
