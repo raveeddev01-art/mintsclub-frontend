@@ -149,7 +149,7 @@
 
 @media (max-width: 575.9px) {
   .main-nav-container .search-box:hover > .search-txt {
-    width: 85%;
+    width: 80%;
   }
   .main-nav-container .search-box .search-txt.activeSearch {
     width: 85%;

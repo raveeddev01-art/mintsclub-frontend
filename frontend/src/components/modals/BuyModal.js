@@ -5,6 +5,12 @@ import ModalClose from "../../assets/images/modal-close.svg";
 import "./BuyModal.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TickIcon from "../../assets/images/tick-checkbox.svg";
+import { ReactComponent as FbIcon } from "../../assets/images/fb-blue.svg";
+import { ReactComponent as TwitterIcon } from "../../assets/images/twitter-blue.svg";
+import { ReactComponent as LinkedinIcon } from "../../assets/images/linkedin-blue.svg";
+import { ReactComponent as InstaIcon } from "../../assets/images/insta-blue.svg";
+import ModalSmiley from "../../assets/images/model-smiley.svg";
+
 const BuyModal = (props) => {
   const [purchase, setPurchase] = useState(true);
   const [checkBox, setCheckBox] = useState(false);
@@ -61,38 +67,44 @@ const BuyModal = (props) => {
             </div>
           </div>
           <div className="col-md-9">
-            <div className="modal-nft-conntent">
+            <div className="modal-nft-content">
               <div className="row align-items-center justify-content-between">
-                <div className="col-6">
-                  <p>
-                    {name && name.length > 10
-                      ? name.slice(0, 10) + "..."
-                      : name}
-                  </p>
-                </div>
-                <div className="col-6">
-                  <div className="modal-nft-detail text-end">
-                    <p>{price} ETH</p>
+                <div className="col-12 mb-3">
+                  <div className="modal-nft-detail-heading">
+                    <p>
+                      {name && name.length > 10
+                        ? name.slice(0, 10) + "..."
+                        : name}
+                    </p>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="modal-nft-detail">
-                    <p>
+                    <span>
                       {name && name.length > 10
                         ? name.slice(0, 10) + "..."
                         : name}{" "}
                       # {tokenId}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail text-end">
+                    <p>
+                      {price} <span>ETH</span>
                     </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail">
+                    <h6>
+                      Creator Fees: <span>5%</span>
+                    </h6>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="modal-nft-detail text-end">
                     <p>${(price * exchangeRate).toFixed(2)}</p>
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="modal-nft-detail">
-                    <p>Creator Fees: 5%</p>
                   </div>
                 </div>
               </div>
@@ -107,8 +119,10 @@ const BuyModal = (props) => {
           </div>
           <div className="col-8">
             <div className="modal-nft-detail text-end">
-              <h6>{price} ETH</h6>
-              <p>${(price * exchangeRate).toFixed(2)}</p>
+              <h6>
+                {price} <span>ETH</span>
+              </h6>
+              <span>${(price * exchangeRate).toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -139,10 +153,10 @@ const BuyModal = (props) => {
           onClick={() => {
             buyNow();
           }}
-          disabled={disabled||checkBox}
-          className="btn btn-linear-gradient mt-2"
+          disabled={checkBox ? false : disabled}
+          className="btn btn-linear-gradient btn-bid-modal mt-2"
         >
-          Checkout
+          Confirm Checkout
         </button>
       </Modal.Footer>
     </Modal>
@@ -166,16 +180,12 @@ const BuyModal = (props) => {
             <img src={ModalClose} alt="closemodal" />
           </Button>
         </div>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="modal-nft-container">
-          <div className="modal-nft-img">
-            <img src={image} alt="nft-img" />
-          </div>
-        </div>
-        <div className="modal-nft-purchased mt-3">
+        <div className="modal-nft-purchased  mt-3">
           {!transactionSuccess ? (
             <p>
+              <span className="me-4">
+                <img src={ModalSmiley} alt="smiley" />
+              </span>
               {`  Woo! You just Purchased ${
                 name && name.length > 10 ? name.slice(0, 10) + "..." : name
               }. It should be confirmed on the
@@ -191,45 +201,125 @@ const BuyModal = (props) => {
             </p>
           )}
         </div>
-        <div className="modal-nft-status mt-4">
-          <div className="modal-status-subheadings d-flex align-items-center justify-content-between">
-            <p> Status </p>
-            <p> Transaction Hash </p>
+        <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
+          <div className="buy-modal-subheadings">
+            <p>Item</p>
           </div>
-          <div className="modal-status-content d-flex align-items-center justify-content-between">
-            <div className="status-process d-flex align-items-center">
-              {!transactionSuccess ? (
-                <>
-                  <Spinner
-                    animation="border"
-                    role="status"
-                    size="sm"
-                    variant="primary"
-                    className="me-1"
-                  ></Spinner>
-                  <p>Processing</p>
-                </>
-              ) : (
-                <>
-                  <CheckCircleIcon />
-                </>
-              )}
+          <div className="buy-modal-subheadings">
+            <p>Subtotal</p>
+          </div>
+        </div>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="row w-100 align-items-center justify-content-center g-4">
+          <div className="col-md-3">
+            <div className="modal-nft-container mx-auto mx-md-0">
+              <div className="modal-nft-img">
+                <img src={image} alt="nft-img" />
+              </div>
             </div>
-            <div
-              className="status-address"
-              onClick={() =>
-                window.open(
-                  `https://rinkeby.etherscan.io/tx/${transactionHash}`,
-                  "_blank"
-                )
-              }
-            >
-              <p>
-                {transactionHash.slice(0, 6) +
-                  "....." +
-                  transactionHash.slice(-6)}
-              </p>
+          </div>
+          <div className="col-md-9">
+            <div className="modal-nft-content">
+              <div className="row align-items-center justify-content-between">
+                <div className="col-12 mb-3">
+                  <div className="modal-nft-detail-heading">
+                    <p>
+                      {name && name.length > 10
+                        ? name.slice(0, 10) + "..."
+                        : name}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail">
+                    <span>
+                      {name && name.length > 10
+                        ? name.slice(0, 10) + "..."
+                        : name}{" "}
+                      # {tokenId}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail text-end">
+                    <p>
+                      {price} <span>ETH</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail">
+                    <h6>
+                      Creator Fees: <span>5%</span>
+                    </h6>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="modal-nft-detail text-end">
+                    <p>${(price * exchangeRate).toFixed(2)}</p>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+        <div className="row w-100 align-items-center total-row mt-3">
+          <div className="col-4">
+            <div className="modal-nft-detail">
+              <p>Total</p>
+            </div>
+          </div>
+          <div className="col-8">
+            <div className="modal-nft-detail text-end">
+              <h6>
+                {price} <span>ETH</span>
+              </h6>
+              <span>${(price * exchangeRate).toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+        <div className="buy-modal-subheadings-container buy-modal-status w-100 d-flex justify-content-between align-items-center">
+          <div className="buy-modal-subheadings">
+            <p>Status</p>
+          </div>
+          <div className="buy-modal-subheadings">
+            <p>Transaction Hash</p>
+          </div>
+        </div>
+        <div className="modal-status-content d-flex align-items-center justify-content-between mt-2 pb-5">
+          <div className="status-process d-flex align-items-center">
+            {!transactionSuccess ? (
+              <>
+                <Spinner
+                  animation="border"
+                  role="status"
+                  size="sm"
+                  variant="primary"
+                  className="me-1"
+                ></Spinner>
+                <p>Processing</p>
+              </>
+            ) : (
+              <>
+                <CheckCircleIcon />
+              </>
+            )}
+          </div>
+          <div
+            className="status-address"
+            onClick={() =>
+              window.open(
+                `https://rinkeby.etherscan.io/tx/${transactionHash}`,
+                "_blank"
+              )
+            }
+          >
+            <p>
+              {transactionHash.slice(0, 6) +
+                "....." +
+                transactionHash.slice(-6)}
+            </p>
           </div>
         </div>
       </Modal.Body>
@@ -238,18 +328,10 @@ const BuyModal = (props) => {
           <p>Share</p>
         </div>
         <div className="social-icons d-flex justify-content-center justify-content-lg-start">
-          <a href="#" target="_blank">
-            <i className={"fab fa-linkedin-in"} />
-          </a>
-          <a href="#" target="_blank">
-            <i className={"fab fa-facebook-f"} />
-          </a>
-          <a href="#" target="_blank">
-            <i className={"fab fa-instagram"} />
-          </a>
-          <a href="#" target="_blank">
-            <i className={"fab fa-twitter"} />
-          </a>
+          <FbIcon />
+          <TwitterIcon />
+          <LinkedinIcon />
+          <InstaIcon />
         </div>
       </Modal.Footer>
     </Modal>

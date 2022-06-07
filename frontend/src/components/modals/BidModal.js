@@ -9,7 +9,6 @@ import TickIcon from "../../assets/images/tick-checkbox.svg";
 import axios from "axios";
 
 const BidModal = (props) => {
-
   const [checkBox, setCheckBox] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(0);
   useEffect(() => {
@@ -58,20 +57,21 @@ const BidModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <div className="bid-inp-container d-flex align-items-center">
-          <div className="inp-container">
-            <input
-              type="number"
-              placeholder="Place Your Bid"
-              name="nftConfig.price.amount"
-              style={{ borderRadius: "4px" }}
-              onChange={(e) => onChange(e)}
-              onKeyDown={(e) => decimalNumberValidator(e)}
-              defaultValue={calculatePricePercantage()}
-              // disabled={balance===0?true:false}
+          <div className="inp-container d-flex align-items-center justify-content-between">
+            <div>
+              <input
+                type="number"
+                placeholder="Place Your Bid"
+                name="nftConfig.price.amount"
+                style={{ borderRadius: "4px" }}
+                onChange={(e) => onChange(e)}
+                onKeyDown={(e) => decimalNumberValidator(e)}
+                defaultValue={calculatePricePercantage()}
+                // disabled={balance===0?true:false}
 
-              value={price}
-            />
-
+                value={price}
+              />
+            </div>
             <div className="dollar-rate text-end">
               <p className="">
                 ${price ? (price * exchangeRate).toFixed(2) : 0}
@@ -82,7 +82,7 @@ const BidModal = (props) => {
             <h6>ETH</h6>
           </div>
         </div>
-        <div className="bid-balance">
+        <div className="bid-balance text-start">
           <p>Balance: {Number(balance).toFixed(4)} ETH</p>
         </div>
         {balance !== "" && balance === 0 && (
@@ -114,12 +114,14 @@ const BidModal = (props) => {
           </div>
         </div>
         <button
-          className="btn btn-linear-gradient mt-2"
+          className="btn btn-linear-gradient btn-bid-modal mt-2"
           onClick={() => {
             handleModalSubmit();
             onHide();
           }}
-          disabled={price < calculatePricePercantage() || balance === 0|| !checkBox}
+          disabled={
+            price < calculatePricePercantage() || balance === 0 || !checkBox
+          }
         >
           Confirm Checkout
         </button>

@@ -141,7 +141,10 @@ const NFTCard = (props) => {
         </div>
         <div className="auction-card-owner-container d-flex align-items-center mb-2 mt-3">
           <div className="auction-owner-avatar">
-            <img src={profilePhoto?profilePhoto:profileImage} alt="avatar" />
+            <img
+              src={profilePhoto ? profilePhoto : profileImage}
+              alt="avatar"
+            />
           </div>
           <div className="ms-2 auction-owner-name">
             <p>
