@@ -27,7 +27,7 @@ import {
   getWalletAddress,
   setApprovalForAll,
   validateNetwork,
-  getMetamaskConnectedAddress
+  getMetamaskConnectedAddress,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../full-page-loader/full-page-loader";
@@ -80,14 +80,14 @@ const SellNFT = (props) => {
   const [copies, setCopies] = useState("");
   const [show, setShow] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState("not-approved");
-  const [address,setAddress]=useState('');
+  const [address, setAddress] = useState("");
   let nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
-  
-  useEffect(async() => {
+
+  useEffect(async () => {
     axios
       .get(
         "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
@@ -96,8 +96,8 @@ const SellNFT = (props) => {
         const currentUSD = res.data.USD;
         setExchangeRate(currentUSD);
       });
-      let connectedAddress=await getMetamaskConnectedAddress();
-      setAddress(connectedAddress)
+    let connectedAddress = await getMetamaskConnectedAddress();
+    setAddress(connectedAddress);
   }, []);
 
   useEffect(() => {
@@ -107,14 +107,13 @@ const SellNFT = (props) => {
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
-  
   }, []);
 
   useEffect(() => {
     if (props.error !== null) {
       toast.error(props.error.message);
-      setLoader(false)
-      props.emptyError()
+      setLoader(false);
+      props.emptyError();
     }
   }, [props.error]);
 
@@ -122,7 +121,7 @@ const SellNFT = (props) => {
   useEffect(() => {
     if (props.nft.nftsAuth) {
       const nft = props.nft.nftsData;
-      setNftDetail(props.nftDetail)
+      setNftDetail(props.nftDetail);
       setLoader(false);
       validateIfLiked(likedNfts, props.nftDetail);
       props.beforeNFT();
@@ -152,8 +151,6 @@ const SellNFT = (props) => {
       setLikedNfts(props.myLikedNfts);
     }
   }, [props.myLikedNftsStatus]);
-
-
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -215,7 +212,7 @@ const SellNFT = (props) => {
     if (await validateNetwork()) {
       if (!nftDetail.user.isApproved) {
         setShow(true);
-        return ''
+        return "";
       }
 
       let price = "";
@@ -261,7 +258,7 @@ const SellNFT = (props) => {
           timedAuctionStartTime.slice(24);
         timedConfig.duration.startDate = timedAuctionStartTime;
 
-       //Deleting unused data from payload
+        //Deleting unused data from payload
         let auctionConfig = timedConfig;
         delete auctionConfig.duration.startTime;
         delete auctionConfig.duration.endTime;
@@ -278,7 +275,6 @@ const SellNFT = (props) => {
           copiesForAuction: copies,
         };
       } else {
-     
         price = Number(fixedConfig.price.amount);
         if (price === 0) {
           toast.error("Price should be greater then 0");
@@ -403,7 +399,6 @@ const SellNFT = (props) => {
     formData.append("isApproved", true);
     formData.append("userId", nftDetail.user._id);
     try {
-  
       let accApproved = await setApprovalForAll(setApprovalStatus);
       if (accApproved) {
         let updatedNFTDetail = { ...nftDetail };
@@ -420,13 +415,21 @@ const SellNFT = (props) => {
     }
   };
 
-
-  const { image, currentPrice, likesCount, auctionEndDate,name,_id ,ownerId,user,fileType} = nftDetail;
+  const {
+    image,
+    currentPrice,
+    likesCount,
+    auctionEndDate,
+    name,
+    _id,
+    ownerId,
+    user,
+    fileType,
+  } = nftDetail;
 
   return (
     <>
       {loader && <FullPageLoader />}
-      <NavbarMain />
       <section className="padding-wrapper nft-detail">
         <form onSubmit={submit}>
           <div className="container">
@@ -434,12 +437,6 @@ const SellNFT = (props) => {
               <div className="col-12 order-2 order-md-1 col-md-6 col-lg-7 col-xl-8 ">
                 <div className="row">
                   <div className="col-12 order-2 order-md-1">
-                    <div className="intro mb-5">
-                      <div className="intro-content">
-                        <span>SellNFTs</span>
-                        <h3 className="mb-0">List of bundles for sale</h3>
-                      </div>
-                    </div>
                     <div className="sale-btn-container mt-5 mb-4">
                       <button
                         className={` ${
@@ -453,18 +450,6 @@ const SellNFT = (props) => {
                           setCopies("");
                         }}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="7"
-                          height="14"
-                          className="me-1 me-sm-2"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            fill="#FDFDFD"
-                            d="M3.974 6.71H3.22c-.939 0-1.527-1.317-1.443-2.098.07-.693.672-1.179 1.329-1.179h1.12c.419 0 .769.31 1.564.722-.683.118-.585.192-.473.192h1.259c.14 0 .266-.133.252.323-.126-1.944-1.161-2.991-2.449-3.079V.265A.256.256 0 0 0 4.128 0h-1.26a.257.257 0 0 0-.252.265v1.341C1.49 1.827.139 3.315.14 5.69c.028 1.03 1.441 2.238 3.008 2.238h.826c.741 0 1.329.678 1.245 1.459-.07 1.413-.671 1.179-1.329 1.179H2.77c-.419 0-.67-.309-.853-.722a.242.242 0 0 0-.238-.191H.42a.262.262 0 0 0-.252.28c.126 1.341 1.161 2.387 2.449 2.475v1.327c0 .147.112.265.251.265h1.26c.14 0 .252-.118.252-.265v-1.356c1.343-.236 2.462-.999 2.602-2.8C7.15 7.678 5.737 6.71 3.974 6.71z"
-                          />
-                        </svg>
                         Fixed Prize
                       </button>
                       <button
@@ -479,22 +464,11 @@ const SellNFT = (props) => {
                           setCopies("");
                         }}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          className="me-1 me-sm-2"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            fill="#FFF"
-                            d="M7.999 15.999a7.999 7.999 0 0 1-7.999-8A7.999 7.999 0 0 1 7.999 0c4.419 0 8 3.581 8 7.999a8 8 0 0 1-8 8zm0-14.4a6.4 6.4 0 1 0 .002 12.802 6.4 6.4 0 0 0-.002-12.802zm1.957 8.666L8.268 9.14a.42.42 0 0 0-.022-.015c.664.095-.313-.209-.442-.313a1.581 1.581 0 0 1-.415-.486 1.572 1.572 0 0 1-.174-.615c-.016-.165-.015-.355-.015-.541V3.999a.8.8 0 0 1 .8-.8h-.001a.8.8 0 0 1 .8.8v3.144c0 .224.001.338.009.42v.004l.003.002c.064.052.158.115.345.24l1.687 1.125c.368.245.467.742.807 1.496-.83-.019-1.327.08-1.694-.165z"
-                          />
-                        </svg>
                         Timed Auction
                       </button>
                     </div>
-                    <div className="nftDetail-accordion">
+
+                    {/* <div className="nftDetail-accordion">
                       <div
                         className="accordion accordion-flush "
                         id="accordionFlushExample"
@@ -550,9 +524,7 @@ const SellNFT = (props) => {
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
                                         }
-                                        value={
-                                          fixedPriceConfig.price.amount
-                                        }
+                                        value={fixedPriceConfig.price.amount}
                                         required
                                         autoComplete="off"
                                       />
@@ -606,7 +578,6 @@ const SellNFT = (props) => {
                                         min={"1"}
                                         max={`${nftDetail.copies}`}
                                         onChange={(e) => {
-                                        
                                           if (
                                             (e.target.value &&
                                               e.target.value === ".") ||
@@ -630,134 +601,9 @@ const SellNFT = (props) => {
                                 </div>
                               </div>
                             </div>
-
-                            {/* <div className="accordion-item">
-                            <h2
-                              className="accordion-header"
-                              id="flush-headingTwo"
-                            >
-                              <button
-                                className="accordion-button collapsed"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#flush-collapseTwo"
-                                aria-expanded="false"
-                                aria-controls="flush-collapseTwo"
-                              >
-                                <img
-                                  src={ClockIcon}
-                                  alt="price-history"
-                                  className="me-2"
-                                />
-                                Schedule Listing
-                              </button>
-                            </h2>
-                            <div
-                              id="flush-collapseTwo"
-                              className="accordion-collapse collapse"
-                              aria-labelledby="flush-headingTwo"
-                            >
-                              <div className="accordion-body">
-                                <div className="date-picker sell-date-picker mx-auto">
-                                  <DateRangePicker
-                                    initialSettings={dateRangeInitialSettings}
-                                    onApply={handleDateChange}
-                                  >
-                                    <button
-                                      name="fixedPriceConfig.listingSchedule"
-                                      className="calender-btn"
-                                    >
-                                      {fixedPriceConfig.listingSchedule.startDate.format(
-                                        "MMMM D, YYYY"
-                                      )}{" "}
-                                      -{" "}
-                                      {fixedPriceConfig.listingSchedule.endDate.format(
-                                        "MMMM D, YYYY"
-                                      )}
-                                      &nbsp;&nbsp;&nbsp;
-                                      <i className="fas fa-calendar-week" />
-                                    </button>
-                                  </DateRangePicker>
-                                </div>
-                                <div className="sell-time-container">
-                                  <div className="sell-time-inp mx-auto my-3">
-                                    <input
-                                      type="time"
-                                      name="fixedPriceConfig.listingSchedule.startTime"
-                                      placeholder="Start Time"
-                                      className="py-1"
-                                      onChange={(e) => onChange(e)}
-                                      defaultValue={
-                                        fixedPriceConfig.listingSchedule
-                                          .startTime
-                                      }
-                                      required
-                                    />
-                                  </div>
-
-                                  <div className="sell-time-inp mx-auto my-3">
-                                    <input
-                                      type="time"
-                                      name="fixedPriceConfig.listingSchedule.endTime"
-                                      placeholder="End Time"
-                                      className="py-1"
-                                      onChange={(e) => onChange(e)}
-                                      defaultValue={
-                                        fixedPriceConfig.listingSchedule.endTime
-                                      }
-                                      required
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
                           </>
                         ) : (
                           <>
-                            {/* <div className="accordion-item">
-                              <h2
-                                className="accordion-header"
-                                id="flush-headingThree"
-                              >
-                                <button
-                                  className="accordion-button collapsed"
-                                  type="button"
-                                  data-toggle="collapse"
-                                  data-target="#flush-collapseThree"
-                                  aria-expanded="false"
-                                  aria-controls="flush-collapseThree"
-                                >
-                                  <img
-                                    src={PriceIcon}
-                                    alt="price-history"
-                                    className="me-2"
-                                  />
-                                  Bid option
-                                </button>
-                              </h2>
-                              <div
-                                id="flush-collapseThree"
-                                className="accordion-collapse collapse"
-                                aria-labelledby="flush-headingThree"
-                              >
-                                <div className="accordion-body">
-                                  <div className="sell-bid-opt-container mx-auto">
-                                    <button
-                                      className={`${
-                                        activeBidBtn ? "sell-bid-active" : ""
-                                      } sell-bid-opt-btn`}
-                                      onClick={() =>
-                                        setActiveBidBtn(!activeBidBtn)
-                                      }
-                                    >
-                                      Sell To The Highest Bidder
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div> */}
-
                             <div className="accordion-item">
                               <h2
                                 className="accordion-header"
@@ -799,7 +645,6 @@ const SellNFT = (props) => {
                                           borderRadius: "4px",
                                         }}
                                         onChange={(e) => {
-                                      
                                           if (e.target.value === "00") {
                                             return false;
                                           } else {
@@ -809,8 +654,9 @@ const SellNFT = (props) => {
                                         onKeyDown={(e) =>
                                           decimalNumberValidator(e)
                                         }
-                                        value={timedAuctionConfig.startPrice.amount}
-                                        
+                                        value={
+                                          timedAuctionConfig.startPrice.amount
+                                        }
                                         required
                                         autoComplete="off"
                                       />
@@ -972,7 +818,7 @@ const SellNFT = (props) => {
                           </>
                         )}
                       </div>
-                    </div>
+                    </div> */}
                     <div className="row">
                       <div className="col-10 col-sm-6 col-md-8 col-lg-6  col-xl-4">
                         <div className="sell-fee-container">
@@ -991,11 +837,7 @@ const SellNFT = (props) => {
                         </div>
                       </div>
                       <div className="col-12 text-center mt-5">
-                        <button
-                          className="complete-btn px-5"
-                          type="submit"
-                          // onClick={() => submit()}
-                        >
+                        <button className="complete-btn px-5" type="submit">
                           {" "}
                           Complete Listing{" "}
                         </button>
@@ -1004,7 +846,7 @@ const SellNFT = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
+              {/* <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
                     {fileType && fileType === "image" ? (
@@ -1036,13 +878,15 @@ const SellNFT = (props) => {
                     ) : (
                       ""
                     )}
-
-                    {/* //InCaseOfVideoCard */}
                   </div>
                   <Card.Body>
                     <div className="detail-card-name-container d-flex align-items-center justify-content-between">
                       <div className="detail-nft-name">
-                        <h5>{name&&name.length>20?name.slice(0,20)+"...":name}</h5>
+                        <h5>
+                          {name && name.length > 20
+                            ? name.slice(0, 20) + "..."
+                            : name}
+                        </h5>
                       </div>
                       <div className="likes-container d-flex align-items-center">
                         {toggle ? (
@@ -1125,7 +969,7 @@ const SellNFT = (props) => {
                     </div>
                   </Card.Body>
                 </Card>
-              </div>
+              </div> */}
             </div>
           </div>
         </form>
@@ -1137,14 +981,11 @@ const SellNFT = (props) => {
           address={address}
         />
       </section>
-      <Footer />
     </>
   );
 };
 
-const mapStateToProps = (state) => (
-
-  {
+const mapStateToProps = (state) => ({
   nft: state.nft,
   error: state.error,
   nftDetail: state.nft.nftsData,
@@ -1152,7 +993,6 @@ const mapStateToProps = (state) => (
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
   togleLikeRes: state.explore.togleLikeRes,
-  
 });
 
 export default connect(mapStateToProps, {
@@ -1164,5 +1004,5 @@ export default connect(mapStateToProps, {
   beforeTogleLikeDislike,
   createActivity,
   updateProfile,
-  emptyError
+  emptyError,
 })(SellNFT);

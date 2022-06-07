@@ -217,7 +217,6 @@ const UserProfile = (props) => {
     }
   };
 
-  
   const handleNftFilter = (id) => {
     if (id === "Collected") {
       const Nfts = nftsCopy.filter(
@@ -260,9 +259,6 @@ const UserProfile = (props) => {
   };
   const menuData = ["Collected", "Created", "Favourited"];
 
-  // console.log(nftPagination,"nftPagination")
-  // console.log(nfts,"nfts")
-  ////NOTE//AAdd creatorId to the api response
   return (
     <>
       <section className="user-profile padding-wrapper pt-0">

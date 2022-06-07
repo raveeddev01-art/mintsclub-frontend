@@ -14,7 +14,6 @@
 
 .collection-detail-content .collection-owner-avatar {
   margin-top: -75px;
-  border: 1px solid #2269ff;
   border-radius: 50%;
   width: max-content;
   height: max-content;
@@ -26,10 +25,27 @@
   border-radius: 50%;
   object-fit: cover;
   border: 10px solid #fff;
+  outline: 1px solid #2269ff;
 }
 
 .collection-detail-content .collection-owner-detail {
   width: calc(100% - 160px);
+}
+
+.collection-detail-content
+  .collection-owner-detail
+  .collection-owner-description {
+  max-width: 370px;
+}
+
+.collection-detail-content
+  .collection-owner-detail
+  .collection-owner-description
+  p {
+  font-weight: 400;
+  font-size: 14px;
+  color: #262626;
+  word-break: break-all;
 }
 
 .collection-detail-content .collection-owner-detail .collection-owner-name h3 {
@@ -52,8 +68,8 @@
 }
 
 .collection-detail-content .collection-owner-detail p span {
-  font-weight: 400;
-  font-size: 12px;
+  font-weight: 700;
+  font-size: 14px;
   color: #2269ff;
 }
 
@@ -225,5 +241,10 @@
   }
   .collection-detail-content .collections-listing .collection-select-bar {
     width: 90%;
+  }
+  .collection-detail-content
+    .collection-owner-detail
+    .collection-owner-description {
+    max-width: unset;
   }
 }

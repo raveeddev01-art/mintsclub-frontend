@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import NavbarMain from "../navbar-main/NavbarMain";
-import Footer from "../footer/footer";
 import "./collectiondetails.css";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
@@ -25,6 +23,10 @@ import VideoCard from "../test-video-card/videoCard";
 import BannerPh from "../../assets/images/collection-detailBg.png";
 import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/profileBg.png";
+import { Images } from "../../assets/assets";
+
 const CollectionDetailsPage = (props) => {
   const [activeFilter, setActiveFilter] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -54,11 +56,6 @@ const CollectionDetailsPage = (props) => {
   });
   const location = useLocation();
   const history = useHistory();
-
-  // const itemoptions = [
-  //   { value: "single", label: "Single" },
-  //   { value: "double", label: "Double" },
-  // ];
 
   const sortoptions = [
     { value: "lowtohigh", label: "Low To High" },
@@ -316,7 +313,7 @@ const CollectionDetailsPage = (props) => {
     } else {
       setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
     }
-    
+
     getNFTs(
       filter.page,
       filter.limit,
@@ -426,16 +423,62 @@ const CollectionDetailsPage = (props) => {
 
   const { name, logo, description, username } = location.state;
 
+  const bannerData = {
+    subHeading: "NFTS",
+    heading: "Collections Info",
+  };
+
   return (
     <>
-      {loader && <FullPageLoader />}
-
-      <NavbarMain />
-      <Breadcrumb
-        title1={"Collections"}
-        title2={"CollectionDetail"}
-        title1Handler={() => history.push("/explore/exploreAll")}
-      />
+      <section className="user-profile padding-wrapper pt-0">
+        <Banner
+          subHeading={bannerData.subHeading}
+          heading={bannerData.heading}
+          bgImg={BannerBg}
+          className="mb-0"
+        />
+        <div className="collection-detail-content">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
+                  <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3 flex-fill">
+                    <img src={Images.profilePlaceholder} alt="owner-avatar" />
+                  </div>
+                  <div className="collection-owner-detail text-center text-sm-start mt-2 mt-sm-4">
+                    <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                      <div className="collection-owner-name">
+                        <h3>
+                          {name}{" "}
+                          <span>
+                            <img
+                              src={TickIcon}
+                              alt="tick-icon"
+                              className="ms-2"
+                            />
+                          </span>
+                        </h3>
+                      </div>
+                      <div>
+                        <p>
+                          Created By: <span>Adnan</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="collection-owner-description mt-3">
+                      <p>
+                        jfhuishdfuhuhfhhfihshfdhdhsfdhdhdshfhfdhsdsfdhdsfhdsfhfdshhfdsjkdsfhjdsfhdfsjkhsdhhdsfsdhhksshkdfhsdfksdfhdfdffshfdfdsfgjfdksfdjkfghfgdkjfdghgfdkhgfd
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-sm-7 col-md-6 col-lg-5"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* {loader && <FullPageLoader />}
       <div className="collection-detail-hero w-100">
         <img className="w-100" src={BannerPh} alt="BannerImg" />
       </div>
@@ -465,15 +508,6 @@ const CollectionDetailsPage = (props) => {
                     <p>{description}</p>
                   </div>
                 </div>
-                {/* <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
-                      <button className="me-1 me-sm-2 me-lg-3">
-                        <img src={FlagIcon} alt="" flag-icon />
-                      </button>
-                      <button className="me-1 me-sm-1 me-lg-3">
-                        <img src={ShareIcon} alt="" flag-icon />
-                      </button>
-                      <button>+ Add to wishlist</button>
-                    </div> */}
               </div>
             </div>
             <div className="col-12 col-sm-7 col-md-6 col-lg-5 d-none d-md-block">
@@ -481,26 +515,6 @@ const CollectionDetailsPage = (props) => {
                 <p>{description}</p>
               </div>
             </div>
-            {/* <div className="col-12 col-lg-7 mt-3 mt-sm-5">
-                  <div className="d-flex align-items-center justify-content-center justify-content-lg-end">
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>items</p>
-                    </div>
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>Owner</p>
-                    </div>
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>Prize floor</p>
-                    </div>
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>Volume trade</p>
-                    </div>
-                  </div>
-                </div> */}
           </div>
           <div className="collections-listing padding-wrapper">
             <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
@@ -525,10 +539,9 @@ const CollectionDetailsPage = (props) => {
                     maxLength="50"
                     onChange={(e) => {
                       if (e.target.value.trimStart() === "") {
-                    
                         return false;
-                      }else if(e.target.value===''){
-                        handleSearchKeyword(false)
+                      } else if (e.target.value === "") {
+                        handleSearchKeyword(false);
                         setKeyword(e.target.value);
                       } else {
                         setKeyword(e.target.value);
@@ -544,28 +557,7 @@ const CollectionDetailsPage = (props) => {
                   />
                 </div>
               </div>
-              {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                  <div className="ms-2">
-                    <p>Item:</p>
-                  </div>
 
-                  <select name="collection-select">
-                    {itemoptions &&
-                      itemoptions.map((collection, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={collection.label}
-                            disabled={disabled}
-                          >
-                            {collection.label}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-              </div> */}
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
@@ -707,8 +699,7 @@ const CollectionDetailsPage = (props) => {
             </div>
           </div>
         </div>
-      </div>
-      <Footer />
+      </div> */}
     </>
   );
 };

@@ -30,11 +30,9 @@ const NFTCard = (props) => {
     currentPrice,
   } = props.data;
 
+  console.log(owner, "owner");
 
-  console.log(owner,"owner")
-  
-
-  const { username, profileImage,profilePhoto } = props.owner;
+  const { username, profileImage, profilePhoto } = props.owner;
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1, id) => {
     if (likedNfts && likedNfts?.length > 0) {
@@ -144,7 +142,10 @@ const NFTCard = (props) => {
         </div>
         <div className="auction-card-owner-container d-flex align-items-center mb-2 mt-3">
           <div className="auction-owner-avatar">
-            <img src={profilePhoto?profilePhoto:profileImage} alt="avatar" />
+            <img
+              src={profilePhoto ? profilePhoto : profileImage}
+              alt="avatar"
+            />
           </div>
           <div className="ms-2 auction-owner-name">
             <p>
@@ -161,7 +162,7 @@ const NFTCard = (props) => {
         </div>
         <button
           className="auction-bit-btn"
-          onClick={() => history.push(`nftdetail/${_id}`)}
+          onClick={() => history.push(`explore/nftdetail/${_id}`)}
         >
           {"View Detail"}
         </button>
