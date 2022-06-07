@@ -153,7 +153,6 @@ class CreateNFT extends Component {
     this.setState({ nft });
   }
   onChangeSelect = (value) => {
-    console.log(value, "value");
     let { nft } = this.state;
     nft = { ...nft, collectionId: value.value, categoryId: value.categoryId };
     this.setState({
@@ -181,7 +180,6 @@ class CreateNFT extends Component {
 
   submit = async (e) => {
     e.preventDefault();
-
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
@@ -375,7 +373,6 @@ class CreateNFT extends Component {
   onDrop = (e) => {
     e.nativeEvent.preventDefault();
     if (!e) return;
-    console.log("on Drop ");
     this.onFileChange(e, "onDrag");
   };
 
@@ -610,6 +607,11 @@ class CreateNFT extends Component {
                           <span className="btn uploaded-img-browse upload-nft-btn ">
                             Browse File
                           </span>
+                          {this.validator.message(
+                            "image",
+                            nft.image,
+                            "required"
+                          )}
                         </div>
                       </div>
                     </label>
@@ -686,6 +688,9 @@ class CreateNFT extends Component {
                         <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
                           Browse File
                         </span>
+                       <span className="text-danger text-center mb-3">
+                      {this.validator.message("image", nft.image, "required")}
+                    </span> 
                       </div>
                     </label>
                   )}

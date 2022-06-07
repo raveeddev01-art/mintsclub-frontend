@@ -143,7 +143,7 @@ const routes = [
     access: true,
     exact: true,
     title: "login",
-    layout: layout,
+    layout: layout4,
     component: Wallet,
   },
   {
@@ -151,7 +151,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Signup",
-    layout: layout,
+    layout: layout4,
     component: Signup,
   },
 

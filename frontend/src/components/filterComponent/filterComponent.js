@@ -59,7 +59,7 @@ const FilterHoc = (props) => {
     setFilterActive(!filterActive);
   };
   const isHideCollection = () => {
-    if (props.userProfile) {
+    if (props.userProfile || props.collectionDetail) {
       if (props.isActive === 1) {
         return true;
       } else {
@@ -119,9 +119,15 @@ const FilterHoc = (props) => {
   };
 
   const handlePagination = () => {
-    setInitial(false);
-    setFilterationLoader(true);
-    setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
+    if(!UserProfile){
+
+      setInitial(false);
+      setFilterationLoader(true);
+      setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
+    }
+    else {
+      getPaginatedData()
+    }
   };
 
   const applyMinMaxFilter = () => {
@@ -222,6 +228,8 @@ const FilterHoc = (props) => {
     nftPagination,
     handleLikesTogleApi,
     fetchData,
+    path,
+    getPaginatedData,
     UserProfile,
   } = props;
   return (
@@ -462,6 +470,7 @@ const FilterHoc = (props) => {
                             handleLikesTogleApi={handleLikesTogleApi}
                             likedNfts={likedNfts}
                             owner={nft.owner}
+                            path={path}
                           />
                         }
                       </div>
@@ -474,7 +483,6 @@ const FilterHoc = (props) => {
                   <div className="mt-5 text-center">
                     {nfts &&
                       nftPagination?.total > nfts.length &&
-                      // nfts.length > 10 &&
                       !filterationLoader && (
                         <button
                           className="btn btn-linear-gradient px-5"

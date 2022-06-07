@@ -1,4 +1,4 @@
-.sign-up-section {
+/* .sign-up-section {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,4 +26,27 @@
 
 .account-span hr {
   color: #5666fe;
+} */
+
+.signup-section .acc-info {
+  font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 33px;
+color: #272727;
+}
+.signup-section .create-acc{
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  
+  color: #000000;
+}
+.sign-up-btn {
+  padding: 15px 92px !important;
+}
+.sign-up-loader {
+  height: 1.3rem !important;
+    width: 1.3rem !important;
 }

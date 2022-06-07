@@ -269,6 +269,7 @@ const AllNFT = (props) => {
           handleLikesTogleApi={handleLikesTogleApi}
           fetchData={fetchData}
           initialKeyword={props?.location?.state}
+          path="/explore/nftdetail/"
         />
       </section>
       <OwnCollectionToday />

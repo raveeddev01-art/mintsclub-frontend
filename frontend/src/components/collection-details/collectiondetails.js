@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NavbarMain from "../navbar-main/NavbarMain";
 import Footer from "../footer/footer";
 import "./collectiondetails.css";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import SearchIcon from "../../assets/images/nav-search-icon.svg";
 import ListingCards from "../listing-cards/ListingCards";
-import FilterComponent from "../filter-component/FilterComponent";
 import {
   getNFTsByCollection,
   getNFTs,
@@ -24,60 +23,21 @@ import Breadcrumb from "../breadcrumb/breadcrumb";
 import VideoCard from "../test-video-card/videoCard";
 import BannerPh from "../../assets/images/collection-detailBg.png";
 import { validateNetwork } from "../../utils/web3";
+import FilterComponent from "../filterComponent/filterComponent";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/profileBg.png";
 import { toast } from "react-toastify";
 const CollectionDetailsPage = (props) => {
-  const [activeFilter, setActiveFilter] = useState(false);
   const [loader, setLoader] = useState(true);
   const [nfts, setNfts] = useState([]);
-  const [minValue, setMinValue] = useState("");
-  const [maxValue, setMaxValue] = useState("");
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [likedNfts, setLikedNfts] = useState();
-  const [keyword, setKeyword] = useState("");
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
+  const [nftPagination,setNFTPagination]=useState(null)
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const [filter, setFilter] = useState({
-    collectionId: false,
-    gtePrice: false,
-    ltePrice: false,
-    categoryId: false,
-    oldest: false,
-    lowToHigh: false,
-    highToLow: false,
-    newest: false,
-    page: 1,
-    limit: 10,
-    buy: false,
-    auction: false,
-    latest: false,
-  });
   const location = useLocation();
-  const history = useHistory();
-
-  // const itemoptions = [
-  //   { value: "single", label: "Single" },
-  //   { value: "double", label: "Double" },
-  // ];
-
-  const sortoptions = [
-    { value: "lowtohigh", label: "Low To High" },
-    { value: "hightolow", label: "High To Low" },
-    { value: "oldest", label: "Oldest" },
-    { value: "newest", label: "Recantly Created" },
-  ];
-
-  const filterData = {
-    status: {
-      label: "Status",
-      option: ["Buy Now", "On Auction", "New", "Has Offer"],
-    },
-    chains: {
-      label: "Chains",
-      option: ["Ethereum"],
-    },
-  };
-
+ 
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -95,7 +55,8 @@ const CollectionDetailsPage = (props) => {
 
   useEffect(() => {
     if (props.nftsAuth) {
-      if (props.nfts.length > 0) {
+      console.log(props.nfts,"props.nfts")
+      if (props?.nfts?.length > 0) {
         setDisabled(false);
       } else {
         if (initial) {
@@ -103,7 +64,7 @@ const CollectionDetailsPage = (props) => {
         }
       }
       setNfts(props.nfts);
-
+      setNFTPagination(props.pagination)
       setLoader(false);
 
       setFilterationLoader(false);
@@ -116,244 +77,57 @@ const CollectionDetailsPage = (props) => {
     }
   }, [props.togleLikeRes]);
 
-  const getNFTs = (
-    page = 1,
-    limit = 40,
-    collectionIdFilter,
-    gtePriceFilter,
-    ltePriceFilter,
-    categoryIdFilter,
-    oldestFilter,
-    lowToHighFilter,
-    highToLowFilter,
-    newestFilter,
-    keyword,
-    buy,
-    auction,
-    latest
-  ) => {
-    setFilterationLoader(true);
+  const getNFTs = (filter) => {
     props.beforeNFT();
-    const nftQS = { page, limit };
+    let nftQS = {};
+    if (filter) {
+      const {
+        page,
+        limit,
+        categoryId,
+        collectionId,
+        oldest,
+        lowToHigh,
+        highToLow,
+        newest,
+        buy,
+        auction,
+        latest,
+        gtePrice,
+        ltePrice,
+        keyword,
+      } = filter;
+      nftQS.collectionId = location.state._id;
 
-    nftQS.collectionId = location.state._id;
-    if (gtePriceFilter) nftQS.gtePrice = gtePriceFilter;
-    if (gtePriceFilter) nftQS.ltePrice = ltePriceFilter;
-    if (categoryIdFilter) nftQS.categoryId = categoryIdFilter;
-    if (oldestFilter) nftQS.oldest = oldestFilter;
-    if (lowToHighFilter) nftQS.lowToHigh = lowToHighFilter;
-    if (highToLowFilter) nftQS.highToLow = highToLowFilter;
-    if (newestFilter) nftQS.newest = newestFilter;
-    if (keyword) nftQS.keyword = keyword;
-    if (buy) nftQS.buy = buy;
-    if (auction) nftQS.auction = auction;
-    if (latest) nftQS.latest = latest;
-
+      if (collectionId) nftQS.collectionId = collectionId;
+      if (gtePrice) nftQS.gtePrice = gtePrice;
+      if (ltePrice) nftQS.ltePrice = ltePrice;
+      if (categoryId) nftQS.categoryId = categoryId;
+      if (oldest) nftQS.oldest = oldest;
+      if (lowToHigh) nftQS.lowToHigh = lowToHigh;
+      if (highToLow) nftQS.highToLow = highToLow;
+      if (newest) nftQS.newest = newest;
+      if (keyword) nftQS.keyword = keyword;
+      if (buy) nftQS.buy = buy;
+      if (auction) nftQS.auction = auction;
+      if (latest) nftQS.latest = latest;
+      if (page) {
+        nftQS.page = page;
+      } else {
+        nftQS.page = 1;
+      }
+      if (limit) {
+        nftQS.limit = limit;
+      } else {
+        nftQS.limit = 10;
+      }
+    }
     const qs = ENV.objectToQueryString(nftQS);
-
+    console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
+  // nftQS.collectionId = location.state._id;
 
-  const handleSortOptions = (e) => {
-    setInitial(false);
-    setFilterationLoader(true);
-
-    const { value } = e.target;
-
-    if (value === "Low To High") {
-      setFilter((prev) => ({
-        ...prev,
-        lowToHigh: true,
-        highToLow: false,
-        oldest: false,
-        newest: false,
-      }));
-      getNFTs(
-        filter.page,
-        filter.limit,
-        filter.collectionId ? filter.collectionId : false,
-        filter.gtePrice,
-        filter.ltePrice,
-        false,
-        false,
-        true,
-        false,
-        false
-      );
-    } else if (value === "High To Low") {
-      setFilter((prev) => ({
-        ...prev,
-        highToLow: true,
-        lowToHigh: false,
-        oldest: false,
-        newest: false,
-      }));
-      getNFTs(
-        filter.page,
-        filter.limit,
-        filter.collectionId ? filter.collectionId : false,
-        filter.gtePrice,
-        filter.ltePrice,
-        false,
-        false,
-        false,
-        true,
-        false,
-        keyword,
-        filter.buy,
-        filter.auction,
-        filter.latest
-      );
-    } else if (value === "Oldest") {
-      setFilter((prev) => ({
-        ...prev,
-        oldest: true,
-        highToLow: false,
-        lowToHigh: false,
-        newest: false,
-      }));
-      getNFTs(
-        filter.page,
-        filter.limit,
-        filter.collectionId ? filter.collectionId : false,
-        filter.gtePrice,
-        filter.ltePrice,
-        false,
-        true,
-        false,
-        false,
-        false,
-        keyword,
-        filter.buy,
-        filter.auction,
-        filter.latest
-      );
-    } else if (value === "Recantly Created") {
-      setFilter((prev) => ({
-        ...prev,
-        newest: true,
-        oldest: false,
-        highToLow: false,
-        lowToHigh: false,
-      }));
-      getNFTs(
-        filter.page,
-        filter.limit,
-        filter.collectionId ? filter.collectionId : false,
-        filter.gtePrice,
-        filter.ltePrice,
-        false,
-        false,
-        false,
-        false,
-        true,
-        keyword,
-        filter.buy,
-        filter.auction,
-        filter.latest
-      );
-    } else {
-    }
-  };
-
-  const onChangeMinPrice = (e) => {
-    setMinValue(e.target.value);
-  };
-  const onChangeMaxPrice = (e) => {
-    setMaxValue(e.target.value);
-  };
-
-  const handlePagination = () => {
-    setInitial(false);
-    setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
-    getNFTs(
-      filter.page,
-      filter.limit,
-      filter.collectionId,
-      filter.gtePrice,
-      filter.ltePrice,
-      filter.categoryId,
-      filter.oldest,
-      filter.lowToHigh,
-      filter.highToLow,
-      filter.newest,
-      keyword,
-      filter.buy,
-      filter.auction,
-      filter.latest
-    );
-  };
-
-  const applyMinMaxFilter = () => {
-    setInitial(false);
-    setFilterationLoader(true);
-
-    setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
-    getNFTs(
-      filter.page,
-      filter.limit,
-      filter.collectionId,
-      minValue,
-      maxValue,
-      filter.categoryId,
-      filter.oldest,
-      filter.lowToHigh,
-      filter.highToLow,
-      filter.newest,
-      keyword,
-      filter.buy,
-      filter.auction,
-      filter.latest
-    );
-  };
-
-  const handleStatusFilter = (id) => {
-    setInitial(false);
-    if (id === "Buy Now") {
-      setFilter((prev) => ({ ...prev, buy: true, auction: false, new: false }));
-    } else if (id === "On Auction") {
-      setFilter((prev) => ({ ...prev, auction: true, buy: false, new: false }));
-    } else {
-      setFilter((prev) => ({ ...prev, new: true, buy: false, auction: false }));
-    }
-    
-    getNFTs(
-      filter.page,
-      filter.limit,
-      filter.collectionId,
-      minValue,
-      maxValue,
-      filter.categoryId,
-      filter.oldest,
-      filter.lowToHigh,
-      filter.highToLow,
-      filter.newest,
-      keyword,
-      id == "Buy Now" ? true : false,
-      id == "On Auction" ? true : false,
-      id == "New" ? true : false
-    );
-  };
-
-  const handleSearchKeyword = () => {
-    setInitial(false);
-    getNFTs(
-      filter.page,
-      filter.limit,
-      filter.collectionId,
-      minValue,
-      maxValue,
-      filter.categoryId,
-      filter.oldest,
-      filter.lowToHigh,
-      filter.highToLow,
-      filter.newest,
-      keyword,
-      filter.buy,
-      filter.auction,
-      filter.latest
-    );
-  };
   ///////////Likes
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
@@ -424,13 +198,35 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
-  const { name, logo, description, username } = location.state;
+  const fetchData = (filterObj) => {
+    console.log(filterObj, "filterObj");
 
+    getNFTs(filterObj);
+  };
+  const { name, logo, description, username } = location.state;
+  const bannerData = {
+    subHeading: "Nfts",
+    heading: "Collections Info",
+  };
   return (
     <>
       {loader && <FullPageLoader />}
+      <FilterComponent
+        disabled={disabled}
+        totalItems={nfts && nfts.length}
+        filterationLoader={filterationLoader}
+        setFilterationLoader={setFilterationLoader}
+        nfts={nfts}
+        loader={loader}
+        likedNfts={likedNfts}
+        nftPagination={nftPagination}
+        handleLikesTogleApi={handleLikesTogleApi}
+        fetchData={fetchData}
+        path="/explore/nftdetail/"
+        collectionDetail
+      />
 
-      <NavbarMain />
+      {/* <NavbarMain />
       <Breadcrumb
         title1={"Collections"}
         title2={"CollectionDetail"}
@@ -465,15 +261,7 @@ const CollectionDetailsPage = (props) => {
                     <p>{description}</p>
                   </div>
                 </div>
-                {/* <div className="collection-owner-btns mt-3 mt-md-0 ms-auto">
-                      <button className="me-1 me-sm-2 me-lg-3">
-                        <img src={FlagIcon} alt="" flag-icon />
-                      </button>
-                      <button className="me-1 me-sm-1 me-lg-3">
-                        <img src={ShareIcon} alt="" flag-icon />
-                      </button>
-                      <button>+ Add to wishlist</button>
-                    </div> */}
+             
               </div>
             </div>
             <div className="col-12 col-sm-7 col-md-6 col-lg-5 d-none d-md-block">
@@ -481,26 +269,7 @@ const CollectionDetailsPage = (props) => {
                 <p>{description}</p>
               </div>
             </div>
-            {/* <div className="col-12 col-lg-7 mt-3 mt-sm-5">
-                  <div className="d-flex align-items-center justify-content-center justify-content-lg-end">
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>items</p>
-                    </div>
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>Owner</p>
-                    </div>
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>Prize floor</p>
-                    </div>
-                    <div className="collection-stats d-flex flex-column justify-content-center align-items-center text-center me-1">
-                      <span>50</span>
-                      <p>Volume trade</p>
-                    </div>
-                  </div>
-                </div> */}
+       
           </div>
           <div className="collections-listing padding-wrapper">
             <div className="row g-3 align-items-center justify-content-center justify-content-lg-start ">
@@ -544,28 +313,7 @@ const CollectionDetailsPage = (props) => {
                   />
                 </div>
               </div>
-              {/* <div className="col-12 col-sm-10 col-md-4 col-lg-3">
-                <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
-                  <div className="ms-2">
-                    <p>Item:</p>
-                  </div>
-
-                  <select name="collection-select">
-                    {itemoptions &&
-                      itemoptions.map((collection, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={collection.label}
-                            disabled={disabled}
-                          >
-                            {collection.label}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </div>
-              </div> */}
+             
               <div className="col-12 col-sm-10 col-md-4 col-lg-3">
                 <div className="collection-select-bar d-flex align-items-center justify-content-around mx-auto mx-md-0">
                   <div className="ms-2">
@@ -708,7 +456,7 @@ const CollectionDetailsPage = (props) => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer /> */}
     </>
   );
 };

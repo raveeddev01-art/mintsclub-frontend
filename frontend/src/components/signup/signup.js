@@ -1,4 +1,15 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import Banner from "../banner/banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import { Link } from "react-router-dom";
+import { ENV } from "../../config/config";
+import { connect } from "react-redux";
+import { connectMetamaskCopy, signRequest } from "../../utils/web3";
+import TickIcon from "../../assets/images/tick-checkbox.svg";
+import { toast } from "react-toastify";
+import { login, signup } from "../user/user.action";
+
 import "./signup.css";
 
 const initData = {
@@ -6,97 +17,172 @@ const initData = {
   heading: "Create an Account",
   content: "",
 };
+const SignUp = (props) => {
+  const [checkBox, setCheckBox] = useState(false);
+  const [connectedAddress, setConnectedAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [loader, setLoader] = useState(false);
 
-const socialData = [
-  {
-    id: "1",
-    link: "facebook",
-    icon: "fab fa-facebook-f",
-  },
-  {
-    id: "2",
-    link: "twitter",
-    icon: "fab fa-twitter",
-  },
-  {
-    id: "3",
-    link: "google-plus",
-    icon: "fab fa-google-plus-g",
-  },
-];
+  const history = useHistory();
+  useEffect(async () => {
+    let connectedAddress = await connectMetamaskCopy();
 
-class Signup extends Component {
-  state = {
-    initData: {},
-    data: [],
+    setConnectedAddress(connectedAddress);
+  }, []);
+  useEffect(() => {
+    if (props.error?.message) {
+      toast.error(props.error.message);
+      setLoader(false)
+    }
+  }, [props.error]);
+  useEffect(() => {
+    if (props.userAuth) {
+      toast.success("Signed up successfully");
+      history.push("/");
+    }
+  }, [props.userAuth]);
+
+  const signup = async (e) => {
+    e.preventDefault();
+    try {
+      setLoader(true);
+      let sign = await signRequest();
+      let payload = {
+        address: connectedAddress,
+        email: email,
+        username: username,
+        isApproved: false,
+      };
+      props.signup(payload);
+    } catch (err) {
+      setLoader(false);
+      toast.error(err.message);
+    }
   };
-  componentDidMount() {
-    this.setState({
-      initData: initData,
-      data: socialData,
-    });
-  }
-  render() {
-    return (
-      <section className="author-area sign-up-section d-flex flex-column align-items-center justify-content-center">
+
+  const signInbannerData = {
+    subHeading: "Sign Up",
+    heading: "Create an Account",
+    content:
+      "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+  };
+
+  return (
+    <>
+      <Banner
+        subHeading={signInbannerData.subHeading}
+        heading={signInbannerData.heading}
+        content={signInbannerData.content}
+        bgImg={BannerBg}
+      />
+      <section className="signup-section padding-wrapper mb-5">
         <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-12 col-md-8 col-lg-7">
-              {/* Intro */}
-              <div className="intro text-center">
-                <span>{this.state.initData.pre_heading}</span>
-                <h3 className="mt-3 mb-0">{this.state.initData.heading}</h3>
-                <p>{this.state.initData.content}</p>
+          <form onSubmit={signup}>
+            <div className="row">
+              <div className="signup-title">
+                <p className="create-acc mt-5">Create Account</p>
+                <p className="acc-info">
+                  There’s no account linked to the address, Please SingUp first.
+                </p>
               </div>
-              {/* Item Form */}
-              <form className="item-form card no-hover">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="form-group mt-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="name"
-                        placeholder="Enter Name"
-                        required="required"
-                        autoComplete="off"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <div className="form-group">
-                      <input
-                        type="email"
-                        className="form-control"
-                        name="email"
-                        placeholder="Enter Email"
-                        required="required"
-                        autoComplete="off"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 text-center">
-                    <button
-                      className="btn btn-linear-gradient btn-signup"
-                      type="submit"
+              <div className="col-12 mt-5">
+                <label className="label-common">Address:*</label>
+                <input
+                  className="input-common mt-2"
+                  id="url"
+                  type="text"
+                  name="url"
+                  placeholder={connectedAddress}
+                  readOnly
+                />
+              </div>
+              <div className="col-md-6 col-sm-12 mt-5">
+                <label className="label-common ">
+                  Enter your email address:*
+                </label>
+                <input
+                  className="input-common mt-2"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your Email"
+                  required
+                  defaultValue={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+              <div className="col-md-6 col-sm-12 mt-5">
+                <label className="label-common">Enter your username:*</label>
+                <input
+                  className="input-common mt-2"
+                  type="text"
+                  name="username"
+                  placeholder="Enter your Username"
+                  required
+                  defaultValue={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+              <div>
+                <div className="checkbox-container">
+                  {checkBox ? (
+                    <div
+                      className="custom-checked-box "
+                      onClick={() => setCheckBox(!checkBox)}
                     >
-                      Sign Up
-                    </button>
-                  </div>
-                  <div className="col-12 account-span">
-                    <hr />
-                    <span className="d-block text-center mt-4">
-                      Already have an account? <a href="/login">Login</a>
-                    </span>
+                      <img src={TickIcon} alt="checked" />
+                    </div>
+                  ) : (
+                    <div
+                      className="custom-uncheck-box "
+                      onClick={() => setCheckBox(!checkBox)}
+                    ></div>
+                  )}
+                  <p className="mt-5 ms-4 ">
+                    By checking this box,I agree to MintsClub{" "}
+                    <Link>Terms of Services</Link>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              disabled={
+                !checkBox || email.trim() === "" || username.trim() === ""
+              }
+              type="submit"
+              className="btn btn-linear-gradient sign-up-btn mt-5"
+            >
+              {loader ? (
+                <div className="text-center">
+                  <div className="spinner-border text-white sign-up-loader" role="status">
+                    <span className="sr-only">Loading...</span>
                   </div>
                 </div>
-              </form>
-            </div>
-          </div>
+              ) : (
+                "Sign Up"
+              )}
+            </button>
+          </form>
         </div>
       </section>
-    );
-  }
-}
+    </>
+  );
+};
 
-export default Signup;
+const mapStateToProps = (state) => (
+  console.log(state, "state"),
+  {
+    wallet: state.wallet,
+    collection: state.collection,
+    user: state.user,
+    userAuth: state.user.userAuth,
+    error: state.error,
+  }
+);
+
+export default connect(mapStateToProps, {
+  signup,
+})(SignUp);

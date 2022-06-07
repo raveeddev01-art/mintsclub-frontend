@@ -28,11 +28,8 @@ const NFTCard = (props) => {
     auctionStartDate,
     auctionEndDate,
     currentPrice,
+    
   } = props.data;
-
-
-  console.log(owner,"owner")
-  
 
   const { username, profileImage,profilePhoto } = props.owner;
   const { likedNfts } = props;
@@ -161,7 +158,7 @@ const NFTCard = (props) => {
         </div>
         <button
           className="auction-bit-btn"
-          onClick={() => history.push(`nftdetail/${_id}`)}
+          onClick={() => history.push(`${props.path}${_id}`)}
         >
           {"View Detail"}
         </button>

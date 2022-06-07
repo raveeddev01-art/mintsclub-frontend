@@ -138,3 +138,15 @@
   color: white;
   padding: 7px 33px;
 }
+.new-member {
+  font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 33px;
+color: #272727;
+}
+
+.new-member .register-member {
+  color: #387FFF !important;
+  text-decoration: underline !important;
+}

@@ -78,12 +78,10 @@ const Wallet = (props) => {
         let sign = await signRequest();
         let payload = {
           address: connectedAddress,
-          // password: sign,
           email: email,
           username: username,
           isApproved: false,
         };
-        // console.log(payload, "payload");
         props.signup(payload);
       } else {
         setErrorMessage("please enter valid email");
@@ -226,6 +224,15 @@ const Wallet = (props) => {
                     >
                       Change Wallet Address
                     </button>
+
+                    <span className="new-member mt-5 d-flex justify-content-center">
+                      New Member?
+                      <a className="register-member mx-1" href="/signup">
+                        {" "}
+                        Register
+                      </a>
+                      here.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -381,6 +388,14 @@ const Wallet = (props) => {
                     wallet
                   </p>
                 </div>
+                <span className="new-member mt-5 d-flex justify-content-center">
+                  New Member?
+                  <a className="register-member mx-1" href="/signup">
+                    {" "}
+                    Register
+                  </a>
+                  here.
+                </span>
               </div>
             </div>
           </>

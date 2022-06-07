@@ -61,7 +61,7 @@ const App = React.memo((props) => {
                   path={route.path}
                   exact={route.exact}
                   access={
-                    ENV.getUserKeys("_id")._id || route.path === "/login"
+                    ENV.getUserKeys("_id")._id || route.path === "/login"||route.path==='Signup' 
                       ? true
                       : false
                   }
