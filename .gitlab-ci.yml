@@ -10,7 +10,7 @@ mintsclub-design-v2:
     - echo "Deploy to QA server"
     - ssh-add <(echo "$QA_SSH_KEY_V2")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no $QA_SERVER_USER_V2@$SERVER_IP "cd /home/mints-club/frontend-v2/frontend; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
+    - ssh -o StrictHostKeyChecking=no mints-club@65.108.111.186 "cd /home/mints-club/frontend-v2/frontend; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
   only:
     - mintsclub-design-v2
     
