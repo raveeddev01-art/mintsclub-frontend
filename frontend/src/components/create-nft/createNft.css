@@ -1,210 +1,3 @@
-/* .padding-form-wrapper {
-  padding: 75px 0;
-}
-
-.upload-title {
-  font-size: 20px;
-  color: white;
-  font-weight: bold;
-}
-
-.left-container .nft-left-upload {
-  background: linear-gradient(to top, #10103c, #2a6285);
-  border-radius: 10px;
-  width: 100%;
-}
-
-.upload-image-container .upload-image-border {
-  border: 3px dashed #5666fe;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20px;
-  cursor: pointer;
-  height: 350px;
-}
-
-.upload-details p:nth-child(1) {
-  color: #fff;
-  font-family: Manrope;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.upload-details p {
-  color: #fff;
-  font-family: Manrope;
-  font-size: 12px;
-}
-.choose-file p {
-  color: #fff;
-  font-family: Manrope;
-  font-size: 12px;
-}
-
-.browse-files-btn {
-  background: transparent;
-  border: 2px solid #5666fe;
-  border-radius: 7px;
-  padding: 15px 30px;
-  font-size: 14px;
-  color: #5666fe;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.nft-inputs-container {
-  max-width: 90%;
-  background: linear-gradient(to top, #10103c, #2a6285);
-  border-radius: 10px;
-}
-
-.nft-inputs-container textarea {
-  resize: none;
-}
-
-.nft-inputs-container input,
-.nft-inputs-container textarea,
-.nft-inputs-container select {
-  background-color: #101029;
-  color: #fff;
-  outline: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 10px;
-}
-
-.nft-inputs-container input::placeholder,
-.nft-inputs-container textarea::placeholder {
-  color: #fff !important;
-  opacity: 1;
-}
-
-.nft-inputs-container select {
-  color: #fff;
-  display: inline-block;
-  background-image: linear-gradient(45deg, transparent 50%, white 50%),
-    linear-gradient(135deg, white 50%, transparent 50%);
-  background-position: calc(100% - 20px) calc(1em + 2px),
-    calc(100% - 15px) calc(1em + 2px), 100% 0;
-  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
-  background-repeat: no-repeat;
-}
-
-.nft-inputs-container select:active {
-  background-image: linear-gradient(45deg, white 50%, transparent 50%),
-    linear-gradient(135deg, transparent 50%, white 50%);
-  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, 100% 0;
-  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
-  background-repeat: no-repeat;
-  border-color: grey;
-  outline: 0;
-}
-
-.nft-inputs-container select option {
-  background: #000;
-  color: #5666fe;
-}
-
-.nft-form-btns .btn-link a {
-  font-size: 14px;
-  font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.create-collection-btn {
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  background: #5666fe;
-  padding: 0 40px;
-  outline: none;
-  border: none;
-  border-radius: 8px;
-  height: 50px;
-}
-
-.cancel-collection-btn {
-  font-size: 14px;
-  font-weight: bold;
-  color: #5666fe;
-  background: transparent;
-  padding: 0 40px;
-  outline: none;
-  border: 1px solid #5666fe;
-  border-radius: 8px;
-  min-height: 50px;
-}
-
-.browse-files-btn:hover,
-.cancel-collection-btn:hover,
-.create-collection-btn:hover {
-  background: #7e8aff;
-  color: #ffffff;
-}
-
-.browse-files-btn:hover,
-.cancel-collection-btn:hover {
-  border: 1px solid #7e8aff;
-}
-
-.create-properties-container {
-  background-color: #101029;
-  height: 50px;
-  color: #fff;
-  padding: 0.7rem 1rem;
-  border-radius: 10px;
-}
-
-.create-properties-container .properties-btn button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  box-shadow: none;
-  padding: 5px;
-}
-
-.nft-stat-container {
-  max-height: 128px;
-  height: max-content;
-  overflow-y: auto;
-}
-
-.nft-level-container {
-  max-height: 180px;
-  height: max-content;
-  overflow-y: auto;
-}
-
-.nft-properties-container {
-  max-height: 137px;
-  height: max-content;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-@media (max-width: 991.9px) {
-  .nft-inputs-container {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 767.9px) {
-  .padding-form-wrapper {
-    padding: 50px 0;
-  }
-  .create-collection-btn {
-    padding: 0;
-    min-width: 150px;
-  }
-  .cancel-collection-btn {
-    padding: 0;
-    min-width: 150px;
-  }
-} */
-
 .create-nft .upload-nft-container {
   max-width: 500px;
   height: 359px;
@@ -282,24 +75,29 @@
   height: 293px;
   position: relative;
 }
-.uploaded-img-container:hover > .uploaded-img {
+.create-nft .uploaded-img-container:hover > .uploaded-img {
   opacity: 0.8;
 }
-.uploaded-img-container:hover > .uploaded-img-content {
+.create-nft .uploaded-img-container:hover > .uploaded-img-content {
   display: block;
 }
 .create-nft .uploaded-img {
   width: 100%;
   border-radius: 20px;
-  height: 293px;
+  height: 100%;
+  object-fit: cover;
   position: relative;
 }
-.uploaded-img-content {
+.create-nft .uploaded-img-content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
 }
 .create-nft .uploaded-img-browse {
   color: #436bc1;
@@ -310,4 +108,16 @@
   font-size: 13px;
   line-height: 15px;
   padding: 10px 27px;
+}
+
+.create-nft .uploaded-img-container .video-wrapper {
+  width: 100%;
+  border-radius: 20px;
+  height: 90%;
+  position: relative;
+}
+
+.create-nft .uploaded-img-container .video-wrapper video {
+  width: 100%;
+  height: 100%;
 }

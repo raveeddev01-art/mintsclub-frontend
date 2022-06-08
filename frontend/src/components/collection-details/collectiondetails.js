@@ -17,15 +17,13 @@ import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
-import Breadcrumb from "../breadcrumb/breadcrumb";
-import VideoCard from "../test-video-card/videoCard";
-import BannerPh from "../../assets/images/collection-detailBg.png";
 import { validateNetwork } from "../../utils/web3";
 import FilterComponent from "../filterComponent/filterComponent";
 import { toast } from "react-toastify";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import { Images } from "../../assets/assets";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const CollectionDetailsPage = (props) => {
   const [loader, setLoader] = useState(true);
@@ -33,11 +31,11 @@ const CollectionDetailsPage = (props) => {
   const [filterationLoader, setFilterationLoader] = useState(true);
   const [likedNfts, setLikedNfts] = useState();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
-  const [nftPagination,setNFTPagination]=useState(null)
+  const [nftPagination, setNFTPagination] = useState(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const location = useLocation();
- 
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -55,7 +53,7 @@ const CollectionDetailsPage = (props) => {
 
   useEffect(() => {
     if (props.nftsAuth) {
-      console.log(props.nfts,"props.nfts")
+      console.log(props.nfts, "props.nfts");
       if (props?.nfts?.length > 0) {
         setDisabled(false);
       } else {
@@ -64,7 +62,7 @@ const CollectionDetailsPage = (props) => {
         }
       }
       setNfts(props.nfts);
-      setNFTPagination(props.pagination)
+      setNFTPagination(props.pagination);
       setLoader(false);
 
       setFilterationLoader(false);
@@ -210,11 +208,7 @@ const CollectionDetailsPage = (props) => {
   };
   return (
     <>
-     
-
-   
-    
-      <section className="user-profile padding-wrapper pt-0">
+      <section className="user-profile pt-0">
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
@@ -262,21 +256,22 @@ const CollectionDetailsPage = (props) => {
           </div>
         </div>
         {loader && <FullPageLoader />}
-      <FilterComponent
-        disabled={disabled}
-        totalItems={nfts && nfts.length}
-        filterationLoader={filterationLoader}
-        setFilterationLoader={setFilterationLoader}
-        nfts={nfts}
-        loader={loader}
-        likedNfts={likedNfts}
-        nftPagination={nftPagination}
-        handleLikesTogleApi={handleLikesTogleApi}
-        fetchData={fetchData}
-        path="/explore/nftdetail/"
-        collectionDetail
-      />
+        <FilterComponent
+          disabled={disabled}
+          totalItems={nfts && nfts.length}
+          filterationLoader={filterationLoader}
+          setFilterationLoader={setFilterationLoader}
+          nfts={nfts}
+          loader={loader}
+          likedNfts={likedNfts}
+          nftPagination={nftPagination}
+          handleLikesTogleApi={handleLikesTogleApi}
+          fetchData={fetchData}
+          path="/explore/nftdetail/"
+          collectionDetail
+        />
       </section>
+      <OwnCollectionToday />
       {/* {loader && <FullPageLoader />}
       <div className="collection-detail-hero w-100">
         <img className="w-100" src={BannerPh} alt="BannerImg" />

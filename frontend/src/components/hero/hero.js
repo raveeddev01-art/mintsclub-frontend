@@ -27,8 +27,13 @@ const Hero = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
-
-      setAuctions(auctions);
+      let updatedAuctions;
+      if (auctions.length > 6) {
+        updatedAuctions = auctions.slice(0, 6);
+      } else {
+        updatedAuctions = auctions;
+      }
+      setAuctions(updatedAuctions);
 
       props.beforeAuction();
     }

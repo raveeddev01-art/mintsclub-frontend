@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
@@ -102,11 +103,10 @@ const EditProfile = (props) => {
     if (props.user.userAuth) {
       setLoader(false);
       props.beforeUser();
-      toast.success("Profile Updated SuccessFully")
-      history.push('/userprofile')
+      toast.success("Profile Updated SuccessFully");
+      history.push("/userprofile");
     }
   }, [props.user.userAuth]);
-
 
   const onFileChange = (e) => {
     let file = e.target.files[0];
@@ -117,7 +117,7 @@ const EditProfile = (props) => {
       } else {
         file = {};
         fileURL = "";
-        return toast.error("Invalid File")
+        return toast.error("Invalid File");
       }
       setImageUrl(fileURL);
       setImage(file);
@@ -126,7 +126,7 @@ const EditProfile = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-  
+
     if (description && description.length < 3) {
       setBioError(true);
       return "";
@@ -135,28 +135,27 @@ const EditProfile = (props) => {
     }
     setErrors("");
     setLoader(true);
-        // let signature = await signRequest();
-        setLoader(true);
+    // let signature = await signRequest();
+    setLoader(true);
 
-        var formData = new FormData();
-        formData.append("userId", ENV.getUserKeys("_id")._id);
-        if (image) {
-          formData.append("profileImage", image);
-        }
-        if (banner) {
-          formData.append("bannerImage", banner);
-        }
+    var formData = new FormData();
+    formData.append("userId", ENV.getUserKeys("_id")._id);
+    if (image) {
+      formData.append("profileImage", image);
+    }
+    if (banner) {
+      formData.append("bannerImage", banner);
+    }
 
-        formData.append("bio", description);
-        formData.append("twitterLink", twitterLink);
-        formData.append("username", username);
-        formData.append("email", email);
-        formData.append("webLink", webLink);
-        formData.append("instaLink", instaLink);
+    formData.append("bio", description);
+    formData.append("twitterLink", twitterLink);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("webLink", webLink);
+    formData.append("instaLink", instaLink);
 
-        // return ''
-        props.updateProfile(formData);
-   
+    // return ''
+    props.updateProfile(formData);
   };
   const bannerData = {
     subHeading: "Information",
@@ -166,24 +165,46 @@ const EditProfile = (props) => {
   return (
     <>
       <section className="user-profile padding-wrapper pt-0">
-
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
           bgImg={BannerBg}
           className="mb-0"
-          />
-          {loader && <FullPageLoader />}
+        />
+        {loader && <FullPageLoader />}
         <div className="collection-detail-content">
           <div className="container">
-              <form onSubmit={submit}>
-            <div className="row">
-              <div className="col-12 mt-5">
-                <div className="logo-wrapper">
-                  <div className="logo-image">
-                    {image && image ? (
-                      <img className="uploaded-logo-img" src={imageUrl ? imageUrl : Images.EditAvatar} />
-                    ) : (
+            <form onSubmit={submit}>
+              <div className="row">
+                <div className="col-12 mt-5">
+                  <div className="logo-wrapper">
+                    <div className="logo-image">
+                      {image && image ? (
+                        <img
+                          className="uploaded-logo-img"
+                          src={imageUrl ? imageUrl : Images.logoImage}
+                        />
+                      ) : (
+                        <label>
+                          <input
+                            id="logo"
+                            type="file"
+                            accept=".png,.jpeg,.jpg"
+                            onChange={(e) => onFileChange(e)}
+                            style={{ display: "none" }}
+                            name="logo"
+                          />
+                          <span className="logo-img-round">
+                            <img
+                              className="upload-icon"
+                              src={imageUrl ? imageUrl : Images.logoImage}
+                            />
+                          </span>
+                        </label>
+                      )}
+                    </div>
+
+                    <div className="upload-feature-icon-logo">
                       <label>
                         <input
                           id="logo"
@@ -193,205 +214,183 @@ const EditProfile = (props) => {
                           style={{ display: "none" }}
                           name="logo"
                         />
-                        <span className="logo-img-round">
-                          <img className="upload-icon" src={imageUrl} />
-                        </span>
+                        <img src={Images.editIconSmall} />
                       </label>
-                    )}
+                    </div>
+                    <p className="feature-img-title mt-3 mx-2">
+                      Profile Image*
+                    </p>
                   </div>
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-12">
+                  <label className="create-collection-label">Username:*</label>
+                  <input
+                    className="create-collection-input mt-2"
+                    id="name"
+                    type="text"
+                    name="name"
+                    required
+                    onChange={(e) => {
+                      if (e.target.value.trim() === "" && username === "") {
+                        return false;
+                      } else {
+                        setUsername(e.target.value);
+                      }
+                    }}
+                    value={username}
+                    placeholder="Username"
+                    maxLength="55"
+                    minLength="3"
+                    autoComplete="off"
+                  />
+                </div>
 
-                  <div className="upload-feature-icon-logo">
-                    <label>
-                      <input
-                        id="logo"
-                        type="file"
-                        accept=".png,.jpeg,.jpg"
-                        onChange={(e) => onFileChange(e)}
-                        style={{ display: "none" }}
-                        name="logo"
-                      />
-                      <img src={Images.editIconSmall} />
-                    </label>
-                  </div>
-                  <p className="feature-img-title mt-3 mx-2">Profile Image:</p>
+                <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+                  <label className="create-collection-label">
+                    Email Address:*
+                  </label>
+
+                  <input
+                    className="create-collection-input mt-2"
+                    id="url"
+                    type="text"
+                    name="url"
+                    placeholder="Email Address"
+                    required
+                    onChange={(e) => {
+                      if (e.target.value.trim() === "" && email === "") {
+                        return "";
+                      } else {
+                        setEmail(e.target.value);
+                      }
+                    }}
+                    value={email}
+                    maxLength="55"
+                    autoComplete="off"
+                  />
+                </div>
+
+                <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
+                  <label className="create-collection-label">
+                    Wallet Address:
+                  </label>
+
+                  <input
+                    className="create-collection-input mt-2"
+                    id="url"
+                    type="text"
+                    name="url"
+                    placeholder="URL"
+                    required
+                    readOnly={true}
+                    autoComplete="off"
+                    value={address}
+                  />
+                </div>
+
+                <div className="col-12 mt-3 mt-lg-5">
+                  <label className="create-collection-label">BioData:*</label>
+
+                  <textarea
+                    className="create-collection-area mt-2"
+                    name="description"
+                    placeholder="Enter BioData"
+                    maxLength="500"
+                    minLength="3"
+                    onChange={(e) => {
+                      if (e.target.value.trim() === "" && description === "") {
+                        return false;
+                      } else {
+                        setDescription(e.target.value);
+                      }
+                    }}
+                    value={description}
+                  ></textarea>
+                </div>
+
+                <div className="col-lg-4 col-md-6 col-sm-12 mt-3 mt-lg-5">
+                  <label className="create-collection-label">
+                    Twitter Link:
+                  </label>
+                  <input
+                    className="create-collection-input mt-2"
+                    id="name"
+                    type="text"
+                    name="name"
+                    onChange={(e) => {
+                      if (e.target.value.trim() === "" && twitterLink === "") {
+                        return false;
+                      } else {
+                        setTwitterLink(e.target.value);
+                      }
+                    }}
+                    value={twitterLink}
+                    placeholder="Name"
+                    maxLength="55"
+                    autoComplete="off"
+                  />
+                </div>
+
+                <div className="col-lg-4 col-md-6 mt-3 mt-md-0  mt-3 mt-lg-5">
+                  <label className="create-collection-label">
+                    Instagram Link:
+                  </label>
+
+                  <input
+                    className="create-collection-input mt-2"
+                    id="url"
+                    type="text"
+                    name="url"
+                    placeholder="URL"
+                    onChange={(e) => {
+                      if (e.target.value.trim() === "" && instaLink === "") {
+                        return false;
+                      } else {
+                        setInstaLink(e.target.value);
+                      }
+                    }}
+                    value={instaLink}
+                    maxLength="55"
+                    autoComplete="off"
+                  />
+                </div>
+
+                <div className="col-lg-4 col-md-6  mt-3 mt-lg-0  mt-3 mt-lg-5 ">
+                  <label className="create-collection-label">
+                    Website Link:
+                  </label>
+                  <input
+                    className="create-collection-input mt-2"
+                    id="url"
+                    type="text"
+                    name="url"
+                    placeholder="URL"
+                    onChange={(e) => {
+                      if (e.target.value.trim() === "" && webLink === "") {
+                        return false;
+                      } else {
+                        setWebLink(e.target.value);
+                      }
+                    }}
+                    value={webLink}
+                    maxLength="55"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="create-collection-btn-container">
+                  <button
+                    className="btn create-collection-btn btn-linear-gradient mt-5"
+                    type="submit"
+                  >
+                    Save Changes
+                  </button>
                 </div>
               </div>
-              <div className="col-lg-4 col-md-6 col-sm-12">
-                <label className="create-collection-label">Username:*</label>
-                <input
-                  className="create-collection-input mt-2"
-                  id="name"
-                  type="text"
-                  name="name"
-                  required
-                  onChange={(e) => {
-                    if (e.target.value.trim() === "" && username === "") {
-                      return false;
-                    } else {
-                      setUsername(e.target.value);
-                    }
-                  }}
-                  value={username}
-                  placeholder="Username"
-                  maxLength="55"
-                  minLength="3"
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
-                <label className="create-collection-label">
-                  Email Address:*
-                </label>
-
-                <input
-                  className="create-collection-input mt-2"
-                  id="url"
-                  type="text"
-                  name="url"
-                  placeholder="Email Address"
-                  required
-                  onChange={(e) => {
-                    if (e.target.value.trim() === "" && email === "") {
-                      return "";
-                    } else {
-                      setEmail(e.target.value);
-                    }
-                  }}
-                  value={email}
-                  maxLength="55"
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
-                <label className="create-collection-label">
-                  Wallet Address:
-                </label>
-
-                <input
-                  className="create-collection-input mt-2"
-                  id="url"
-                  type="text"
-                  name="url"
-                  placeholder="URL"
-                  required
-                  readOnly={true}
-                  autoComplete="off"
-                  value={address}
-                />
-              </div>
-
-              <div className="col-12 mt-3 mt-lg-5">
-                <label className="create-collection-label">BioData:*</label>
-
-                <textarea
-                  className="create-collection-area mt-2"
-                  name="description"
-                  placeholder="Enter BioData"
-                  maxLength="500"
-                  minLength="3"
-                  onChange={(e) => {
-                    if (
-                      e.target.value.trim() === "" &&
-                      description === ""
-                    ) {
-                      return false;
-                    } else {
-                      setDescription(e.target.value);
-                    }
-                  }}
-                  value={description}
-                ></textarea>
-              </div>
-
-              <div className="col-lg-4 col-md-6 col-sm-12 mt-3 mt-lg-5">
-                <label className="create-collection-label">Twitter Link:</label>
-                <input
-                  className="create-collection-input mt-2"
-                  id="name"
-                  type="text"
-                  name="name"
-                  onChange={(e) => {
-                    if (
-                      e.target.value.trim() === "" &&
-                      twitterLink === ""
-                    ) {
-                      return false;
-                    } else {
-                      setTwitterLink(e.target.value);
-                    }
-                  }}
-                  value={twitterLink}
-                  placeholder="Name"
-                  maxLength="55"
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className="col-lg-4 col-md-6 mt-3 mt-md-0  mt-3 mt-lg-5">
-                <label className="create-collection-label">
-                  Instagram Link:
-                </label>
-
-                <input
-                  className="create-collection-input mt-2"
-                  id="url"
-                  type="text"
-                  name="url"
-                  placeholder="URL"
-                  onChange={(e) => {
-                    if (
-                      e.target.value.trim() === "" &&
-                      instaLink === ""
-                    ) {
-                      return false;
-                    } else {
-                      setInstaLink(e.target.value);
-                    }
-                  }}
-                  value={instaLink}
-                  maxLength="55"
-                  autoComplete="off"
-                />
-              </div>
-
-              <div className="col-lg-4 col-md-6  mt-3 mt-lg-0  mt-3 mt-lg-5 ">
-                <label className="create-collection-label">Website Link:</label>
-                <input
-                  className="create-collection-input mt-2"
-                  id="url"
-                  type="text"
-                  name="url"
-                  placeholder="URL"
-                  onChange={(e) => {
-                    if (
-                      e.target.value.trim() === "" &&
-                      webLink === ""
-                    ) {
-                      return false;
-                    } else {
-                      setWebLink(e.target.value);
-                    }
-                  }}
-                  value={webLink}
-                  maxLength="55"
-                  autoComplete="off"
-                />
-              </div>
-              <div className="create-collection-btn-container">
-                <button
-                  className="btn create-collection-btn btn-linear-gradient mt-5"
-                  type="submit"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </div>
-              </form>
+            </form>
           </div>
         </div>
       </section>
+      <OwnCollectionToday />
       {/* {loader && <FullPageLoader />}
       <NavbarMain />
       <Breadcrumb title1={"Profile"} title2={"EditProfile"} />

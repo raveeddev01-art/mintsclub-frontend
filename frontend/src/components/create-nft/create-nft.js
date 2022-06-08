@@ -688,9 +688,13 @@ class CreateNFT extends Component {
                         <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
                           Browse File
                         </span>
-                       <span className="text-danger text-center mb-3">
-                      {this.validator.message("image", nft.image, "required")}
-                    </span> 
+                        <span className="text-danger text-center mb-3">
+                          {this.validator.message(
+                            "image",
+                            nft.image,
+                            "required"
+                          )}
+                        </span>
                       </div>
                     </label>
                   )}

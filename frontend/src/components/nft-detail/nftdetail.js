@@ -864,7 +864,7 @@ const NFTDetail = (props) => {
                           : name}
                       </p>
                     </div>
-                    <div className="row">
+                    <div className="row g-2 g-sm-4">
                       <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
                         <div className="nft-detail-rounded-box">
                           <p>

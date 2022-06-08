@@ -27,6 +27,7 @@ import {
   getCollections,
 } from "../collections/collections.actions";
 import { Link } from "react-router-dom";
+import OwnCollectionToday from "../own-collection-today/own-collection-today";
 
 const UserProfile = (props) => {
   const [isAddressCopied, setAddressCopied] = useState(false);
@@ -76,13 +77,11 @@ const UserProfile = (props) => {
     if (props.nft.nftsAuth) {
       setFilterationLoader(false);
       const { nfts, pagination } = props.nft.nftsData;
-      
+
       if (!menuFilter) {
         console.log(props.nft.nftsData, "nfts");
 
-        const Nfts = nfts?.filter(
-          (item) =>  item.ownerId === userId
-        );
+        const Nfts = nfts?.filter((item) => item.ownerId === userId);
         console.log(Nfts, "nfts123");
         if (Nfts.length > 0) {
           setDisabled(false);
@@ -91,7 +90,7 @@ const UserProfile = (props) => {
             setDisabled(true);
           }
         }
-        setInitial(false)
+        setInitial(false);
         setNFTs(Nfts);
         setNFTsCopy(nfts);
         setNFTPagination({ total: Nfts.length });
@@ -99,9 +98,9 @@ const UserProfile = (props) => {
         setLoader(false);
       } else {
         // setNFTPagination(pagination);
-        setInitial(false)
+        setInitial(false);
         setNFTsCopy(nfts);
-        setNFTPagination(nfts.length)
+        setNFTPagination(nfts.length);
         handleNftFilter(menuFilter);
         setLoader(false);
       }
@@ -138,7 +137,7 @@ const UserProfile = (props) => {
     props.beforeNFT();
     let nftQS = {};
     if (filter) {
-      console.log("inside=====>123",filter)
+      console.log("inside=====>123", filter);
       const {
         page,
         categoryId,
@@ -154,7 +153,7 @@ const UserProfile = (props) => {
         ltePrice,
         keyword,
       } = filter;
-      nftQS = { page, limit:99999 };
+      nftQS = { page, limit: 99999 };
       if (collectionId) nftQS.collectionId = collectionId;
       if (gtePrice) nftQS.gtePrice = gtePrice;
       if (ltePrice) nftQS.ltePrice = ltePrice;
@@ -271,8 +270,7 @@ const UserProfile = (props) => {
   };
 
   const fetchData = (filterObj) => {
-    if(!setInitial){
-
+    if (!setInitial) {
       getNFTs(filterObj);
     }
   };
@@ -285,10 +283,10 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-  console.log(nftsCopy?.length,"length")
+  console.log(nftsCopy?.length, "length");
   return (
     <>
-      <section className="user-profile padding-wrapper pt-0">
+      <section className="user-profile pt-0">
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
@@ -399,6 +397,7 @@ const UserProfile = (props) => {
           UserProfile
         />
       </section>
+      <OwnCollectionToday />
     </>
   );
 };

@@ -45,7 +45,7 @@ const TopSeller = (props) => {
             </div>
           </div>
         </div>
-        <div className="row items">
+        <div className="row g-3 items">
           {sellers && sellers.length ? (
             sellers.map((author, idx) => {
               if (idx <= 11) {

@@ -265,20 +265,20 @@ ul {
 ul ul {
   list-style: circle;
 }
-.input-common{
-  background: #FFFFFF;
-border: 1px solid #C9DAFF;
-box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-border-radius: 44px
+.input-common {
+  background: #ffffff;
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  border-radius: 44px;
 }
 .label-common {
   font-style: normal;
-font-weight: 700;
-font-size: 13px;
-line-height: 15px;
-margin-left: 25px;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+  margin-left: 25px;
 
-color: #343434;
+  color: #343434;
 }
 .input-common:focus {
   outline: none;
@@ -3335,6 +3335,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   align-items: center;
   justify-content: center;
   width: 125px;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /*----------------------------------------------
