@@ -235,7 +235,6 @@ const AllNFT = (props) => {
     }
   };
   const fetchData = (filterObj) => {
-    console.log(filterObj,"filterObj")
     if (props?.location?.state) {
       let searchQs = { keyword: props.location.state, page: 1, limit: 10 };
       window.history.replaceState(null, "");

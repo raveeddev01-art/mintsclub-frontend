@@ -37,6 +37,8 @@ import logoImage from "./images/logoImage.svg";
 import metamaskImg from "./images/metamaskIcon.png";
 import onsale from "./images/onsale.svg";
 import ClockIcon from "./images/clock-icon.svg";
+import sellerTickIcon from './images/seller-tick-icon.svg';
+import smile from './images/smile.svg';
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -57,6 +59,8 @@ export const Images = {
   metamaskImg,
   onsale,
   ClockIcon,
+  sellerTickIcon,
+  smile
 };
 
 export const CollectionImages = {

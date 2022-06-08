@@ -90,6 +90,10 @@ class CreateCollections extends Component {
     let file = e.target.files[0];
     if (file)
       if (file.type.includes("image")) {
+        let fileSize = this.formatBytes(file.size).split(" ");
+        if (+fileSize[0] > 100 && fileSize[1] === "MB") {
+         return  toast.error("File Max Limit Reached.")
+        }
         let { collection } = this.state;
         collection = { ...collection, [e.target.name]: file };
         if (e.target.name) {
@@ -99,8 +103,20 @@ class CreateCollections extends Component {
           $(`#collection-${e.target.name}-label`).html("File selected");
         }
         this.setState({ collection });
+        
       }
   }
+  formatBytes = (bytes, decimals = 2) => {
+    if (bytes === 0) return "0 Bytes";
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  };
 
   onChange(e) {
     let { name, value } = e.target;
@@ -221,6 +237,7 @@ class CreateCollections extends Component {
         content:
           "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
       };
+      //create collection max size validation
       return (
         <>
           {loader && <FullPageLoader />}

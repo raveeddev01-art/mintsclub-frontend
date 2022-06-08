@@ -28,6 +28,8 @@ const NFTCard = (props) => {
     auctionStartDate,
     auctionEndDate,
     currentPrice,
+    copies,
+    remainingCopies
     
   } = props.data;
 
@@ -123,12 +125,12 @@ const NFTCard = (props) => {
         <div className="nft-status ">
           <div className="status-info status-sold">
             <span className="status">
-              Sold: <span className="status-count">323</span>{" "}
+              Sold: <span className="status-count">{copies - remainingCopies}</span>{" "}
             </span>
           </div>
           <div className="status-info status-remaining">
             <span className="status">
-              Remaining: <span className="status-count">323</span>{" "}
+              Remaining: <span className="status-count">{remainingCopies}</span>{" "}
             </span>
           </div>
         </div>

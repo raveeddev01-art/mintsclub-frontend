@@ -79,8 +79,14 @@ const PopularCollections = (props) => {
         popularCollectionsSettings.infinite = false;
       }
       settPopularSettings(popularCollectionsSettings);
-      setpopular(finalCollectionListing);
-      setFilterationLoader(false);
+      if(finalCollectionListing.length && finalCollectionListing.length >8){
+        setFilterationLoader(false);
+        setpopular(finalCollectionListing.slice(0,7));
+      }else {
+        setpopular(finalCollectionListing);
+
+        setFilterationLoader(false);
+      }
       props.beforePopularCollection();
     }
   }, [props.getPopularAuth]);
@@ -180,7 +186,7 @@ const PopularCollections = (props) => {
               homeAuction
             >
               {popular.map((item, i) => {
-                if (i < 8) {
+                // if (i < 8) {
                   return (
                     <CollectionsCard
                       key={i}
@@ -196,7 +202,7 @@ const PopularCollections = (props) => {
                       profileImage={item.profileImage[0]}
                     />
                   );
-                }
+                // }
               })}
             </CardSlider>
           ) : (
