@@ -51,10 +51,6 @@ const CollectionDetailsPage = (props) => {
 
   useEffect(() => {
     if (props.nftsAuth) {
-<<<<<<< HEAD
-      console.log(props.nfts, "props.nfts");
-=======
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
       if (props?.nfts?.length > 0) {
         setDisabled(false);
       } else {
@@ -203,14 +199,10 @@ const CollectionDetailsPage = (props) => {
     subHeading: "Nfts",
     heading: "Collections Info",
   };
-  
+
   return (
     <>
-<<<<<<< HEAD
       <section className="user-profile pt-0">
-=======
-      <section className="user-profile padding-wrapper pt-0">
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
@@ -223,7 +215,10 @@ const CollectionDetailsPage = (props) => {
               <div className="col-12">
                 <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
                   <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3 flex-fill">
-                    <img src={logo?logo:Images.profilePlaceholder} alt="owner-avatar" />
+                    <img
+                      src={logo ? logo : Images.profilePlaceholder}
+                      alt="owner-avatar"
+                    />
                   </div>
                   <div className="collection-owner-detail text-center text-sm-start mt-2 mt-sm-4">
                     <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
@@ -271,7 +266,6 @@ const CollectionDetailsPage = (props) => {
           collectionDetail
         />
       </section>
-<<<<<<< HEAD
       <OwnCollectionToday />
       {/* {loader && <FullPageLoader />}
       <div className="collection-detail-hero w-100">
@@ -498,8 +492,6 @@ const CollectionDetailsPage = (props) => {
         </div>
       </div>
       <Footer /> */}
-=======
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
     </>
   );
 };

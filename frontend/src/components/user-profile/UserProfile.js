@@ -96,23 +96,17 @@ const UserProfile = (props) => {
         // setNFTPagination(pagination);
         setLoader(false);
       } else {
-        console.log(nfts,"nfts on else")
+        console.log(nfts, "nfts on else");
         // setNFTPagination(pagination);
         setInitial(false);
         setNFTsCopy(nfts);
-<<<<<<< HEAD
-        setNFTPagination(nfts.length);
-        handleNftFilter(menuFilter);
-=======
         // handleFavFilter(nfts)
-        setNFTPagination(nfts.length)
-        handleNftFilter(menuFilter,nfts);
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
+        setNFTPagination(nfts.length);
+        handleNftFilter(menuFilter, nfts);
         setLoader(false);
       }
     }
   }, [props.nft.nftsAuth]);
-
 
   useEffect(() => {
     if (props.myLikedNftsStatus) {
@@ -144,10 +138,6 @@ const UserProfile = (props) => {
     props.beforeNFT();
     let nftQS = {};
     if (filter) {
-<<<<<<< HEAD
-      console.log("inside=====>123", filter);
-=======
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
       const {
         page,
         categoryId,
@@ -246,9 +236,9 @@ const UserProfile = (props) => {
     }
   };
 
-  const handleNftFilter = (id,data=false) => {
-    let itemsToFilter=data?data:nftsCopy;
-    setInitial(false)
+  const handleNftFilter = (id, data = false) => {
+    let itemsToFilter = data ? data : nftsCopy;
+    setInitial(false);
     if (id === "Collected") {
       const Nfts = itemsToFilter.filter(
         (item) => item.creatorId !== userId && item.ownerId === userId
@@ -269,9 +259,9 @@ const UserProfile = (props) => {
     }
   };
 
-  const handleFavFilter = (data=false) => {
-    let itemToFilter=data?data:nftsCopy;
-    console.log(itemToFilter,"itemToFilter")
+  const handleFavFilter = (data = false) => {
+    let itemToFilter = data ? data : nftsCopy;
+    console.log(itemToFilter, "itemToFilter");
     let favNfts = [];
     for (var item of itemToFilter) {
       let foundNft = likedNfts.find((liked) => liked.nftId === item._id);
@@ -285,13 +275,9 @@ const UserProfile = (props) => {
   };
 
   const fetchData = (filterObj) => {
-<<<<<<< HEAD
-    if (!setInitial) {
-=======
     // if(!setInitial){
 
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
-      getNFTs(filterObj);
+    getNFTs(filterObj);
     // }
   };
   const getPaginatedData = () => {
@@ -303,11 +289,7 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-<<<<<<< HEAD
-  console.log(nftsCopy?.length, "length");
-=======
-  console.log(nftsCopy.length)
->>>>>>> 403c407b49195cf3b4aba4ecbc34faf1db974d50
+  console.log(nftsCopy.length);
   return (
     <>
       <section className="user-profile pt-0">
