@@ -19,7 +19,6 @@ import AuctionsList from "./components/auctions/home-auction-list";
 import EditProfile from "./components/user-profile/user-edit-profile";
 import CreateCollections from "./components/creat-collections/CreateCollections";
 import AboutUs from "./components/aboutus/aboutus";
-import ContactUs from "./components/contactus/contactus";
 import Faqs from "./components/faqs/faqs";
 
 // routes
@@ -164,14 +163,6 @@ const routes = [
     title: "AboutUs",
     layout: layout,
     component: AboutUs,
-  },
-  {
-    path: "/contactus",
-    access: true,
-    exact: true,
-    title: "ContactUs",
-    layout: layout,
-    component: ContactUs,
   },
   {
     path: "/faqs",
