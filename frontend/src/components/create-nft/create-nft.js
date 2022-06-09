@@ -666,7 +666,7 @@ class CreateNFT extends Component {
                     </label>
                   ) : (
                     <label className="w-100">
-                      <div className="upload-icon-container text-center">
+                      <div className="upload-icon-container text-center ">
                         <img src={UploadIcon} alt="upload" className="mb-2" />
                         <h6 className="mb-2">Drag and drop your files</h6>
                         <p className="mb-2">
