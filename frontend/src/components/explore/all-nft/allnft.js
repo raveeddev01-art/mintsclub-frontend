@@ -23,12 +23,6 @@ const bannerData = {
     "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
 };
 
-const priceOptions = [
-  { value: "lowtohigh", label: "Low To High" },
-  { value: "hightolow", label: "High To Low" },
-  { value: "oldest", label: "Oldest" },
-  { value: "newest", label: "Recantly Created" },
-];
 
 const AllNFT = (props) => {
   const [nftPagination, setNFTPagination] = useState(null);
@@ -162,6 +156,7 @@ const AllNFT = (props) => {
         nftQS.limit=10;
       }
     }
+    console.log(nftQS,"nftqs after==>")
     const qs = ENV.objectToQueryString(nftQS);
     console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
@@ -235,15 +230,19 @@ const AllNFT = (props) => {
     }
   };
   const fetchData = (filterObj) => {
-    if (props?.location?.state) {
-      let searchQs = { keyword: props.location.state, page: 1, limit: 10 };
-      window.history.replaceState(null, "");
-      searchQs = ENV.objectToQueryString(searchQs);
-      getNFTs(searchQs);
-    } else {
+    console.log(filterObj,"filteroBje")
+    // if (props?.location?.state) {
+    //   console.log("clear")
+    //   let searchQs = { keyword: props.location.state, page: 1, limit: 10 };
+    //   window.history.replaceState(null, "");
+    //   searchQs = ENV.objectToQueryString(searchQs);
+    //   getNFTs(searchQs);
+    // } else
+    //  {
       getNFTs(filterObj);
-    }
+    // }
   };
+  console.log(props?.location?.state,"props?.location?.state")
   return (
     <>
       <section className="explore-collection-section padding-wrapper pt-0">

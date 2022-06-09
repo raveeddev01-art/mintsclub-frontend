@@ -9,10 +9,8 @@ import { ENV } from "./config/config";
 import "./App.css";
 import { getWalletAddress } from "./utils/web3";
 import { toast } from "react-toastify";
-// import 'swiper/swiper-bundle.css';
 
 const App = React.memo((props) => {
-  // const [walletAddress, setWalletAddress] = useState("");
   let walletAddress = false;
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
@@ -35,7 +33,7 @@ const App = React.memo((props) => {
 
     if (walletAddress) {
       if (walletAddress !== address) {
-        toast.info("Please login with new address");
+        toast.info("Please sign in  with new connected address");
         walletAddress = address;
         // setWalletAddress(address)
         localStorage.clear();

@@ -16,6 +16,11 @@
 .signup-card {
   background: #10103c !important;
 }
+.sign-in-spinner {
+  height: 1.3rem !important;
+  width: 1.3rem !important;
+  
+}
 .sign-up-input {
   background-color: black !important;
   border: none !important;

@@ -31,6 +31,7 @@ const FilterHoc = (props) => {
     buy: false,
     auction: false,
     latest: false,
+    keyword:  props.initialKeyword ? props.initialKeyword : ""
   });
 
   const priceOptions = [
@@ -40,11 +41,12 @@ const FilterHoc = (props) => {
     { value: "newest", label: "Recantly Created" },
   ];
   useEffect(() => {
-    if (props?.location?.state) {
-      setKeyword(props?.location?.state);
-      handleSearchKeyword(props?.location?.state);
+    const {initialKeyword}=props;
+    if (initialKeyword) {
+      setKeyword(initialKeyword);
+      handleSearchKeyword(initialKeyword);
     }
-  }, [props?.location?.state]);
+  }, [props.initialKeyword]);
 
   useEffect(() => {
     fetchData(filter);
