@@ -1,8 +1,25 @@
-import React from 'react';
+import React from "react";
+import "./not-found.css";
+import { NavLink } from "react-router-dom";
+import MintsClub from "../../assets/images/main-logo.svg";
+import NotFoundImg from "../../assets/images/notfound-img.svg";
 
 function NotFound(props) {
-    return (
-        <p>404 - Page not found</p>
-    );
+  return (
+    <div className="not-found">
+      <div className="container">
+        <div className="row">
+          <div className="navbar-brand-logo">
+            <NavLink to="/">
+              <img src={MintsClub} alt="logo" />
+            </NavLink>
+          </div>
+          <div className="not-found-img">
+            <img src={NotFoundImg} alt="Not-Found" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 export default NotFound;

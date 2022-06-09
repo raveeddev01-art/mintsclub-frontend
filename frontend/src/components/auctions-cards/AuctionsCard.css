@@ -136,18 +136,18 @@
 }
 
 .auction-card.card .card-img-top .video-wrapper {
-  height: 250px;
+  height: 310px;
   width: 100%;
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 30px;
 }
 
 .auction-card.card .card-img-top video {
-  height: 250px;
+  height: 310px;
   width: 100%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 30px;
 }
 
 .auction-card.card .card-img-top .video-wrapper .controls {

@@ -31,9 +31,12 @@ const SignUp = (props) => {
     setConnectedAddress(connectedAddress);
   }, []);
   useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+  useEffect(() => {
     if (props.error?.message) {
       toast.error(props.error.message);
-      setLoader(false)
+      setLoader(false);
     }
   }, [props.error]);
   useEffect(() => {
@@ -157,7 +160,10 @@ const SignUp = (props) => {
             >
               {loader ? (
                 <div className="text-center">
-                  <div className="spinner-border text-white sign-up-loader" role="status">
+                  <div
+                    className="spinner-border text-white sign-up-loader"
+                    role="status"
+                  >
                     <span className="sr-only">Loading...</span>
                   </div>
                 </div>

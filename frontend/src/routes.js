@@ -18,6 +18,9 @@ import TopSellerList from "./components/top-seller/topsellerlist";
 import AuctionsList from "./components/auctions/home-auction-list";
 import EditProfile from "./components/user-profile/user-edit-profile";
 import CreateCollections from "./components/creat-collections/CreateCollections";
+import AboutUs from "./components/aboutus/aboutus";
+import ContactUs from "./components/contactus/contactus";
+import Faqs from "./components/faqs/faqs";
 
 // routes
 const routes = [
@@ -153,6 +156,30 @@ const routes = [
     title: "Signup",
     layout: layout4,
     component: Signup,
+  },
+  {
+    path: "/aboutus",
+    access: true,
+    exact: true,
+    title: "AboutUs",
+    layout: layout,
+    component: AboutUs,
+  },
+  {
+    path: "/contactus",
+    access: true,
+    exact: true,
+    title: "ContactUs",
+    layout: layout,
+    component: ContactUs,
+  },
+  {
+    path: "/faqs",
+    access: true,
+    exact: true,
+    title: "Faqs",
+    layout: layout,
+    component: Faqs,
   },
 
   {

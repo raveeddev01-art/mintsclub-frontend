@@ -37,8 +37,19 @@ import logoImage from "./images/logoImage.svg";
 import metamaskImg from "./images/metamaskIcon.png";
 import onsale from "./images/onsale.svg";
 import ClockIcon from "./images/clock-icon.svg";
-import sellerTickIcon from './images/seller-tick-icon.svg';
-import smile from './images/smile.svg';
+import sellerTickIcon from "./images/seller-tick-icon.svg";
+import smile from "./images/smile.svg";
+import consultancy from "./images/about-consultancy.svg";
+import development from "./images/about-development.svg";
+import marketplace from "./images/about-marketplace.svg";
+import dapp from "./images/about-dapp.svg";
+import defi from "./images/about-defi.svg";
+import crypto from "./images/about-crypto.svg";
+import binance from "./images/about-binance.svg";
+import cardano from "./images/about-cardano.svg";
+import solana from "./images/about-solana.svg";
+import algoran from "./images/about-algoran.svg";
+
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -60,7 +71,20 @@ export const Images = {
   onsale,
   ClockIcon,
   sellerTickIcon,
-  smile
+  smile,
+};
+
+export const aboutusImages = {
+  consultancy,
+  development,
+  marketplace,
+  dapp,
+  defi,
+  crypto,
+  binance,
+  cardano,
+  solana,
+  algoran,
 };
 
 export const CollectionImages = {
