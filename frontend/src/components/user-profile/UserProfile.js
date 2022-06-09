@@ -389,7 +389,7 @@ const UserProfile = (props) => {
           totalItems={nfts && nfts.length}
           filterationLoader={filterationLoader}
           setFilterationLoader={setFilterationLoader}
-          nfts={nfts.slice(0, dataLimit)}
+          nfts={nfts?.slice(0, dataLimit)}
           loader={loader}
           likedNfts={likedNfts}
           handleLikesTogleApi={handleLikesTogleApi}
