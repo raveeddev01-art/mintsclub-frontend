@@ -441,7 +441,6 @@ const SellNFT = (props) => {
       />
       {loader && <FullPageLoader />}
       <section className="padding-wrapper sell-nft new-nft-detail">
-        {/* <form onSubmit={submit}> */}
         <div className="container">
           <div className="row g-4 g-xl-5">
             <div className="col-12">
