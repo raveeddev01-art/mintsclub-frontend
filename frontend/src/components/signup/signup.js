@@ -112,6 +112,7 @@ const SignUp = (props) => {
                   required
                   defaultValue={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  maxLength="55"
                   autoComplete="off"
                 />
               </div>
@@ -121,6 +122,7 @@ const SignUp = (props) => {
                   className="input-common mt-2"
                   type="text"
                   name="username"
+                  maxLength="55"
                   placeholder="Enter your Username"
                   required
                   defaultValue={username}

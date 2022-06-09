@@ -24,6 +24,9 @@
 .sell-nft .detail-bg-box.nft-img-detail {
   background-color: #f2f7ff;
 }
+.sell-detail-box .error-msg {
+  font-size: 14px;
+}
 
 .sell-nft .sell-detail-box {
   background-color: #f8faff;

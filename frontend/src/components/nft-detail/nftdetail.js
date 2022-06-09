@@ -156,6 +156,8 @@ const NFTDetail = (props) => {
       props.getMyLikedNfts(qs);
       validateIfLiked();
       props.getBids();
+      toast.success("You have purchased NFT successfully");
+      history.push("/userprofile");
     }
   }, [props.buyAuth]);
 
@@ -561,7 +563,6 @@ const NFTDetail = (props) => {
   };
 
   const BuyNow = async () => {
-    alert("buy now")
     if (await validateNetwork()) {
       setDisabled(true);
       try {
@@ -677,7 +678,7 @@ const NFTDetail = (props) => {
         );
         if (res.data.success) {
           toast.success(res.data.message);
-          history.push("/explore/allNFT");
+          history.push("/userprofile");
         }
       }
     } catch (err) {
@@ -707,7 +708,7 @@ const NFTDetail = (props) => {
     currentPrice,
     collectionId,
     collection,
-    tokenId
+    tokenId,
   } = nftDetail;
   const bannerData = {
     subHeading: "NFT",
@@ -715,7 +716,6 @@ const NFTDetail = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-
 
   const detailWallet = [
     {
@@ -735,28 +735,28 @@ const NFTDetail = (props) => {
       content: "Ethereum",
     },
   ];
-  let nftInfo=[
+  let nftInfo = [
     {
-      title:"Contract Address",
-      value:ENV.mintsClubContractAddress.slice(0, 6) +
-      "...." +
-      ENV.mintsClubContractAddress.slice(-6),
-
+      title: "Contract Address",
+      value:
+        ENV.mintsClubContractAddress.slice(0, 6) +
+        "...." +
+        ENV.mintsClubContractAddress.slice(-6),
     },
     {
-      title:"Token ID",
-      value:tokenId
+      title: "Token ID",
+      value: tokenId,
     },
     {
-      title:"Token Standard",
-      value:"ERC-1155"
+      title: "Token Standard",
+      value: "ERC-1155",
     },
     {
-      title:"Blockchain",
-      value:"Ethereum"
-    }
-  ]
-  console.log(nftDetail, "nftDetail");
+      title: "Blockchain",
+      value: "Ethereum",
+    },
+  ];
+  console.log(fileType, "fileType");
 
   return (
     <>
@@ -822,33 +822,63 @@ const NFTDetail = (props) => {
               <div className="detail-box">
                 <h6>Details</h6>
                 <hr />
-                {
-                  nftInfo.map((item)=>{
-                    return (
-                      <div className="detail-rounded-type d-flex align-items-center">
+                {nftInfo.map((item) => {
+                  return (
+                    <div
+                      className="detail-rounded-type d-flex align-items-center"
+                      onClick={() => {
+                        item.title === "Contract Address" &&
+                          window.open(
+                            "https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43",
+                            "_blank"
+                          );
+                      }}
+                    >
                       <div className="detail-rounded-name">
                         <p>{item.title}:</p>
                       </div>
                       <div className="detail-content">
-                        <p>
-                          {" "}
-                          {item.value}
-                        </p>
+                        <p> {item.value}</p>
                       </div>
                     </div>
-                    )
-                  })
-                }
-
+                  );
+                })}
               </div>
             </div>
 
             <div className="col-lg-8 col-xl-9 order-0 order-lg-1">
               <div className="row g-4 g-lg-5 g-xl-4">
                 <div className="col-xl-6">
-                  <div className="nft-img-container mx-auto mx-lg-0">
-                    <img src={image} alt="nft-image" />
-                  </div>
+                  {fileType === "image" ? (
+                    <div className="nft-img-container mx-auto mx-lg-0">
+                      <img src={image} alt="nft-image" />
+                    </div>
+                  ) : (
+                    
+                    <div className="card-img-top">
+                      <div className="video-wrapper">
+                        <video
+                          src={image}
+                          ref={videoElement}
+                          onTimeUpdate={handleOnTimeUpdate}
+                        />
+                        <div className="controls">
+                          <div className="actions">
+                            <button
+                              className="play-pause-btn d-flex align-items-center justify-content-center"
+                              onClick={togglePlay}
+                            >
+                              {playerState.isPlaying ? (
+                                <BsFillPauseFill />
+                              ) : (
+                                <BsFillPlayFill />
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="col-xl-6">
                   <div className="nft-img-detail">
@@ -2101,10 +2131,10 @@ const mapStateToProps = (state) => ({
   itemsListingAuth: state.nft.itemsListingAuth,
   createAuth: state.bid.createAuth,
   createAuthOffer: state.offer.createAuth,
+  buyAuth: state.offer.buyAuth,
   getAuth: state.bid.getAuth,
   getAuthOffer: state.offer.getAuth,
   offers: state.offer.offers,
-  buyAuth: state.offer.buyAuth,
   bids: state.bid.bids,
   bidsByNft: state.bid.bidsByNft,
   bidsByNftAuth: state.bid.bidsBYNftAuth,

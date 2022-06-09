@@ -82,7 +82,7 @@ const UserProfile = (props) => {
 
         const Nfts = nfts?.filter((item) => item.ownerId === userId);
         console.log(Nfts, "nfts123");
-        if (Nfts.length > 0) {
+        if (Nfts?.length > 0) {
           setDisabled(false);
         } else {
           if (initial) {
@@ -92,7 +92,7 @@ const UserProfile = (props) => {
         setInitial(false);
         setNFTs(Nfts);
         setNFTsCopy(nfts);
-        setNFTPagination({ total: Nfts.length });
+        setNFTPagination({ total: Nfts?.length });
         // setNFTPagination(pagination);
         setLoader(false);
       } else {
@@ -289,7 +289,7 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-  console.log(nftsCopy.length);
+  // console.log(nftsCopy.length);
   return (
     <>
       <section className="user-profile pt-0">
@@ -310,7 +310,7 @@ const UserProfile = (props) => {
                         src={
                           user?.profileImage
                             ? user.profileImage
-                            : Images.profilePlaceholder
+                            : Images.placeholderImg
                         }
                         alt="owner-avatar"
                       />

@@ -34,6 +34,7 @@ const NFTCard = (props) => {
   } = props.data;
 
   const { username, profileImage,profilePhoto } = props.owner;
+  const user=ENV.getUserKeys("_id")._id
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1, id) => {
     if (likedNfts && likedNfts?.length > 0) {
@@ -144,7 +145,7 @@ const NFTCard = (props) => {
         <div className="auction-card-owner-container d-flex align-items-center mb-2 mt-3">
           <div className="auction-owner-avatar">
             <img
-              src={profilePhoto ? profilePhoto : profileImage}
+              src={(profilePhoto===null&&profileImage===null)?Images.placeholderImg:profilePhoto ? profilePhoto : profileImage}
               alt="avatar"
             />
           </div>
@@ -152,7 +153,7 @@ const NFTCard = (props) => {
             <p>
               {"Owned by "}
               <span>
-                {username && username?.length > 8
+                {ownerId===user?"You":username && username?.length > 8
                   ? username.substring(0, 6) + "..."
                   : username?.length <= 8
                   ? username

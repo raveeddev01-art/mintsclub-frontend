@@ -78,7 +78,7 @@ const AuctionsCards = ({
                   if (i <= 2) {
                     return (
                       <img
-                        src={item === null ? Images.profilePlaceholder : item}
+                        src={item === null ? Images.placeholderImg : item}
                         alt="AvatarImg"
                       />
                     );
@@ -114,8 +114,8 @@ const AuctionsCards = ({
             <p>
               {"Owned by "}
               <span>
-                {ownerName && ownerName.length > 8
-                  ? ownerName.substring(0, 6) + "...."
+                {!ownerName?"unnamed":ownerName && ownerName.length > 12
+                  ? ownerName.substring(0, 12) + "...."
                   : ownerName}
               </span>
             </p>

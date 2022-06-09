@@ -30,7 +30,7 @@ const BuyModal = (props) => {
     disabled,
   } = props;
 
-  return confirmed === "" || confirmed === false ? (
+  return confirmed === "" || confirmed === false||confirmed==="pending" ? (
     <Modal
       {...props}
       size="lg"
@@ -153,10 +153,17 @@ const BuyModal = (props) => {
           onClick={() => {
             buyNow();
           }}
-          disabled={checkBox ? false : disabled}
+          disabled={!checkBox ||disabled}
           className="btn btn-linear-gradient btn-bid-modal mt-2"
         >
-          Confirm Checkout
+          {
+            confirmed==="pending"?
+            <div
+                      class="spinner-border approve-spinner"
+                      role="status"
+                    ></div>:" Confirm Checkout"
+          }
+         
         </button>
       </Modal.Footer>
     </Modal>

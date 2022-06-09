@@ -86,6 +86,7 @@ const SellNFT = (props) => {
   const [show, setShow] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState("not-approved");
   const [address, setAddress] = useState("");
+  const [copiesError, setCopiesError] = useState(false);
   let nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
@@ -420,17 +421,7 @@ const SellNFT = (props) => {
     }
   };
 
-  const {
-    image,
-    currentPrice,
-    likesCount,
-    auctionEndDate,
-    name,
-    _id,
-    ownerId,
-    user,
-    fileType,
-  } = nftDetail;
+  const { image, name, description, remainingCopies, fileType } = nftDetail;
 
   const bannerData = {
     subHeading: "NFT",
@@ -450,125 +441,192 @@ const SellNFT = (props) => {
       />
       {loader && <FullPageLoader />}
       <section className="padding-wrapper sell-nft new-nft-detail">
-        <form onSubmit={submit}>
-          <div className="container">
-            <div className="row g-4 g-xl-5">
-              <div className="col-12">
-                <div className="row g-4">
-                  <div className=" col-lg-6 col-xl-5">
+        <div className="container">
+          <div className="row g-4 g-xl-5">
+            <div className="col-12">
+              <div className="row g-4">
+                <div className=" col-lg-6 col-xl-5">
+                  {fileType === "image" ? (
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <img src={image} alt="nft-image" />
                     </div>
+                  ) : (
+                    <div className="card-img-top">
+                      <div className="video-wrapper">
+                        <video
+                          src={image}
+                          ref={videoElement}
+                          onTimeUpdate={handleOnTimeUpdate}
+                        />
+                        <div className="controls">
+                          <div className="actions">
+                            <button
+                              className="play-pause-btn d-flex align-items-center justify-content-center"
+                              onClick={togglePlay}
+                            >
+                              {playerState.isPlaying ? (
+                                <BsFillPauseFill />
+                              ) : (
+                                <BsFillPlayFill />
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="col-lg-6 col-xl-7">
+                  <div className="nft-img-detail">
+                    <h5>NFT Details:</h5>
                   </div>
-                  <div className="col-lg-6 col-xl-7">
-                    <div className="nft-img-detail">
-                      <h5>NFT Details:</h5>
+                  <div className="nft-img-detail-box">
+                    <div className="nft-detail-rounded-box">
+                      <p>
+                        {name && name.length > 30
+                          ? name.slice(0, 30) + "..."
+                          : name}
+                      </p>
                     </div>
-                    <div className="nft-img-detail-box">
-                      <div className="nft-detail-rounded-box">
-                        <p>
-                          {name && name.length > 30
-                            ? name.slice(0, 30) + "..."
-                            : name}
-                        </p>
+                    <div className="row g-2 g-sm-4">
+                      <div className="col-6 col-sm-4 col-lg-6 col-xl-4">
+                        <div className="nft-detail-rounded-box mb-0">
+                          <p>
+                            Total Copies: <span>{nftDetail?.copies}</span>
+                          </p>
+                        </div>
                       </div>
-                      <div className="row g-2 g-sm-4">
-                        <div className="col-6 col-sm-4 col-lg-6 col-xl-4">
-                          <div className="nft-detail-rounded-box mb-0">
-                            <p>
-                              Total Copies: <span>{2322}</span>
-                            </p>
-                          </div>
+                      <div className="col-6 col-sm-4 col-lg-6 col-xl-4 ">
+                        <div className="nft-detail-rounded-box mb-0">
+                          <p>
+                            Sold:{" "}
+                            <span>{nftDetail?.copies - remainingCopies}</span>
+                          </p>
                         </div>
-                        <div className="col-6 col-sm-4 col-lg-6 col-xl-4 ">
-                          <div className="nft-detail-rounded-box mb-0">
-                            <p>
-                              Sold: <span>{12321}</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-6 col-sm-4 col-lg-6 col-xl-4">
-                          <div className="nft-detail-rounded-box mb-0">
-                            <p>
-                              Remaining: <span>{33223}</span>
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-6 col-sm-4 col-lg-6 col-xl-4">
+                        <div className="nft-detail-rounded-box mb-0">
+                          <p>
+                            Remaining: <span>{remainingCopies}</span>
+                          </p>
                         </div>
                       </div>
                     </div>
-                    <div>
-                      <div className="detail-bg-box nft-img-detail">
-                        <h5>Descriptions:</h5>
-                        <hr />
-                        <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s,
-                          when an unknown printer took a galley of type and
-                          scrambled it to make a type specimen book. It has
-                          survived not only five centuries, but also the leap
-                          into electronic typesetting, remaining essentially
-                          unchanged. It was popularised in the 1960s with the
-                          release of Letraset sheets containing Lorem Ipsum
-                          passages, and more recently with desktop publishing
-                          software like Aldus PageMaker including versions of
-                          Lorem Ipsum.
-                        </p>
-                      </div>
+                  </div>
+                  <div>
+                    <div className="detail-bg-box nft-img-detail">
+                      <h5>Descriptions:</h5>
+                      <hr />
+                      <p>{description}</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-12">
-                <div className="sale-btn-container mt-5">
-                  <button
-                    className={` ${
-                      activeBtn === 0
-                        ? "sell-btn-active"
-                        : "sell-btn-not-active"
-                    }  me-3 `}
-                    onClick={() => {
-                      setActiveBtn(0);
-                      setSellingMethod(1);
-                      setCopies("");
-                    }}
-                  >
-                    Fixed Prize
-                  </button>
-                  <button
-                    className={` ${
-                      activeBtn === 1
-                        ? "sell-btn-active"
-                        : "sell-btn-not-active"
-                    } `}
-                    onClick={() => {
-                      setActiveBtn(1);
-                      setSellingMethod(2);
-                      setCopies("");
-                    }}
-                  >
-                    Timed Auction
-                  </button>
-                </div>
+            </div>
+            <div className="col-12">
+              <div className="sale-btn-container mt-5">
+                <button
+                  className={` ${
+                    activeBtn === 0 ? "sell-btn-active" : "sell-btn-not-active"
+                  }  me-3 `}
+                  onClick={() => {
+                    setActiveBtn(0);
+                    setSellingMethod(1);
+                    setCopies("");
+                    setCopiesError(false);
+                  }}
+                >
+                  Fixed Prize
+                </button>
+                <button
+                  className={` ${
+                    activeBtn === 1 ? "sell-btn-active" : "sell-btn-not-active"
+                  } `}
+                  onClick={() => {
+                    setActiveBtn(1);
+                    setSellingMethod(2);
+                    setCopies("");
+                    setCopiesError(false);
+                  }}
+                >
+                  Timed Auction
+                </button>
               </div>
-              {activeBtn === 0 ? (
-                <>
+            </div>
+            {activeBtn === 0 ? (
+              <form onSubmit={submit}>
+                <div className="row g-4 g-xl-5">
                   <div className="col-md-6">
                     <div className="sell-detail-box">
                       <h5>Price:</h5>
                       <hr />
                       <div className="sell-inp-container d-flex align-items-center">
-                        <input type="number" placeholder="Amount" />
+                        <input
+                          type="text"
+                          name="fixedPriceConfig.price.amount"
+                          placeholder="Amount"
+                          style={{
+                            borderRadius: "4px",
+                          }}
+                          maxLength={"8"}
+                          onChange={(e) => {
+                            if (e.target.value == "00") {
+                              return "";
+                            }
+                            onChange(e);
+                          }}
+                          onKeyDown={(e) => decimalNumberValidator(e)}
+                          value={fixedPriceConfig.price.amount}
+                          required
+                          autoComplete="off"
+                        />
                         <div className="inp-tag">ETH</div>
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="sell-detail-box">
-                      <h5>No of Copies:</h5>
+                      <h5>
+                        No of Copies:*{" "}
+                        {copiesError && (
+                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${nftDetail.copies} copies`}</span>
+                        )}
+                      </h5>
                       <hr />
                       <div className="sell-inp-container d-flex align-items-center">
-                        <input type="number" placeholder="Copies" />
+                        <input
+                          type="number"
+                          name="copies"
+                          placeholder="Copies"
+                          style={{
+                            borderRadius: "4px",
+                          }}
+                          min={"1"}
+                          max={`${nftDetail.copies}`}
+                          onChange={(e) => {
+                            if (+e.target.value > nftDetail.copies) {
+                              setCopiesError(true);
+                              return false;
+                            }
+                            console.log(typeof e.target.value, e.target.value);
+                            if (e.target.value == ".") {
+                              return false;
+                            }
+                            setCopiesError(false);
+                            // if (
+                            //   (e.target.value && e.target.value === ".") ||
+                            //   (e.target.value && e.target.value == "0") ||
+                            //   e.target.value > nftDetail.copies
+                            // ) {
+                            //   return false;
+                            // }
+                            setCopies(e.target.value);
+                          }}
+                          onKeyDown={(e) => decimalNumberValidator(e)}
+                          value={copies}
+                          required
+                          autoComplete="off"
+                        />
                         <div className="inp-tag">Copies</div>
                       </div>
                     </div>
@@ -594,29 +652,81 @@ const SellNFT = (props) => {
                     </div>
                   </div>
                   <div className="sell-btn-container d-flex justify-content-center justify-content-lg-start">
-                    <button className="btn btn-linear-gradient sell-btn-completed">
+                    <button
+                      className="btn btn-linear-gradient sell-btn-completed"
+                      type="submit"
+                    >
                       Complete Listing
                     </button>
                   </div>
-                </>
-              ) : (
-                <>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={submit}>
+                <div className="row g-4 g-xl-5">
                   <div className="col-md-6">
                     <div className="sell-detail-box">
-                      <h5>Price:</h5>
+                      <h5>Price:*</h5>
                       <hr />
                       <div className="sell-inp-container d-flex align-items-center">
-                        <input type="number" placeholder="Amount" />
+                        <input
+                          type="text"
+                          name="timedAuctionConfig.startPrice.amount"
+                          placeholder="Amount"
+                          maxLength="8"
+                          style={{
+                            borderRadius: "4px",
+                          }}
+                          onChange={(e) => {
+                            if (e.target.value === "00") {
+                              return false;
+                            } else {
+                              onChange(e);
+                            }
+                          }}
+                          onKeyDown={(e) => decimalNumberValidator(e)}
+                          value={timedAuctionConfig.startPrice.amount}
+                          required
+                          autoComplete="off"
+                        />
                         <div className="inp-tag">ETH</div>
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="sell-detail-box">
-                      <h5>No of Copies:</h5>
+                      <h5>
+                        No of Copies:*{" "}
+                        {copiesError && (
+                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${nftDetail.copies} copies`}</span>
+                        )}
+                      </h5>
                       <hr />
                       <div className="sell-inp-container d-flex align-items-center">
-                        <input type="number" placeholder="Copies" />
+                        <input
+                          type="number"
+                          name="copies"
+                          placeholder="Copies"
+                          maxLength={"3"}
+                          style={{
+                            borderRadius: "4px",
+                          }}
+                          min={"1"}
+                          max={`${nftDetail.copies}`}
+                          onChange={(e) => {
+                            if (+e.target.value > nftDetail.copies) {
+                              setCopiesError(true);
+                              return false;
+                            }
+                            setCopiesError(false);
+
+                            setCopies(e.target.value);
+                          }}
+                          onKeyDown={(e) => decimalNumberValidator(e)}
+                          value={copies}
+                          required
+                          autoComplete="off"
+                        />
                         <div className="inp-tag">Copies</div>
                       </div>
                     </div>
@@ -706,16 +816,20 @@ const SellNFT = (props) => {
                     </div>
                   </div>
                   <div className="sell-btn-container d-flex justify-content-center justify-content-lg-start">
-                    <button className="btn btn-linear-gradient sell-btn-completed">
+                    <button
+                      className="btn btn-linear-gradient sell-btn-completed"
+                      type="submit"
+                    >
                       Complete Listing
                     </button>
                   </div>
-                </>
-              )}
-              {/* <div className="col-12 order-2 order-md-1 col-md-6 col-lg-7 col-xl-8 ">
+                </div>
+              </form>
+            )}
+            {/* <div className="col-12 order-2 order-md-1 col-md-6 col-lg-7 col-xl-8 ">
                 <div className="row"></div>
               </div> */}
-              {/* <div className="nftDetail-accordion">
+            {/* <div className="nftDetail-accordion">
                       <div
                         className="accordion accordion-flush "
                         id="accordionFlushExample"
@@ -818,6 +932,7 @@ const SellNFT = (props) => {
                                         type="text"
                                         name="timedAuctionConfig.startPrice.amount"
                                         placeholder="Copies"
+
                                         maxLength={"3"}
                                         style={{
                                           borderRadius: "4px",
@@ -1066,7 +1181,7 @@ const SellNFT = (props) => {
                         )}
                       </div>
                     </div> */}
-              {/* <div className="row">
+            {/* <div className="row">
                       <div className="col-10 col-sm-6 col-md-8 col-lg-6  col-xl-4">
                         <div className="sell-fee-container">
                           <div className="sell-fee-title d-flex align-items-center mb-2">
@@ -1091,7 +1206,7 @@ const SellNFT = (props) => {
                       </div>
                     </div> */}
 
-              {/* <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
+            {/* <div className="col-11 col-sm-8 order-1 order-md-2 col-md-6 col-lg-5 col-xl-4 mx-auto">
                 <Card className="auction-card detail-card">
                   <div className="auction-img-wrapper">
                     {fileType && fileType === "image" ? (
@@ -1215,9 +1330,9 @@ const SellNFT = (props) => {
                   </Card.Body>
                 </Card>
               </div> */}
-            </div>
           </div>
-        </form>
+        </div>
+        {/* </form> */}
         <ApprovalModal
           show={show}
           approveAccount={approveAccount}

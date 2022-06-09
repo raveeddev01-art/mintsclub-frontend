@@ -16,9 +16,11 @@ import { Images } from "../../assets/assets";
 import "./wallet.css";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
+import { getWalletAddress } from "../../utils/web3";
 
 const Wallet = (props) => {
   const history = useHistory();
+  let walletAddress = false;
   const [connectedAddress, setConnectedAddress] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showSignUp, setShowSignUp] = useState(false);
@@ -111,6 +113,34 @@ const Wallet = (props) => {
   const switchSignup = () => {
     setShowSignUpComponent(true);
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleMetamaskStatus();
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleMetamaskStatus = async () => {
+    const address = await getWalletAddress();
+
+    if (walletAddress) {
+      if (walletAddress !== address) {
+        // toast.info("Please login with new address11");
+        walletAddress = address;
+             setShowSignUpComponent(false)
+             setShowSignUp(false)
+             setErrorMessage(false)
+             setConnectedAddress(address)
+      }
+    } else {
+      const address = await getWalletAddress();
+      walletAddress = address;
+      // setWalletAddress(address);
+    }
+    // }
+  };
+
 
   // if (props.user.userAuth) {
   //     console.log("@@@@Collection-----@", collections);
@@ -166,7 +196,7 @@ const Wallet = (props) => {
                       <span>Sign In</span>
                       <h3 className="mt-3 mb-0">SignIn to your account</h3>
                       <p className="mt-3">
-                        Please Click to Sing In your Account.
+                        Please Click to Sign In your Account.
                       </p>
                     </div>
                   </div>
@@ -194,7 +224,7 @@ const Wallet = (props) => {
                               {loader ? (
                                 <div className="text-center">
                                   <div
-                                    className="spinner-border text-white"
+                                    className="spinner-border sign-in-spinner text-white"
                                     role="status"
                                   >
                                     <span className="sr-only">Loading...</span>
@@ -211,7 +241,7 @@ const Wallet = (props) => {
                           <button
                             className="btn btn-linear-gradient btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
                             type="button"
-                            onClick={() => switchSignup()}
+                            onClick={() =>history.push('/signup')}
                           >
                             Would you like to Signup?
                           </button>

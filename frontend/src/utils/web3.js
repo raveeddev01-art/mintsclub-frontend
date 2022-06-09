@@ -169,6 +169,7 @@ export const BuyFixedPriceNFT = async (
   setConfirmed,
   setTransactionHash
 ) => {
+  setConfirmed("pending")
   try {
     /* global BigInt */
     let connectedAddress = await connectMetamask();

@@ -58,7 +58,7 @@ const CollectionsCard = ({
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
               <div className="collection-footer-left d-flex align-items-center">
                 <img
-                  src={profileImage ? profileImage : Images.profilePlaceholder}
+                  src={profileImage ? profileImage : Images.placeholderImg}
                   alt="avatar-img"
                   className="me-2"
                 />

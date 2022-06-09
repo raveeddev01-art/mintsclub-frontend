@@ -13,7 +13,7 @@ const HeroCards = ({ auction }) => {
         <button className="hero-btn-bid">Place a bid</button>
       </div>
       <div className="hero-placed-bid text-center">
-        <h6>{totalBids}+ People Place Bid</h6>
+        <h6>{totalBids>0?`${totalBids}+ People placed Bid`:"No Bids Found"}</h6>
       </div>
     </div>
   );
