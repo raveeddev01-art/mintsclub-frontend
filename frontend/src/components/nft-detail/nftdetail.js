@@ -339,7 +339,6 @@ const NFTDetail = (props) => {
   const handleCollectionLikesTogleApi = async (nftId, status, likesCount) => {
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
-        console.log("inside");
         setLikeBtnDisable(true);
         let userId = ENV.getUserKeys("_id")._id;
 
@@ -703,6 +702,7 @@ const NFTDetail = (props) => {
     image,
     user,
     ownerId,
+    auctionStartDate,
     auctionEndDate,
     description,
     currentPrice,
@@ -710,6 +710,7 @@ const NFTDetail = (props) => {
     collection,
     tokenId,
   } = nftDetail;
+
   const bannerData = {
     subHeading: "NFT",
     heading: "NFT Details",
@@ -756,7 +757,6 @@ const NFTDetail = (props) => {
       value: "Ethereum",
     },
   ];
-  console.log(fileType, "fileType");
 
   return (
     <>
@@ -941,8 +941,8 @@ const NFTDetail = (props) => {
                           <>
                             {auctionEndDate &&
                               checkIfAuctionStartedorEnded(
-                                nftDetail?.auctionStartDate,
-                                nftDetail?.auctionEndDate
+                                auctionStartDate,
+                                auctionEndDate
                               ) && (
                                 <>
                                   <img
@@ -953,7 +953,7 @@ const NFTDetail = (props) => {
                                   <span>
                                     Sale ends{" "}
                                     {auctionEndTimeConversion(
-                                      new Date(nftDetail?.auctionEndDate)
+                                      new Date(auctionEndDate)
                                     )}{" "}
                                   </span>
                                 </>
@@ -965,7 +965,7 @@ const NFTDetail = (props) => {
                   </div>
                   <div className="nft-detail-owner d-flex align-items-center">
                     <img
-                      src={Images.profilePlaceholder}
+                      src={user?.profileImage?user?.profileImage:Images.placeholderImg}
                       alt="avatar"
                       className="me-2"
                     />
@@ -983,8 +983,8 @@ const NFTDetail = (props) => {
                   </div>
                   <div className="nft-detail-btn">
                     {checkIfAuctionStartedorEnded(
-                      nftDetail?.auctionStartDate,
-                      nftDetail?.auctionEndDate
+                      auctionStartDate,
+                      auctionEndDate
                     ) && (
                       <button
                         disabled={disabled}
@@ -999,9 +999,9 @@ const NFTDetail = (props) => {
                           ? "Resale"
                           : ENV.getUserKeys("_id")._id == ownerId
                           ? "Sell"
-                          : nftDetail?.sellingMethod === 2
+                          : sellingMethod === 2
                           ? "Place A Bid"
-                          : nftDetail?.sellingMethod === 1
+                          : sellingMethod === 1
                           ? "Buy Now"
                           : ""}
                       </button>
@@ -1100,7 +1100,7 @@ const NFTDetail = (props) => {
                           </thead>
                         )}
                         <tbody>
-                          {nftDetail?.sellingMethod === 2 &&
+                          {sellingMethod === 2 &&
                           bids &&
                           bids.length > 0 ? (
                             <>
@@ -1139,6 +1139,7 @@ const NFTDetail = (props) => {
                     </div>
                   </div>
                 </div>
+                
                 <div className="col-12">
                   <div className="detail-bg-box">
                     <h5>Activity:</h5>

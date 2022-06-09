@@ -30,7 +30,7 @@ const BidModal = (props) => {
     balance,
     price,
   } = props;
-console.log(price>balance,"price>balance",price,balance)
+  console.log(price > balance, "price>balance", price, balance);
   return (
     <Modal
       {...props}
@@ -44,10 +44,11 @@ console.log(price>balance,"price>balance",price,balance)
         <Modal.Title id="contained-modal-title-vcenter">
           Place a Bid
         </Modal.Title>
-        {
-          +price>+balance&&
-        <p className="text-danger text-center mt-1 mb-0">Insufficient funds to place bid!</p>
-        }
+
+        <p className="text-danger text-center mt-1 mb-0">
+          {+price > +balance && "Insufficient funds to place bid!"}
+        </p>
+
         <div className="modal-close-container">
           <Button onClick={props.onHide}>
             <img src={ModalClose} alt="closemodal" />
@@ -90,7 +91,7 @@ console.log(price>balance,"price>balance",price,balance)
           <p>Balance: {Number(balance).toFixed(4)} ETH</p>
         </div>
         {balance !== "" && balance === 0 && (
-          <p className="text-center text-danger">
+          <p className="text-center insufcient-funds text-danger">
             Please Add Balance to place bid
           </p>
         )}
@@ -124,7 +125,10 @@ console.log(price>balance,"price>balance",price,balance)
             onHide();
           }}
           disabled={
-            price < calculatePricePercantage() || balance === 0 || !checkBox||price>balance
+            price < calculatePricePercantage() ||
+            balance === 0 ||
+            !checkBox ||
+            price > balance
           }
         >
           Confirm Checkout

@@ -253,6 +253,11 @@
 .modal.buy-modal.purchase-modal .modal-body {
   margin: 0 1rem;
 }
+.insufienct-funds {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 
 .modal.buy-modal.purchase-modal .modal-nft-purchased {
   width: 100%;
