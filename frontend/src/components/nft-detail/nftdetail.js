@@ -349,7 +349,6 @@ const NFTDetail = (props) => {
         };
 
         if (status === "dislike" && likesCount > 0) {
-          console.log("dislike");
           let result = likedNfts.filter((item) => item.nftId !== nftId);
 
           setLikedNfts(result);
@@ -359,7 +358,6 @@ const NFTDetail = (props) => {
         }
 
         if (status === "like") {
-          console.log("like");
           let myLikedNfts = [];
           if (likedNfts && likedNfts.length > 0) {
             myLikedNfts = likedNfts;
@@ -1139,7 +1137,7 @@ const NFTDetail = (props) => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="col-12">
                   <div className="detail-bg-box">
                     <h5>Activity:</h5>
