@@ -9,6 +9,7 @@ import { Images } from "../../assets/assets";
 
 const TopSeller = (props) => {
   const [sellers, setSellers] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     props.getTopSellers();
@@ -16,10 +17,15 @@ const TopSeller = (props) => {
 
   useEffect(() => {
     if (props.user.topSellersAuth) {
-      setSellers(props.user.sellers.topSellers);
+      const { topSellers } = props.user.sellers;
+      setLoader(false);
+      if (topSellers?.length > 11) {
+        setSellers(topSellers.slice(0, 11));
+      } else {
+        setSellers(topSellers);
+      }
     }
   }, [props.user.topSellersAuth]);
-
   return (
     <section className="top-seller-area padding-wrapper">
       <div className="container">
@@ -46,49 +52,53 @@ const TopSeller = (props) => {
           </div>
         </div>
         <div className="row g-3 items">
-          {sellers && sellers.length ? (
+          {loader ? (
+            <div className="text-center">
+              <div className="spinner-border text-secondary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : sellers && sellers.length ? (
             sellers.map((author, idx) => {
-              if (idx <= 11) {
-                return (
-                  <div
-                    key={`ts_${idx}`}
-                    className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
-                  >
-                    {/* Single Seller */}
-                    <div className="card top-seller-card">
-                      <div className="single-seller d-flex align-items-center">
-                        <div className="seller-avatar-container">
-                          <img
-                            className="avatar-md rounded-circle"
-                            src={
-                              author.profileImage === null
-                                ? Images.placeholderImg
-                                : author.profileImage
-                            }
-                            alt="AvatarImg"
-                          />
-                          {author.profileImage ? (
-                            <span className="seller-avatar-active">
-                              <img src={SellerTickIcon} alt="tick-icon" />
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-
-                        {/* Seller Info */}
-                        <div className="seller-info ml-3 w-100">
-                          <p className="seller mb-2">{author.username}</p>
-                          <span className="text-end">
-                            {" "}
-                            {author.totalETH.toFixed(2)}
+              return (
+                <div
+                  key={`ts_${idx}`}
+                  className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
+                >
+                  {/* Single Seller */}
+                  <div className="card top-seller-card">
+                    <div className="single-seller d-flex align-items-center">
+                      <div className="seller-avatar-container">
+                        <img
+                          className="avatar-md rounded-circle"
+                          src={
+                            author.profileImage === null
+                              ? Images.placeholderImg
+                              : author.profileImage
+                          }
+                          alt="AvatarImg"
+                        />
+                        {author.profileImage ? (
+                          <span className="seller-avatar-active">
+                            <img src={SellerTickIcon} alt="tick-icon" />
                           </span>
-                        </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+
+                      {/* Seller Info */}
+                      <div className="seller-info ml-3 w-100">
+                        <p className="seller mb-2">{author.username}</p>
+                        <span className="text-end">
+                          {" "}
+                          {author.totalETH.toFixed(2)}
+                        </span>
                       </div>
                     </div>
                   </div>
-                );
-              }
+                </div>
+              );
             })
           ) : (
             <p className="text-center">No Top Sellers Found</p>
