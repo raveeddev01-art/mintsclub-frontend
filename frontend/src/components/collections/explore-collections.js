@@ -50,7 +50,6 @@ const ExploreCollections = forwardRef((props, ref) => {
     if (props.collection.getAuth) {
       const { collections, pagination } = props.collection;
       setPagination(pagination);
-      // console.log('collections', collections.nftDetail);
       const userId = ENV.getUserKeys("_id")._id;
       if (props.mycollections) {
         let myCollections = collections.filter(

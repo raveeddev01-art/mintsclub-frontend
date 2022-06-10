@@ -16,6 +16,7 @@ import Banner from "../../banner/banner";
 import BannerBg from "../../../assets/images/hero-bg.png";
 import BannerImage from "../../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../own-collection-today/own-collection-today";
+
 const bannerData = {
   subHeading: "Explore",
   heading: "All NFTs",
@@ -230,17 +231,8 @@ const AllNFT = (props) => {
     }
   };
   const fetchData = (filterObj) => {
-    console.log(filterObj,"filteroBje")
-    // if (props?.location?.state) {
-    //   console.log("clear")
-    //   let searchQs = { keyword: props.location.state, page: 1, limit: 10 };
-    //   window.history.replaceState(null, "");
-    //   searchQs = ENV.objectToQueryString(searchQs);
-    //   getNFTs(searchQs);
-    // } else
-    //  {
+  
       getNFTs(filterObj);
-    // }
   };
   console.log(props.nft.nftsAuth,"props.nft.nftsAuth all nfts")
   return (

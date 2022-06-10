@@ -238,7 +238,6 @@ const FilterHoc = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
-  // console.log(loader,filterationLoader,"loader,filterationLoader")
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">

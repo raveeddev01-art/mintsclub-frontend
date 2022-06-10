@@ -38,7 +38,6 @@ const initData = {
 function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
-  // const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
@@ -111,7 +110,6 @@ function AuctionsOne(props) {
         if (currentDate > auctionEndDate) {
           let updatedAuctions = [...auctions];
           updatedAuctions.splice(index, 1);
-          console.log(updatedAuctions, "updatedAuctions");
           setAuctions(updatedAuctions);
         }
       });

@@ -46,6 +46,8 @@ const UserProfile = (props) => {
   const [dataLimit, setDataLimit] = useState(10);
   const [menuFilter, setMenuFilter] = useState(false);
   const userId = ENV.getUserKeys("_id")._id;
+
+  
   useEffect(() => {
     let searchQs = { page: 1, limit: 99999 };
     searchQs = ENV.objectToQueryString(searchQs);
@@ -153,7 +155,6 @@ const UserProfile = (props) => {
       if (latest) nftQS.latest = latest;
     }
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "query string of all nfts");
     props.getProfileNfts(qs);
   };
 
@@ -243,7 +244,6 @@ const UserProfile = (props) => {
 
   const handleFavFilter = (data = false) => {
     let itemToFilter = data ? data : nftsCopy;
-    console.log(itemToFilter, "itemToFilter");
     let favNfts = [];
     for (var item of itemToFilter) {
       let foundNft = likedNfts.find((liked) => liked.nftId === item._id);

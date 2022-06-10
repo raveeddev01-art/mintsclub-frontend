@@ -59,14 +59,12 @@ import BidModal from "../modals/BidModal";
 import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import VideoCard from "../test-video-card/videoCard";
 import StatsInfo from "../create-nft/components/statsinfo";
 import LevelsInfo from "../create-nft/components/levelsinfo";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
-import NFTImg from "../../assets/images/nft-detail.png";
 import { Images } from "../../assets/assets";
 import NftCard from "../nft-card/nft-card";
 
@@ -148,7 +146,6 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
-      // validateIfLiked(props.myLikedNfts);
       props.beforeNFT();
     }
   }, [props.myLikedNftsStatus]);
@@ -162,7 +159,6 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.getAuth) {
       setBids(props.bids);
-      // props.beforeBid();
     }
   }, [props.getAuth]);
 
@@ -483,7 +479,6 @@ const NFTDetail = (props) => {
   const makeOffer = async () => {
     setLoader(true);
     try {
-      // let result = await placeABid(price, nftDetail.nftToken);
       let result = true;
       if (result) {
         const payload = {
@@ -518,12 +513,6 @@ const NFTDetail = (props) => {
     props.deleteBid(id);
     createActivity("Cancel Bid");
   };
-
-  // const deleteOffer = (id) => {
-  //   let result = offers.filter((offer) => offer._id !== id);
-  //   setOffers(result);
-  //   props.deleteOffer(id);
-  // };
 
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment(new Date(auctionEndDate))
@@ -626,11 +615,6 @@ const NFTDetail = (props) => {
       let currentDate = new Date();
       let auctionStartDate = new Date(startDate);
       let auctionEndDate = new Date(endDate);
-      // if (
-      //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
-      //     currentDate.setHours(0, 0, 0, 0) )&&
-      //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
-      // )
       if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
       } else {

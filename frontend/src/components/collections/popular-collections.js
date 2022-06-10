@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import CollectionsCard from "../collections-cards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import CardSlider from "../card-slider/CardSlider";
@@ -12,7 +10,6 @@ import {
   getPopularCollections,
 } from "../collections/collections.actions";
 import { connect } from "react-redux";
-import { CollectionImages } from "../../assets/assets.js";
 import { Images } from "../../assets/assets";
 const initData = {
   pre_heading: "Most Popular",
@@ -79,10 +76,10 @@ const PopularCollections = (props) => {
         popularCollectionsSettings.infinite = false;
       }
       settPopularSettings(popularCollectionsSettings);
-      if(finalCollectionListing.length && finalCollectionListing.length >8){
+      if (finalCollectionListing.length && finalCollectionListing.length > 8) {
         setFilterationLoader(false);
-        setpopular(finalCollectionListing.slice(0,7));
-      }else {
+        setpopular(finalCollectionListing.slice(0, 7));
+      } else {
         setpopular(finalCollectionListing);
 
         setFilterationLoader(false);
@@ -186,23 +183,21 @@ const PopularCollections = (props) => {
               homeAuction
             >
               {popular.map((item, i) => {
-                // if (i < 8) {
-                  return (
-                    <CollectionsCard
-                      key={i}
-                      Subimg1={handleImage(item, 0)}
-                      Subimg2={handleImage(item, 1)}
-                      Subimg3={handleImage(item, 2)}
-                      collection={item}
-                      CardImg={item.featuredImg}
-                      name={item.name}
-                      id={item._id}
-                      userName={item.username[0]}
-                      NFTCount={item.totalNfts}
-                      profileImage={item.profileImage[0]}
-                    />
-                  );
-                // }
+                return (
+                  <CollectionsCard
+                    key={i}
+                    Subimg1={handleImage(item, 0)}
+                    Subimg2={handleImage(item, 1)}
+                    Subimg3={handleImage(item, 2)}
+                    collection={item}
+                    CardImg={item.featuredImg}
+                    name={item.name}
+                    id={item._id}
+                    userName={item.username[0]}
+                    NFTCount={item.totalNfts}
+                    profileImage={item.profileImage[0]}
+                  />
+                );
               })}
             </CardSlider>
           ) : (

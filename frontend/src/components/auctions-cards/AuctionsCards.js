@@ -1,9 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
-import ThreeDots from "../../assets/images/threeDots.svg";
 import ArrowUp from "../../assets/images/arrowUp.svg";
-import Bucket from "../../assets/images/bucket.png";
 import Countdown from "react-countdown";
 import { ENV } from "../../config/config";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
@@ -11,7 +9,6 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
-import AuctionAvatar from "../../assets/images/auctionAvatar.png";
 
 const AuctionsCards = ({
   ownerName,
@@ -112,7 +109,7 @@ const AuctionsCards = ({
           <div className="auction-owner-avatar">
             <img src={profilePhoto?profilePhoto:Images.placeholderImg} alt="avatar" />
           </div>
-          
+
           <div className="ms-2 auction-owner-name">
             <p>
               {"Owned by "}
@@ -136,7 +133,6 @@ const AuctionsCards = ({
 };
 
 const mapStateToProps = (state) =>
-  // console.log(state, "state in nfts"),
   ({});
 
 export default connect(mapStateToProps, {})(AuctionsCards);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
 import { connectMetamaskCopy, signRequest } from "../../utils/web3";
@@ -56,17 +56,8 @@ const Wallet = (props) => {
 
   useEffect(() => {
     if (props.collection.getAuth === true) {
-      let collections = props.collection.collections;
-
-      const userId = ENV.getUserKeys("_id")._id;
-
-      // let myCollections = collections.filter((el) => el.userId === userId);
-
-      // if (myCollections && myCollections.length > 0) {
       props.beforeCollection();
-      //   history.push("/");
-      // } else {
-      // }
+
       toast.success("User Logged In Successfully");
       history.push("/");
     }
@@ -128,31 +119,16 @@ const Wallet = (props) => {
       if (walletAddress !== address) {
         // toast.info("Please login with new address11");
         walletAddress = address;
-             setShowSignUpComponent(false)
-             setShowSignUp(false)
-             setErrorMessage(false)
-             setConnectedAddress(address)
+        setShowSignUpComponent(false);
+        setShowSignUp(false);
+        setErrorMessage(false);
+        setConnectedAddress(address);
       }
     } else {
       const address = await getWalletAddress();
       walletAddress = address;
-      // setWalletAddress(address);
     }
-    // }
   };
-
-
-  // if (props.user.userAuth) {
-  //     console.log("@@@@Collection-----@", collections);
-  //     if(collections && collections.length>){
-  //         console.log("In Upper")
-  //         return <Redirect to="/create" />
-  //     }
-  //     else {
-  //         console.log("In Down");
-  //         return <Redirect to="/collection/create" />
-  //     }
-  // }
 
   const signInbannerData = {
     subHeading: "Login",
@@ -241,7 +217,7 @@ const Wallet = (props) => {
                           <button
                             className="btn btn-linear-gradient btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
                             type="button"
-                            onClick={() =>history.push('/signup')}
+                            onClick={() => history.push("/signup")}
                           >
                             Would you like to Signup?
                           </button>

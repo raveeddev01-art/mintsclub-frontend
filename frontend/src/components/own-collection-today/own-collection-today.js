@@ -1,5 +1,6 @@
 import "./own-collection-today.css";
 import { Images } from "../../../src/assets/assets";
+
 const OwnCollectionToday = () => {
   return (
     <section className="own-collection-today-section">
