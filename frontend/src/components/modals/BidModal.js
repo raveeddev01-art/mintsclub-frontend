@@ -30,7 +30,6 @@ const BidModal = (props) => {
     balance,
     price,
   } = props;
-  console.log(price > balance, "price>balance", price, balance);
   return (
     <Modal
       {...props}

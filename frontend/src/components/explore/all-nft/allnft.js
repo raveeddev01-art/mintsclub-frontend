@@ -242,7 +242,7 @@ const AllNFT = (props) => {
       getNFTs(filterObj);
     // }
   };
-  console.log(props?.location?.state,"props?.location?.state")
+  console.log(props.nft.nftsAuth,"props.nft.nftsAuth all nfts")
   return (
     <>
       <section className="explore-collection-section padding-wrapper pt-0">

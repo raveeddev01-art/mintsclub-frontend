@@ -43,7 +43,7 @@ function AuctionsOne(props) {
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
   const [isActive, setIsActive] = useState(0);
-  const [filterationLoader,setFilterationLoader]=useState(true)
+  const [filterationLoader, setFilterationLoader] = useState(true);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -54,7 +54,6 @@ function AuctionsOne(props) {
     props.getLiveAuctions(qs);
     props.getCreators();
   }, []);
-
 
   // set live auctions
   useEffect(() => {
@@ -67,7 +66,7 @@ function AuctionsOne(props) {
       }
 
       setAuctions(auctions);
-      setFilterationLoader(false)
+      setFilterationLoader(false);
 
       let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
       if (auctions.length > 4) {
@@ -90,18 +89,43 @@ function AuctionsOne(props) {
   useEffect(() => {
     props.getCategories();
   }, []);
+
   useEffect(() => {
     if (props.collectionFlag) {
       setCategories(props.categories);
     }
   }, [props.collectionFlag]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkIfAuctionEnded();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [auctions]);
+
+  const checkIfAuctionEnded = () => {
+    if (auctions&&auctions?.length > 0) {
+      auctions.forEach((item, index) => {
+        let auctionEndDate = new Date(item.auctionEndDate);
+        let currentDate = new Date();
+        if (currentDate > auctionEndDate) {
+          let updatedAuctions = [...auctions];
+          updatedAuctions.splice(index, 1);
+          console.log(updatedAuctions, "updatedAuctions");
+          setAuctions(updatedAuctions);
+        }
+      });
+    }
+  };
+
+
   const handleCategoryFilter = (desc) => {
-    setFilterationLoader(true)
+    setFilterationLoader(true);
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
+
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (
@@ -126,7 +150,9 @@ function AuctionsOne(props) {
               </div>
             </div>
             <div className="col-12 col-lg-4 mt-3 mt-lg-0">
-              {categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!filterationLoader? (
+              {categoryId === "all" &&
+              (!auctions || (auctions && auctions?.length <= 1)) &&
+              !filterationLoader ? (
                 ""
               ) : (
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">

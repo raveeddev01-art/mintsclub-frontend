@@ -47,13 +47,9 @@ const UserProfile = (props) => {
   const [menuFilter, setMenuFilter] = useState(false);
   const userId = ENV.getUserKeys("_id")._id;
   useEffect(() => {
-    // let qs = { ownerId: ENV.getUserKeys("_id")._id };
-    // qs = ENV.objectToQueryString(qs);
-
-    props.beforeNFT();
-    let searchQs = { page: 1, limit: 9999 };
+    let searchQs = { page: 1, limit: 99999 };
     searchQs = ENV.objectToQueryString(searchQs);
-    props.getNFTs(searchQs);
+    props.getProfileNfts(searchQs);
     let likedNftsQs = { userId };
     likedNftsQs = ENV.objectToQueryString(likedNftsQs);
     props.getMyLikedNfts(likedNftsQs);
@@ -73,15 +69,11 @@ const UserProfile = (props) => {
   }, [props.getAuth]);
 
   useEffect(() => {
-    if (props.nft.nftsAuth) {
-      setFilterationLoader(false);
-      const { nfts, pagination } = props.nft.nftsData;
-
+    const { profileNFTsStatus, profileNFTs } = props;
+    if (profileNFTsStatus) {
+      const data = profileNFTs.nfts;
       if (!menuFilter) {
-        // console.log(props.nft.nftsData, "nfts");
-
-        const Nfts = nfts?.filter((item) => item.ownerId === userId);
-        console.log(Nfts, "nfts123");
+        const Nfts = data?.filter((item) => item.ownerId === userId);
         if (Nfts?.length > 0) {
           setDisabled(false);
         } else {
@@ -89,28 +81,21 @@ const UserProfile = (props) => {
             setDisabled(true);
           }
         }
-        setInitial(false);
         setNFTs(Nfts);
-        setNFTsCopy(nfts);
         setNFTPagination({ total: Nfts?.length });
-        // setNFTPagination(pagination);
-        setLoader(false);
       } else {
-        console.log(nfts, "nfts on else");
-        // setNFTPagination(pagination);
-        setInitial(false);
-        setNFTsCopy(nfts);
-        // handleFavFilter(nfts)
-        setNFTPagination(nfts.length);
-        handleNftFilter(menuFilter, nfts);
-        setLoader(false);
+        setNFTPagination(data.length);
+        handleNftFilter(menuFilter, data);
       }
+      setInitial(false);
+      setNFTsCopy(data);
+      setLoader(false);
+      setFilterationLoader(false);
     }
-  }, [props.nft.nftsAuth]);
+  }, [props.profileNFTsStatus]);
 
   useEffect(() => {
     if (props.myLikedNftsStatus) {
-      console.log(props.myLikedNfts, "myLikedNfts==>");
       setLikedNfts(props.myLikedNfts);
     }
   }, [props.myLikedNftsStatus]);
@@ -167,10 +152,9 @@ const UserProfile = (props) => {
       if (auction) nftQS.auction = auction;
       if (latest) nftQS.latest = latest;
     }
-    // nftQS.ownerId = ENV.getUserKeys("_id")._id;
     const qs = ENV.objectToQueryString(nftQS);
     console.log(qs, "query string of all nfts");
-    props.getNFTs(qs);
+    props.getProfileNfts(qs);
   };
 
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
@@ -185,7 +169,6 @@ const UserProfile = (props) => {
         };
         if ((status === "dislike") & (likesCount > 0)) {
           let result = likedNfts.filter((item) => item.nftId !== nftId);
-
           setLikedNfts(result);
           increOrDecreLikes(nftId, "dec");
           props.toggleLikeDislike(data);
@@ -205,7 +188,6 @@ const UserProfile = (props) => {
           increOrDecreLikes(nftId, "inc");
           props.toggleLikeDislike(data);
         }
-        // setNFTs(nfts);
       }
     } else {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
@@ -275,10 +257,7 @@ const UserProfile = (props) => {
   };
 
   const fetchData = (filterObj) => {
-    // if(!setInitial){
-
     getNFTs(filterObj);
-    // }
   };
   const getPaginatedData = () => {
     setDataLimit((prev) => prev + 10);
@@ -289,7 +268,7 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-  // console.log(nftsCopy.length);
+
   return (
     <>
       <section className="user-profile pt-0">
@@ -408,18 +387,20 @@ const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  profileNFTs: state.nft.profileNFTs,
-  profileNFTsStatus: state.nft.profileNFTsStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  individualUser: state.user.individualUser,
-  individualUserAuth: state.user.individualUserAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-  collections: state.collection.collections,
-  getAuth: state.collection.getAuth,
-  nft: state.nft,
-});
+const mapStateToProps = (state) => (
+  {
+    profileNFTs: state.nft.profileNFTs,
+    profileNFTsStatus: state.nft.profileNFTsStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
+    individualUser: state.user.individualUser,
+    individualUserAuth: state.user.individualUserAuth,
+    togleLikeRes: state.explore.togleLikeRes,
+    collections: state.collection.collections,
+    getAuth: state.collection.getAuth,
+    nft: state.nft,
+  }
+);
 
 export default connect(mapStateToProps, {
   getProfileNfts,

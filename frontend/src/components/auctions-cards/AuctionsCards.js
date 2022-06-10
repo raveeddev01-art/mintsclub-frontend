@@ -36,6 +36,8 @@ const AuctionsCards = ({
     currentPrice,
     fileType,
   } = item;
+  const {profilePhoto}=item?.owner
+  console.log(item,"item==>")
   return (
     <Card className={`auction-card ${cardBg} mx-2`}>
       <div className="auction-img-wrapper">
@@ -108,8 +110,9 @@ const AuctionsCards = ({
         </Card.Title>
         <div className="auction-card-owner-container d-flex align-items-center mb-2">
           <div className="auction-owner-avatar">
-            <img src={AuctionAvatar} alt="avatar" />
+            <img src={profilePhoto?profilePhoto:Images.placeholderImg} alt="avatar" />
           </div>
+          
           <div className="ms-2 auction-owner-name">
             <p>
               {"Owned by "}

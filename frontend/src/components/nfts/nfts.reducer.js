@@ -62,7 +62,6 @@ export default function (state = initialState, action) {
         nftsData: {},
         nftsAuth: false,
         upsertAuth: false,
-
         myLikedNfts: [],
         myLikedNftsStatus: false,
         profileNFTs: [],

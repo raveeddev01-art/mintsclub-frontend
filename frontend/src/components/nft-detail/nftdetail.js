@@ -105,7 +105,7 @@ const NFTDetail = (props) => {
 
   useEffect(async () => {
     props.getNFT(nftId);
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    let qs = { userId };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
@@ -640,6 +640,21 @@ const NFTDetail = (props) => {
       return false;
     }
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkIfAuctionEnded();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [nftDetail]);
+  const checkIfAuctionEnded = () => {
+    if (nftDetail && nftDetail?.sellingMethod === 2) {
+      let auctionEndDate = new Date(nftDetail.auctionEndDate);
+      let currentDate = new Date();
+      if (currentDate > auctionEndDate) {
+        props.getNFT(nftId);
+      }
+    }
+  };
   const EndAuction = async () => {
     try {
       setLoader(true);
@@ -826,8 +841,7 @@ const NFTDetail = (props) => {
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <img src={image} alt="nft-image" />
                     </div>
-                  ) : fileType==="video"?(
-                    
+                  ) : fileType === "video" ? (
                     <div className="card-img-top">
                       <div className="video-wrapper">
                         <video
@@ -851,7 +865,9 @@ const NFTDetail = (props) => {
                         </div>
                       </div>
                     </div>
-                  ):""}
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="col-xl-6">
                   <div className="nft-img-detail">
@@ -938,7 +954,11 @@ const NFTDetail = (props) => {
                   </div>
                   <div className="nft-detail-owner d-flex align-items-center">
                     <img
-                      src={user?.profileImage?user?.profileImage:Images.placeholderImg}
+                      src={
+                        user?.profileImage
+                          ? user?.profileImage
+                          : Images.placeholderImg
+                      }
                       alt="avatar"
                       className="me-2"
                     />
@@ -1073,9 +1093,7 @@ const NFTDetail = (props) => {
                           </thead>
                         )}
                         <tbody>
-                          {sellingMethod === 2 &&
-                          bids &&
-                          bids.length > 0 ? (
+                          {sellingMethod === 2 && bids && bids.length > 0 ? (
                             <>
                               {bids.map((bid, index) => {
                                 return (
