@@ -602,7 +602,6 @@ const SellNFT = (props) => {
                             borderRadius: "4px",
                           }}
                           min={"1"}
-                          // max={`${nftDetail.copies}`}
                           onChange={(e) => {
                             console.log(e.target.value.includes('.'),"e.target.value.includes('.')",+e.target.value==0)
                             if (+e.target.value > nftDetail.copies) {
