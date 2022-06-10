@@ -200,6 +200,7 @@ const NFTDetail = (props) => {
         props.getBidSByNftId(nftBidsQs);
       }
 
+      //set next bid to 5% greater
       let fivePerc = "";
       if (
         props.nftDetail.highestBid === 0 ||
@@ -825,7 +826,7 @@ const NFTDetail = (props) => {
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <img src={image} alt="nft-image" />
                     </div>
-                  ) : (
+                  ) : fileType==="video"?(
                     
                     <div className="card-img-top">
                       <div className="video-wrapper">
@@ -850,7 +851,7 @@ const NFTDetail = (props) => {
                         </div>
                       </div>
                     </div>
-                  )}
+                  ):""}
                 </div>
                 <div className="col-xl-6">
                   <div className="nft-img-detail">

@@ -602,24 +602,17 @@ const SellNFT = (props) => {
                             borderRadius: "4px",
                           }}
                           min={"1"}
-                          max={`${nftDetail.copies}`}
+                          // max={`${nftDetail.copies}`}
                           onChange={(e) => {
+                            console.log(e.target.value.includes('.'),"e.target.value.includes('.')",+e.target.value==0)
                             if (+e.target.value > nftDetail.copies) {
                               setCopiesError(true);
                               return false;
                             }
-                            console.log(typeof e.target.value, e.target.value);
-                            if (e.target.value == ".") {
+                            if ((e.target.value==0&&copies==='')||e.target.value.includes('.')) {
                               return false;
                             }
                             setCopiesError(false);
-                            // if (
-                            //   (e.target.value && e.target.value === ".") ||
-                            //   (e.target.value && e.target.value == "0") ||
-                            //   e.target.value > nftDetail.copies
-                            // ) {
-                            //   return false;
-                            // }
                             setCopies(e.target.value);
                           }}
                           onKeyDown={(e) => decimalNumberValidator(e)}
