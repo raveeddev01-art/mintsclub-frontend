@@ -173,13 +173,13 @@ const LiveAuctions = (props) => {
           {loadMoreBtn && (
             <div className="row">
               <div className="col-12 text-center">
-                <a
+                <button
                   id="load-btn"
-                  className="btn btn-bordered-white mt-5"
+                  className="btn btn-rounded-bordered px-5"
                   onClick={() => loadMore()}
                 >
-                  {initData.btn_1}
-                </a>
+                  Load more...
+                </button>
               </div>
             </div>
           )}

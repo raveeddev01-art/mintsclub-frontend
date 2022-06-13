@@ -23,7 +23,7 @@ const NavbarMain = (props) => {
     e.target.value ? setSearchActive(true) : setSearchActive(false);
   };
   const handleSearchKeyword = () => {
-    console.log("keyword",searchValue)
+    console.log("keyword", searchValue);
     if (searchValue !== "" && searchValue.length >= 3) {
       history.push({
         pathname: "/explore/allNFT",

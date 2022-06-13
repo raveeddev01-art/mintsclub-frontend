@@ -6,11 +6,7 @@
   bottom: 0;
   padding-bottom: 4px;
 }
-/* .swiper-pagination-bullet {
-    background: antiquewhite;
-    position: absolute !important;
-    bottom: 0 !important;
-  } */
+
 .swiper-pagination {
   position: absolute !important;
   bottom: 0 !important;
@@ -34,12 +30,19 @@
 
 .collection-category {
   font-style: normal;
-font-weight: 700;
-font-size: 14px;
-line-height: 16px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
 
-color: #1A1A1A;
+  color: #1a1a1a;
 }
 .popular-collections-content-right .home-active-category {
   color: #387fff;
+}
+
+.spinner-loader-wrapper {
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

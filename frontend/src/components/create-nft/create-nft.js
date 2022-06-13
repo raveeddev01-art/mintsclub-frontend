@@ -20,8 +20,6 @@ import { addNFTRecord, createNFT, createActivity } from "../nfts/nfts.action";
 import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.css";
-import { Images } from "../../assets/assets.js";
-import Upload from "./components/upload";
 import AddIcon from "../../assets/images/add-icon.svg";
 import PropertiesModal from "../modals/PropertiesModal";
 import LevelsModal from "../modals/LevelsModal";
@@ -36,12 +34,14 @@ import Select from "react-select";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
-import VideoComponent from "../videoComponent/videoComponent";
+import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 
 const placeholderImg = "";
 class CreateNFT extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef(null);
     this.state = {
       isSubmitted: false,
       formValid: true,
@@ -77,7 +77,15 @@ class CreateNFT extends Component {
       levelsmodalShow: false,
       statsmodalShow: false,
       selectedCollection: null,
+      playerState: {
+        isPlaying: false,
+        progress: 0,
+        speed: 1,
+        isMuted: false,
+      },
     };
+    // const videoElement = this.myRef;
+
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       messages: {
@@ -103,7 +111,13 @@ class CreateNFT extends Component {
     });
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    // const videoElement = this.myRef;
+    if (this.state.playerState.isPlaying !== prevState.playerState.isPlaying) {
+      this.state.playerState.isPlaying
+        ? this.myRef?.current?.play()
+        : this.myRef?.current?.pause();
+    }
     if (this.props.error) {
       this.setState({ loader: false }, () => {
         this.props.emptyError();
@@ -138,6 +152,16 @@ class CreateNFT extends Component {
       }
     }
   }
+
+  togglePlay = () => {
+    // setPlayerState({
+    //   ...playerState,
+    //   isPlaying: !playerState.isPlaying,
+    // });
+    let test = { ...this.state.playerState };
+    test = { ...test, isPlaying: !test.isPlaying };
+    this.setState({ playerState: test });
+  };
 
   onChange(e, status = null) {
     let { name, value } = e.target;
@@ -551,6 +575,15 @@ class CreateNFT extends Component {
       width: "100%",
       height: "100%",
     };
+
+    // const { playerState, togglePlay, handleOnTimeUpdate } =
+    //   useVideoPlayer(videoElement);
+
+    // useEffect(() => {
+    //   playerState.isPlaying
+    //     ? videoElement?.current?.play()
+    //     : videoElement?.current?.pause();
+    // }, [playerState.isPlaying, videoElement]);
     return (
       <>
         <section className="create-collection create-nft">
@@ -591,15 +624,15 @@ class CreateNFT extends Component {
                           <img
                             src={UploadWhiteIcon}
                             alt="upload"
-                            className="mb-2"
+                            className="mb-1 mt-4"
                           />
-                          <h6 className="mb-2 text-white">
+                          <h6 className="mb-1 text-white">
                             Drag and drop your files
                           </h6>
-                          <p className="mb-2 text-white">
+                          <p className="mb-1 text-white">
                             PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
                           </p>
-                          <div className="m-3">
+                          <div className="mx-3 my-1">
                             <span className="text-white">|</span>
                             <h6 className="text-white">OR</h6>
                             <span className="text-white">|</span>
@@ -607,63 +640,80 @@ class CreateNFT extends Component {
                           <span className="btn uploaded-img-browse upload-nft-btn ">
                             Browse File
                           </span>
-                          {this.validator.message(
-                            "image",
-                            nft.image,
-                            "required"
-                          )}
                         </div>
                       </div>
                     </label>
                   ) : videoURL ? (
-                    <label className="w-100">
-                      <div className="uploaded-img-container mx-auto">
-                        <label>
-                          <input
-                            type="file"
-                            style={{ display: "none" }}
-                            onChange={(e) => this.onFileChange(e, "onChange")}
-                            accept=".mp4, .png,.jpeg"
-                            name="image"
+                    <>
+                      <div className="uploaded-img-container">
+                        <div className="create-nft-video-container">
+                          <video
+                            src={videoURL}
+                            ref={this.myRef}
+                            // onTimeUpdate={handleOnTimeUpdate}
                           />
-                        </label>
-                        <div className="video-wrapper">
-                          <VideoComponent
-                            videoUrl={videoURL}
-                            videoStyles={videoStyles}
-                            videoWidth="300"
-                          />
-                        </div>
-                        <div className="upload-icon-container uploaded-img-content text-center">
-                          <img
-                            src={UploadWhiteIcon}
-                            alt="upload"
-                            className="mb-2"
-                          />
-                          <h6 className="mb-2 text-white">
-                            Drag and drop your files
-                          </h6>
-                          <p className="mb-2 text-white">
-                            PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
-                          </p>
-                          <div className="m-3">
-                            <span className="text-white">|</span>
-                            <h6 className="text-white">OR</h6>
-                            <span className="text-white">|</span>
+                          <div className="controls">
+                            <div className="actions">
+                              <button
+                                className="play-pause-btn d-flex align-items-center justify-content-center"
+                                onClick={() => this.togglePlay()}
+                              >
+                                {this.state.playerState.isPlaying ? (
+                                  <BsFillPauseFill />
+                                ) : (
+                                  <BsFillPlayFill />
+                                )}
+                              </button>
+                            </div>
                           </div>
-                          <span className="btn uploaded-img-browse upload-nft-btn ">
-                            Browse File
-                          </span>
                         </div>
-                        <span className="text-danger text-center mt-3">
-                          {this.validator.message(
-                            "image",
-                            nft.image,
-                            "required"
-                          )}
-                        </span>
+
+                        <label className="video-upload-label">
+                          <div className="uploaded-video-container mx-auto">
+                            <label>
+                              <input
+                                type="file"
+                                style={{ display: "none" }}
+                                onChange={(e) =>
+                                  this.onFileChange(e, "onChange")
+                                }
+                                accept=".mp4, .png,.jpeg"
+                                name="image"
+                              />
+                            </label>
+
+                            <div className="upload-icon-container uploaded-video-content text-center">
+                              <img
+                                src={UploadWhiteIcon}
+                                alt="upload"
+                                className="mb-1 mt-4"
+                              />
+                              <h6 className="mb-1 text-white">
+                                Drag and drop your files
+                              </h6>
+                              <p className="mb-1 text-white">
+                                PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+                              </p>
+                              <div className="mx-3 my-1">
+                                <span className="text-white">|</span>
+                                <h6 className="text-white">OR</h6>
+                                <span className="text-white">|</span>
+                              </div>
+                              <span className="btn uploaded-img-browse upload-nft-btn ">
+                                Browse File
+                              </span>
+                            </div>
+                            <span className="text-danger text-center mt-3">
+                              {this.validator.message(
+                                "image",
+                                nft.image,
+                                "required"
+                              )}
+                            </span>
+                          </div>
+                        </label>
                       </div>
-                    </label>
+                    </>
                   ) : (
                     <label className="w-100">
                       <div className="upload-icon-container text-center ">

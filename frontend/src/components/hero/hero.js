@@ -77,8 +77,10 @@ const Hero = (props) => {
             <CardSlider settings={heroSettings}>
               {auctions &&
                 auctions.length > 0 &&
-                auctions.map((auction) => {
-                  return <HeroCards auction={auction} className="slide" />;
+                auctions.map((auction, id) => {
+                  return (
+                    <HeroCards key={id} auction={auction} className="slide" />
+                  );
                 })}
             </CardSlider>
           </div>

@@ -43,7 +43,7 @@ function AuctionsOne(props) {
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
   const [isActive, setIsActive] = useState(0);
-  const [filterationLoader,setFilterationLoader]=useState(true)
+  const [filterationLoader, setFilterationLoader] = useState(true);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -54,7 +54,6 @@ function AuctionsOne(props) {
     props.getLiveAuctions(qs);
     props.getCreators();
   }, []);
-
 
   // set live auctions
   useEffect(() => {
@@ -67,7 +66,7 @@ function AuctionsOne(props) {
       }
 
       setAuctions(auctions);
-      setFilterationLoader(false)
+      setFilterationLoader(false);
 
       let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
       if (auctions.length > 4) {
@@ -97,7 +96,7 @@ function AuctionsOne(props) {
   }, [props.collectionFlag]);
 
   const handleCategoryFilter = (desc) => {
-    setFilterationLoader(true)
+    setFilterationLoader(true);
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
@@ -126,7 +125,9 @@ function AuctionsOne(props) {
               </div>
             </div>
             <div className="col-12 col-lg-4 mt-3 mt-lg-0">
-              {categoryId === "all" && (!auctions || (auctions&&auctions?.length <= 1)) &&!filterationLoader? (
+              {categoryId === "all" &&
+              (!auctions || (auctions && auctions?.length <= 1)) &&
+              !filterationLoader ? (
                 ""
               ) : (
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
@@ -164,9 +165,9 @@ function AuctionsOne(props) {
           </div>
 
           <div className="auctions-slides">
-            <div className="">
+            <>
               {filterationLoader ? (
-                <div className="text-center">
+                <div className="spinner-loader-wrapper">
                   <div className="spinner-border text-secondary" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
@@ -194,7 +195,7 @@ function AuctionsOne(props) {
               ) : (
                 <p className="text-center">No Live Auctions Found</p>
               )}
-            </div>
+            </>
           </div>
         </div>
       )}

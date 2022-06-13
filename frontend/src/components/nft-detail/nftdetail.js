@@ -59,14 +59,12 @@ import BidModal from "../modals/BidModal";
 import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import VideoCard from "../test-video-card/videoCard";
 import StatsInfo from "../create-nft/components/statsinfo";
 import LevelsInfo from "../create-nft/components/levelsinfo";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
-import NFTImg from "../../assets/images/nft-detail.png";
 import { Images } from "../../assets/assets";
 import NftCard from "../nft-card/nft-card";
 
@@ -826,32 +824,31 @@ const NFTDetail = (props) => {
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <img src={image} alt="nft-image" />
                     </div>
-                  ) : fileType==="video"?(
-                    
-                    <div className="card-img-top">
-                      <div className="video-wrapper">
-                        <video
-                          src={image}
-                          ref={videoElement}
-                          onTimeUpdate={handleOnTimeUpdate}
-                        />
-                        <div className="controls">
-                          <div className="actions">
-                            <button
-                              className="play-pause-btn d-flex align-items-center justify-content-center"
-                              onClick={togglePlay}
-                            >
-                              {playerState.isPlaying ? (
-                                <BsFillPauseFill />
-                              ) : (
-                                <BsFillPlayFill />
-                              )}
-                            </button>
-                          </div>
+                  ) : fileType === "video" ? (
+                    <div className="nft-img-container nft-video-container">
+                      <video
+                        src={image}
+                        ref={videoElement}
+                        onTimeUpdate={handleOnTimeUpdate}
+                      />
+                      <div className="controls">
+                        <div className="actions">
+                          <button
+                            className="play-pause-btn d-flex align-items-center justify-content-center"
+                            onClick={togglePlay}
+                          >
+                            {playerState.isPlaying ? (
+                              <BsFillPauseFill />
+                            ) : (
+                              <BsFillPlayFill />
+                            )}
+                          </button>
                         </div>
                       </div>
                     </div>
-                  ):""}
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="col-xl-6">
                   <div className="nft-img-detail">
@@ -938,7 +935,11 @@ const NFTDetail = (props) => {
                   </div>
                   <div className="nft-detail-owner d-flex align-items-center">
                     <img
-                      src={user?.profileImage?user?.profileImage:Images.placeholderImg}
+                      src={
+                        user?.profileImage
+                          ? user?.profileImage
+                          : Images.placeholderImg
+                      }
                       alt="avatar"
                       className="me-2"
                     />
@@ -1073,9 +1074,7 @@ const NFTDetail = (props) => {
                           </thead>
                         )}
                         <tbody>
-                          {sellingMethod === 2 &&
-                          bids &&
-                          bids.length > 0 ? (
+                          {sellingMethod === 2 && bids && bids.length > 0 ? (
                             <>
                               {bids.map((bid, index) => {
                                 return (

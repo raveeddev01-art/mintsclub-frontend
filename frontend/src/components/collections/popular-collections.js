@@ -79,10 +79,10 @@ const PopularCollections = (props) => {
         popularCollectionsSettings.infinite = false;
       }
       settPopularSettings(popularCollectionsSettings);
-      if(finalCollectionListing.length && finalCollectionListing.length >8){
+      if (finalCollectionListing.length && finalCollectionListing.length > 8) {
         setFilterationLoader(false);
-        setpopular(finalCollectionListing.slice(0,7));
-      }else {
+        setpopular(finalCollectionListing.slice(0, 7));
+      } else {
         setpopular(finalCollectionListing);
 
         setFilterationLoader(false);
@@ -174,7 +174,7 @@ const PopularCollections = (props) => {
             </div>
           </div>
           {filterationLoader ? (
-            <div className="text-center">
+            <div className="spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
@@ -187,21 +187,21 @@ const PopularCollections = (props) => {
             >
               {popular.map((item, i) => {
                 // if (i < 8) {
-                  return (
-                    <CollectionsCard
-                      key={i}
-                      Subimg1={handleImage(item, 0)}
-                      Subimg2={handleImage(item, 1)}
-                      Subimg3={handleImage(item, 2)}
-                      collection={item}
-                      CardImg={item.featuredImg}
-                      name={item.name}
-                      id={item._id}
-                      userName={item.username[0]}
-                      NFTCount={item.totalNfts}
-                      profileImage={item.profileImage[0]}
-                    />
-                  );
+                return (
+                  <CollectionsCard
+                    key={i}
+                    Subimg1={handleImage(item, 0)}
+                    Subimg2={handleImage(item, 1)}
+                    Subimg3={handleImage(item, 2)}
+                    collection={item}
+                    CardImg={item.featuredImg}
+                    name={item.name}
+                    id={item._id}
+                    userName={item.username[0]}
+                    NFTCount={item.totalNfts}
+                    profileImage={item.profileImage[0]}
+                  />
+                );
                 // }
               })}
             </CardSlider>
