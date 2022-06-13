@@ -27,17 +27,19 @@ const Hero = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
-      let updatedAuctions;
-      if (auctions.length > 6) {
-        updatedAuctions = auctions.slice(0, 6);
-      } else {
-        updatedAuctions = auctions;
+      let updatedAuctions = [];
+      if (auctions.length > 0) {
+        updatedAuctions = auctions.filter((item) => item.fileType === "image");
+      }
+      if (updatedAuctions?.length > 6) {
+        updatedAuctions = updatedAuctions.slice(0, 6);
       }
       setAuctions(updatedAuctions);
 
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
+  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">

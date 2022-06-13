@@ -30,7 +30,6 @@ const BidModal = (props) => {
     balance,
     price,
   } = props;
-  console.log(price > balance, "price>balance", price, balance);
   return (
     <Modal
       {...props}
@@ -72,7 +71,6 @@ const BidModal = (props) => {
                 onChange={(e) => onChange(e)}
                 onKeyDown={(e) => decimalNumberValidator(e)}
                 defaultValue={calculatePricePercantage()}
-                // disabled={balance===0?true:false}
 
                 value={price}
               />

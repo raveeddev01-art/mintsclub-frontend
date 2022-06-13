@@ -103,7 +103,7 @@ const NFTDetail = (props) => {
 
   useEffect(async () => {
     props.getNFT(nftId);
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    let qs = { userId };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
@@ -146,7 +146,6 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
-      // validateIfLiked(props.myLikedNfts);
       props.beforeNFT();
     }
   }, [props.myLikedNftsStatus]);
@@ -160,7 +159,6 @@ const NFTDetail = (props) => {
   useEffect(() => {
     if (props.getAuth) {
       setBids(props.bids);
-      // props.beforeBid();
     }
   }, [props.getAuth]);
 
@@ -481,7 +479,6 @@ const NFTDetail = (props) => {
   const makeOffer = async () => {
     setLoader(true);
     try {
-      // let result = await placeABid(price, nftDetail.nftToken);
       let result = true;
       if (result) {
         const payload = {
@@ -516,12 +513,6 @@ const NFTDetail = (props) => {
     props.deleteBid(id);
     createActivity("Cancel Bid");
   };
-
-  // const deleteOffer = (id) => {
-  //   let result = offers.filter((offer) => offer._id !== id);
-  //   setOffers(result);
-  //   props.deleteOffer(id);
-  // };
 
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment(new Date(auctionEndDate))
@@ -624,11 +615,6 @@ const NFTDetail = (props) => {
       let currentDate = new Date();
       let auctionStartDate = new Date(startDate);
       let auctionEndDate = new Date(endDate);
-      // if (
-      //  ( auctionStartDate.setHours(0, 0, 0, 0) <=
-      //     currentDate.setHours(0, 0, 0, 0) )&&
-      //  ( auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0))
-      // )
       if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
       } else {
@@ -636,6 +622,21 @@ const NFTDetail = (props) => {
       }
     } else {
       return false;
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkIfAuctionEnded();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [nftDetail]);
+  const checkIfAuctionEnded = () => {
+    if (nftDetail && nftDetail?.sellingMethod === 2) {
+      let auctionEndDate = new Date(nftDetail.auctionEndDate);
+      let currentDate = new Date();
+      if (currentDate > auctionEndDate) {
+        props.getNFT(nftId);
+      }
     }
   };
   const EndAuction = async () => {
@@ -825,6 +826,7 @@ const NFTDetail = (props) => {
                       <img src={image} alt="nft-image" />
                     </div>
                   ) : fileType === "video" ? (
+<<<<<<< HEAD
                     <div className="nft-img-container nft-video-container">
                       <video
                         src={image}
@@ -843,6 +845,28 @@ const NFTDetail = (props) => {
                               <BsFillPlayFill />
                             )}
                           </button>
+=======
+                    <div className="card-img-top">
+                      <div className="video-wrapper">
+                        <video
+                          src={image}
+                          ref={videoElement}
+                          onTimeUpdate={handleOnTimeUpdate}
+                        />
+                        <div className="controls">
+                          <div className="actions">
+                            <button
+                              className="play-pause-btn d-flex align-items-center justify-content-center"
+                              onClick={togglePlay}
+                            >
+                              {playerState.isPlaying ? (
+                                <BsFillPauseFill />
+                              ) : (
+                                <BsFillPlayFill />
+                              )}
+                            </button>
+                          </div>
+>>>>>>> ee12a6779e5ff6fecee255cf6b0706685894effe
                         </div>
                       </div>
                     </div>

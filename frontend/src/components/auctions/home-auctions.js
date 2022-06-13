@@ -38,7 +38,6 @@ const initData = {
 function AuctionsOne(props) {
   const [auctions, setAuctions] = useState(null);
   const [loader, setLoader] = useState(false); // auctions loader
-  // const [creators, setCreator] = useState([]);
   const [categories, setCategories] = useState(null);
   const [categoryId, setCategoryId] = useState("all");
   const [auctionSettings, setAuctionSettings] = useState();
@@ -89,11 +88,34 @@ function AuctionsOne(props) {
   useEffect(() => {
     props.getCategories();
   }, []);
+
   useEffect(() => {
     if (props.collectionFlag) {
       setCategories(props.categories);
     }
   }, [props.collectionFlag]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkIfAuctionEnded();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [auctions]);
+
+  const checkIfAuctionEnded = () => {
+    if (auctions&&auctions?.length > 0) {
+      auctions.forEach((item, index) => {
+        let auctionEndDate = new Date(item.auctionEndDate);
+        let currentDate = new Date();
+        if (currentDate > auctionEndDate) {
+          let updatedAuctions = [...auctions];
+          updatedAuctions.splice(index, 1);
+          setAuctions(updatedAuctions);
+        }
+      });
+    }
+  };
+
 
   const handleCategoryFilter = (desc) => {
     setFilterationLoader(true);
@@ -101,6 +123,7 @@ function AuctionsOne(props) {
     const qs = ENV.objectToQueryString({ myFilter: desc });
     props.getLiveAuctions(qs);
   };
+
   return (
     <section className="live-auctions-area padding-wrapper">
       {loader ? (

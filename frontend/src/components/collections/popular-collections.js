@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import CollectionsCard from "../collections-cards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import CardSlider from "../card-slider/CardSlider";
@@ -12,7 +10,6 @@ import {
   getPopularCollections,
 } from "../collections/collections.actions";
 import { connect } from "react-redux";
-import { CollectionImages } from "../../assets/assets.js";
 import { Images } from "../../assets/assets";
 const initData = {
   pre_heading: "Most Popular",
@@ -186,7 +183,10 @@ const PopularCollections = (props) => {
               homeAuction
             >
               {popular.map((item, i) => {
+<<<<<<< HEAD
                 // if (i < 8) {
+=======
+>>>>>>> ee12a6779e5ff6fecee255cf6b0706685894effe
                 return (
                   <CollectionsCard
                     key={i}
@@ -202,7 +202,10 @@ const PopularCollections = (props) => {
                     profileImage={item.profileImage[0]}
                   />
                 );
+<<<<<<< HEAD
                 // }
+=======
+>>>>>>> ee12a6779e5ff6fecee255cf6b0706685894effe
               })}
             </CardSlider>
           ) : (
