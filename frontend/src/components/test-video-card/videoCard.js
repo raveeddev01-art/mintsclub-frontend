@@ -23,7 +23,7 @@ const VideoCard = ({
   auctionEndDate,
   copies,
   remainingCopies,
-  ownerName
+  ownerName,
 }) => {
   const history = useHistory();
   const [toggle, setToggle] = React.useState(true);
@@ -64,6 +64,7 @@ const VideoCard = ({
   const videoElement = useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
+  console.log("progress", playerState.speed);
 
   return (
     <Card className="auction-card listing-card">
@@ -81,7 +82,7 @@ const VideoCard = ({
                   className="play-pause-btn d-flex align-items-center justify-content-center"
                   onClick={togglePlay}
                 >
-                  {playerState.isPlaying ? (
+                  {playerState.isPlaying && playerState.progress !== 100 ? (
                     <BsFillPauseFill />
                   ) : (
                     <BsFillPlayFill />
@@ -128,7 +129,7 @@ const VideoCard = ({
         </div>
         <div className="auction-card-owner-container d-flex justify-content-between align-items-center">
           <div className="auction-owner-name">
-            <p>{copies-remainingCopies} Sold</p>
+            <p>{copies - remainingCopies} Sold</p>
           </div>
           <div className="auction-owner-name">
             <p>{remainingCopies} Remaining</p>

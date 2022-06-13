@@ -17,6 +17,7 @@ const AuctionsCards = ({
   bidsProfile,
   item,
   cardBg,
+  key,
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
@@ -35,7 +36,7 @@ const AuctionsCards = ({
   } = item;
   const {profilePhoto}=item?.owner
   return (
-    <Card className={`auction-card ${cardBg} mx-2`}>
+    <Card key={key} className={`auction-card ${cardBg} mx-2`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
           <Card.Img variant="top" src={image} alt="AuctionTopImg" />
@@ -113,7 +114,9 @@ const AuctionsCards = ({
             <p>
               {"Owned by "}
               <span>
-                {!ownerName?"unnamed":ownerName && ownerName.length > 12
+                {!ownerName
+                  ? "unnamed"
+                  : ownerName && ownerName.length > 12
                   ? ownerName.substring(0, 12) + "...."
                   : ownerName}
               </span>

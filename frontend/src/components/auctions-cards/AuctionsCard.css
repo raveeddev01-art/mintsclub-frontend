@@ -20,6 +20,7 @@
 
 .auction-card.card .card-img-top img {
   height: 100%;
+  object-fit: cover;
 }
 
 .auction-card-avatar img {

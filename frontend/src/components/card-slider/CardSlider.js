@@ -40,10 +40,10 @@ export default class CardSlider extends Component {
               className="card-slider-btn mb-4 me-3"
               onClick={this.previous}
             >
-              <i class="fas fa-arrow-left"></i>
+              <i className="fas fa-arrow-left"></i>
             </button>
             <button className="card-slider-btn mb-4" onClick={this.next}>
-              <i class="fas fa-arrow-right"></i>
+              <i className="fas fa-arrow-right"></i>
             </button>
           </div>
         )}

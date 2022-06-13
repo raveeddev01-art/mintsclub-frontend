@@ -172,7 +172,7 @@ const PopularCollections = (props) => {
             </div>
           </div>
           {filterationLoader ? (
-            <div className="text-center">
+            <div className="spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>

@@ -10,3 +10,7 @@
   background-color: #fff;
   box-shadow: 0px 0px 25px 13px rgba(0, 0, 0, 0.02);
 }
+
+.top-seller.spinner-loader-wrapper {
+  min-height: 200px;
+}

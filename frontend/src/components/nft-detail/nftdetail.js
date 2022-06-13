@@ -826,26 +826,24 @@ const NFTDetail = (props) => {
                       <img src={image} alt="nft-image" />
                     </div>
                   ) : fileType === "video" ? (
-                    <div className="card-img-top">
-                      <div className="video-wrapper">
-                        <video
-                          src={image}
-                          ref={videoElement}
-                          onTimeUpdate={handleOnTimeUpdate}
-                        />
-                        <div className="controls">
-                          <div className="actions">
-                            <button
-                              className="play-pause-btn d-flex align-items-center justify-content-center"
-                              onClick={togglePlay}
-                            >
-                              {playerState.isPlaying ? (
-                                <BsFillPauseFill />
-                              ) : (
-                                <BsFillPlayFill />
-                              )}
-                            </button>
-                          </div>
+                    <div className="nft-img-container nft-video-container">
+                      <video
+                        src={image}
+                        ref={videoElement}
+                        onTimeUpdate={handleOnTimeUpdate}
+                      />
+                      <div className="controls">
+                        <div className="actions">
+                          <button
+                            className="play-pause-btn d-flex align-items-center justify-content-center"
+                            onClick={togglePlay}
+                          >
+                            {playerState.isPlaying ? (
+                              <BsFillPauseFill />
+                            ) : (
+                              <BsFillPlayFill />
+                            )}
+                          </button>
                         </div>
                       </div>
                     </div>

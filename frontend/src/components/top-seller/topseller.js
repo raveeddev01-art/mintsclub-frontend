@@ -53,7 +53,7 @@ const TopSeller = (props) => {
         </div>
         <div className="row g-3 items">
           {loader ? (
-            <div className="text-center">
+            <div className="top-seller spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>

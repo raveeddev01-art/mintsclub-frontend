@@ -71,10 +71,75 @@
   min-width: 150px;
 }
 .create-nft .uploaded-img-container {
-  max-width: 378px;
+  width: 378px;
   height: 293px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
+.create-nft .uploaded-img-container .create-nft-video-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.create-nft .uploaded-img-container .create-nft-video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+.create-nft .uploaded-img-container .create-nft-video-container .controls {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.create-nft
+  .uploaded-img-container
+  .create-nft-video-container
+  .actions
+  .play-pause-btn {
+  background: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-nft .uploaded-video-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+}
+
+.create-nft .video-upload-label {
+  position: absolute;
+  width: 70%;
+  height: 90%;
+  display: none;
+}
+
+.create-nft .uploaded-video-container {
+  width: 100%;
+  height: 100%;
+}
+
+.create-nft .uploaded-img-container:hover > .video-upload-label {
+  display: block;
+}
+
 .create-nft .uploaded-img-container:hover > .uploaded-img {
   opacity: 0.8;
 }
@@ -94,8 +159,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
-  width: 100%;
-  height: 100%;
+  width: 70%;
+  height: 90%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 20px;
 }
@@ -108,16 +173,4 @@
   font-size: 13px;
   line-height: 15px;
   padding: 10px 27px;
-}
-
-.create-nft .uploaded-img-container .video-wrapper {
-  width: 100%;
-  border-radius: 20px;
-  height: 90%;
-  position: relative;
-}
-
-.create-nft .uploaded-img-container .video-wrapper video {
-  width: 100%;
-  height: 100%;
 }

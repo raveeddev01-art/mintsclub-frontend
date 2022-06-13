@@ -31,7 +31,7 @@ const FilterHoc = (props) => {
     buy: false,
     auction: false,
     latest: false,
-    keyword:  props.initialKeyword ? props.initialKeyword : ""
+    keyword: props.initialKeyword ? props.initialKeyword : "",
   });
 
   const priceOptions = [
@@ -41,7 +41,7 @@ const FilterHoc = (props) => {
     { value: "newest", label: "Recantly Created" },
   ];
   useEffect(() => {
-    const {initialKeyword}=props;
+    const { initialKeyword } = props;
     if (initialKeyword) {
       setKeyword(initialKeyword);
       handleSearchKeyword(initialKeyword);
@@ -121,14 +121,12 @@ const FilterHoc = (props) => {
   };
 
   const handlePagination = () => {
-    if(!UserProfile){
-
+    if (!UserProfile) {
       setInitial(false);
       setFilterationLoader(true);
       setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
-    }
-    else {
-      getPaginatedData()
+    } else {
+      getPaginatedData();
     }
   };
 
@@ -178,7 +176,7 @@ const FilterHoc = (props) => {
   };
   const handleClearFilter = (id) => {
     if (id === "status") {
-      setFilterationLoader(true)
+      setFilterationLoader(true);
       setFilter((prev) => ({
         ...prev,
         buy: false,
@@ -186,12 +184,12 @@ const FilterHoc = (props) => {
         new: false,
       }));
     } else if (id === "price") {
-      setFilterationLoader(true)
+      setFilterationLoader(true);
       setMinValue("");
       setMaxValue("");
       setFilter((prev) => ({ ...prev, ltePrice: false, gtePrice: false }));
     } else if (id === "collections") {
-      setFilterationLoader(true)
+      setFilterationLoader(true);
       setFilter((prev) => ({ ...prev, collectionId: false }));
     } else {
       setMinValue("");
@@ -491,10 +489,10 @@ const FilterHoc = (props) => {
                       nftPagination?.total > nfts.length &&
                       !filterationLoader && (
                         <button
-                          className="btn btn-linear-gradient px-5"
+                          className="btn btn-rounded-bordered px-5"
                           onClick={() => handlePagination()}
                         >
-                          Load more
+                          Load more...
                         </button>
                       )}
                   </div>

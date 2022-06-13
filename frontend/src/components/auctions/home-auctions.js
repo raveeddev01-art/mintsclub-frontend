@@ -188,9 +188,9 @@ function AuctionsOne(props) {
           </div>
 
           <div className="auctions-slides">
-            <div className="">
+            <>
               {filterationLoader ? (
-                <div className="text-center">
+                <div className="spinner-loader-wrapper">
                   <div className="spinner-border text-secondary" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
@@ -218,7 +218,7 @@ function AuctionsOne(props) {
               ) : (
                 <p className="text-center">No Live Auctions Found</p>
               )}
-            </div>
+            </>
           </div>
         </div>
       )}

@@ -295,10 +295,10 @@ const Populars = forwardRef((props, ref) => {
                       popular?.length === 10 &&
                       pagination.totalRecords > popular.length && (
                         <button
-                          className="btn btn-linear-gradient px-5"
+                          className="btn btn-rounded-bordered px-5"
                           onClick={() => handlePagination()}
                         >
-                          Load more
+                          Load more...
                         </button>
                       )}
                   </div>
