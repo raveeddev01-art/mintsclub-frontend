@@ -21,6 +21,7 @@ const StatsModal = (props) => {
       }
     }
   };
+  
   return (
     <Modal
       {...props}
@@ -42,6 +43,7 @@ const StatsModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body className="mt-0 pt-0 px-0 px-sm-3">
+        <form>
         <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
           {stats &&
             stats.length > 0 &&
@@ -78,12 +80,15 @@ const StatsModal = (props) => {
                           <input
                             type="number"
                             name="value"
+                            min="1"
+                            maxLength="1"
+                            pattern=""
                             value={item.value}
                             onChange={(e) => {
                               console.log(typeof e.target.value);
                               if (
                                 +e.target.value > 5 ||
-                                e.target.value === "0"
+                                (+e.target.value <= 0 && item.value == "")
                               ) {
                                 return "";
                               }
@@ -111,7 +116,7 @@ const StatsModal = (props) => {
                   </div>
                   <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
                     <div className="inp-close text-end">
-                      <button>
+                      <button type="submit">
                         <img
                           src={InputClose}
                           alt="closemodal"
@@ -124,6 +129,7 @@ const StatsModal = (props) => {
               );
             })}
         </div>
+        </form>
       </Modal.Body>
       <Modal.Footer>
         <div className="modal-nft-footer d-flex align-items-center">

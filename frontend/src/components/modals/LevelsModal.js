@@ -85,10 +85,13 @@ const LevelsModal = (props) => {
                             type="number"
                             name="value"
                             value={item.value}
+                            min="1"
+                            maxLength="1"
                             onChange={(e) => {
+                              console.log(e.target.value, "e.target.value");
                               if (
                                 +e.target.value > 5 ||
-                                e.target.value === "0"
+                                (+e.target.value <= 0 && item.value == "")
                               ) {
                                 return "";
                               }
