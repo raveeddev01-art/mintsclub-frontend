@@ -231,7 +231,7 @@ class CreateNFT extends Component {
         },
         () => {
           const { formValid } = this.state;
-
+console.log(formValid,"formValid")
           if (formValid) {
             this.setState(
               {
@@ -703,13 +703,13 @@ class CreateNFT extends Component {
                                 Browse File
                               </span>
                             </div>
-                            <span className="text-danger text-center mt-3">
+                            {/* <span className="text-danger text-center mt-3">
                               {this.validator.message(
                                 "image",
                                 nft.image,
                                 "required"
                               )}
-                            </span>
+                            </span> */}
                           </div>
                         </label>
                       </div>
@@ -738,13 +738,13 @@ class CreateNFT extends Component {
                         <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
                           Browse File
                         </span>
-                        <span className="text-danger text-center mb-3">
+                         <span className="text-danger text-center mb-3">
                           {this.validator.message(
                             "image",
                             nft.image,
                             "required"
                           )}
-                        </span>
+                        </span> 
                       </div>
                     </label>
                   )}

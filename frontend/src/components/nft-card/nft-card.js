@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Image } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 import { ENV } from "../../config/config";
@@ -8,7 +8,7 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 const NFTCard = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
@@ -70,6 +70,12 @@ const NFTCard = (props) => {
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
           <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+          // <LazyLoadImage
+          // alt={Image}
+          // // height={40}
+          // src={image} // use normal <img> attributes as props
+          // // width={40} 
+          // />
         ) : (
           <div className="card-img-top">
             <div className="video-wrapper">

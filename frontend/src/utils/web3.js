@@ -91,7 +91,6 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
   }
 };
 
-
 export const openNFTForBidding = async (
   biddingTime,
   startTime,
@@ -102,7 +101,7 @@ export const openNFTForBidding = async (
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let id = Number(tokenId);
-    console.log(biddingTime,startTime)
+    console.log(biddingTime, startTime);
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
@@ -169,7 +168,7 @@ export const BuyFixedPriceNFT = async (
   setConfirmed,
   setTransactionHash
 ) => {
-  setConfirmed("pending")
+  setConfirmed("pending");
   try {
     /* global BigInt */
     let connectedAddress = await connectMetamask();
@@ -217,26 +216,23 @@ export const setApprovalForAll = async (setApprovalStatus) => {
   }
 };
 
-export const endAuction=async (tokenId)=>{
-
-  try{
-    let connectedAddress=await getMetamaskConnectedAddress();
+export const endAuction = async (tokenId) => {
+  try {
+    let connectedAddress = await getMetamaskConnectedAddress();
     const contractM = await getContractMethods();
-    const result = contractM.methods.auctionEnd(tokenId)
-    .send({
+    const result = contractM.methods.auctionEnd(tokenId).send({
       from: connectedAddress,
-      gassPrice: 5000000
-    })
+      gassPrice: 5000000,
+    });
     if (result) {
-      console.log(result,"result")
+      console.log(result, "result");
       return result;
     }
-  }catch(err){
-    console.log(err,"error")
+  } catch (err) {
+    console.log(err, "error");
     throw new Error(err);
   }
-
-}
+};
 
 export const getMetamaskConnectedAddress = async () => {
   let web3 = await getWeb3();
@@ -312,6 +308,24 @@ export const connectMetamask = async () => {
     return accounts[0];
   } else {
     toast.error("Please install metamask to connect to the Marketplace");
+  }
+};
+export const connectWithMetamask = async () => {
+  try {
+    await window.ethereum.request({
+      method: "wallet_requestPermissions",
+      params: [
+        {
+          eth_accounts: {},
+        },
+      ],
+    });
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    return accounts[0];
+  } catch (err) {
+    toast.error(err.message)
   }
 };
 

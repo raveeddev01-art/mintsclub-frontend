@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
-import { connectMetamaskCopy, signRequest } from "../../utils/web3";
+import {
+  connectMetamaskCopy,
+  signRequest,
+  connectWithMetamask,
+} from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "../wallet/wallet.action";
 import { toast } from "react-toastify";
 import {
@@ -16,7 +20,7 @@ import { Images } from "../../assets/assets";
 import "./wallet.css";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
-import { getWalletAddress,validateNetwork } from "../../utils/web3";
+import { getWalletAddress, validateNetwork } from "../../utils/web3";
 
 const Wallet = (props) => {
   const history = useHistory();
@@ -29,19 +33,19 @@ const Wallet = (props) => {
   const [username, setUsername] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [loader, setLoader] = useState(false);
+
   const connectMetamaskCall = async () => {
     if (await validateNetwork()) {
-
-    setDisabled(true);
-    let connectedAddress = await connectMetamaskCopy();
-    if (connectedAddress) {
-      setDisabled(false);
+      setDisabled(true);
+      let connectedAddress = await connectWithMetamask();
+      if (connectedAddress) {
+        setDisabled(false);
+      }
+      setConnectedAddress(connectedAddress);
+      setWalletAddress(connectedAddress);
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
-    setConnectedAddress(connectedAddress);
-    setWalletAddress(connectedAddress);
-  }else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-  }
   };
 
   useEffect(() => {
@@ -71,50 +75,47 @@ const Wallet = (props) => {
   const signup = async (e) => {
     e.preventDefault();
     if (await validateNetwork()) {
-
-    setDisabled(true);
-    try {
-      if (validator.isEmail(email)) {
-        let sign = await signRequest();
-        let payload = {
-          address: connectedAddress,
-          email: email,
-          username: username,
-          isApproved: false,
-        };
-        props.signup(payload);
-      } else {
-        setErrorMessage("please enter valid email");
+      setDisabled(true);
+      try {
+        if (validator.isEmail(email)) {
+          let sign = await signRequest();
+          let payload = {
+            address: connectedAddress,
+            email: email,
+            username: username,
+            isApproved: false,
+          };
+          props.signup(payload);
+        } else {
+          setErrorMessage("please enter valid email");
+        }
+      } catch (err) {
+        toast.error(err.message);
+        setDisabled(false);
       }
-    } catch (err) {
-      toast.error(err.message);
-      setDisabled(false);
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
-  }
-  else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-  }
   };
 
   const login = async () => {
     if (await validateNetwork()) {
-
-    try {
-      setDisabled(true);
-      setLoader(true);
-      let sign = await signRequest();
-      let payload = {
-        address: connectedAddress,
-      };
-      props.login(payload);
-    } catch (err) {
-      setDisabled(false);
-      setLoader(false);
-      toast.error(err.message);
+      try {
+        setDisabled(true);
+        setLoader(true);
+        let sign = await signRequest();
+        let payload = {
+          address: connectedAddress,
+        };
+        props.login(payload);
+      } catch (err) {
+        setDisabled(false);
+        setLoader(false);
+        toast.error(err.message);
+      }
+    } else {
+      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
-  }  else {
-    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-  }
   };
 
   const switchSignup = () => {
@@ -149,13 +150,6 @@ const Wallet = (props) => {
   const signInbannerData = {
     subHeading: "Login",
     heading: "Login Information",
-    content:
-      "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
-  };
-
-  const signUpbannerData = {
-    subHeading: "Sign Up",
-    heading: "Sign Up Information",
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
