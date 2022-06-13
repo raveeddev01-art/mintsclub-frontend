@@ -183,10 +183,6 @@ const PopularCollections = (props) => {
               homeAuction
             >
               {popular.map((item, i) => {
-<<<<<<< HEAD
-                // if (i < 8) {
-=======
->>>>>>> ee12a6779e5ff6fecee255cf6b0706685894effe
                 return (
                   <CollectionsCard
                     key={i}
@@ -202,10 +198,6 @@ const PopularCollections = (props) => {
                     profileImage={item.profileImage[0]}
                   />
                 );
-<<<<<<< HEAD
-                // }
-=======
->>>>>>> ee12a6779e5ff6fecee255cf6b0706685894effe
               })}
             </CardSlider>
           ) : (
