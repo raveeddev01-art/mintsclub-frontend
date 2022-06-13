@@ -28,6 +28,7 @@ const BuyModal = (props) => {
     transactionSuccess,
     onHide,
     disabled,
+    balance
   } = props;
 
   return confirmed === "" || confirmed === false||confirmed==="pending" ? (
@@ -43,6 +44,9 @@ const BuyModal = (props) => {
         <Modal.Title id="contained-modal-title-vcenter">
           Complete Checkout
         </Modal.Title>
+        <p className="text-danger text-center mt-1 mb-0 insufienct-funds">
+          {+price > +balance && "Insufficient funds to buy this NFT"}
+        </p>
         <div className="modal-close-container">
           <Button onClick={onHide}>
             <img src={ModalClose} alt="closemodal" />
@@ -153,7 +157,7 @@ const BuyModal = (props) => {
           onClick={() => {
             buyNow();
           }}
-          disabled={!checkBox ||disabled}
+          disabled={!checkBox ||disabled||+price > +balance }
           className="btn btn-linear-gradient btn-bid-modal mt-2"
         >
           {

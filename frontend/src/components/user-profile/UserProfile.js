@@ -47,17 +47,23 @@ const UserProfile = (props) => {
   const [menuFilter, setMenuFilter] = useState(false);
   const userId = ENV.getUserKeys("_id")._id;
 
-  
   useEffect(() => {
+    const {
+      getProfileNfts,
+      getMyLikedNfts,
+      beforeUser,
+      getUserById,
+      getCollections,
+    } = props;
     let searchQs = { page: 1, limit: 99999 };
     searchQs = ENV.objectToQueryString(searchQs);
-    props.getProfileNfts(searchQs);
+    getProfileNfts(searchQs);
     let likedNftsQs = { userId };
     likedNftsQs = ENV.objectToQueryString(likedNftsQs);
-    props.getMyLikedNfts(likedNftsQs);
-    props.beforeUser();
-    props.getUserById(ENV.getUserKeys("_id")._id);
-    props.getCollections();
+    getMyLikedNfts(likedNftsQs);
+    beforeUser();
+    getUserById(ENV.getUserKeys("_id")._id);
+    getCollections();
   }, []);
 
   useEffect(() => {
@@ -268,7 +274,7 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-
+console.log(user?.profileImage,"user")
   return (
     <>
       <section className="user-profile pt-0">
@@ -387,20 +393,18 @@ const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
-    profileNFTs: state.nft.profileNFTs,
-    profileNFTsStatus: state.nft.profileNFTsStatus,
-    myLikedNfts: state.nft.myLikedNfts,
-    myLikedNftsStatus: state.nft.myLikedNftsStatus,
-    individualUser: state.user.individualUser,
-    individualUserAuth: state.user.individualUserAuth,
-    togleLikeRes: state.explore.togleLikeRes,
-    collections: state.collection.collections,
-    getAuth: state.collection.getAuth,
-    nft: state.nft,
-  }
-);
+const mapStateToProps = (state) => ({
+  profileNFTs: state.nft.profileNFTs,
+  profileNFTsStatus: state.nft.profileNFTsStatus,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  individualUser: state.user.individualUser,
+  individualUserAuth: state.user.individualUserAuth,
+  togleLikeRes: state.explore.togleLikeRes,
+  collections: state.collection.collections,
+  getAuth: state.collection.getAuth,
+  nft: state.nft,
+});
 
 export default connect(mapStateToProps, {
   getProfileNfts,

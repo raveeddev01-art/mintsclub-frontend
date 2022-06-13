@@ -1236,6 +1236,7 @@ const NFTDetail = (props) => {
         transactionHash={transactionHash}
         transactionSuccess={transactionSuccess}
         disabled={disabled}
+        balance={balance}
       />
       <BuyModal
         show={modalShow1}
@@ -1257,6 +1258,7 @@ const NFTDetail = (props) => {
         transactionHash={transactionHash}
         transactionSuccess={transactionSuccess}
         disabled={disabled}
+        balance={balance}
       />
       <BidModal
         show={bidModalShow}

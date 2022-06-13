@@ -44,7 +44,7 @@ const BidModal = (props) => {
           Place a Bid
         </Modal.Title>
 
-        <p className="text-danger text-center mt-1 mb-0">
+        <p className="text-danger text-center mt-1 mb-0 insufienct-funds">
           {+price > +balance && "Insufficient funds to place bid!"}
         </p>
 

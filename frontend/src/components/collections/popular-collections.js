@@ -99,7 +99,7 @@ const PopularCollections = (props) => {
   const handleImage = (item, index) => {
     if (item?.nfts[index]?.image) {
       let result = item.nfts.filter((nft) => nft.fileType === "image");
-      if (result.length >= index) {
+      if (result.length >= index&&result.length!==0) {
         return result[index]?.image;
       } else {
         return Images.imagePlaceholder;
@@ -108,6 +108,7 @@ const PopularCollections = (props) => {
       return Images.imagePlaceholder;
     }
   };
+  console.log(popular,"popular")
 
   return (
     <>

@@ -23,7 +23,7 @@ import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
-
+import Compressor from "compressorjs";
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
@@ -111,6 +111,8 @@ const EditProfile = (props) => {
   const onFileChange = (e) => {
     let file = e.target.files[0];
     let fileURL = "";
+    let sizeBeforeCompress = formatBytes(file.size);
+    console.log(sizeBeforeCompress, "seizeBeforecompress");
     if (file) {
       if (file.type.includes("image")) {
         fileURL = URL.createObjectURL(file);
@@ -120,8 +122,33 @@ const EditProfile = (props) => {
         return toast.error("Invalid File");
       }
       setImageUrl(fileURL);
-      setImage(file);
+      // setImage(file);
+
+      new Compressor(file, {
+        quality: 0.2,
+        success(result) {
+          console.log(result, "result==>");
+          setImage(result);
+
+          let sizeAfterCompress = formatBytes(result.size);
+          console.log(sizeAfterCompress, "sizeAfterCompress");
+        },
+        error(err) {
+          console.log(err.message);
+        },
+      });
     }
+  };
+  const formatBytes = (bytes, decimals = 2) => {
+    if (bytes === 0) return "0 Bytes";
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
   const submit = async (e) => {
@@ -140,13 +167,13 @@ const EditProfile = (props) => {
 
     var formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
+    console.log(image,"image while submiting")
     if (image) {
       formData.append("profileImage", image);
     }
     if (banner) {
       formData.append("bannerImage", banner);
     }
-
     formData.append("bio", description);
     formData.append("twitterLink", twitterLink);
     formData.append("username", username);

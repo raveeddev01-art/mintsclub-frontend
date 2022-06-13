@@ -34,7 +34,6 @@ const AuctionsCards = ({
     fileType,
   } = item;
   const {profilePhoto}=item?.owner
-  console.log(item,"item==>")
   return (
     <Card className={`auction-card ${cardBg} mx-2`}>
       <div className="auction-img-wrapper">

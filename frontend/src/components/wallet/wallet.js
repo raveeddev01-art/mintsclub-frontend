@@ -16,7 +16,7 @@ import { Images } from "../../assets/assets";
 import "./wallet.css";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
-import { getWalletAddress } from "../../utils/web3";
+import { getWalletAddress,validateNetwork } from "../../utils/web3";
 
 const Wallet = (props) => {
   const history = useHistory();
@@ -30,6 +30,8 @@ const Wallet = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [loader, setLoader] = useState(false);
   const connectMetamaskCall = async () => {
+    if (await validateNetwork()) {
+
     setDisabled(true);
     let connectedAddress = await connectMetamaskCopy();
     if (connectedAddress) {
@@ -37,6 +39,9 @@ const Wallet = (props) => {
     }
     setConnectedAddress(connectedAddress);
     setWalletAddress(connectedAddress);
+  }else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+  }
   };
 
   useEffect(() => {
@@ -65,6 +70,8 @@ const Wallet = (props) => {
 
   const signup = async (e) => {
     e.preventDefault();
+    if (await validateNetwork()) {
+
     setDisabled(true);
     try {
       if (validator.isEmail(email)) {
@@ -83,9 +90,15 @@ const Wallet = (props) => {
       toast.error(err.message);
       setDisabled(false);
     }
+  }
+  else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+  }
   };
 
   const login = async () => {
+    if (await validateNetwork()) {
+
     try {
       setDisabled(true);
       setLoader(true);
@@ -99,6 +112,9 @@ const Wallet = (props) => {
       setLoader(false);
       toast.error(err.message);
     }
+  }  else {
+    toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+  }
   };
 
   const switchSignup = () => {
