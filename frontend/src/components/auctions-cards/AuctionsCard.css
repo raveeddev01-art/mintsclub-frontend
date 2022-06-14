@@ -56,6 +56,11 @@
 .auction-card .auction-img-wrapper {
   position: relative;
 }
+/* .auction-img-wrapper img{
+  width: 100%;
+  height: 310px;
+  border-radius: 30px;
+} */
 
 .auction-card .auction-countdown {
   width: 100%;

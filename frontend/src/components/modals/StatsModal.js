@@ -4,6 +4,10 @@ import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
 import { toast } from "react-toastify";
+import {
+  decimalNumberValidator,
+  firstInputCharacterSpace,
+} from "./../../utils/functions";
 const StatsModal = (props) => {
   const { show, onHide } = props;
   const { addMoreValues, handleChange, removeFormFields, stats, onSave } =
@@ -21,6 +25,7 @@ const StatsModal = (props) => {
       }
     }
   };
+
   return (
     <Modal
       {...props}
@@ -42,88 +47,100 @@ const StatsModal = (props) => {
         </div>
       </Modal.Header>
       <Modal.Body className="mt-0 pt-0 px-0 px-sm-3">
-        <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
-          {stats &&
-            stats.length > 0 &&
-            stats.map((item, i) => {
-              return (
-                <div
-                  className="row g-2 align-items-center justify-content-between mt-3"
-                  key={i}
-                >
-                  <div className="col-sm-5 order-1 order-sm-0 mt-0">
-                    <div className="bid-inp-container d-flex align-items-center mt-0">
-                      <div className="ps-2">
-                        <h6>Name:</h6>
-                      </div>
-                      <div className="inp-container">
-                        <input
-                          type="text"
-                          name="name"
-                          maxLength="40"
-                          value={item.name}
-                          onChange={(e) => handleChange(i, e, "stats")}
-                          autoComplete="off"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-5 order-2 order-sm-1 mt-3 mt-sm-0">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="bid-inp-container modal-value-inp d-flex align-items-center">
+        <form>
+          <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
+            {stats &&
+              stats.length > 0 &&
+              stats.map((item, i) => {
+                return (
+                  <div
+                    className="row g-2 align-items-center justify-content-between mt-3"
+                    key={i}
+                  >
+                    <div className="col-sm-5 order-1 order-sm-0 mt-0">
+                      <div className="bid-inp-container d-flex align-items-center mt-0">
                         <div className="ps-2">
-                          <h6>Value:</h6>
+                          <h6>Name:</h6>
                         </div>
                         <div className="inp-container">
                           <input
-                            type="number"
-                            name="value"
-                            value={item.value}
-                            onChange={(e) => {
-                              console.log(typeof e.target.value);
-                              if (
-                                +e.target.value > 5 ||
-                                e.target.value === "0"
-                              ) {
-                                return "";
-                              }
-                              handleChange(i, e, "stats");
-                            }}
+                            type="text"
+                            name="name"
+                            maxLength="40"
+                            value={item.name}
+                            onKeyDown={(e) =>
+                              firstInputCharacterSpace(e, item.name.length)
+                            }
+                            onChange={(e) => handleChange(i, e, "stats")}
                             autoComplete="off"
                           />
                         </div>
                       </div>
-                      <div className="value-inp-of mx-3">
-                        <h6>of</h6>
-                      </div>
-                      <div className="bid-inp-container modal-value-inp">
-                        <div className="inp-container ">
-                          <input
-                            type="number"
-                            name="value"
-                            value={5}
-                            autoComplete="off"
-                            className="text-center"
-                          />
+                    </div>
+                    <div className="col-sm-5 order-2 order-sm-1 mt-3 mt-sm-0">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div className="bid-inp-container modal-value-inp d-flex align-items-center">
+                          <div className="ps-2">
+                            <h6>Value:</h6>
+                          </div>
+                          <div className="inp-container">
+                            <input
+                              type="number"
+                              name="value"
+                              min="1"
+                              maxLength="1"
+                              onKeyDown={(e) => {
+                             
+
+                                decimalNumberValidator(e);
+                              }}
+                              value={item.value}
+                              onChange={(e) => {
+                                console.log(typeof e.target.value);
+                                if (
+                                  +e.target.value > 5 ||
+                                  (+e.target.value <= 0 && item.value == "")
+                                ) {
+                                  return "";
+                                }
+                                handleChange(i, e, "stats");
+                              }}
+                              autoComplete="off"
+                            />
+                          </div>
+                        </div>
+                        <div className="value-inp-of mx-3">
+                          <h6>of</h6>
+                        </div>
+                        <div className="bid-inp-container modal-value-inp">
+                          <div className="inp-container ">
+                            <input
+                              type="number"
+                              name="value"
+                              value={5}
+                              autoComplete="off"
+                              className="text-center"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
-                    <div className="inp-close text-end">
-                      <button>
-                        <img
-                          src={InputClose}
-                          alt="closemodal"
-                          onClick={() => removeFormFields(i, "stats")}
-                        />
-                      </button>
+                    <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
+                      <div className="inp-close text-end">
+                        <button type="submit">
+                          <img
+                            src={InputClose}
+                            alt="closemodal"
+                            onClick={() => removeFormFields(i, "stats")}
+                          />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-        </div>
+                );
+              })}
+          </div>
+        </form>
       </Modal.Body>
       <Modal.Footer>
         <div className="modal-nft-footer d-flex align-items-center">

@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 import { GET_ERRORS, BEFORE_OFFER, GET_OFFERS, DELETE_OFFER, CREATE_OFFER, ACCEPT_OFFER,BUY_NOW } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
-import {SellOnFixedPrice} from '../../utils/web3'
 export const beforeOffer = () => {
     return {
         type: BEFORE_OFFER
@@ -26,7 +25,6 @@ export const makeOffer = (body) => dispatch => {
     }).then(res => res.json()).then(data => {
         console.log(data,"data")
         if (data.success) {
-            // SellOnFixedPrice(tokenId,price)
             toast.success(data.message)
             dispatch({
                 type: CREATE_OFFER,
@@ -182,7 +180,6 @@ export const acceptOffer = (body) => dispatch => {
 export const buyNow = (body) => dispatch => {
     dispatch(emptyError());
     const url = `${ENV.url}nfts/buyNft`;
-console.log("sending buy now djfjlkdjsfljsdklf")
     fetch(url, {
         method: 'POST',
         headers: {
@@ -194,7 +191,6 @@ console.log("sending buy now djfjlkdjsfljsdklf")
         },
         body: JSON.stringify(body)
     }).then(res => res.json()).then(data => {
-console.log("buy now reponse")
         if (data.success) {
             
             dispatch({

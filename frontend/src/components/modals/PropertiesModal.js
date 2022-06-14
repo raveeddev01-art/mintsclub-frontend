@@ -4,7 +4,9 @@ import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
 import { toast } from "react-toastify";
-
+import {
+  firstInputCharacterSpace
+} from "./../../utils/functions";
 const PropertiesModal = (props) => {
   const {
     show,
@@ -54,7 +56,7 @@ const PropertiesModal = (props) => {
         <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
           {properties.map((item, i) => {
             return (
-              <div className="row g-2 align-items-center justify-content-between mt-3">
+              <div className="row g-2 align-items-center justify-content-between mt-3" key={i}>
                 <div className="col-sm-5 order-1 order-sm-0 mt-0">
                   <div className="bid-inp-container d-flex align-items-center">
                     <div className="ps-2">
@@ -66,6 +68,9 @@ const PropertiesModal = (props) => {
                         name="type"
                         maxLength="40"
                         value={item.type}
+                        onKeyDown={(e) =>
+                          firstInputCharacterSpace(e, item.type.length)
+                        }
                         onChange={(e) => handleChange(i, e, "properties")}
                         autoComplete="off"
                       />
@@ -83,6 +88,9 @@ const PropertiesModal = (props) => {
                         name="name"
                         maxLength="40"
                         value={item.name}
+                        onKeyDown={(e) =>
+                          firstInputCharacterSpace(e, item.name.length)
+                        }
                         onChange={(e) => handleChange(i, e, "properties")}
                         autoComplete="off"
                       />

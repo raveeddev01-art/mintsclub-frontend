@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 import ArrowUp from "../../assets/images/arrowUp.svg";
@@ -9,6 +9,8 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
+import AuctionCardImage from "../cardImage/auctionsCardImage";
+import ImageLoader from "../contentLoader/imageLoader";
 
 const AuctionsCards = ({
   ownerName,
@@ -18,12 +20,15 @@ const AuctionsCards = ({
   item,
   cardBg,
   key,
+  index,
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
+  const [loader, setLoader] = useState(true);
+
   const {
     image,
     auctionEndDate,
@@ -39,14 +44,33 @@ const AuctionsCards = ({
     <Card key={key} className={`auction-card ${cardBg} mx-2`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
-          <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+          <>
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
+            </div>
+            <Card.Img
+              variant="top"
+              onLoad={() => setLoader(false)}
+              src={image}
+              alt="AuctionTopImg"
+              style={{ display: `${!loader ? "block" : "none"}` }}
+            />
+          </>
         ) : (
           <div className="card-img-top">
             <div className="video-wrapper">
+              {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
+                <ImageLoader />
+              </div> */}
+
               <video
                 src={image}
+                onLoad={() =>console.log("on load auction card")}
+                onLoadStart={()=>console.log("onload start")}
+                onLoadCapture={()=>console.log("lodaed")}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
+                // style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
               <div className="controls">
@@ -79,6 +103,7 @@ const AuctionsCards = ({
                       <img
                         src={item === null ? Images.placeholderImg : item}
                         alt="AvatarImg"
+                        key={i}
                       />
                     );
                   }

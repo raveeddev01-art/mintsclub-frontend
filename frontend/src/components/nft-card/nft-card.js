@@ -1,5 +1,5 @@
-import React from "react";
-import { Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, Image } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 import { ENV } from "../../config/config";
@@ -8,12 +8,16 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import ImageLoader from "../contentLoader/imageLoader";
+import CardImage from "../cardImage/cardImage";
 const NFTCard = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
+  const [loader, setLoader] = useState(true);
+
   const {
     image,
     name,
@@ -68,14 +72,30 @@ const NFTCard = (props) => {
     <Card className={`auction-card nft-card ${cardBg} m-1`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
-          <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+          <>
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
+            </div>
+            <Card.Img
+              variant="top"
+              onLoad={() => setLoader(false)}
+              src={image}
+              alt="AuctionTopImg"
+              style={{ display: `${!loader ? "block" : "none"}` }}
+            />
+          </>
         ) : (
           <div className="card-img-top">
             <div className="video-wrapper">
+              {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
+                <ImageLoader />
+              </div> */}
               <video
                 src={image}
+                onLoad={() => setLoader(false)}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
+                // style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
               <div className="controls">
@@ -157,8 +177,13 @@ const NFTCard = (props) => {
           </div>
           <div className="ms-2 auction-owner-name">
             <p>
+<<<<<<< HEAD
               {"Owned by:"}
               <span className="text-capitalize ms-1">
+=======
+              {"Owned by "}
+              <span>
+>>>>>>> d5d3ecccf0b27875a0b103cea1ee0f1eada2de61
                 {ownerId === user
                   ? "You"
                   : username && username?.length > 8

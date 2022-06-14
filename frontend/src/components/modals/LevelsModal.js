@@ -4,6 +4,10 @@ import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
 import { toast } from "react-toastify";
+import {
+  decimalNumberValidator,
+  firstInputCharacterSpace
+} from "./../../utils/functions";
 const LevelsModal = (props) => {
   const {
     show,
@@ -68,6 +72,9 @@ const LevelsModal = (props) => {
                           name="name"
                           maxLength="40"
                           value={item.name}
+                          onKeyDown={(e) =>
+                            firstInputCharacterSpace(e, item.name.length)
+                          }
                           onChange={(e) => handleChange(i, e, "levels")}
                           autoComplete="off"
                         />
@@ -85,10 +92,14 @@ const LevelsModal = (props) => {
                             type="number"
                             name="value"
                             value={item.value}
+                            min="1"
+                            maxLength="1"
+                            onKeyDown={(e) => decimalNumberValidator(e)}
                             onChange={(e) => {
+                              console.log(e.target.value, "e.target.value");
                               if (
                                 +e.target.value > 5 ||
-                                e.target.value === "0"
+                                (+e.target.value <= 0 && item.value == "")
                               ) {
                                 return "";
                               }

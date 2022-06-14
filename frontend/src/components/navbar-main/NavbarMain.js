@@ -12,7 +12,6 @@ import { beforeCollection } from "../../components/collections/collections.actio
 const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
   const [path, setPath] = React.useState(null);
-  const [activeTab, setActiveTab] = React.useState(null);
   const [searchactive, setSearchActive] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
@@ -23,7 +22,6 @@ const NavbarMain = (props) => {
     e.target.value ? setSearchActive(true) : setSearchActive(false);
   };
   const handleSearchKeyword = () => {
-    console.log("keyword", searchValue);
     if (searchValue !== "" && searchValue.length >= 3) {
       history.push({
         pathname: "/explore/allNFT",

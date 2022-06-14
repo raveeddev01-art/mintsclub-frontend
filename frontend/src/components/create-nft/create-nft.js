@@ -232,7 +232,6 @@ class CreateNFT extends Component {
         },
         () => {
           const { formValid } = this.state;
-
           if (formValid) {
             this.setState(
               {
@@ -309,6 +308,7 @@ class CreateNFT extends Component {
   };
 
   onFileChange = (e, status) => {
+  console.log(e.target.files[0],"e.target.files[0]")
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file = "";
       let url = "";
@@ -577,14 +577,7 @@ class CreateNFT extends Component {
       height: "100%",
     };
 
-    // const { playerState, togglePlay, handleOnTimeUpdate } =
-    //   useVideoPlayer(videoElement);
-
-    // useEffect(() => {
-    //   playerState.isPlaying
-    //     ? videoElement?.current?.play()
-    //     : videoElement?.current?.pause();
-    // }, [playerState.isPlaying, videoElement]);
+  
     return (
       <>
         <section className="create-collection create-nft">
@@ -641,6 +634,13 @@ class CreateNFT extends Component {
                           <span className="btn uploaded-img-browse upload-nft-btn ">
                             Browse File
                           </span>
+                          <span className="text-danger text-center mt-3">
+                              {this.validator.message(
+                                "image",
+                                nft.image,
+                                "required"
+                              )}
+                            </span>
                         </div>
                       </div>
                     </label>
@@ -760,13 +760,13 @@ class CreateNFT extends Component {
                         <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
                           Browse File
                         </span>
-                        <span className="text-danger text-center mb-3">
+                         <span className="text-danger text-center mb-3">
                           {this.validator.message(
                             "image",
                             nft.image,
                             "required"
                           )}
-                        </span>
+                        </span> 
                       </div>
                     </label>
                   )}
@@ -791,7 +791,6 @@ class CreateNFT extends Component {
                   }
                   onChange={(e) => this.onChange(e)}
                   value={nft.name}
-                  defaultValue={nft.name}
                   autoComplete="off"
                 />
               </div>
@@ -820,7 +819,6 @@ class CreateNFT extends Component {
                     }
                   }}
                   value={nft.copies}
-                  defaultValue={nft.copies}
                 />
               </div>
 
@@ -949,7 +947,6 @@ class CreateNFT extends Component {
                     firstInputCharacterSpace(e, nft.description.length)
                   }
                   value={nft.description}
-                  defaultValue={nft.description}
                 ></textarea>
               </div>
 

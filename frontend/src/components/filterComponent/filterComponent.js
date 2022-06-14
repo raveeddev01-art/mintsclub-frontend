@@ -475,6 +475,7 @@ const FilterHoc = (props) => {
                             likedNfts={likedNfts}
                             owner={nft.owner}
                             path={path}
+                            index={index}
                           />
                         }
                       </div>
