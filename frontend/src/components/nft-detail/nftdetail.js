@@ -127,6 +127,7 @@ const NFTDetail = (props) => {
       props.getMyLikedNfts(qs);
       validateIfLiked();
       props.getBids();
+      props.beforeOffer()
       toast.success("You have purchased NFT successfully");
       history.push("/userprofile");
     }

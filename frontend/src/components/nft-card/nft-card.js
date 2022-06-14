@@ -92,9 +92,9 @@ const NFTCard = (props) => {
               </div> */}
               <video
                 src={image}
-                onLoad={() => setLoader(false)}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
+                onEnded={() => setLoader(false)}
                 // style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
