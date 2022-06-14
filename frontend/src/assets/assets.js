@@ -27,7 +27,7 @@ import community from "./images/community.png";
 import ownCollection from "./images/ownCollection.png";
 import buyNft from "./images/Group 34195.png";
 import sellNft from "./images/Group 34196.png";
-import whiteFillHeart from "./images/whiteFillHeart.png";
+import whiteFillHeart from "./images/whiteFillHeart.svg";
 import nftPriceTag from "./images/nftPriceTag.svg";
 import whiteEmptyHeart from "./images/dislikeEmptyHeart.svg";
 import featureImageInputBG from "./images/featureImageInputBG.svg";

@@ -191,15 +191,6 @@ const Populars = forwardRef((props, ref) => {
           <section className="explore-collection-section padding-wrapper">
             <div className="container">
               <div className="row mb-5">
-                <div className="col-12">
-                  {/* Intro */}
-                  <div className="intro">
-                    <div className="intro-content">
-                      <span>Most Popular</span>
-                      <h3 className="mb-0">Popular Collections</h3>
-                    </div>
-                  </div>
-                </div>
                 <div className="col-12 explore-collection-nav">
                   <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                     {categoryId === "all" &&
@@ -259,7 +250,7 @@ const Populars = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="row g-4 align-items-center justify-content-center">
+              <div className="row g-1 align-items-center justify-content-center">
                 {loader ? (
                   <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
@@ -267,7 +258,7 @@ const Populars = forwardRef((props, ref) => {
                 ) : popular && popular.length > 0 ? (
                   popular.map((item) => {
                     return (
-                      <div className="col-sm-6 col-lg-4">
+                      <div className="col-sm-6 col-lg-4 col-xl-3">
                         <CollectionsCard
                           CardImg={item.featuredImg}
                           Subimg1={handleImage(item, 0)}

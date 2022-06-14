@@ -29,12 +29,11 @@ const NFTCard = (props) => {
     auctionEndDate,
     currentPrice,
     copies,
-    remainingCopies
-    
+    remainingCopies,
   } = props.data;
 
-  const { username, profileImage,profilePhoto } = props.owner;
-  const user=ENV.getUserKeys("_id")._id
+  const { username, profileImage, profilePhoto } = props.owner;
+  const user = ENV.getUserKeys("_id")._id;
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1, id) => {
     if (likedNfts && likedNfts?.length > 0) {
@@ -126,7 +125,8 @@ const NFTCard = (props) => {
         <div className="nft-status ">
           <div className="status-info status-sold">
             <span className="status">
-              Sold: <span className="status-count">{copies - remainingCopies}</span>{" "}
+              Sold:{" "}
+              <span className="status-count">{copies - remainingCopies}</span>{" "}
             </span>
           </div>
           <div className="status-info status-remaining">
@@ -139,21 +139,29 @@ const NFTCard = (props) => {
         <div className="mt-3">
           <span className="nft-price mt-2">
             <img className="me-2" src={Images.nftPriceTag} />
-            Price:<a className="price">{currentPrice} ETH</a>
+            Price:<a className="price ms-1">{currentPrice} ETH</a>
           </span>
         </div>
         <div className="auction-card-owner-container d-flex align-items-center mb-2 mt-3">
           <div className="auction-owner-avatar">
             <img
-              src={(profilePhoto===null&&profileImage===null)?Images.placeholderImg:profilePhoto ? profilePhoto : profileImage}
+              src={
+                profilePhoto === null && profileImage === null
+                  ? Images.placeholderImg
+                  : profilePhoto
+                  ? profilePhoto
+                  : profileImage
+              }
               alt="avatar"
             />
           </div>
           <div className="ms-2 auction-owner-name">
             <p>
-              {"Owned by "}
-              <span>
-                {ownerId===user?"You":username && username?.length > 8
+              {"Owned by:"}
+              <span className="text-capitalize ms-1">
+                {ownerId === user
+                  ? "You"
+                  : username && username?.length > 8
                   ? username.substring(0, 6) + "..."
                   : username?.length <= 8
                   ? username

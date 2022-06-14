@@ -103,7 +103,7 @@ function AuctionsOne(props) {
   }, [auctions]);
 
   const checkIfAuctionEnded = () => {
-    if (auctions&&auctions?.length > 0) {
+    if (auctions && auctions?.length > 0) {
       auctions.forEach((item, index) => {
         let auctionEndDate = new Date(item.auctionEndDate);
         let currentDate = new Date();
@@ -115,7 +115,6 @@ function AuctionsOne(props) {
       });
     }
   };
-
 
   const handleCategoryFilter = (desc) => {
     setFilterationLoader(true);
@@ -140,7 +139,7 @@ function AuctionsOne(props) {
                   <p>
                     Explore on the world's best & largest NFT marketplace with
                     our beautiful NFT products.{" "}
-                    <br className="d-none d-xl-block" />
+                    <br className="d-none d-xxl-block" />
                     We want to be a part of your smile, success and future
                     growth.
                   </p>
@@ -211,6 +210,7 @@ function AuctionsOne(props) {
                         userId={ENV.getUserKeys("_id")._id}
                         ownerId={item.owner._id}
                         bidsProfile={item.bidInfo.bidByProfile}
+                        className="mx-2"
                       />
                     );
                   })}

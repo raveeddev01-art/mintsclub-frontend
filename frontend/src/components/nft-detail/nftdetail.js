@@ -945,8 +945,8 @@ const NFTDetail = (props) => {
                       className="me-2"
                     />
                     <p>
-                      Owned by:{" "}
-                      <span className="ms-1">
+                      Owned by:
+                      <span className="text-capitalize ms-1">
                         {" "}
                         {ownerId === userId
                           ? "You"

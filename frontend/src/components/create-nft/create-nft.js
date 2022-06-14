@@ -34,8 +34,9 @@ import Select from "react-select";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
-import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import AudioPlayer from "../audioPlayer/AudioPlayer";
+import Waveform from "../audioPlayer/waveform/WaveForm";
 
 const placeholderImg = "";
 class CreateNFT extends Component {
@@ -646,7 +647,7 @@ class CreateNFT extends Component {
                   ) : videoURL ? (
                     <>
                       <div className="uploaded-img-container">
-                        <div className="create-nft-video-container">
+                        <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
                           <video
                             src={videoURL}
                             ref={this.myRef}
@@ -713,6 +714,27 @@ class CreateNFT extends Component {
                           </div>
                         </label>
                       </div>
+                    </>
+                  ) : audioUrl ? (
+                    <>
+                      <div id="audio">
+                        {/* <Player
+                          imageUrl=""
+                          audioUrl={audioUrl}
+                          hideImage="true"
+                          waveStyles={{
+                            cursorWidth: 1,
+                            progressColor: "#387FFF",
+                            responsive: true,
+                            waveColor: "#121640",
+                            cursorColor: "transparent",
+                            barWidth: 1,
+                          }}
+                          zoom={0}
+                        /> */}
+                        <Waveform url={audioUrl} />
+                      </div>
+                      {/* <AudioPlayer audioSrc={audioUrl} /> */}
                     </>
                   ) : (
                     <label className="w-100">

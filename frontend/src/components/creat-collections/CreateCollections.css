@@ -32,7 +32,7 @@
 /* .create-collection .create-collection-btn-container {
   max-width: 255px;
 } */
-.create-collection .btn.create-collection-btn.btn-linear-gradient {
+.btn.create-collection-btn.btn-linear-gradient {
   max-width: 255px;
   width: 100%;
   height: 60px;
@@ -163,7 +163,7 @@
 }
 
 .create-collection .react-select-cls .react-select__single-value {
-  font-weight: 700;
+  font-weight: 400;
   color: #393939;
 }
 
