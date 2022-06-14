@@ -70,7 +70,6 @@ const AllNFT = (props) => {
   useEffect(() => {
     if (props.nft.nftsAuth) {
       const { nfts, pagination } = props.nft.nftsData;
-      console.log(nfts, "nfts of all nfts");
       if (nfts) {
         if (nfts.length > 0) {
           setDisabled(false);
@@ -157,7 +156,6 @@ const AllNFT = (props) => {
         nftQS.limit=10;
       }
     }
-    console.log(nftQS,"nftqs after==>")
     const qs = ENV.objectToQueryString(nftQS);
     console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
@@ -234,7 +232,6 @@ const AllNFT = (props) => {
   
       getNFTs(filterObj);
   };
-  console.log(props.nft.nftsAuth,"props.nft.nftsAuth all nfts")
   return (
     <>
       <section className="explore-collection-section padding-wrapper pt-0">

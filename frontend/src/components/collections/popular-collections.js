@@ -108,7 +108,6 @@ const PopularCollections = (props) => {
       return Images.imagePlaceholder;
     }
   };
-  console.log(popular,"popular")
 
   return (
     <>

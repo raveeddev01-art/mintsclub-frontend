@@ -32,7 +32,7 @@ const App = React.memo((props) => {
     const address = await getWalletAddress();
 
     if (walletAddress) {
-      if (walletAddress !== address) {
+      if (walletAddress !== address || !address) {
         toast.info("Please sign in  with new connected address");
         walletAddress = address;
         // setWalletAddress(address)

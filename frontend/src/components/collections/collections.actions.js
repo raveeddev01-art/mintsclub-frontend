@@ -71,7 +71,6 @@ export const getCollections =
   (qs = null) =>
   (dispatch) => {
     dispatch(emptyError());
-    // let url = `http://3.142.91.8/v1/front/collection/list`;
     let url = `${ENV.url}collection/list`;
 
     if (qs) url += `?${qs}`;
@@ -93,7 +92,6 @@ export const getCollections =
     })
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data, 'collections api response');
         if (data.success) {
           dispatch({
             type: GET_COLLECTIONS,
@@ -140,7 +138,6 @@ export const myCollections = (userId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data, "res of collection getting");
       if (data.success) {
         dispatch({
           type: MY_COLLECTIONS,
@@ -299,7 +296,6 @@ export const getCategories = () => (dispatch) => {
       }
     })
     .catch((error) => {
-      //console.log(error, 'error==>');
 
       if (error.response && error.response.data) {
         const { data } = error.response;

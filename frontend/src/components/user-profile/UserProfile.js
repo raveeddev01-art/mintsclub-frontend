@@ -274,7 +274,6 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-console.log(user?.profileImage,"user")
   return (
     <>
       <section className="user-profile pt-0">

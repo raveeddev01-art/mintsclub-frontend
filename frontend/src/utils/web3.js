@@ -312,6 +312,7 @@ export const connectMetamask = async () => {
 };
 export const connectWithMetamask = async () => {
   try {
+    let web3 = await getWeb3();
     await window.ethereum.request({
       method: "wallet_requestPermissions",
       params: [
@@ -320,9 +321,7 @@ export const connectWithMetamask = async () => {
         },
       ],
     });
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+    let accounts = await web3.eth.getAccounts();
     return accounts[0];
   } catch (err) {
     toast.error(err.message)

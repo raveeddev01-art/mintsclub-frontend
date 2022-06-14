@@ -749,9 +749,9 @@ const NFTDetail = (props) => {
                 <h6>Properties</h6>
                 <hr />
                 {properties && properties.length > 0 ? (
-                  properties.map((detail) => {
+                  properties.map((detail,i) => {
                     return (
-                      <div className="detail-rounded-type d-flex align-items-center">
+                      <div className="detail-rounded-type d-flex align-items-center" key={i}>
                         <div className="detail-rounded-name">
                           <p>{detail.name}:</p>
                         </div>

@@ -231,7 +231,6 @@ class CreateNFT extends Component {
         },
         () => {
           const { formValid } = this.state;
-console.log(formValid,"formValid")
           if (formValid) {
             this.setState(
               {
@@ -576,14 +575,7 @@ console.log(formValid,"formValid")
       height: "100%",
     };
 
-    // const { playerState, togglePlay, handleOnTimeUpdate } =
-    //   useVideoPlayer(videoElement);
-
-    // useEffect(() => {
-    //   playerState.isPlaying
-    //     ? videoElement?.current?.play()
-    //     : videoElement?.current?.pause();
-    // }, [playerState.isPlaying, videoElement]);
+  
     return (
       <>
         <section className="create-collection create-nft">
@@ -640,6 +632,13 @@ console.log(formValid,"formValid")
                           <span className="btn uploaded-img-browse upload-nft-btn ">
                             Browse File
                           </span>
+                          <span className="text-danger text-center mt-3">
+                              {this.validator.message(
+                                "image",
+                                nft.image,
+                                "required"
+                              )}
+                            </span>
                         </div>
                       </div>
                     </label>
@@ -703,13 +702,13 @@ console.log(formValid,"formValid")
                                 Browse File
                               </span>
                             </div>
-                            {/* <span className="text-danger text-center mt-3">
+                            <span className="text-danger text-center mt-3">
                               {this.validator.message(
                                 "image",
                                 nft.image,
                                 "required"
                               )}
-                            </span> */}
+                            </span>
                           </div>
                         </label>
                       </div>
@@ -769,7 +768,6 @@ console.log(formValid,"formValid")
                   }
                   onChange={(e) => this.onChange(e)}
                   value={nft.name}
-                  defaultValue={nft.name}
                   autoComplete="off"
                 />
               </div>
@@ -798,7 +796,6 @@ console.log(formValid,"formValid")
                     }
                   }}
                   value={nft.copies}
-                  defaultValue={nft.copies}
                 />
               </div>
 
@@ -927,7 +924,6 @@ console.log(formValid,"formValid")
                     firstInputCharacterSpace(e, nft.description.length)
                   }
                   value={nft.description}
-                  defaultValue={nft.description}
                 ></textarea>
               </div>
 

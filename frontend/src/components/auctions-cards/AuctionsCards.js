@@ -79,6 +79,7 @@ const AuctionsCards = ({
                       <img
                         src={item === null ? Images.placeholderImg : item}
                         alt="AvatarImg"
+                        key={i}
                       />
                     );
                   }
