@@ -138,6 +138,7 @@ const ListingCards = ({
             </div>
           </div>
         )}
+        
         <button
           className="auction-bit-btn listing-buy-btn d-flex align-items-center justify-content-center "
           onClick={() => history.push(`/nftdetail/${id}`)}
