@@ -307,6 +307,7 @@ class CreateNFT extends Component {
   };
 
   onFileChange = (e, status) => {
+  console.log(e.target.files[0],"e.target.files[0]")
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file = "";
       let url = "";

@@ -28,6 +28,7 @@
     "react-audio-player": "^0.17.0",
     "react-bootstrap": "^1.6.4",
     "react-bootstrap-daterangepicker": "^7.0.0",
+    "react-content-loader": "^6.2.0",
     "react-copy-to-clipboard": "^5.0.4",
     "react-countdown": "^2.3.2",
     "react-cssfx-loading": "^1.1.0",

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import { Images } from "../../assets/assets";
+import PopularCollectionImage from "../cardImage/popularCollectionImage";
+import ImageLoader from "../contentLoader/imageLoader";
 
 import "./CollectionsCard.css";
 
@@ -16,7 +18,9 @@ const CollectionsCard = ({
   userName,
   NFTCount,
   profileImage,
+  index,
 }) => {
+  const [loader, setLoader] = useState(true);
   const history = useHistory();
 
   return (
@@ -41,9 +45,22 @@ const CollectionsCard = ({
             <div className="col-4 collection-subImg3">
               <img src={Subimg3} alt="subImg" />
             </div>
-            <div className="col-12 collection-mainImg">
-              <img src={CardImg} alt="card-img" />
+
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
             </div>
+            <div className="col-12 collection-mainImg">
+              <img
+                src={CardImg}
+                onLoad={() => setLoader(false)}
+                alt="card-img"
+                style={{ display: `${!loader ? "block" : "none"}` }}
+              />
+            </div>
+
+            {/* <div className="col-12 collection-mainImg">
+              <img src={CardImg} alt="card-img" />
+            </div> */}
           </div>
 
           <Card.Body>
@@ -63,7 +80,10 @@ const CollectionsCard = ({
                   className="me-2"
                 />
                 <p>
-                  Owned by: <span className="text-capitalize">{userName?userName:"unnamed"}</span>
+                  Owned by:{" "}
+                  <span className="text-capitalize">
+                    {userName ? userName : "unnamed"}
+                  </span>
                 </p>
               </div>
             </div>

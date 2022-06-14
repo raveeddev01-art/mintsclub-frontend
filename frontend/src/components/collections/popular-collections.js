@@ -11,6 +11,7 @@ import {
 } from "../collections/collections.actions";
 import { connect } from "react-redux";
 import { Images } from "../../assets/assets";
+
 const initData = {
   pre_heading: "Most Popular",
   heading: "Popular Collections",
@@ -196,6 +197,7 @@ const PopularCollections = (props) => {
                     userName={item.username[0]}
                     NFTCount={item.totalNfts}
                     profileImage={item.profileImage[0]}
+                    index={i}
                   />
                 );
               })}

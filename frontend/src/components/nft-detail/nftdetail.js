@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./nftdetail.css";
-
-import ListingCards from "../listing-cards/ListingCards";
-
 import {
   getNFT,
   getNFTsByCollection,
