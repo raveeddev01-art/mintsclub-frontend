@@ -308,7 +308,7 @@ class CreateNFT extends Component {
   };
 
   onFileChange = (e, status) => {
-  console.log(e.target.files[0],"e.target.files[0]")
+    console.log(e.target.files[0], "e.target.files[0]");
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file = "";
       let url = "";
@@ -577,7 +577,6 @@ class CreateNFT extends Component {
       height: "100%",
     };
 
-  
     return (
       <>
         <section className="create-collection create-nft">
@@ -635,12 +634,12 @@ class CreateNFT extends Component {
                             Browse File
                           </span>
                           <span className="text-danger text-center mt-3">
-                              {this.validator.message(
-                                "image",
-                                nft.image,
-                                "required"
-                              )}
-                            </span>
+                            {this.validator.message(
+                              "image",
+                              nft.image,
+                              "required"
+                            )}
+                          </span>
                         </div>
                       </div>
                     </label>
@@ -760,13 +759,13 @@ class CreateNFT extends Component {
                         <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
                           Browse File
                         </span>
-                         <span className="text-danger text-center mb-3">
+                        <span className="text-danger text-center mb-3">
                           {this.validator.message(
                             "image",
                             nft.image,
                             "required"
                           )}
-                        </span> 
+                        </span>
                       </div>
                     </label>
                   )}

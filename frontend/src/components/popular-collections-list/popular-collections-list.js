@@ -176,18 +176,18 @@ const Populars = forwardRef((props, ref) => {
   };
   return (
     <>
+      <Banner
+        subHeading={bannerData.subHeading}
+        heading={bannerData.heading}
+        content={bannerData.content}
+        bgImg={BannerBg}
+        bannerImg={BannerImage}
+      />
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
         <>
           {" "}
-          <Banner
-            subHeading={bannerData.subHeading}
-            heading={bannerData.heading}
-            content={bannerData.content}
-            bgImg={BannerBg}
-            bannerImg={BannerImage}
-          />
           <section className="explore-collection-section padding-wrapper">
             <div className="container">
               <div className="row mb-5">
