@@ -26,6 +26,8 @@
 
 .footer-area .footer-items .social-icons > a:hover {
   background-color: #fff;
+  border: 1px solid #3c66f3;
+  box-shadow: 0px 0px 0px 4px rgb(60 102 243 / 6%);
 }
 
 .footer-area .footer-items .social-icons > a:hover svg path {

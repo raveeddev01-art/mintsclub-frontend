@@ -1,5 +1,5 @@
 .card-slider-btn {
-  background-color: #387FFF;
+  background-color: #387fff;
   border: none;
   width: 31px;
   height: 31px;
@@ -15,5 +15,12 @@
 }
 
 .card-slider-btn:hover {
-  background-color: #7e8aff;
+  background-color: transparent;
+  border: 1px solid #316feb;
+  color: #0e0e0e;
+}
+
+.card-slider-btn:hover .fa-arrow-right,
+.card-slider-btn:hover .fa-arrow-left {
+  color: #000;
 }

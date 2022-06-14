@@ -230,9 +230,6 @@
   border: 1px solid #96bef3;
   border-radius: 2px;
   background-color: #eef5ff;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .custom-checked-box {
@@ -245,9 +242,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .modal.buy-modal.purchase-modal .modal-body {

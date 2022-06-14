@@ -139,8 +139,8 @@ const AuctionsCards = ({
 
           <div className="ms-2 auction-owner-name">
             <p>
-              {"Owned by "}
-              <span>
+              {"Owned by:"}
+              <span className="text-capitalize ms-1">
                 {!ownerName
                   ? "unnamed"
                   : ownerName && ownerName.length > 12

@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import "./NftCard.css";
 
@@ -28,7 +27,12 @@ const NftCard = (props) => {
         <p className="mb-0 text-white">
           {props?.nft?.name ? props.nft.name : "someTHing"}
         </p>
-        <p className="text-white">Owned By: {filterCreator(props.nft)}</p>
+        <p className="text-white">
+          Owned By:{" "}
+          <span className="text-capitalize ms-1">
+            {filterCreator(props.nft)}
+          </span>
+        </p>
         <div className="d-flex w-100 justify-content-between">
           <p className="mb-0 text-white">
             {props?.nft?.currentPrice ? props.nft.currentPrice : "0.04"}

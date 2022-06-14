@@ -46,3 +46,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.home-auction-list .card.auction-card {
+  margin: 0 !important;
+}

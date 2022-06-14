@@ -90,7 +90,7 @@ const TopSellerList = (props) => {
                         {/* Seller Info */}
                         <div className="seller-info ml-3 w-100">
                           <Link
-                            className="seller mb-2"
+                            className="seller text-capitalize mb-2"
                             to={`/author/${author._id}`}
                           >
                             {author.username}

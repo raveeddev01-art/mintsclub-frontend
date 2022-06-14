@@ -100,7 +100,7 @@ const PopularCollections = (props) => {
   const handleImage = (item, index) => {
     if (item?.nfts[index]?.image) {
       let result = item.nfts.filter((nft) => nft.fileType === "image");
-      if (result.length >= index&&result.length!==0) {
+      if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
         return Images.imagePlaceholder;
@@ -123,8 +123,8 @@ const PopularCollections = (props) => {
                   <p>
                     Explore on the world's best & largest NFT marketplace with
                     our beautiful NFT products.{" "}
-                    <br className="d-none d-xl-block" /> We want to be a part of
-                    your smile, success and future growth.
+                    <br className="d-none d-xxl-block" /> We want to be a part
+                    of your smile, success and future growth.
                   </p>
                 </div>
               </div>

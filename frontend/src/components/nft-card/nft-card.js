@@ -159,7 +159,7 @@ const NFTCard = (props) => {
         <div className="mt-3">
           <span className="nft-price mt-2">
             <img className="me-2" src={Images.nftPriceTag} />
-            Price:<a className="price">{currentPrice} ETH</a>
+            Price:<a className="price ms-1">{currentPrice} ETH</a>
           </span>
         </div>
         <div className="auction-card-owner-container d-flex align-items-center mb-2 mt-3">
@@ -177,8 +177,8 @@ const NFTCard = (props) => {
           </div>
           <div className="ms-2 auction-owner-name">
             <p>
-              {"Owned by "}
-              <span>
+              {"Owned by:"}
+              <span className="text-capitalize ms-1">
                 {ownerId === user
                   ? "You"
                   : username && username?.length > 8

@@ -50,8 +50,8 @@
 }
 
 .btn.btn-rounded-bordered.btn-start-selling:hover {
-  background: #7e8aff;
-  color: #fff;
+  background: transparent;
+  color: #000000;
 }
 
 @media (max-width: 991.9px) {
