@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./nftdetail.css";
-
-import ListingCards from "../listing-cards/ListingCards";
-
 import {
   getNFT,
   getNFTsByCollection,
@@ -130,6 +127,7 @@ const NFTDetail = (props) => {
       props.getMyLikedNfts(qs);
       validateIfLiked();
       props.getBids();
+      props.beforeOffer()
       toast.success("You have purchased NFT successfully");
       history.push("/userprofile");
     }
@@ -749,9 +747,12 @@ const NFTDetail = (props) => {
                 <h6>Properties</h6>
                 <hr />
                 {properties && properties.length > 0 ? (
-                  properties.map((detail,i) => {
+                  properties.map((detail, i) => {
                     return (
-                      <div className="detail-rounded-type d-flex align-items-center" key={i}>
+                      <div
+                        className="detail-rounded-type d-flex align-items-center"
+                        key={i}
+                      >
                         <div className="detail-rounded-name">
                           <p>{detail.name}:</p>
                         </div>
@@ -945,8 +946,8 @@ const NFTDetail = (props) => {
                       className="me-2"
                     />
                     <p>
-                      Owned by:{" "}
-                      <span className="ms-1">
+                      Owned by:
+                      <span className="text-capitalize ms-1">
                         {" "}
                         {ownerId === userId
                           ? "You"

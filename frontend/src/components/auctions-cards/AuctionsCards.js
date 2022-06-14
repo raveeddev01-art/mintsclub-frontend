@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 import ArrowUp from "../../assets/images/arrowUp.svg";
@@ -9,6 +9,8 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
+import AuctionCardImage from "../cardImage/auctionsCardImage";
+import ImageLoader from "../contentLoader/imageLoader";
 
 const AuctionsCards = ({
   ownerName,
@@ -18,12 +20,15 @@ const AuctionsCards = ({
   item,
   cardBg,
   key,
+  index,
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
+  const [loader, setLoader] = useState(true);
+
   const {
     image,
     auctionEndDate,
@@ -34,19 +39,37 @@ const AuctionsCards = ({
     currentPrice,
     fileType,
   } = item;
-  const {profilePhoto}=item?.owner
+  const { profilePhoto } = item?.owner;
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-2`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
-          <Card.Img variant="top" src={image} alt="AuctionTopImg" />
+          <>
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
+            </div>
+            <Card.Img
+              variant="top"
+              onLoad={() => setLoader(false)}
+              src={image}
+              alt="AuctionTopImg"
+              style={{ display: `${!loader ? "block" : "none"}` }}
+            />
+          </>
         ) : (
           <div className="card-img-top">
             <div className="video-wrapper">
+              {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
+                <ImageLoader />
+              </div> */}
+
               <video
                 src={image}
+                onEnded={()=>console.log("onEnded123123123")}
+                onEndedCapture={()=>console.log("onEnded123123123")}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
+                // style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
               <div className="controls">
@@ -108,13 +131,16 @@ const AuctionsCards = ({
         </Card.Title>
         <div className="auction-card-owner-container d-flex align-items-center mb-2">
           <div className="auction-owner-avatar">
-            <img src={profilePhoto?profilePhoto:Images.placeholderImg} alt="avatar" />
+            <img
+              src={profilePhoto ? profilePhoto : Images.placeholderImg}
+              alt="avatar"
+            />
           </div>
 
           <div className="ms-2 auction-owner-name">
             <p>
-              {"Owned by "}
-              <span>
+              {"Owned by:"}
+              <span className="text-capitalize ms-1">
                 {!ownerName
                   ? "unnamed"
                   : ownerName && ownerName.length > 12
@@ -135,7 +161,6 @@ const AuctionsCards = ({
   );
 };
 
-const mapStateToProps = (state) =>
-  ({});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, {})(AuctionsCards);

@@ -89,7 +89,9 @@ const TopSeller = (props) => {
 
                       {/* Seller Info */}
                       <div className="seller-info ml-3 w-100">
-                        <p className="seller mb-2">{author.username}</p>
+                        <p className="seller text-capitalize mb-2">
+                          {author.username}
+                        </p>
                         <span className="text-end">
                           {" "}
                           {author.totalETH.toFixed(2)}

@@ -73,21 +73,13 @@ const AuctionsList = (props) => {
         bgImg={BannerBg}
         bannerImg={BannerImage}
       />
-      <section className="explore-collection-section padding-wrapper">
+      <section className="explore-collection-section home-auction-list padding-wrapper">
         {
           // loader ? (
           //   <FullPageLoader />
           // ) : (
           <div className="container">
             <div className="row mb-5">
-              <div className="col-12">
-                <div className="intro">
-                  <div className="intro-content">
-                    <span>Auctions</span>
-                    <h3 className="mb-0">Live Auctions</h3>
-                  </div>
-                </div>
-              </div>
               <div className="col-12 explore-collection-nav">
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categoryId === "all" &&
@@ -139,13 +131,13 @@ const AuctionsList = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row g-4 align-items-center justify-content-center">
+            <div className="row g-3 align-items-center justify-content-center">
               {loader ? (
                 <div class="spinner-border" role="status"></div>
               ) : auctions && auctions.length > 0 ? (
                 auctions.map((item, index) => {
                   return (
-                    <div className="col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <div className="col-sm-6 col-md-4 col-xl-3">
                       <AuctionsCards
                         key={index}
                         item={item}

@@ -110,9 +110,17 @@
   background: #387fff;
 }
 
+.main-nav-container .search-box .search-btn.activeSearchBtn .search-icon path {
+  fill: #fff;
+}
+
 .main-nav-container .btn.btn-linear-gradient.btn-login {
   font-size: 15px;
   font-weight: 700;
+}
+
+.btn.btn-linear-gradient.btn-login:hover svg path {
+  fill: #000;
 }
 
 @media (max-width: 1199.9px) {

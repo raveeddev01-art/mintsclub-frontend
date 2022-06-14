@@ -4,7 +4,10 @@ import SearchIcon from "../../assets/images/search-inp.svg";
 import NftCard from "../nft-card/nft-card";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import Select from "react-select";
-
+import {
+  decimalNumberValidator,
+  firstInputCharacterSpace
+} from "./../../utils/functions";
 const FilterHoc = (props) => {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
@@ -236,6 +239,7 @@ const FilterHoc = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
+  console.log(statusActive,"statusActive")
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -318,7 +322,7 @@ const FilterHoc = (props) => {
               </div>
               <div className="total-items mt-3 mt-sm-0">
                 <p>
-                  Total items: <span>{totalItems ? totalItems : 0}</span>
+                  Total items: <span>{ nftPagination?.total ?  nftPagination?.total : 0}</span>
                 </p>
               </div>
             </div>
@@ -339,10 +343,10 @@ const FilterHoc = (props) => {
                         key={id}
                         onClick={() => {
                           handleStatusFilter(status);
-                          setStatusActive(id);
+                          setStatusActive(status);
                         }}
                         className={`${
-                          id === statusActive ? "active-filter-btn" : ""
+                          status === statusActive ? "active-filter-btn" : ""
                         } filter-btn me-3`}
                       >
                         {status}
@@ -374,6 +378,7 @@ const FilterHoc = (props) => {
                     placeholder="Min"
                     className="me-sm-2"
                     value={minValue}
+                    onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={onChangeMinPrice}
                   ></input>
                   <input
@@ -381,6 +386,7 @@ const FilterHoc = (props) => {
                     placeholder="Max"
                     className="mt-3 mt-sm-0"
                     value={maxValue}
+                    onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={onChangeMaxPrice}
                   ></input>
                 </div>
@@ -475,6 +481,7 @@ const FilterHoc = (props) => {
                             likedNfts={likedNfts}
                             owner={nft.owner}
                             path={path}
+                            index={index}
                           />
                         }
                       </div>

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import { Images } from "../../assets/assets";
-
+import PopularCollectionImage from "../cardImage/popularCollectionImage";
+import ImageLoader from "../contentLoader/imageLoader";
+import ContentLoader from 'react-content-loader'
 import "./CollectionsCard.css";
 
 const CollectionsCard = ({
@@ -16,7 +18,9 @@ const CollectionsCard = ({
   userName,
   NFTCount,
   profileImage,
+  index,
 }) => {
+  const [loader, setLoader] = useState(true);
   const history = useHistory();
 
   return (
@@ -34,6 +38,19 @@ const CollectionsCard = ({
           <div className="row g-3">
             <div className="col-4 collection-subImg1">
               <img src={Subimg1} alt="subImg" />
+              {/* <ContentLoader
+                speed={2}
+                width={400}
+                height={160}
+                viewBox="0 0 400 160"
+                backgroundColor="#d9d9d9"
+                foregroundColor="#ededed"
+                // {...props}
+              > */}
+                {/* <rect x="50" y="6" rx="4" ry="4" width="343" height="38" /> */}
+                {/* <rect  rx="4" ry="4" width="50" height="50" />
+             
+              </ContentLoader> */}
             </div>
             <div className="col-4 collection-subImg2">
               <img src={Subimg2} alt="subImg" />
@@ -41,9 +58,22 @@ const CollectionsCard = ({
             <div className="col-4 collection-subImg3">
               <img src={Subimg3} alt="subImg" />
             </div>
-            <div className="col-12 collection-mainImg">
-              <img src={CardImg} alt="card-img" />
+
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
             </div>
+            <div className="col-12 collection-mainImg">
+              <img
+                src={CardImg}
+                onLoad={() => setLoader(false)}
+                alt="card-img"
+                style={{ display: `${!loader ? "block" : "none"}` }}
+              />
+            </div>
+
+            {/* <div className="col-12 collection-mainImg">
+              <img src={CardImg} alt="card-img" />
+            </div> */}
           </div>
 
           <Card.Body>
@@ -63,7 +93,10 @@ const CollectionsCard = ({
                   className="me-2"
                 />
                 <p>
-                  Owned by: <span className="text-capitalize">{userName?userName:"unnamed"}</span>
+                  Owned by:{" "}
+                  <span className="text-capitalize ms-1">
+                    {userName ? userName : "unnamed"}
+                  </span>
                 </p>
               </div>
             </div>

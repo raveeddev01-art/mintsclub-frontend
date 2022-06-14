@@ -39,7 +39,7 @@ const Hero = (props) => {
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
-  
+
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -48,7 +48,7 @@ const Hero = (props) => {
             <h1 className="mt-4">
               Discover, collect, <br /> <span>and sell </span>
               <br />
-              extraordinary <span> NFTs </span>
+              Extraordinary <span> NFTs </span>
             </h1>
             <p className="mp-explore-text">
               Explore on the world's best & largest NFT marketplace
@@ -59,13 +59,13 @@ const Hero = (props) => {
                 className="btn btn-linear-gradient btn-hero-create"
                 to={connectedAddress ? "/create" : "/login"}
               >
-                <p>Create</p>
+                Create
               </Link>
               <Link
                 className="btn btn-blue-bordered btn-hero-explore"
                 to="/explore/exploreAll"
               >
-                <p className="ms-1">Explore</p>
+                Explore
               </Link>
             </div>
             <div className="watch-video d-flex align-items-center mt-5 mb-4">
