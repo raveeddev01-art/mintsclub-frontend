@@ -37,7 +37,7 @@ const Wallet = (props) => {
   const connectMetamaskCall = async () => {
     if (await validateNetwork()) {
       setDisabled(true);
-      let connectedAddress = await connectWithMetamask();
+      let connectedAddress = await connectMetamaskCopy();
       if (connectedAddress) {
         setDisabled(false);
       }
@@ -105,7 +105,7 @@ const Wallet = (props) => {
         setLoader(true);
         let sign = await signRequest();
         let payload = {
-          address: connectedAddress,
+          address: connectedAddress.toUpperCase(),
         };
         props.login(payload);
       } catch (err) {

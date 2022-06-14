@@ -58,6 +58,7 @@ const EditProfile = (props) => {
 
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
+  
   useEffect(() => {
     if (props.error !== null) {
       setLoader(false);
