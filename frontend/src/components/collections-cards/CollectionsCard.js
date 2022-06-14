@@ -81,11 +81,7 @@ const CollectionsCard = ({
                 />
                 <p>
                   Owned by:{" "}
-<<<<<<< HEAD
                   <span className="text-capitalize ms-1">
-=======
-                  <span className="text-capitalize">
->>>>>>> d5d3ecccf0b27875a0b103cea1ee0f1eada2de61
                     {userName ? userName : "unnamed"}
                   </span>
                 </p>

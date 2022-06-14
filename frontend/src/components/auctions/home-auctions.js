@@ -210,13 +210,8 @@ function AuctionsOne(props) {
                         userId={ENV.getUserKeys("_id")._id}
                         ownerId={item.owner._id}
                         bidsProfile={item.bidInfo.bidByProfile}
-<<<<<<< HEAD
-                        className="mx-2"
-=======
                         index={index}
->>>>>>> d5d3ecccf0b27875a0b103cea1ee0f1eada2de61
                       />
-                      
                     );
                   })}
                 </CardSlider>

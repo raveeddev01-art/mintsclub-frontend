@@ -109,10 +109,6 @@ const PopularCollections = (props) => {
       return Images.imagePlaceholder;
     }
   };
-<<<<<<< HEAD
-  console.log(popular, "popular");
-=======
->>>>>>> d5d3ecccf0b27875a0b103cea1ee0f1eada2de61
 
   return (
     <>

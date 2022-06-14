@@ -177,13 +177,8 @@ const NFTCard = (props) => {
           </div>
           <div className="ms-2 auction-owner-name">
             <p>
-<<<<<<< HEAD
               {"Owned by:"}
               <span className="text-capitalize ms-1">
-=======
-              {"Owned by "}
-              <span>
->>>>>>> d5d3ecccf0b27875a0b103cea1ee0f1eada2de61
                 {ownerId === user
                   ? "You"
                   : username && username?.length > 8
