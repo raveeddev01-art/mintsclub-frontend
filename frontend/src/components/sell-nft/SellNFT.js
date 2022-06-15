@@ -442,7 +442,7 @@ const SellNFT = (props) => {
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <img src={image} alt="nft-image" />
                     </div>
-                  ) : (
+                  ) :fileType === "video" ? (
                     <div className="card-img-top">
                       <div className="video-wrapper">
                         <video
@@ -466,6 +466,9 @@ const SellNFT = (props) => {
                         </div>
                       </div>
                     </div>
+                  ):(
+                    //audio component
+                    ""
                   )}
                 </div>
                 <div className="col-lg-6 col-xl-7">

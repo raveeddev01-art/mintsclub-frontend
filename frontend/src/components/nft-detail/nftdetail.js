@@ -849,6 +849,7 @@ const NFTDetail = (props) => {
                       </div>
                     </div>
                   ) : (
+                    //adnan's audio component
                     ""
                   )}
                 </div>

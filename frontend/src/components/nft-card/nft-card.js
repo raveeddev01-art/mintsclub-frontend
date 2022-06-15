@@ -8,9 +8,7 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import ImageLoader from "../contentLoader/imageLoader";
-import CardImage from "../cardImage/cardImage";
 const NFTCard = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
@@ -84,7 +82,7 @@ const NFTCard = (props) => {
               style={{ display: `${!loader ? "block" : "none"}` }}
             />
           </>
-        ) : (
+        ) :fileType === "video"? (
           <div className="card-img-top">
             <div className="video-wrapper">
               {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
@@ -114,6 +112,9 @@ const NFTCard = (props) => {
               </div>
             </div>
           </div>
+        ):(
+          //adnan's audio nft case
+          " "
         )}
       </div>
       <Card.Body>

@@ -155,10 +155,7 @@ class CreateNFT extends Component {
   }
 
   togglePlay = () => {
-    // setPlayerState({
-    //   ...playerState,
-    //   isPlaying: !playerState.isPlaying,
-    // });
+
     let test = { ...this.state.playerState };
     test = { ...test, isPlaying: !test.isPlaying };
     this.setState({ playerState: test });
@@ -166,15 +163,9 @@ class CreateNFT extends Component {
 
   onChange(e, status = null) {
     let { name, value } = e.target;
-
-    // if status is provided
     if (status) value = status;
-    let category = this.state.collections.find(
-      (item) => item._id === value
-    )?.categoryId;
-
     let { nft } = this.state;
-    nft = { ...nft, [name]: value, categoryId: category };
+    nft = { ...nft, [name]: value };
     this.setState({ nft });
   }
   onChangeSelect = (value) => {
@@ -223,7 +214,7 @@ class CreateNFT extends Component {
       } else {
         nftInfo.fileType = "image";
       }
-
+    console.log(nftInfo,"nftInfo")
       this.setState(
         {
           isSubmitted: true,
@@ -360,8 +351,9 @@ class CreateNFT extends Component {
             errorMessage: "",
           });
         } else if (file.type.includes("audio")) {
+          
           let { nft } = this.state;
-          nft = { ...nft, audioUrl: file, image: file };
+          nft = { ...nft, image: file };
 
           this.setState({
             nft,
@@ -677,7 +669,7 @@ class CreateNFT extends Component {
                                 onChange={(e) =>
                                   this.onFileChange(e, "onChange")
                                 }
-                                accept=".mp4, .png,.jpeg"
+                                accept=".mp4, .png,.jpeg,.mp3"
                                 name="image"
                               />
                             </label>
@@ -733,6 +725,13 @@ class CreateNFT extends Component {
                         /> */}
                         <Waveform url={audioUrl} />
                       </div>
+                      <span className="text-danger text-center mb-3">
+                          {this.validator.message(
+                            "image",
+                            nft.image,
+                            "required"
+                          )}
+                        </span>
                       {/* <AudioPlayer audioSrc={audioUrl} /> */}
                     </>
                   ) : (
@@ -753,7 +752,7 @@ class CreateNFT extends Component {
                           type="file"
                           style={{ display: "none" }}
                           onChange={(e) => this.onFileChange(e, "onChange")}
-                          accept=".mp4, .png,.jpeg"
+                          accept=".mp4, .png,.jpeg,.mp3"
                           name="image"
                         />
                         <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
