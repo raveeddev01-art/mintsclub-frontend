@@ -4,7 +4,8 @@ import { Card } from "react-bootstrap";
 import { Images } from "../../assets/assets";
 import PopularCollectionImage from "../cardImage/popularCollectionImage";
 import ImageLoader from "../contentLoader/imageLoader";
-
+import ContentLoader from "react-content-loader";
+import SubImgLoader from "../contentLoader/collectionSubLoader";
 import "./CollectionsCard.css";
 
 const CollectionsCard = ({
@@ -37,13 +38,13 @@ const CollectionsCard = ({
         <div className="col-12">
           <div className="row g-3">
             <div className="col-4 collection-subImg1">
-              <img src={Subimg1} alt="subImg" />
+              <SubImgLoader image={Subimg1} />
             </div>
             <div className="col-4 collection-subImg2">
-              <img src={Subimg2} alt="subImg" />
+              <SubImgLoader image={Subimg2} />
             </div>
             <div className="col-4 collection-subImg3">
-              <img src={Subimg3} alt="subImg" />
+              <SubImgLoader image={Subimg3} />
             </div>
 
             <div style={{ display: `${loader ? "block" : "none"}` }}>

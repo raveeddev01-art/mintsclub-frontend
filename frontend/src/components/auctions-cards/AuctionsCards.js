@@ -65,9 +65,8 @@ const AuctionsCards = ({
 
               <video
                 src={image}
-                onLoad={() => console.log("on load auction card")}
-                onLoadStart={() => console.log("onload start")}
-                onLoadCapture={() => console.log("lodaed")}
+                onEnded={()=>console.log("onEnded123123123")}
+                onEndedCapture={()=>console.log("onEnded123123123")}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
                 // style={{ display: `${!loader ? "block" : "none"}` }}
