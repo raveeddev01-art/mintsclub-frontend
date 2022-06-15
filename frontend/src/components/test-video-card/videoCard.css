@@ -60,7 +60,7 @@
   .video-wrapper
   .actions
   .play-pause-btn {
-  background: white;
+  background: #fff;
   border: none;
   outline: none;
   cursor: pointer;
@@ -70,6 +70,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.auction-card.listing-card.card
+  .card-img-top
+  .video-wrapper
+  .actions
+  .play-pause-btn
+  svg
+  path {
+  fill: #434343;
 }
 
 @media (min-width: 1399.9px) {

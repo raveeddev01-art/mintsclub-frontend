@@ -24,7 +24,7 @@ const getWeb3 = async () => {
 
 const getContractMethods = async () => {
   let web3 = await getWeb3();
-
+console.log(mintsClubContractAddress,"mintsClubContractAddress")
   const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
   return contractM;
 };
@@ -216,7 +216,25 @@ export const setApprovalForAll = async (setApprovalStatus) => {
   }
 };
 
-export const endAuction = async (tokenId) => {
+export const claimNFTfromContract = async (tokenId) => {
+  try {
+    let connectedAddress = await getMetamaskConnectedAddress();
+    const contractM = await getContractMethods();
+    console.log(contractM.methods,"contractM.methods")
+    const result = contractM.methods.claimNft(tokenId).send({
+      from: connectedAddress,
+      gassPrice: 5000000,
+    });
+    if (result) {
+      console.log(result, "result");
+      return result;
+    }
+  } catch (err) {
+    console.log(err, "error");
+    throw new Error(err);
+  }
+};
+export const endAuctionFromContract = async (tokenId) => {
   try {
     let connectedAddress = await getMetamaskConnectedAddress();
     const contractM = await getContractMethods();
@@ -233,6 +251,7 @@ export const endAuction = async (tokenId) => {
     throw new Error(err);
   }
 };
+
 
 export const getMetamaskConnectedAddress = async () => {
   let web3 = await getWeb3();

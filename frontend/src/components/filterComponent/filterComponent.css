@@ -167,7 +167,8 @@
 }
 
 .filterhoc-wrapper .filter-container .min-max-inp input {
-  width: 80px;
+  max-width: 80px;
+  width: 100%;
   height: 30px;
   background: #ffffff;
   border: 1px solid #e7e7e7;
@@ -257,6 +258,7 @@
 
 @media (max-width: 767.9px) {
   .filterhoc-wrapper .filter-container .min-max-inp input {
-    width: 215px;
+    max-width: 215px;
+    width: 100%;
   }
 }

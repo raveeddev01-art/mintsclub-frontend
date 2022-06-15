@@ -94,7 +94,7 @@
 .create-nft .uploaded-img-container .create-nft-video-container .controls {
   position: absolute;
   top: 14px;
-  right: 14px;
+  right: 12px;
 }
 
 .create-nft
@@ -102,7 +102,7 @@
   .create-nft-video-container
   .actions
   .play-pause-btn {
-  background: white;
+  background: #fff;
   border: none;
   outline: none;
   cursor: pointer;
@@ -112,6 +112,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.create-nft
+  .uploaded-img-container
+  .create-nft-video-container
+  .actions
+  .play-pause-btn
+  svg
+  path {
+  fill: #434343;
 }
 
 .create-nft .uploaded-video-content {
@@ -124,6 +134,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 20px;
+  z-index: 9;
 }
 
 .create-nft .video-upload-label {
@@ -175,4 +186,10 @@
   font-size: 13px;
   line-height: 15px;
   padding: 10px 27px;
+}
+
+@media (max-width: 576.9px) {
+  .create-nft .video-upload-label {
+    width: 65%;
+  }
 }

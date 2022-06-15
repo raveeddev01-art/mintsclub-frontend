@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import { ReactComponent as AudioIcon } from "../../../assets/images/audio-icon.svg";
 import { WaveformContianer, Wave, PlayButton } from "./Waveform.styled";
+import BackgroundImg from "../../../assets/images/audio-bg.svg";
+
 import "./WaveForm.css";
 
 class Waveform extends Component {
@@ -20,9 +23,9 @@ class Waveform extends Component {
       container: "#waveform",
       backend: "WebAudio",
       height: 80,
-      progressColor: "#000",
+      progressColor: "#FFFFFF",
       responsive: true,
-      waveColor: "#9c9c9c",
+      waveColor: "#838383",
       cursorColor: "transparent",
     });
 
@@ -36,15 +39,27 @@ class Waveform extends Component {
 
   render() {
     return (
-      <div className="create-nft-audio-container">
-        <WaveformContianer>
-          <PlayButton className="audio-btn" onClick={this.handlePlay}>
-            {this.state.playing ? <BsFillPauseFill /> : <BsFillPlayFill />}
-          </PlayButton>
-          <Wave id="waveform" />
-          <audio id="track" src={this.props.url} />
-        </WaveformContianer>
-      </div>
+      <WaveformContianer
+        className="wave-container px-4 px-xl-5"
+        style={{ background: `rgba(0, 0, 0, 0.79)` }}
+      >
+        <PlayButton className="audio-btn" onClick={this.handlePlay}>
+          {this.state.playing ? <BsFillPauseFill /> : <BsFillPlayFill />}
+        </PlayButton>
+        <div
+          className={`${
+            this.props.auction ? "d-none" : ""
+          } audio-icon-wrapper mt-5`}
+        >
+          <AudioIcon />
+        </div>
+
+        <Wave
+          className={`${this.props.auction ? "mt-5" : ""} waves mb-3`}
+          id="waveform"
+        />
+        <audio id="track" src={this.props.url} />
+      </WaveformContianer>
     );
   }
 }

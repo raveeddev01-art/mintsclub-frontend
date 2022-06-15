@@ -56,7 +56,7 @@ const Hero = (props) => {
             {/* Buttons */}
             <div className="button-group mt-lg-5 d-flex">
               <Link
-                className="btn btn-linear-gradient btn-hero-create"
+                className="btn btn-linear-gradient btn-hero-create me-sm-4"
                 to={connectedAddress ? "/create" : "/login"}
               >
                 Create
