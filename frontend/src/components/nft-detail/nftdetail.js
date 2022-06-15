@@ -34,7 +34,8 @@ import {
   getWalletAddress,
   getBalance,
   validateNetwork,
-  endAuction,
+  claimNFTfromContract,
+  endAuctionFromContract,
 } from "../../utils/web3";
 import {
   placeBid,
@@ -90,6 +91,8 @@ const NFTDetail = (props) => {
   const [disabled, setDisabled] = useState(false);
   const history = useHistory();
   const videoElement = React.useRef(null);
+  const [claimNFT, setClaimNFT] = useState(false);
+  const [initial, setInitial] = useState(false);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
   let nftId = props.match.params.id;
@@ -126,8 +129,8 @@ const NFTDetail = (props) => {
       qs = ENV.objectToQueryString(qs);
       props.getMyLikedNfts(qs);
       validateIfLiked();
-      props.getBids();
-      props.beforeOffer()
+      // props.getBids();
+      props.beforeOffer();
       toast.success("You have purchased NFT successfully");
       history.push("/userprofile");
     }
@@ -187,12 +190,12 @@ const NFTDetail = (props) => {
           props.getBids(qs);
         }
       }
-      //get bids
-      if (nftDetail?.sellingMethod === 2) {
-        let nftBidsQs = { nftId };
-        nftBidsQs = ENV.objectToQueryString(nftBidsQs);
-        props.getBidSByNftId(nftBidsQs);
-      }
+      // //get bids
+      // if (nftDetail?.sellingMethod === 2) {
+      //   let nftBidsQs = { nftId };
+      //   nftBidsQs = ENV.objectToQueryString(nftBidsQs);
+      //   props.getBidSByNftId(nftBidsQs);
+      // }
 
       //set next bid to 5% greater
       let fivePerc = "";
@@ -627,27 +630,52 @@ const NFTDetail = (props) => {
       checkIfAuctionEnded();
     }, 3000);
     return () => clearInterval(interval);
-  }, [nftDetail]);
-  const checkIfAuctionEnded = () => {
+  }, [nftDetail, initial]);
+
+  const checkIfAuctionEnded = async () => {
     if (nftDetail && nftDetail?.sellingMethod === 2) {
       let auctionEndDate = new Date(nftDetail.auctionEndDate);
       let currentDate = new Date();
       if (currentDate > auctionEndDate) {
-        props.getNFT(nftId);
+        if (!initial) {
+          let qs = { nftId: nftDetail._id };
+          qs = ENV.objectToQueryString(qs);
+          let url = `${ENV.url}bid/list`;
+          url += `?${qs}`;
+          let res = await axios.get(url);
+          let newBids = res.data.data.Bids;
+          if (!initial) {
+            setInitial(true);
+          }
+
+          if (newBids?.length > 0) {
+            let highestBidByUser = newBids.reduce((max, obj) =>
+              max.bidAmount > obj.bidAmount ? max : obj
+            );
+            if (highestBidByUser.bidBy === userId) {
+              if (!claimNFT) {
+                setClaimNFT(true);
+              }
+            }
+          }
+        }
       }
     }
   };
+
   const EndAuction = async () => {
+    const { ownerId, sellingMethod } = nftDetail;
     try {
       setLoader(true);
-      let result = await endAuction(nftDetail.tokenId);
-      if (result) {
-        let res = await axios.post(
-          `${ENV.url}nfts/endAuction`,{nft:nftDetail}
-        );
-        if (res.data.success) {
-          toast.success(res.data.message);
-          history.push("/userprofile");
+      if (userId == ownerId && sellingMethod == 2) {
+        let result = await endAuctionFromContract(nftDetail.tokenId);
+        if (result) {
+          EndAuctionFromBackend();
+        }
+      } else {
+        let result = await claimNFTfromContract(nftDetail.tokenId);
+        if (result) {
+          EndAuctionFromBackend();
         }
       }
     } catch (err) {
@@ -655,7 +683,19 @@ const NFTDetail = (props) => {
       setLoader(false);
     }
   };
-
+  const EndAuctionFromBackend = async () => {
+    let res = await axios.post(`${ENV.url}nfts/endAuction`, {
+      nft: nftDetail,
+    });
+    if (res.data.success) {
+      if (userId == ownerId) {
+        toast.success(res.data.message);
+      } else {
+        toast.success("You have purchased NFT successfully");
+      }
+      history.push("/userprofile");
+    }
+  };
 
   const {
     name,
@@ -728,7 +768,7 @@ const NFTDetail = (props) => {
       value: "Ethereum",
     },
   ];
-
+ 
   return (
     <>
       <Banner
@@ -963,25 +1003,30 @@ const NFTDetail = (props) => {
                     {checkIfAuctionStartedorEnded(
                       auctionStartDate,
                       auctionEndDate
-                    ) && (
-                      <button
-                        disabled={disabled}
-                        onClick={() => handleRouting()}
-                      >
-                        {" "}
-                        {ENV.getUserKeys("_id")._id == ownerId &&
-                        sellingMethod == 2
-                          ? "End Auction"
-                          : ENV.getUserKeys("_id")._id == ownerId &&
-                            sellingMethod == 1
-                          ? "Resale"
-                          : ENV.getUserKeys("_id")._id == ownerId
-                          ? "Sell"
-                          : sellingMethod === 2
-                          ? "Place A Bid"
-                          : sellingMethod === 1
-                          ? "Buy Now"
-                          : ""}
+                    ) &&
+                      !claimNFT && (
+                        <button
+                          disabled={disabled}
+                          onClick={() => handleRouting()}
+                        >
+                          {" "}
+                          {userId == ownerId && sellingMethod == 2
+                            ? "End Auction"
+                            : userId == ownerId && sellingMethod == 1
+                            ? "Resale"
+                            : userId == ownerId
+                            ? "Sell"
+                            : sellingMethod === 2
+                            ? "Place A Bid"
+                            : sellingMethod === 1
+                            ? "Buy Now"
+                            : ""}
+                        </button>
+                      )}
+
+                    {claimNFT && (
+                      <button onClick={() => EndAuction()}>
+                        {"Claim NFT"}
                       </button>
                     )}
                   </div>
