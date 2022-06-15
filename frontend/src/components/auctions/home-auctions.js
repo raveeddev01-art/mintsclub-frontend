@@ -133,7 +133,7 @@ function AuctionsOne(props) {
             <div className="col-12 col-md-8">
               {/* Intro */}
               <div className="intro d-flex justify-content-between align-items-end m-0">
-                <div className="intro-content clr-yellow">
+                <div className="intro-content clr-blue">
                   <span>{initData.pre_heading}</span>
                   <h3 className="mb-0">{initData.heading}</h3>
                   <p>
@@ -216,7 +216,7 @@ function AuctionsOne(props) {
                   })}
                 </CardSlider>
               ) : (
-                <p className="text-center">No Live Auctions Found</p>
+                <p className="text-center py-5">No Live Auctions Found</p>
               )}
             </>
           </div>

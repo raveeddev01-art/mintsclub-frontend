@@ -50,12 +50,14 @@ const CollectionsCard = ({
             <div style={{ display: `${loader ? "block" : "none"}` }}>
               <ImageLoader />
             </div>
-            <div className="col-12 collection-mainImg">
+            <div
+              className="col-12 collection-mainImg"
+              style={{ display: `${!loader ? "block" : "none"}` }}
+            >
               <img
                 src={CardImg}
                 onLoad={() => setLoader(false)}
                 alt="card-img"
-                style={{ display: `${!loader ? "block" : "none"}` }}
               />
             </div>
 

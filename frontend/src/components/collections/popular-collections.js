@@ -117,7 +117,7 @@ const PopularCollections = (props) => {
           <div className="row mb-5">
             <div className="col-12 col-md-8">
               <div className="intro d-flex justify-content-between align-items-end m-0">
-                <div className="intro-content clr-yellow">
+                <div className="intro-content clr-blue">
                   <span>{initData.pre_heading}</span>
                   <h3 className=" mb-1">{initData.heading}</h3>
                   <p>
@@ -203,7 +203,7 @@ const PopularCollections = (props) => {
               })}
             </CardSlider>
           ) : (
-            <p className="text-center not-found-title mt-5">
+            <p className="text-center not-found-title mt-5 py-5">
               No popular collections Found
             </p>
           )}

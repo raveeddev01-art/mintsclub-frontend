@@ -155,7 +155,6 @@ class CreateNFT extends Component {
   }
 
   togglePlay = () => {
-
     let test = { ...this.state.playerState };
     test = { ...test, isPlaying: !test.isPlaying };
     this.setState({ playerState: test });
@@ -214,7 +213,7 @@ class CreateNFT extends Component {
       } else {
         nftInfo.fileType = "image";
       }
-    console.log(nftInfo,"nftInfo")
+      console.log(nftInfo, "nftInfo");
       this.setState(
         {
           isSubmitted: true,
@@ -351,7 +350,6 @@ class CreateNFT extends Component {
             errorMessage: "",
           });
         } else if (file.type.includes("audio")) {
-          
           let { nft } = this.state;
           nft = { ...nft, image: file };
 
@@ -708,31 +706,55 @@ class CreateNFT extends Component {
                     </>
                   ) : audioUrl ? (
                     <>
-                      <div id="audio">
-                        {/* <Player
-                          imageUrl=""
-                          audioUrl={audioUrl}
-                          hideImage="true"
-                          waveStyles={{
-                            cursorWidth: 1,
-                            progressColor: "#387FFF",
-                            responsive: true,
-                            waveColor: "#121640",
-                            cursorColor: "transparent",
-                            barWidth: 1,
-                          }}
-                          zoom={0}
-                        /> */}
-                        <Waveform url={audioUrl} />
+                      <div className="uploaded-img-container">
+                        <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
+                          <Waveform url={audioUrl} auction={false} />
+                        </div>
+                        <label className="video-upload-label">
+                          <div className="uploaded-video-container mx-auto">
+                            <label>
+                              <input
+                                type="file"
+                                style={{ display: "none" }}
+                                onChange={(e) =>
+                                  this.onFileChange(e, "onChange")
+                                }
+                                accept=".mp4, .png,.jpeg,.mp3"
+                                name="image"
+                              />
+                            </label>
+
+                            <div className="upload-icon-container uploaded-video-content text-center">
+                              <img
+                                src={UploadWhiteIcon}
+                                alt="upload"
+                                className="mb-1 mt-4"
+                              />
+                              <h6 className="mb-1 text-white">
+                                Drag and drop your files
+                              </h6>
+                              <p className="mb-1 text-white">
+                                PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+                              </p>
+                              <div className="mx-3 my-1">
+                                <span className="text-white">|</span>
+                                <h6 className="text-white">OR</h6>
+                                <span className="text-white">|</span>
+                              </div>
+                              <span className="btn uploaded-img-browse upload-nft-btn ">
+                                Browse File
+                              </span>
+                            </div>
+                            <span className="text-danger text-center mt-3">
+                              {this.validator.message(
+                                "image",
+                                nft.image,
+                                "required"
+                              )}
+                            </span>
+                          </div>
+                        </label>
                       </div>
-                      <span className="text-danger text-center mb-3">
-                          {this.validator.message(
-                            "image",
-                            nft.image,
-                            "required"
-                          )}
-                        </span>
-                      {/* <AudioPlayer audioSrc={audioUrl} /> */}
                     </>
                   ) : (
                     <label className="w-100">

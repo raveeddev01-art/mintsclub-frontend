@@ -65,6 +65,7 @@ import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import { Images } from "../../assets/assets";
 import NftCard from "../nft-card/nft-card";
+import Waveform from "../audioPlayer/waveform/WaveForm";
 
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
@@ -889,8 +890,11 @@ const NFTDetail = (props) => {
                         </div>
                       </div>
                     </div>
+                  ) : fileType === "audio" ? (
+                    <>
+                      <Waveform url={image} auction={false} />
+                    </>
                   ) : (
-                    //adnan's audio component
                     ""
                   )}
                 </div>

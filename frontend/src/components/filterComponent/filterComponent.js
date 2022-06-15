@@ -6,7 +6,7 @@ import FullPageLoader from "../full-page-loader/full-page-loader";
 import Select from "react-select";
 import {
   decimalNumberValidator,
-  firstInputCharacterSpace
+  firstInputCharacterSpace,
 } from "./../../utils/functions";
 const FilterHoc = (props) => {
   const [minValue, setMinValue] = useState("");
@@ -239,7 +239,10 @@ const FilterHoc = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
-  console.log(statusActive,"statusActive")
+  console.log(statusActive, "statusActive");
+
+  console.log(nfts, "arrayofnft");
+
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -322,7 +325,8 @@ const FilterHoc = (props) => {
               </div>
               <div className="total-items mt-3 mt-sm-0">
                 <p>
-                  Total items: <span>{ nftPagination?.total ?  nftPagination?.total : 0}</span>
+                  Total items:{" "}
+                  <span>{nftPagination?.total ? nftPagination?.total : 0}</span>
                 </p>
               </div>
             </div>
@@ -384,7 +388,7 @@ const FilterHoc = (props) => {
                   <input
                     type="number"
                     placeholder="Max"
-                    className="mt-3 mt-sm-0"
+                    className="mt-3 mt-sm-0 me-sm-2"
                     value={maxValue}
                     onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={onChangeMaxPrice}

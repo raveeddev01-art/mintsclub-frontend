@@ -91,16 +91,25 @@ const Footer = (props) => {
                 </div>
                 <p>{data.desc}</p>
                 <div className="social-icons d-flex justify-content-center justify-content-lg-end">
-                  <a href={data.linkedin} target="_blank">
+                  <a
+                    href={"https://www.linkedin.com/showcase/mints-club"}
+                    target="_blank"
+                  >
                     <i className={"fab fa-linkedin-in"} />
                   </a>
-                  <a href={data.facebook} target="_blank">
+                  <a
+                    href={"https://www.facebook.com/MintsClub.io/"}
+                    target="_blank"
+                  >
                     <i className={"fab fa-facebook-f"} />
                   </a>
-                  <a href={data.instagram} target="_blank">
+                  <a
+                    href={"https://www.instagram.com/mintsclub/"}
+                    target="_blank"
+                  >
                     <i className={"fab fa-instagram"} />
                   </a>
-                  <a href={data.twitter} target="_blank">
+                  <a href={"https://twitter.com/MintsClub"} target="_blank">
                     <i className={"fab fa-twitter"} />
                   </a>
                 </div>
