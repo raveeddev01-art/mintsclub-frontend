@@ -216,7 +216,7 @@ function AuctionsOne(props) {
                   })}
                 </CardSlider>
               ) : (
-                <p className="text-center">No Live Auctions Found</p>
+                <p className="text-center py-5">No Live Auctions Found</p>
               )}
             </>
           </div>

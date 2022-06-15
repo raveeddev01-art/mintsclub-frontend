@@ -125,7 +125,7 @@ const UserProfile = (props) => {
   const ChangeTooltip = () =>
     setTimeout(() => {
       setAddressCopied(false);
-    }, 1000);
+    }, 3000);
 
   const getNFTs = (filter) => {
     props.beforeNFT();
@@ -318,7 +318,11 @@ const UserProfile = (props) => {
                           </span>
                           {user && (
                             <>
-                              <img src={EthIcon} alt="eth-icon" />
+                              <img
+                                src={EthIcon}
+                                alt="eth-icon"
+                                className="me-1"
+                              />
 
                               <p className="acc-adress d-none d-md-block">
                                 {user.address}
