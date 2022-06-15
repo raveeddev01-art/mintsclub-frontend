@@ -203,7 +203,7 @@ const PopularCollections = (props) => {
               })}
             </CardSlider>
           ) : (
-            <p className="text-center not-found-title mt-5">
+            <p className="text-center not-found-title mt-5 py-5">
               No popular collections Found
             </p>
           )}

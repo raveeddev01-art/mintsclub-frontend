@@ -5,7 +5,7 @@ export const WaveformContianer = styled.div`
   flex-direction: column;
   align-items: end;
   justify-content: center;
-  height: 293px;
+  height: 310px;
   max-width: 378px;
   min-width: 250px;
   width: 100%;
