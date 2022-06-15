@@ -55,6 +55,7 @@
 
 .auction-card .auction-img-wrapper {
   position: relative;
+  height: 310px;
 }
 /* .auction-img-wrapper img{
   width: 100%;
@@ -170,7 +171,7 @@
 }
 
 .auction-card.card .card-img-top .video-wrapper .actions .play-pause-btn {
-  background: white;
+  background: #ffffff;
   border: none;
   outline: none;
   cursor: pointer;
@@ -183,5 +184,5 @@
 }
 
 .auction-card.card .card-img-top .video-wrapper .actions .play-pause-btn svg {
-  color: #000;
+  color: #434343;
 }

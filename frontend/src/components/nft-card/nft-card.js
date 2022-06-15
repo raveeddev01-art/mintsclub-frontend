@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
+import Waveform from "../audioPlayer/waveform/WaveForm";
+
 const NFTCard = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
@@ -82,7 +84,7 @@ const NFTCard = (props) => {
               style={{ display: `${!loader ? "block" : "none"}` }}
             />
           </>
-        ) :fileType === "video"? (
+        ) : fileType === "video" ? (
           <div className="card-img-top">
             <div className="video-wrapper">
               {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
@@ -112,8 +114,11 @@ const NFTCard = (props) => {
               </div>
             </div>
           </div>
-        ):(
-          //adnan's audio nft case
+        ) : fileType === "audio" ? (
+          <>
+            <Waveform url={image} auction={false} />
+          </>
+        ) : (
           " "
         )}
       </div>

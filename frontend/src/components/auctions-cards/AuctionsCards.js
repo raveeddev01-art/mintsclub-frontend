@@ -9,8 +9,8 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
-import AuctionCardImage from "../cardImage/auctionsCardImage";
 import ImageLoader from "../contentLoader/imageLoader";
+import Waveform from "../audioPlayer/waveform/WaveForm";
 
 const AuctionsCards = ({
   ownerName,
@@ -56,7 +56,7 @@ const AuctionsCards = ({
               style={{ display: `${!loader ? "block" : "none"}` }}
             />
           </>
-        ) : (
+        ) : fileType === "video" ? (
           <div className="card-img-top">
             <div className="video-wrapper">
               {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
@@ -65,8 +65,8 @@ const AuctionsCards = ({
 
               <video
                 src={image}
-                onEnded={()=>console.log("onEnded123123123")}
-                onEndedCapture={()=>console.log("onEnded123123123")}
+                onEnded={() => console.log("onEnded123123123")}
+                onEndedCapture={() => console.log("onEnded123123123")}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
                 // style={{ display: `${!loader ? "block" : "none"}` }}
@@ -88,6 +88,12 @@ const AuctionsCards = ({
               </div>
             </div>
           </div>
+        ) : fileType === "audio" ? (
+          <>
+            <Waveform url={image} auction={true} />
+          </>
+        ) : (
+          " "
         )}
 
         <div className="auction-countdown d-flex flex-column justify-content-center align-items-center">

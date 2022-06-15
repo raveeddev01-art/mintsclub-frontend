@@ -38,6 +38,7 @@ import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
+import Waveform from "../audioPlayer/waveform/WaveForm";
 
 const { dateRangeInitialSettings } = ENV;
 const config1 = {
@@ -442,7 +443,7 @@ const SellNFT = (props) => {
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <img src={image} alt="nft-image" />
                     </div>
-                  ) :fileType === "video" ? (
+                  ) : fileType === "video" ? (
                     <div className="card-img-top">
                       <div className="video-wrapper">
                         <video
@@ -466,9 +467,12 @@ const SellNFT = (props) => {
                         </div>
                       </div>
                     </div>
-                  ):(
-                    //audio component
-                    ""
+                  ) : fileType === "audio" ? (
+                    <>
+                      <Waveform url={image} auction={false} />
+                    </>
+                  ) : (
+                    " "
                   )}
                 </div>
                 <div className="col-lg-6 col-xl-7">
@@ -598,12 +602,19 @@ const SellNFT = (props) => {
                           }}
                           min={"1"}
                           onChange={(e) => {
-                            console.log(e.target.value.includes('.'),"e.target.value.includes('.')",+e.target.value==0)
+                            console.log(
+                              e.target.value.includes("."),
+                              "e.target.value.includes('.')",
+                              +e.target.value == 0
+                            );
                             if (+e.target.value > nftDetail.copies) {
                               setCopiesError(true);
                               return false;
                             }
-                            if ((e.target.value==0&&copies==='')||e.target.value.includes('.')) {
+                            if (
+                              (e.target.value == 0 && copies === "") ||
+                              e.target.value.includes(".")
+                            ) {
                               return false;
                             }
                             setCopiesError(false);
@@ -813,7 +824,6 @@ const SellNFT = (props) => {
                 </div>
               </form>
             )}
-            
           </div>
         </div>
         <ApprovalModal

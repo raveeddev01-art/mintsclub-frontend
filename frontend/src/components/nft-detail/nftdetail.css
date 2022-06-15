@@ -73,7 +73,7 @@
 }
 
 .nft-video-container .controls .play-pause-btn {
-  background: white;
+  background: #fff;
   border: none;
   outline: none;
   cursor: pointer;
@@ -86,7 +86,7 @@
 }
 
 .nft-video-container .controls .actions .play-pause-btn svg {
-  color: #000;
+  color: #434343;
 }
 
 .new-nft-detail .nft-img-detail {
