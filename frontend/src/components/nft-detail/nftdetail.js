@@ -642,8 +642,8 @@ const NFTDetail = (props) => {
       setLoader(true);
       let result = await endAuction(nftDetail.tokenId);
       if (result) {
-        let res = await axios.patch(
-          `${ENV.url}nfts/endAuction/${nftDetail._id}`
+        let res = await axios.post(
+          `${ENV.url}nfts/endAuction`,{nft:nftDetail}
         );
         if (res.data.success) {
           toast.success(res.data.message);
@@ -655,6 +655,7 @@ const NFTDetail = (props) => {
       setLoader(false);
     }
   };
+
 
   const {
     name,
