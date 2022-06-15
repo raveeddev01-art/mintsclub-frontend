@@ -8,11 +8,11 @@ const PropertiesInfo = ({ name, type }) => {
         <div className="properties-content">
           <p>
             <span>Type: </span>
-            {name.length > 5 ? name.slice(0, 5) + "..." : name}
+            {type.length > 5 ? type.slice(0, 5) + "..." : type}
           </p>
           <p>
             <span>Name: </span>
-            {type.length > 5 ? type.slice(0, 5) + "..." : type}
+            {name.length > 5 ? name.slice(0, 5) + "..." : name}
           </p>
         </div>
       </div>
