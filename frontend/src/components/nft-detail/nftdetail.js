@@ -769,7 +769,7 @@ const NFTDetail = (props) => {
       value: "Ethereum",
     },
   ];
- 
+
   return (
     <>
       <Banner

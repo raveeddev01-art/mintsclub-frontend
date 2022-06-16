@@ -141,9 +141,9 @@ const AboutUs = () => {
           </div>
           <div className="aboutus-box-container">
             <div className="row g-4">
-              {services.map((service) => {
+              {services.map((service, id) => {
                 return (
-                  <div className="col-sm-6 col-lg-4 col-xxl-3">
+                  <div className="col-sm-6 col-lg-4 col-xxl-3" key={id}>
                     <div className="aboutus-box">
                       <img src={service.img} alt="services" />
                       <p>{service.name}</p>
@@ -167,9 +167,9 @@ const AboutUs = () => {
           </div>
           <div className="aboutus-box-container">
             <div className="row g-4">
-              {comingsoon.map((comingsoon) => {
+              {comingsoon.map((comingsoon, id) => {
                 return (
-                  <div className="col-sm-6 col-lg-4 col-xl-3">
+                  <div className="col-sm-6 col-lg-4 col-xl-3" key={id}>
                     <div className="aboutus-box">
                       <img src={comingsoon.img} alt="services" />
                       <p>{comingsoon.name}</p>

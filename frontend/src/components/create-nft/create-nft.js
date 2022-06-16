@@ -35,7 +35,6 @@ import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import AudioPlayer from "../audioPlayer/AudioPlayer";
 import Waveform from "../audioPlayer/waveform/WaveForm";
 
 const placeholderImg = "";

@@ -20,6 +20,8 @@ import EditProfile from "./components/user-profile/user-edit-profile";
 import CreateCollections from "./components/creat-collections/CreateCollections";
 import AboutUs from "./components/aboutus/aboutus";
 import Faqs from "./components/faqs/faqs";
+import PrivacyPolicy from "./components/privacy-policy/privacyPolicy";
+import TermsConditions from "./components/terms-conditions/termsConditions";
 
 // routes
 const routes = [
@@ -172,7 +174,22 @@ const routes = [
     layout: layout,
     component: Faqs,
   },
-
+  {
+    path: "/privacypolicy",
+    access: true,
+    exact: true,
+    title: "PrivacyPolicy",
+    layout: layout,
+    component: PrivacyPolicy,
+  },
+  {
+    path: "/termsandconditions",
+    access: true,
+    exact: true,
+    title: "Terms&Conditions",
+    layout: layout,
+    component: TermsConditions,
+  },
   {
     path: "/*",
     access: true,
