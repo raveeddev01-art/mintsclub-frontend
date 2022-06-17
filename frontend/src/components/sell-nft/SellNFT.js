@@ -461,7 +461,7 @@ const SellNFT = (props) => {
                     </div>
                   ) : fileType === "video" ? (
                     <div className="card-img-top">
-                      <div className="video-wrapper">
+                      <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
                         <div
                           style={{
                             display: `${contentLoader ? "block" : "none"}`,
@@ -479,7 +479,6 @@ const SellNFT = (props) => {
                           onCanPlay={() => {
                             setContentLoader(false);
                           }}
-                          onTimeUpdate={handleOnTimeUpdate}
                           style={{
                             display: `${!contentLoader ? "block" : "none"}`,
                           }}
@@ -515,8 +514,11 @@ const SellNFT = (props) => {
                         onLoadCallback={() => setContentLoader(false)}
                         loader={contentLoader}
                       /> */}
-                      <Audio  src={image}    onLoadCallback={() => setContentLoader(false)}
-                        loader={contentLoader}/>
+                      <Audio
+                        src={image}
+                        onLoadCallback={() => setContentLoader(false)}
+                        loader={contentLoader}
+                      />
                     </>
                   ) : (
                     " "
@@ -822,7 +824,6 @@ const SellNFT = (props) => {
                           placeholder="Start Time"
                           className="py-1"
                           onChange={(e) => onChange(e)}
-                          
                           defaultValue={timedAuctionConfig.duration.startTime}
                           required
                           autoComplete="off"

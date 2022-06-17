@@ -9,6 +9,8 @@ import { ReactComponent as FbIcon } from "../../assets/images/fb-blue.svg";
 import { ReactComponent as TwitterIcon } from "../../assets/images/twitter-blue.svg";
 import { ReactComponent as LinkedinIcon } from "../../assets/images/linkedin-blue.svg";
 import { ReactComponent as InstaIcon } from "../../assets/images/insta-blue.svg";
+import { ReactComponent as VideoIcon } from "../../assets/images/buy-video-icon.svg";
+import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
 import ModalSmiley from "../../assets/images/model-smiley.svg";
 
 const BuyModal = (props) => {
@@ -29,6 +31,7 @@ const BuyModal = (props) => {
     onHide,
     disabled,
     balance,
+    fileType,
   } = props;
 
   return confirmed === "" || confirmed === false || confirmed === "pending" ? (
@@ -66,7 +69,21 @@ const BuyModal = (props) => {
           <div className="col-md-3">
             <div className="modal-nft-container mx-auto mx-md-0">
               <div className="modal-nft-img">
-                <img src={image} alt="nft-img" />
+                {fileType === "image" ? (
+                  <img src={image} alt="nft-img" />
+                ) : fileType === "video" ? (
+                  <div className="buy-media-wrapper">
+                    <VideoIcon />
+                  </div>
+                ) : fileType === "audio" ? (
+                  <div className="buy-media-wrapper">
+                    <AudioIcon />
+                  </div>
+                ) : (
+                  <div className="buy-media-wrapper">
+                    <AudioIcon />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -194,9 +211,8 @@ const BuyModal = (props) => {
             <img src={ModalClose} alt="closemodal" />
           </Button>
         </div>
-        
-        <div className="modal-nft-purchased  mt-3">
-          {transactionSuccess && (
+        {transactionSuccess && (
+          <div className="modal-nft-purchased  mt-3">
             <p>
               <span className="me-4">
                 <img src={ModalSmiley} alt="smiley" />
@@ -206,18 +222,8 @@ const BuyModal = (props) => {
               }. It should be confirmed on the
               blockchain`}
             </p>
-          )
-          //  : (
-          //   <p>
-          //     {" "}
-          //     {`  Woo! You just Purchased ${
-          //       name && name.length > 10 ? name.slice(0, 10) + "..." : name
-          //     }. It's been confirmed on the
-          //     blockchain shortly`}
-          //   </p>
-          // )
-          }
-        </div>
+          </div>
+        )}
         <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
           <div className="buy-modal-subheadings">
             <p>Item</p>
@@ -232,7 +238,21 @@ const BuyModal = (props) => {
           <div className="col-md-3">
             <div className="modal-nft-container mx-auto mx-md-0">
               <div className="modal-nft-img">
-                <img src={image} alt="nft-img" />
+                {fileType === "image" ? (
+                  <img src={image} alt="nft-img" />
+                ) : fileType === "video" ? (
+                  <div className="buy-media-wrapper">
+                    <VideoIcon />
+                  </div>
+                ) : fileType === "audio" ? (
+                  <div className="buy-media-wrapper">
+                    <AudioIcon />
+                  </div>
+                ) : (
+                  <div className="buy-media-wrapper">
+                    <AudioIcon />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -313,7 +333,7 @@ const BuyModal = (props) => {
                   role="status"
                   size="sm"
                   variant="primary"
-                  className="me-1"
+                  className="me-2"
                 ></Spinner>
                 <p>Processing</p>
               </>
