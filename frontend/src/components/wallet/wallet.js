@@ -64,7 +64,7 @@ const Wallet = (props) => {
     if (props.collection.getAuth === true) {
       props.beforeCollection();
 
-      toast.success("User Logged In Successfully");
+      toast.success("User logged in successfully");
       history.push("/");
     }
   }, [props.collection.getAuth]);
