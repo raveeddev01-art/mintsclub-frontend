@@ -34,6 +34,7 @@ class Waveform extends Component {
 
   componentWillUnmount() {
     this.setState({ playing: false });
+    this.waveform.playPause();
   }
 
   handlePlay = () => {
@@ -56,7 +57,7 @@ class Waveform extends Component {
         <div
           className={`${
             this.props.auction ? "d-none" : ""
-          } audio-icon-wrapper mt-5`}
+          } audio-icon-wrapper mt-5 d-flex justify-content-center`}
         >
           <AudioIcon />
         </div>

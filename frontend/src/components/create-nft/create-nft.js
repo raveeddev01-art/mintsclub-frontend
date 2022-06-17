@@ -36,7 +36,7 @@ import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Waveform from "../audioPlayer/waveform/WaveForm";
-
+import Audio from '../audio/audio'
 const placeholderImg = "";
 class CreateNFT extends Component {
   constructor(props) {
@@ -709,6 +709,7 @@ class CreateNFT extends Component {
                       <div className="uploaded-img-container">
                         <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
                           <Waveform url={audioUrl} auction={false} />
+                          {/* <Audio loader={false} onLoadCallback={()=>console.log('')} src={audioUrl} /> */}
                         </div>
                         <label className="video-upload-label">
                           <div className="uploaded-video-container mx-auto">
