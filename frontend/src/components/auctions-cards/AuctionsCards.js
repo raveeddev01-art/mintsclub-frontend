@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
-import Waveform from "../audioPlayer/waveform/WaveForm";
 import AuctionAudio from "../auction-audio/auctionAudio";
 const AuctionsCards = ({
   ownerName,
@@ -20,7 +19,7 @@ const AuctionsCards = ({
   item,
   cardBg,
   key,
-  index,
+  
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
@@ -97,12 +96,7 @@ const AuctionsCards = ({
             <div style={{ display: `${loader ? "block" : "none"}` }}>
               <ImageLoader />
             </div>
-            {/* <Waveform
-              url={image}
-              auction={true}
-              onLoadCallback={() => setLoader(false)}
-              loader={loader}
-            /> */}
+           
             <AuctionAudio src={image}   onLoadCallback={() => setLoader(false)}
               loader={loader} />
           </>

@@ -143,6 +143,7 @@ const Populars = forwardRef((props, ref) => {
   }));
 
   const handlePagination = () => {
+    window.scroll(0, 500);
     setPage(page);
     setLimit(limit + 10);
     getPopularCollections(selectedCategory, page, limit + 10);
@@ -200,7 +201,7 @@ const Populars = forwardRef((props, ref) => {
                       ? ""
                       : categories &&
                         categories.length > 0 &&
-                        categories.map((item) => {
+                        categories.map((item,index) => {
                           return (
                             <button
                               onClick={() => {
@@ -208,6 +209,7 @@ const Populars = forwardRef((props, ref) => {
                                 setSelectedCategory(item.description);
                                 handleFilterCategory(item.description);
                               }}
+                              key={index}
                               className={`${
                                 item.name === isActive
                                   ? "active-explore-nav"
@@ -227,9 +229,9 @@ const Populars = forwardRef((props, ref) => {
                       ? ""
                       : categories &&
                         categories.length > 0 &&
-                        categories.map((item) => {
+                        categories.map((item,index) => {
                           return (
-                            <div className="col-6 col-sm-3">
+                            <div className="col-6 col-sm-3" key={index}>
                               <button
                                 onClick={() => {
                                   setIsActive(item.name);
@@ -256,9 +258,9 @@ const Populars = forwardRef((props, ref) => {
                     <span class="sr-only">Loading...</span>
                   </div>
                 ) : popular && popular.length > 0 ? (
-                  popular.map((item) => {
+                  popular.map((item,index) => {
                     return (
-                      <div className="col-sm-6 col-lg-4 col-xl-3">
+                      <div className="col-sm-6 col-lg-4 col-xl-3" key={index}>
                         <CollectionsCard
                           CardImg={item.featuredImg}
                           Subimg1={handleImage(item, 0)}

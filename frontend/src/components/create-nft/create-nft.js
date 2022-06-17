@@ -191,19 +191,19 @@ class CreateNFT extends Component {
     };
     this.setState({ nft });
   };
-
+   capitalize(word) {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  }
   submit = async (e) => {
     e.preventDefault();
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
       let nftInfo = { ...nft };
-
       nftInfo.properties = JSON.stringify(nftInfo.properties);
-
       nftInfo.levels = JSON.stringify(nftInfo.levels);
-
       nftInfo.stats = JSON.stringify(nftInfo.stats);
+      nftInfo.name=this.capitalize(nftInfo.name);
 
       if (videoURL) {
         nftInfo.fileType = "video";
@@ -709,7 +709,6 @@ class CreateNFT extends Component {
                       <div className="uploaded-img-container">
                         <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
                           <Waveform url={audioUrl} auction={false} />
-                          {/* <Audio loader={false} onLoadCallback={()=>console.log('')} src={audioUrl} /> */}
                         </div>
                         <label className="video-upload-label">
                           <div className="uploaded-video-container mx-auto">

@@ -1,24 +1,24 @@
 import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
 import "./audio.css";
-const Audio = ({ src, onLoadCallback,loader,fileType }) => {
+const Audio = ({ src, onLoadCallback, loader }) => {
 
   return (
-    <div className="w-100 h-100 audio-container d-flex p-3" style={{display: `${loader ? "none" : "block"}`}}>
-
+    <div
+      className={`w-100 h-100 audio-container p-3 ${!loader ? "d-flex" : ""} `}
+      style={{ display: `${loader ? "none" : "block"}` }}
+    >
       <div className="audio-icon">
         <AudioIcon />
       </div>
-      
+
       <audio
         className="w-100 mt-5"
         onCanPlay={() => {
-          onLoadCallback()
+          onLoadCallback();
         }}
-       controls
+        controls
       >
-         <source
-          src={src}
-        /> 
+        <source src={src} />
       </audio>
     </div>
   );

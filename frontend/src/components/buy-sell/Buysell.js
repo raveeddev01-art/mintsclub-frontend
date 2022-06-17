@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import BuyIcon from "../../assets/images/buy-icon.svg";
-import SellIcon from "../../assets/images/sell-icon.svg";
 import { Images } from "../../assets/assets";
 import "./Buysell.css";
 
@@ -55,3 +53,4 @@ const Buysell = () => {
 };
 
 export default Buysell;
+

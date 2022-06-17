@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Card, Image } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 import { ENV } from "../../config/config";
@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
-import Waveform from "../audioPlayer/waveform/WaveForm";
 import Audio from "../audio/audio";
 const NFTCard = (props) => {
   const history = useHistory();
@@ -23,14 +22,9 @@ const NFTCard = (props) => {
     name,
     _id,
     fileType,
-    owner,
     cardBg,
-    userId,
     ownerId,
     likeCount,
-    sellingMethod,
-    auctionStartDate,
-    auctionEndDate,
     currentPrice,
     copies,
     remainingCopies,
@@ -51,35 +45,7 @@ const NFTCard = (props) => {
       return false;
     }
   };
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const video = document.querySelector("video1");
-  //     video.addEventListener("canplay", () => {
-  //       console.log("ready");
-  //     });
-  //   }, 2000);
-  //   return () => clearInterval(interval);
-  // }, []);
-  const checkIfAuctionStartedorEnded = (startDate, endDate) => {
-    if (startDate !== null || endDate !== null) {
-      let currentDate = new Date();
-      let auctionStartDate = new Date(startDate);
-      let auctionEndDate = new Date(endDate);
 
-      if (
-        auctionStartDate.setHours(0, 0, 0, 0) <=
-          currentDate.setHours(0, 0, 0, 0) &&
-        auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0)
-      ) {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  };
-if(fileType==="audio"){
-  console.log(loader,"loader34")
-}
   return (
     <Card className={`auction-card nft-card ${cardBg} m-1`}>
       <div className="auction-img-wrapper">
@@ -152,7 +118,7 @@ if(fileType==="audio"){
       <Card.Body>
         <Card.Title>
           <div>
-            {name && name.length > 10 ? name.slice(0, 10) + "..." : name}
+            {name && name.length > 15 ? name.slice(0, 10) + "..." : name}
           </div>
           <div className="auction-owner-price d-flex align-items-center">
             <span className="me-2">{likeCount ? likeCount : 0}</span>
