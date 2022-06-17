@@ -888,7 +888,7 @@ const NFTDetail = (props) => {
                       />
                     </div>
                   ) : fileType === "video" ? (
-                    <div className="nft-img-container nft-video-container">
+                    <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
                       <div
                         style={{
                           display: `${contentLoader ? "block" : "none"}`,
@@ -1363,6 +1363,7 @@ const NFTDetail = (props) => {
         transactionSuccess={transactionSuccess}
         disabled={disabled}
         balance={balance}
+        fileType={fileType}
       />
       <BidModal
         show={bidModalShow}
