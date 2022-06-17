@@ -80,9 +80,7 @@ const BuyModal = (props) => {
                     <AudioIcon />
                   </div>
                 ) : (
-                  <div className="buy-media-wrapper">
-                    <AudioIcon />
-                  </div>
+               ""
                 )}
               </div>
             </div>
@@ -249,9 +247,7 @@ const BuyModal = (props) => {
                     <AudioIcon />
                   </div>
                 ) : (
-                  <div className="buy-media-wrapper">
-                    <AudioIcon />
-                  </div>
+               ""
                 )}
               </div>
             </div>

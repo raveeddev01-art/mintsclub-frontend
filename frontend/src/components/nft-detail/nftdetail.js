@@ -1341,6 +1341,7 @@ const NFTDetail = (props) => {
         transactionSuccess={transactionSuccess}
         disabled={disabled}
         balance={balance}
+        fileType={fileType}
       />
       <BuyModal
         show={modalShow1}
