@@ -4,9 +4,7 @@ import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
 import { toast } from "react-toastify";
-import {
-  firstInputCharacterSpace
-} from "./../../utils/functions";
+import { firstInputCharacterSpace } from "./../../utils/functions";
 const PropertiesModal = (props) => {
   const {
     show,
@@ -56,7 +54,10 @@ const PropertiesModal = (props) => {
         <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
           {properties.map((item, i) => {
             return (
-              <div className="row g-2 align-items-center justify-content-between mt-3" key={i}>
+              <div
+                className="row g-2 align-items-center justify-content-between mt-3"
+                key={i}
+              >
                 <div className="col-sm-5 order-1 order-sm-0 mt-0">
                   <div className="bid-inp-container d-flex align-items-center">
                     <div className="ps-2">
@@ -98,7 +99,7 @@ const PropertiesModal = (props) => {
                   </div>
                 </div>
                 <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
-                  <div className="inp-close text-end">
+                  <div className="inp-close text-end me-2">
                     <button onClick={() => removeFormFields(i, "properties")}>
                       <img src={InputClose} alt="closemodal" />
                     </button>

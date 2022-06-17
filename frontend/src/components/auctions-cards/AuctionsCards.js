@@ -19,7 +19,6 @@ const AuctionsCards = ({
   item,
   cardBg,
   key,
-  
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
@@ -96,9 +95,12 @@ const AuctionsCards = ({
             <div style={{ display: `${loader ? "block" : "none"}` }}>
               <ImageLoader />
             </div>
-           
-            <AuctionAudio src={image}   onLoadCallback={() => setLoader(false)}
-              loader={loader} />
+
+            <AuctionAudio
+              src={image}
+              onLoadCallback={() => setLoader(false)}
+              loader={loader}
+            />
           </>
         ) : (
           " "
@@ -122,7 +124,7 @@ const AuctionsCards = ({
                   }
                 })}
 
-              <span className="ms-4">
+              <span className={`${totalBids === 0 ? "" : "ms-4"}`}>
                 {totalBids === 0
                   ? "No Bids Found"
                   : totalBids < 4
