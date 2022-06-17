@@ -20,7 +20,7 @@ export default class CardSlider extends Component {
     if (data && data.length > 0) {
       if (homeAuctions && data.length > 4) {
         return true;
-      } else if (!homeAuctions && data.length > 3) {
+      } else if (!homeAuctions && data.length > 4) {
         return true;
       } else {
         return false;

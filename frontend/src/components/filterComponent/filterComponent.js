@@ -239,9 +239,7 @@ const FilterHoc = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
-  console.log(statusActive, "statusActive");
-
-  console.log(nfts, "arrayofnft");
+;
 
   return (
     <div className="filterhoc-wrapper padding-wrapper">

@@ -12,7 +12,8 @@ import {
   GET_PROFILE_NFTS,
   CREATE_ACITIVITY,
   GET_ACTIVITIES,
-  GET_ITEM_LISTING
+  GET_ITEM_LISTING,
+  BEFORE_NFTS_BY_COLLECTION
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -254,7 +255,11 @@ export const getActivities =
    
       });
   };
-
+export const beforeNFTByCollection=()=>(dispatch)=>{
+  dispatch({
+    type: BEFORE_NFTS_BY_COLLECTION,
+  });
+}
 export const getNFTsByCollection = (id) => (dispatch) => {
   let data = {
     collectionId: id,

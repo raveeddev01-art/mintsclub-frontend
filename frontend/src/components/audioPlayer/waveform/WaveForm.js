@@ -32,6 +32,10 @@ class Waveform extends Component {
     this.waveform.load(track);
   }
 
+  componentWillUnmount() {
+    this.setState({ playing: false });
+  }
+
   handlePlay = () => {
     this.setState({ playing: !this.state.playing });
     this.waveform.playPause();
@@ -41,7 +45,10 @@ class Waveform extends Component {
     return (
       <WaveformContianer
         className="wave-container px-4 px-xl-5"
-        style={{ background: `rgba(0, 0, 0, 0.79)` }}
+        style={{
+          background: `rgba(0, 0, 0, 0.79)`,
+          display: `${!this.props.loader ? "block" : "none"}`,
+        }}
       >
         <PlayButton className="audio-btn" onClick={this.handlePlay}>
           {this.state.playing ? <BsFillPauseFill /> : <BsFillPlayFill />}
@@ -53,12 +60,23 @@ class Waveform extends Component {
         >
           <AudioIcon />
         </div>
-
-        <Wave
+       <Wave
           className={`${this.props.auction ? "mt-5" : ""} waves mb-3`}
           id="waveform"
         />
-        <audio id="track" src={this.props.url} />
+
+         <audio
+          id="track"
+          onLoadStart={() => console.log("onload start")}
+          oncanplay={() => {
+            this.props.onLoadCallback();
+          }}
+          onEnded={() => {
+            this.handlePlay();
+          }}
+          src={this.props.url}
+        /> 
+        {" "}
       </WaveformContianer>
     );
   }

@@ -102,7 +102,6 @@ export const getBids = (qs = '') => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-      console.log(data.data,"bids}}}}}}}}}}}}}}}")
         if (data.success) {
             dispatch({
                 type: GET_BIDS,

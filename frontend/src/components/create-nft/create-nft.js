@@ -566,6 +566,7 @@ class CreateNFT extends Component {
       width: "100%",
       height: "100%",
     };
+    console.log(collections,"collections")
 
     return (
       <>
@@ -1029,7 +1030,9 @@ class CreateNFT extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state"),
+  {
   error: state.error,
   collection: state.collection,
 });

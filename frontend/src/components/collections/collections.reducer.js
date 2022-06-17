@@ -90,6 +90,7 @@ export default function (state = initialState, action) {
         deleteAuth: false,
         upsertAuth: false,
         getAuth: false,
+        myCollectionsResult:false,
       };
     case GET_POPULAR_COLLECTIONS:
       return {

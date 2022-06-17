@@ -1,0 +1,15 @@
+.audio-container{
+    background: rgba(0, 0, 0, 0.79);
+    background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+}
+.audio-icon svg {
+    height: 7rem;
+    width: 7rem;
+}
