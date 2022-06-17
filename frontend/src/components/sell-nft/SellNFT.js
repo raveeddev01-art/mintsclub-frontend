@@ -508,12 +508,6 @@ const SellNFT = (props) => {
                       >
                         <SellNFTLoader />
                       </div>
-                      {/* <Waveform
-                        url={image}
-                        auction={false}
-                        onLoadCallback={() => setContentLoader(false)}
-                        loader={contentLoader}
-                      /> */}
                       <Audio
                         src={image}
                         onLoadCallback={() => setContentLoader(false)}
