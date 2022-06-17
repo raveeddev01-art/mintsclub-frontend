@@ -194,8 +194,9 @@ const BuyModal = (props) => {
             <img src={ModalClose} alt="closemodal" />
           </Button>
         </div>
+        
         <div className="modal-nft-purchased  mt-3">
-          {!transactionSuccess ? (
+          {transactionSuccess && (
             <p>
               <span className="me-4">
                 <img src={ModalSmiley} alt="smiley" />
@@ -203,17 +204,19 @@ const BuyModal = (props) => {
               {`  Woo! You just Purchased ${
                 name && name.length > 10 ? name.slice(0, 10) + "..." : name
               }. It should be confirmed on the
-              blockchain shortly`}
+              blockchain`}
             </p>
-          ) : (
-            <p>
-              {" "}
-              {`  Woo! You just Purchased ${
-                name && name.length > 10 ? name.slice(0, 10) + "..." : name
-              }. It's been confirmed on the
-              blockchain shortly`}
-            </p>
-          )}
+          )
+          //  : (
+          //   <p>
+          //     {" "}
+          //     {`  Woo! You just Purchased ${
+          //       name && name.length > 10 ? name.slice(0, 10) + "..." : name
+          //     }. It's been confirmed on the
+          //     blockchain shortly`}
+          //   </p>
+          // )
+          }
         </div>
         <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
           <div className="buy-modal-subheadings">
