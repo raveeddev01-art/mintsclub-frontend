@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NavbarMain from "../navbar-main/NavbarMain";
-import Footer from "../footer/footer";
 import AuctionsCards from "../auctions-cards/AuctionsCards";
-import Breadcrumb from "../breadcrumb/breadcrumb";
 import { connect } from "react-redux";
 import { beforeAuction, getLiveAuctions } from "./auctions.action";
 import { getCreators } from "./../user/user.action";
@@ -73,6 +70,7 @@ const AuctionsList = (props) => {
         bgImg={BannerBg}
         bannerImg={BannerImage}
       />
+      
       <section className="explore-collection-section home-auction-list padding-wrapper">
         {
           // loader ? (
@@ -95,6 +93,7 @@ const AuctionsList = (props) => {
                               setIsActive(id);
                               handleCategoryFilter(item.description);
                             }}
+                            key={id}
                             className={`${
                               id === isActive ? "active-explore-nav" : ""
                             } me-2 me-xl-3`}
@@ -113,7 +112,7 @@ const AuctionsList = (props) => {
                       categories.length > 0 &&
                       categories.map((item, id) => {
                         return (
-                          <div className="col-6 col-sm-3">
+                          <div className="col-6 col-sm-3" key={id}>
                             <button
                               onClick={() => {
                                 setIsActive(id);
@@ -133,11 +132,11 @@ const AuctionsList = (props) => {
             </div>
             <div className="row g-3 align-items-center justify-content-center">
               {loader ? (
-                <div class="spinner-border" role="status"></div>
+                <div className="spinner-border" role="status"></div>
               ) : auctions && auctions.length > 0 ? (
                 auctions.map((item, index) => {
                   return (
-                    <div className="col-sm-6 col-md-4 col-xl-3">
+                    <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <AuctionsCards
                         key={index}
                         item={item}

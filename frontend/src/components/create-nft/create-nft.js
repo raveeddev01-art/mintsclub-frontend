@@ -35,9 +35,8 @@ import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import AudioPlayer from "../audioPlayer/AudioPlayer";
 import Waveform from "../audioPlayer/waveform/WaveForm";
-
+import Audio from '../audio/audio'
 const placeholderImg = "";
 class CreateNFT extends Component {
   constructor(props) {
@@ -192,19 +191,19 @@ class CreateNFT extends Component {
     };
     this.setState({ nft });
   };
-
+   capitalize(word) {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  }
   submit = async (e) => {
     e.preventDefault();
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
       let nftInfo = { ...nft };
-
       nftInfo.properties = JSON.stringify(nftInfo.properties);
-
       nftInfo.levels = JSON.stringify(nftInfo.levels);
-
       nftInfo.stats = JSON.stringify(nftInfo.stats);
+      nftInfo.name=this.capitalize(nftInfo.name);
 
       if (videoURL) {
         nftInfo.fileType = "video";
@@ -566,6 +565,7 @@ class CreateNFT extends Component {
       width: "100%",
       height: "100%",
     };
+    console.log(collections,"collections")
 
     return (
       <>
@@ -1029,7 +1029,9 @@ class CreateNFT extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => (
+  console.log(state,"state"),
+  {
   error: state.error,
   collection: state.collection,
 });

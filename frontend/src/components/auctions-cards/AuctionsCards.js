@@ -10,8 +10,7 @@ import { connect } from "react-redux";
 import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
-import Waveform from "../audioPlayer/waveform/WaveForm";
-
+import AuctionAudio from "../auction-audio/auctionAudio";
 const AuctionsCards = ({
   ownerName,
   userId,
@@ -20,7 +19,7 @@ const AuctionsCards = ({
   item,
   cardBg,
   key,
-  index,
+  
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
@@ -59,17 +58,21 @@ const AuctionsCards = ({
         ) : fileType === "video" ? (
           <div className="card-img-top">
             <div className="video-wrapper">
-              {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <div style={{ display: `${loader ? "block" : "none"}` }}>
                 <ImageLoader />
-              </div> */}
+              </div>
 
               <video
                 src={image}
-                onEnded={() => console.log("onEnded123123123")}
-                onEndedCapture={() => console.log("onEnded123123123")}
+                onEnded={() => {
+                  togglePlay();
+                }}
+                onCanPlay={() => {
+                  loader(false);
+                }}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
-                // style={{ display: `${!loader ? "block" : "none"}` }}
+                style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
               <div className="controls">
@@ -90,7 +93,12 @@ const AuctionsCards = ({
           </div>
         ) : fileType === "audio" ? (
           <>
-            <Waveform url={image} auction={true} />
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
+            </div>
+           
+            <AuctionAudio src={image}   onLoadCallback={() => setLoader(false)}
+              loader={loader} />
           </>
         ) : (
           " "

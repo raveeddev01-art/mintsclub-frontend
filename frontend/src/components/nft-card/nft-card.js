@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Image } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 import { ENV } from "../../config/config";
@@ -9,8 +9,7 @@ import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
-import Waveform from "../audioPlayer/waveform/WaveForm";
-
+import Audio from "../audio/audio";
 const NFTCard = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
@@ -23,14 +22,9 @@ const NFTCard = (props) => {
     name,
     _id,
     fileType,
-    owner,
     cardBg,
-    userId,
     ownerId,
     likeCount,
-    sellingMethod,
-    auctionStartDate,
-    auctionEndDate,
     currentPrice,
     copies,
     remainingCopies,
@@ -51,23 +45,7 @@ const NFTCard = (props) => {
       return false;
     }
   };
-  const checkIfAuctionStartedorEnded = (startDate, endDate) => {
-    if (startDate !== null || endDate !== null) {
-      let currentDate = new Date();
-      let auctionStartDate = new Date(startDate);
-      let auctionEndDate = new Date(endDate);
 
-      if (
-        auctionStartDate.setHours(0, 0, 0, 0) <=
-          currentDate.setHours(0, 0, 0, 0) &&
-        auctionEndDate.setHours(0, 0, 0, 0) >= currentDate.setHours(0, 0, 0, 0)
-      ) {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  };
   return (
     <Card className={`auction-card nft-card ${cardBg} m-1`}>
       <div className="auction-img-wrapper">
@@ -87,15 +65,22 @@ const NFTCard = (props) => {
         ) : fileType === "video" ? (
           <div className="card-img-top">
             <div className="video-wrapper">
-              {/* <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <div style={{ display: `${loader ? "block" : "none"}` }}>
                 <ImageLoader />
-              </div> */}
+              </div>
               <video
+                id="video1"
                 src={image}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
-                onEnded={() => setLoader(false)}
-                // style={{ display: `${!loader ? "block" : "none"}` }}
+                onEnded={() => {
+                  togglePlay();
+                }}
+                onCanPlay={() => {
+                  setLoader(false);
+                  console.log("event triggered");
+                }}
+                style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
               <div className="controls">
@@ -116,7 +101,15 @@ const NFTCard = (props) => {
           </div>
         ) : fileType === "audio" ? (
           <>
-            <Waveform url={image} auction={false} />
+            <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
+            </div>
+            <Audio
+              src={image}
+              onLoadCallback={() => setLoader(false)}
+              loader={loader}
+              fileType={fileType}
+            />
           </>
         ) : (
           " "
@@ -125,7 +118,7 @@ const NFTCard = (props) => {
       <Card.Body>
         <Card.Title>
           <div>
-            {name && name.length > 10 ? name.slice(0, 10) + "..." : name}
+            {name && name.length > 15 ? name.slice(0, 10) + "..." : name}
           </div>
           <div className="auction-owner-price d-flex align-items-center">
             <span className="me-2">{likeCount ? likeCount : 0}</span>
@@ -172,7 +165,7 @@ const NFTCard = (props) => {
           <div className="auction-owner-avatar">
             <img
               src={
-                profilePhoto === null && profileImage === null
+                !profilePhoto && !profileImage
                   ? Images.placeholderImg
                   : profilePhoto
                   ? profilePhoto

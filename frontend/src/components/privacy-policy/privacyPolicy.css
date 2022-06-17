@@ -1,0 +1,52 @@
+.privacy .privacy-content {
+  max-width: 1205px;
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.privacy .privacy-content h5 {
+  font-weight: 700;
+  font-size: 28px;
+  color: #000000;
+  margin-bottom: 18px;
+}
+
+.privacy .privacy-content h6 {
+  font-weight: 700;
+  font-size: 22px;
+  color: #383838;
+}
+
+.privacy .privacy-content p {
+  font-weight: 300;
+  font-size: 18px;
+  color: #111111;
+  line-height: 35px;
+}
+
+.privacy .privacy-content p span {
+  font-weight: 600;
+  font-size: 18px;
+  color: #111111;
+  line-height: 35px;
+}
+
+.privacy .privacy-content h6 span {
+  font-weight: 300;
+  font-size: 18px;
+  color: #111111;
+  line-height: 35px;
+}
+
+.privacy .privacy-content a {
+  text-decoration: none;
+}
+
+@media (max-width: 575.9px) {
+  .privacy .privacy-content h5 {
+    font-size: 22px;
+  }
+  .privacy .privacy-content h6 {
+    font-size: 20px;
+  }
+}

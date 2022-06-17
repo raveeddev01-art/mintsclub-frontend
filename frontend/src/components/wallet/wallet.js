@@ -3,18 +3,15 @@ import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
 import {
-  connectMetamaskCopy,
   signRequest,
   connectWithMetamask,
 } from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "../wallet/wallet.action";
 import { toast } from "react-toastify";
 import {
-  getCollections,
   beforeCategory,
   beforeCollection,
 } from "../collections/collections.actions";
-import { ENV } from "../../config/config";
 import { login, signup } from "../user/user.action";
 import { Images } from "../../assets/assets";
 import "./wallet.css";
@@ -119,9 +116,7 @@ const Wallet = (props) => {
     }
   };
 
-  const switchSignup = () => {
-    setShowSignUpComponent(true);
-  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       handleMetamaskStatus();
@@ -135,7 +130,6 @@ const Wallet = (props) => {
 
     if (walletAddress) {
       if (walletAddress !== address) {
-        // toast.info("Please login with new address11");
         walletAddress = address;
         setShowSignUpComponent(false);
         setShowSignUp(false);

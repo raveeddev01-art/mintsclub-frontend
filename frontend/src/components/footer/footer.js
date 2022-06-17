@@ -61,10 +61,10 @@ const Footer = (props) => {
                     <Link to="/popular-collections">Popular Collections</Link>
                   </li>
                   <li>
-                    <Link to="/contact">Privacy Policy</Link>
+                    <Link to="/privacypolicy">Privacy Policy</Link>
                   </li>
                   <li>
-                    <Link to="/contact">Terms & Conditions</Link>
+                    <Link to="/termsandconditions">Terms & Conditions</Link>
                   </li>
                 </ul>
               </div>

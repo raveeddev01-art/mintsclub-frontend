@@ -46,8 +46,9 @@ const FilterHoc = (props) => {
   useEffect(() => {
     const { initialKeyword } = props;
     if (initialKeyword) {
-      setKeyword(initialKeyword);
-      handleSearchKeyword(initialKeyword);
+      let capitalizeValue=capitalize(initialKeyword)
+      setKeyword(capitalizeValue);
+      handleSearchKeyword(capitalizeValue);
     }
   }, [props.initialKeyword]);
 
@@ -124,6 +125,7 @@ const FilterHoc = (props) => {
   };
 
   const handlePagination = () => {
+    window.scroll(0, 500);
     if (!UserProfile) {
       setInitial(false);
       setFilterationLoader(true);
@@ -148,7 +150,12 @@ const FilterHoc = (props) => {
   const handleSearchKeyword = (value) => {
     setInitial(false);
     setFilterationLoader(true);
-    setFilter((prev) => ({ ...prev, keyword: value }));
+    let capitalizeValue=''
+    if(value){
+
+      capitalizeValue =capitalize(value)
+    }
+    setFilter((prev) => ({ ...prev, keyword: capitalizeValue }));
   };
 
   const handleStatusFilter = (id) => {
@@ -219,6 +226,9 @@ const FilterHoc = (props) => {
       });
     }
   };
+  const capitalize=(word)=> {
+   return  word[0].toUpperCase() + word.slice(1).toLowerCase()
+  }
 
   const {
     collections,
@@ -239,9 +249,7 @@ const FilterHoc = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
-  console.log(statusActive, "statusActive");
-
-  console.log(nfts, "arrayofnft");
+;
 
   return (
     <div className="filterhoc-wrapper padding-wrapper">

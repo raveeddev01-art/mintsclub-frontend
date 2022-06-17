@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import { Images } from "../../assets/assets";
-import PopularCollectionImage from "../cardImage/popularCollectionImage";
 import ImageLoader from "../contentLoader/imageLoader";
-import ContentLoader from "react-content-loader";
 import SubImgLoader from "../contentLoader/collectionSubLoader";
 import "./CollectionsCard.css";
 
@@ -19,7 +17,6 @@ const CollectionsCard = ({
   userName,
   NFTCount,
   profileImage,
-  index,
 }) => {
   const [loader, setLoader] = useState(true);
   const history = useHistory();
@@ -61,9 +58,7 @@ const CollectionsCard = ({
               />
             </div>
 
-            {/* <div className="col-12 collection-mainImg">
-              <img src={CardImg} alt="card-img" />
-            </div> */}
+         
           </div>
 
           <Card.Body>

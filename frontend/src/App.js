@@ -30,7 +30,6 @@ const App = React.memo((props) => {
 
   const handleMetamaskStatus = async () => {
     const address = await getWalletAddress();
-
     if (walletAddress) {
       if (walletAddress !== address || !address) {
         toast.info("Please sign in  with new connected address");

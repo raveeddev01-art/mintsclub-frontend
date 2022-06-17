@@ -1,0 +1,24 @@
+.auction-audio-container{
+    background: rgba(0, 0, 0, 0.79);
+    background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+}
+.auction-audio-icon svg {
+    height: 4rem;
+    width: 4rem;
+}
+.audio-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.auction-audio-tag{
+    height: 3rem;
+}

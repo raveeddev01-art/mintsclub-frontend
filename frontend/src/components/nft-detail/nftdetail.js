@@ -9,6 +9,7 @@ import {
   createActivity,
   getActivities,
   getItemsListing,
+  beforeNFTByCollection,
 } from "../nfts/nfts.action.js";
 import FullPageLoader from "../full-page-loader/full-page-loader.js";
 import { connect } from "react-redux";
@@ -66,7 +67,8 @@ import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import { Images } from "../../assets/assets";
 import NftCard from "../nft-card/nft-card";
 import Waveform from "../audioPlayer/waveform/WaveForm";
-
+import NFTDetailLoader from "../contentLoader/nftDetailLoader";
+import Audio from "../audio/audio";
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
   const [toggle, setToggle] = React.useState(true);
@@ -94,10 +96,12 @@ const NFTDetail = (props) => {
   const videoElement = React.useRef(null);
   const [claimNFT, setClaimNFT] = useState(false);
   const [initial, setInitial] = useState(false);
+  const [contentLoader, setContentLoader] = useState(true);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -108,14 +112,15 @@ const NFTDetail = (props) => {
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
-
     let balance = await getBalance();
     setBalance(balance);
+    // setLoader(true);
   }, [props.match.params.id]);
 
   useEffect(() => {
     if (props.createAuth) {
       setLoader(false);
+      props.beforeBid();
       history.push("/explore/allNFT");
     }
   }, [props.createAuth]);
@@ -214,7 +219,7 @@ const NFTDetail = (props) => {
 
       setPrice(result);
       validateIfLiked(likedNfts, props.nftDetail);
-
+      props.beforeNFTByCollection();
       props.getNFTsByCollection(props.nftDetail.collectionId);
     }
   }, [props.nftsAuth]);
@@ -228,6 +233,7 @@ const NFTDetail = (props) => {
         );
       }
       setNFTs(moreCollection);
+      setLoader(false);
     }
   }, [props.nftsByCollectionStatus]);
 
@@ -459,11 +465,10 @@ const NFTDetail = (props) => {
             nftId: nftDetail._id,
             bidBy: ENV.getUserKeys("_id")._id,
             isAccepted: false,
-            // expiryDate: nftConfig.expiry.datetime,
             toAddress: nftDetail.ownerAddress,
             fromAddress: await connectMetamask(),
           };
-
+          props.beforeBid();
           props.placeBid(payload);
           createActivity("Bid", price);
         }
@@ -769,7 +774,7 @@ const NFTDetail = (props) => {
       value: "Ethereum",
     },
   ];
- 
+
   return (
     <>
       <Banner
@@ -866,14 +871,44 @@ const NFTDetail = (props) => {
                 <div className="col-xl-6">
                   {fileType === "image" ? (
                     <div className="nft-img-container mx-auto mx-lg-0">
-                      <img src={image} alt="nft-image" />
+                      <div
+                        style={{
+                          display: `${contentLoader ? "block" : "none"}`,
+                        }}
+                      >
+                        <NFTDetailLoader />
+                      </div>
+                      <img
+                        src={image}
+                        alt="nft-image"
+                        onLoad={() => setContentLoader(false)}
+                        style={{
+                          display: `${!contentLoader ? "block" : "none"}`,
+                        }}
+                      />
                     </div>
                   ) : fileType === "video" ? (
-                    <div className="nft-img-container nft-video-container">
+                    <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
+                      <div
+                        style={{
+                          display: `${contentLoader ? "block" : "none"}`,
+                        }}
+                      >
+                        <NFTDetailLoader />
+                      </div>
                       <video
                         src={image}
                         ref={videoElement}
+                        onEnded={() => {
+                          togglePlay();
+                        }}
+                        onCanPlay={() => {
+                          setContentLoader(false);
+                        }}
                         onTimeUpdate={handleOnTimeUpdate}
+                        style={{
+                          display: `${!contentLoader ? "block" : "none"}`,
+                        }}
                       />
                       <div className="controls">
                         <div className="actions">
@@ -892,7 +927,25 @@ const NFTDetail = (props) => {
                     </div>
                   ) : fileType === "audio" ? (
                     <>
-                      <Waveform url={image} auction={false} />
+                      <div
+                        style={{
+                          display: `${contentLoader ? "block" : "none"}`,
+                        }}
+                      >
+                        <NFTDetailLoader />
+                      </div>
+                      <Audio
+                        src={image}
+                        onLoadCallback={() => setContentLoader(false)}
+                        loader={contentLoader}
+                      />
+
+                      {/* <Waveform
+                        url={image}
+                        auction={false}
+                        onLoadCallback={() => setLoader(false)}
+                        loader={contentLoader}
+                      /> */}
                     </>
                   ) : (
                     ""
@@ -1251,6 +1304,7 @@ const NFTDetail = (props) => {
                               handleLikesTogleApi={handleLikesTogleApi}
                               likedNfts={likedNfts}
                               owner={nft?.owner[0]}
+                              path="/explore/nftdetail/"
                             />
                           }
                         </div>
@@ -1287,6 +1341,7 @@ const NFTDetail = (props) => {
         transactionSuccess={transactionSuccess}
         disabled={disabled}
         balance={balance}
+        fileType={fileType}
       />
       <BuyModal
         show={modalShow1}
@@ -1309,6 +1364,7 @@ const NFTDetail = (props) => {
         transactionSuccess={transactionSuccess}
         disabled={disabled}
         balance={balance}
+        fileType={fileType}
       />
       <BidModal
         show={bidModalShow}
@@ -1367,4 +1423,5 @@ export default connect(mapStateToProps, {
   createActivity,
   getActivities,
   getItemsListing,
+  beforeNFTByCollection,
 })(NFTDetail);

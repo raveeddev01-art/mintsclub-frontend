@@ -6,7 +6,6 @@ import "./user-edit-profile.css";
 
 import { connect } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import $ from "jquery";
 import SimpleReactValidator from "simple-react-validator";
 import {
   updateProfile,
@@ -27,24 +26,17 @@ import Compressor from "compressorjs";
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
-  const [connectedAddress, setConnectedAddress] = useState("");
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [banner, setBannerImage] = useState("");
-  const [bannerUrl, setBannerUrl] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
   const [twitterLink, setTwitterLink] = useState("");
-  const [copy, setCopy] = useState(false);
   const [instaLink, setInstaLink] = useState("");
   const [webLink, setWebLink] = useState("");
   const [_id, setUserId] = useState("");
-  const [bioError, setBioError] = useState(false);
-  const [userProfile, setUserProfile] = useState({});
-  const [user, setUser] = useState(null);
-  const [isAddressCopied, setAddressCopied] = useState(false);
 
   const history = useHistory();
   let validator = new SimpleReactValidator({
@@ -80,11 +72,9 @@ const EditProfile = (props) => {
         instaLink,
         webLink,
       } = props.user.individualUser;
-      setUser(props.user.individualUser);
       props.beforeUser();
       setLoader(false);
 
-      setConnectedAddress(address ? address : "");
       setAddress(address ? address : "");
       setEmail(email ? email : "");
       setUserId(_id ? _id : "");
@@ -92,7 +82,6 @@ const EditProfile = (props) => {
       setTwitterLink(twitterLink ? twitterLink : "");
       setUsername(username ? username : "");
       setImageUrl(profileImage ? profileImage : "");
-      setBannerUrl(bannerImage ? bannerImage : "");
       setImage(profileImage ? profileImage : "");
       setBannerImage(bannerImage ? bannerImage : "");
       setInstaLink(instaLink ? instaLink : "");
@@ -155,12 +144,7 @@ const EditProfile = (props) => {
   const submit = async (e) => {
     e.preventDefault();
 
-    if (description && description.length < 3) {
-      setBioError(true);
-      return "";
-    } else {
-      setBioError(false);
-    }
+ 
     setErrors("");
     setLoader(true);
     // let signature = await signRequest();
@@ -313,6 +297,7 @@ const EditProfile = (props) => {
                     readOnly={true}
                     autoComplete="off"
                     value={address}
+                    disabled={true}
                   />
                 </div>
 

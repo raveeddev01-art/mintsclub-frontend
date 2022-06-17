@@ -106,6 +106,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   }));
 
   const handlePagination = () => {
+    window.scroll(0, 500);
     setPage(page);
     setLimit(limit + 10);
     getCollections(selectedCategory, page, limit + 10);

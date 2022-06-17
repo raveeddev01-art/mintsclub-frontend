@@ -39,7 +39,8 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import Waveform from "../audioPlayer/waveform/WaveForm";
-
+import SellNFTLoader from "../contentLoader/sellNFTLoader";
+import Audio from "../audio/audio";
 const { dateRangeInitialSettings } = ENV;
 const config1 = {
   price: {
@@ -80,6 +81,7 @@ const SellNFT = (props) => {
   const [approvalStatus, setApprovalStatus] = useState("not-approved");
   const [address, setAddress] = useState("");
   const [copiesError, setCopiesError] = useState(false);
+  const [contentLoader, setContentLoader] = useState(true);
   let nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
@@ -441,15 +443,45 @@ const SellNFT = (props) => {
                 <div className=" col-lg-6 col-xl-5">
                   {fileType === "image" ? (
                     <div className="nft-img-container mx-auto mx-lg-0">
-                      <img src={image} alt="nft-image" />
+                      <div
+                        style={{
+                          display: `${contentLoader ? "block" : "none"}`,
+                        }}
+                      >
+                        <SellNFTLoader />
+                      </div>
+                      <img
+                        src={image}
+                        alt="nft-image"
+                        onLoad={() => setContentLoader(false)}
+                        style={{
+                          display: `${!contentLoader ? "block" : "none"}`,
+                        }}
+                      />
                     </div>
                   ) : fileType === "video" ? (
                     <div className="card-img-top">
-                      <div className="video-wrapper">
+                      <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
+                        <div
+                          style={{
+                            display: `${contentLoader ? "block" : "none"}`,
+                          }}
+                        >
+                          <SellNFTLoader />
+                        </div>
                         <video
                           src={image}
                           ref={videoElement}
                           onTimeUpdate={handleOnTimeUpdate}
+                          onEnded={() => {
+                            togglePlay();
+                          }}
+                          onCanPlay={() => {
+                            setContentLoader(false);
+                          }}
+                          style={{
+                            display: `${!contentLoader ? "block" : "none"}`,
+                          }}
                         />
                         <div className="controls">
                           <div className="actions">
@@ -469,7 +501,24 @@ const SellNFT = (props) => {
                     </div>
                   ) : fileType === "audio" ? (
                     <>
-                      <Waveform url={image} auction={false} />
+                      <div
+                        style={{
+                          display: `${contentLoader ? "block" : "none"}`,
+                        }}
+                      >
+                        <SellNFTLoader />
+                      </div>
+                      {/* <Waveform
+                        url={image}
+                        auction={false}
+                        onLoadCallback={() => setContentLoader(false)}
+                        loader={contentLoader}
+                      /> */}
+                      <Audio
+                        src={image}
+                        onLoadCallback={() => setContentLoader(false)}
+                        loader={contentLoader}
+                      />
                     </>
                   ) : (
                     " "
@@ -736,6 +785,7 @@ const SellNFT = (props) => {
                       <div className="sell-date-picker">
                         <DateRangePicker
                           initialSettings={dateRangeInitialSettings}
+                          minDate={moment().toDate()}
                           onApply={handleDateChange}
                         >
                           <button

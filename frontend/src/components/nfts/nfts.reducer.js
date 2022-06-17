@@ -8,7 +8,8 @@ import {
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
   GET_ACTIVITIES,
-  GET_ITEM_LISTING
+  GET_ITEM_LISTING,
+  BEFORE_NFTS_BY_COLLECTION
 } from "../../redux/types";
 
 const initialState = {
@@ -76,6 +77,11 @@ export default function (state = initialState, action) {
         nftsByCollection: action.payload,
         nftsByCollectionStatus: true,
       };
+      case BEFORE_NFTS_BY_COLLECTION:
+        return {
+          ...state,
+          nftsByCollectionStatus: false,
+        }
     case GET_MYLIKED_NFTS:
       return {
         ...state,
