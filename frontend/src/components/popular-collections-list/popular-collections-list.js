@@ -276,7 +276,7 @@ const Populars = forwardRef((props, ref) => {
                   })
                 ) : (
                   <p className="text-center  not-found-title mt-5">
-                    No popular collections Found
+                    No Popular Collections Found
                   </p>
                 )}
 
