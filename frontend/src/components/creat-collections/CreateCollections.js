@@ -184,7 +184,6 @@ class CreateCollections extends Component {
     );
   };
   handleSelectChange = (selectedOption) => {
-    console.log(selectedOption, "selected ");
     let { collection } = this.state;
     collection = { ...collection, categoryId: selectedOption.value };
     this.setState({
@@ -193,10 +192,8 @@ class CreateCollections extends Component {
     });
   };
   handleValidation = () => {
-    console.log("func");
     const { categoryId, logo, name, description, featuredImg } =
       this.state.collection;
-    console.log(this.state.collection, "collection");
     if (
       description === "" ||
       logo === "" ||

@@ -48,7 +48,7 @@ const Wallet = (props) => {
   useEffect(() => {
     props.beforeCategory();
     if (props.error) {
-      console.log("errors", props.error);
+      // console.log("errors", props.error);
 
       setErrorMessage(props.error.message);
       if (props.error.notExist) {
@@ -104,7 +104,7 @@ const Wallet = (props) => {
         let payload = {
           address: connectedAddress,
         };
-        console.log(payload,"payload==>")
+        // console.log(payload,"payload==>")
         props.login(payload);
       } catch (err) {
         setDisabled(false);

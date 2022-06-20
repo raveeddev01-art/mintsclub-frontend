@@ -64,7 +64,6 @@ const VideoCard = ({
   const videoElement = useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
-  console.log("progress", playerState.speed);
 
   return (
     <Card className="auction-card listing-card">

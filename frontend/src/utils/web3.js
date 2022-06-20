@@ -24,7 +24,6 @@ const getWeb3 = async () => {
 
 const getContractMethods = async () => {
   let web3 = await getWeb3();
-console.log(mintsClubContractAddress,"mintsClubContractAddress")
   const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
   return contractM;
 };
@@ -85,7 +84,6 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
 
     return result;
   } catch (err) {
-    console.log(err, "error while minting");
     toast.error(err.message);
     throw new Error(err);
   }
@@ -101,7 +99,6 @@ export const openNFTForBidding = async (
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let id = Number(tokenId);
-    console.log(biddingTime, startTime);
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
@@ -109,7 +106,6 @@ export const openNFTForBidding = async (
       return result;
     }
   } catch (err) {
-    console.log(err, "open for bid error");
     throw new Error(err);
   }
 };
@@ -148,7 +144,6 @@ export const putonsale = async (tokenId, amount, price) => {
     let weiAmount = BigInt(Web3.utils.toWei(price, "ether"));
 
     let id = Number(tokenId);
-    console.log(id, amount, weiAmount);
     const result = await contractM.methods
       .putonsale(id, amount, weiAmount)
       .send({ from: connectedAddress, gas: 5000000 });
@@ -220,13 +215,11 @@ export const claimNFTfromContract = async (tokenId) => {
   try {
     let connectedAddress = await getMetamaskConnectedAddress();
     const contractM = await getContractMethods();
-    console.log(contractM.methods,"contractM.methods")
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
       gassPrice: 5000000,
     });
     if (result) {
-      console.log(result, "result");
       return result;
     }
   } catch (err) {

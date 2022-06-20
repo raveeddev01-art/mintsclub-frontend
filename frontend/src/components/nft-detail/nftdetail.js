@@ -472,7 +472,6 @@ const NFTDetail = (props) => {
           createActivity("Bid", price);
         }
       } catch (err) {
-        console.log(err, "error");
         setLoader(false);
 
         toast.error(err);
@@ -1107,9 +1106,9 @@ const NFTDetail = (props) => {
                     <h6>Properties</h6>
                     <hr />
                     {properties && properties.length > 0 ? (
-                      properties.map((detail) => {
+                      properties.map((detail,key) => {
                         return (
-                          <div className="detail-rounded-type d-flex align-items-center">
+                          <div className="detail-rounded-type d-flex align-items-center" key={key}>
                             <div className="detail-rounded-name">
                               <p>{detail.name}:</p>
                             </div>
@@ -1142,9 +1141,9 @@ const NFTDetail = (props) => {
                     <hr />
                     <div>
                       {levels && levels.length > 0 ? (
-                        levels.map((item) => {
+                        levels.map((item,i) => {
                           return (
-                            <LevelsInfo name={item.name} value={item.value} />
+                            <LevelsInfo name={item.name} value={item.value}  i={i}/>
                           );
                         })
                       ) : (
@@ -1155,9 +1154,9 @@ const NFTDetail = (props) => {
                   <div className="detail-box">
                     <h6>Details</h6>
                     <hr />
-                    {detailWallet.map((detail) => {
+                    {detailWallet.map((detail,i) => {
                       return (
-                        <div className="detail-rounded-type d-flex align-items-center">
+                        <div className="detail-rounded-type d-flex align-items-center" key={i}>
                           <div className="detail-rounded-name">
                             <p>{detail.title}:</p>
                           </div>

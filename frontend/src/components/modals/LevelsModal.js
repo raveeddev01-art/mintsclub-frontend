@@ -96,7 +96,6 @@ const LevelsModal = (props) => {
                             maxLength="1"
                             onKeyDown={(e) => decimalNumberValidator(e)}
                             onChange={(e) => {
-                              console.log(e.target.value, "e.target.value");
                               if (
                                 +e.target.value > 5 ||
                                 (+e.target.value <= 0 && item.value == "")

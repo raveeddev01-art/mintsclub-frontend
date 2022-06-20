@@ -105,7 +105,7 @@ const FilterHoc = (props) => {
         lowToHigh: false,
         newest: false,
       }));
-    } else if (label === "Recantly Created") {
+    } else if (label === "Recently Created") {
       setFilter((prev) => ({
         ...prev,
         newest: true,

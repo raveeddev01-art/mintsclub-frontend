@@ -50,7 +50,6 @@ export const upsertNFT =
     })
       .then((res) => res.json())
       .then((data) => {
-       console.log(data)
         if (data.success) {
           toast.success(data.message);
           dispatch({
@@ -180,7 +179,7 @@ export const update =
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -194,7 +193,7 @@ export const createActivity = (body) => (dispatch) => {
     
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
       dispatch({
         type: GET_ERRORS,
         payload: error,
@@ -221,7 +220,7 @@ export const getActivities =
         });
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         dispatch({
           type: GET_ERRORS,
           payload: error,
@@ -247,7 +246,7 @@ export const getActivities =
  
       })
       .catch(function (error) {
-        console.log(error)
+        // console.log(error)
         dispatch({
           type: GET_ERRORS,
           payload: error,
@@ -284,7 +283,7 @@ export const getNFTsByCollection = (id) => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
       dispatch({
         type: GET_ERRORS,
         payload: error,

@@ -212,7 +212,6 @@ class CreateNFT extends Component {
       } else {
         nftInfo.fileType = "image";
       }
-      console.log(nftInfo, "nftInfo");
       this.setState(
         {
           isSubmitted: true,
@@ -297,7 +296,6 @@ class CreateNFT extends Component {
   };
 
   onFileChange = (e, status) => {
-    console.log(e.target.files[0], "e.target.files[0]");
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file = "";
       let url = "";
@@ -565,7 +563,6 @@ class CreateNFT extends Component {
       width: "100%",
       height: "100%",
     };
-    console.log(collections, "collections");
 
     return (
       <>
@@ -1029,7 +1026,6 @@ class CreateNFT extends Component {
 }
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
   {
     error: state.error,
     collection: state.collection,

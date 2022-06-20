@@ -23,7 +23,6 @@ export const makeOffer = (body) => dispatch => {
         },
         body: JSON.stringify(body)
     }).then(res => res.json()).then(data => {
-        console.log(data,"data")
         if (data.success) {
             toast.success(data.message)
             dispatch({
@@ -38,7 +37,7 @@ export const makeOffer = (body) => dispatch => {
             })
         }
     }).catch(error => {
-        console.log(error,"error")
+        // console.log(error,"error")
         if (error.response && error.response.data) {
             const { data } = error.response
             if (data.message)
@@ -68,7 +67,6 @@ export const getOffers = (qs = '') => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-   console.log(data,"data")
         if (data.success) {
             dispatch({
                 type: GET_OFFERS,

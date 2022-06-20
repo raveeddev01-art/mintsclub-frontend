@@ -1,7 +1,7 @@
 import React from "react";
 import "./nftinfo.css";
 
-const LevelsInfo = ({ name, value }) => {
+const LevelsInfo = ({ name, value,i }) => {
   const filled = () => {
     let filledArray = [];
     for (let i = 1; i <= value; i++) {
@@ -19,7 +19,7 @@ const LevelsInfo = ({ name, value }) => {
   };
   return (
     <>
-      <div className="nft-info-container mx-1 mt-3">
+      <div className="nft-info-container mx-1 mt-3" key={i}>
         <div className="content-heading  d-flex align-items-center justify-content-between">
           <p>
             <span>Level Name: </span>
