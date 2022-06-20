@@ -66,7 +66,6 @@ import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import { Images } from "../../assets/assets";
 import NftCard from "../nft-card/nft-card";
-import Waveform from "../audioPlayer/waveform/WaveForm";
 import NFTDetailLoader from "../contentLoader/nftDetailLoader";
 import Audio from "../audio/audio";
 const NFTDetail = (props) => {
@@ -611,7 +610,6 @@ const NFTDetail = (props) => {
 
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
-
     if (
       ENV.getUserKeys("_id")._id == nftDetail.ownerId ||
       nftDetail.sellingMethod === 1
@@ -631,6 +629,19 @@ const NFTDetail = (props) => {
       return false;
     }
   };
+
+
+  const checkIfAuctionIsStarted = (startDate, endDate) => {
+    let currentDate = new Date();
+    let auctionStartDate = new Date(startDate);
+    let auctionEndDate = new Date(endDate);
+    if (currentDate < auctionStartDate) {
+      return "Sale will start on "+auctionEndTimeConversion(auctionStartDate);
+    } else {
+      return "Sale ends "+auctionEndTimeConversion(auctionEndDate);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       checkIfAuctionEnded();
@@ -1022,10 +1033,13 @@ const NFTDetail = (props) => {
                                     className="me-1"
                                   />
                                   <span>
-                                    Sale ends{" "}
-                                    {auctionEndTimeConversion(
-                                      new Date(auctionEndDate)
+                                    {checkIfAuctionIsStarted(
+                                      auctionStartDate,
+                                      auctionEndDate
                                     )}{" "}
+                                    {/* {auctionEndTimeConversion(
+                                      new Date(auctionEndDate)
+                                    )}{" "} */}
                                   </span>
                                 </>
                               )}
@@ -1063,7 +1077,7 @@ const NFTDetail = (props) => {
                     ) &&
                       !claimNFT && (
                         <button
-                          disabled={disabled}
+                          // disabled={disabled}
                           onClick={() => handleRouting()}
                         >
                           {" "}
@@ -1168,7 +1182,7 @@ const NFTDetail = (props) => {
                     <hr />
                     <div className="table-container">
                       <table className="table table-borderless">
-                        {bids && bids.length > 0 && (
+                        {sellingMethod === 2 && bids && bids.length > 0 && (
                           <thead>
                             <tr>
                               <th scope="col">Price</th>
