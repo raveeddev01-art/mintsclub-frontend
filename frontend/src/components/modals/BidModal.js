@@ -30,9 +30,7 @@ const BidModal = (props) => {
     balance,
     price,
   } = props;
-  console.log(price,"price",+price < calculatePricePercantage(),  +price > +balance )
-  console.log(+balance,"balance")
-  console.log(calculatePricePercantage(),"calculatePricePercantage()")
+  
   return (
     <Modal
       {...props}
