@@ -22,7 +22,6 @@ import {
 import moment from "moment";
 import axios from "axios";
 import {
-  AiFillHeart,
   BsTagFill,
   BiTransferAlt,
   MdShoppingCart,
@@ -629,15 +628,14 @@ const NFTDetail = (props) => {
     }
   };
 
-
   const checkIfAuctionIsStarted = (startDate, endDate) => {
     let currentDate = new Date();
     let auctionStartDate = new Date(startDate);
     let auctionEndDate = new Date(endDate);
     if (currentDate < auctionStartDate) {
-      return "Sale will start on "+auctionEndTimeConversion(auctionStartDate);
+      return "Sale will start on " + auctionEndTimeConversion(auctionStartDate);
     } else {
-      return "Sale ends "+auctionEndTimeConversion(auctionEndDate);
+      return "Sale ends " + auctionEndTimeConversion(auctionEndDate);
     }
   };
 
@@ -715,10 +713,8 @@ const NFTDetail = (props) => {
 
   const {
     name,
-    _id,
     copies,
     remainingCopies,
-    likesCount,
     sellingMethod,
     properties,
     levels,
@@ -733,9 +729,6 @@ const NFTDetail = (props) => {
     auctionEndDate,
     description,
     currentPrice,
-    collectionId,
-    collection,
-    tokenId,
   } = nftDetail;
 
   const bannerData = {
@@ -745,24 +738,6 @@ const NFTDetail = (props) => {
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
 
-  const detailWallet = [
-    {
-      title: "Contract Address",
-      content: "0xe90.........4BcAc06",
-    },
-    {
-      title: "Token ID",
-      content: "452",
-    },
-    {
-      title: "Token Standard",
-      content: "ERC - 1155",
-    },
-    {
-      title: "Blockchain",
-      content: "Ethereum",
-    },
-  ];
   let nftInfo = [
     {
       title: "Contract Address",
@@ -855,7 +830,11 @@ const NFTDetail = (props) => {
                 {nftInfo.map((item) => {
                   return (
                     <div
-                      className="detail-rounded-type d-flex align-items-center"
+                      className={`detail-rounded-type d-flex align-items-center ${
+                        item.title === "Contract Address"
+                          ? "text-highlighted"
+                          : ""
+                      }`}
                       onClick={() => {
                         item.title === "Contract Address" &&
                           window.open(
@@ -864,10 +843,10 @@ const NFTDetail = (props) => {
                           );
                       }}
                     >
-                      <div className="detail-rounded-name">
+                      <div className={`detail-rounded-name `}>
                         <p>{item.title}:</p>
                       </div>
-                      <div className="detail-content">
+                      <div className={`detail-content`}>
                         <p> {item.value}</p>
                       </div>
                     </div>
@@ -1106,9 +1085,12 @@ const NFTDetail = (props) => {
                     <h6>Properties</h6>
                     <hr />
                     {properties && properties.length > 0 ? (
-                      properties.map((detail,key) => {
+                      properties.map((detail, key) => {
                         return (
-                          <div className="detail-rounded-type d-flex align-items-center" key={key}>
+                          <div
+                            className="detail-rounded-type d-flex align-items-center"
+                            key={key}
+                          >
                             <div className="detail-rounded-name">
                               <p>{detail.name}:</p>
                             </div>
@@ -1141,9 +1123,13 @@ const NFTDetail = (props) => {
                     <hr />
                     <div>
                       {levels && levels.length > 0 ? (
-                        levels.map((item,i) => {
+                        levels.map((item, i) => {
                           return (
-                            <LevelsInfo name={item.name} value={item.value}  i={i}/>
+                            <LevelsInfo
+                              name={item.name}
+                              value={item.value}
+                              i={i}
+                            />
                           );
                         })
                       ) : (
@@ -1154,9 +1140,12 @@ const NFTDetail = (props) => {
                   <div className="detail-box">
                     <h6>Details</h6>
                     <hr />
-                    {detailWallet.map((detail,i) => {
+                    {nftInfo.map((detail, i) => {
                       return (
-                        <div className="detail-rounded-type d-flex align-items-center" key={i}>
+                        <div
+                          className="detail-rounded-type d-flex align-items-center"
+                          key={i}
+                        >
                           <div className="detail-rounded-name">
                             <p>{detail.title}:</p>
                           </div>
@@ -1215,7 +1204,11 @@ const NFTDetail = (props) => {
                                         ? "above"
                                         : "below"}
                                     </td>
-                                    <td>{bid.fromAddress.slice(3, 8)}</td>
+                                    <td>
+                                      {bid.fromAddress.slice(0, 4) +
+                                        "..." +
+                                        bid.fromAddress.slice(-4)}
+                                    </td>
                                   </tr>
                                 );
                               })}
@@ -1267,12 +1260,16 @@ const NFTDetail = (props) => {
                                   </td>
                                   <td>
                                     {activity.fromAddress
-                                      ? activity.fromAddress.slice(-8)
+                                      ? activity.fromAddress.slice(0, 4) +
+                                        "..." +
+                                        activity.fromAddress.slice(-6)
                                       : "null address"}
                                   </td>
                                   <td>
                                     {activity.toAddress
-                                      ? activity.toAddress.slice(-8)
+                                      ? activity.toAddress.slice(0, 4) +
+                                      "..." +
+                                      activity.toAddress.slice(-4)
                                       : ""}{" "}
                                   </td>
                                   <td>

@@ -57,7 +57,7 @@ function AuctionsOne(props) {
   // set live auctions
   useEffect(() => {
     if (props.auction.auctionsAuth) {
-      const { auctions, pagination } = props.auction;
+      const { auctions } = props.auction;
       if (auctions) {
         auctions.forEach((element, i) => {
           auctions[i].totalBids = element.bidInfo?.bidBy?.length;

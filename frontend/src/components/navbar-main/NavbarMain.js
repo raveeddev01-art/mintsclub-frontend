@@ -146,7 +146,7 @@ const NavbarMain = (props) => {
                 className={`search-txt ${searchactive ? "activeSearch" : ""}`}
                 type="text"
                 name=""
-                placeholder="Type to Search"
+                placeholder="Search items"
                 onChange={handleChange}
                 onKeyPress={(e) => e.key === "Enter" && handleSearchKeyword()}
               />

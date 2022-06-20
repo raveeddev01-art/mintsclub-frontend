@@ -3,20 +3,12 @@ import { useHistory } from "react-router";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import { Link } from "react-router-dom";
-import { ENV } from "../../config/config";
 import { connect } from "react-redux";
 import { connectMetamaskCopy, signRequest } from "../../utils/web3";
-import TickIcon from "../../assets/images/tick-checkbox.svg";
 import { toast } from "react-toastify";
-import { login, signup } from "../user/user.action";
-
+import {  signup } from "../user/user.action";
 import "./signup.css";
 
-const initData = {
-  pre_heading: "Signup",
-  heading: "Create an Account",
-  content: "",
-};
 const SignUp = (props) => {
   const [checkBox, setCheckBox] = useState(false);
   const [connectedAddress, setConnectedAddress] = useState("");

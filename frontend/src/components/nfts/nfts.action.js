@@ -6,11 +6,9 @@ import {
   GET_NFT,
   UPSERT_NFT,
   NFTALL,
-  SET_NFT_TOKEN,
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
-  CREATE_ACITIVITY,
   GET_ACTIVITIES,
   GET_ITEM_LISTING,
   BEFORE_NFTS_BY_COLLECTION
@@ -19,7 +17,6 @@ import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
 import {
   axiosPostFormData,
-  decimalNumberValidator,
 } from "./../../utils/functions";
 import axios from "axios";
 

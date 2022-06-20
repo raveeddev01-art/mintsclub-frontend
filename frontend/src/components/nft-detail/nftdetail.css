@@ -46,7 +46,9 @@
   height: 500px;
   border-radius: 22px;
 }
-
+.text-highlighted {
+  cursor: pointer;
+}
 .new-nft-detail .nft-img-container img {
   width: 100%;
   height: 100%;
