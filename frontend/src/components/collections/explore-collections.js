@@ -111,7 +111,6 @@ const ExploreCollections = forwardRef((props, ref) => {
     setLimit(limit + 10);
     getCollections(selectedCategory, page, limit + 10);
   };
-
   const handleFilterCategory = (category) => {
     setLoader(true);
     setPage(1);
