@@ -102,7 +102,6 @@ const EditProfile = (props) => {
     let file = e.target.files[0];
     let fileURL = "";
     let sizeBeforeCompress = formatBytes(file.size);
-    console.log(sizeBeforeCompress, "seizeBeforecompress");
     if (file) {
       if (file.type.includes("image")) {
         fileURL = URL.createObjectURL(file);
@@ -117,11 +116,9 @@ const EditProfile = (props) => {
       new Compressor(file, {
         quality: 0.2,
         success(result) {
-          console.log(result, "result==>");
           setImage(result);
 
           let sizeAfterCompress = formatBytes(result.size);
-          console.log(sizeAfterCompress, "sizeAfterCompress");
         },
         error(err) {
           console.log(err.message);
@@ -152,7 +149,6 @@ const EditProfile = (props) => {
 
     var formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
-    console.log(image,"image while submiting")
     if (image) {
       formData.append("profileImage", image);
     }

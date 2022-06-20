@@ -48,7 +48,7 @@ const Wallet = (props) => {
   useEffect(() => {
     props.beforeCategory();
     if (props.error) {
-      console.log("errors", props.error);
+      // console.log("errors", props.error);
 
       setErrorMessage(props.error.message);
       if (props.error.notExist) {
@@ -64,7 +64,7 @@ const Wallet = (props) => {
     if (props.collection.getAuth === true) {
       props.beforeCollection();
 
-      toast.success("User Logged In Successfully");
+      toast.success("User logged in successfully");
       history.push("/");
     }
   }, [props.collection.getAuth]);
@@ -75,7 +75,7 @@ const Wallet = (props) => {
       setDisabled(true);
       try {
         if (validator.isEmail(email)) {
-          let sign = await signRequest();
+           await signRequest();
           let payload = {
             address: connectedAddress,
             email: email,
@@ -100,11 +100,10 @@ const Wallet = (props) => {
       try {
         setDisabled(true);
         setLoader(true);
-        let sign = await signRequest();
+         await signRequest();
         let payload = {
           address: connectedAddress,
         };
-        console.log(payload,"payload==>")
         props.login(payload);
       } catch (err) {
         setDisabled(false);
@@ -407,6 +406,10 @@ const Wallet = (props) => {
                   </a>
                   here.
                 </span>
+                <span className="new-member d-flex  justify-content-center mt-3">Don't have Metamask ? Click<span className="register-member mx-1" onClick={()=> window.open(
+                            "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en",
+                            "_blank"
+                          )}> Here </span>to Install.</span>
               </div>
             </div>
           </>

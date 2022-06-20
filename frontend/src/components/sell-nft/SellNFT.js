@@ -38,7 +38,6 @@ import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
-import Waveform from "../audioPlayer/waveform/WaveForm";
 import SellNFTLoader from "../contentLoader/sellNFTLoader";
 import Audio from "../audio/audio";
 const { dateRangeInitialSettings } = ENV;
@@ -75,7 +74,6 @@ const SellNFT = (props) => {
   const location = useLocation();
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [likedNfts, setLikedNfts] = useState();
-  const [exchangeRate, setExchangeRate] = useState(0);
   const [copies, setCopies] = useState("");
   const [show, setShow] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState("not-approved");
@@ -89,14 +87,6 @@ const SellNFT = (props) => {
     useVideoPlayer(videoElement);
 
   useEffect(async () => {
-    axios
-      .get(
-        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
-      )
-      .then((res) => {
-        const currentUSD = res.data.USD;
-        setExchangeRate(currentUSD);
-      });
     let connectedAddress = await getMetamaskConnectedAddress();
     setAddress(connectedAddress);
   }, []);
@@ -340,37 +330,6 @@ const SellNFT = (props) => {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
-
-  const handleLikesTogleApi = (nftId, status) => {
-    if (!likeButtonDisable) {
-      setLikeBtnDisable(true);
-      setToggle(!toggle);
-
-      let userId = ENV.getUserKeys("_id")._id;
-
-      let data = {
-        userId,
-        nftId,
-        count: 1,
-      };
-
-      if ((status === "dislike") & (nftDetail.likesCount > 0)) {
-        let nft = nftDetail;
-        nft.likesCount = nft.likesCount - 1;
-
-        setNftDetail(nft);
-        props.toggleLikeDislike(data);
-      } else {
-        let nft = nftDetail;
-        nft.likesCount = nft.likesCount + 1;
-
-        setNftDetail(nft);
-
-        props.toggleLikeDislike(data);
-      }
-    }
-  };
-
   //match if nft liked
 
   const validateIfLiked = (nfts, nft) => {
@@ -387,12 +346,6 @@ const SellNFT = (props) => {
       setLoader(false);
       return setToggle(false);
     }
-  };
-  const auctionEndTimeConversion = (auctionEndDate) => {
-    var dateString = moment.utc(auctionEndDate).format("MMMM D, Y");
-    var timeString = moment.utc(auctionEndDate).format("h:mma");
-    var totalDateTime = dateString + " at " + timeString + " PKT";
-    return totalDateTime;
   };
   const approveAccount = async () => {
     setApprovalStatus("pending");
@@ -417,7 +370,6 @@ const SellNFT = (props) => {
   };
 
   const { image, name, description, remainingCopies, fileType } = nftDetail;
-
   const bannerData = {
     subHeading: "NFT",
     heading: "NFT Details",
@@ -508,12 +460,6 @@ const SellNFT = (props) => {
                       >
                         <SellNFTLoader />
                       </div>
-                      {/* <Waveform
-                        url={image}
-                        auction={false}
-                        onLoadCallback={() => setContentLoader(false)}
-                        loader={contentLoader}
-                      /> */}
                       <Audio
                         src={image}
                         onLoadCallback={() => setContentLoader(false)}
@@ -637,7 +583,7 @@ const SellNFT = (props) => {
                       <h5>
                         No of Copies:*{" "}
                         {copiesError && (
-                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${nftDetail.copies} copies`}</span>
+                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
                         )}
                       </h5>
                       <hr />
@@ -651,12 +597,8 @@ const SellNFT = (props) => {
                           }}
                           min={"1"}
                           onChange={(e) => {
-                            console.log(
-                              e.target.value.includes("."),
-                              "e.target.value.includes('.')",
-                              +e.target.value == 0
-                            );
-                            if (+e.target.value > nftDetail.copies) {
+                         
+                            if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
                             }
@@ -745,7 +687,7 @@ const SellNFT = (props) => {
                       <h5>
                         No of Copies:*{" "}
                         {copiesError && (
-                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${nftDetail.copies} copies`}</span>
+                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
                         )}
                       </h5>
                       <hr />
@@ -761,7 +703,7 @@ const SellNFT = (props) => {
                           min={"1"}
                           max={`${nftDetail.copies}`}
                           onChange={(e) => {
-                            if (+e.target.value > nftDetail.copies) {
+                            if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
                             }

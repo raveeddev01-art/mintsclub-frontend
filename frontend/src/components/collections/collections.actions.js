@@ -74,7 +74,7 @@ export const getCollections =
     let url = `${ENV.url}collection/list`;
 
     if (qs) url += `?${qs}`;
-    console.log(url, "url sending=======>");
+    // console.log(url, "url sending=======>");
 
     fetch(url, {
       method: "GET",
@@ -152,7 +152,7 @@ export const myCollections = (userId) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log(error, "erro while getting collections");
+      // console.log(error, "erro while getting collections");
       if (error.response && error.response.data) {
         const { data } = error.response;
         if (data.message) toast.error(data.message);

@@ -154,4 +154,5 @@ color: #272727;
 .new-member .register-member {
   color: #387FFF !important;
   text-decoration: underline !important;
+  cursor: pointer;
 }

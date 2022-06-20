@@ -78,7 +78,6 @@ const NFTCard = (props) => {
                 }}
                 onCanPlay={() => {
                   setLoader(false);
-                  console.log("event triggered");
                 }}
                 style={{ display: `${!loader ? "block" : "none"}` }}
               />

@@ -113,7 +113,7 @@ export const signup = (payload) => (dispatch) => {
       }
     })
     .catch((errors) => {
-      console.log(errors, 'register resonse');
+      // console.log(errors, 'register resonse');
       dispatch({
         type: GET_ERRORS,
         payload: errors,
@@ -142,7 +142,6 @@ export const updateProfile = (body) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-    console.log(data,"data")
       if (data.status) {
         dispatch({
           type: SET_USER,
@@ -157,7 +156,7 @@ export const updateProfile = (body) => (dispatch) => {
       }
     })
     .catch((errors) => {
-      console.log(errors, 'update profile response');
+      // console.log(errors, 'update profile response');
       dispatch({
         type: GET_ERRORS,
         payload: errors,

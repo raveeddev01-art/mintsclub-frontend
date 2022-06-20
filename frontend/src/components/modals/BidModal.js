@@ -31,6 +31,7 @@ const BidModal = (props) => {
     price,
     show,
   } = props;
+  
   return (
     <Modal
       {...props}
@@ -119,7 +120,7 @@ const BidModal = (props) => {
             )}
             <p>
               By checking this box, I agree to MintsClub{" "}
-              <Link>Terms of Services</Link>
+              <Link to="/termsandconditions">Terms of Services</Link>
             </p>
           </div>
         </div>
@@ -130,10 +131,10 @@ const BidModal = (props) => {
             onHide();
           }}
           disabled={
-            price < calculatePricePercantage() ||
+            +price < calculatePricePercantage() ||
             balance === 0 ||
             !checkBox ||
-            price > balance
+            +price > +balance
           }
         >
           Confirm Checkout

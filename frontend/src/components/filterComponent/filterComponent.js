@@ -105,7 +105,7 @@ const FilterHoc = (props) => {
         lowToHigh: false,
         newest: false,
       }));
-    } else if (label === "Recantly Created") {
+    } else if (label === "Recently Created") {
       setFilter((prev) => ({
         ...prev,
         newest: true,
@@ -259,7 +259,7 @@ const FilterHoc = (props) => {
               <div className="search-input mb-4 mb-md-0">
                 <input
                   type="text"
-                  placeholder="Type here to Search..."
+                  placeholder="Search items and accounts"
                   maxLength="50"
                   onChange={(e) => {
                     if (keyword.trim() === "" && e.target.value.trim() === "") {

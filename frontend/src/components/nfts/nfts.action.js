@@ -6,11 +6,9 @@ import {
   GET_NFT,
   UPSERT_NFT,
   NFTALL,
-  SET_NFT_TOKEN,
   GET_NFTS_BY_COLLECTION,
   GET_MYLIKED_NFTS,
   GET_PROFILE_NFTS,
-  CREATE_ACITIVITY,
   GET_ACTIVITIES,
   GET_ITEM_LISTING,
   BEFORE_NFTS_BY_COLLECTION
@@ -19,7 +17,6 @@ import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
 import {
   axiosPostFormData,
-  decimalNumberValidator,
 } from "./../../utils/functions";
 import axios from "axios";
 
@@ -50,7 +47,6 @@ export const upsertNFT =
     })
       .then((res) => res.json())
       .then((data) => {
-       console.log(data)
         if (data.success) {
           toast.success(data.message);
           dispatch({
@@ -180,7 +176,7 @@ export const update =
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -194,7 +190,7 @@ export const createActivity = (body) => (dispatch) => {
     
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
       dispatch({
         type: GET_ERRORS,
         payload: error,
@@ -221,7 +217,7 @@ export const getActivities =
         });
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         dispatch({
           type: GET_ERRORS,
           payload: error,
@@ -247,7 +243,7 @@ export const getActivities =
  
       })
       .catch(function (error) {
-        console.log(error)
+        // console.log(error)
         dispatch({
           type: GET_ERRORS,
           payload: error,
@@ -284,7 +280,7 @@ export const getNFTsByCollection = (id) => (dispatch) => {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
       dispatch({
         type: GET_ERRORS,
         payload: error,

@@ -67,7 +67,7 @@ const AuctionsCards = ({
                   togglePlay();
                 }}
                 onCanPlay={() => {
-                  loader(false);
+                  setLoader(false);
                 }}
                 ref={videoElement}
                 onTimeUpdate={handleOnTimeUpdate}
