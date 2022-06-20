@@ -76,7 +76,7 @@ const NFTDetail = (props) => {
   const [listedItem, setListedItem] = useState([]);
   const [nfts, setNFTs] = useState([]);
   const [activities, setActivities] = useState([]);
-  const [itemsListing, setItemsListing] = useState([]);
+  // const [itemsListing, setItemsListing] = useState([]);
   const [loader, setLoader] = useState(true);
   const [price, setPrice] = useState(0);
   const [bids, setBids] = useState(null);
@@ -179,9 +179,9 @@ const NFTDetail = (props) => {
       props.getActivities(activityQs);
 
       //getItemsListing
-      let itemsListingQS = { collectionId: props.nftDetail.collectionId };
-      itemsListingQS = ENV.objectToQueryString(itemsListingQS);
-      props.getItemsListing(itemsListingQS);
+      // let itemsListingQS = { collectionId: props.nftDetail.collectionId };
+      // itemsListingQS = ENV.objectToQueryString(itemsListingQS);
+      // props.getItemsListing(itemsListingQS);
 
       //get offers
       if (props.nftDetail.sellingMethod) {
@@ -248,11 +248,11 @@ const NFTDetail = (props) => {
       setActivities(props.activities);
     }
   }, [props.activitiesAuth]);
-  useEffect(() => {
-    if (props.itemsListingAuth) {
-      setItemsListing(props.itemsListing);
-    }
-  }, [props.itemsListingAuth]);
+  // useEffect(() => {
+  //   if (props.itemsListingAuth) {
+  //     setItemsListing(props.itemsListing);
+  //   }
+  // }, [props.itemsListingAuth]);
 
   const handleRouting = async () => {
     if (await validateNetwork()) {
@@ -696,7 +696,7 @@ const NFTDetail = (props) => {
         }
       }
     } catch (err) {
-      toast.error(err);
+      toast.error(err.message);
       setLoader(false);
     }
   };
