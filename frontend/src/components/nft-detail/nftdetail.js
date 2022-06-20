@@ -537,7 +537,7 @@ const NFTDetail = (props) => {
 
         if (modalShow1) {
           currentPrice = listedItem.currentPrice;
-          nftToken = listedItem.tokenId;
+          nftToken = listedItem.nftToken;
           nftId = listedItem._id;
         } else {
           currentPrice = nftDetail.currentPrice;
@@ -684,12 +684,12 @@ const NFTDetail = (props) => {
     try {
       setLoader(true);
       if (userId == ownerId && sellingMethod == 2) {
-        let result = await endAuctionFromContract(nftDetail.tokenId);
+        let result = await endAuctionFromContract(nftDetail.nftToken);
         if (result) {
           EndAuctionFromBackend();
         }
       } else {
-        let result = await claimNFTfromContract(nftDetail.tokenId);
+        let result = await claimNFTfromContract(nftDetail.nftToken);
         if (result) {
           EndAuctionFromBackend();
         }
@@ -773,7 +773,7 @@ const NFTDetail = (props) => {
     },
     {
       title: "Token ID",
-      value: tokenId,
+      value: nftToken,
     },
     {
       title: "Token Standard",
