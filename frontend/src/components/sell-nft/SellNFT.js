@@ -417,7 +417,6 @@ const SellNFT = (props) => {
   };
 
   const { image, name, description, remainingCopies, fileType } = nftDetail;
-
   const bannerData = {
     subHeading: "NFT",
     heading: "NFT Details",
@@ -631,7 +630,7 @@ const SellNFT = (props) => {
                       <h5>
                         No of Copies:*{" "}
                         {copiesError && (
-                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${nftDetail.copies} copies`}</span>
+                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
                         )}
                       </h5>
                       <hr />
@@ -732,10 +731,11 @@ const SellNFT = (props) => {
                   </div>
                   <div className="col-md-6">
                     <div className="sell-detail-box">
+                      
                       <h5>
                         No of Copies:*{" "}
                         {copiesError && (
-                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${nftDetail.copies} copies`}</span>
+                          <span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
                         )}
                       </h5>
                       <hr />
@@ -751,7 +751,7 @@ const SellNFT = (props) => {
                           min={"1"}
                           max={`${nftDetail.copies}`}
                           onChange={(e) => {
-                            if (+e.target.value > nftDetail.copies) {
+                            if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
                             }
