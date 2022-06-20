@@ -1,11 +1,7 @@
 import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
 import "./auctionAudio.css";
-<<<<<<< HEAD
-const AuctionAudio = ({ src, onLoadCallback, loader }) => {
-=======
 
-const AuctionAudio = ({ src, onLoadCallback,loader }) => {
->>>>>>> 9658a75e3b09e057542327905fc4b3ba2083f6bc
+const AuctionAudio = ({ src, onLoadCallback, loader }) => {
   return (
     <div
       className="w-100 h-100 auction-audio-container p-4"

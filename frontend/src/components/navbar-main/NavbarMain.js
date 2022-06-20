@@ -55,10 +55,8 @@ const NavbarMain = (props) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className={"mx-xl-auto"}>
-              <Nav.Link>
-                <NavLink className="nav-main-link" to="/">
-                  Home
-                </NavLink>
+              <Nav.Link className="nav-main-link">
+                <NavLink to="/">Home</NavLink>
               </Nav.Link>
               <NavDropdown
                 title="Explore"
@@ -148,7 +146,7 @@ const NavbarMain = (props) => {
                 className={`search-txt ${searchactive ? "activeSearch" : ""}`}
                 type="text"
                 name=""
-                placeholder="Search items"
+                placeholder="Type to Search"
                 onChange={handleChange}
                 onKeyPress={(e) => e.key === "Enter" && handleSearchKeyword()}
               />
