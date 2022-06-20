@@ -731,7 +731,6 @@ const SellNFT = (props) => {
                   </div>
                   <div className="col-md-6">
                     <div className="sell-detail-box">
-                      
                       <h5>
                         No of Copies:*{" "}
                         {copiesError && (
