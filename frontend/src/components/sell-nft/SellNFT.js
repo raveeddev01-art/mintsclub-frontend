@@ -645,12 +645,8 @@ const SellNFT = (props) => {
                           }}
                           min={"1"}
                           onChange={(e) => {
-                            console.log(
-                              e.target.value.includes("."),
-                              "e.target.value.includes('.')",
-                              +e.target.value == 0
-                            );
-                            if (+e.target.value > nftDetail.copies) {
+                         
+                            if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
                             }

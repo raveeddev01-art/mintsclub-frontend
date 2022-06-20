@@ -90,8 +90,6 @@ const StatsModal = (props) => {
                               min="1"
                               maxLength="1"
                               onKeyDown={(e) => {
-                             
-
                                 decimalNumberValidator(e);
                               }}
                               value={item.value}
@@ -126,7 +124,7 @@ const StatsModal = (props) => {
                       </div>
                     </div>
                     <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
-                      <div className="inp-close text-end">
+                      <div className="inp-close text-end me-2">
                         <button type="submit">
                           <img
                             src={InputClose}

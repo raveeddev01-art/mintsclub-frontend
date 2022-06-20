@@ -6,7 +6,7 @@ import "./PropertiesModal.css";
 import { toast } from "react-toastify";
 import {
   decimalNumberValidator,
-  firstInputCharacterSpace
+  firstInputCharacterSpace,
 } from "./../../utils/functions";
 const LevelsModal = (props) => {
   const {
@@ -126,7 +126,7 @@ const LevelsModal = (props) => {
                     </div>
                   </div>
                   <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
-                    <div className="inp-close text-end">
+                    <div className="inp-close text-end me-2">
                       <button>
                         <img
                           src={InputClose}

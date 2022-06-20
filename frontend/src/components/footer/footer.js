@@ -78,7 +78,7 @@ const Footer = (props) => {
                   <div className="email-icon">
                     <img src={EmailIcon} alt="mail-box" />
                   </div>
-                  <input type="email" placeholder="yourname@gmail.com" />
+                  <input type="email" placeholder="youremail@xyz.com" />
                   <div>
                     <button
                       type="submit"

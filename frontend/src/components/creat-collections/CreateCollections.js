@@ -92,7 +92,7 @@ class CreateCollections extends Component {
       if (file.type.includes("image")) {
         let fileSize = this.formatBytes(file.size).split(" ");
         if (+fileSize[0] > 100 && fileSize[1] === "MB") {
-         return  toast.error("File Max Limit Reached.")
+          return toast.error("File Max Limit Reached.");
         }
         let { collection } = this.state;
         collection = { ...collection, [e.target.name]: file };
@@ -103,7 +103,6 @@ class CreateCollections extends Component {
           $(`#collection-${e.target.name}-label`).html("File selected");
         }
         this.setState({ collection });
-        
       }
   }
   formatBytes = (bytes, decimals = 2) => {
@@ -352,7 +351,7 @@ class CreateCollections extends Component {
                     name="name"
                     onChange={(e) => this.onChange(e)}
                     value={collection.name}
-                    placeholder="Name"
+                    placeholder="Enter name"
                     maxLength="55"
                     autoComplete="off"
                   />
@@ -368,7 +367,7 @@ class CreateCollections extends Component {
                     id="url"
                     type="text"
                     name="url"
-                    placeholder="URL"
+                    placeholder="Enter URL"
                     onChange={(e) => this.onChange(e)}
                     value={collection.url}
                     maxLength="55"
@@ -388,6 +387,7 @@ class CreateCollections extends Component {
                     isSearchable={false}
                     onChange={this.handleSelectChange}
                     options={categories}
+                    placeholder="Select Category"
                   />
                 </div>
 
@@ -399,7 +399,7 @@ class CreateCollections extends Component {
                   <textarea
                     className="create-collection-area mt-2"
                     name="description"
-                    placeholder="Description"
+                    placeholder="Enter description..."
                     maxLength="500"
                     rows="3"
                     onChange={(e) => this.onChange(e)}

@@ -36,7 +36,7 @@ import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Waveform from "../audioPlayer/waveform/WaveForm";
-import Audio from '../audio/audio'
+import Audio from "../audio/audio";
 const placeholderImg = "";
 class CreateNFT extends Component {
   constructor(props) {
@@ -191,7 +191,7 @@ class CreateNFT extends Component {
     };
     this.setState({ nft });
   };
-   capitalize(word) {
+  capitalize(word) {
     return word[0].toUpperCase() + word.slice(1).toLowerCase();
   }
   submit = async (e) => {
@@ -203,7 +203,7 @@ class CreateNFT extends Component {
       nftInfo.properties = JSON.stringify(nftInfo.properties);
       nftInfo.levels = JSON.stringify(nftInfo.levels);
       nftInfo.stats = JSON.stringify(nftInfo.stats);
-      nftInfo.name=this.capitalize(nftInfo.name);
+      nftInfo.name = this.capitalize(nftInfo.name);
 
       if (videoURL) {
         nftInfo.fileType = "video";
@@ -565,7 +565,7 @@ class CreateNFT extends Component {
       width: "100%",
       height: "100%",
     };
-    console.log(collections,"collections")
+    console.log(collections, "collections");
 
     return (
       <>
@@ -802,7 +802,7 @@ class CreateNFT extends Component {
                 <input
                   className="create-collection-input mt-2"
                   name="name"
-                  placeholder="Title*"
+                  placeholder="Enter title"
                   required="required"
                   maxLength="100"
                   minLength="3"
@@ -825,7 +825,7 @@ class CreateNFT extends Component {
                 <input
                   className="create-collection-input mt-2"
                   name="copies"
-                  placeholder="No. of Copies*"
+                  placeholder="No. of Copies"
                   type="text"
                   maxLength={"3"}
                   autoComplete="off"
@@ -865,11 +865,36 @@ class CreateNFT extends Component {
                   options={collections}
                 />
               </div>
-              <div className="col-12 col-lg-6 mt-3">
+              <div className="col-12 mt-3 mt-lg-5">
+                <label className="create-collection-label d-flex">
+                  Description:*{" "}
+                  <span className="text-danger ms-2">
+                    {this.validator.message(
+                      "description",
+                      nft.description,
+                      "required"
+                    )}
+                  </span>
+                </label>
+
+                <textarea
+                  className="create-collection-area mt-2"
+                  name="description"
+                  rows="3"
+                  placeholder="Enter description..."
+                  maxLength="500"
+                  onChange={(e) => this.onChange(e)}
+                  onKeyDown={(e) =>
+                    firstInputCharacterSpace(e, nft.description.length)
+                  }
+                  value={nft.description}
+                ></textarea>
+              </div>
+              <div className="col-12 col-lg-6 mt-3 mt-lg-5">
                 <label className="create-collection-label">Properties:</label>
                 <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
                   <div className="properties-content">
-                    <p>Properties</p>
+                    <p>Add Properties</p>
                   </div>
                   <div className="properties-btn">
                     <button
@@ -895,11 +920,11 @@ class CreateNFT extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6 mt-3">
+              <div className="col-12 col-lg-6 mt-3 mt-lg-5">
                 <label className="create-collection-label">Levels:</label>
                 <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
                   <div className="properties-content">
-                    <p>Levels</p>
+                    <p>Add Levels</p>
                   </div>
                   <div className="properties-btn">
                     <button
@@ -913,17 +938,17 @@ class CreateNFT extends Component {
                     </button>
                   </div>
                 </div>
-                <div className="nft-level-container mx-3 mt-3">
+                <div className="nft-level-container mx-3 mt-3 ">
                   {this.state.nft.levels.map((item) => {
                     return <LevelsInfo name={item.name} value={item.value} />;
                   })}
                 </div>
               </div>
-              <div className="col-12 col-lg-6 mt-3">
+              <div className="col-12 col-lg-6 mt-3 ">
                 <label className="create-collection-label">Stats:</label>
                 <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
                   <div className="properties-content">
-                    <p>Stats</p>
+                    <p>Add Stats</p>
                   </div>
                   <div className="properties-btn">
                     <button
@@ -942,32 +967,6 @@ class CreateNFT extends Component {
                     return <StatsInfo name={item.name} value={item.value} />;
                   })}
                 </div>
-              </div>
-
-              <div className="col-12 mt-3 mt-lg-5">
-                <label className="create-collection-label d-flex">
-                  Description:*{" "}
-                  <span className="text-danger ms-2">
-                    {this.validator.message(
-                      "description",
-                      nft.description,
-                      "required"
-                    )}
-                  </span>
-                </label>
-
-                <textarea
-                  className="create-collection-area mt-2"
-                  name="description"
-                  rows="3"
-                  placeholder="Description*"
-                  maxLength="500"
-                  onChange={(e) => this.onChange(e)}
-                  onKeyDown={(e) =>
-                    firstInputCharacterSpace(e, nft.description.length)
-                  }
-                  value={nft.description}
-                ></textarea>
               </div>
 
               <div className="create-collection-btn-container">
@@ -1030,11 +1029,12 @@ class CreateNFT extends Component {
 }
 
 const mapStateToProps = (state) => (
-  console.log(state,"state"),
+  console.log(state, "state"),
   {
-  error: state.error,
-  collection: state.collection,
-});
+    error: state.error,
+    collection: state.collection,
+  }
+);
 
 export default connect(mapStateToProps, {
   beforeCollection,

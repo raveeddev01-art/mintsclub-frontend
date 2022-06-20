@@ -41,12 +41,12 @@ const FilterHoc = (props) => {
     { value: "lowtohigh", label: "Low To High" },
     { value: "hightolow", label: "High To Low" },
     { value: "oldest", label: "Oldest" },
-    { value: "newest", label: "Recantly Created" },
+    { value: "newest", label: "Recently Created" },
   ];
   useEffect(() => {
     const { initialKeyword } = props;
     if (initialKeyword) {
-      let capitalizeValue=capitalize(initialKeyword)
+      let capitalizeValue = capitalize(initialKeyword);
       setKeyword(capitalizeValue);
       handleSearchKeyword(capitalizeValue);
     }
@@ -150,10 +150,9 @@ const FilterHoc = (props) => {
   const handleSearchKeyword = (value) => {
     setInitial(false);
     setFilterationLoader(true);
-    let capitalizeValue=''
-    if(value){
-
-      capitalizeValue =capitalize(value)
+    let capitalizeValue = "";
+    if (value) {
+      capitalizeValue = capitalize(value);
     }
     setFilter((prev) => ({ ...prev, keyword: capitalizeValue }));
   };
@@ -226,9 +225,9 @@ const FilterHoc = (props) => {
       });
     }
   };
-  const capitalize=(word)=> {
-   return  word[0].toUpperCase() + word.slice(1).toLowerCase()
-  }
+  const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  };
 
   const {
     collections,
@@ -249,8 +248,6 @@ const FilterHoc = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
-;
-
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -422,11 +419,11 @@ const FilterHoc = (props) => {
               </div>
             </div>
             {isHideCollection() && (
-              <div className="filter-container mb-4">
+              <div className="filter-container hoc-collections-container mb-4">
                 <h6>Collections</h6>
                 <hr />
                 <div className="d-flex flex-wrap align-items-center ">
-                  {collections &&
+                  {collections && collections.length > 0 ? (
                     collections.map((collection, id) => {
                       return (
                         <button
@@ -442,7 +439,10 @@ const FilterHoc = (props) => {
                           {collection.name}
                         </button>
                       );
-                    })}
+                    })
+                  ) : (
+                    <p className="text-center mx-auto">No Collections Found</p>
+                  )}
                 </div>
                 <div className="d-flex align-items-end justify-content-end">
                   {collectionActive !== null && (

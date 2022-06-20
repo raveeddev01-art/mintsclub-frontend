@@ -18,6 +18,7 @@
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
   color: #000;
   outline: none;
+  padding-left: 24px;
 }
 .create-collection .create-collection-area {
   height: 324px;
@@ -148,6 +149,7 @@
   display: flex;
   align-items: start;
   padding: 8px;
+  padding-left: 24px;
 }
 
 .create-collection .react-select-cls .react-select__input-container {
