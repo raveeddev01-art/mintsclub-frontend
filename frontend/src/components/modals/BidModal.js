@@ -29,6 +29,7 @@ const BidModal = (props) => {
     onHide,
     balance,
     price,
+    show,
   } = props;
   
   return (
@@ -37,8 +38,9 @@ const BidModal = (props) => {
       size="lg"
       dialogClassName="buy-modal-dialog"
       contentClassName="buy-modal-content"
-      className="buy-modal bid-modal"
+      className={`buy-modal bid-modal ${show === true ? "modal-is-open" : " "}`}
       centered
+      autoFocus={true}
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">

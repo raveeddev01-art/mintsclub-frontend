@@ -39,7 +39,7 @@ const AuctionsCards = ({
   } = item;
   const { profilePhoto } = item?.owner;
   return (
-    <Card key={key} className={`auction-card ${cardBg} mx-2`}>
+    <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
           <>

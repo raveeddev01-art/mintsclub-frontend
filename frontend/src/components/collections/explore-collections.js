@@ -122,7 +122,7 @@ const ExploreCollections = forwardRef((props, ref) => {
   const handleImage = (item, index) => {
     if (item?.nftDetail[index]?.image) {
       let result = item.nftDetail.filter((nft) => nft.fileType === "image");
-      if (result.length >= index&&result.length!==0) {
+      if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
         return Images.imagePlaceholder;
@@ -237,7 +237,8 @@ const ExploreCollections = forwardRef((props, ref) => {
               <div className="col-12">
                 <div className="mt-5 d-flex justify-content-center align-items-center">
                   {!empty &&
-                    collections?.length === 10 &&!loader&&
+                    collections?.length === 10 &&
+                    !loader &&
                     pagination.totalRecords > collections.length && (
                       <button
                         className="btn btn-rounded-bordered px-5"

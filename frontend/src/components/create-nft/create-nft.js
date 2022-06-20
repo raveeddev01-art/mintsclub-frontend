@@ -705,7 +705,8 @@ class CreateNFT extends Component {
                     <>
                       <div className="uploaded-img-container">
                         <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
-                          <Waveform url={audioUrl} auction={false} />
+                          {/* <Waveform url={audioUrl} auction={false} /> */}
+                          <Audio src={audioUrl} />
                         </div>
                         <label className="video-upload-label">
                           <div className="uploaded-video-container mx-auto">

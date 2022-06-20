@@ -23,7 +23,7 @@ const CollectionsCard = ({
 
   return (
     <Card
-      className="collection-cards-container m-1"
+      className="collection-cards-container m-1 mx-auto mx-sm-1"
       onClick={() => {
         history.push({
           pathname: `/collection/detailPage/${id}`,
@@ -57,8 +57,6 @@ const CollectionsCard = ({
                 alt="card-img"
               />
             </div>
-
-         
           </div>
 
           <Card.Body>

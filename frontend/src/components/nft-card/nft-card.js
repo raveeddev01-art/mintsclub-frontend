@@ -47,7 +47,7 @@ const NFTCard = (props) => {
   };
 
   return (
-    <Card className={`auction-card nft-card ${cardBg} m-1`}>
+    <Card className={`auction-card nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
       <div className="auction-img-wrapper">
         {fileType === "image" ? (
           <>
