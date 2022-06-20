@@ -80,7 +80,7 @@ const BuyModal = (props) => {
                     <AudioIcon />
                   </div>
                 ) : (
-               ""
+                  ""
                 )}
               </div>
             </div>
@@ -247,7 +247,7 @@ const BuyModal = (props) => {
                     <AudioIcon />
                   </div>
                 ) : (
-               ""
+                  ""
                 )}
               </div>
             </div>

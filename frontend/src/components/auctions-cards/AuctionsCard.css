@@ -186,3 +186,9 @@
 .auction-card.card .card-img-top .video-wrapper .actions .play-pause-btn svg {
   color: #434343;
 }
+
+@media (max-width: 575.9px) {
+  .card.auction-card {
+    max-width: 350px;
+  }
+}

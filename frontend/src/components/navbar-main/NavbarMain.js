@@ -55,8 +55,10 @@ const NavbarMain = (props) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className={"mx-xl-auto"}>
-              <Nav.Link className="nav-main-link">
-                <NavLink to="/">Home</NavLink>
+              <Nav.Link>
+                <NavLink className="nav-main-link" to="/">
+                  Home
+                </NavLink>
               </Nav.Link>
               <NavDropdown
                 title="Explore"

@@ -50,3 +50,9 @@
 .home-auction-list .card.auction-card {
   margin: 0 !important;
 }
+
+@media (max-width: 575.9px) {
+  .home-auction-list .card.auction-card {
+    margin: 0 auto !important;
+  }
+}
