@@ -365,6 +365,7 @@ class CreateNFT extends Component {
         }
     } else {
       let message = this.handleFilesValidation(e, status);
+      toast.error(message)
       this.setState({
         error: true,
         errorMessage: message,
@@ -407,7 +408,8 @@ class CreateNFT extends Component {
         type === "audio/mpeg"
       ) {
         let fileSize = this.formatBytes(files.size).split(" ");
-        if (+fileSize[0] > 100 && fileSize[1] === "MB") {
+        console.log(fileSize,"fileSize")
+        if ((+fileSize[0] > 100 && fileSize[1] === "MB")&&(fileSize[1] !== "GB")) {
           return "File size limit is exceeded";
         } else {
           return "file matched";

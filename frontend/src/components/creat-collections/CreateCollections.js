@@ -91,7 +91,10 @@ class CreateCollections extends Component {
     if (file)
       if (file.type.includes("image")) {
         let fileSize = this.formatBytes(file.size).split(" ");
-        if (+fileSize[0] > 100 && fileSize[1] === "MB") {
+        if (
+          (+fileSize[0] > 100 &&fileSize[1] === "MB") ||
+          fileSize[1] === "GB"
+        ) {
           return toast.error("File Max Limit Reached.");
         }
         let { collection } = this.state;

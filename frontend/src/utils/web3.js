@@ -80,7 +80,7 @@ export const mintNFt = async (metaData, id, amount, recipientValue) => {
     const contractM = await getContractMethods();
     let result = await contractM.methods
       .mint(connectedAddress, nftAmount, metaData)
-      .send({ from: connectedAddress, gassPrice: 5000000 });
+      .send({ from: connectedAddress });
 
     return result;
   } catch (err) {
