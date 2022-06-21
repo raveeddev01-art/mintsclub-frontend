@@ -103,8 +103,10 @@ export const openNFTForBidding = async (
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
-    if (result) {
-      return result;
+      let web3 = await getWeb3();
+      let sellId=await web3.utils.hexToNumber(result.events[0].raw.data)
+    if (sellId) {
+      return sellId;
     }
   } catch (err) {
     throw new Error(err);
@@ -148,15 +150,17 @@ export const putonsale = async (tokenId, amount, price) => {
     const result = await contractM.methods
       .putonsale(id, amount, weiAmount)
       .send({ from: connectedAddress, gas: 5000000 });
-
-    if (result) {
-      return result;
+      let web3 = await getWeb3();
+      let sellId=await web3.utils.hexToNumber(result.events[0].raw.data)
+    if (sellId) {
+      return sellId;
     }
   } catch (err) {
     console.log(err, "error");
     throw new Error(err);
   }
 };
+
 
 export const BuyFixedPriceNFT = async (
   amount,

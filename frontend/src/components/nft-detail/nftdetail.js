@@ -455,7 +455,7 @@ const NFTDetail = (props) => {
   const placeBid = async () => {
     if (await validateNetwork()) {
       try {
-        let result = await placeABid(price, nftDetail.nftToken);
+        let result = await placeABid(price, nftDetail.sellId);
         if (result) {
           const payload = {
             ownerId: nftDetail.ownerId,
@@ -530,19 +530,10 @@ const NFTDetail = (props) => {
   const BuyNow = async () => {
     if (await validateNetwork()) {
       setDisabled(true);
-      try {
-        let currentPrice = "";
-        let nftToken = "";
-
-        if (modalShow1) {
-          currentPrice = listedItem.currentPrice;
-          nftToken = listedItem.nftToken;
-          nftId = listedItem._id;
-        } else {
-          currentPrice = nftDetail.currentPrice;
-          nftToken = nftDetail.nftToken;
-        }
-
+      try {    
+        let  currentPrice = nftDetail.currentPrice;
+        let  nftToken = nftDetail.sellId;
+        
         const result = await BuyFixedPriceNFT(
           currentPrice,
           nftToken,
@@ -682,12 +673,12 @@ const NFTDetail = (props) => {
     try {
       setLoader(true);
       if (userId == ownerId && sellingMethod == 2) {
-        let result = await endAuctionFromContract(nftDetail.nftToken);
+        let result = await endAuctionFromContract(nftDetail.sellId);
         if (result) {
           EndAuctionFromBackend();
         }
       } else {
-        let result = await claimNFTfromContract(nftDetail.nftToken);
+        let result = await claimNFTfromContract(nftDetail.sellId);
         if (result) {
           EndAuctionFromBackend();
         }

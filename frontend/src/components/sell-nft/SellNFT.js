@@ -282,7 +282,7 @@ const SellNFT = (props) => {
       setLoader(true);
 
       var formData = new FormData();
-      for (const key in payload) formData.append(key, payload[key]);
+      // for (const key in payload) formData.append(key, payload[key]);
       if (sellingMethod === 2) {
         try {
           let auctionEndDate = timedAuctionConfig.duration.endDate;
@@ -299,7 +299,8 @@ const SellNFT = (props) => {
           );
           if (result) {
             activityPayload.price = price;
-
+            payload.sellId=Number(result);
+            for (const key in payload) formData.append(key, payload[key]);
             props.createActivity(activityPayload);
             props.upsertNFT("edit", formData, "PUT");
           }
@@ -311,13 +312,15 @@ const SellNFT = (props) => {
         try {
           let result = await putonsale(
             nftDetail.nftToken,
-            1,
+            copies,
             fixedConfig.price.amount
           );
 
           if (result) {
             activityPayload.price = price;
-
+            payload.sellId=Number(result);
+      for (const key in payload) formData.append(key, payload[key]);
+            
             props.createActivity(activityPayload);
             props.upsertNFT("edit", formData, "PUT");
           }
@@ -376,7 +379,7 @@ const SellNFT = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-
+console.log(copies,"copies")
   return (
     <>
       <Banner
