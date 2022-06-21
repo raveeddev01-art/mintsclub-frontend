@@ -161,6 +161,7 @@ export const putonsale = async (tokenId, amount, price) => {
   }
 };
 
+
 export const BuyFixedPriceNFT = async (
   amount,
   tokenId,
