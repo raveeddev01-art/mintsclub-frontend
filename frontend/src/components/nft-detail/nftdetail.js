@@ -1141,7 +1141,7 @@ const NFTDetail = (props) => {
                             <p>{detail.title}:</p>
                           </div>
                           <div className="detail-content">
-                            <p>{detail.content}</p>
+                            <p>{detail.value}</p>
                           </div>
                         </div>
                       );
@@ -1325,9 +1325,9 @@ const NFTDetail = (props) => {
         show={modalShow}
         onHide={() => {
           setModalShow(false);
-          setConfirmed(false);
-          setModal(1);
-          setTransactionSuccess(false);
+          // setConfirmed(false);
+          // setModal(1);
+          // setTransactionSuccess(false);
         }}
         name={name}
         price={currentPrice}
@@ -1348,9 +1348,9 @@ const NFTDetail = (props) => {
         show={modalShow1}
         onHide={() => {
           setModalShow1(false);
-          setConfirmed(false);
-          setModal(1);
-          setTransactionSuccess(false);
+          // setConfirmed(false);
+          // setModal(1);
+          // setTransactionSuccess(false);
         }}
         name={listedItem.name}
         price={listedItem.currentPrice}

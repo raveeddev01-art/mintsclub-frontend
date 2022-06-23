@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
-import {
-  signRequest,
-  connectWithMetamask,
-} from "../../utils/web3";
+import { signRequest, connectWithMetamask ,testMobileAppMetamask} from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "../wallet/wallet.action";
 import { toast } from "react-toastify";
 import {
@@ -32,24 +29,23 @@ const Wallet = (props) => {
   const [loader, setLoader] = useState(false);
 
   const connectMetamaskCall = async () => {
-    if (await validateNetwork()) {
-      setDisabled(true);
-      let connectedAddress = await connectWithMetamask();
-      if (connectedAddress) {
-        setDisabled(false);
-      }
-      setConnectedAddress(connectedAddress);
-      setWalletAddress(connectedAddress);
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-    }
+    // if (await validateNetwork()) {
+    //   setDisabled(true);
+    //   let connectedAddress = await connectWithMetamask();
+    //   if (connectedAddress) {
+    //     setDisabled(false);
+    //   }
+    //   setConnectedAddress(connectedAddress);
+    //   setWalletAddress(connectedAddress);
+    // } else {
+    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    // }
+    window.open("https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/")
   };
 
   useEffect(() => {
     props.beforeCategory();
     if (props.error) {
-      // console.log("errors", props.error);
-
       setErrorMessage(props.error.message);
       if (props.error.notExist) {
         setDisabled(false);
@@ -75,7 +71,7 @@ const Wallet = (props) => {
       setDisabled(true);
       try {
         if (validator.isEmail(email)) {
-           await signRequest();
+          await signRequest();
           let payload = {
             address: connectedAddress,
             email: email,
@@ -100,7 +96,7 @@ const Wallet = (props) => {
       try {
         setDisabled(true);
         setLoader(true);
-         await signRequest();
+        await signRequest();
         let payload = {
           address: connectedAddress,
         };
@@ -114,7 +110,6 @@ const Wallet = (props) => {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -174,7 +169,7 @@ const Wallet = (props) => {
                     {/* Intro */}
                     <div className="intro wallet-intro  text-center">
                       <span>Sign In</span>
-                      <h3 className="mt-3 mb-0">SignIn to your account</h3>
+                      <h3 className="mt-3 mb-0">Sign In to your account</h3>
                       <p className="mt-3">
                         Please Click to Sign In your Account.
                       </p>
@@ -406,10 +401,22 @@ const Wallet = (props) => {
                   </a>
                   here.
                 </span>
-                <span className="new-member d-flex  justify-content-center mt-3">Don't have Metamask ? Click<span className="register-member mx-1" onClick={()=> window.open(
-                            "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en",
-                            "_blank"
-                          )}> Here </span>to Install.</span>
+                <span className="new-member d-flex  justify-content-center mt-3">
+                  Don't have Metamask ? Click
+                  <span
+                    className="register-member mx-1"
+                    onClick={() =>
+                      window.open(
+                        "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en",
+                        "_blank"
+                      )
+                    }
+                  >
+                    {" "}
+                    Here{" "}
+                  </span>
+                  to Install.
+                </span>
               </div>
             </div>
           </>
