@@ -260,6 +260,9 @@
   align-items: center;
   justify-content: center;
 }
+.social-icon{
+  cursor:pointer
+}
 
 .modal.buy-modal.purchase-modal .modal-body {
   margin: 0 1rem;

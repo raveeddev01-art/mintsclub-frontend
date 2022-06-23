@@ -5,6 +5,8 @@ import { useHistory } from "react-router";
 import { ENV } from "../../config/config";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import placeholderImg from "../../assets/images/placeholder.png";
+
 import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
@@ -164,8 +166,8 @@ const NFTCard = (props) => {
           <div className="auction-owner-avatar">
             <img
               src={
-                !profilePhoto && !profileImage
-                  ? Images.placeholderImg
+               ( !profilePhoto && !profileImage)
+                  ? placeholderImg
                   : profilePhoto
                   ? profilePhoto
                   : profileImage

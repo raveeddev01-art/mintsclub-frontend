@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { connectMetamaskCopy, signRequest } from "../../utils/web3";
 import { toast } from "react-toastify";
-import {  signup } from "../user/user.action";
+import { signup } from "../user/user.action";
 import "./signup.css";
 
 const SignUp = (props) => {
@@ -17,11 +17,12 @@ const SignUp = (props) => {
   const [loader, setLoader] = useState(false);
 
   const history = useHistory();
+
   useEffect(async () => {
     let connectedAddress = await connectMetamaskCopy();
-
-    setConnectedAddress(connectedAddress);
+     setConnectedAddress(connectedAddress);
   }, []);
+  
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
