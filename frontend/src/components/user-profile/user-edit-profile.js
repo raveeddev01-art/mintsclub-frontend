@@ -93,7 +93,7 @@ const EditProfile = (props) => {
     if (props.user.userAuth) {
       setLoader(false);
       props.beforeUser();
-      toast.success("Profile Updated SuccessFully");
+      toast.success("Profile updated successfully");
       history.push("/userprofile");
     }
   }, [props.user.userAuth]);

@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
-import {
-  signRequest,
-  connectWithMetamask,
-} from "../../utils/web3";
+import { signRequest, connectWithMetamask } from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "../wallet/wallet.action";
 import { toast } from "react-toastify";
 import {
@@ -189,10 +186,10 @@ const Wallet = (props) => {
                   <div className="col-12 col-md-8 col-lg-7">
                     {/* Intro */}
                     <div className="intro wallet-intro  text-center">
-                      <span>Sign In</span>
-                      <h3 className="mt-3 mb-0">Sign In to your account</h3>
+                      <span>Sign in</span>
+                      <h3 className="mt-3 mb-0">Sign in to your account</h3>
                       <p className="mt-3">
-                        Please Click to Sign In your Account.
+                        Please Click to Sign in your Account.
                       </p>
                     </div>
                   </div>
@@ -227,7 +224,7 @@ const Wallet = (props) => {
                                   </div>
                                 </div>
                               ) : (
-                                "Sign In"
+                                "Sign in"
                               )}
                             </button>
                           </>
@@ -253,10 +250,24 @@ const Wallet = (props) => {
 
                     <span className="new-member mt-5 d-flex justify-content-center">
                       New Member?
-                      <a className="register-member mx-1" href="/signup">
-                        {" "}
-                        Register
-                      </a>
+                      {!detectMobile() ? (
+                        <a className="register-member mx-1" href={"/signup"}>
+                          {" "}
+                          Register
+                        </a>
+                      ) : (
+                        <a
+                          className="register-member mx-1"
+                          onClick={() =>
+                            window.open(
+                              "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/signup"
+                            )
+                          }
+                        >
+                          {" "}
+                          Register
+                        </a>
+                      )}
                       here.
                     </span>
                   </div>
@@ -414,33 +425,25 @@ const Wallet = (props) => {
                     wallet
                   </p>
                 </div>
-                <span className="new-member mt-5 d-flex justify-content-center">
-                  New Member?
-                  <a className="register-member mx-1" href="/signup">
-                    {" "}
-                    Register
-                  </a>
-                  here.
-                </span>
-                {
-                  !detectMobile()&&
-                <span className="new-member d-flex  justify-content-center mt-3">
-                  Don't have Metamask ? Click
-                  <span
-                    className="register-member mx-1"
-                    onClick={() =>
-                      window.open(
-                        "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en",
-                        "_blank"
-                      )
-                    }
-                  >
-                    {" "}
-                    Here{" "}
+             
+                {!detectMobile() && (
+                  <span className="new-member d-flex  justify-content-center mt-5">
+                    Don't have Metamask ? Click
+                    <span
+                      className="register-member mx-1"
+                      onClick={() =>
+                        window.open(
+                          "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en",
+                          "_blank"
+                        )
+                      }
+                    >
+                      {" "}
+                      Here{" "}
+                    </span>
+                    to Install.
                   </span>
-                  to Install.
-                </span>
-                }
+                )}
               </div>
             </div>
           </>

@@ -408,7 +408,7 @@ class CreateNFT extends Component {
         type === "audio/mpeg"
       ) {
         let fileSize = this.formatBytes(files.size).split(" ");
-        if ((+fileSize[0] > 100 && fileSize[1] === "MB")&&(fileSize[1] !== "GB")) {
+        if ((+fileSize[0] > 100 && fileSize[1] === "MB")||(fileSize[1] === "GB")) {
           return "File size limit is exceeded";
         } else {
           return "file matched";
