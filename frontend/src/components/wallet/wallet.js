@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
-import { signRequest, connectWithMetamask ,testMobileAppMetamask} from "../../utils/web3";
+import {
+  signRequest,
+  connectWithMetamask,
+} from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "../wallet/wallet.action";
 import { toast } from "react-toastify";
 import {
@@ -29,18 +32,36 @@ const Wallet = (props) => {
   const [loader, setLoader] = useState(false);
 
   const connectMetamaskCall = async () => {
-    // if (await validateNetwork()) {
-    //   setDisabled(true);
-    //   let connectedAddress = await connectWithMetamask();
-    //   if (connectedAddress) {
-    //     setDisabled(false);
-    //   }
-    //   setConnectedAddress(connectedAddress);
-    //   setWalletAddress(connectedAddress);
-    // } else {
-    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-    // }
-    window.open("https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/")
+    if (detectMobile()) {
+      window.open(
+        "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
+      );
+    } else {
+      if (await validateNetwork()) {
+        setDisabled(true);
+        let connectedAddress = await connectWithMetamask();
+        if (connectedAddress) {
+          setDisabled(false);
+        }
+        setConnectedAddress(connectedAddress);
+        setWalletAddress(connectedAddress);
+      } else {
+        toast.error(
+          "Please Connect Your Metamask With Ethereum Rinkby Network"
+        );
+      }
+    }
+  };
+  const detectMobile = () => {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   useEffect(() => {
@@ -401,6 +422,8 @@ const Wallet = (props) => {
                   </a>
                   here.
                 </span>
+                {
+                  !detectMobile()&&
                 <span className="new-member d-flex  justify-content-center mt-3">
                   Don't have Metamask ? Click
                   <span
@@ -417,6 +440,7 @@ const Wallet = (props) => {
                   </span>
                   to Install.
                 </span>
+                }
               </div>
             </div>
           </>

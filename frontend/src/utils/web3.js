@@ -3,50 +3,12 @@ import { toast } from "react-toastify";
 
 import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
-// import WalletConnectProvider from "@walletconnect/web3-provider";
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
 /////////////////////////////////////////////////////////////////////////////MintsClub market start /////////////////////////
 
-// export const testMobileAppMetamask = async () => {
-//   //  Create WalletConnect Provider
-//   await window.web3.currentProvider.enable();
-//   console.log(window.web3.currentProvider,"window.web3.currentProvider")
-//   const provider = new WalletConnectProvider({
-//     rpc:window.web3.currentProvider, 
-//     // qrcodeModalOptions: {
-//     //   mobileLinks: [
-//     //     "rainbow",
-//     //     "metamask",
-//     //     "argent",
-//     //     "trust",
-//     //     "imtoken",
-//     //     "pillar",
-//     //   ],
-//     // },
-//     // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
-//   }
- 
-//   );
-
-//   //  Enable session (triggers QR Code modal)
-//   await provider.enable();
-//   const web3 = new Web3(provider);
-//   console.log(web3, "webinstacne");
-//   await window.ethereum.request({
-//     method: "wallet_requestPermissions",
-//     params: [
-//       {
-//         eth_accounts: {},
-//       },
-//     ],
-//   });
-//   let accounts = await web3.eth.getAccounts();
-//   console.log(accounts, "accounts");
-//   return accounts[0];
-// };
 const getWeb3 = async () => {
   let instance;
   if (window.ethereum) {
