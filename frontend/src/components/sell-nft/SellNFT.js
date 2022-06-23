@@ -122,10 +122,11 @@ const SellNFT = (props) => {
   // when NFT data is updated
   useEffect(() => {
     if (props.nft.upsertAuth) {
-      const { nft } = props.nft.nftsData;
       const pathname = "/";
       setLoader(false);
       props.beforeNFT();
+      setFixedPriceConfig(config1)
+      setTimedAuctionConfig(config2)
       props.history.push(pathname);
     }
   }, [props.nft.upsertAuth]);
