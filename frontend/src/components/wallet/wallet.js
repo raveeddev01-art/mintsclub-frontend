@@ -29,7 +29,7 @@ const Wallet = (props) => {
   const [loader, setLoader] = useState(false);
 
   const connectMetamaskCall = async () => {
-    if (detectMobile()) {
+    if (detectMobile()&&!window.ethereum) {
       window.open(
         "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
       );
@@ -426,15 +426,13 @@ const Wallet = (props) => {
                   </p>
                 </div>
              
-                {!detectMobile() && (
                   <span className="new-member d-flex  justify-content-center mt-5">
                     Don't have Metamask ? Click
                     <span
                       className="register-member mx-1"
                       onClick={() =>
                         window.open(
-                          "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en",
-                          "_blank"
+                          "https://metamask.io/download/"
                         )
                       }
                     >
@@ -443,7 +441,6 @@ const Wallet = (props) => {
                     </span>
                     to Install.
                   </span>
-                )}
               </div>
             </div>
           </>
