@@ -14,7 +14,10 @@ import { Images } from "../../assets/assets";
 import "./wallet.css";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
-import { getWalletAddress, validateNetwork } from "../../utils/web3";
+import {
+  getWalletAddress,
+  validateNetwork,
+} from "../../utils/web3";
 
 const Wallet = (props) => {
   const history = useHistory();
@@ -29,14 +32,20 @@ const Wallet = (props) => {
   const [loader, setLoader] = useState(false);
 
   const connectMetamaskCall = async () => {
-    if (detectMobile()&&!window.ethereum) {
+    if (detectMobile() && !window.ethereum) {
       window.open(
         "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
       );
     } else {
       if (await validateNetwork()) {
+        let connectedAddress = false;
         setDisabled(true);
-        let connectedAddress = await connectWithMetamask();
+        if (detectMobile()) {
+          connectedAddress = await getWalletAddress();
+        }else {
+
+          connectedAddress = await connectWithMetamask();
+        }
         if (connectedAddress) {
           setDisabled(false);
         }
@@ -425,22 +434,18 @@ const Wallet = (props) => {
                     wallet
                   </p>
                 </div>
-             
-                  <span className="new-member d-flex  justify-content-center mt-5">
-                    Don't have Metamask ? Click
-                    <span
-                      className="register-member mx-1"
-                      onClick={() =>
-                        window.open(
-                          "https://metamask.io/download/"
-                        )
-                      }
-                    >
-                      {" "}
-                      Here{" "}
-                    </span>
-                    to Install.
+
+                <span className="new-member d-flex  justify-content-center mt-5">
+                  Don't have Metamask ? Click
+                  <span
+                    className="register-member mx-1"
+                    onClick={() => window.open("https://metamask.io/download/")}
+                  >
+                    {" "}
+                    Here{" "}
                   </span>
+                  to Install.
+                </span>
               </div>
             </div>
           </>
