@@ -88,11 +88,17 @@
   left: 8px;
   cursor: pointer;
 }
+.create-collection .upload-feature-icon img {
+  cursor: pointer;
+}
 .create-collection .upload-feature-icon-logo {
   position: absolute;
   left: 4;
   bottom: 49px;
   left: 2px;
+  cursor: pointer;
+}
+.create-collection .upload-feature-icon-logo img {
   cursor: pointer;
 }
 .create-collection .feature-img-title {

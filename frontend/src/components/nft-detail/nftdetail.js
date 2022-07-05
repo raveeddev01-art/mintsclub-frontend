@@ -101,7 +101,7 @@ const NFTDetail = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
 
   useEffect(() => {
-    window.scroll(0, 0);
+    window.scroll(0, 600);
   }, []);
 
   useEffect(async () => {
@@ -530,10 +530,10 @@ const NFTDetail = (props) => {
   const BuyNow = async () => {
     if (await validateNetwork()) {
       setDisabled(true);
-      try {    
-        let  currentPrice = nftDetail.currentPrice;
-        let  nftToken = nftDetail.sellId;
-        
+      try {
+        let currentPrice = nftDetail.currentPrice;
+        let nftToken = nftDetail.sellId;
+
         const result = await BuyFixedPriceNFT(
           currentPrice,
           nftToken,
@@ -1259,8 +1259,8 @@ const NFTDetail = (props) => {
                                   <td>
                                     {activity.toAddress
                                       ? activity.toAddress.slice(0, 4) +
-                                      "..." +
-                                      activity.toAddress.slice(-4)
+                                        "..." +
+                                        activity.toAddress.slice(-4)
                                       : ""}{" "}
                                   </td>
                                   <td>

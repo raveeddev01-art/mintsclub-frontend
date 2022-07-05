@@ -92,7 +92,7 @@ const SellNFT = (props) => {
   }, []);
 
   useEffect(() => {
-    window.scroll(0, 0);
+    window.scroll(0, 600);
     props.getNFT(nftId);
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
@@ -125,8 +125,8 @@ const SellNFT = (props) => {
       const pathname = "/";
       setLoader(false);
       props.beforeNFT();
-      setFixedPriceConfig(config1)
-      setTimedAuctionConfig(config2)
+      setFixedPriceConfig(config1);
+      setTimedAuctionConfig(config2);
       props.history.push(pathname);
     }
   }, [props.nft.upsertAuth]);
@@ -300,7 +300,7 @@ const SellNFT = (props) => {
           );
           if (result) {
             activityPayload.price = price;
-            payload.sellId=Number(result);
+            payload.sellId = Number(result);
             for (const key in payload) formData.append(key, payload[key]);
             props.createActivity(activityPayload);
             props.upsertNFT("edit", formData, "PUT");
@@ -319,9 +319,9 @@ const SellNFT = (props) => {
 
           if (result) {
             activityPayload.price = price;
-            payload.sellId=Number(result);
-      for (const key in payload) formData.append(key, payload[key]);
-            
+            payload.sellId = Number(result);
+            for (const key in payload) formData.append(key, payload[key]);
+
             props.createActivity(activityPayload);
             props.upsertNFT("edit", formData, "PUT");
           }
@@ -380,7 +380,7 @@ const SellNFT = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-console.log(copies,"copies")
+  console.log(copies, "copies");
   return (
     <>
       <Banner
@@ -601,7 +601,6 @@ console.log(copies,"copies")
                           }}
                           min={"1"}
                           onChange={(e) => {
-                         
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
