@@ -288,11 +288,11 @@ const EditProfile = (props) => {
                     id="url"
                     type="text"
                     name="url"
-                    placeholder="URL"
+                    placeholder={address}
                     required
                     readOnly={true}
                     autoComplete="off"
-                    value={address}
+                    // value={address}
                     disabled={true}
                   />
                 </div>

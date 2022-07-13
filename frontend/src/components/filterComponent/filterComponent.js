@@ -65,7 +65,10 @@ const FilterHoc = (props) => {
     setFilterActive(!filterActive);
   };
   const isHideCollection = () => {
-    if (props.UserProfile || props.collectionDetail) {
+    if(props.collectionDetail){
+      return false
+    }
+    if (props.UserProfile ) {
       if (isActive === 1) {
         return true;
       } else {

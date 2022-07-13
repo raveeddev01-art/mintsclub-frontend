@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
+import ImageLoader from "../contentLoader/heroLoader";
+
 import "./HeroCards.css";
 
 const HeroCards = ({ auction }) => {
   const { image, totalBids, owner, _id } = auction;
+  const [loader,setLoader]=useState(true)
   const history = useHistory();
   return (
     <div className="hero-new-card">
       <div className="hero-img-container">
-        <img src={image} alt="heroImg" />
+      <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <ImageLoader />
+            </div>
+        <img src={image} onLoad={()=>setLoader(false)} alt="heroImg"   style={{ display: `${!loader ? "block" : "none"}` }}/>
         <div className="hero-owner text-center">
           <p>
             Owned by:{" "}

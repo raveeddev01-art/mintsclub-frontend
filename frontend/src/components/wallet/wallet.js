@@ -30,6 +30,12 @@ const Wallet = (props) => {
   const [username, setUsername] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [loader, setLoader] = useState(false);
+  useEffect(async()=>{
+    let address = await getWalletAddress();
+    if(address){
+      setConnectedAddress(address)
+    }
+  },[])
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window.ethereum) {
@@ -169,7 +175,7 @@ const Wallet = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-
+console.log(connectedAddress,"connectedAddress")
   return (
     <section
       className={
@@ -412,9 +418,9 @@ const Wallet = (props) => {
                     <div className="intro wallet-intro text-center">
                       <span>Wallet Connect</span>
                       <h3 className="mt-3 mb-0">Connect your Wallet</h3>
-                      <p className=" mt-3">
+                      {/* <p className=" mt-3">
                         Please select the wallet you want to connect to.
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </div>

@@ -6,6 +6,10 @@ import {
   beforeCollection,
   upsertCollection,
 } from "../collections/collections.actions";
+import {
+  decimalNumberValidator,
+  firstInputCharacterSpace,
+} from "./../../utils/functions";
 import { beforeCategory, getCategories } from "../categories/categories.action";
 import { emptyError } from "../../redux/shared/error/error.action";
 import SimpleReactValidator from "simple-react-validator";
@@ -92,7 +96,7 @@ class CreateCollections extends Component {
       if (file.type.includes("image")) {
         let fileSize = this.formatBytes(file.size).split(" ");
         if (
-          (+fileSize[0] > 100 &&fileSize[1] === "MB") ||
+          (+fileSize[0] > 100 && fileSize[1] === "MB") ||
           fileSize[1] === "GB"
         ) {
           return toast.error("File Max Limit Reached.");
@@ -351,6 +355,9 @@ class CreateCollections extends Component {
                     name="name"
                     onChange={(e) => this.onChange(e)}
                     value={collection.name}
+                    onKeyDown={(e) =>
+                      firstInputCharacterSpace(e, collection.name.length)
+                    }
                     placeholder="Enter name"
                     maxLength="55"
                     autoComplete="off"
@@ -370,6 +377,9 @@ class CreateCollections extends Component {
                     placeholder="Enter URL"
                     onChange={(e) => this.onChange(e)}
                     value={collection.url}
+                    onKeyDown={(e) =>
+                      firstInputCharacterSpace(e, collection.url.length)
+                    }
                     maxLength="55"
                     autoComplete="off"
                   />
@@ -399,10 +409,13 @@ class CreateCollections extends Component {
                   <textarea
                     className="create-collection-area mt-2"
                     name="description"
-                    placeholder="Enter description..."
+                    placeholder="Max 500 characters"
                     maxLength="500"
                     rows="3"
                     onChange={(e) => this.onChange(e)}
+                    onKeyDown={(e) =>
+                      firstInputCharacterSpace(e, collection.description.length)
+                    }
                     value={collection.description}
                   ></textarea>
                 </div>

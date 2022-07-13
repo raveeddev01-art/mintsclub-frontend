@@ -150,7 +150,7 @@ const SignUp = (props) => {
                   )}
                   <p>
                     By checking this box, I agree to MintsClub{" "}
-                    <Link>Terms of Services</Link>
+                    <Link to="/termsandconditions" target="_blank">{"Terms & Conditions" }</Link>
                   </p>
                 </div>
               </div>

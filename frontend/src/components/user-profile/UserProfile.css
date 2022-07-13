@@ -15,7 +15,9 @@
 
 .user-address {
   position: relative;
+  /* opacity: 0.7; */
 }
+
 
 .user-address .fa-ethereum {
   width: 15px;

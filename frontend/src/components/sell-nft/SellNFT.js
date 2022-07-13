@@ -67,8 +67,26 @@ const SellNFT = (props) => {
   const [activeBtn, setActiveBtn] = useState(0);
   const [toggle, setToggle] = React.useState(true);
   const [sellingMethod, setSellingMethod] = useState(1); // 1 = Fixed Price, 2 = Timed Auction
-  const [fixedPriceConfig, setFixedPriceConfig] = useState(config1);
-  const [timedAuctionConfig, setTimedAuctionConfig] = useState(config2);
+  const [fixedPriceConfig, setFixedPriceConfig] = useState({
+    price: {
+      currency: ENV.currency,
+      amount: "",
+    },
+    reserveFor: "", // if user selects reserve buyer
+  });
+  const [timedAuctionConfig, setTimedAuctionConfig] = useState({
+    method: 1, // 1 = Sell to the highest bidder or 2 = Sell with the declining price
+    startPrice: {
+      currency: ENV.currency,
+      amount: "",
+    },
+    duration: {
+      startDate: moment(),
+      endDate: moment().add(6, "months"),
+      startTime: moment(new Date()).format("HH:mm"),
+      endTime: "23:59",
+    },
+  });
   const [nftDetail, setNftDetail] = useState("");
   const [loader, setLoader] = useState(true); // NFT loader
   const location = useLocation();
@@ -125,8 +143,9 @@ const SellNFT = (props) => {
       const pathname = "/";
       setLoader(false);
       props.beforeNFT();
-      setFixedPriceConfig(config1)
-      setTimedAuctionConfig(config2)
+      setFixedPriceConfig(null)
+      setTimedAuctionConfig(null)
+      setCopies("")
       props.history.push(pathname);
     }
   }, [props.nft.upsertAuth]);
@@ -380,7 +399,7 @@ const SellNFT = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-console.log(copies,"copies")
+
   return (
     <>
       <Banner
@@ -556,7 +575,7 @@ console.log(copies,"copies")
                 <div className="row g-4 g-xl-5">
                   <div className="col-md-6">
                     <div className="sell-detail-box">
-                      <h5>Price:</h5>
+                      <h5>Price:*</h5>
                       <hr />
                       <div className="sell-inp-container d-flex align-items-center">
                         <input
@@ -601,7 +620,7 @@ console.log(copies,"copies")
                           }}
                           min={"1"}
                           onChange={(e) => {
-                         
+                         console.log(e.target.value == 0 && copies === "","e.target.value == 0 && copies === ")
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
@@ -709,6 +728,12 @@ console.log(copies,"copies")
                           onChange={(e) => {
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
+                              return false;
+                            }
+                            if (
+                              (e.target.value == 0 && copies === "") ||
+                              e.target.value.includes(".")
+                            ) {
                               return false;
                             }
                             setCopiesError(false);

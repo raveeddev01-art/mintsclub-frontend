@@ -365,7 +365,7 @@ class CreateNFT extends Component {
         }
     } else {
       let message = this.handleFilesValidation(e, status);
-      toast.error(message)
+      toast.error(message);
       this.setState({
         error: true,
         errorMessage: message,
@@ -408,7 +408,10 @@ class CreateNFT extends Component {
         type === "audio/mpeg"
       ) {
         let fileSize = this.formatBytes(files.size).split(" ");
-        if ((+fileSize[0] > 100 && fileSize[1] === "MB")||(fileSize[1] === "GB")) {
+        if (
+          (+fileSize[0] > 100 && fileSize[1] === "MB") ||
+          fileSize[1] === "GB"
+        ) {
           return "File size limit is exceeded";
         } else {
           return "file matched";
@@ -540,6 +543,14 @@ class CreateNFT extends Component {
       });
     }
   };
+  handleBtnDisable=()=>{
+    const {image,description,copies,categoryId}=this.state.nft
+    if(!image||!description||!copies||!categoryId){
+      return true
+    }else {
+      return false
+    }
+  }
   render() {
     const {
       nft,
@@ -808,7 +819,12 @@ class CreateNFT extends Component {
                   onKeyDown={(e) =>
                     firstInputCharacterSpace(e, nft.name.length)
                   }
-                  onChange={(e) => this.onChange(e)}
+                  onChange={(e) => {
+                    if( nft.name.trim()===""&&e.target.value.includes(".")){
+                      return false
+                    }
+                    this.onChange(e)
+                  }}
                   value={nft.name}
                   autoComplete="off"
                 />
@@ -831,7 +847,10 @@ class CreateNFT extends Component {
                   required="required"
                   onKeyDown={(e) => decimalNumberValidator(e)}
                   onChange={(e) => {
-                    if (e.target.value.length && e.target.value === "0") {
+                    if (
+                      (e.target.value.length && e.target.value === "0") ||
+                      e.target.value.includes(".")
+                    ) {
                       return false;
                     } else {
                       this.onChange(e);
@@ -880,9 +899,14 @@ class CreateNFT extends Component {
                   className="create-collection-area mt-2"
                   name="description"
                   rows="3"
-                  placeholder="Enter description..."
+                  placeholder="Max 500 characters"
                   maxLength="500"
-                  onChange={(e) => this.onChange(e)}
+                  onChange={(e) => {
+                    if( nft.description.trim()===""&&e.target.value.includes(".")){
+                      return false
+                    }
+                    this.onChange(e)
+                  }}
                   onKeyDown={(e) =>
                     firstInputCharacterSpace(e, nft.description.length)
                   }
@@ -971,6 +995,7 @@ class CreateNFT extends Component {
               <div className="create-collection-btn-container">
                 <button
                   className="btn create-collection-btn btn-linear-gradient mt-5"
+                  disabled={this.handleBtnDisable()}
                   onClick={(e) => this.submit(e)}
                 >
                   Create NFT
@@ -1027,12 +1052,10 @@ class CreateNFT extends Component {
   }
 }
 
-const mapStateToProps = (state) => (
-  {
-    error: state.error,
-    collection: state.collection,
-  }
-);
+const mapStateToProps = (state) => ({
+  error: state.error,
+  collection: state.collection,
+});
 
 export default connect(mapStateToProps, {
   beforeCollection,
