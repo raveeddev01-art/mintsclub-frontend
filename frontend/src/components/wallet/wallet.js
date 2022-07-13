@@ -175,7 +175,7 @@ const Wallet = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-console.log(connectedAddress,"connectedAddress")
+// console.log(connectedAddress,"connectedAddress")
   return (
     <section
       className={

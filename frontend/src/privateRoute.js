@@ -7,7 +7,7 @@ export const PrivateRoute = ({ component: Component, access,path, ...rest }) => 
     <Route
         {...rest}
         render={props =>
-            ENV.getUserKeys("_id")._id ||path==='/login'||path==='/signup' ?
+            ENV.getUserKeys("_id")._id ||path==='/login'||path==='/signup'||path==='/faqs'||path==='/aboutus'||path==="/privacypolicy"||path==="termsandconditions" ?
                 (<Component {...props} />)
                 :
                 <Redirect
