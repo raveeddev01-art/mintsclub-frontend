@@ -48,6 +48,10 @@ const UserProfile = (props) => {
   const userId = ENV.getUserKeys("_id")._id;
 
   useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
+  useEffect(() => {
     const {
       getProfileNfts,
       getMyLikedNfts,

@@ -110,7 +110,7 @@ const SellNFT = (props) => {
   }, []);
 
   useEffect(() => {
-    window.scroll(0, 0);
+    window.scroll(0, 600);
     props.getNFT(nftId);
     let qs = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
@@ -319,7 +319,7 @@ const SellNFT = (props) => {
           );
           if (result) {
             activityPayload.price = price;
-            payload.sellId=Number(result);
+            payload.sellId = Number(result);
             for (const key in payload) formData.append(key, payload[key]);
             props.createActivity(activityPayload);
             props.upsertNFT("edit", formData, "PUT");
@@ -338,9 +338,9 @@ const SellNFT = (props) => {
 
           if (result) {
             activityPayload.price = price;
-            payload.sellId=Number(result);
-      for (const key in payload) formData.append(key, payload[key]);
-            
+            payload.sellId = Number(result);
+            for (const key in payload) formData.append(key, payload[key]);
+
             props.createActivity(activityPayload);
             props.upsertNFT("edit", formData, "PUT");
           }
@@ -399,7 +399,6 @@ const SellNFT = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-
   return (
     <>
       <Banner
@@ -620,7 +619,6 @@ const SellNFT = (props) => {
                           }}
                           min={"1"}
                           onChange={(e) => {
-                         console.log(e.target.value == 0 && copies === "","e.target.value == 0 && copies === ")
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;

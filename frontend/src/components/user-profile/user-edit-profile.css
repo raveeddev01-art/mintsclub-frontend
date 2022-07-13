@@ -112,11 +112,17 @@
   padding: 10px;
   border-radius: 50%;
 }
+.user-profile .logo-image .upload-icon {
+  cursor: pointer;
+}
 .user-profile .upload-feature-icon-logo {
   position: absolute;
   left: 4;
   bottom: 97px;
   left: 16px;
+  cursor: pointer;
+}
+.user-profile .upload-feature-icon-logo img {
   cursor: pointer;
 }
 .user-profile .uploaded-logo-img {

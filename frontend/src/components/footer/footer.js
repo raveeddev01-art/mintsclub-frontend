@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getFooter } from "./footer.action";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
+import { useLocation } from "react-router-dom";
+
 import "./footer.css";
 
 const Footer = (props) => {
@@ -18,6 +20,7 @@ const Footer = (props) => {
   useEffect(() => {
     props.getFooter();
   }, []);
+  const location = useLocation();
 
   return (
     <footer className="footer-area">
@@ -44,6 +47,7 @@ const Footer = (props) => {
                   <li>
                     <Link to="/login">Sign In</Link>
                   </li>
+
                   <li>
                     <Link to="/Signup">Sign Up</Link>
                   </li>
@@ -54,12 +58,19 @@ const Footer = (props) => {
               <div className="footer-items">
                 <h4 className="footer-title">{"Quick Links"}</h4>
                 <ul>
-                  <li>
-                    <Link to="/auctions">Live Auction</Link>
-                  </li>
-                  <li>
-                    <Link to="/popular-collections">Popular Collections</Link>
-                  </li>
+                  {location.pathname !== "/login" &&
+                    location.pathname !== "/Signup" && (
+                      <>
+                        <li>
+                          <Link to="/auctions">Live Auction</Link>
+                        </li>
+                        <li>
+                          <Link to="/popular-collections">
+                            Popular Collections
+                          </Link>
+                        </li>
+                      </>
+                    )}
                   <li>
                     <Link to="/privacypolicy">Privacy Policy</Link>
                   </li>

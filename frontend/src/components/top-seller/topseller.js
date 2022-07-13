@@ -72,7 +72,7 @@ const TopSeller = (props) => {
                         <img
                           className="avatar-md rounded-circle"
                           src={
-                            author.profileImage === null
+                            !author.profileImage
                               ? Images.placeholderImg
                               : author.profileImage
                           }

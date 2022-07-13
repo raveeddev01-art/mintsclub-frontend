@@ -24,7 +24,6 @@ const bannerData = {
     "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
 };
 
-
 const AllNFT = (props) => {
   const [nftPagination, setNFTPagination] = useState(null);
   const [nfts, setNFTs] = useState([]); // NFTs for explore section
@@ -36,9 +35,11 @@ const AllNFT = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
-
   useEffect(() => {
     window.scroll(0, 0);
+  }, []);
+
+  useEffect(() => {
     props.getCreators();
     props.getCollections();
     if (props?.location?.state) {
@@ -145,15 +146,15 @@ const AllNFT = (props) => {
       if (buy) nftQS.buy = buy;
       if (auction) nftQS.auction = auction;
       if (latest) nftQS.latest = latest;
-      if(page){
-        nftQS.page=page;
+      if (page) {
+        nftQS.page = page;
       } else {
-        nftQS.page=1;
+        nftQS.page = 1;
       }
-      if(limit){
-        nftQS.limit=limit;
+      if (limit) {
+        nftQS.limit = limit;
       } else {
-        nftQS.limit=10;
+        nftQS.limit = 10;
       }
     }
     const qs = ENV.objectToQueryString(nftQS);
@@ -229,10 +230,9 @@ const AllNFT = (props) => {
     }
   };
   const fetchData = (filterObj) => {
-  
-      getNFTs(filterObj);
+    getNFTs(filterObj);
   };
- 
+
   return (
     <>
       <section className="explore-collection-section padding-wrapper pt-0">
