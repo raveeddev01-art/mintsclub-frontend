@@ -1,20 +1,31 @@
-import React from 'react';
-import { Route,  Redirect } from "react-router-dom";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 import { ENV } from "./config/config";
 
-export const PrivateRoute = ({ component: Component, access,path, ...rest }) => (
-  
-    <Route
-        {...rest}
-        render={props =>
-            ENV.getUserKeys("_id")._id ||path==='/login'||path==='/signup'||path==='/faqs'||path==='/aboutus'||path==="/privacypolicy"||path==="termsandconditions" ?
-                (<Component {...props} />)
-                :
-                <Redirect
-                to={{
-                  pathname: '/login',
-               
-                }}
-              />
-        } />
+export const PrivateRoute = ({
+  component: Component,
+  access,
+  path,
+  ...rest
+}) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      ENV.getUserKeys("_id")._id ||
+      path === "/login" ||
+      path === "/signup" ||
+      path === "/faqs" ||
+      path === "/aboutus" ||
+      path === "/privacypolicy" ||
+      path === "termsandconditions" ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+          }}
+        />
+      )
+    }
+  />
 );
