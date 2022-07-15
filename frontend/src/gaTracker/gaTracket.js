@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
-
+import { ENV } from "../config/config";
 
 
 const useGaTracker = () => {
@@ -13,8 +13,7 @@ const useGaTracker = () => {
 
     useEffect(() => {
         if (!window.location.href.includes("localhost")) {
-        // ReactGA.initialize("UA-215431628-1");r
-        ReactGA.initialize("UA-217435968-1");
+        ReactGA.initialize(ENV.gaTrackerId);
 
         }
         setInitialized(true);

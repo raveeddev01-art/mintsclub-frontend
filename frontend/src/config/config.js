@@ -25,6 +25,7 @@ export const ENV = {
   // tawkto
   tawkToPropertyId: process.env.REACT_APP_TAWK_TO_PROPERTY_ID,
   tawkToKey: process.env.REACT_APP_TAWK_TO_KEY,
+  gaTrackerId:process.env.REACT_APP_GATRACKER_ID,
   currencies: [
     {
       name: "Ethereum",
