@@ -9,8 +9,10 @@ import { ENV } from "./config/config";
 import "./App.css";
 import { getWalletAddress } from "./utils/web3";
 import { toast } from "react-toastify";
+import useGaTracker from "./gaTracker/gaTracket";
 
 const App = React.memo((props) => {
+  useGaTracker();
   let walletAddress = false;
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
@@ -58,7 +60,9 @@ const App = React.memo((props) => {
                   path={route.path}
                   exact={route.exact}
                   access={
-                    ENV.getUserKeys("_id")._id || route.path === "/login"||route.path==='Signup' 
+                    ENV.getUserKeys("_id")._id ||
+                    route.path === "/login" ||
+                    route.path === "Signup"
                       ? true
                       : false
                   }
