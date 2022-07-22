@@ -5,10 +5,10 @@ import "./hero.css";
 import Play from "../../assets/images/play.svg";
 import CardSlider from "../card-slider/CardSlider";
 import HeroCards from "../hero-cards/HeroCards";
-import { ListingImg } from "../../assets/assets";
 import { ENV } from "../../config/config";
 import { beforeAuction, getLiveAuctions } from "../auctions/auctions.action";
 import { connect } from "react-redux";
+// import { connectWallet } from "../../utils/algorand";
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
   const [auctions, setAuctions] = useState(null);
@@ -61,6 +61,7 @@ const Hero = (props) => {
               >
                 Create
               </Link>
+              {/* <buton onClick={() => connectWallet()}>Connect Wallet</buton> */}
               <Link
                 className="btn btn-blue-bordered btn-hero-explore"
                 to="/explore/exploreAll"

@@ -40,9 +40,11 @@ const AuctionsList = (props) => {
       props.beforeAuction();
     }
   }, [props.auction.auctionsAuth]);
+
   useEffect(() => {
     props.getCategories();
   }, []);
+  
   useEffect(() => {
     if (props.collectionFlag) {
       setCategories(props.categories);

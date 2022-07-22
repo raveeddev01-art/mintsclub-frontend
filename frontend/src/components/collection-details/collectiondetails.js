@@ -16,7 +16,7 @@ import {
   beforeTogleLikeDislike,
 } from "../explore/explore.action";
 import { validateNetwork } from "../../utils/web3";
-import FilterComponent from "../filterComponent/filterComponent";
+import Listing from "../listing/listing";
 import { toast } from "react-toastify";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/profileBg.png";
@@ -251,7 +251,7 @@ const CollectionDetailsPage = (props) => {
           </div>
         </div>
         {loader && <FullPageLoader />}
-        <FilterComponent
+        <Listing
           disabled={disabled}
           totalItems={nfts && nfts.length}
           filterationLoader={filterationLoader}

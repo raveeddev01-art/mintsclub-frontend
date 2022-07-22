@@ -21,7 +21,7 @@ import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import EthIcon from "../../assets/images/eth-icon.svg";
 import CopyIcon from "../../assets/images/copy-icon.svg";
-import FilterComponent from "../filterComponent/filterComponent";
+import Listing from "../listing/listing";
 import {
   beforeCollection,
   getCollections,
@@ -375,7 +375,7 @@ const UserProfile = (props) => {
             </div>
           </div>
         </div>
-        <FilterComponent
+        <Listing
           collections={collections}
           disabled={disabled}
           totalItems={nfts && nfts.length}

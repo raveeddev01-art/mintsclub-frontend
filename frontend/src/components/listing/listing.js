@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./filterComponent.css";
+import "./listing.css";
 import SearchIcon from "../../assets/images/search-inp.svg";
 import NftCard from "../nft-card/nft-card";
 import FullPageLoader from "../full-page-loader/full-page-loader";
@@ -7,8 +7,8 @@ import Select from "react-select";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-} from "./../../utils/functions";
-const FilterHoc = (props) => {
+} from "../../utils/functions";
+const Listing = (props) => {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [statusActive, setStatusActive] = useState(null);
@@ -528,4 +528,4 @@ const FilterHoc = (props) => {
   );
 };
 
-export default FilterHoc;
+export default Listing;

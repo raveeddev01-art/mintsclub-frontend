@@ -11,7 +11,7 @@ import {
 } from "../../collections/collections.actions";
 import { validateNetwork } from "../../../utils/web3";
 import { toast } from "react-toastify";
-import FilterComponent from "../../filterComponent/filterComponent";
+import Listing from "../../listing/listing";
 import Banner from "../../banner/banner";
 import BannerBg from "../../../assets/images/hero-bg.png";
 import BannerImage from "../../../assets/images/bannerimg.png";
@@ -244,7 +244,7 @@ const AllNFT = (props) => {
           bannerImg={BannerImage}
         />
 
-        <FilterComponent
+        <Listing
           collections={collections}
           disabled={disabled}
           totalItems={nfts && nfts.length}
