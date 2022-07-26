@@ -63,10 +63,8 @@ function AuctionsOne(props) {
           auctions[i].totalBids = element.bidInfo?.bidBy?.length;
         });
       }
-
       setAuctions(auctions);
       setFilterationLoader(false);
-
       let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
       if (auctions.length > 4) {
         auctionCollectionsSettings.infinite = true;
@@ -207,7 +205,7 @@ function AuctionsOne(props) {
                         key={index}
                         item={item}
                         ownerName={item.owner.username}
-                        userId={ENV.getUserKeys("_id")._id}
+                        userId={ENV.getUserKeys("_id")?._id}
                         ownerId={item.owner._id}
                         bidsProfile={item.bidInfo.bidByProfile}
                         index={index}

@@ -273,6 +273,7 @@ const mapStateToProps = (state) => ({
   getAuth: state.collection.getAuth,
   collections: state.collection.collections,
   togleLikeRes: state.explore.togleLikeRes,
+  connectedAddress:state.wallet.connectedAddress
 });
 
 export default connect(mapStateToProps, {

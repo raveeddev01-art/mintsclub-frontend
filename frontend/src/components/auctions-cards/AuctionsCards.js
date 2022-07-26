@@ -19,6 +19,7 @@ const AuctionsCards = ({
   item,
   cardBg,
   key,
+  connectedAddress,
 }) => {
   const { countDownRenderer } = ENV;
   const history = useHistory();
@@ -36,8 +37,10 @@ const AuctionsCards = ({
     totalBids,
     currentPrice,
     fileType,
+    ownerAddress,
   } = item;
   const { profilePhoto } = item?.owner;
+  console.log(ownerAddress, "ownerAddress in auctions");
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
       <div className="auction-img-wrapper">
@@ -159,6 +162,9 @@ const AuctionsCards = ({
               <span className="text-capitalize ms-1">
                 {!ownerName
                   ? "unnamed"
+                  : connectedAddress?.toUpperCase() ===
+                    ownerAddress?.toUpperCase()
+                  ? "You"
                   : ownerName && ownerName.length > 12
                   ? ownerName.substring(0, 12) + "...."
                   : ownerName}
@@ -170,13 +176,18 @@ const AuctionsCards = ({
           className="auction-bit-btn"
           onClick={() => history.push(`explore/nftdetail/${_id}`)}
         >
-          {userId === ownerId ? "View" : "Place a Bid"}
+          {connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() ||
+          !userId
+            ? "View"
+            : "Place a Bid"}
         </button>
       </Card.Body>
     </Card>
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  connectedAddress: state.wallet.connectedAddress,
+});
 
 export default connect(mapStateToProps, {})(AuctionsCards);

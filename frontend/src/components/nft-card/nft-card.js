@@ -30,10 +30,10 @@ const NFTCard = (props) => {
     currentPrice,
     copies,
     remainingCopies,
+    ownerAddress,
   } = props.data;
-
   const { username, profileImage, profilePhoto } = props.owner;
-  const user = ENV.getUserKeys("_id")._id;
+  const user = ENV.getUserKeys("_id")?._id;
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1, id) => {
     if (likedNfts && likedNfts?.length > 0) {
@@ -166,7 +166,7 @@ const NFTCard = (props) => {
           <div className="auction-owner-avatar">
             <img
               src={
-               ( !profilePhoto && !profileImage)
+                !profilePhoto && !profileImage
                   ? placeholderImg
                   : profilePhoto
                   ? profilePhoto
@@ -179,7 +179,7 @@ const NFTCard = (props) => {
             <p>
               {"Owned by:"}
               <span className="text-capitalize ms-1">
-                {ownerId === user
+                {ownerAddress?.toUpperCase() === props.connectedAddress?.toUpperCase()
                   ? "You"
                   : username && username?.length > 8
                   ? username.substring(0, 6) + "..."
@@ -202,7 +202,8 @@ const NFTCard = (props) => {
 };
 
 const mapStateToProps = (state) =>
-  // console.log(state, "state in nfts"),
-  ({});
+  ({
+    connectedAddress:state.wallet.connectedAddress
+  });
 
 export default connect(mapStateToProps, {})(NFTCard);

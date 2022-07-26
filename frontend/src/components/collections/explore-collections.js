@@ -224,6 +224,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                             : 0
                         }
                         profileImage={collection?.profileImage[0]}
+                        ownerAddress={collection?.ownerAddress}
                       />
                     </div>
                   );

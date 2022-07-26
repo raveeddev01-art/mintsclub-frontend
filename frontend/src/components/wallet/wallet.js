@@ -10,6 +10,7 @@ import {
   beforeCollection,
 } from "../collections/collections.actions";
 import { login, signup } from "../user/user.action";
+// import {setWalletAddress} from "../../redux/shared/shared/shared.action"
 import { Images } from "../../assets/assets";
 import "./wallet.css";
 import Banner from "../banner/banner";
@@ -56,7 +57,6 @@ const Wallet = (props) => {
           setDisabled(false);
         }
         setConnectedAddress(connectedAddress);
-        setWalletAddress(connectedAddress);
       } else {
         toast.error(
           "Please Connect Your Metamask With Ethereum Rinkby Network"
@@ -133,6 +133,8 @@ const Wallet = (props) => {
         let payload = {
           address: connectedAddress,
         };
+        props.setWalletAddress(connectedAddress);
+
         props.login(payload);
       } catch (err) {
         setDisabled(false);

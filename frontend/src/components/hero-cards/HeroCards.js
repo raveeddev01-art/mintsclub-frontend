@@ -1,25 +1,34 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import ImageLoader from "../contentLoader/heroLoader";
+import { connect } from "react-redux";
 
 import "./HeroCards.css";
-
-const HeroCards = ({ auction }) => {
-  const { image, totalBids, owner, _id } = auction;
-  const [loader,setLoader]=useState(true)
+const HeroCards = ({ auction,connectedAddress }) => {
+  const { image, totalBids, owner, _id, ownerAddress } = auction;
+  const [loader, setLoader] = useState(true);
   const history = useHistory();
   return (
     <div className="hero-new-card">
       <div className="hero-img-container">
-      <div style={{ display: `${loader ? "block" : "none"}` }}>
-              <ImageLoader />
-            </div>
-        <img src={image} onLoad={()=>setLoader(false)} alt="heroImg"   style={{ display: `${!loader ? "block" : "none"}` }}/>
+        <div style={{ display: `${loader ? "block" : "none"}` }}>
+          <ImageLoader />
+        </div>
+        <img
+          src={image}
+          onLoad={() => setLoader(false)}
+          alt="heroImg"
+          style={{ display: `${!loader ? "block" : "none"}` }}
+        />
         <div className="hero-owner text-center">
           <p>
             Owned by:{" "}
             <span className="text-capitalize">
-              {owner?.username ? owner.username : "unnamed"}
+              {connectedAddress.toUpperCase() === ownerAddress.toUpperCase()
+                ? "You"
+                : owner?.username
+                ? owner.username
+                : "unnamed"}
             </span>
           </p>
         </div>
@@ -38,5 +47,8 @@ const HeroCards = ({ auction }) => {
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  connectedAddress: state.wallet.connectedAddress,
+});
 
-export default HeroCards;
+export default connect(mapStateToProps, {})(HeroCards);

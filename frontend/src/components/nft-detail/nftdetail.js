@@ -599,8 +599,10 @@ const NFTDetail = (props) => {
 
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
+
     if (
-      ENV.getUserKeys("_id")._id == nftDetail.ownerId ||
+      props.connectedAddress?.toUpperCase() ==
+        nftDetail.ownerAddress?.toUpperCase() ||
       nftDetail.sellingMethod === 1
     ) {
       return true;
@@ -720,7 +722,9 @@ const NFTDetail = (props) => {
     auctionEndDate,
     description,
     currentPrice,
+    ownerAddress,
   } = nftDetail;
+  const { connectedAddress } = props;
 
   const bannerData = {
     subHeading: "NFT",
@@ -1031,7 +1035,8 @@ const NFTDetail = (props) => {
                       Owned by:
                       <span className="text-capitalize ms-1">
                         {" "}
-                        {ownerId === userId
+                        {ownerAddress?.toUpperCase() ===
+                        connectedAddress?.toUpperCase()
                           ? "You"
                           : user?.username
                           ? user.username
@@ -1381,28 +1386,32 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  activities: state.nft.itemActivities,
-  activitiesAuth: state.nft.activitiesAuth,
-  itemsListing: state.nft.itemsListing,
-  itemsListingAuth: state.nft.itemsListingAuth,
-  createAuth: state.bid.createAuth,
-  createAuthOffer: state.offer.createAuth,
-  buyAuth: state.offer.buyAuth,
-  getAuth: state.bid.getAuth,
-  getAuthOffer: state.offer.getAuth,
-  offers: state.offer.offers,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-});
+const mapStateToProps = (state) => (
+  console.log(state, "state"),
+  {
+    nftDetail: state.nft.nftsData,
+    nftsAuth: state.nft.nftsAuth,
+    nftsByCollection: state.nft.nftsByCollection,
+    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
+    activities: state.nft.itemActivities,
+    activitiesAuth: state.nft.activitiesAuth,
+    itemsListing: state.nft.itemsListing,
+    itemsListingAuth: state.nft.itemsListingAuth,
+    createAuth: state.bid.createAuth,
+    createAuthOffer: state.offer.createAuth,
+    buyAuth: state.offer.buyAuth,
+    getAuth: state.bid.getAuth,
+    getAuthOffer: state.offer.getAuth,
+    offers: state.offer.offers,
+    bids: state.bid.bids,
+    bidsByNft: state.bid.bidsByNft,
+    bidsByNftAuth: state.bid.bidsBYNftAuth,
+    togleLikeRes: state.explore.togleLikeRes,
+    connectedAddress: state.wallet.connectedAddress,
+  }
+);
 
 export default connect(mapStateToProps, {
   getNFT,

@@ -127,7 +127,6 @@ const CollectionDetailsPage = (props) => {
       if (!likeButtonDisable) {
         setLikeBtnDisable(true);
         let userId = ENV.getUserKeys("_id")._id;
-
         let body = {
           userId,
           nftId,
@@ -136,10 +135,8 @@ const CollectionDetailsPage = (props) => {
 
         if (status === "dislike" && likesCount > 0) {
           let result = likedNfts.filter((item) => item.nftId !== nftId);
-
           setLikedNfts(result);
           increOrDecreLikes(nftId, "dec");
-
           props.toggleLikeDislike(body);
         }
 
