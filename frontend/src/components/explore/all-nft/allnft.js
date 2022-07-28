@@ -248,7 +248,6 @@ const AllNFT = (props) => {
   const fetchData = (filterObj) => {
     getNFTs(filterObj);
   };
-  console.log(props.nftsByCollectionStatus,"nftsByCollectionStatus all nfts")
 
   return (
     <>
