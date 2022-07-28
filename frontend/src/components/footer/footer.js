@@ -182,7 +182,7 @@ const Footer = (props) => {
           <div className="row">
             <div className="col-12">
               <div className="copyright-text">
-                © 2022 All Rights Reserved By MintsClub.com
+                © 2022 All rights reserved by mintsclub.io
               </div>
             </div>
           </div>
