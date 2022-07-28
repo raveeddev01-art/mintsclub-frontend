@@ -17,7 +17,8 @@ const CollectionsCard = ({
   userName,
   NFTCount,
   profileImage,
-  ownerAddress
+  ownerAddress,
+  connectedAddress,
 }) => {
   const [loader, setLoader] = useState(true);
   const history = useHistory();
@@ -78,7 +79,12 @@ const CollectionsCard = ({
                 <p>
                   Owned by:{" "}
                   <span className="text-capitalize ms-1">
-                    {userName ? userName : "unnamed"}
+                    {ownerAddress?.toUpperCase() ===
+                    connectedAddress?.toUpperCase()
+                      ? "You"
+                      : userName
+                      ? userName
+                      : "unnamed"}
                   </span>
                 </p>
               </div>

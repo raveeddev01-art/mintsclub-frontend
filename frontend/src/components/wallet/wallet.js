@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
-import { signRequest, connectWithMetamask } from "../../utils/web3";
+import {
+  signRequest,
+  connectWithMetamask,
+  getChainId,
+  switchNetworkToChainId,
+} from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "../wallet/wallet.action";
 import { toast } from "react-toastify";
 import {
@@ -15,10 +20,7 @@ import { Images } from "../../assets/assets";
 import "./wallet.css";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
-import {
-  getWalletAddress,
-  validateNetwork,
-} from "../../utils/web3";
+import { getWalletAddress, validateNetwork } from "../../utils/web3";
 
 const Wallet = (props) => {
   const history = useHistory();
@@ -31,12 +33,13 @@ const Wallet = (props) => {
   const [username, setUsername] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [loader, setLoader] = useState(false);
-  useEffect(async()=>{
+  useEffect(async () => {
     let address = await getWalletAddress();
-    if(address){
-      setConnectedAddress(address)
+    if (address) {
+      setConnectedAddress(address);
     }
-  },[])
+    window.ethereum.on("disconnect", () => setConnectedAddress(null));
+  }, []);
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window.ethereum) {
@@ -44,24 +47,30 @@ const Wallet = (props) => {
         "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
       );
     } else {
-      if (await validateNetwork()) {
-        let connectedAddress = false;
-        setDisabled(true);
-        if (detectMobile()) {
-          connectedAddress = await getWalletAddress();
-        }else {
-
-          connectedAddress = await connectWithMetamask();
+      // if (await validateNetwork()) {
+      if (getChainId !== 1) {
+        try {
+          await switchNetworkToChainId();
+        } catch (error) {
+          return toast.error(error.message);
         }
-        if (connectedAddress) {
-          setDisabled(false);
-        }
-        setConnectedAddress(connectedAddress);
-      } else {
-        toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
-        );
       }
+      let connectedAddress = false;
+      setDisabled(true);
+      if (detectMobile()) {
+        connectedAddress = await getWalletAddress();
+      } else {
+        connectedAddress = await connectWithMetamask();
+      }
+      if (connectedAddress) {
+        setDisabled(false);
+      }
+      setConnectedAddress(connectedAddress);
+      // } else {
+      //   toast.error(
+      //     "Please Connect Your Metamask With Ethereum Rinkby Network"
+      //   );
+      // }
     }
   };
   const detectMobile = () => {
@@ -100,50 +109,62 @@ const Wallet = (props) => {
 
   const signup = async (e) => {
     e.preventDefault();
-    if (await validateNetwork()) {
-      setDisabled(true);
+    if (getChainId !== 1) {
       try {
-        if (validator.isEmail(email)) {
-          await signRequest();
-          let payload = {
-            address: connectedAddress,
-            email: email,
-            username: username,
-            isApproved: false,
-          };
-          props.signup(payload);
-        } else {
-          setErrorMessage("please enter valid email");
-        }
-      } catch (err) {
-        toast.error(err.message);
-        setDisabled(false);
+        let newAcc = await switchNetworkToChainId();
+        setConnectedAddress(newAcc);
+      } catch (error) {
+        return toast.error(error.message);
       }
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    }
+    setDisabled(true);
+    try {
+      if (validator.isEmail(email)) {
+        await signRequest();
+        let payload = {
+          address: connectedAddress,
+          email: email,
+          username: username,
+          isApproved: false,
+        };
+        props.signup(payload);
+      } else {
+        setErrorMessage("please enter valid email");
+      }
+    } catch (err) {
+      toast.error(err.message);
+      setDisabled(false);
     }
   };
 
   const login = async () => {
-    if (await validateNetwork()) {
+    if (getChainId !== 1) {
       try {
-        setDisabled(true);
-        setLoader(true);
-        await signRequest();
-        let payload = {
-          address: connectedAddress,
-        };
-        props.setWalletAddress(connectedAddress);
-
-        props.login(payload);
-      } catch (err) {
-        setDisabled(false);
-        setLoader(false);
-        toast.error(err.message);
+        let newAcc = await switchNetworkToChainId();
+        setConnectedAddress(newAcc);
+      } catch (error) {
+        return toast.error(error.message);
       }
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
+    try {
+      setDisabled(true);
+      setLoader(true);
+
+      await signRequest();
+      let payload = {
+        address: connectedAddress,
+      };
+      props.setWalletAddress(connectedAddress);
+
+      props.login(payload);
+    } catch (err) {
+      setDisabled(false);
+      setLoader(false);
+      toast.error(err.message);
+    }
+    // } else {
+    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    // }
   };
 
   useEffect(() => {
@@ -177,7 +198,6 @@ const Wallet = (props) => {
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-// console.log(connectedAddress,"connectedAddress")
   return (
     <section
       className={

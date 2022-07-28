@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import ImageLoader from "../contentLoader/heroLoader";
 import { connect } from "react-redux";
-
+      
 import "./HeroCards.css";
 const HeroCards = ({ auction,connectedAddress }) => {
   const { image, totalBids, owner, _id, ownerAddress } = auction;

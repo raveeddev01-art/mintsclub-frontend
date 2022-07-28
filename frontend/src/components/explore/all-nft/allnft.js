@@ -16,7 +16,7 @@ import Banner from "../../banner/banner";
 import BannerBg from "../../../assets/images/hero-bg.png";
 import BannerImage from "../../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../own-collection-today/own-collection-today";
-
+import { useHistory } from "react-router-dom";
 const bannerData = {
   subHeading: "Explore",
   heading: "All NFTs",
@@ -35,6 +35,7 @@ const AllNFT = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const history = useHistory();
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -162,47 +163,61 @@ const AllNFT = (props) => {
     props.getNFTs(qs);
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
-    if (await validateNetwork()) {
-      if (!likeButtonDisable || likeButtonDisable === null) {
-        setLikeBtnDisable(true);
-        let userId = ENV.getUserKeys("_id")._id;
+    if (
+      ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      props.connectedAddress?.toUpperCase()
+    ) {
+      if (await validateNetwork()) {
+        if (!likeButtonDisable || likeButtonDisable === null) {
+          setLikeBtnDisable(true);
+          let userId = ENV.getUserKeys("_id")._id;
 
-        let body = {
-          userId,
-          nftId,
-          count: 1,
-        };
-
-        if (status === "dislike" && likesCount > 0) {
-          let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-          setLikedNfts(result);
-          increOrDecreLikes(nftId, "dec");
-
-          props.toggleLikeDislike(body);
-        }
-
-        if (status === "like") {
-          let myLikedNfts = [];
-          if (likedNfts && likedNfts.length > 0) {
-            myLikedNfts = likedNfts;
-          }
-
-          let obj = {
-            _id: "1234455",
+          let body = {
+            userId,
             nftId,
+            count: 1,
           };
 
-          myLikedNfts.push(obj);
+          if (status === "dislike" && likesCount > 0) {
+            let result = likedNfts.filter((item) => item.nftId !== nftId);
 
-          setLikedNfts(myLikedNfts);
-          increOrDecreLikes(nftId, "inc");
-          props.toggleLikeDislike(body);
+            setLikedNfts(result);
+            increOrDecreLikes(nftId, "dec");
+
+            props.toggleLikeDislike(body);
+          }
+
+          if (status === "like") {
+            let myLikedNfts = [];
+            if (likedNfts && likedNfts.length > 0) {
+              myLikedNfts = likedNfts;
+            }
+
+            let obj = {
+              _id: "1234455",
+              nftId,
+            };
+
+            myLikedNfts.push(obj);
+
+            setLikedNfts(myLikedNfts);
+            increOrDecreLikes(nftId, "inc");
+            props.toggleLikeDislike(body);
+          }
+          // setNFTs(nfts);
         }
-        // setNFTs(nfts);
+      } else {
+        toast.error(
+          "Please Connect Your Metamask With Ethereum Rinkby Network"
+        );
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      if (ENV.getUserKeys("address")?.address) {
+        toast.info("Please login with new connected account");
+      } else {
+        toast.info("Please login first to continue");
+      }
+      history.push("/login");
     }
   };
 
@@ -232,6 +247,8 @@ const AllNFT = (props) => {
   const fetchData = (filterObj) => {
     getNFTs(filterObj);
   };
+// console.log(props.connectedAddress,"connectedAddress")
+
 
   return (
     <>
@@ -264,7 +281,6 @@ const AllNFT = (props) => {
     </>
   );
 };
-
 const mapStateToProps = (state) => ({
   nft: state.nft,
   myLikedNfts: state.nft.myLikedNfts,
@@ -273,7 +289,7 @@ const mapStateToProps = (state) => ({
   getAuth: state.collection.getAuth,
   collections: state.collection.collections,
   togleLikeRes: state.explore.togleLikeRes,
-  connectedAddress:state.wallet.connectedAddress
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {

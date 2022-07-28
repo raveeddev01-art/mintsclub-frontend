@@ -34,6 +34,7 @@ class CreateCollections extends Component {
       errors: "",
       collection: {
         userId: ENV.getUserKeys("_id")._id,
+        ownerAddress: this.props.connectedAddress,
         categoryId: "",
         logo: "",
         featuredImg: "",
@@ -63,6 +64,16 @@ class CreateCollections extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { connectedAddress } = this.props;
+    if (
+      prevProps.connectedAddress !== "" &&
+      prevProps.connectedAddress.toUpperCase() !==
+        connectedAddress.toUpperCase() &&
+      connectedAddress !== ""
+    ) {
+      toast.info("Please login with new connected account");
+      return this.props.history.push("/login");
+    }
     if (this.props.error !== null && prevProps.error === null) {
       toast.error(this.props.error.message);
       this.setState({ loader: false }, () => {
@@ -444,6 +455,7 @@ const mapStateToProps = (state) => ({
   // user: state.user,
   error: state.error,
   category: state.category,
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {

@@ -45,7 +45,14 @@ export const getNetworkNameByChainId = async () => {
     return currentNetwork;
   }
 };
+export const getChainId=async()=>{
+  if (window.ethereum) {
 
+  let web3 = await getWeb3();
+  let chainId = await web3.eth.getChainId();
+  return chainId
+  }
+}
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
@@ -341,9 +348,26 @@ export const connectWithMetamask = async () => {
   }
 };
 
+export const switchNetworkToChainId= async(id)=>{
+  if (window.ethereum) {
+    try{
+
+      let web3 = await getWeb3();
+                await web3.currentProvider.request({
+      method: 'wallet_switchEthereumChain',
+        params: [{ chainId: Web3.utils.toHex(1) }],
+      });
+      let accounts = await web3.eth.getAccounts();
+      return accounts[0];
+    }catch(err){
+      throw new Error(err);
+    }
+  }
+}
 export const signRequest = async () => {
   if (window.ethereum) {
     let web3 = await getWeb3();
+  
     let accounts = await web3.eth.getAccounts();
     let address = accounts[0];
     let signature = await handleSignMessage(address);
@@ -390,7 +414,7 @@ export const createNft = async () => {};
 
 export const setNftToken = (body) => {
   let url = process.env.REACT_APP_BASE_URL + `nftTokens/addToken`;
-  alert("calling");
+  // alert("calling");
 
   fetch(url, {
     method: "POST",

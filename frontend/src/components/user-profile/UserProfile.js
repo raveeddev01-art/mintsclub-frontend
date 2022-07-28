@@ -28,6 +28,7 @@ import {
 } from "../collections/collections.actions";
 import { Link } from "react-router-dom";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
+import { useHistory } from "react-router";
 
 const UserProfile = (props) => {
   const [isAddressCopied, setAddressCopied] = useState(false);
@@ -45,8 +46,9 @@ const UserProfile = (props) => {
   const [nftPagination, setNFTPagination] = useState(null);
   const [dataLimit, setDataLimit] = useState(10);
   const [menuFilter, setMenuFilter] = useState(false);
+  const [accAddress, setAccountAddress] = useState(props.connectedAddress);
   const userId = ENV.getUserKeys("_id")._id;
-
+  const history = useHistory();
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -79,6 +81,23 @@ const UserProfile = (props) => {
       props.beforeCollection();
     }
   }, [props.getAuth]);
+
+  useEffect(() => {
+    if (accAddress === "") {
+      setAccountAddress(props.connectedAddress);
+    }
+    if (
+      accAddress !== "" &&
+      props.connectedAddress !== "" &&
+      ENV.getUserKeys("address")?.address?.toUpperCase() !==
+        props.connectedAddress.toUpperCase()
+    ) {
+     
+      // toast.info("Please login with new connected Account user");
+      localStorage.clear();
+      history.push("/login");
+    }
+  }, [props.connectedAddress]);
 
   useEffect(() => {
     const { profileNFTsStatus, profileNFTs } = props;
@@ -278,95 +297,101 @@ const UserProfile = (props) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
-  return (
-    <>
-      <section className="user-profile pt-0">
-        <Banner
-          subHeading={bannerData.subHeading}
-          heading={bannerData.heading}
-          bgImg={BannerBg}
-          className="mb-0"
-        />
-        <div className="collection-detail-content">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
-                  <div className="user-avatar-edit">
-                    <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
-                      <img
-                        src={
-                          user?.profileImage
-                            ? user.profileImage
-                            : Images.placeholderImg
-                        }
-                        alt="owner-avatar"
-                      />
-                    </div>
-                    <Link to="/editprofile" className="user-edit-icon">
-                      <img src={Images.editIconSmall} />
-                    </Link>
-                  </div>
-                  <div className="collection-owner-detail text-center text-sm-start mt-4">
-                    {user && (
-                      <div className="collection-owner-name">
-                        <h3>{user.username ? user.username : "unnamed"}</h3>
+  if (
+    props.connectedAddress === "" ||
+    (ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      props.connectedAddress?.toUpperCase())
+  ) {
+    return (
+      <>
+        <section className="user-profile pt-0">
+          <Banner
+            subHeading={bannerData.subHeading}
+            heading={bannerData.heading}
+            bgImg={BannerBg}
+            className="mb-0"
+          />
+          <div className="collection-detail-content">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
+                    <div className="user-avatar-edit">
+                      <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
+                        <img
+                          src={
+                            user?.profileImage
+                              ? user.profileImage
+                              : Images.placeholderImg
+                          }
+                          alt="owner-avatar"
+                        />
                       </div>
-                    )}
-
-                    <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
-                      {user.address && (
-                        <div className="user-address mt-2 d-flex  align-items-center ">
-                          <span className={`${copy ? "d-block" : "d-none"}`}>
-                            {isAddressCopied ? "Copied" : "Copy"}
-                          </span>
-                          {user && (
-                            <>
-                              <img
-                                src={EthIcon}
-                                alt="eth-icon"
-                                className="me-1"
-                              />
-
-                              <p className="acc-adress d-none d-md-block">
-                                {user.address}
-                              </p>
-                              <p className="acc-address d-md-none">
-                                {user.address.slice(0, 10) +
-                                  "..." +
-                                  user.address.slice(-10)}
-                              </p>
-
-                              <img
-                                onMouseLeave={() => {
-                                  setCopy(false);
-                                }}
-                                onMouseOver={() => {
-                                  setCopy(true);
-                                }}
-                                onClick={() => {
-                                  navigator.clipboard.writeText(user.address);
-                                  setAddressCopied(true);
-                                  ChangeTooltip();
-                                }}
-                                src={CopyIcon}
-                                alt="copy-icon"
-                                className="user-address-copy ms-4"
-                              />
-                            </>
-                          )}
+                      <Link to="/editprofile" className="user-edit-icon">
+                        <img src={Images.editIconSmall} />
+                      </Link>
+                    </div>
+                    <div className="collection-owner-detail text-center text-sm-start mt-4">
+                      {user && (
+                        <div className="collection-owner-name">
+                          <h3>{user.username ? user.username : "unnamed"}</h3>
                         </div>
                       )}
 
-                      <div className="mt-2 mt-sm-0">
-                        {user && (
-                          <p>
-                            Joined:{" "}
-                            <span>
-                              {moment(user.createdAt).format("MMMM DD YYYY")}
+                      <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                        {user.address && (
+                          <div className="user-address mt-2 d-flex  align-items-center ">
+                            <span className={`${copy ? "d-block" : "d-none"}`}>
+                              {isAddressCopied ? "Copied" : "Copy"}
                             </span>
-                          </p>
+                            {user && (
+                              <>
+                                <img
+                                  src={EthIcon}
+                                  alt="eth-icon"
+                                  className="me-1"
+                                />
+
+                                <p className="acc-adress d-none d-md-block">
+                                  {user.address}
+                                </p>
+                                <p className="acc-address d-md-none">
+                                  {user.address.slice(0, 10) +
+                                    "..." +
+                                    user.address.slice(-10)}
+                                </p>
+
+                                <img
+                                  onMouseLeave={() => {
+                                    setCopy(false);
+                                  }}
+                                  onMouseOver={() => {
+                                    setCopy(true);
+                                  }}
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(user.address);
+                                    setAddressCopied(true);
+                                    ChangeTooltip();
+                                  }}
+                                  src={CopyIcon}
+                                  alt="copy-icon"
+                                  className="user-address-copy ms-4"
+                                />
+                              </>
+                            )}
+                          </div>
                         )}
+
+                        <div className="mt-2 mt-sm-0">
+                          {user && (
+                            <p>
+                              Joined:{" "}
+                              <span>
+                                {moment(user.createdAt).format("MMMM DD YYYY")}
+                              </span>
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -374,30 +399,35 @@ const UserProfile = (props) => {
               </div>
             </div>
           </div>
-        </div>
-        <Listing
-          collections={collections}
-          disabled={disabled}
-          totalItems={nfts && nfts.length}
-          filterationLoader={filterationLoader}
-          setFilterationLoader={setFilterationLoader}
-          nfts={nfts?.slice(0, dataLimit)}
-          loader={loader}
-          likedNfts={likedNfts}
-          handleLikesTogleApi={handleLikesTogleApi}
-          handleNftFilter={handleNftFilter}
-          nftPagination={nftPagination}
-          fetchData={fetchData}
-          setMenuFilter={setMenuFilter}
-          menuData={menuData}
-          path="/explore/nftdetail/"
-          getPaginatedData={getPaginatedData}
-          UserProfile
-        />
-      </section>
-      <OwnCollectionToday />
-    </>
-  );
+          <Listing
+            collections={collections}
+            disabled={disabled}
+            totalItems={nfts && nfts.length}
+            filterationLoader={filterationLoader}
+            setFilterationLoader={setFilterationLoader}
+            nfts={nfts?.slice(0, dataLimit)}
+            loader={loader}
+            likedNfts={likedNfts}
+            handleLikesTogleApi={handleLikesTogleApi}
+            handleNftFilter={handleNftFilter}
+            nftPagination={nftPagination}
+            fetchData={fetchData}
+            setMenuFilter={setMenuFilter}
+            menuData={menuData}
+            path="/explore/nftdetail/"
+            getPaginatedData={getPaginatedData}
+            UserProfile
+          />
+        </section>
+        <OwnCollectionToday />
+      </>
+    );
+  } else {
+    toast.info("Please login with new connected account test");
+    localStorage.clear()
+    history.push("/login");
+    return " ";
+  }
 };
 
 const mapStateToProps = (state) => ({
@@ -411,6 +441,7 @@ const mapStateToProps = (state) => ({
   collections: state.collection.collections,
   getAuth: state.collection.getAuth,
   nft: state.nft,
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {

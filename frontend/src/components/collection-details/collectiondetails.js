@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import "./collectiondetails.css";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import {
@@ -33,7 +33,7 @@ const CollectionDetailsPage = (props) => {
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const location = useLocation();
-
+  const history = useHistory();
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -123,44 +123,50 @@ const CollectionDetailsPage = (props) => {
   };
   ///////////Likes
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
-    if (await validateNetwork()) {
-      if (!likeButtonDisable) {
-        setLikeBtnDisable(true);
-        let userId = ENV.getUserKeys("_id")._id;
-        let body = {
-          userId,
-          nftId,
-          count: 1,
-        };
-
-        if (status === "dislike" && likesCount > 0) {
-          let result = likedNfts.filter((item) => item.nftId !== nftId);
-          setLikedNfts(result);
-          increOrDecreLikes(nftId, "dec");
-          props.toggleLikeDislike(body);
-        }
-
-        if (status === "like") {
-          let myLikedNfts = [];
-          if (likedNfts && likedNfts.length > 0) {
-            myLikedNfts = likedNfts;
-          }
-
-          let obj = {
-            _id: "1234455",
+    if (ENV.getUserKeys("_id")?._id) {
+      if (await validateNetwork()) {
+        if (!likeButtonDisable) {
+          setLikeBtnDisable(true);
+          let userId = ENV.getUserKeys("_id")._id;
+          let body = {
+            userId,
             nftId,
+            count: 1,
           };
 
-          myLikedNfts.push(obj);
+          if (status === "dislike" && likesCount > 0) {
+            let result = likedNfts.filter((item) => item.nftId !== nftId);
+            setLikedNfts(result);
+            increOrDecreLikes(nftId, "dec");
+            props.toggleLikeDislike(body);
+          }
 
-          setLikedNfts(myLikedNfts);
-          increOrDecreLikes(nftId, "inc");
-          props.toggleLikeDislike(body);
+          if (status === "like") {
+            let myLikedNfts = [];
+            if (likedNfts && likedNfts.length > 0) {
+              myLikedNfts = likedNfts;
+            }
+
+            let obj = {
+              _id: "1234455",
+              nftId,
+            };
+
+            myLikedNfts.push(obj);
+
+            setLikedNfts(myLikedNfts);
+            increOrDecreLikes(nftId, "inc");
+            props.toggleLikeDislike(body);
+          }
+          // setNFTs(nfts);
         }
-        // setNFTs(nfts);
+      } else {
+        toast.error(
+          "Please Connect Your Metamask With Ethereum Rinkby Network"
+        );
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      history.push("/login");
     }
   };
 

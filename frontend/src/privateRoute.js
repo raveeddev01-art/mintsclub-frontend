@@ -11,7 +11,7 @@ export const PrivateRoute = ({
   <Route
     {...rest}
     render={(props) =>
-      true ? (
+      access||ENV.getUserKeys("_id")?._id ? (
         <Component {...props} />
       ) : (
         <Redirect

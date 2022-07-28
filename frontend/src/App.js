@@ -11,53 +11,31 @@ import { getWalletAddress } from "./utils/web3";
 import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
+import { useLocation } from "react-router";
 
-import { beforeWallet, setWalletAddress } from "./components/wallet/wallet.action";
+import {
+  beforeWallet,
+  setWalletAddress,
+} from "./components/wallet/wallet.action";
 
 const App = React.memo((props) => {
   useGaTracker();
-  let walletAddress = false;
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
-  const history = useHistory();
+  const location = useLocation();
+  console.log(location.pathname);
   useEffect(async () => {
     tawkTo(tawkToPropertyId, tawkToKey);
   }, [ENV]);
 
-  // ///set Interval
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     handleMetamaskStatus();
-  //   }, 2000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-
-  const handleMetamaskStatus = async () => {
-    const address = await getWalletAddress();
-    if (walletAddress) {
-      if (walletAddress !== address || !address) {
-        toast.info("Please sign in  with new connected address");
-        walletAddress = address;
-        // setWalletAddress(address)
-        localStorage.clear();
-        history.push("/login");
-      }
-    } else {
-      const address = await getWalletAddress();
-      walletAddress = address;
-      // setWalletAddress(address);
-    }
-    // }
-  };
+ 
   useEffect(() => {
     if (!window.ethereum) {
       return;
     }
     const accountWasChanged = (accounts) => {
-      setWallet(accounts[0])
-      // setMetamaskWalletAddress(accounts[0]);
-      // logout();
+      alert(window.ethereum.isConnected())
+      setWallet(accounts[0]);
     };
     const getAndSetAccount = async () => {
       const changedAccounts = await window.ethereum.request({
@@ -66,19 +44,19 @@ const App = React.memo((props) => {
       if (changedAccounts.length === 0) {
         toast.error("you are not connected with metamask");
       }
-      // setMetamaskWalletAddress(changedAccounts[0]);
+      setWallet(changedAccounts[0])
+
     };
     const clearAccount = () => {
-      // logout();
+      console.log("account cleared======>")
+      alert("account disconnected")
     };
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
-    window.ethereum.on("disconnect", clearAccount);
+    window.ethereum.on("disconnect", ()=>alert("account cleared"));
     window.ethereum.request({ method: "eth_requestAccounts" }).then(
       (accounts) => {
-
-        // setMetamaskWalletAddress(accounts[0]);
-        // console.log(accounts[0], "accounts");
+        setWallet(accounts[0])
       },
       (error) => {}
     );
@@ -89,10 +67,10 @@ const App = React.memo((props) => {
       // window.ethereum.off('disconnect', clearAccount);
     };
   }, []);
-  const setWallet=(address)=>{
-    props.beforeWallet()
-    props.setWalletAddress(address)
-  }
+  const setWallet = (address) => {
+    props.beforeWallet();
+    props.setWalletAddress(address);
+  };
 
   return (
     <React.Fragment>
@@ -105,13 +83,7 @@ const App = React.memo((props) => {
                   key={index}
                   path={route.path}
                   exact={route.exact}
-                  access={
-                    ENV.getUserKeys("_id")._id ||
-                    route.path === "/login" ||
-                    route.path === "Signup"
-                      ? true
-                      : false
-                  }
+                  access={route.access}
                   component={(props) => (
                     <route.layout {...props} title={route.title}>
                       <route.component {...props} />
@@ -127,12 +99,9 @@ const App = React.memo((props) => {
   );
 });
 
-const mapStateToProps = (state) =>( {
-  
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, {
   setWalletAddress,
-  beforeWallet
+  beforeWallet,
 })(App);
-

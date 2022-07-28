@@ -40,7 +40,6 @@ const AuctionsCards = ({
     ownerAddress,
   } = item;
   const { profilePhoto } = item?.owner;
-  console.log(ownerAddress, "ownerAddress in auctions");
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
       <div className="auction-img-wrapper">

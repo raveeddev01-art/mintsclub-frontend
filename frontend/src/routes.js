@@ -44,7 +44,7 @@ const routes = [
 
   {
     path: "/sell-item/:id?",
-    access: true,
+    access: false,
     exact: true,
     title: "Sell Item",
     layout: layout,
@@ -70,7 +70,7 @@ const routes = [
 
   {
     path: "/create",
-    access: true,
+    access: false,
     exact: true,
     title: "Create",
     layout: layout,
@@ -87,8 +87,8 @@ const routes = [
 
   {
     path: "/createcollection",
-    access: true,
-    exact: true,
+    access: false,
+    exact: false,
     title: "Create Collection",
     layout: layout,
     component: CreateCollections,
@@ -112,7 +112,7 @@ const routes = [
   },
   {
     path: "/sellnft",
-    access: true,
+    access: false,
     exact: true,
     title: "Sell NFT",
     layout: layout,
@@ -128,7 +128,7 @@ const routes = [
   },
   {
     path: "/userprofile",
-    access: true,
+    access: false,
     exact: true,
     title: "User Profile",
     layout: layout,
@@ -136,7 +136,7 @@ const routes = [
   },
   {
     path: "/editprofile",
-    access: true,
+    access: false,
     exact: true,
     title: "Edit Profile",
     layout: layout,

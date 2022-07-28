@@ -99,7 +99,6 @@ const NFTDetail = (props) => {
     useVideoPlayer(videoElement);
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
-
   useEffect(() => {
     window.scroll(0, 600);
   }, []);
@@ -254,25 +253,44 @@ const NFTDetail = (props) => {
   // }, [props.itemsListingAuth]);
 
   const handleRouting = async () => {
-    if (await validateNetwork()) {
-      if (
-        ENV.getUserKeys("_id")._id === nftDetail?.ownerId &&
-        nftDetail.sellingMethod === 2
-      ) {
-        EndAuction();
-      } else if (ENV.getUserKeys("_id")._id === nftDetail?.ownerId) {
-        history.push({
-          pathname: `/sell-item/${nftDetail._id}`,
-          state: nftDetail,
-        });
-      } else if (nftDetail.sellingMethod === 2) {
-        setBidModalShow(true);
-      } else if (nftDetail.sellingMethod === 1) {
-        setModalShow(true);
+    const {ownerAddress}=nftDetail
+     
+      let currentAddress= connectedAddress?.toUpperCase()
+    if (
+      ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      connectedAddress?.toUpperCase()
+    ) {
+      if (await validateNetwork()) {
+
+        if (
+          currentAddress === ownerAddress.toUpperCase() &&
+          nftDetail.sellingMethod === 2
+        ) {
+          EndAuction();
+        } else if (currentAddress === ownerAddress.toUpperCase()) {
+
+          history.push({
+            pathname: `/sell-item/${nftDetail._id}`,
+            state: nftDetail,
+          });
+        } else if (nftDetail.sellingMethod === 2) {
+          setBidModalShow(true);
+        } else if (nftDetail.sellingMethod === 1) {
+          setModalShow(true);
+        } else {
+        }
       } else {
+        toast.error(
+          "Please Connect Your Metamask With Ethereum Rinkby Network"
+        );
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      if (ENV.getUserKeys("address")?.address) {
+        toast.info("Please login with new connected account");
+      } else {
+        toast.info("Please login first to continue");
+      }
+      history.push("/login");
     }
   };
 
@@ -528,35 +546,47 @@ const NFTDetail = (props) => {
   };
 
   const BuyNow = async () => {
-    if (await validateNetwork()) {
-      setDisabled(true);
-      try {
-        let currentPrice = nftDetail.currentPrice;
-        let nftToken = nftDetail.sellId;
+    if (  ENV.getUserKeys("address")?.address?.toUpperCase() ===
+    connectedAddress?.toUpperCase()) {
+      if (await validateNetwork()) {
+        setDisabled(true);
+        try {
+          let currentPrice = nftDetail.currentPrice;
+          let nftToken = nftDetail.sellId;
 
-        const result = await BuyFixedPriceNFT(
-          currentPrice,
-          nftToken,
-          setConfirmed,
-          setTransactionHash
-        );
-        if (result) {
-          let ownerAddress = await getWalletAddress();
-          let payload = {
-            userId,
-            nftId,
-            ownerAddress,
-          };
-          props.beforeOffer();
-          props.buyNow(payload);
-          createActivity("Transfer", false, ownerAddress);
+          const result = await BuyFixedPriceNFT(
+            currentPrice,
+            nftToken,
+            setConfirmed,
+            setTransactionHash
+          );
+          if (result) {
+            let ownerAddress = await getWalletAddress();
+            let payload = {
+              userId,
+              nftId,
+              ownerAddress,
+            };
+            props.beforeOffer();
+            props.buyNow(payload);
+            createActivity("Transfer", false, ownerAddress);
+          }
+        } catch (err) {
+          setDisabled(false);
+          toast.error(err);
         }
-      } catch (err) {
-        setDisabled(false);
-        toast.error(err);
+      } else {
+        toast.error(
+          "Please Connect Your Metamask With Ethereum Rinkby Network"
+        );
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      if (ENV.getUserKeys("address")?.address) {
+        toast.info("Please login with new connected account");
+      } else {
+        toast.info("Please login first to continue");
+      }
+      history.push("/login");
     }
   };
 
@@ -659,7 +689,7 @@ const NFTDetail = (props) => {
             let highestBidByUser = newBids.reduce((max, obj) =>
               max.bidAmount > obj.bidAmount ? max : obj
             );
-            if (highestBidByUser.bidBy === userId) {
+            if (highestBidByUser.fromAddress === connectedAddress) {
               if (!claimNFT) {
                 setClaimNFT(true);
               }
@@ -1055,11 +1085,15 @@ const NFTDetail = (props) => {
                           onClick={() => handleRouting()}
                         >
                           {" "}
-                          {userId == ownerId && sellingMethod == 2
+                          {ownerAddress?.toUpperCase() ==
+                            connectedAddress.toUpperCase() && sellingMethod == 2
                             ? "End Auction"
-                            : userId == ownerId && sellingMethod == 1
+                            : ownerAddress?.toUpperCase() ==
+                                connectedAddress.toUpperCase() &&
+                              sellingMethod == 1
                             ? "Resale"
-                            : userId == ownerId
+                            : ownerAddress?.toUpperCase() ==
+                              connectedAddress.toUpperCase()
                             ? "Sell"
                             : sellingMethod === 2
                             ? "Place A Bid"
@@ -1387,7 +1421,6 @@ const NFTDetail = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
   {
     nftDetail: state.nft.nftsData,
     nftsAuth: state.nft.nftsAuth,

@@ -225,6 +225,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                         }
                         profileImage={collection?.profileImage[0]}
                         ownerAddress={collection?.ownerAddress}
+                        connectedAddress={props.connectedAddress}
                       />
                     </div>
                   );
@@ -263,6 +264,7 @@ const mapStateToProps = (state) => ({
   category: state.category,
   categories: state.collection,
   pagination: state.pagination,
+  connectedAddress:state.wallet.connectedAddress
 });
 
 export default connect(

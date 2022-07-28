@@ -40,6 +40,7 @@ import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import SellNFTLoader from "../contentLoader/sellNFTLoader";
 import Audio from "../audio/audio";
+import { useHistory } from "react-router";
 const { dateRangeInitialSettings } = ENV;
 const config1 = {
   price: {
@@ -95,19 +96,20 @@ const SellNFT = (props) => {
   const [copies, setCopies] = useState("");
   const [show, setShow] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState("not-approved");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(props.connectedAddress);
   const [copiesError, setCopiesError] = useState(false);
   const [contentLoader, setContentLoader] = useState(true);
+  const history = useHistory();
   let nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
 
-  useEffect(async () => {
-    let connectedAddress = await getMetamaskConnectedAddress();
-    setAddress(connectedAddress);
-  }, []);
+  // useEffect(async () => {
+  //   let connectedAddress = await getMetamaskConnectedAddress();
+  //   setAddress(connectedAddress);
+  // }, []);
 
   useEffect(() => {
     window.scroll(0, 600);
@@ -117,6 +119,20 @@ const SellNFT = (props) => {
     props.getMyLikedNfts(qs);
     validateIfLiked();
   }, []);
+  useEffect(() => {
+    if (address === "") {
+      setAddress(props.connectedAddress);
+    }
+    if (
+      props.connectedAddress !== "" &&
+      address !== "" &&
+      ENV.getUserKeys("address")?.address?.toUpperCase() !==
+        props.connectedAddress.toUpperCase()
+    ) {
+      toast.info("Please login with new connected account");
+      return history.push("/login");
+    }
+  }, [props.connectedAddress]);
 
   useEffect(() => {
     if (props.error !== null) {
@@ -143,9 +159,9 @@ const SellNFT = (props) => {
       const pathname = "/";
       setLoader(false);
       props.beforeNFT();
-      setFixedPriceConfig(null)
-      setTimedAuctionConfig(null)
-      setCopies("")
+      setFixedPriceConfig(null);
+      setTimedAuctionConfig(null);
+      setCopies("");
       props.history.push(pathname);
     }
   }, [props.nft.upsertAuth]);
@@ -409,7 +425,7 @@ const SellNFT = (props) => {
         bannerImg={BannerImage}
       />
       {loader && <FullPageLoader />}
-      <section className="padding-wrapper sell-nft new-nft-detail">
+      <section className="padding-wrapper sell-nft new-nft-detail ">
         <div className="container">
           <div className="row g-4 g-xl-5">
             <div className="col-12">
@@ -866,6 +882,7 @@ const mapStateToProps = (state) => ({
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
   togleLikeRes: state.explore.togleLikeRes,
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
