@@ -23,6 +23,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import Compressor from "compressorjs";
+
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");

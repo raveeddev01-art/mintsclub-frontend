@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import ImageLoader from "../contentLoader/heroLoader";
 import { connect } from "react-redux";
-      
+
 import "./HeroCards.css";
-const HeroCards = ({ auction,connectedAddress }) => {
-  const { image, totalBids, owner, _id, ownerAddress } = auction;
+const HeroCards = ({ auction, connectedAddress, status }) => {
+  const { image, totalBids, owner, _id, ownerAddress, name } = auction;
   const [loader, setLoader] = useState(true);
   const history = useHistory();
   return (
@@ -40,9 +40,15 @@ const HeroCards = ({ auction,connectedAddress }) => {
         </button>
       </div>
       <div className="hero-placed-bid text-center">
-        <h6>
-          {totalBids > 0 ? `${totalBids}+ People placed Bid` : "No Bids Found"}
-        </h6>
+        {/* {status === "nfts" ? (
+          <h6>{name && name}</h6>
+        ) : ( */}
+          <h6>
+            {totalBids > 0
+              ? `${totalBids}+ People placed Bid`
+              : "No Bids Found"}
+          </h6>
+        {/* )} */}
       </div>
     </div>
   );

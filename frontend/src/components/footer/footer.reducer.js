@@ -1,24 +1,26 @@
-import { BEFORE_FOOTER, GET_FOOTER } from '../../redux/types';
+import {SUBSCRIBE, BEFORE_FOOTER,SUBSCRIBE_RESPONSE } from '../../redux/types';
 
 const initialState = {
-    settings: null,
-    settingsAuth: false
+    subscribeAuth:false,
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case GET_FOOTER:
-            return{
-                ...state,
-                settings: action.payload,
-                settingsAuth: true
-            }
-        case BEFORE_FOOTER:
-            return {
-                ...state,
-                settings: null,
-                settingAuth: false
-            }
+            case BEFORE_FOOTER:
+                return {
+                    ...state,
+                    subscribeAuth: false,
+                }
+                case SUBSCRIBE:
+                    return {
+                        ...state,
+                        subscribeAuth:false,  
+                    }
+                    case SUBSCRIBE_RESPONSE:
+                        return {
+                            ...state,
+                            subscribeAuth:true,
+                        }
         default:
             return {
                 ...state

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFooter } from "./footer.action";
+import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
+import { firstInputCharacterSpace } from "./../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
-
 import "./footer.css";
+import { toast } from "react-toastify";
+import { emptyError } from "../../redux/shared/error/error.action";
 
 const Footer = (props) => {
   const [data, setData] = useState({
@@ -16,12 +18,44 @@ const Footer = (props) => {
     vine: "",
     desc: "",
   });
+  const [email, setEmail] = useState("");
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    if (props.subscribeAuth) {
+      setLoader(false);
+      toast.success("Subscribed successfully");
+    }
+  }, [props.subscribeAuth]);
 
   useEffect(() => {
-    props.getFooter();
-  }, []);
-  const location = useLocation();
+    if (props.error !== null) {
+      toast.error(props.error.message);
+      setLoader(false);
 
+      props.emptyError();
+    }
+  }, [props.error]);
+
+  const subscribe = () => {
+    if (email.trim() === "") {
+      return toast.error("Please enter an email to subscribe");
+    }
+    if (validateEmail(email)) {
+      props.beforeFooter();
+      setLoader(true);
+      props.subscribeUser(email);
+    } else {
+      toast.error("Please enter a valid email address");
+    }
+  };
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+  const location = useLocation();
   return (
     <footer className="footer-area">
       <div className="footer-top">
@@ -89,14 +123,28 @@ const Footer = (props) => {
                   <div className="email-icon">
                     <img src={EmailIcon} alt="mail-box" />
                   </div>
-                  <input type="email" placeholder="youremail@xyz.com" />
+                  <input
+                    type="email"
+                    maxLength="50"
+                    onKeyDown={(e) => firstInputCharacterSpace(e, email)}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="youremail@xyz.com"
+                  />
                   <div>
                     <button
                       type="submit"
                       className="input-group-text"
                       id="basic-addon1"
+                      disabled={loader}
+                      onClick={() => subscribe()}
                     >
-                      Subscribe
+                      {loader ? (
+                        <div class="spinner-border footer-loader" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      ) : (
+                        "Subscribe"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -144,9 +192,16 @@ const Footer = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  error: state.error,
-  settings: state.settings,
-});
+const mapStateToProps = (state) => (
+  {
+    error: state.error,
+    settings: state.settings,
+    subscribeAuth: state.footer.subscribeAuth,
+  }
+);
 
-export default connect(mapStateToProps, { getFooter })(Footer);
+export default connect(mapStateToProps, {
+  subscribeUser,
+  emptyError,
+  beforeFooter,
+})(Footer);

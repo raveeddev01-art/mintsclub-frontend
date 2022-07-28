@@ -7,39 +7,71 @@ import CardSlider from "../card-slider/CardSlider";
 import HeroCards from "../hero-cards/HeroCards";
 import { ENV } from "../../config/config";
 import { beforeAuction, getLiveAuctions } from "../auctions/auctions.action";
+import { beforeNFT, getNFTs } from "../nfts/nfts.action";
 import { connect } from "react-redux";
 // import { connectWallet } from "../../utils/algorand";
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
-  const [auctions, setAuctions] = useState(null);
+  const [data, setData] = useState(null);
+  const [status, setStatus] = useState(null);
   const heroSettings = ENV.heroSettings;
 
   useEffect(async () => {
     let connectedAddress = await connectMetamaskCopy();
     setConnectedAddress(connectedAddress);
   }, []);
+
   useEffect(() => {
     const qs = ENV.objectToQueryString({
       myFilter: "all",
     });
     props.getLiveAuctions(qs);
   }, []);
+
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
       let updatedAuctions = [];
-      if (auctions.length > 0) {
+      // if (false) {
+        props.beforeAuction();
+        setStatus("auctions");
         updatedAuctions = auctions.filter((item) => item.fileType === "image");
-      }
-      if (updatedAuctions?.length > 6) {
-        updatedAuctions = updatedAuctions.slice(0, 6);
-      }
-      setAuctions(updatedAuctions);
-
-      props.beforeAuction();
+        if (updatedAuctions?.length > 6) {
+          updatedAuctions = updatedAuctions.slice(0, 6);
+        }
+        setData(updatedAuctions);
+      // } else {
+        
+      //   setStatus("nfts");
+      //   let searchQs = { page: 1, limit: 10 };
+      //   searchQs = ENV.objectToQueryString(searchQs);
+      //   return getNFTs(searchQs);
+      // }
+     
     }
   }, [props.auction.auctionsAuth]);
 
+
+  // useEffect(() => {
+  //   if (props.nft.nftsAuth) {
+  //   props.beforeNFT();
+  //     const { nfts } = props.nft.nftsData;
+  //     if (nfts?.length > 0) {
+  //       if (nfts.length > 6) {
+  //         setData(nfts.slice(0, 6));
+  //       } else {
+  //         setData(nfts);
+  //       }
+  //     }
+  //   }
+  // }, [props.nft.nftsAuth]);
+
+  // const getNFTs = (filter) => {
+  //   props.beforeNFT();
+  //   const qs = ENV.objectToQueryString(filter);
+  //   console.log(qs, "query string of all nfts");
+  //   props.getNFTs(qs);
+  // };
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -78,11 +110,11 @@ const Hero = (props) => {
           </div>
           <div className="col-12 col-lg-6">
             <CardSlider settings={heroSettings}>
-              {auctions &&
-                auctions.length > 0 &&
-                auctions.map((auction, id) => {
+              {data &&
+                data.length > 0 &&
+                data.map((auction, id) => {
                   return (
-                    <HeroCards key={id} auction={auction} className="slide" />
+                    <HeroCards key={id} auction={auction} status={status} className="slide" />
                   );
                 })}
             </CardSlider>
@@ -95,8 +127,11 @@ const Hero = (props) => {
 
 const mapStateToProps = (state) => ({
   auction: state.auction,
+  nft: state.nft,
 });
 export default connect(mapStateToProps, {
   beforeAuction,
   getLiveAuctions,
+  beforeNFT,
+  getNFTs,
 })(Hero);

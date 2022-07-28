@@ -6,7 +6,10 @@
 .footer-area .footer-top .footer-items.footer-notify-item {
   margin: 0 auto;
 }
-
+.footer-area .footer-items .footer-loader{
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+}
 .footer-area .footer-items .footer-title {
   font-size: 20px;
   font-weight: bold;
@@ -74,6 +77,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 6rem;
 }
 
 .footer-area .footer-items .notify-form .email-icon {
