@@ -104,7 +104,9 @@ const NFTDetail = (props) => {
   }, []);
 
   useEffect(async () => {
+    props.beforeNFT()
     props.getNFT(nftId);
+    props.beforeNFTByCollection()
     let qs = { userId };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
@@ -116,6 +118,7 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.createAuth) {
+
       setLoader(false);
       props.beforeBid();
       history.push("/explore/allNFT");
@@ -124,6 +127,7 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.buyAuth) {
+
       setLoader(false);
       setDisabled(false);
       setTransactionSuccess(true);
@@ -170,6 +174,7 @@ const NFTDetail = (props) => {
     if (props.nftsAuth) {
       setNftDetail(props.nftDetail);
       setLoader(false);
+      props.beforeNFT();
 
       //get activities
       let activityQs = { nftId: props.nftDetail._id };
@@ -223,6 +228,8 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.nftsByCollectionStatus) {
+      props.beforeNFTByCollection();
+
       let moreCollection = [];
       if (props.nftsByCollection && props.nftsByCollection?.length) {
         moreCollection = props.nftsByCollection.filter(
@@ -230,7 +237,8 @@ const NFTDetail = (props) => {
         );
       }
       setNFTs(moreCollection);
-      setLoader(false);
+
+      // setLoader(false);
     }
   }, [props.nftsByCollectionStatus]);
 
@@ -755,7 +763,6 @@ const NFTDetail = (props) => {
     ownerAddress,
   } = nftDetail;
   const { connectedAddress } = props;
-
   const bannerData = {
     subHeading: "NFT",
     heading: "NFT Details",

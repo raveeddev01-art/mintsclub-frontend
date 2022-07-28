@@ -52,6 +52,7 @@ const AllNFT = (props) => {
       setFilterationLoader(true);
       props.getNFTs(searchQs);
     } else {
+      props.beforeNFT();
       getNFTs();
     }
     let qs = { userId: ENV.getUserKeys("_id")._id };
@@ -247,8 +248,7 @@ const AllNFT = (props) => {
   const fetchData = (filterObj) => {
     getNFTs(filterObj);
   };
-// console.log(props.connectedAddress,"connectedAddress")
-
+  console.log(props.nftsByCollectionStatus,"nftsByCollectionStatus all nfts")
 
   return (
     <>
@@ -290,6 +290,7 @@ const mapStateToProps = (state) => ({
   collections: state.collection.collections,
   togleLikeRes: state.explore.togleLikeRes,
   connectedAddress: state.wallet.connectedAddress,
+  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
 });
 
 export default connect(mapStateToProps, {
