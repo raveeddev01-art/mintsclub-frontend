@@ -7,9 +7,8 @@ import CardSlider from "../card-slider/CardSlider";
 import HeroCards from "../hero-cards/HeroCards";
 import { ENV } from "../../config/config";
 import { beforeAuction, getLiveAuctions } from "../auctions/auctions.action";
-import { beforeNFT, getNFTs } from "../nfts/nfts.action";
 import { connect } from "react-redux";
-// import { connectWallet } from "../../utils/algorand";
+import { WordsFamousNfts } from "../../utils/exportData";
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
   const [data, setData] = useState(null);
@@ -32,7 +31,7 @@ const Hero = (props) => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
       let updatedAuctions = [];
-      // if (false) {
+      if (auctions&&auctions.length>1) {
         props.beforeAuction();
         setStatus("auctions");
         updatedAuctions = auctions.filter((item) => item.fileType === "image");
@@ -40,38 +39,14 @@ const Hero = (props) => {
           updatedAuctions = updatedAuctions.slice(0, 6);
         }
         setData(updatedAuctions);
-      // } else {
-        
-      //   setStatus("nfts");
-      //   let searchQs = { page: 1, limit: 10 };
-      //   searchQs = ENV.objectToQueryString(searchQs);
-      //   return getNFTs(searchQs);
-      // }
-     
+      } else {
+        setStatus("nfts");
+        setData(WordsFamousNfts);
+      }
     }
   }, [props.auction.auctionsAuth]);
 
 
-  // useEffect(() => {
-  //   if (props.nft.nftsAuth) {
-  //   props.beforeNFT();
-  //     const { nfts } = props.nft.nftsData;
-  //     if (nfts?.length > 0) {
-  //       if (nfts.length > 6) {
-  //         setData(nfts.slice(0, 6));
-  //       } else {
-  //         setData(nfts);
-  //       }
-  //     }
-  //   }
-  // }, [props.nft.nftsAuth]);
-
-  // const getNFTs = (filter) => {
-  //   props.beforeNFT();
-  //   const qs = ENV.objectToQueryString(filter);
-  //   console.log(qs, "query string of all nfts");
-  //   props.getNFTs(qs);
-  // };
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -93,7 +68,6 @@ const Hero = (props) => {
               >
                 Create
               </Link>
-              {/* <buton onClick={() => connectWallet()}>Connect Wallet</buton> */}
               <Link
                 className="btn btn-blue-bordered btn-hero-explore"
                 to="/explore/exploreAll"
@@ -114,7 +88,12 @@ const Hero = (props) => {
                 data.length > 0 &&
                 data.map((auction, id) => {
                   return (
-                    <HeroCards key={id} auction={auction} status={status} className="slide" />
+                    <HeroCards
+                      key={id}
+                      data={auction}
+                      status={status}
+                      className="slide"
+                    />
                   );
                 })}
             </CardSlider>
@@ -132,6 +111,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   beforeAuction,
   getLiveAuctions,
-  beforeNFT,
-  getNFTs,
 })(Hero);

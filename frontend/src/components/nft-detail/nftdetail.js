@@ -734,8 +734,12 @@ const NFTDetail = (props) => {
     });
     if (res.data.success) {
       if (userId == ownerId) {
+        props.beforeBid()
+        setBids(null)
         toast.success(res.data.message);
       } else {
+        props.beforeBid()
+        setBids(null)
         toast.success("You have purchased NFT successfully");
       }
       history.push("/userprofile");
@@ -791,6 +795,7 @@ const NFTDetail = (props) => {
       value: "Ethereum",
     },
   ];
+  console.log(bids,"bids")
 
   return (
     <>

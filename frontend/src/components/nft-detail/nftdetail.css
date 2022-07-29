@@ -233,7 +233,7 @@
 .table-container .table thead {
   position: sticky;
   top: 0;
-  background-color: rgba(56, 127, 255, 0.24);
+  background-color: #bddffe;
   font-weight: 700;
   font-size: 15px;
   color: #393939;
