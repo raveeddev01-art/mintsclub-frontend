@@ -145,7 +145,8 @@ const Wallet = (props) => {
         props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
       } catch (error) {
-        return toast.error(error.message);
+        console.log(error,"eror of rejection")
+     
       }
     }
     try {

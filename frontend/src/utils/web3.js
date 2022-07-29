@@ -360,6 +360,7 @@ export const switchNetworkToChainId= async(id)=>{
       let accounts = await web3.eth.getAccounts();
       return accounts[0];
     }catch(err){
+      toast.error(err.message)
       throw new Error(err);
     }
   }

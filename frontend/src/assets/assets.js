@@ -50,6 +50,15 @@ import cardano from "./images/about-cardano.svg";
 import solana from "./images/about-solana.svg";
 import algoran from "./images/about-algoran.svg";
 
+//famous NFTs
+import nft1 from "./images/famous1.jpeg";
+import nft2 from "./images/famous2.webp";
+import nft3 from "./images/famous3.jpg";
+import nft4 from "./images/famous4.jpg";
+import nft5 from "./images/famous5.png";
+import nft6 from "./images/famous6.jpeg";
+import nft7 from "./images/famous7.jpeg";
+
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -112,4 +121,14 @@ export const editImages = {
   Twitter,
   Insta,
   Website,
+};
+
+export const famousNFTs = {
+  nft1,
+  nft2,
+  nft3,
+  nft4,
+  nft5,
+  nft6,
+  nft7,
 };

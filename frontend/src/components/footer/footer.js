@@ -21,9 +21,10 @@ const Footer = (props) => {
   const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
   useEffect(() => {
-    if (props.subscribeAuth) {
+    if (props.subscribeAuth && props.error === null) {
       setLoader(false);
       toast.success("Subscribed successfully");
+      props.beforeFooter();
     }
   }, [props.subscribeAuth]);
 
@@ -192,13 +193,11 @@ const Footer = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
-    error: state.error,
-    settings: state.settings,
-    subscribeAuth: state.footer.subscribeAuth,
-  }
-);
+const mapStateToProps = (state) => ({
+  error: state.error,
+  settings: state.settings,
+  subscribeAuth: state.footer.subscribeAuth,
+});
 
 export default connect(mapStateToProps, {
   subscribeUser,
