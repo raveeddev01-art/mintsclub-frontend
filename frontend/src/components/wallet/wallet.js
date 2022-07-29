@@ -145,7 +145,6 @@ const Wallet = (props) => {
         props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
       } catch (error) {
-        console.log(error,"eror of rejection")
      
       }
     }

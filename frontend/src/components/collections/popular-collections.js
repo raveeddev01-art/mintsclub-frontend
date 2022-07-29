@@ -109,6 +109,7 @@ const PopularCollections = (props) => {
       return Images.imagePlaceholder;
     }
   };
+  console.log(popular,"popular")
 
   return (
     <>
@@ -197,6 +198,8 @@ const PopularCollections = (props) => {
                     userName={item.username[0]}
                     NFTCount={item.totalNfts}
                     profileImage={item.profileImage[0]}
+                    ownerAddress={item.ownerAddress}
+                    connectedAddress={props.connectedAddress}
                     index={i}
                   />
                 );
@@ -217,6 +220,8 @@ const mapStateToProps = (state) => ({
   category: state.category,
   popularCollections: state.collection.popularCollections,
   getPopularAuth: state.collection.getPopularAuth,
+  connectedAddress: state.wallet.connectedAddress,
+
 });
 
 export default connect(mapStateToProps, {

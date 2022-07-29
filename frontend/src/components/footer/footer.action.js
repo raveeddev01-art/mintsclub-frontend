@@ -60,9 +60,9 @@ export const subscribeUser = (email) => async (dispatch) => {
     dispatch({
       type: SUBSCRIBE_RESPONSE,
     });
-    console.log(response, "response");
+    // console.log(response, "response");
   } catch (error) {
-    console.log(error.response, "error");
+    // console.log(error.response, "error");
     dispatch({
       type: GET_ERRORS,
       payload: error.response.data,

@@ -184,7 +184,6 @@ const SignUp = (props) => {
 };
 
 const mapStateToProps = (state) => (
-  console.log(state, "state"),
   {
     wallet: state.wallet,
     collection: state.collection,

@@ -48,7 +48,7 @@ const AllNFT = (props) => {
       let searchQs = { keyword: props.location.state, page: 1, limit: 10 };
       window.history.replaceState(null, "");
       searchQs = ENV.objectToQueryString(searchQs);
-      console.log(searchQs, "searchQs");
+      // console.log(searchQs, "searchQs");
       setFilterationLoader(true);
       props.getNFTs(searchQs);
     } else {
@@ -160,7 +160,7 @@ const AllNFT = (props) => {
       }
     }
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "query string of all nfts");
+    // console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {

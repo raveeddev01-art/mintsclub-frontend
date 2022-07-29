@@ -118,7 +118,7 @@ const CollectionDetailsPage = (props) => {
       }
     }
     const qs = ENV.objectToQueryString(nftQS);
-    console.log(qs, "query string of all nfts");
+    // console.log(qs, "query string of all nfts");
     props.getNFTs(qs);
   };
   ///////////Likes

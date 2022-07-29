@@ -117,7 +117,6 @@ export const verifyOtp = (email, otp) => (dispatch) => {
 
   axios.post(url, data, config).then(
     (res) => {
-      console.log(res,"res")
       if(res.data.email){
 
         if(res.data.email!==email){

@@ -161,7 +161,7 @@ export const putonsale = async (tokenId, amount, price) => {
       return sellId;
     }
   } catch (err) {
-    console.log(err, "error");
+    // console.log(err, "error");
     throw new Error(err);
   }
 };
@@ -193,7 +193,7 @@ export const BuyFixedPriceNFT = async (
     }
   } catch (err) {
     setConfirmed(false);
-    console.log(err);
+    // console.log(err);
 
     throw new Error(err);
   }
@@ -232,7 +232,7 @@ export const claimNFTfromContract = async (tokenId) => {
       return result;
     }
   } catch (err) {
-    console.log(err, "error");
+    // console.log(err, "error");
     throw new Error(err);
   }
 };
@@ -245,11 +245,11 @@ export const endAuctionFromContract = async (tokenId) => {
       gassPrice: 5000000,
     });
     if (result) {
-      console.log(result, "result");
+      // console.log(result, "result");
       return result;
     }
   } catch (err) {
-    console.log(err, "error");
+    // console.log(err, "error");
     throw new Error(err);
   }
 };
@@ -404,7 +404,7 @@ const handleSignMessage = (address) => {
         }
       );
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   });
 };
@@ -440,7 +440,7 @@ export const setNftToken = (body) => {
       }
     })
     .catch((error) => {
-      console.log(error, "error in catch blcok");
+      // console.log(error, "error in catch blcok");
       if (error.response && error.response.data) {
       }
     });

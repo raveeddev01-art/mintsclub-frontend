@@ -25,7 +25,6 @@ const StatsModal = (props) => {
       }
     }
   };
-
   return (
     <Modal
       {...props}
@@ -97,6 +96,7 @@ const StatsModal = (props) => {
                                 if (
                                   +e.target.value > 5 ||
                                   (+e.target.value <= 0 && item.value == "")
+                                  ||e.target.value.includes(".")
                                 ) {
                                   return "";
                                 }

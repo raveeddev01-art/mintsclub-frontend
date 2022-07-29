@@ -268,7 +268,7 @@ export const placeBidApi = (body) => {
       }
     })
     .catch((error) => {
-      console.log('listing', error);
+      // console.log('listing', error);
       if (error.response && error.response.data) {
         const { data } = error.response;
         if (data.message) toast.error(data.message);

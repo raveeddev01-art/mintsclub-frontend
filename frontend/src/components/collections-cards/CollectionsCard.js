@@ -22,6 +22,7 @@ const CollectionsCard = ({
 }) => {
   const [loader, setLoader] = useState(true);
   const history = useHistory();
+  console.log(ownerAddress,connectedAddress)
   return (
     <Card
       className="collection-cards-container m-1 mx-auto mx-sm-1"
