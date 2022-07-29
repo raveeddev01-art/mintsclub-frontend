@@ -56,7 +56,7 @@ export const getFooter = () => (dispatch) => {
 export const subscribeUser = (email) => async (dispatch) => {
   dispatch(emptyError());
   try {
-    const response = await axios.post(`${ENV.url}/users/subscribe`, { email });
+    const response = await axios.post(`${ENV.url}users/subscribe`, { email });
     dispatch({
       type: SUBSCRIBE_RESPONSE,
     });
