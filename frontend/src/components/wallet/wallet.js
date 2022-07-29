@@ -21,7 +21,7 @@ import "./wallet.css";
 import Banner from "../banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import { getWalletAddress, validateNetwork } from "../../utils/web3";
-
+import { ENV } from "../../config/config";
 const Wallet = (props) => {
   const history = useHistory();
   let walletAddress = false;
@@ -48,9 +48,9 @@ const Wallet = (props) => {
       );
     } else {
       // if (await validateNetwork()) {
-      if (getChainId !== 4) {
+      if (getChainId !== ENV.chainId) {
         try {
-          await switchNetworkToChainId();
+          await switchNetworkToChainId(ENV.chainId);
         } catch (error) {
           return toast.error(error.message);
         }
@@ -109,9 +109,10 @@ const Wallet = (props) => {
 
   const signup = async (e) => {
     e.preventDefault();
-    if (getChainId !== 4) {
+    if (getChainId !== ENV.chainId) {
       try {
-        let newAcc = await switchNetworkToChainId();
+        let newAcc = await switchNetworkToChainId(ENV.chainId);
+        props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
       } catch (error) {
         return toast.error(error.message);
@@ -138,9 +139,10 @@ const Wallet = (props) => {
   };
 
   const login = async () => {
-    if (getChainId !== 1) {
+    if (getChainId !== ENV.chainId) {
       try {
-        let newAcc = await switchNetworkToChainId();
+        let newAcc = await switchNetworkToChainId(ENV.chainId);
+        props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
       } catch (error) {
         return toast.error(error.message);
@@ -149,12 +151,11 @@ const Wallet = (props) => {
     try {
       setDisabled(true);
       setLoader(true);
-
       await signRequest();
       let payload = {
         address: connectedAddress,
       };
-      props.setWalletAddress(connectedAddress);
+      props.setWalletAddress(connectedAddress)
 
       props.login(payload);
     } catch (err) {
