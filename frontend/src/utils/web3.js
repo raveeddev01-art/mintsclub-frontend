@@ -355,7 +355,7 @@ export const switchNetworkToChainId= async(id)=>{
       let web3 = await getWeb3();
                 await web3.currentProvider.request({
       method: 'wallet_switchEthereumChain',
-        params: [{ chainId: Web3.utils.toHex(1) }],
+        params: [{ chainId: Web3.utils.toHex(4) }],
       });
       let accounts = await web3.eth.getAccounts();
       return accounts[0];

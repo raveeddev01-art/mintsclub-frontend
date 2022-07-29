@@ -31,7 +31,7 @@ const HeroCards = ({ auction, connectedAddress, status }) => {
                 : "unnamed"}
             </span>
           </p>
-        </div>
+        </div> 
         <button
           className="hero-btn-bid cursor-pointer"
           onClick={() => history.push(`/explore/nftdetail/${_id}`)}

@@ -23,7 +23,6 @@ const App = React.memo((props) => {
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
   const location = useLocation();
-  console.log(location.pathname);
   useEffect(async () => {
     tawkTo(tawkToPropertyId, tawkToKey);
   }, [ENV]);
@@ -34,7 +33,6 @@ const App = React.memo((props) => {
       return;
     }
     const accountWasChanged = (accounts) => {
-      alert(window.ethereum.isConnected())
       setWallet(accounts[0]);
     };
     const getAndSetAccount = async () => {
@@ -48,12 +46,11 @@ const App = React.memo((props) => {
 
     };
     const clearAccount = () => {
-      console.log("account cleared======>")
-      alert("account disconnected")
+    
     };
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
-    window.ethereum.on("disconnect", ()=>alert("account cleared"));
+    // window.ethereum.on("disconnect", ()=>alert("account cleared"));
     window.ethereum.request({ method: "eth_requestAccounts" }).then(
       (accounts) => {
         setWallet(accounts[0])

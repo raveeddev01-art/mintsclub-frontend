@@ -48,7 +48,7 @@ const Wallet = (props) => {
       );
     } else {
       // if (await validateNetwork()) {
-      if (getChainId !== 1) {
+      if (getChainId !== 4) {
         try {
           await switchNetworkToChainId();
         } catch (error) {
@@ -109,7 +109,7 @@ const Wallet = (props) => {
 
   const signup = async (e) => {
     e.preventDefault();
-    if (getChainId !== 1) {
+    if (getChainId !== 4) {
       try {
         let newAcc = await switchNetworkToChainId();
         setConnectedAddress(newAcc);
