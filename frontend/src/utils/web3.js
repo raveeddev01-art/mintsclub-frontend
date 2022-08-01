@@ -45,14 +45,13 @@ export const getNetworkNameByChainId = async () => {
     return currentNetwork;
   }
 };
-export const getChainId=async()=>{
+export const getChainId = async () => {
   if (window.ethereum) {
-
-  let web3 = await getWeb3();
-  let chainId = await web3.eth.getChainId();
-  return chainId
+    let web3 = await getWeb3();
+    let chainId = await web3.eth.getChainId();
+    return chainId;
   }
-}
+};
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
@@ -124,17 +123,23 @@ export const placeABid = async (amount, tokenId) => {
     const contractM = await getContractMethods();
     const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
     // let bidAmount = Number(amount) * 1000000000000000000;
-
+    console.log(bidAmount, "bidAmount");
     let id = Number(tokenId);
+    let web3 = await getWeb3();
 
     const result = await contractM.methods
       .bid(id)
-      .send({ from: connectedAddress, value: bidAmount, gas: 5000000 });
+      .send({
+        from: connectedAddress,
+        value: bidAmount,
+        gas: 5000000,
+      });
 
     if (result) {
       return result;
     }
   } catch (err) {
+    console.log(err,"error while bidding")
     if (err?.message) {
       toast.error(err.message);
     } else {
@@ -154,7 +159,10 @@ export const putonsale = async (tokenId, amount, price) => {
     let id = Number(tokenId);
     const result = await contractM.methods
       .putonsale(id, amount, weiAmount)
-      .send({ from: connectedAddress, gas: 5000000 });
+      .send({
+        from: connectedAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+      });
     let web3 = await getWeb3();
     let sellId = await web3.utils.hexToNumber(result.events[0].raw.data);
     if (sellId) {
@@ -348,27 +356,26 @@ export const connectWithMetamask = async () => {
   }
 };
 
-export const switchNetworkToChainId= async(id)=>{
+export const switchNetworkToChainId = async (id) => {
   if (window.ethereum) {
-    try{
-
+    try {
       let web3 = await getWeb3();
-                await web3.currentProvider.request({
-      method: 'wallet_switchEthereumChain',
+      await web3.currentProvider.request({
+        method: "wallet_switchEthereumChain",
         params: [{ chainId: Web3.utils.toHex(4) }],
       });
       let accounts = await web3.eth.getAccounts();
       return accounts[0];
-    }catch(err){
-      toast.error(err.message)
+    } catch (err) {
+      toast.error(err.message);
       throw new Error(err);
     }
   }
-}
+};
 export const signRequest = async () => {
   if (window.ethereum) {
     let web3 = await getWeb3();
-  
+
     let accounts = await web3.eth.getAccounts();
     let address = accounts[0];
     let signature = await handleSignMessage(address);
