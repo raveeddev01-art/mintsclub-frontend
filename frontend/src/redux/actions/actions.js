@@ -85,8 +85,7 @@ export const sendOtp = (data) => (dispatch) => {
       }
     },
     (err) => {
-      console.log(err, 'error');
-      alert('error while sending email');
+      // console.log(err, 'error');
     }
   );
 };
@@ -113,7 +112,7 @@ export const verifyOtp = (email, otp) => (dispatch) => {
   };
 
   let url = `${ENV.url}otpVerification/verify`;
-  console.log(url);
+  // console.log(url);
 
   axios.post(url, data, config).then(
     (res) => {
@@ -290,7 +289,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
       }
     )
     .catch((err) => {
-      console.log(err, 'error later==>');
+      // console.log(err, 'error later==>');
     });
 };
 

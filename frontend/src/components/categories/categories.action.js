@@ -24,7 +24,6 @@ export const getCategories = () => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        
         if (data.status) {
     
             dispatch({
@@ -38,7 +37,6 @@ export const getCategories = () => dispatch => {
             })
         }
     }).catch(error => {
-        console.log(error,"error==>")
        
         if (error.response && error.response.data) {
             const { data } = error.response

@@ -850,7 +850,7 @@ class CreateNFT extends Component {
 
                 <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
                   <label className="create-collection-label d-flex">
-                    No of Copies:*
+                    No of Copies:* (Max 1000000)
                     <span className="text-danger ms-2">
                       {this.validator.message("name", nft.copies, "required")}
                     </span>
@@ -860,7 +860,7 @@ class CreateNFT extends Component {
                     name="copies"
                     placeholder="No. of Copies"
                     type="text"
-                    maxLength={"3"}
+                    maxLength={"7"}
                     autoComplete="off"
                     required="required"
                     onKeyDown={(e) => decimalNumberValidator(e)}

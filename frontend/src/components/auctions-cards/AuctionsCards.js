@@ -51,6 +51,7 @@ const AuctionsCards = ({
             <Card.Img
               variant="top"
               onLoad={() => setLoader(false)}
+              onClick={() => history.push(`explore/nftdetail/${_id}`)}
               src={image}
               alt="AuctionTopImg"
               style={{ display: `${!loader ? "block" : "none"}` }}

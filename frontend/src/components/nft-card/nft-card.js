@@ -18,7 +18,6 @@ const NFTCard = (props) => {
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
   const [loader, setLoader] = useState(true);
-
   const {
     image,
     name,
@@ -32,7 +31,7 @@ const NFTCard = (props) => {
     remainingCopies,
     ownerAddress,
   } = props.data;
-  const { username, profileImage, profilePhoto } = props.owner;
+  const { username, profileImage, profilePhoto } = props?.owner;
   const user = ENV.getUserKeys("_id")?._id;
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1, id) => {
@@ -59,6 +58,7 @@ const NFTCard = (props) => {
             <Card.Img
               variant="top"
               onLoad={() => setLoader(false)}
+              onClick={() => history.push(`${props.path}${_id}`)}
               src={image}
               alt="AuctionTopImg"
               style={{ display: `${!loader ? "block" : "none"}` }}
@@ -179,7 +179,8 @@ const NFTCard = (props) => {
             <p>
               {"Owned by:"}
               <span className="text-capitalize ms-1">
-                {ownerAddress?.toUpperCase() === props.connectedAddress?.toUpperCase()
+                {ownerAddress?.toUpperCase() ===
+                props.connectedAddress?.toUpperCase()
                   ? "You"
                   : username && username?.length > 8
                   ? username.substring(0, 6) + "..."
@@ -201,9 +202,8 @@ const NFTCard = (props) => {
   );
 };
 
-const mapStateToProps = (state) =>
-  ({
-    connectedAddress:state.wallet.connectedAddress
-  });
+const mapStateToProps = (state) => ({
+  connectedAddress: state.wallet.connectedAddress,
+});
 
 export default connect(mapStateToProps, {})(NFTCard);
