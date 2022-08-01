@@ -132,7 +132,7 @@ export const placeABid = async (amount, tokenId) => {
       .send({
         from: connectedAddress,
         value: bidAmount,
-        gas: 5000000,
+        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
 
     if (result) {
@@ -230,11 +230,13 @@ export const setApprovalForAll = async (setApprovalStatus) => {
 
 export const claimNFTfromContract = async (tokenId) => {
   try {
+    let web3 = await getWeb3();
     let connectedAddress = await getMetamaskConnectedAddress();
     const contractM = await getContractMethods();
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
-      gassPrice: 5000000,
+      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+
     });
     if (result) {
       return result;
@@ -246,11 +248,12 @@ export const claimNFTfromContract = async (tokenId) => {
 };
 export const endAuctionFromContract = async (tokenId) => {
   try {
+    let web3 = await getWeb3();
     let connectedAddress = await getMetamaskConnectedAddress();
     const contractM = await getContractMethods();
     const result = contractM.methods.auctionEnd(tokenId).send({
       from: connectedAddress,
-      gassPrice: 5000000,
+      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
     });
     if (result) {
       // console.log(result, "result");
