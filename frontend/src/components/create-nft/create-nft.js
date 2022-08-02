@@ -582,10 +582,7 @@ class CreateNFT extends Component {
       content:
         "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
     };
-    const videoStyles = {
-      width: "100%",
-      height: "100%",
-    };
+   
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
         connectedAddress?.toUpperCase() ||

@@ -125,7 +125,7 @@ class CreateCollection extends Component {
             },
             async () => {
               const { collection } = this.state;
-
+             
               var formData = new FormData();
               for (var val in collection) {
                 if (collection[val]) {

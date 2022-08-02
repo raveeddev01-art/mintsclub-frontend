@@ -56,7 +56,6 @@ class CreateCollections extends Component {
       },
     });
   }
-
   componentDidMount() {
     window.scroll(0, 0);
     this.props.getCategories();
@@ -65,6 +64,7 @@ class CreateCollections extends Component {
 
   componentDidUpdate(prevProps) {
     const { connectedAddress } = this.props;
+   
     if (
       prevProps.connectedAddress !== "" &&
       prevProps.connectedAddress.toUpperCase() !==
@@ -73,6 +73,13 @@ class CreateCollections extends Component {
     ) {
       toast.info("Please login with new connected account");
       return this.props.history.push("/login");
+    }
+    if(prevProps.connectedAddress===""&&connectedAddress){
+      let { collection } = this.state;
+    collection = { ...collection, ownerAddress: connectedAddress };
+    this.setState({
+      collection,
+    });
     }
     if (this.props.error !== null && prevProps.error === null) {
       toast.error(this.props.error.message);
@@ -175,7 +182,6 @@ class CreateCollections extends Component {
             },
             async () => {
               const { collection } = this.state;
-
               var formData = new FormData();
               for (var val in collection) {
                 if (collection[val]) {
@@ -231,6 +237,7 @@ class CreateCollections extends Component {
     this.setState({ collection });
   };
 
+
   render() {
     const {
       collection,
@@ -240,6 +247,8 @@ class CreateCollections extends Component {
       categories,
       selectedOption,
     } = this.state;
+
+
     if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");
       this.props.history.push("/");
