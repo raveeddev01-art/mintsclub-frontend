@@ -104,9 +104,9 @@ const NFTDetail = (props) => {
   }, []);
 
   useEffect(async () => {
-    props.beforeNFT()
+    props.beforeNFT();
     props.getNFT(nftId);
-    props.beforeNFTByCollection()
+    props.beforeNFTByCollection();
     let qs = { userId };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
@@ -118,7 +118,6 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.createAuth) {
-
       setLoader(false);
       props.beforeBid();
       history.push("/explore/allNFT");
@@ -127,7 +126,6 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     if (props.buyAuth) {
-
       setLoader(false);
       setDisabled(false);
       setTransactionSuccess(true);
@@ -261,22 +259,20 @@ const NFTDetail = (props) => {
   // }, [props.itemsListingAuth]);
 
   const handleRouting = async () => {
-    const {ownerAddress}=nftDetail
-     
-      let currentAddress= connectedAddress?.toUpperCase()
+    const { ownerAddress } = nftDetail;
+
+    let currentAddress = connectedAddress?.toUpperCase();
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
     ) {
       if (await validateNetwork()) {
-
         if (
           currentAddress === ownerAddress.toUpperCase() &&
           nftDetail.sellingMethod === 2
         ) {
           EndAuction();
         } else if (currentAddress === ownerAddress.toUpperCase()) {
-
           history.push({
             pathname: `/sell-item/${nftDetail._id}`,
             state: nftDetail,
@@ -554,8 +550,10 @@ const NFTDetail = (props) => {
   };
 
   const BuyNow = async () => {
-    if (  ENV.getUserKeys("address")?.address?.toUpperCase() ===
-    connectedAddress?.toUpperCase()) {
+    if (
+      ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      connectedAddress?.toUpperCase()
+    ) {
       if (await validateNetwork()) {
         setDisabled(true);
         try {
@@ -729,17 +727,34 @@ const NFTDetail = (props) => {
     }
   };
   const EndAuctionFromBackend = async () => {
-    let res = await axios.post(`${ENV.url}nfts/endAuction`, {
-      nft: nftDetail,
-    });
+    const headers = {
+      Authorization: ENV.Authorization,
+      "x-auth-token": ENV.x_auth_token,
+      "Access-Control-Allow-Origin": "*",
+      "x-access-token":
+        ENV.getUserKeys("accessToken") &&
+        ENV.getUserKeys("accessToken").accessToken
+          ? ENV.getUserKeys("accessToken").accessToken
+          : "",
+    };
+    let res = await axios.post(
+      `${ENV.url}nfts/endAuction`,
+      {
+        nft: nftDetail,
+      },
+      {
+        headers:headers,
+      },
+     
+    );
     if (res.data.success) {
       if (userId == ownerId) {
-        props.beforeBid()
-        setBids(null)
+        props.beforeBid();
+        setBids(null);
         toast.success(res.data.message);
       } else {
-        props.beforeBid()
-        setBids(null)
+        props.beforeBid();
+        setBids(null);
         toast.success("You have purchased NFT successfully");
       }
       history.push("/userprofile");
@@ -1431,31 +1446,29 @@ const NFTDetail = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
-    nftDetail: state.nft.nftsData,
-    nftsAuth: state.nft.nftsAuth,
-    nftsByCollection: state.nft.nftsByCollection,
-    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-    myLikedNfts: state.nft.myLikedNfts,
-    myLikedNftsStatus: state.nft.myLikedNftsStatus,
-    activities: state.nft.itemActivities,
-    activitiesAuth: state.nft.activitiesAuth,
-    itemsListing: state.nft.itemsListing,
-    itemsListingAuth: state.nft.itemsListingAuth,
-    createAuth: state.bid.createAuth,
-    createAuthOffer: state.offer.createAuth,
-    buyAuth: state.offer.buyAuth,
-    getAuth: state.bid.getAuth,
-    getAuthOffer: state.offer.getAuth,
-    offers: state.offer.offers,
-    bids: state.bid.bids,
-    bidsByNft: state.bid.bidsByNft,
-    bidsByNftAuth: state.bid.bidsBYNftAuth,
-    togleLikeRes: state.explore.togleLikeRes,
-    connectedAddress: state.wallet.connectedAddress,
-  }
-);
+const mapStateToProps = (state) => ({
+  nftDetail: state.nft.nftsData,
+  nftsAuth: state.nft.nftsAuth,
+  nftsByCollection: state.nft.nftsByCollection,
+  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+  myLikedNfts: state.nft.myLikedNfts,
+  myLikedNftsStatus: state.nft.myLikedNftsStatus,
+  activities: state.nft.itemActivities,
+  activitiesAuth: state.nft.activitiesAuth,
+  itemsListing: state.nft.itemsListing,
+  itemsListingAuth: state.nft.itemsListingAuth,
+  createAuth: state.bid.createAuth,
+  createAuthOffer: state.offer.createAuth,
+  buyAuth: state.offer.buyAuth,
+  getAuth: state.bid.getAuth,
+  getAuthOffer: state.offer.getAuth,
+  offers: state.offer.offers,
+  bids: state.bid.bids,
+  bidsByNft: state.bid.bidsByNft,
+  bidsByNftAuth: state.bid.bidsBYNftAuth,
+  togleLikeRes: state.explore.togleLikeRes,
+  connectedAddress: state.wallet.connectedAddress,
+});
 
 export default connect(mapStateToProps, {
   getNFT,

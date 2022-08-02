@@ -155,7 +155,7 @@ export const putonsale = async (tokenId, amount, price) => {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let weiAmount = BigInt(Web3.utils.toWei(price, "ether"));
-
+    let web3 = await getWeb3();
     let id = Number(tokenId);
     const result = await contractM.methods
       .putonsale(id, amount, weiAmount)
@@ -163,7 +163,6 @@ export const putonsale = async (tokenId, amount, price) => {
         from: connectedAddress,
         gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
-    let web3 = await getWeb3();
     let sellId = await web3.utils.hexToNumber(result.events[0].raw.data);
     if (sellId) {
       return sellId;
