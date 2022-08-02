@@ -27,7 +27,7 @@ mintsclub-design-v2:
     - echo "Deploy to PM02 server"
     - ssh-add <(echo "$PM2_KEY")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; touch test; exit"
-#    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
+    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; git reset --hard; git pull origin mintsclub-design-v2; yarn install; exit"
+#    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; git reset --hard; git pull origin mintsclub-design-v2; yarn install; exit"
   only:
     - mintsclub-design-v2
