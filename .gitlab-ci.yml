@@ -6,10 +6,10 @@ mintsclub-design-v2:
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo "Deploy to PM02 server"
-    - ssh-add <(echo "$PM2_KEY")
+    - echo "Deploy to AWS server"
+    - ssh-add <(echo "$AWS_KEY")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2/frontend-v2/frontend; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
+    - ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub/mintsclub-prod/frontend-v2/frontend; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
 #    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; git reset --hard; git pull origin mintsclub-design-v2; yarn install; exit"
   only:
     - mintsclub-design-v2
