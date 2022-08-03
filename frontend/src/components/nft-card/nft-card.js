@@ -182,9 +182,9 @@ const NFTCard = (props) => {
                 {ownerAddress?.toUpperCase() ===
                 props.connectedAddress?.toUpperCase()
                   ? "You"
-                  : username && username?.length > 8
-                  ? username.substring(0, 6) + "..."
-                  : username?.length <= 8
+                  : username && username?.length > 19
+                  ? username.substring(0, 19) + "..."
+                  : username?.length <= 19
                   ? username
                   : "unnamed"}
               </span>

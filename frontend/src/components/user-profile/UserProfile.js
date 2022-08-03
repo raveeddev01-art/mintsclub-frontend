@@ -423,7 +423,7 @@ const UserProfile = (props) => {
       </>
     );
   } else {
-    toast.info("Please login with new connected account test");
+    toast.info("Please login with new connected account");
     localStorage.clear()
     history.push("/login");
     return " ";

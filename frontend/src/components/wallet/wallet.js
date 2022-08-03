@@ -99,9 +99,8 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
-    if (props.collection.getAuth === true) {
+    if (props.collection.getAuth&&ENV.getUserKeys("_id")?._id) {
       props.beforeCollection();
-
       toast.success("User logged in successfully");
       history.push("/");
     }
