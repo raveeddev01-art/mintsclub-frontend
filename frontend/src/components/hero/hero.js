@@ -75,12 +75,12 @@ const Hero = (props) => {
                 Explore
               </Link>
             </div>
-            {/* <div className="watch-video d-flex align-items-center mt-5 mb-4">
+            <div className="watch-video d-flex align-items-center mt-5 mb-4">
               <button className="hero-play-btn">
                 <img src={Play} alt="play" />
               </button>
               <span className="ms-2">Watch video to learn more</span>
-            </div> */}
+            </div>
           </div>
           <div className="col-12 col-lg-6">
             <CardSlider settings={heroSettings}>
