@@ -857,7 +857,6 @@ class CreateNFT extends Component {
                     name="copies"
                     placeholder="No. of Copies"
                     type="text"
-                    // maxLength={"7"}
                     autoComplete="off"
                     required="required"
                     onKeyDown={(e) => decimalNumberValidator(e)}
