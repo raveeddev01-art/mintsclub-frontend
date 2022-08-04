@@ -58,6 +58,7 @@ const NavbarMain = (props) => {
               <Nav.Link className="nav-main-link">
                 <NavLink to="/">Home</NavLink>
               </Nav.Link>
+              
               <NavDropdown
                 title="Explore"
                 id="navbarScrollingDropdown"

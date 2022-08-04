@@ -857,14 +857,14 @@ class CreateNFT extends Component {
                     name="copies"
                     placeholder="No. of Copies"
                     type="text"
-                    maxLength={"7"}
+                    // maxLength={"7"}
                     autoComplete="off"
                     required="required"
                     onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={(e) => {
                       if (
                         (e.target.value.length && e.target.value === "0") ||
-                        e.target.value.includes(".")
+                        e.target.value.includes(".") ||+e.target.value>1000000
                       ) {
                         return false;
                       } else {
