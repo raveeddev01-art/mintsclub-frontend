@@ -298,7 +298,7 @@ export const connectMetamaskCopy = async (address) => {
 
     let currentNetwork = getNetworkName(chainId);
     if (!currentNetwork) {
-      toast.error("Please Connect your metamask with Ethereum Network");
+      // toast.error("Please Connect your metamask with Ethereum Network");
       return false;
     }
     if (chainId !== requiredChainId) {

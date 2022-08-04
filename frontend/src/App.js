@@ -58,10 +58,7 @@ const App = React.memo((props) => {
       (error) => {}
     );
     return () => {
-      // Return function of a non-async useEffect will clean up on component leaving screen, or from re-reneder to due dependency change
-      // window.ethereum.off('accountsChanged', accountWasChanged);
-      // window.ethereum.off('connect', getAndSetAccount);
-      // window.ethereum.off('disconnect', clearAccount);
+
     };
   }, []);
   const setWallet = (address) => {
