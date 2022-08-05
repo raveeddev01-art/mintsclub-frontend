@@ -53,7 +53,7 @@ const comingsoon = [
     img: aboutusImages.solana,
   },
   {
-    name: "Algoran",
+    name: "Algorand",
     img: aboutusImages.algoran,
   },
 ];
