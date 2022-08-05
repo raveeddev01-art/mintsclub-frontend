@@ -7,7 +7,7 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ENV } from "../../config/config";
 import "./NavbarMain.css";
 import { connect } from "react-redux";
-import { beforeCollection } from "../../components/collections/collections.actions";
+import { beforeCollection } from "../../pages/collections/collections.actions";
 
 const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;

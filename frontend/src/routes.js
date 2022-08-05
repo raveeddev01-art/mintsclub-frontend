@@ -2,26 +2,27 @@ import layout from "./layouts/layout/layout";
 import layout3 from "./layouts/layout3/layout3";
 import layout4 from "./layouts/layout4/layout4";
 // components
-import Home from "./components/home/home";
-import Populars from "./components/popular-collections-list/popular-collections-list";
-import CreateNFT from "./components/create-nft/create-nft";
-import Wallet from "./components/wallet/wallet";
-import Signup from "./components/signup/signup";
-import SellNFT from "./components/sell-nft/SellNFT";
-import NotFound from "./components/not-found/not-found";
-import ExploreCollections from "./components/collections/explore-collections";
-import AllNFT from "./components/explore/all-nft/allnft";
-import CollectionDetailsPage from "./components/collection-details/collectiondetails";
-import NFTDetail from "./components/nft-detail/nftdetail";
-import UserProfile from "./components/user-profile/UserProfile";
-import TopSellerList from "./components/top-seller/topsellerlist";
-import AuctionsList from "./components/auctions/home-auction-list";
-import EditProfile from "./components/user-profile/user-edit-profile";
-import CreateCollections from "./components/creat-collections/CreateCollections";
-import AboutUs from "./components/aboutus/aboutus";
-import Faqs from "./components/faqs/faqs";
-import PrivacyPolicy from "./components/privacy-policy/privacyPolicy";
-import TermsConditions from "./components/terms-conditions/termsConditions";
+import Home from "./pages/home/home";
+import Populars from "./pages/popular-collections-list/popular-collections-list";
+import CreateNFT from "./pages/create-nft/create-nft";
+import Wallet from "./pages/wallet/wallet";
+import Signup from "./pages/signup/signup";
+import SellNFT from "./pages/sell-nft/SellNFT";
+import NotFound from "./pages/not-found/not-found";
+import ExploreCollections from "./pages/explore-collections/explore-collections";
+import AllNFT from "./pages/all-nfts/all-nfts/allnft";
+import CollectionDetailsPage from "./pages/collection-details/collectiondetails";
+import NFTDetail from "./pages/nft-detail/nftdetail";
+import UserProfile from "./pages/user-profile/UserProfile";
+import TopSellerList from "./pages/top-seller/topsellerlist";
+import AuctionsList from "./pages/auctions/home-auction-list";
+import EditProfile from "./pages/user-edit-profile/user-edit-profile";
+import CreateCollections from "./pages/create-collections/CreateCollections";
+import AboutUs from "./pages/aboutus/aboutus";
+import Faqs from "./pages/faqs/faqs";
+import PrivacyPolicy from "./pages/privacy-policy/privacyPolicy";
+import TermsConditions from "./pages/terms-conditions/termsConditions";
+
 
 // routes
 const routes = [

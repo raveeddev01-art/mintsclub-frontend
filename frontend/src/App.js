@@ -3,31 +3,27 @@ import routes from "./routes";
 import { PrivateRoute } from "./privateRoute";
 import { Switch } from "react-router-dom";
 import FullPageLoader from "./components/full-page-loader/full-page-loader";
-import { useHistory } from "react-router";
 import tawkTo from "tawkto-react";
 import { ENV } from "./config/config";
 import "./App.css";
-import { getWalletAddress } from "./utils/web3";
 import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
-import { useLocation } from "react-router";
-
 import {
   beforeWallet,
   setWalletAddress,
-} from "./components/wallet/wallet.action";
+} from "./pages/wallet/wallet.action";
 
 const App = React.memo((props) => {
+
   useGaTracker();
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
-  const location = useLocation();
+
   useEffect(async () => {
     tawkTo(tawkToPropertyId, tawkToKey);
   }, [ENV]);
 
- 
   useEffect(() => {
     if (!window.ethereum) {
       return;
@@ -35,6 +31,7 @@ const App = React.memo((props) => {
     const accountWasChanged = (accounts) => {
       setWallet(accounts[0]);
     };
+
     const getAndSetAccount = async () => {
       const changedAccounts = await window.ethereum.request({
         method: "eth_requestAccounts",
@@ -44,9 +41,6 @@ const App = React.memo((props) => {
       }
       setWallet(changedAccounts[0])
 
-    };
-    const clearAccount = () => {
-    
     };
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
@@ -61,10 +55,12 @@ const App = React.memo((props) => {
 
     };
   }, []);
+
   const setWallet = (address) => {
     props.beforeWallet();
     props.setWalletAddress(address);
   };
+
 
   return (
     <React.Fragment>

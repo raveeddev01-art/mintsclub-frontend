@@ -16,7 +16,7 @@ import { emptyError } from '../../redux/shared/error/error.action';
 import {
   getCollections,
   setAuthState,
-} from '../collections/collections.actions';
+} from '../../pages/collections/collections.actions';
 
 export const beforeUser = () => {
   return {

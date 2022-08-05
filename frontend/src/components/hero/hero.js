@@ -6,7 +6,7 @@ import Play from "../../assets/images/play.svg";
 import CardSlider from "../card-slider/CardSlider";
 import HeroCards from "../hero-cards/HeroCards";
 import { ENV } from "../../config/config";
-import { beforeAuction, getLiveAuctions } from "../auctions/auctions.action";
+import { beforeAuction, getLiveAuctions } from "../../pages/auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 const Hero = (props) => {
