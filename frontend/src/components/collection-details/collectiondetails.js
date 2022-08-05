@@ -237,11 +237,13 @@ const CollectionDetailsPage = (props) => {
                           </span>
                         </h3>
                       </div>
-                      <div>
-                        <p>
-                          Created By: <span>{username?.[0]}</span>
-                        </p>
-                      </div>
+                      {username?.[0] && (
+                        <div>
+                          <p>
+                            Created By: <span>{username?.[0]}</span>
+                          </p>
+                        </div>
+                      )}
                     </div>
                     <div className="collection-owner-description mt-3">
                       <p>{description && description} </p>
