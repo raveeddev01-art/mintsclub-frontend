@@ -1,4 +1,4 @@
-mintsclub-v2:
+mintsclub-design-v2:
   stage:  deploy
   image: usamaciit96/node-yarn-npm-iz:v2
   before_script:
