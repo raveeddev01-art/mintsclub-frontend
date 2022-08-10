@@ -1,4 +1,4 @@
-test-mintsclub:
+mintsclub-Front-v2:
   stage:  deploy
   image: usamaciit96/mintsclub-v2:v2
   script:
