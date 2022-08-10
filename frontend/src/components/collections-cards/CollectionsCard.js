@@ -63,7 +63,7 @@ const CollectionsCard = ({
           <Card.Body>
             <Card.Title>
               <div>
-                {name && name.length > 15 ? name.slice(0, 15) + "..." : name}
+                {name && name.length > 22 ? name.slice(0, 22) + "..." : name}
               </div>
               <div className="collection-items d-flex align-items-center">
                 <span>{NFTCount} items</span>
