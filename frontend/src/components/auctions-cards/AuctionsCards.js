@@ -141,7 +141,7 @@ const AuctionsCards = ({
       <Card.Body>
         <Card.Title onClick={() => history.push(`explore/nftdetail/${_id}`)}>
           <div>
-            {name && name.length > 10 ? name.slice(0, 10) + "..." : name}
+            {name && name.length > 20 ? name.slice(0, 20) + "..." : name}
           </div>
           <div className="auction-owner-price d-flex align-items-center">
             <img src={ArrowUp} alt="" className="me-1" />
