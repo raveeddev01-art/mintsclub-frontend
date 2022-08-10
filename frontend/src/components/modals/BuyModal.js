@@ -33,7 +33,6 @@ const BuyModal = (props) => {
     balance,
     fileType,
   } = props;
-
   return confirmed === "" || confirmed === false || confirmed === "pending" ? (
     <Modal
       {...props}

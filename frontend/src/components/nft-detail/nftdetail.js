@@ -1409,7 +1409,7 @@ const NFTDetail = (props) => {
         balance={balance}
         fileType={fileType}
       />
-      <BuyModal
+      {/* <BuyModal
         show={modalShow1}
         onHide={() => {
           setModalShow1(false);
@@ -1431,7 +1431,7 @@ const NFTDetail = (props) => {
         disabled={disabled}
         balance={balance}
         fileType={fileType}
-      />
+      /> */}
       <BidModal
         show={bidModalShow}
         calculatePricePercantage={calculatePricePercantage}
