@@ -27,6 +27,7 @@ export const ENV = {
   tawkToPropertyId: process.env.REACT_APP_TAWK_TO_PROPERTY_ID,
   tawkToKey: process.env.REACT_APP_TAWK_TO_KEY,
   gaTrackerId:process.env.REACT_APP_GATRACKER_ID,
+  pinataJWT:process.env.REACT_APP_PINATA_JWT,
   currencies: [
     {
       name: "Ethereum",
@@ -35,17 +36,14 @@ export const ENV = {
     },
   ],
   serviceFee: 2.5,
-
   // Headers
   Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION}`,
   x_auth_token: process.env.REACT_APP_X_AUTH_TOKEN,
-
   // default images placeholders
   globalPlaceholderImage: "/img/placeholder.png",
   collectionFeaturedImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
   userDefaultImg: "https://via.placeholder.com/600x600/8e8e8e/ccc.png",
   categoryDefaultImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
-
   //set user in local storage
   encryptUserData: function (data) {
     let userData = localStorage.getItem("encuse");
