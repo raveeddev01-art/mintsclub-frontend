@@ -15,7 +15,6 @@ import {
 } from "../../redux/types";
 import { emptyError } from "../../redux/shared/error/error.action";
 import { ENV } from "./../../config/config";
-
 export const beforeCollection = () => {
   return {
     type: BEFORE_COLLECTION,
@@ -166,6 +165,7 @@ export const myCollections = (userId) => (dispatch) => {
 export const upsertCollection =
   (apiURL, body, method = "POST") =>
   (dispatch) => {
+    console.log('body---->', body)
     dispatch(emptyError());
     const url = `${ENV.url}${apiURL}`;
 
