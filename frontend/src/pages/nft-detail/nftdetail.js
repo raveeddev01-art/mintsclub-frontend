@@ -100,6 +100,7 @@ const NFTDetail = (props) => {
   const [contentLoader, setContentLoader] = useState(true);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
+
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
   useEffect(() => {
@@ -329,74 +330,6 @@ const NFTDetail = (props) => {
     }
   };
 
-  // const handleCollectionLikesTogleApi = async (nftId, status, likesCount) => {
-  //   if (await validateNetwork()) {
-  //     if (!likeButtonDisable) {
-  //       setLikeBtnDisable(true);
-  //       let userId = ENV.getUserKeys("_id")._id;
-
-  //       let body = {
-  //         userId,
-  //         nftId,
-  //         count: 1,
-  //       };
-
-  //       if (status === "dislike" && likesCount > 0) {
-  //         let result = likedNfts.filter((item) => item.nftId !== nftId);
-
-  //         setLikedNfts(result);
-  //         increOrDecreLikes(nftId, "dec");
-
-  //         props.toggleLikeDislike(body);
-  //       }
-
-  //       if (status === "like") {
-  //         let myLikedNfts = [];
-  //         if (likedNfts && likedNfts.length > 0) {
-  //           myLikedNfts = likedNfts;
-  //         }
-
-  //         let obj = {
-  //           _id: "1234455",
-  //           nftId,
-  //         };
-
-  //         myLikedNfts.push(obj);
-
-  //         setLikedNfts(myLikedNfts);
-  //         increOrDecreLikes(nftId, "inc");
-  //         props.toggleLikeDislike(body);
-  //       }
-  //       // setNFTs(nfts);
-  //     }
-  //   } else {
-  //     toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-  //   }
-  // };
-  const increOrDecreLikes = (id, status) => {
-    let updatedNfts = [];
-    if (status === "dec") {
-      updatedNfts = nfts.map((item) => {
-        if (item._id !== id) {
-          return item;
-        } else {
-          if (item?.likeCount > 0) {
-            return { ...item, likeCount: item.likeCount - 1 };
-          }
-        }
-      });
-      setNFTs(updatedNfts);
-    } else {
-      let updatedNfts = nfts.map((item) => {
-        if (item._id !== id) {
-          return item;
-        } else {
-          return { ...item, likeCount: item.likeCount + 1 };
-        }
-      });
-      setNFTs(updatedNfts);
-    }
-  };
 
   //match if nft liked
 
@@ -613,6 +546,7 @@ const NFTDetail = (props) => {
     };
     props.createActivity(activityPayload);
   };
+
   const handleAcitivityIcon = (type) => {
     if (type === "Mint") {
       return <MdShoppingCart />;
@@ -1395,7 +1329,7 @@ const NFTDetail = (props) => {
         balance={balance}
         fileType={fileType}
       />
-      <BuyModal
+      {/* <BuyModal
         show={modalShow1}
         onHide={() => {
           setModalShow1(false);
@@ -1417,7 +1351,7 @@ const NFTDetail = (props) => {
         disabled={disabled}
         balance={balance}
         fileType={fileType}
-      />
+      /> */}
       <BidModal
         show={bidModalShow}
         calculatePricePercantage={calculatePricePercantage}

@@ -28,7 +28,6 @@ import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
 } from "../all-nfts/explore.action";
-import axios from "axios";
 import useVideoPlayer from "../../components/test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { updateProfile } from "../../components/user/user.action";
@@ -42,6 +41,7 @@ import SellNFTLoader from "../../components/contentLoader/sellNFTLoader";
 import Audio from "../../components/audio/audio";
 import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
+
 const { dateRangeInitialSettings } = ENV;
 const config1 = {
   price: {
@@ -77,7 +77,6 @@ const SellNFT = (props) => {
     reserveFor: "", // if user selects reserve buyer
   });
   const [timedAuctionConfig, setTimedAuctionConfig] = useState({
-    method: 1, // 1 = Sell to the highest bidder or 2 = Sell with the declining price
     startPrice: {
       currency: ENV.currency,
       amount: "",
@@ -120,6 +119,7 @@ const SellNFT = (props) => {
     props.getMyLikedNfts(qs);
     validateIfLiked();
   }, []);
+  
   useEffect(() => {
     if (address === "") {
       setAddress(props.connectedAddress);
@@ -267,24 +267,9 @@ const SellNFT = (props) => {
         let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
         let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
         //calculate end time
-        // timedAuctionEndTime = timedAuctionEndTime.toString();
-        // timedAuctionEndTime =
-        //   timedAuctionEndTime.slice(0, 15) +
-        //   " " +
-        //   timedConfig.duration.endTime +
-        //   ":00" +
-        //   timedAuctionEndTime.slice(24);
-        // timedConfig.duration.endDate = timedAuctionEndTime;
         timedConfig.duration.endDate= calclateStartOrEndTime(timedAuctionEndTime,timedConfig)
 
         //calculate start time
-        // timedAuctionStartTime = timedAuctionStartTime.toString();
-        // timedAuctionStartTime =
-        //   timedAuctionStartTime.slice(0, 15) +
-        //   " " +
-        //   timedConfig.duration.startTime +
-        //   ":00" +
-        //   timedAuctionStartTime.slice(24);
         timedConfig.duration.startDate = calclateStartOrEndTime(timedAuctionStartTime,timedConfig);
 
         //Deleting unused data from payload
@@ -319,57 +304,64 @@ const SellNFT = (props) => {
 
       setLoader(true);
 
-      var formData = new FormData();
       if (sellingMethod === 2) {
-        try {
-          let auctionEndDate = timedAuctionConfig.duration.endDate;
-          let auctionStartDate = timedAuctionConfig.duration.startDate;
-
-          const biddingTime = new Date(auctionEndDate).getTime();
-          const startTime = new Date(auctionStartDate).getTime();
-
-          let result = await openNFTForBidding(
-            biddingTime,
-            startTime,
-            location.state.nftToken,
-            copies
-          );
-          if (result) {
-            activityPayload.price = price;
-            payload.sellId = Number(result);
-            for (const key in payload) formData.append(key, payload[key]);
-            props.createActivity(activityPayload);
-            props.upsertNFT("edit", formData, "PUT");
-          }
-        } catch (err) {
-          setLoader(false);
-          toast.error(err);
-        }
+        openBidding(timedAuctionConfig,payload,activityPayload,price)
       } else {
-        try {
-          let result = await putonsale(
-            nftDetail.nftToken,
-            copies,
-            fixedConfig.price.amount
-          );
-
-          if (result) {
-            activityPayload.price = price;
-            payload.sellId = Number(result);
-            for (const key in payload) formData.append(key, payload[key]);
-
-            props.createActivity(activityPayload);
-            props.upsertNFT("edit", formData, "PUT");
-          }
-        } catch (err) {
-          setLoader(false);
-          toast.error(err);
-        }
+        openForSale(activityPayload,payload,fixedConfig,price)
       }
     } else {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
+
+  const openBidding=async (timedAuctionConfig,payload,activityPayload,price)=>{
+    var formData = new FormData();
+    try {
+      let auctionEndDate = timedAuctionConfig.duration.endDate;
+      let auctionStartDate = timedAuctionConfig.duration.startDate;
+
+      const biddingTime = new Date(auctionEndDate).getTime();
+      const startTime = new Date(auctionStartDate).getTime();
+
+      let result = await openNFTForBidding(
+        biddingTime,
+        startTime,
+        location.state.nftToken,
+        copies
+      );
+      if (result) {
+        activityPayload.price = price;
+        payload.sellId = Number(result);
+        for (const key in payload) formData.append(key, payload[key]);
+        props.createActivity(activityPayload);
+        props.upsertNFT("edit", formData, "PUT");
+      }
+    } catch (err) {
+      setLoader(false);
+      toast.error(err);
+    }
+  }
+
+  const openForSale=async (activityPayload,payload,fixedConfig,price)=>{
+    var formData = new FormData();
+    try {
+      let result = await putonsale(
+        nftDetail.nftToken,
+        copies,
+        fixedConfig.price.amount
+      );
+      if (result) {
+        activityPayload.price = price;
+        payload.sellId = Number(result);
+        for (const key in payload) formData.append(key, payload[key]);
+        props.createActivity(activityPayload);
+        props.upsertNFT("edit", formData, "PUT");
+      }
+    } catch (err) {
+      setLoader(false);
+      toast.error(err);
+    }
+  }
 
   const calclateStartOrEndTime=(auctionConfig,timedConfig)=>{
     let time = auctionConfig.toString();
