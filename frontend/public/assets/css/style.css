@@ -1516,6 +1516,11 @@ aside {
   min-width: 100px;
   min-height: 40px;
 }
+.btn.btn-linear-gradient:disabled {
+  background: #387fff;
+  border: 1px solid #387fff;
+  color: #ffffff;
+}
 
 .btn.btn-rounded-bordered {
   background: transparent;
