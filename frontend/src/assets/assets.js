@@ -59,6 +59,16 @@ import nft5 from "./images/famous5.png";
 import nft6 from "./images/famous6.jpeg";
 import nft7 from "./images/famous7.jpeg";
 
+// Wallet Modal
+import metaImg from "./images/walletModal/metamskimg.png";
+import glowImg from "./images/walletModal/glow.png";
+import coinBaseImg from "./images/walletModal/coinbaseimg.png";
+import phantomImg from "./images/walletModal/phantomimg.png";
+import wcImg from "./images/walletModal/walletconnect.png";
+
+// Header images
+import logoDark from "./images/dark-theme-logo.svg";
+
 export const Images = {
   uploadImage,
   placeholderImg,
@@ -131,4 +141,16 @@ export const famousNFTs = {
   nft5,
   nft6,
   nft7,
+};
+
+export const connectModal = {
+  metaImg,
+  glowImg,
+  coinBaseImg,
+  phantomImg,
+  wcImg,
+};
+
+export const headerImages = {
+  logoDark,
 };

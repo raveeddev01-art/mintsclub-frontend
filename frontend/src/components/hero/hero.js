@@ -6,7 +6,10 @@ import Play from "../../assets/images/play.svg";
 import CardSlider from "../card-slider/CardSlider";
 import HeroCards from "../hero-cards/HeroCards";
 import { ENV } from "../../config/config";
-import { beforeAuction, getLiveAuctions } from "../../pages/auctions/auctions.action";
+import {
+  beforeAuction,
+  getLiveAuctions,
+} from "../../pages/auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 const Hero = (props) => {
@@ -31,7 +34,7 @@ const Hero = (props) => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
       let updatedAuctions = [];
-      if (auctions&&auctions.length>1) {
+      if (auctions && auctions.length > 1) {
         props.beforeAuction();
         setStatus("auctions");
         updatedAuctions = auctions.filter((item) => item.fileType === "image");
@@ -46,16 +49,15 @@ const Hero = (props) => {
     }
   }, [props.auction.auctionsAuth]);
 
-
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
         <div className="row align-items-center">
           <div className="col-12 col-lg-6">
             <h1 className="mt-4">
-              Discover, collect, <br /> <span>and sell </span>
+              Discover, Collect, <br /> <span>and sell</span> Rare
               <br />
-              Extraordinary <span> NFTs </span>
+              Digital Art <span> NFTs </span>
             </h1>
             <p className="mp-explore-text">
               Explore on the world's best & largest NFT marketplace

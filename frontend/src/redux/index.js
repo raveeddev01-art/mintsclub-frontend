@@ -10,7 +10,8 @@ import errorReducer from "./shared/error/error.reducer";
 import offersReducer from "../components/offers/offers.reducer";
 import bidsReducer from "../components/bids/bids.reducer";
 import exploreAllReducer from "../pages/all-nfts/explore.reducer";
-import footerReducer from '../components/footer/footer.reducer'
+import footerReducer from "../components/footer/footer.reducer";
+import darkModeReducer from "../components/dark-mode-button/darkModeButton.reducer";
 
 export default combineReducers({
   home: homeReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
   offer: offersReducer,
   bid: bidsReducer,
   explore: exploreAllReducer,
-  footer:footerReducer,
+  footer: footerReducer,
+  darkMode: darkModeReducer,
 });

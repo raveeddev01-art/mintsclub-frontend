@@ -1,0 +1,15 @@
+:root {
+  --btn-bg: #387fff;
+  --menu-text: #161616;
+  --page-bg: #ffffff;
+  --alt-section-bg: #fafbfe;
+  --text-body: #000000;
+}
+
+[data-theme="dark"] {
+  --btn-bg: #387fff;
+  --menu-text: #ffffff;
+  --page-bg: #1b243c;
+  --alt-section-bg: #1f2b4b;
+  --text-body: #ffffff;
+}
