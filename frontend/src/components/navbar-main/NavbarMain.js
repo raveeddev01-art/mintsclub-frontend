@@ -7,7 +7,9 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ENV } from "../../config/config";
 import "./NavbarMain.css";
 import { connect } from "react-redux";
+import DarkModeButton from "../dark-mode-button/darkModeButton";
 import { beforeCollection } from "../../pages/collections/collections.actions";
+import { headerImages } from "../../assets/assets";
 
 const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
@@ -16,6 +18,7 @@ const NavbarMain = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
   const location = useLocation();
+  const { darkMode } = props.darkMode;
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
@@ -44,13 +47,14 @@ const NavbarMain = (props) => {
     <div className="main-nav-section">
       <Container className="main-nav-container">
         <Navbar
-          bg="light"
           expand="xl"
-          variant="light"
           className="navbar-main-custom align-items-center px-0 py-4"
         >
           <NavLink to="/" className="navbar-brand-logo">
-            <img src={MintsClub} alt="logo" />
+            <img
+              src={darkMode ? headerImages.logoDark : MintsClub}
+              alt="logo"
+            />
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -58,7 +62,7 @@ const NavbarMain = (props) => {
               <Nav.Link className="nav-main-link">
                 <NavLink to="/">Home</NavLink>
               </Nav.Link>
-              
+
               <NavDropdown
                 title="Explore"
                 id="navbarScrollingDropdown"
@@ -141,6 +145,7 @@ const NavbarMain = (props) => {
               </div>
             </Nav>
           </Navbar.Collapse>
+          <DarkModeButton />
           <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
             <div className="search-box ">
               <input
@@ -184,6 +189,8 @@ const NavbarMain = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  darkMode: state.darkMode,
+});
 
 export default connect(mapStateToProps, { beforeCollection })(NavbarMain);

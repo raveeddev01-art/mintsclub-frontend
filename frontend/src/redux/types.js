@@ -71,9 +71,9 @@ export const BEFORE_POPULAR_COLLECTION = "BEFORE_POPULAR_COLLECTION";
 // FOOTER
 export const BEFORE_FOOTER = "BEFORE_FOOTER";
 export const GET_FOOTER = "GET_FOOTER";
-export const BEFORE_SUBSCRIBE="BEFORE_SUBSCRIBE";
-export const SUBSCRIBE="SUBSCRIBE";
-export const SUBSCRIBE_RESPONSE="SUBSCRIBE_RESPONSE"
+export const BEFORE_SUBSCRIBE = "BEFORE_SUBSCRIBE";
+export const SUBSCRIBE = "SUBSCRIBE";
+export const SUBSCRIBE_RESPONSE = "SUBSCRIBE_RESPONSE";
 // FAQ
 export const BEFORE_FAQ = "BEFORE_FAQ";
 export const GET_FAQS = "GET_FAQS";
@@ -101,3 +101,6 @@ export const NFTALL = "NFTALL";
 //Approvals
 export const GET_APPROVALS = "GET_APPROVALS";
 export const EDIT_APPROVAL = "EDIT_APPROVAL";
+
+// Dark Mode
+export const DARK_MODE = "DARK_MODE";

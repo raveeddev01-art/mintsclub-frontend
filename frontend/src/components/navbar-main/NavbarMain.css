@@ -1,9 +1,9 @@
 .main-nav-section {
-  background-color: #fff;
+  background-color: var(--page-bg);
 }
 
 .main-nav-container .navbar-main-custom.navbar.navbar-light.bg-light {
-  background-color: #fff !important;
+  background-color: var(--page-bg) !important;
 }
 
 .main-nav-container .navbar-main-custom .navbar-brand-logo {
@@ -19,7 +19,7 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 16px;
-  color: #161616;
+  color: var(--menu-text);
   padding-right: 30px;
 }
 
@@ -30,7 +30,7 @@
   a {
   font-weight: 700;
   font-size: 16px;
-  color: #161616;
+  color: var(--menu-text);
   padding-right: 30px;
   text-decoration: none;
 }
@@ -72,7 +72,7 @@
 }
 
 .main-nav-container .search-btn .search-icon path {
-  fill: #161616;
+  fill: var(--menu-text);
 }
 
 .main-nav-container .search-txt {
