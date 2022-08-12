@@ -23,7 +23,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import Compressor from "compressorjs";
-
+import axios from 'axios'
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
@@ -140,9 +140,7 @@ const EditProfile = (props) => {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
-
- 
+    e.preventDefault(); 
     setErrors("");
     setLoader(true);
     // let signature = await signRequest();
@@ -151,7 +149,9 @@ const EditProfile = (props) => {
     var formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
     if (image) {
-      formData.append("profileImage", image);
+      let result = await uploadFileToIpfs(image);
+      let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+      formData.append("profileImage", url);
     }
     if (banner) {
       formData.append("bannerImage", banner);
@@ -165,6 +165,25 @@ const EditProfile = (props) => {
 
     // return ''
     props.updateProfile(formData);
+  };
+  const uploadFileToIpfs = async (file) => {
+    var data = new FormData();
+    data.append("file", file);
+    try {
+      const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
+          Authorization: `Bearer ${ENV.pinataJWT}`,
+          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        },
+      });
+      return response;
+    } catch (err) {
+      toast.error(err);
+      this.setState({ loader: false });
+    }
   };
   const bannerData = {
     subHeading: "Information",

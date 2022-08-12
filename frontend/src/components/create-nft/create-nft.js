@@ -37,6 +37,7 @@ import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Waveform from "../audioPlayer/waveform/WaveForm";
 import Audio from "../audio/audio";
+import axios from "axios";
 const placeholderImg = "";
 class CreateNFT extends Component {
   constructor(props) {
@@ -238,53 +239,50 @@ class CreateNFT extends Component {
               },
               async () => {
                 var formData = new FormData();
-
                 for (const key in nftInfo)
                   if (nftInfo[key]) formData.append(key, nftInfo[key]);
+                this.pinFileToIPFS(nft.image);
+                // const res = await axiosPostFormData(
+                //   "nfts/create",
+                //   formData,
+                //   true
+                // );
 
-                const res = await axiosPostFormData(
-                  "nfts/create",
-                  formData,
-                  true
-                );
+                // if (res.success) {
+                // this.reset();
+                ///////////////previous infura code
+                // nft.remainingCopies = nft.copies;
+                // if (res.nft && res.nft.metaData) {
+                //   try {
+                //     let createNftResult = await mintNFt(
+                //       res.nft.metaData,
+                //       this.state.nft.copies,
+                //     );
 
-                if (res.success) {
-                  // this.reset();
+                //     if (
+                //       createNftResult.events.TransferSingle.returnValues.id
+                //     ) {
+                //       let data = {
+                //         nftToken:
+                //           createNftResult.events.TransferSingle.returnValues
+                //             .id,
+                //         data: res.nft,
+                //         image: res.nft.image,
+                //       };
 
-                  nft.remainingCopies = nft.copies;
-                  if (res.nft && res.nft.metaData) {
-                    try {
-                      let createNftResult = await mintNFt(
-                        res.nft.metaData,
-                        res.nft._id,
-                        this.state.nft.copies,
-                        2
-                      );
+                //       this.props.addNFTRecord(data);
 
-                      if (
-                        createNftResult.events.TransferSingle.returnValues.id
-                      ) {
-                        let data = {
-                          nftToken:
-                            createNftResult.events.TransferSingle.returnValues
-                              .id,
-                          data: res.nft,
-                          image: res.nft.image,
-                        };
-
-                        this.props.addNFTRecord(data);
-
-                        this.props.history.push("/explore/allNFT");
-                      }
-                    } catch (err) {
-                      toast.error(err);
-                      this.setState({ loader: false });
-                    }
-                  }
-                } else {
-                  toast.error(res.response.data.message);
-                  this.setState({ errors: res.message, loader: false });
-                }
+                //       this.props.history.push("/explore/allNFT");
+                //     }
+                //   } catch (err) {
+                //     toast.error(err);
+                //     this.setState({ loader: false });
+                //   }
+                // }
+                // } else {
+                //   toast.error(res.response.data.message);
+                //   this.setState({ errors: res.message, loader: false });
+                // }
               }
             );
           } else {
@@ -305,7 +303,110 @@ class CreateNFT extends Component {
       toast.error("Please Connect Your Metamask With Ethereum Rinkeby Network");
     }
   };
+  mintNFT = async (metaData, image) => {
+    const { videoURL, audioUrl } = this.state;
 
+    let data = { ...this.state.nft };
+    data.image = image;
+    data.metaData = metaData.metaDataUrl;
+    data.remainingCopies = data.copies;
+    if (videoURL) {
+      data.fileType = "video";
+    } else if (audioUrl !== "") {
+      data.fileType = "audio";
+    } else {
+      data.fileType = "image";
+    }
+    // return ''
+    try {
+      let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+
+      if (createNftResult.events.TransferSingle.returnValues.id) {
+        let payload = {
+          nftToken: createNftResult.events.TransferSingle.returnValues.id,
+          data,
+          image,
+        };
+
+        this.props.addNFTRecord(payload);
+
+        this.props.history.push("/explore/allNFT");
+      }
+    } catch (err) {
+      console.log(err, "error====>");
+      toast.error(err);
+      this.setState({ loader: false });
+    }
+  };
+  pinFileToIPFS = async (file) => {
+    let data = new FormData();
+    data.append("file", file);
+    // data.append(
+    //   'pinataMetadata',
+    //   JSON.stringify({
+    //     name: 'zain',
+    //     creator: creators,
+    //   })
+    // );
+    const fileData = await this.uploadFileToIpfs(data);
+    const fileUrl = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
+    const fileOutputData = { fileUrl, hash: fileData.data.IpfsHash };
+    const metaData = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
+    this.mintNFT(metaData.dataInput, metaData.image);
+    // return metaData;
+  };
+  uploadFileToIpfs = async (formData) => {
+    // console.log('formData=====>', formData.get('file'));
+    try{
+
+      const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
+          Authorization: `Bearer ${ENV.pinataJWT}`,
+          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        },
+      });
+      return response;
+    }catch (err) {
+      toast.error(err);
+      this.setState({ loader: false });
+    }
+  };
+  uploadJsonToIpfs = async (dataInput, image) => {
+    const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+    let properties = {
+      properties: this.state.nft.properties,
+      levels: this.state.nft.levels,
+      stats: this.state.nft.stats,
+    };
+    const data = {
+      name: this.state.nft.name,
+      symbol: "Gamo",
+      sellerFeeBasisPoints: 0,
+      image: dataInput.fileUrl,
+      description: this.state.nft.description,
+      properties: properties,
+    };
+    try {
+      //we gather a local file from the API for this example, but you can gather the file from anywhere
+      const response = await axios.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${ENV.pinataJWT}`,
+          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        },
+      });
+      dataInput.ipfsJsonData = data;
+      dataInput.metaDataUrl =
+        "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash;
+      return { dataInput, image };
+    } catch (err) {
+      toast.error(err);
+      this.setState({ loader: false });
+    }
+  };
   onFileChange = (e, status) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file = "";
@@ -416,7 +517,8 @@ class CreateNFT extends Component {
         type === "image/png" ||
         type === "image/gif" ||
         type === "video/mp4" ||
-        type === "audio/mpeg"
+        type === "audio/mpeg" ||
+        type === "image/webp"
       ) {
         let fileSize = this.formatBytes(files.size).split(" ");
         if (
@@ -582,7 +684,7 @@ class CreateNFT extends Component {
       content:
         "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
     };
-   
+
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
         connectedAddress?.toUpperCase() ||
@@ -863,7 +965,8 @@ class CreateNFT extends Component {
                     onChange={(e) => {
                       if (
                         (e.target.value.length && e.target.value === "0") ||
-                        e.target.value.includes(".") ||+e.target.value>1000000
+                        e.target.value.includes(".") ||
+                        +e.target.value > 1000000
                       ) {
                         return false;
                       } else {

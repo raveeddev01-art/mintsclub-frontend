@@ -23,7 +23,7 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
-
+import axios from 'axios'
 class CreateCollections extends Component {
   constructor(props) {
     super(props);
@@ -184,11 +184,15 @@ class CreateCollections extends Component {
               const { collection } = this.state;
               var formData = new FormData();
               for (var val in collection) {
+                if (val === "logo" || val === "featuredImg") {
+                  let result = await this.uploadFileToIpfs(collection[val]);
+                  let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  formData.append(val, url);
+                }
                 if (collection[val]) {
                   formData.append(val, collection[val]);
                 }
               }
-
               this.props.upsertCollection("collection/create", formData);
             }
           );
@@ -206,6 +210,25 @@ class CreateCollections extends Component {
         }
       }
     );
+  };
+  uploadFileToIpfs = async (file) => {
+    var data = new FormData();
+    data.append("file", file);
+    try {
+      const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
+          Authorization: `Bearer ${ENV.pinataJWT}`,
+          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        },
+      });
+      return response;
+    } catch (err) {
+      toast.error(err);
+      this.setState({ loader: false });
+    }
   };
   handleSelectChange = (selectedOption) => {
     let { collection } = this.state;

@@ -70,7 +70,7 @@ export const getBalance = async () => {
   return ethBalance;
 };
 
-export const mintNFt = async (metaData, id, amount, recipientValue) => {
+export const mintNFt = async (metaData, amount, ) => {
   let web3 = await getWeb3();
 
   if (!web3) {
