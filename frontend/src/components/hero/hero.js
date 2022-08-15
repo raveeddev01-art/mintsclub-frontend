@@ -12,6 +12,7 @@ import {
 } from "../../pages/auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
+import {connectWallet,createNFT} from "../../utils/algorand"
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
   const [data, setData] = useState(null);
@@ -49,6 +50,7 @@ const Hero = (props) => {
     }
   }, [props.auction.auctionsAuth]);
 
+  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -77,6 +79,12 @@ const Hero = (props) => {
                 Explore
               </Link>
             </div>
+            {/* <button onClick={()=>createNFT()}>
+              Connect Wallet
+            </button>
+            <button>
+              Mint NFT
+            </button> */}
             <div className="watch-video d-flex align-items-center mt-5 mb-4">
               <button className="hero-play-btn">
                 <img src={Play} alt="play" />

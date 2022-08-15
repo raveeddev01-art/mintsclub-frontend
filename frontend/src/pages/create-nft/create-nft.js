@@ -323,7 +323,6 @@ class CreateNFT extends Component {
         if (file.type.includes("image")) {
           let { nft } = this.state;
           nft = { ...nft, [e.target.name]: file };
-
           this.setState(
             {
               nft,
