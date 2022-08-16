@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 import Footer from "../../components/footer/footer";
 import "./CreateCollections.css";
 import { connect } from "react-redux";
@@ -10,7 +11,10 @@ import {
   decimalNumberValidator,
   firstInputCharacterSpace,
 } from "../../utils/functions";
-import { beforeCategory, getCategories } from "../../components/categories/categories.action";
+import {
+  beforeCategory,
+  getCategories,
+} from "../../components/categories/categories.action";
 import { emptyError } from "../../redux/shared/error/error.action";
 import SimpleReactValidator from "simple-react-validator";
 import { ENV } from "../../config/config";
@@ -64,7 +68,6 @@ class CreateCollections extends Component {
 
   componentDidUpdate(prevProps) {
     const { connectedAddress } = this.props;
-   
     if (
       prevProps.connectedAddress !== "" &&
       prevProps.connectedAddress.toUpperCase() !==
@@ -74,12 +77,12 @@ class CreateCollections extends Component {
       toast.info("Please login with new connected account");
       return this.props.history.push("/login");
     }
-    if(prevProps.connectedAddress===""&&connectedAddress){
+    if (prevProps.connectedAddress === "" && connectedAddress) {
       let { collection } = this.state;
-    collection = { ...collection, ownerAddress: connectedAddress };
-    this.setState({
-      collection,
-    });
+      collection = { ...collection, ownerAddress: connectedAddress };
+      this.setState({
+        collection,
+      });
     }
     if (this.props.error !== null && prevProps.error === null) {
       toast.error(this.props.error.message);
@@ -184,11 +187,15 @@ class CreateCollections extends Component {
               const { collection } = this.state;
               var formData = new FormData();
               for (var val in collection) {
+                if (val === "logo" || val === "featuredImg") {
+                  let result = await this.uploadFileToIpfs(collection[val]);
+                  let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  formData.append(val, url);
+                }
                 if (collection[val]) {
                   formData.append(val, collection[val]);
                 }
               }
-
               this.props.upsertCollection("collection/create", formData);
             }
           );
@@ -206,6 +213,25 @@ class CreateCollections extends Component {
         }
       }
     );
+  };
+  uploadFileToIpfs = async (file) => {
+    var data = new FormData();
+    data.append("file", file);
+    try {
+      const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
+          Authorization: `Bearer ${ENV.pinataJWT}`,
+          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        },
+      });
+      return response;
+    } catch (err) {
+      toast.error(err);
+      this.setState({ loader: false });
+    }
   };
   handleSelectChange = (selectedOption) => {
     let { collection } = this.state;
@@ -237,7 +263,6 @@ class CreateCollections extends Component {
     this.setState({ collection });
   };
 
-
   render() {
     const {
       collection,
@@ -248,7 +273,6 @@ class CreateCollections extends Component {
       selectedOption,
     } = this.state;
 
-
     if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");
       this.props.history.push("/");
@@ -258,7 +282,7 @@ class CreateCollections extends Component {
         subHeading: "Create New",
         heading: "Create New Collection",
         content:
-          "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+          "Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
       };
       //create collection max size validation
       return (
@@ -405,7 +429,7 @@ class CreateCollections extends Component {
                   />
                 </div>
 
-                <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
+                <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
                   <label className="create-collection-label">
                     Select Category:*
                   </label>

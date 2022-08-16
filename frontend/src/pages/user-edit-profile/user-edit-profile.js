@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import "./user-edit-profile.css";
-
 /////////
-
 import { connect } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import SimpleReactValidator from "simple-react-validator";
@@ -23,7 +20,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
 import Compressor from "compressorjs";
-
+import axios from "axios";
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
@@ -51,7 +48,6 @@ const EditProfile = (props) => {
 
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
-  
   useEffect(() => {
     if (props.error !== null) {
       setLoader(false);
@@ -141,8 +137,6 @@ const EditProfile = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-
- 
     setErrors("");
     setLoader(true);
     // let signature = await signRequest();
@@ -151,7 +145,9 @@ const EditProfile = (props) => {
     var formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
     if (image) {
-      formData.append("profileImage", image);
+      let result = await uploadFileToIpfs(image);
+      let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+      formData.append("profileImage", url);
     }
     if (banner) {
       formData.append("bannerImage", banner);
@@ -165,6 +161,25 @@ const EditProfile = (props) => {
 
     // return ''
     props.updateProfile(formData);
+  };
+  const uploadFileToIpfs = async (file) => {
+    var data = new FormData();
+    data.append("file", file);
+    try {
+      const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
+          Authorization: `Bearer ${ENV.pinataJWT}`,
+          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
+          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
+        },
+      });
+      return response;
+    } catch (err) {
+      toast.error(err);
+      this.setState({ loader: false });
+    }
   };
   const bannerData = {
     subHeading: "Information",
@@ -279,7 +294,7 @@ const EditProfile = (props) => {
                   />
                 </div>
 
-                <div className="col-lg-4 col-md-6  mt-3 mt-lg-0">
+                <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
                   <label className="create-collection-label">
                     Wallet Address:
                   </label>
@@ -341,7 +356,7 @@ const EditProfile = (props) => {
                   />
                 </div>
 
-                <div className="col-lg-4 col-md-6 mt-3 mt-md-0  mt-3 mt-lg-5">
+                <div className="col-lg-4 col-md-6 mt-3 mt-md-0 mt-3 mt-lg-5">
                   <label className="create-collection-label">
                     Instagram Link:
                   </label>
@@ -365,7 +380,7 @@ const EditProfile = (props) => {
                   />
                 </div>
 
-                <div className="col-lg-4 col-md-6  mt-3 mt-lg-0  mt-3 mt-lg-5 ">
+                <div className="col-lg-4 col-md-6 mt-3 mt-lg-0 mt-3 mt-lg-5 ">
                   <label className="create-collection-label">
                     Website Link:
                   </label>
