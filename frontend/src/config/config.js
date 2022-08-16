@@ -8,7 +8,7 @@ export const ENV = {
   mintsClubContractAddress: process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS,
   web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
   ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
-
+  pinataJWT:process.env.REACT_APP_PINATA_JWT,
   // process variables
   url: process.env.REACT_APP_BASE_URL,
   adminUrl: process.env.REACT_APP_ADMIN_BASE_URL,
