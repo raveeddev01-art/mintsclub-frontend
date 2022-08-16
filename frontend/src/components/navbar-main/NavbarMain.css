@@ -33,6 +33,7 @@
   color: var(--menu-text);
   padding-right: 30px;
   text-decoration: none;
+  transition: color 0s;
 }
 
 .main-nav-container .navbar-nav .dropdown-bg .dropdown-menu {
@@ -81,7 +82,7 @@
   outline: none;
   float: left;
   padding: 0;
-  color: #161616;
+  color: var(--menu-text);
   font-size: 16px;
   transition: 0.4s;
   line-height: 40px;

@@ -1191,14 +1191,14 @@ aside {
 .intro .intro-content h3 {
   font-size: 36px;
   font-weight: 800;
-  color: #000000;
+  color: var(--text-body);
 }
 
 .intro .intro-content p {
   font-weight: 300;
   font-size: 20px;
   line-height: 33px;
-  color: #000;
+  color: var(--text-body-three);
 }
 
 .single-work {
@@ -1458,7 +1458,7 @@ aside {
 .btn.btn-rounded-bordered {
   background: transparent;
   padding: 10px 25px;
-  color: #0e0e0e;
+  color: var(--text-collection);
   border-radius: 44px;
   border: 1px solid #3c66f3;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06) !important;
@@ -1981,6 +1981,10 @@ aside {
   color: var(--primary-color);
 }
 
+.live-auctions-area .auctions-slides .no-auction-msg {
+  color: var(--text-body-two);
+}
+
 .top-seller-area .top-seller-cards .card .seller-avatar-container {
   position: relative;
 }
@@ -2003,7 +2007,7 @@ aside {
 .top-seller-area .card .single-seller .seller-info span {
   font-size: 13px;
   font-weight: 600;
-  color: #000;
+  color: var(--text-body);
 }
 
 .load-more .item {
@@ -2014,6 +2018,7 @@ aside {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  padding-left: 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -2030,7 +2035,7 @@ aside {
 .single-seller .seller-info .seller {
   font-size: 14px;
   font-weight: 700;
-  color: #000;
+  color: var(--text-body);
 }
 
 /* ==================Collection details ====================== */
@@ -2203,7 +2208,7 @@ svg.svg-inline--fa.fa-users.fa-w-20 {
   font-size: 14px;
   line-height: 16px;
   background: transparent;
-  color: #1a1a1a;
+  color: var(--text-collection);
   border: none;
 }
 
@@ -3371,4 +3376,7 @@ input[type="number"] {
   .btn.btn-rounded-bordered.btn-viewAll {
     width: 90px;
   }
+}
+.main {
+  background-color: var(--page-bg);
 }

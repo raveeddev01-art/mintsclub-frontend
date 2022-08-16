@@ -5,7 +5,7 @@
 }
 
 .card.collection-cards-container {
-  background: #f2f7ff;
+  background: var(--pc-card-bg);
   border-radius: 22px;
 }
 
@@ -16,13 +16,13 @@
 .collection-cards-container .card-body .card-title {
   font-size: 12px;
   font-weight: 700;
-  color: #454545;
+  color: var(--pc-card-title-clr);
   margin-top: 15px;
   margin-bottom: 10px;
-  background: #ffffff;
+  background: var(--pc-card-title-bg);
   box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
   border-radius: 44px;
-  padding: 5px 10px;
+  padding: 10px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,7 +89,7 @@
   .collection-card-footer
   .collection-footer-left
   p {
-  color: #6a6a6a;
+  color: var(--pc-card-title-ob);
   font-size: 11px;
 }
 
@@ -99,7 +99,7 @@
   .collection-footer-left
   span {
   font-weight: bold;
-  color: #000000;
+  color: var(--pc-card-title-ob2);
 }
 
 @media (max-width: 575.9px) {

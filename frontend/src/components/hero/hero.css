@@ -1,5 +1,5 @@
 .hero-section {
-  background-color: #fafbfe;
+  background-color: var(--page-bg);
   background: url("../../assets/images/hero-bg.png");
   background-position: center;
   background-size: cover;
@@ -8,7 +8,7 @@
 .hero-section h1 {
   font-weight: 700;
   font-size: 60px;
-  color: #000000;
+  color: var(--text-body);
 }
 
 .hero-section h1 span {
@@ -18,7 +18,7 @@
 .hero-section p {
   font-weight: 300;
   font-size: 20px;
-  color: #272727;
+  color: var(--text-body-two);
 }
 
 .hero-section .mp-explore-text {
@@ -76,6 +76,7 @@
   padding: 10px 25px;
   font-size: 18px;
   font-weight: 700;
+  color: var(--text-body);
 }
 
 .hero-section .btn-hero-explore svg {
@@ -113,7 +114,7 @@
 }
 
 .watch-video span {
-  color: #272727;
+  color: var(--text-body-two);
   font-size: 20px;
   font-weight: 300;
 }
