@@ -434,7 +434,6 @@ async function createNFT() {
     catch (err) {
         console.log("err", err);
     }
-    process.exit();
 };
 
 
