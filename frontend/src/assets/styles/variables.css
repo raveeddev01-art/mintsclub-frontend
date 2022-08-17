@@ -1,5 +1,7 @@
 :root {
   --btn-bg: #387fff;
+  --btn-bg-sec: #ffffff;
+  --btn-bg-sec-border: #e2e2e2;
   --menu-text: #161616;
   --page-bg: #ffffff;
   --alt-section-bg: #fafbfe;
@@ -15,10 +17,13 @@
   --pc-card-title-ob: #6a6a6a;
   --pc-card-title-ob2: #303131;
   --ts-card-bg: #ffffff;
+  --tab-color: #7a7a7a;
 }
 
 [data-theme="dark"] {
   --btn-bg: #387fff;
+  --btn-bg-sec: #387fff;
+  --btn-bg-sec-border: #387fff;
   --menu-text: #ffffff;
   --page-bg: #1b243c;
   --alt-section-bg: #1f2b4b;
@@ -34,4 +39,5 @@
   --pc-card-title-ob: #aeabab;
   --pc-card-title-ob2: #fdfdff;
   --ts-card-bg: #31384e;
+  --tab-color: #b9b9b9;
 }
