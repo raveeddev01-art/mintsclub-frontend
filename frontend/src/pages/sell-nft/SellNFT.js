@@ -166,6 +166,7 @@ const SellNFT = (props) => {
       props.history.push(pathname);
     }
   }, [props.nft.upsertAuth]);
+
   useEffect(() => {
     if (props.togleLikeRes) {
       setLikeBtnDisable(false);
@@ -390,6 +391,7 @@ const SellNFT = (props) => {
       return setToggle(false);
     }
   };
+  
   const approveAccount = async () => {
     setApprovalStatus("pending");
     var formData = new FormData();

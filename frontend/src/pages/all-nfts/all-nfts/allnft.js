@@ -156,6 +156,7 @@ const AllNFT = (props) => {
     const qs = ENV.objectToQueryString(nftQS);
     props.getNFTs(qs);
   };
+  
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===

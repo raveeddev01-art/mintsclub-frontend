@@ -37,15 +37,7 @@ const EditProfile = (props) => {
   const [_id, setUserId] = useState("");
 
   const history = useHistory();
-  let validator = new SimpleReactValidator({
-    autoForceUpdate: this,
-    messages: {
-      required: "This field is required.", // will override all messages
-    },
-  });
   useEffect(() => {
-    let user = ENV.getUserKeys("");
-
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
   useEffect(() => {
@@ -171,8 +163,6 @@ const EditProfile = (props) => {
         headers: {
           "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
           Authorization: `Bearer ${ENV.pinataJWT}`,
-          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
-          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
         },
       });
       return response;

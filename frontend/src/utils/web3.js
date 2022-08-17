@@ -288,6 +288,12 @@ export const getMetamaskConnectedAddress = async () => {
 //   }
 // }
 
+export const getCurrentAddress = async () => {
+  let web3 = await getWeb3();
+  let accounts = await web3.eth.getAccounts();
+  let address = accounts[0];
+  return address;
+};
 //////////////////////////////////////////////////////////////////////////////////ariswap functions start///////////////////////////
 
 export const connectMetamaskCopy = async (address) => {
@@ -387,16 +393,7 @@ export const signRequest = async () => {
   }
 };
 
-export const mint = async () => {
-  const web3 = await getWeb3();
-  if (!web3) {
-    toast.error("No web3 instance found");
-    return false;
-  }
 
-  try {
-  } catch (e) {}
-};
 
 const handleSignMessage = (address) => {
   return new Promise((resolve, reject) => {
@@ -418,57 +415,7 @@ const handleSignMessage = (address) => {
   });
 };
 
-export const ClaimFundsAfterBidding = () => {};
 
-export const createNft = async () => {};
 
-export const setNftToken = (body) => {
-  let url = process.env.REACT_APP_BASE_URL + `nftTokens/addToken`;
-  // alert("calling");
 
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body: JSON.stringify(body),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        window.location.href = "/explore-all";
-      } else {
-      }
-    })
-    .catch((error) => {
-      // console.log(error, "error in catch blcok");
-      if (error.response && error.response.data) {
-      }
-    });
-};
 
-export const NftOwner = async () => {};
-
-export const placeBidNft = async () => {};
-
-export const SellOnFixedPrice = async () => {};
-
-export const BuyFixedPriceNFTs = async () => {};
-
-export const getCurrentAddress = async () => {
-  let web3 = await getWeb3();
-  let accounts = await web3.eth.getAccounts();
-  let address = accounts[0];
-  return address;
-};
-
-export const acceptNftOffer = async () => {};
-export const signTransaction = async () => {};

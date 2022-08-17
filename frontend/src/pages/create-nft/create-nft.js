@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  axiosPostFormData,
   decimalNumberValidator,
   firstInputCharacterSpace,
+  formatBytes
 } from "../../utils/functions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +20,7 @@ import {
   addNFTRecord,
   createNFT,
   createActivity,
+  beforeNFT,
 } from "../../components/nfts/nfts.action";
 import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -41,8 +42,9 @@ import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Audio from "../../components/audio/audio";
 import { createNFTbanner } from "../../utils/exportData";
-import axios from 'axios';
+import axios from "axios";
 const placeholderImg = "";
+
 class CreateNFT extends Component {
   constructor(props) {
     super(props);
@@ -118,7 +120,7 @@ class CreateNFT extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // const videoElement = this.myRef;
-    const { connectedAddress, collection } = this.props;
+    const { connectedAddress, collection,error } = this.props;
 
     if (
       prevProps.connectedAddress !== "" &&
@@ -135,7 +137,7 @@ class CreateNFT extends Component {
         ? this.myRef?.current?.play()
         : this.myRef?.current?.pause();
     }
-    if (this.props.error) {
+    if (!prevProps.error&&error) {
       this.setState({ loader: false }, () => {
         this.props.emptyError();
       });
@@ -167,8 +169,15 @@ class CreateNFT extends Component {
         });
       }
     }
+    //check if NFT is created
+    this.handleCreateNFTAuth(prevProps);
   }
-
+  handleCreateNFTAuth = (prevProps) => {
+    const { createNFTauth } = this.props;
+    if (prevProps.createNFTauth !== createNFTauth && createNFTauth) {
+      this.props.history.push("/explore/allNFT");
+    }
+  };
   togglePlay = () => {
     let test = { ...this.state.playerState };
     test = { ...test, isPlaying: !test.isPlaying };
@@ -246,47 +255,6 @@ class CreateNFT extends Component {
                 for (const key in nftInfo)
                   if (nftInfo[key]) formData.append(key, nftInfo[key]);
                 this.pinFileToIPFS(nft.image);
-                // const res = await axiosPostFormData(
-                // "nfts/create",
-                // formData,
-                // true
-                // );
-
-                // if (res.success) {
-                // this.reset();
-                ///////////////previous infura code
-                // nft.remainingCopies = nft.copies;
-                // if (res.nft && res.nft.metaData) {
-                // try {
-                // let createNftResult = await mintNFt(
-                // res.nft.metaData,
-                // this.state.nft.copies,
-                // );
-
-                // if (
-                // createNftResult.events.TransferSingle.returnValues.id
-                // ) {
-                // let data = {
-                // nftToken:
-                // createNftResult.events.TransferSingle.returnValues
-                // .id,
-                // data: res.nft,
-                // image: res.nft.image,
-                // };
-
-                // this.props.addNFTRecord(data);
-
-                // this.props.history.push("/explore/allNFT");
-                // }
-                // } catch (err) {
-                // toast.error(err);
-                // this.setState({ loader: false });
-                // }
-                // }
-                // } else {
-                // toast.error(res.response.data.message);
-                // this.setState({ errors: res.message, loader: false });
-                // }
               }
             );
           } else {
@@ -331,10 +299,8 @@ class CreateNFT extends Component {
           data,
           image,
         };
-
+        this.props.beforeNFT();
         this.props.addNFTRecord(payload);
-
-        this.props.history.push("/explore/allNFT");
       }
     } catch (err) {
       console.log(err, "error====>");
@@ -342,33 +308,23 @@ class CreateNFT extends Component {
       this.setState({ loader: false });
     }
   };
+
   pinFileToIPFS = async (file) => {
     let data = new FormData();
     data.append("file", file);
-    // data.append(
-    // 'pinataMetadata',
-    // JSON.stringify({
-    // name: 'zain',
-    // creator: creators,
-    // })
-    // );
     const fileData = await this.uploadFileToIpfs(data);
     const fileUrl = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
     this.mintNFT(metaData.dataInput, metaData.image);
-    // return metaData;
   };
   uploadFileToIpfs = async (formData) => {
-    // console.log('formData=====>', formData.get('file'));
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
           Authorization: `Bearer ${ENV.pinataJWT}`,
-          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
-          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
         },
       });
       return response;
@@ -393,12 +349,9 @@ class CreateNFT extends Component {
       properties: properties,
     };
     try {
-      //we gather a local file from the API for this example, but you can gather the file from anywhere
       const response = await axios.post(url, data, {
         headers: {
           Authorization: `Bearer ${ENV.pinataJWT}`,
-          // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
-          // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
         },
       });
       dataInput.ipfsJsonData = data;
@@ -523,7 +476,7 @@ class CreateNFT extends Component {
         type === "audio/mpeg" ||
         type === "image/webp"
       ) {
-        let fileSize = this.formatBytes(files.size).split(" ");
+        let fileSize = formatBytes(files.size).split(" ");
         if (
           (+fileSize[0] > 100 && fileSize[1] === "MB") ||
           fileSize[1] === "GB"
@@ -537,17 +490,7 @@ class CreateNFT extends Component {
       }
     }
   };
-  formatBytes = (bytes, decimals = 2) => {
-    if (bytes === 0) return "0 Bytes";
 
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  };
   clearData = () => {
     this.setState({
       imageURL: "",
@@ -1177,6 +1120,7 @@ const mapStateToProps = (state) => ({
   error: state.error,
   collection: state.collection,
   connectedAddress: state.wallet.connectedAddress,
+  createNFTauth: state.nft.createNFTauth,
 });
 
 export default connect(mapStateToProps, {
@@ -1187,4 +1131,5 @@ export default connect(mapStateToProps, {
   myCollections,
   createActivity,
   emptyError,
+  beforeNFT,
 })(CreateNFT);

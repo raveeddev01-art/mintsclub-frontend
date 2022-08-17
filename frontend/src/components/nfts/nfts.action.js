@@ -11,13 +11,12 @@ import {
   GET_PROFILE_NFTS,
   GET_ACTIVITIES,
   GET_ITEM_LISTING,
-  BEFORE_NFTS_BY_COLLECTION
+  BEFORE_NFTS_BY_COLLECTION,
+  CREATE_NFT_AUTH,
 } from "../../redux/types";
 import { ENV } from "./../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
-import {
-  axiosPostFormData,
-} from "./../../utils/functions";
+import { axiosPostFormData, handleRequest } from "./../../utils/functions";
 import axios from "axios";
 
 export const beforeNFT = () => {
@@ -25,206 +24,138 @@ export const beforeNFT = () => {
     type: BEFORE_NFT,
   };
 };
+
 export const upsertNFT =
   (type = "create", body, method = "POST") =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(emptyError());
-    const url = `${ENV.url}/nfts/${type}`;
-
-    fetch(url, {
-      method,
-      headers: {
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-      body,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          toast.success(data.message);
-          dispatch({
-            type: UPSERT_NFT,
-            payload: data,
-          });
-        } else {
-        
-          dispatch({
-            type: GET_ERRORS,
-            payload: data,
-          });
-        }
-      })
-      .catch((error) => {
-      
+    try {
+      let result = await handleRequest(method, `/nfts/${type}`, body);
+      console.log(result, "result");
+      const { data, success, message } = result.data;
+      if (success) {
+        toast.success(message);
         dispatch({
-          type: GET_ERRORS,
-          payload: error,
-        });
-      });
-  };
-
-export const getNFTs =
-  (qs = "") =>
-  (dispatch) => {
-    dispatch(emptyError());
-    let url = `${ENV.url}nfts/list`;
-    if (qs) url += `?${qs}`;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          //change to data.data first dispatch
-          dispatch({
-            type: GET_NFTS,
-            payload: data.data,
-          });
-          dispatch({
-            type: NFTALL,
-            payload: data.data,
-          });
-        } else {
-          dispatch({
-            type: GET_ERRORS,
-            payload: data,
-          });
-        }
-      })
-      .catch((errors) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: errors,
-        });
-      });
-  };
-
-export const getNFT = (nftId) => (dispatch) => {
-  dispatch(emptyError());
-  const url = `${ENV.url}nfts/get/${nftId}`;
-
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-   
-      if (data.success) {
-        dispatch({
-          type: NFTALL,
-          payload: data.data,
-        });
-        dispatch({
-          type: GET_NFT,
-          payload: data.data,
+          type: UPSERT_NFT,
+          payload: data,
         });
       } else {
         dispatch({
           type: GET_ERRORS,
-          payload: data,
+          payload: result.data,
         });
       }
-    })
-    .catch((errors) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: errors,
-      });
-    });
-};
-export const update =
-  (body, qs = "") =>
-  (dispatch) => {
-    dispatch(emptyError());
-
-    let url = `${ENV.url}nftLikes/userNftLikes?`;
-    url = url + qs;
-    axios
-      .put(url, body)
-      .then(function (response) {
-        if (response.data.success) {
-        } else {
-        }
-      })
-      .catch(function (error) {
-        // console.log(error);
-      });
-  };
-
-export const createActivity = (body) => (dispatch) => {
-  dispatch(emptyError());
-  const url = `${ENV.url}activity/create`;
-
-  axios
-    .post(url, body)
-    .then(function (response) {
-    
-    })
-    .catch(function (error) {
-      // console.log(error);
+    } catch (error) {
       dispatch({
         type: GET_ERRORS,
         payload: error,
       });
-    });
-};
-export const getActivities =
-  (qs = null) =>
-  (dispatch) => {
-    dispatch(emptyError());
-    let url = `${ENV.url}activity/get`;
-    if (qs) {
-      url += `?${qs}`;
     }
+  };
 
-    axios
-      .get(url)
-      .then(function (response) {
-       
-
+export const getNFTs =
+  (qs = "") =>
+  async (dispatch) => {
+    dispatch(emptyError());
+    try {
+      let result = await handleRequest("get", "nfts/list", null, qs);
+      const { data, success } = result.data;
+      if (success) {
         dispatch({
-          type: GET_ACTIVITIES,
-          payload: response.data.data,
+          type: GET_NFTS,
+          payload: data,
         });
-      })
-      .catch(function (error) {
-        // console.log(error);
+        dispatch({
+          type: NFTALL,
+          payload: data,
+        });
+      } else {
         dispatch({
           type: GET_ERRORS,
-          payload: error,
+          payload: result.data,
         });
+      }
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error,
       });
+    }
   };
-  export const getItemsListing =
+
+export const getNFT = (nftId) => async (dispatch) => {
+  dispatch(emptyError());
+  try {
+    let result = await handleRequest("get", `nfts/get/${nftId}`);
+    const { data, success } = result.data;
+    if (success) {
+      dispatch({
+        type: NFTALL,
+        payload: data,
+      });
+      dispatch({
+        type: GET_NFT,
+        payload: data,
+      });
+    } else {
+      dispatch({
+        type: GET_ERRORS,
+        payload: result.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error,
+    });
+  }
+};
+
+export const createActivity = (body) => async (dispatch) => {
+  dispatch(emptyError());
+  try {
+    let res = await handleRequest("post", "activity/create", body);
+    const { success, data } = res.data;
+    if (!success) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: res.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error,
+    });
+  }
+};
+
+export const getActivities =
+  (qs = null) =>
+  async (dispatch) => {
+    dispatch(emptyError());
+    try {
+      let result = await handleRequest("get", "activity/get", null, qs);
+      const { data, success } = result.data;
+      if (success) {
+        dispatch({
+          type: GET_ACTIVITIES,
+          payload: data,
+        });
+      } else {
+        dispatch({
+          type: GET_ERRORS,
+          payload: result.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error,
+      });
+    }
+  };
+export const getItemsListing =
   (qs = null) =>
   (dispatch) => {
     dispatch(emptyError());
@@ -232,93 +163,87 @@ export const getActivities =
     if (qs) {
       url += `?${qs}`;
     }
-
     axios
       .get(url)
-      .then(function (response) {    
+      .then(function (response) {
         dispatch({
-          type:  GET_ITEM_LISTING,
+          type: GET_ITEM_LISTING,
           payload: response.data.data,
         });
- 
       })
       .catch(function (error) {
-        // console.log(error)
         dispatch({
           type: GET_ERRORS,
           payload: error,
         });
-   
       });
   };
-export const beforeNFTByCollection=()=>(dispatch)=>{
+export const beforeNFTByCollection = () => (dispatch) => {
   dispatch({
     type: BEFORE_NFTS_BY_COLLECTION,
   });
-}
-export const getNFTsByCollection = (id) => (dispatch) => {
-  let data = {
-    collectionId: id,
-  };
+};
 
+export const getNFTsByCollection = (id) => async (dispatch) => {
   dispatch(emptyError());
-
-  const url = `${ENV.url}nfts/getNFTsByCollection`;
-  axios
-    .post(url, data)
-    .then(function (response) {
-      if (response.data.success) {
-        dispatch({
-          type: GET_NFTS_BY_COLLECTION,
-          payload: response.data.data,
-        });
-      } else {
-        dispatch({
-          type: GET_ERRORS,
-          payload: response.data,
-        });
-      }
-    })
-    .catch(function (error) {
-      // console.log(error);
+  try {
+    let payload = {
+      collectionId: id,
+    };
+    let result = await handleRequest(
+      "post",
+      "nfts/getNFTsByCollection",
+      payload
+    );
+    const { data, success } = result.data;
+    if (success) {
+      dispatch({
+        type: GET_NFTS_BY_COLLECTION,
+        payload: data,
+      });
+    } else {
       dispatch({
         type: GET_ERRORS,
-        payload: error,
+        payload: result.data,
       });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error,
     });
+  }
 };
 
 export const getMyLikedNfts =
   (qs = "") =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(emptyError());
-
-    let url = `${ENV.url}nftLikes/userNftLikes?`;
-    url = url + qs;
-    axios
-      .get(url)
-      .then(function (response) {
-        console.log();
-        if (response.data.success) {
-          dispatch({
-            type: GET_MYLIKED_NFTS,
-            payload: response.data.data,
-          });
-        } else {
-        }
-      })
-      .catch(function (error) {
+    try {
+      const res = await handleRequest("get", "nftLikes/userNftLikes", null, qs);
+      const { success, data } = res.data;
+      if (success) {
+        dispatch({
+          type: GET_MYLIKED_NFTS,
+          payload: data,
+        });
+      } else {
         dispatch({
           type: GET_ERRORS,
-          payload: error,
+          payload: res.data,
         });
+      }
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error,
       });
+    }
   };
 
-export const createNFT = async (formData) => async (dispatch)=>{
+export const createNFT = async (formData) => async (dispatch) => {
   try {
     const res = await axiosPostFormData("nfts/create", formData, true);
-    
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
@@ -328,10 +253,21 @@ export const createNFT = async (formData) => async (dispatch)=>{
 };
 
 export const addNFTRecord = (formData) => async (dispatch) => {
-  try{
-
-    const res = await axiosPostFormData("nfts/storeNFTData", formData, true);
-  }catch(error){
+  try {
+    const res = await handleRequest("post", "nfts/storeNFTData", formData);
+    const { success } = res.data;
+    if (success) {
+      toast.success("NFT created successfully");
+      dispatch({
+        type: CREATE_NFT_AUTH,
+      });
+    } else {
+      dispatch({
+        type: GET_ERRORS,
+        payload: res.data,
+      });
+    }
+  } catch (error) {
     dispatch({
       type: GET_ERRORS,
       payload: error,
@@ -341,35 +277,27 @@ export const addNFTRecord = (formData) => async (dispatch) => {
 
 export const getProfileNfts =
   (qs = "") =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(emptyError());
-    let url = `${ENV.url}nfts/list`;
-    if (qs) url += `?${qs}`;
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-       
-        if (data.success) {
-          dispatch({
-            type: GET_PROFILE_NFTS,
-            payload: data.data,
-          });
-        } else {
-        }
-      })
-      .catch((errors) => {});
+    try {
+      const res = await handleRequest("get", "nfts/list", null, qs);
+      const { data, success } = res.data;
+      if (success) {
+        dispatch({
+          type: GET_PROFILE_NFTS,
+          payload: data,
+        });
+      } else {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: GET_ERRORS,
+        payload: error,
+      });
+    }
   };

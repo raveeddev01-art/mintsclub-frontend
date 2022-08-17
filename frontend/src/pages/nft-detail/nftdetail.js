@@ -458,12 +458,7 @@ const NFTDetail = (props) => {
     return (decreaseValue / oldNumber) * 100;
   };
 
-  const deleteBid = (id) => {
-    let result = bids.filter((bid) => bid._id !== id);
-    setBids(result);
-    props.deleteBid(id);
-    createActivity("Cancel Bid");
-  };
+
 
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment(new Date(auctionEndDate))
@@ -596,12 +591,12 @@ const NFTDetail = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      checkIfAuctionEnded();
+      isAuctionEnded();
     }, 3000);
     return () => clearInterval(interval);
   }, [nftDetail, initial]);
 
-  const checkIfAuctionEnded = async () => {
+  const isAuctionEnded = async () => {
     if (nftDetail && nftDetail?.sellingMethod === 2) {
       let auctionEndDate = new Date(nftDetail.auctionEndDate);
       let currentDate = new Date();

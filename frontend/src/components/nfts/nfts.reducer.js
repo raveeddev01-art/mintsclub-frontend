@@ -9,13 +9,15 @@ import {
   GET_PROFILE_NFTS,
   GET_ACTIVITIES,
   GET_ITEM_LISTING,
-  BEFORE_NFTS_BY_COLLECTION
+  BEFORE_NFTS_BY_COLLECTION,
+  CREATE_NFT_AUTH
 } from "../../redux/types";
 
 const initialState = {
   nftsData: {},
   nftAll: {},
   nftsAuth: false,
+  createNFTauth:false,
   upsertAuth: false,
   createNFTResult: [],
   createNFTerror: false,
@@ -45,6 +47,11 @@ export default function (state = initialState, action) {
         nftsData: action.payload,
         nftsAuth: true,
       };
+      case  CREATE_NFT_AUTH:
+        return {
+          ...state,
+          createNFTauth:true,
+        }
     case NFTALL:
       return {
         ...state,
@@ -69,6 +76,7 @@ export default function (state = initialState, action) {
         profileNFTsStatus: false,
         activitiesAuth:false,
         itemsListingAuth:false,
+        createNFTauth:false
       };
 
     case GET_NFTS_BY_COLLECTION:

@@ -15,6 +15,7 @@ export const GET_AUCTIONS = "GET_AUCTIONS";
 
 // NFTS
 export const BEFORE_NFT = "BEFORE_NFT";
+export const CREATE_NFT_AUTH = " CREATE_NFT_AUTH";
 export const GET_NFTS = "GET_NFTS";
 export const GET_NFT = "GET_NFT";
 export const UPSERT_NFT = "UPSERT_NFT";
