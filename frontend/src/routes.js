@@ -22,7 +22,7 @@ import AboutUs from "./pages/aboutus/aboutus";
 import Faqs from "./pages/faqs/faqs";
 import PrivacyPolicy from "./pages/privacy-policy/privacyPolicy";
 import TermsConditions from "./pages/terms-conditions/termsConditions";
-
+import ConnectWallet from "./pages/connect-wallet/connect-wallet";
 
 // routes
 const routes = [
@@ -33,6 +33,14 @@ const routes = [
     title: "Home",
     layout: layout,
     component: Home,
+  },
+  {
+    path: "/connect-wallet",
+    access: true,
+    exact: true,
+    title: "ConnectWallet",
+    layout: layout,
+    component: ConnectWallet,
   },
   {
     path: "/auctions",
