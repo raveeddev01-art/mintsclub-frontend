@@ -119,7 +119,7 @@ const SellNFT = (props) => {
     props.getMyLikedNfts(qs);
     validateIfLiked();
   }, []);
-  
+
   useEffect(() => {
     if (address === "") {
       setAddress(props.connectedAddress);
@@ -240,7 +240,6 @@ const SellNFT = (props) => {
     }
     if (await validateNetwork()) {
       if (!nftDetail.user.isApproved) {
-
         setShow(true);
         return "";
       }
@@ -268,10 +267,16 @@ const SellNFT = (props) => {
         let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
         let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
         //calculate end time
-        timedConfig.duration.endDate= calclateStartOrEndTime(timedAuctionEndTime,timedConfig)
+        timedConfig.duration.endDate = calclateStartOrEndTime(
+          timedAuctionEndTime,
+          timedConfig.duration.endTime
+        );
 
         //calculate start time
-        timedConfig.duration.startDate = calclateStartOrEndTime(timedAuctionStartTime,timedConfig);
+        timedConfig.duration.startDate = calclateStartOrEndTime(
+          timedAuctionStartTime,
+          timedConfig.duration.startTime
+        );
 
         //Deleting unused data from payload
         let auctionConfig = timedConfig;
@@ -282,7 +287,6 @@ const SellNFT = (props) => {
         auctionConfig.startPrice.amount = Number(
           auctionConfig.startPrice.amount
         );
-
         payload = {
           _id: location.state._id,
           sellingMethod,
@@ -306,16 +310,21 @@ const SellNFT = (props) => {
       setLoader(true);
 
       if (sellingMethod === 2) {
-        openBidding(timedAuctionConfig,payload,activityPayload,price)
+        openBidding(timedAuctionConfig, payload, activityPayload, price);
       } else {
-        openForSale(activityPayload,payload,fixedConfig,price)
+        openForSale(activityPayload, payload, fixedConfig, price);
       }
     } else {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
 
-  const openBidding=async (timedAuctionConfig,payload,activityPayload,price)=>{
+  const openBidding = async (
+    timedAuctionConfig,
+    payload,
+    activityPayload,
+    price
+  ) => {
     var formData = new FormData();
     try {
       let auctionEndDate = timedAuctionConfig.duration.endDate;
@@ -341,9 +350,9 @@ const SellNFT = (props) => {
       setLoader(false);
       toast.error(err);
     }
-  }
+  };
 
-  const openForSale=async (activityPayload,payload,fixedConfig,price)=>{
+  const openForSale = async (activityPayload, payload, fixedConfig, price) => {
     var formData = new FormData();
     try {
       let result = await putonsale(
@@ -362,18 +371,13 @@ const SellNFT = (props) => {
       setLoader(false);
       toast.error(err);
     }
-  }
+  };
 
-  const calclateStartOrEndTime=(auctionConfig,timedConfig)=>{
+  const calclateStartOrEndTime = (auctionConfig, startOrEndTime) => {
     let time = auctionConfig.toString();
-    time =
-      time.slice(0, 15) +
-      " " +
-      timedConfig.duration.endTime +
-      ":00" +
-      time.slice(24);
-      return time
-  }
+    time = time.slice(0, 15) + " " + startOrEndTime + ":00" + time.slice(24);
+    return time;
+  };
   //match if nft liked
 
   const validateIfLiked = (nfts, nft) => {
@@ -391,7 +395,7 @@ const SellNFT = (props) => {
       return setToggle(false);
     }
   };
-  
+
   const approveAccount = async () => {
     setApprovalStatus("pending");
     var formData = new FormData();

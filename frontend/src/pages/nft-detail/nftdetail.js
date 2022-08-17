@@ -68,7 +68,7 @@ import NftCard from "../../components/nft-card/nft-card";
 import NFTDetailLoader from "../../components/contentLoader/nftDetailLoader";
 import Audio from "../../components/audio/audio";
 import { nftBanner } from "../../utils/exportData";
-
+import Table from "../../components/table/table";
 
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
@@ -197,12 +197,11 @@ const NFTDetail = (props) => {
       }
 
       // Set Next bid to 5%
-      setNextBidFivePercHigh()
-   
+      setNextBidFivePercHigh();
     }
   }, [props.nftsAuth]);
 
-  const setNextBidFivePercHigh=()=>{
+  const setNextBidFivePercHigh = () => {
     let fivePerc = "";
     if (
       props.nftDetail.highestBid === 0 ||
@@ -220,7 +219,7 @@ const NFTDetail = (props) => {
     validateIfLiked(likedNfts, props.nftDetail);
     props.beforeNFTByCollection();
     props.getNFTsByCollection(props.nftDetail.collectionId);
-  }
+  };
 
   useEffect(() => {
     if (props.nftsByCollectionStatus) {
@@ -329,7 +328,6 @@ const NFTDetail = (props) => {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
-
 
   //match if nft liked
 
@@ -458,8 +456,6 @@ const NFTDetail = (props) => {
     return (decreaseValue / oldNumber) * 100;
   };
 
-
-
   const auctionEndTimeConversion = (auctionEndDate) => {
     var dateString = moment(new Date(auctionEndDate))
       .utc(true)
@@ -568,12 +564,17 @@ const NFTDetail = (props) => {
       let currentDate = new Date();
       let auctionStartDate = new Date(startDate);
       let auctionEndDate = new Date(endDate);
+    console.log(auctionStartDate,auctionEndDate,"startdate and endDate")
+
       if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
       } else {
+        console.log("fasle")
         return false;
       }
     } else {
+      console.log("fasle")
+
       return false;
     }
   };
@@ -664,9 +665,8 @@ const NFTDetail = (props) => {
         nft: nftDetail,
       },
       {
-        headers:headers,
-      },
-     
+        headers: headers,
+      }
     );
     if (res.data.success) {
       if (userId == ownerId) {
@@ -681,6 +681,7 @@ const NFTDetail = (props) => {
       history.push("/userprofile");
     }
   };
+  const handleBidsData = () => {};
 
   const {
     name,
@@ -1139,7 +1140,20 @@ const NFTDetail = (props) => {
                   <div className="detail-bg-box">
                     <h5>Offers:</h5>
                     <hr />
-                    <div className="table-container">
+                    {
+                      <Table
+                        data={bids}
+                        titles={[
+                          "Price",
+                          "USD Price",
+                          "Floor Difference",
+                          "From",
+                        ]}
+                        exchangeRate={exchangeRate}
+                        lowestNftPrice={lowestNftPrice}
+                      />
+                    }
+                    {/* <div className="table-container">
                       <table className="table table-borderless">
                         {sellingMethod === 2 && bids && bids.length > 0 && (
                           <thead>
@@ -1191,7 +1205,7 @@ const NFTDetail = (props) => {
                           )}
                         </tbody>
                       </table>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
