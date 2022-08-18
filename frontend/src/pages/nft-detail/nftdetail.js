@@ -21,12 +21,46 @@ import {
 } from "../all-nfts/explore.action";
 import moment from "moment";
 import axios from "axios";
-import {
-  BsTagFill,
-  BiTransferAlt,
-  MdShoppingCart,
-  FaHandPaper,
-} from "react-icons/all";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import {
   placeABid,
   connectMetamask,
@@ -54,7 +88,6 @@ import {
 import { toast } from "react-toastify";
 import BuyModal from "../../components/modals/BuyModal";
 import BidModal from "../../components/modals/BidModal";
-import ReactTimeAgo from "react-time-ago";
 import useVideoPlayer from "../../components/test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import StatsInfo from "../create-nft/components/statsinfo";
@@ -538,18 +571,6 @@ const NFTDetail = (props) => {
     props.createActivity(activityPayload);
   };
 
-  const handleAcitivityIcon = (type) => {
-    if (type === "Mint") {
-      return <MdShoppingCart />;
-    } else if (type === "List") {
-      return <BsTagFill />;
-    } else if (type === "Bid") {
-      return <FaHandPaper />;
-    } else {
-      return <BiTransferAlt />;
-    }
-  };
-
   const checkIfAuctionStartedorEnded = (startDate, endDate) => {
     //check if i am owner
 
@@ -564,17 +585,13 @@ const NFTDetail = (props) => {
       let currentDate = new Date();
       let auctionStartDate = new Date(startDate);
       let auctionEndDate = new Date(endDate);
-    console.log(auctionStartDate,auctionEndDate,"startdate and endDate")
 
       if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
       } else {
-        console.log("fasle")
         return false;
       }
     } else {
-      console.log("fasle")
-
       return false;
     }
   };
@@ -681,7 +698,6 @@ const NFTDetail = (props) => {
       history.push("/userprofile");
     }
   };
-  const handleBidsData = () => {};
 
   const {
     name,
@@ -726,7 +742,6 @@ const NFTDetail = (props) => {
       value: "Ethereum",
     },
   ];
-
   return (
     <>
       <Banner
@@ -895,13 +910,6 @@ const NFTDetail = (props) => {
                         onLoadCallback={() => setContentLoader(false)}
                         loader={contentLoader}
                       />
-
-                      {/* <Waveform
-                        url={image}
-                        auction={false}
-                        onLoadCallback={() => setLoader(false)}
-                        loader={contentLoader}
-                      /> */}
                     </>
                   ) : (
                     ""
@@ -1140,7 +1148,6 @@ const NFTDetail = (props) => {
                   <div className="detail-bg-box">
                     <h5>Offers:</h5>
                     <hr />
-                    {
                       <Table
                         data={bids}
                         titles={[
@@ -1151,61 +1158,10 @@ const NFTDetail = (props) => {
                         ]}
                         exchangeRate={exchangeRate}
                         lowestNftPrice={lowestNftPrice}
+                        status="Offers"
+                        show={sellingMethod === 2}
                       />
-                    }
-                    {/* <div className="table-container">
-                      <table className="table table-borderless">
-                        {sellingMethod === 2 && bids && bids.length > 0 && (
-                          <thead>
-                            <tr>
-                              <th scope="col">Price</th>
-                              <th scope="col">USD Price</th>
-                              <th scope="col">Floor Difference</th>
-
-                              <th scope="col">From</th>
-                            </tr>
-                          </thead>
-                        )}
-                        <tbody>
-                          {sellingMethod === 2 && bids && bids.length > 0 ? (
-                            <>
-                              {bids.map((bid, index) => {
-                                return (
-                                  <tr key={index}>
-                                    <th scope="row">{bid.bidAmount}</th>
-                                    <td>
-                                      $
-                                      {(bid.bidAmount * exchangeRate).toFixed(
-                                        2
-                                      )}
-                                    </td>
-                                    <td>
-                                      {getPercentageChange(
-                                        bid.bidAmount,
-                                        lowestNftPrice
-                                      ).toFixed(0)}
-                                      %{" "}
-                                      {bid.bidAmount > lowestNftPrice
-                                        ? "above"
-                                        : "below"}
-                                    </td>
-                                    <td>
-                                      {bid.fromAddress.slice(0, 4) +
-                                        "..." +
-                                        bid.fromAddress.slice(-4)}
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </>
-                          ) : (
-                            <p className="text-center d-flex justify-content-center align-items-center">
-                              No Offers Found
-                            </p>
-                          )}
-                        </tbody>
-                      </table>
-                    </div> */}
+                   
                   </div>
                 </div>
 
@@ -1213,69 +1169,13 @@ const NFTDetail = (props) => {
                   <div className="detail-bg-box">
                     <h5>Activity:</h5>
                     <hr />
-                    <div className="table-container">
-                      {activities && activities.length > 0 ? (
-                        <table className="table table-borderless">
-                          <thead>
-                            <tr>
-                              <th scope="col">Event</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">From</th>
-                              <th scope="col">To</th>
-                              <th scope="col">Date</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {activities.map((activity, index) => {
-                              return (
-                                <tr>
-                                  <th scope="row" key={index}>
-                                    <div className="d-flex align-items-center">
-                                      {handleAcitivityIcon(
-                                        activity.activityType
-                                      )}
-                                      <p className="ps-1">
-                                        {" "}
-                                        {activity.activityType}{" "}
-                                      </p>
-                                    </div>
-                                  </th>
-                                  <td>
-                                    {activity.price ? activity.price : ""}
-                                  </td>
-                                  <td>
-                                    {activity.fromAddress
-                                      ? activity.fromAddress.slice(0, 4) +
-                                        "..." +
-                                        activity.fromAddress.slice(-6)
-                                      : "null address"}
-                                  </td>
-                                  <td>
-                                    {activity.toAddress
-                                      ? activity.toAddress.slice(0, 4) +
-                                        "..." +
-                                        activity.toAddress.slice(-4)
-                                      : ""}{" "}
-                                  </td>
-                                  <td>
-                                    <div>
-                                      <ReactTimeAgo
-                                        date={activity.createdAt}
-                                        locale="en-US"
-                                      />
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      ) : (
-                        <p className="text-white d-flex align-items-center justify-content-center w-100 h-100">
-                          No Activities Found
-                        </p>
-                      )}
-                    </div>
+                    {activities && activities.length > 0 && (
+                      <Table
+                        data={activities}
+                        titles={["Event", "Price", "From", "To", "Date"]}
+                        status="Activities"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -1338,29 +1238,7 @@ const NFTDetail = (props) => {
         balance={balance}
         fileType={fileType}
       />
-      {/* <BuyModal
-        show={modalShow1}
-        onHide={() => {
-          setModalShow1(false);
-          // setConfirmed(false);
-          // setModal(1);
-          // setTransactionSuccess(false);
-        }}
-        name={listedItem.name}
-        price={listedItem.currentPrice}
-        image={listedItem.image}
-        exchangeRate={exchangeRate}
-        tokenId={listedItem.nftToken}
-        modal={modal}
-        setModal={setModal}
-        buyNow={BuyNow}
-        confirmed={confirmed}
-        transactionHash={transactionHash}
-        transactionSuccess={transactionSuccess}
-        disabled={disabled}
-        balance={balance}
-        fileType={fileType}
-      /> */}
+
       <BidModal
         show={bidModalShow}
         calculatePricePercantage={calculatePricePercantage}

@@ -72,7 +72,6 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
 export const handleRequest = (method, endpoint, data=null, qs=null) => {
   let url = ENV.url + endpoint;
   if (qs) url += `?${qs}`;
-  console.log(url,"url======>",data,"data==>")
   return new Promise((resolve, reject) => {
     let headers = {
       // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
@@ -299,7 +298,6 @@ export const placeBidApi = (body) => {
       }
     })
     .catch((error) => {
-      // console.log('listing', error);
       if (error.response && error.response.data) {
         const { data } = error.response;
         if (data.message) toast.error(data.message);

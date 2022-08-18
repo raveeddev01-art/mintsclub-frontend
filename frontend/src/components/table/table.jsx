@@ -1,14 +1,41 @@
-import "./table.css";
 import { useEffect, useState } from "react";
-const Table = ({ titles, data, lowestNftPrice, show, exchangeRate }) => {
+import {
+  BsTagFill,
+  BiTransferAlt,
+  MdShoppingCart,
+  FaHandPaper,
+} from "react-icons/all";
+import ReactTimeAgo from "react-time-ago";
+const Table = ({
+  titles,
+  data,
+  lowestNftPrice,
+  exchangeRate,
+  status,
+}) => {
   const [info, setInfo] = useState(null);
   useEffect(() => {
-    formateBidsInfo();
+    if (status === "Offers") {
+      formateBidsInfo();
+    } else {
+      formateActivityInfo();
+    }
   }, [data]);
   const getPercentageChange = (oldNumber, newNumber) => {
     var decreaseValue = oldNumber - newNumber;
 
     return (decreaseValue / oldNumber) * 100;
+  };
+  const handleAcitivityIcon = (type) => {
+    if (type === "Mint") {
+      return <MdShoppingCart />;
+    } else if (type === "List") {
+      return <BsTagFill />;
+    } else if (type === "Bid") {
+      return <FaHandPaper />;
+    } else {
+      return <BiTransferAlt />;
+    }
   };
 
   const formateBidsInfo = () => {
@@ -32,11 +59,43 @@ const Table = ({ titles, data, lowestNftPrice, show, exchangeRate }) => {
       setInfo(formatedData);
     }
   };
-  const formateActivityInfo = () => {};
+  const formateActivityInfo = () => {
+    if (data && data.length > 0) {
+      let formatedData = data.map((item) => {
+        return {
+          item1: (
+            <div className="d-flex align-items-center">
+              {handleAcitivityIcon(item.activityType)}
+              <p className="ps-1"> {item.activityType} </p>
+            </div>
+          ),
+          item2: item.price,
+          item3: `${
+            item.fromAddress
+              ? item.fromAddress.slice(0, 4) +
+                "..." +
+                item.fromAddress.slice(-6)
+              : "null address"
+          }`,
+          item4: `${
+            item.toAddress
+              ? item.toAddress.slice(0, 4) + "..." + item.toAddress.slice(-4)
+              : ""
+          }`,
+          item5: (
+            <div>
+              <ReactTimeAgo date={item.createdAt} locale="en-US" />
+            </div>
+          ),
+        };
+      });
+      setInfo(formatedData);
+    }
+  };
   return (
     <div className="table-container">
       <table className="table table-borderless">
-        {show && data && data.length > 0 && (
+        {data && data.length > 0 && (
           <thead>
             <tr>
               {titles.map((item) => {
@@ -46,7 +105,7 @@ const Table = ({ titles, data, lowestNftPrice, show, exchangeRate }) => {
           </thead>
         )}
         <tbody>
-          {show && info && info.length > 0 ? (
+          {info && info.length > 0 ? (
             <>
               {info.map((val, index) => {
                 return (
@@ -55,13 +114,14 @@ const Table = ({ titles, data, lowestNftPrice, show, exchangeRate }) => {
                     <td>{val.item2}</td>
                     <td>{val.item3}</td>
                     <td>{val.item4}</td>
+                    {val.item5 && <td>{val.item5}</td>}
                   </tr>
                 );
               })}
             </>
           ) : (
             <p className="text-center d-flex justify-content-center align-items-center">
-              No Offers Found
+              {` No ${status} Found`}
             </p>
           )}
         </tbody>
