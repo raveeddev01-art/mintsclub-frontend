@@ -20,7 +20,6 @@ import {
   getWalletAddress,
   setApprovalForAll,
   validateNetwork,
-  getMetamaskConnectedAddress,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
@@ -43,28 +42,6 @@ import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 
 const { dateRangeInitialSettings } = ENV;
-const config1 = {
-  price: {
-    currency: ENV.currency,
-    amount: "",
-  },
-  reserveFor: "", // if user selects reserve buyer
-};
-
-const config2 = {
-  method: 1, // 1 = Sell to the highest bidder or 2 = Sell with the declining price
-  startPrice: {
-    currency: ENV.currency,
-    amount: "",
-  },
-  duration: {
-    startDate: moment(),
-    endDate: moment().add(6, "months"),
-    startTime: moment(new Date()).format("HH:mm"),
-    endTime: "23:59",
-  },
-};
-
 const SellNFT = (props) => {
   const [activeBtn, setActiveBtn] = useState(0);
   const [toggle, setToggle] = React.useState(true);
@@ -105,11 +82,6 @@ const SellNFT = (props) => {
   const videoElement = React.useRef(null);
   const { playerState, togglePlay, handleOnTimeUpdate } =
     useVideoPlayer(videoElement);
-
-  // useEffect(async () => {
-  //   let connectedAddress = await getMetamaskConnectedAddress();
-  //   setAddress(connectedAddress);
-  // }, []);
 
   useEffect(() => {
     window.scroll(0, 600);

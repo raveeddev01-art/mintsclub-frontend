@@ -3,10 +3,7 @@ import "./slider.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { WordsFamousNfts } from "../../utils/exportData";
-// import image from "../../assets/images/test.jpg";
 import nftBack from "../../assets/images/nftBack.png";
-// import nftImage from "../../assets/images/nftImage.png";
 
 const SimpleSlider = (props) => {
   const [showSlider, setShowSlider] = useState(false);

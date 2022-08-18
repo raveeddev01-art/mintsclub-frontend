@@ -22,45 +22,6 @@ import {
 import moment from "moment";
 import axios from "axios";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import {
   placeABid,
   connectMetamask,
@@ -117,7 +78,6 @@ const NFTDetail = (props) => {
   const [bids, setBids] = useState(null);
   const [offers, setOffers] = useState(null);
   const [modalShow, setModalShow] = useState(false);
-  const [modalShow1, setModalShow1] = useState(false);
   const [likeButtonDisable, setLikeBtnDisable] = useState(null);
   const [modal, setModal] = useState(1);
   const [confirmed, setConfirmed] = useState("");
@@ -1148,20 +1108,19 @@ const NFTDetail = (props) => {
                   <div className="detail-bg-box">
                     <h5>Offers:</h5>
                     <hr />
-                      <Table
-                        data={bids}
-                        titles={[
-                          "Price",
-                          "USD Price",
-                          "Floor Difference",
-                          "From",
-                        ]}
-                        exchangeRate={exchangeRate}
-                        lowestNftPrice={lowestNftPrice}
-                        status="Offers"
-                        show={sellingMethod === 2}
-                      />
-                   
+                    <Table
+                      data={bids}
+                      titles={[
+                        "Price",
+                        "USD Price",
+                        "Floor Difference",
+                        "From",
+                      ]}
+                      exchangeRate={exchangeRate}
+                      lowestNftPrice={lowestNftPrice}
+                      status="Offers"
+                      show={sellingMethod === 2}
+                    />
                   </div>
                 </div>
 

@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 import { GET_ERRORS, BEFORE_BID, GET_BIDS, DELETE_BID, CREATE_BID, ACCEPT_BID,GETBIDS_BY_NFT } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from './../../config/config';
-import {placeBidNft, acceptNftOffer} from '../../utils/web3'
 export const beforeBid = () => {
     return {
         type: BEFORE_BID

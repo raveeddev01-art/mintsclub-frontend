@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import "./HeroCards.css";
 const HeroCards = ({ data, connectedAddress, status }) => {
-  const { image, totalBids, owner, _id, ownerAddress, name } = data;
+  const { image, totalBids, owner, _id, ownerAddress } = data;
   const [loader, setLoader] = useState(true);
   const history = useHistory();
   return (

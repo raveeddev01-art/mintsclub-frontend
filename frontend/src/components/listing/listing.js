@@ -6,7 +6,6 @@ import FullPageLoader from "../full-page-loader/full-page-loader";
 import Select from "react-select";
 import {
   decimalNumberValidator,
-  firstInputCharacterSpace,
 } from "../../utils/functions";
 const Listing = (props) => {
   const [minValue, setMinValue] = useState("");
@@ -236,7 +235,6 @@ const Listing = (props) => {
     collections,
     disabled,
     menuData,
-    totalItems,
     handleNftFilter,
     setMenuFilter,
     filterationLoader,

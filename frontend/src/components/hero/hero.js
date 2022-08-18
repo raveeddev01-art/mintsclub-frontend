@@ -12,7 +12,6 @@ import {
 } from "../../pages/auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
-import {connectWallet,createNFT} from "../../utils/algorand"
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
   const [data, setData] = useState(null);

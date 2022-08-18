@@ -13,7 +13,6 @@ const ListingCards = ({
   name,
   price,
   likesCount,
-  liked,
   likedNfts,
   userProfile,
   ownerId,

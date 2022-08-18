@@ -1,29 +1,44 @@
-import layout from "./layouts/layout/layout";
-import layout3 from "./layouts/layout3/layout3";
-import layout4 from "./layouts/layout4/layout4";
-// components
-import Home from "./pages/home/home";
-import Populars from "./pages/popular-collections-list/popular-collections-list";
-import CreateNFT from "./pages/create-nft/create-nft";
-import Wallet from "./pages/wallet/wallet";
-import Signup from "./pages/signup/signup";
-import SellNFT from "./pages/sell-nft/SellNFT";
-import NotFound from "./pages/not-found/not-found";
-import ExploreCollections from "./pages/explore-collections/explore-collections";
-import AllNFT from "./pages/all-nfts/all-nfts/allnft";
-import CollectionDetailsPage from "./pages/collection-details/collectiondetails";
-import NFTDetail from "./pages/nft-detail/nftdetail";
-import UserProfile from "./pages/user-profile/UserProfile";
-import TopSellerList from "./pages/top-seller/topsellerlist";
-import AuctionsList from "./pages/auctions/home-auction-list";
-import EditProfile from "./pages/user-edit-profile/user-edit-profile";
-import CreateCollections from "./pages/create-collections/CreateCollections";
-import AboutUs from "./pages/aboutus/aboutus";
-import Faqs from "./pages/faqs/faqs";
-import PrivacyPolicy from "./pages/privacy-policy/privacyPolicy";
-import TermsConditions from "./pages/terms-conditions/termsConditions";
-import ConnectWallet from "./pages/connect-wallet/connect-wallet";
-
+import { lazy } from "react";
+const layout = lazy(() => import("./layouts/layout/layout"));
+const layout3 = lazy(() => import("./layouts/layout3/layout3"));
+const layout4 = lazy(() => import("./layouts/layout4/layout4"));
+const Home = lazy(() => import("./pages/home/home"));
+const CreateNFT = lazy(() => import("./pages/create-nft/create-nft"));
+const Wallet = lazy(() => import("./pages/wallet/wallet"));
+const Signup = lazy(() => import("./pages/signup/signup"));
+const SellNFT = lazy(() => import("./pages/sell-nft/SellNFT"));
+const NotFound = lazy(() => import("./pages/not-found/not-found"));
+const NFTDetail = lazy(() => import("./pages/nft-detail/nftdetail"));
+const UserProfile = lazy(() => import("./pages/user-profile/UserProfile"));
+const TopSellerList = lazy(() => import("./pages/top-seller/topsellerlist"));
+const AuctionsList = lazy(() => import("./pages/auctions/home-auction-list"));
+const AllNFT = lazy(() => import("./pages/all-nfts/all-nfts/allnft"));
+const CreateCollections = lazy(() =>
+  import("./pages/create-collections/CreateCollections")
+);
+const AboutUs = lazy(() => import("./pages/aboutus/aboutus"));
+const Faqs = lazy(() => import("./pages/faqs/faqs"));
+const PrivacyPolicy = lazy(() =>
+  import("./pages/privacy-policy/privacyPolicy")
+);
+const TermsConditions = lazy(() =>
+  import("./pages/terms-conditions/termsConditions")
+);
+const ConnectWallet = lazy(() =>
+  import("./pages/connect-wallet/connect-wallet")
+);
+const Populars = lazy(() =>
+  import("./pages/popular-collections-list/popular-collections-list")
+);
+const ExploreCollections = lazy(() =>
+  import("./pages/explore-collections/explore-collections")
+);
+const CollectionDetailsPage = lazy(() =>
+  import("./pages/collection-details/collectiondetails")
+);
+const EditProfile = lazy(() =>
+  import("./pages/user-edit-profile/user-edit-profile")
+);
 // routes
 const routes = [
   {
