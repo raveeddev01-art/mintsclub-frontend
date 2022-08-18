@@ -58,7 +58,7 @@ const NavbarMain = (props) => {
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className={"mx-xl-auto"}>
+            <Nav className={"ms-xl-auto"}>
               <Nav.Link className="nav-main-link">
                 <NavLink to="/">Home</NavLink>
               </Nav.Link>
@@ -107,12 +107,38 @@ const NavbarMain = (props) => {
                   </NavLink>
                 </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link className="nav-main-link">
+              <NavDropdown
+                title="Profile"
+                id="navbarScrollingDropdown"
+                className={`nav-main-link dropdown-bg`}
+              >
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/userprofile"
+                    className={`nav-main-link main-nav-dd-itemss`}
+                  >
+                    Profile
+                  </NavLink>
+                </NavDropdown.Item>
+                {/* <NavDropdown.Item> */}
+                <DarkModeButton />
+                {/* </NavDropdown.Item> */}
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/login"
+                    className={`nav-main-link main-nav-dd-items`}
+                    onClick={() => clearLocalStorage()}
+                  >
+                    {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
+                  </NavLink>
+                </NavDropdown.Item>
+              </NavDropdown>
+              {/* <Nav.Link className="nav-main-link">
                 <NavLink to="/userprofile" className="nav-main-link">
                   Profile
                 </NavLink>
-              </Nav.Link>
-              <Link
+              </Nav.Link> */}
+              {/* <Link
                 to={`/login`}
                 onClick={() => clearLocalStorage()}
                 id="wallet-address"
@@ -124,7 +150,7 @@ const NavbarMain = (props) => {
                   </span>
                   {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
                 </div>
-              </Link>
+              </Link> */}
               <div className={`search-box mt-1 mt-sm-0 d-sm-none`}>
                 <input
                   className={`search-txt ${searchactive ? "activeSearch" : ""}`}
@@ -145,7 +171,6 @@ const NavbarMain = (props) => {
               </div>
             </Nav>
           </Navbar.Collapse>
-          <DarkModeButton />
           <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
             <div className="search-box ">
               <input
@@ -165,7 +190,7 @@ const NavbarMain = (props) => {
                 <SearchIcon className="search-icon" />
               </button>
             </div>
-            <Link
+            {/* <Link
               to="/login"
               id="wallet-address"
               className="btn ml-lg-auto btn-linear-gradient btn-login"
@@ -181,7 +206,7 @@ const NavbarMain = (props) => {
                 </span>
                 {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
               </div>
-            </Link>
+            </Link> */}
           </div>
         </Navbar>
       </Container>

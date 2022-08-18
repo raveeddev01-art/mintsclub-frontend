@@ -12,6 +12,7 @@ import {
 } from "../../pages/auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
+import {connectWallet,createNFT} from "../../utils/algorand"
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
   const [data, setData] = useState(null);
@@ -49,7 +50,6 @@ const Hero = (props) => {
     }
   }, [props.auction.auctionsAuth]);
 
-  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -61,7 +61,8 @@ const Hero = (props) => {
               Digital Art <span> NFTs </span>
             </h1>
             <p className="mp-explore-text">
-              Explore on the world's best & largest NFT marketplace
+              Build the leading platform for cutting-edge and next gen
+              Blockchain.
             </p>
             {/* Buttons */}
             <div className="button-group mt-lg-5 d-flex">
@@ -71,12 +72,12 @@ const Hero = (props) => {
               >
                 Create
               </Link>
-              <Link
-                className="btn btn-blue-bordered btn-hero-explore"
-                to="/explore/exploreAll"
-              >
-                Explore
-              </Link>
+              <div className="watch-video d-flex align-items-center">
+                <button className="hero-play-btn">
+                  <img src={Play} alt="play" />
+                </button>
+                <span className="ms-4">Watch video to learn more ...</span>
+              </div>
             </div>
             {/* <button onClick={()=>createNFT()}>
               Connect Wallet
@@ -84,12 +85,12 @@ const Hero = (props) => {
             <button>
               Mint NFT
             </button> */}
-            <div className="watch-video d-flex align-items-center mt-5 mb-4">
+            {/* <div className="watch-video d-flex align-items-center mt-5 mb-4">
               <button className="hero-play-btn">
                 <img src={Play} alt="play" />
               </button>
               <span className="ms-2">Watch video to learn more</span>
-            </div>
+            </div> */}
           </div>
           <div className="col-12 col-lg-6">
             <CardSlider settings={heroSettings}>

@@ -6,7 +6,7 @@ class Layout4 extends Component {
     return (
       <>
         {" "}
-        <div className="main">{this.props.children}</div> <Footer />
+        <div className="main bg-clr">{this.props.children}</div> <Footer />
       </>
     );
   }

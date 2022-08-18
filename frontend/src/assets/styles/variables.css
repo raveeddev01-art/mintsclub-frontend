@@ -1,5 +1,6 @@
 :root {
   --btn-bg: #387fff;
+  --home-bg: url("../images/herobg.svg");
   --btn-bg-sec: #ffffff;
   --btn-bg-sec-border: #e2e2e2;
   --menu-text: #161616;
@@ -22,6 +23,7 @@
 
 [data-theme="dark"] {
   --btn-bg: #387fff;
+  --home-bg: url("../images/herobgdark.svg");
   --btn-bg-sec: #387fff;
   --btn-bg-sec-border: #387fff;
   --menu-text: #ffffff;
