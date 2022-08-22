@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState,FC } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../assets/images/modal-close.svg";
@@ -12,8 +12,8 @@ import { ReactComponent as InstaIcon } from "../../assets/images/insta-blue.svg"
 import { ReactComponent as VideoIcon } from "../../assets/images/buy-video-icon.svg";
 import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
 import ModalSmiley from "../../assets/images/model-smiley.svg";
-
-const BuyModal = (props) => {
+import { Buy } from "../../interfaces/components";
+const BuyModal:FC<Buy> = (props) => {
   const [purchase, setPurchase] = useState(true);
   const [checkBox, setCheckBox] = useState(false);
   const {
@@ -22,8 +22,6 @@ const BuyModal = (props) => {
     price,
     exchangeRate,
     tokenId,
-    modal,
-    setModal,
     buyNow,
     confirmed,
     transactionHash,
@@ -182,9 +180,9 @@ const BuyModal = (props) => {
           className="btn btn-linear-gradient btn-bid-modal mt-2"
         >
           {confirmed === "pending" ? (
-            <div class="spinner-border approve-spinner" role="status"></div>
+            <div className="spinner-border approve-spinner" role="status"></div>
           ) : (
-            " Confirm Checkout"
+            "Confirm Checkout"
           )}
         </button>
       </Modal.Footer>

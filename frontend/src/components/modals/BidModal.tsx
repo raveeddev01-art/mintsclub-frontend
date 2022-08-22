@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,FC } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../assets/images/modal-close.svg";
-
 import "./BuyModal.css";
-
 import TickIcon from "../../assets/images/tick-checkbox.svg";
 import axios from "axios";
+import { BidModalInt } from "../../interfaces/components";
 
-const BidModal = (props) => {
+const BidModal:FC<BidModalInt> = (props) => {
   const [checkBox, setCheckBox] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(0);
   useEffect(() => {

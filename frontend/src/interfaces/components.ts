@@ -41,3 +41,44 @@ export interface NFTCardInt {
     connectedAddress:string,
     handleLikesTogleApi:(_id:string,status:string,likeCount:any)=>{}
 }
+export interface ApprovalModalInt {
+    approvalStatus:string,
+    approveAccount:()=>{},
+    show:boolean,
+    onHide:()=>{},
+    address:string,
+}
+export interface BidModalInt {
+    onChange:(e:any)=>{},
+    decimalNumberValidator:(e:any)=>any,
+    handleModalSubmit:()=>{},
+    calculatePricePercantage:()=>any,
+    onHide:()=>{},
+    balance:any,
+    price:any,
+    show:boolean,
+}
+export interface Buy {
+    name:string,
+    image:string,
+    price:any,
+    exchangeRate:number,
+    tokenId:any,
+    buyNow:()=>any,
+    confirmed:any,
+    transactionHash:string,
+    transactionSuccess:string,
+    onHide:()=>any
+    disabled:boolean,
+    balance:number,
+    fileType:string,
+}
+export interface Levels {
+    show:boolean,
+    onHide:()=>any,
+    levels:any[],
+    addMoreValues:(status:string)=>any,
+    handleChange:(i:number,e:any,status:string)=>any,
+    removeFormFields:(i:number,status:string)=>any,
+    onSave:(status:string)=>any
+}
