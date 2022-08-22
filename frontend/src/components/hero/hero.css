@@ -1,6 +1,6 @@
 .hero-section {
-  background-color: var(--page-bg);
-  background: url("../../assets/images/hero-bg.png");
+  /* background-color: var(--page-bg); */
+  /* background: url("../../assets/images/hero-bg.png"); */
   background-position: center;
   background-size: cover;
 }
@@ -12,7 +12,15 @@
 }
 
 .hero-section h1 span {
-  color: #387fff;
+  background: radial-gradient(
+    41.03% 358.74% at 81.02% 69.95%,
+    #1448ff 0%,
+    #00fff0 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }
 
 .hero-section p {
@@ -23,6 +31,7 @@
 
 .hero-section .mp-explore-text {
   padding-top: 50px;
+  max-width: 500px;
 }
 
 .test-container {
@@ -43,17 +52,19 @@
 
 .hero-section .btn-hero-create,
 .hero-section .btn-hero-explore {
-  width: 200px;
+  width: 218px;
+  height: 55px;
 }
 
 .hero-section .hero-play-btn {
   outline: none;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-left: 10px;
   background: #ffffff;
   box-shadow: 0px 6px 22px rgba(0, 0, 0, 0.05);
   border-radius: 50%;
@@ -117,6 +128,7 @@
   color: var(--text-body-two);
   font-size: 20px;
   font-weight: 300;
+  max-width: 172px;
 }
 
 .slick-slider .slick-dots li {

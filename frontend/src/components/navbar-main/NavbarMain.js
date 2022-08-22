@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory, useLocation, NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg";
@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import DarkModeButton from "../dark-mode-button/darkModeButton";
 import { beforeCollection } from "../../pages/collections/collections.actions";
 import { headerImages } from "../../assets/assets";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
 
 const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
@@ -18,7 +19,7 @@ const NavbarMain = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
   const location = useLocation();
-  const { darkMode } = props.darkMode;
+  const { darkMode, setDarkMode } = useContext(darkModeContext);
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
@@ -39,9 +40,44 @@ const NavbarMain = (props) => {
 
     history.push("/login");
   };
+
+  const setDark = () => {
+    localStorage.setItem("theme", "dark");
+    document.documentElement.setAttribute("data-theme", "dark");
+  };
+
+  const setLight = () => {
+    localStorage.setItem("theme", "light");
+    document.documentElement.setAttribute("data-theme", "light");
+  };
+  const storedTheme = localStorage.getItem("theme");
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const defaultDark =
+    storedTheme === "dark" || (storedTheme === null && prefersDark);
+
+  const toggleTheme = (e) => {
+    if (e.target.checked) {
+      setDark();
+      setDarkMode(true);
+    } else {
+      setLight();
+      setDarkMode(false);
+    }
+  };
+
   React.useEffect(() => {
     setPath(location.path);
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (defaultDark) {
+      setDark();
+      setDarkMode(true);
+    }
+  }, []);
 
   return (
     <div className="main-nav-section">
@@ -58,7 +94,7 @@ const NavbarMain = (props) => {
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className={"mx-xl-auto"}>
+            <Nav className={"ms-xl-auto"}>
               <Nav.Link className="nav-main-link">
                 <NavLink to="/">Home</NavLink>
               </Nav.Link>
@@ -107,12 +143,41 @@ const NavbarMain = (props) => {
                   </NavLink>
                 </NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link className="nav-main-link">
+              <NavDropdown
+                title="Profile"
+                id="navbarScrollingDropdown"
+                className={`nav-main-link dropdown-bg`}
+              >
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/userprofile"
+                    className={`nav-main-link main-nav-dd-itemss`}
+                  >
+                    Profile
+                  </NavLink>
+                </NavDropdown.Item>
+                {/* <NavDropdown.Item> */}
+                <DarkModeButton
+                  toggleTheme={toggleTheme}
+                  defaultDark={defaultDark}
+                />
+                {/* </NavDropdown.Item> */}
+                <NavDropdown.Item>
+                  <NavLink
+                    to="/login"
+                    className={`nav-main-link main-nav-dd-items`}
+                    onClick={() => clearLocalStorage()}
+                  >
+                    {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
+                  </NavLink>
+                </NavDropdown.Item>
+              </NavDropdown>
+              {/* <Nav.Link className="nav-main-link">
                 <NavLink to="/userprofile" className="nav-main-link">
                   Profile
                 </NavLink>
-              </Nav.Link>
-              <Link
+              </Nav.Link> */}
+              {/* <Link
                 to={`/login`}
                 onClick={() => clearLocalStorage()}
                 id="wallet-address"
@@ -124,7 +189,7 @@ const NavbarMain = (props) => {
                   </span>
                   {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
                 </div>
-              </Link>
+              </Link> */}
               <div className={`search-box mt-1 mt-sm-0 d-sm-none`}>
                 <input
                   className={`search-txt ${searchactive ? "activeSearch" : ""}`}
@@ -145,7 +210,6 @@ const NavbarMain = (props) => {
               </div>
             </Nav>
           </Navbar.Collapse>
-          <DarkModeButton />
           <div className="main-nav-right d-none d-sm-flex justify-content-around align-items-center">
             <div className="search-box ">
               <input
@@ -165,7 +229,7 @@ const NavbarMain = (props) => {
                 <SearchIcon className="search-icon" />
               </button>
             </div>
-            <Link
+            {/* <Link
               to="/login"
               id="wallet-address"
               className="btn ml-lg-auto btn-linear-gradient btn-login"
@@ -181,7 +245,7 @@ const NavbarMain = (props) => {
                 </span>
                 {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
               </div>
-            </Link>
+            </Link> */}
           </div>
         </Navbar>
       </Container>
@@ -189,8 +253,6 @@ const NavbarMain = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  darkMode: state.darkMode,
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { beforeCollection })(NavbarMain);

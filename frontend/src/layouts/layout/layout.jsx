@@ -6,9 +6,11 @@ class Layout extends Component {
   render() {
     return (
       <>
-        <NavbarMain />
-        <div className="main">{this.props.children}</div>
-        <Footer />
+        <div className="bg-clr">
+          <NavbarMain />
+          <div className="main">{this.props.children}</div>
+          <Footer />
+        </div>
       </>
     );
   }

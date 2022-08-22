@@ -94,6 +94,7 @@
 } */
 .user-profile .logo-wrapper {
   margin-bottom: 3rem;
+  position: relative;
 }
 .user-profile.feature-image .feature-img-round .feature-img-round-info {
   position: absolute;
@@ -118,8 +119,8 @@
 .user-profile .upload-feature-icon-logo {
   position: absolute;
   left: 4;
-  bottom: 97px;
-  left: 16px;
+  bottom: 57px;
+  /* left: 16px; */
   cursor: pointer;
 }
 .user-profile .upload-feature-icon-logo img {

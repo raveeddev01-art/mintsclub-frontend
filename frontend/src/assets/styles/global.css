@@ -1469,7 +1469,7 @@ aside {
 .btn.btn-linear-gradient:hover {
   background-color: transparent;
   border: 1px solid #316feb;
-  color: #0e0e0e !important;
+  color: var(--text-body) !important;
 }
 
 .btn.btn-rounded-bordered:hover {
@@ -3377,6 +3377,12 @@ input[type="number"] {
     width: 90px;
   }
 }
-.main {
+.home-layout {
+  background-color: var(--page-bg);
+  background-image: var(--home-bg);
+  background-repeat: no-repeat;
+  background-position: top;
+}
+.bg-clr {
   background-color: var(--page-bg);
 }
