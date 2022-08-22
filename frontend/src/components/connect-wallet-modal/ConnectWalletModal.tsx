@@ -31,7 +31,6 @@ const walletButtons = [
 
 export default function ConnectWalletModal() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
@@ -53,7 +52,7 @@ export default function ConnectWalletModal() {
               <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
                 <Tab eventKey="ethereum" title="Ethereum">
                   <div className="tab-inner-content">
-                    {walletButtons.map((button) => {
+                    {walletButtons.map((button:any) => {
                       return (
                         <button className="wallet-button">
                           <img src={button.img} alt="services" />

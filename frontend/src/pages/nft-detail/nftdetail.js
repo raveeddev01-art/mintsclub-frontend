@@ -11,7 +11,7 @@ import {
   getItemsListing,
   beforeNFTByCollection,
 } from "../../components/nfts/nfts.action.js";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader.js";
+import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
@@ -63,6 +63,7 @@ import NFTDetailLoader from "../../components/contentLoader/nftDetailLoader";
 import Audio from "../../components/audio/audio";
 import { nftBanner } from "../../utils/exportData";
 import Table from "../../components/table/table";
+
 
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);

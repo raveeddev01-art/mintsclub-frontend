@@ -89,3 +89,63 @@ export interface BreadcrumbInt {
     title3:any,
     title1Handler:()=>any
 }
+export interface PropertiesInt {
+    show:boolean,
+    onHide:()=>any,
+    addMoreValues:(status:string)=>any,
+    handleChange:(i:any,e:any,status:string)=>any,
+    removeFormFields:(i:any,status:string)=>any,
+    properties:any[],
+    onSave:(status:string)=>any
+}
+
+export interface StatsInt {
+    show:boolean,
+    onHide:()=>any,
+    addMoreValues:(status:string)=>any,
+    handleChange:(i:any,e:any,status:string)=>any,
+    removeFormFields:(i:any,status:string)=>any,
+    onSave:(status:string)=>any,
+    stats:any[]
+
+}
+export interface auctionAudioInt {
+    src:string,
+    onLoadCallback:()=>any,
+    loader:boolean
+}
+
+export interface CollectionCardInt {
+    CardImg:string,
+  Subimg1:string,
+  Subimg2:string,
+  Subimg3:string,
+  name:string,
+  id:string,
+  collection:any,
+  userName:string,
+  NFTCount:number,
+  profileImage:string,
+  ownerAddress:string,
+  connectedAddress:string,
+
+}
+
+export interface HeroInt {
+    getLiveAuctions:(qs:any)=>any,
+    beforeAuction:()=>any,
+    auction:any,
+}
+export interface HeroCardInt {
+    data:any,
+    connectedAddress:string,
+    status:string,
+}
+export interface footerInt {
+    subscribeAuth:boolean,
+    error:any,
+    emptyError:()=>any,
+    beforeFooter:()=>any,
+    subscribeUser:(email:any)=>any,
+
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import {FC} from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
@@ -7,15 +7,16 @@ import { toast } from "react-toastify";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-} from "./../../utils/functions";
-const StatsModal = (props) => {
+} from "../../utils/functions";
+import {StatsInt} from "../../interfaces/components"
+const StatsModal:FC<StatsInt> = (props) => {
   const { show, onHide } = props;
   const { addMoreValues, handleChange, removeFormFields, stats, onSave } =
     props;
   const handleSubmit = () => {
     if (stats && stats.length > 0) {
       let isEmpty = stats.filter(
-        (item) => item.name === "" || item.value === ""
+        (item:any) => item.name === "" || item.value === ""
       );
       if (isEmpty.length > 0) {
         toast.error("Please Fill Empty Fields ");
@@ -50,7 +51,7 @@ const StatsModal = (props) => {
           <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
             {stats &&
               stats.length > 0 &&
-              stats.map((item, i) => {
+              stats.map((item:any, i:any) => {
                 return (
                   <div
                     className="row g-2 align-items-center justify-content-between mt-3"
@@ -65,7 +66,6 @@ const StatsModal = (props) => {
                           <input
                             type="text"
                             name="name"
-                            maxLength="40"
                             value={item.name}
                             onKeyDown={(e) =>
                               firstInputCharacterSpace(e, item.name.length)
@@ -87,7 +87,6 @@ const StatsModal = (props) => {
                               type="number"
                               name="value"
                               min="1"
-                              maxLength="1"
                               onKeyDown={(e) => {
                                 decimalNumberValidator(e);
                               }}

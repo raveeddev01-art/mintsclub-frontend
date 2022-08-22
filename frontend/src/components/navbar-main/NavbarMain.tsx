@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import  { useEffect,useState, useContext,FC } from "react";
 import { Link, useHistory, useLocation, NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg";
@@ -12,16 +12,13 @@ import { beforeCollection } from "../../pages/collections/collections.actions";
 import { headerImages } from "../../assets/assets";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 
-const NavbarMain = (props) => {
-  let userId = ENV.getUserKeys("_id")._id;
-  const [path, setPath] = React.useState(null);
+const NavbarMain= () => {
   const [searchactive, setSearchActive] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
-  const location = useLocation();
   const { darkMode, setDarkMode } = useContext(darkModeContext);
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     setSearchValue(e.target.value);
     e.target.value ? setSearchActive(true) : setSearchActive(false);
   };
@@ -34,11 +31,10 @@ const NavbarMain = (props) => {
     }
   };
   const clearLocalStorage = () => {
-    if (userId) {
-      localStorage.clear();
-    }
-
-    history.push("/login");
+      if(ENV?.getUserKeys("_id")?._id){
+        localStorage.clear();
+        history.push("/login");
+      }
   };
 
   const setDark = () => {
@@ -58,7 +54,7 @@ const NavbarMain = (props) => {
   const defaultDark =
     storedTheme === "dark" || (storedTheme === null && prefersDark);
 
-  const toggleTheme = (e) => {
+  const toggleTheme = (e:any) => {
     if (e.target.checked) {
       setDark();
       setDarkMode(true);
@@ -68,16 +64,13 @@ const NavbarMain = (props) => {
     }
   };
 
-  React.useEffect(() => {
-    setPath(location.path);
-  }, [location.pathname]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (defaultDark) {
       setDark();
       setDarkMode(true);
     }
   }, []);
+  console.log(ENV?.getUserKeys("_id"))
 
   return (
     <div className="main-nav-section">
@@ -253,6 +246,6 @@ const NavbarMain = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, { beforeCollection })(NavbarMain);

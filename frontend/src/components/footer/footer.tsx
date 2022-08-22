@@ -1,25 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
-import { firstInputCharacterSpace } from "./../../utils/functions";
+import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
 import "./footer.css";
 import { toast } from "react-toastify";
 import { emptyError } from "../../redux/shared/error/error.action";
-
-const Footer = (props) => {
-  const [data, setData] = useState({
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    youtube: "",
-    vine: "",
-    desc: "",
-  });
+import {footerInt} from "../../interfaces/components"
+const Footer:FC<footerInt> = (props) => {
   const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     if (props.subscribeAuth && props.error === null) {
       setLoader(false);
@@ -27,6 +20,7 @@ const Footer = (props) => {
       props.beforeFooter();
     }
   }, [props.subscribeAuth]);
+
 
   useEffect(() => {
     if (props.error !== null) {
@@ -49,7 +43,8 @@ const Footer = (props) => {
       toast.error("Please enter a valid email address");
     }
   };
-  const validateEmail = (email) => {
+
+  const validateEmail = (email:any) => {
     return String(email)
       .toLowerCase()
       .match(
@@ -126,7 +121,7 @@ const Footer = (props) => {
                   </div>
                   <input
                     type="email"
-                    maxLength="50"
+                    maxLength={50}
                     onKeyDown={(e) => firstInputCharacterSpace(e, email)}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="youremail@xyz.com"
@@ -140,8 +135,8 @@ const Footer = (props) => {
                       onClick={() => subscribe()}
                     >
                       {loader ? (
-                        <div class="spinner-border footer-loader" role="status">
-                          <span class="sr-only">Loading...</span>
+                        <div className="spinner-border footer-loader" role="status">
+                          <span className="sr-only">Loading...</span>
                         </div>
                       ) : (
                         "Subscribe"
@@ -149,7 +144,7 @@ const Footer = (props) => {
                     </button>
                   </div>
                 </div>
-                <p>{data.desc}</p>
+                {/* <p>{data.desc}</p> */}
                 <div className="social-icons d-flex justify-content-center justify-content-lg-end">
                   <a
                     href={"https://www.linkedin.com/showcase/mints-club"}
@@ -193,7 +188,7 @@ const Footer = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   error: state.error,
   settings: state.settings,
   subscribeAuth: state.footer.subscribeAuth,

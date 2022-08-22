@@ -1,7 +1,10 @@
+
+import {FC} from "react"
 import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
+import {auctionAudioInt} from  "../../interfaces/components";
 import "./auctionAudio.css";
 
-const AuctionAudio = ({ src, onLoadCallback, loader }) => {
+const AuctionAudio:FC<auctionAudioInt> = ({ src, onLoadCallback, loader }) => {
   return (
     <div
       className="w-100 h-100 auction-audio-container p-4"

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import {FC} from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../assets/images/modal-close.svg";
 import InputClose from "../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
 import { toast } from "react-toastify";
-import { firstInputCharacterSpace } from "./../../utils/functions";
-const PropertiesModal = (props) => {
+import { firstInputCharacterSpace } from "../../utils/functions";
+import {PropertiesInt} from '../../interfaces/components';
+
+const PropertiesModal:FC<PropertiesInt> = (props) => {
   const {
     show,
     onHide,
@@ -18,7 +20,7 @@ const PropertiesModal = (props) => {
   const handleSubmit = () => {
     if (properties && properties.length > 0) {
       let isEmpty = properties.filter(
-        (item) => item.name === "" || item.type === ""
+        (item:any) => item.name === "" || item.type === ""
       );
       if (isEmpty.length > 0) {
         toast.error("Please Fill Empty Fields ");
@@ -52,7 +54,7 @@ const PropertiesModal = (props) => {
       </Modal.Header>
       <Modal.Body className="mt-0 pt-0 px-0 px-sm-3">
         <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
-          {properties.map((item, i) => {
+          {properties.map((item:any, i:any) => {
             return (
               <div
                 className="row g-2 align-items-center justify-content-between mt-3"
@@ -67,7 +69,6 @@ const PropertiesModal = (props) => {
                       <input
                         type="text"
                         name="type"
-                        maxLength="40"
                         value={item.type}
                         onKeyDown={(e) =>
                           firstInputCharacterSpace(e, item.type.length)
@@ -87,7 +88,6 @@ const PropertiesModal = (props) => {
                       <input
                         type="text"
                         name="name"
-                        maxLength="40"
                         value={item.name}
                         onKeyDown={(e) =>
                           firstInputCharacterSpace(e, item.name.length)

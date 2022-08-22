@@ -47,7 +47,7 @@ export const ENV = {
   categoryDefaultImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
 
   //set user in local storage
-  encryptUserData: function (data) {
+  encryptUserData: function (data:any) {
     let userData = localStorage.getItem("encuse");
     if (userData && !data.accessToken) {
       let bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
@@ -65,15 +65,19 @@ export const ENV = {
     localStorage.setItem("encuse", encryptedUser);
     return true;
   },
-
+  
   //return required keys
-  getUserKeys: function (keys = null) {
+  getUserKeys: function (keys:any) {
+    type User = {
+      [key: string]: any;
+    };
+    
     let userData = localStorage.getItem("encuse");
     if (userData) {
       var bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
       var originalData = bytes.toString(CryptoJS.enc.Utf8);
       originalData = JSON.parse(originalData);
-      let user = {};
+      let user:User = {};
       if (keys) {
         keys = keys.split(" ");
         for (let key in keys) {
@@ -89,7 +93,7 @@ export const ENV = {
   },
 
   //Object to query string
-  objectToQueryString: function (body) {
+  objectToQueryString: function (body:any) {
     const qs = Object.keys(body)
       .map((key) => `${key}=${body[key]}`)
       .join("&");
@@ -97,7 +101,7 @@ export const ENV = {
   },
 
   //validate image types
-  isValidImageType: function (file) {
+  isValidImageType: function (file:any) {
     if (file && file.type) {
       const acceptableTypes = [
         "image/png",
@@ -248,7 +252,7 @@ export const ENV = {
     },
   },
 
-  countDownRenderer: ({ days, hours, minutes, seconds }) => {
+  countDownRenderer: ({ days, hours, minutes, seconds }:any) => {
     return (
       <div
         className="countdown-container d-flex justify-content-center mx-auto mb-2"

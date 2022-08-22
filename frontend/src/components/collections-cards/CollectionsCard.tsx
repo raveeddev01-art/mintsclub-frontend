@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState,FC } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
 import SubImgLoader from "../contentLoader/collectionSubLoader";
+import {CollectionCardInt} from '../../interfaces/components'
 import "./CollectionsCard.css";
 
-const CollectionsCard = ({
+const CollectionsCard:FC<CollectionCardInt> = ({
   CardImg,
   Subimg1,
   Subimg2,

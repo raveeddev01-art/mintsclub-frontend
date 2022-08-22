@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState,FC } from "react";
 import { Link } from "react-router-dom";
 import { connectMetamaskCopy } from "../../utils/web3";
 import "./hero.css";
@@ -12,16 +12,20 @@ import {
 } from "../../pages/auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
-import {connectWallet,createNFT} from "../../utils/algorand"
-const Hero = (props) => {
+import { HeroInt } from "../../interfaces/components";
+const Hero:FC< HeroInt>= (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
-  const [data, setData] = useState(null);
-  const [status, setStatus] = useState(null);
+  const [data, setData] = useState<any>(null);
+  const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;
 
-  useEffect(async () => {
-    let connectedAddress = await connectMetamaskCopy();
-    setConnectedAddress(connectedAddress);
+  useEffect( () => {
+    const setAddress=async ()=>{
+
+      let connectedAddress = await connectMetamaskCopy();
+      setConnectedAddress(connectedAddress);
+    }
+    setAddress()
   }, []);
 
   useEffect(() => {
@@ -38,7 +42,7 @@ const Hero = (props) => {
       if (auctions && auctions.length > 1) {
         props.beforeAuction();
         setStatus("auctions");
-        updatedAuctions = auctions.filter((item) => item.fileType === "image");
+        updatedAuctions = auctions.filter((item:any) => item.fileType === "image");
         if (updatedAuctions?.length > 6) {
           updatedAuctions = updatedAuctions.slice(0, 6);
         }
@@ -79,30 +83,18 @@ const Hero = (props) => {
                 <span className="ms-4">Watch video to learn more ...</span>
               </div>
             </div>
-            {/* <button onClick={()=>createNFT()}>
-              Connect Wallet
-            </button>
-            <button>
-              Mint NFT
-            </button> */}
-            {/* <div className="watch-video d-flex align-items-center mt-5 mb-4">
-              <button className="hero-play-btn">
-                <img src={Play} alt="play" />
-              </button>
-              <span className="ms-2">Watch video to learn more</span>
-            </div> */}
           </div>
           <div className="col-12 col-lg-6">
             <CardSlider settings={heroSettings}>
               {data &&
                 data.length > 0 &&
-                data.map((auction, id) => {
+                data.map((auction:any, id:any) => {
                   return (
                     <HeroCards
                       key={id}
                       data={auction}
                       status={status}
-                      className="slide"
+                      // className="slide"
                     />
                   );
                 })}
@@ -114,7 +106,7 @@ const Hero = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   auction: state.auction,
   nft: state.nft,
 });
