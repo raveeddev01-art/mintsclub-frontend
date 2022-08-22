@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useContext } from "react";
 import routes from "./routes";
 import { PrivateRoute } from "./privateRoute";
 import { Switch } from "react-router-dom";
@@ -9,13 +9,10 @@ import "./App.css";
 import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
-import {
-  beforeWallet,
-  setWalletAddress,
-} from "./pages/wallet/wallet.action";
+import { beforeWallet, setWalletAddress } from "./pages/wallet/wallet.action";
+import DarkModeState from "./context/darkmode/DarkModeState";
 
 const App = React.memo((props) => {
-
   useGaTracker();
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
@@ -39,21 +36,18 @@ const App = React.memo((props) => {
       if (changedAccounts.length === 0) {
         toast.error("you are not connected with metamask");
       }
-      setWallet(changedAccounts[0])
-
+      setWallet(changedAccounts[0]);
     };
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
     // window.ethereum.on("disconnect", ()=>alert("account cleared"));
     window.ethereum.request({ method: "eth_requestAccounts" }).then(
       (accounts) => {
-        setWallet(accounts[0])
+        setWallet(accounts[0]);
       },
       (error) => {}
     );
-    return () => {
-
-    };
+    return () => {};
   }, []);
 
   const setWallet = (address) => {
@@ -61,30 +55,31 @@ const App = React.memo((props) => {
     props.setWalletAddress(address);
   };
 
-
   return (
     <React.Fragment>
-      <Suspense fallback={<FullPageLoader />}>
-        <div>
-          <Switch>
-            {routes.map((route, index) => {
-              return (
-                <PrivateRoute
-                  key={index}
-                  path={route.path}
-                  exact={route.exact}
-                  access={route.access}
-                  component={(props) => (
-                    <route.layout {...props} title={route.title}>
-                      <route.component {...props} />
-                    </route.layout>
-                  )}
-                />
-              );
-            })}
-          </Switch>
-        </div>
-      </Suspense>
+      <DarkModeState>
+        <Suspense fallback={<FullPageLoader />}>
+          <div>
+            <Switch>
+              {routes.map((route, index) => {
+                return (
+                  <PrivateRoute
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    access={route.access}
+                    component={(props) => (
+                      <route.layout {...props} title={route.title}>
+                        <route.component {...props} />
+                      </route.layout>
+                    )}
+                  />
+                );
+              })}
+            </Switch>
+          </div>
+        </Suspense>
+      </DarkModeState>
     </React.Fragment>
   );
 });

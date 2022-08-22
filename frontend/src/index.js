@@ -9,13 +9,11 @@ import store from "./store";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import TimeAgo from 'javascript-time-ago'
+import TimeAgo from "javascript-time-ago";
 
-import en from 'javascript-time-ago/locale/en.json'
+import en from "javascript-time-ago/locale/en.json";
 
-
-TimeAgo.addDefaultLocale(en)
-
+TimeAgo.addDefaultLocale(en);
 
 toast.configure({
   position: toast.POSITION.TOP_RIGHT,
@@ -27,7 +25,6 @@ toast.configure({
 ReactDOM.render(
   <Provider store={store}>
     <ToastContainer />
-
     <BrowserRouter>
       <App />
     </BrowserRouter>

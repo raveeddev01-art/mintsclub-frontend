@@ -1,6 +1,4 @@
 import "./darkModeButton.css";
-import { connect } from "react-redux";
-import { setDarkMode } from "../../redux/actions/actions";
 import { styled } from "@mui/material/styles";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -8,37 +6,6 @@ import Switch, { SwitchProps } from "@mui/material/Switch";
 import SunImg from "../../assets/images/sun-fill.svg";
 
 const DarkModeButton = (props) => {
-  const setDark = () => {
-    localStorage.setItem("theme", "dark");
-    document.documentElement.setAttribute("data-theme", "dark");
-  };
-
-  const setLight = () => {
-    localStorage.setItem("theme", "light");
-    document.documentElement.setAttribute("data-theme", "light");
-  };
-  const storedTheme = localStorage.getItem("theme");
-  const prefersDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  const defaultDark =
-    storedTheme === "dark" || (storedTheme === null && prefersDark);
-
-  if (defaultDark) {
-    setDark();
-  }
-
-  const toggleTheme = (e) => {
-    if (e.target.checked) {
-      setDark();
-      props.setDarkMode(true);
-    } else {
-      setLight();
-      props.setDarkMode(false);
-    }
-  };
-
   return (
     <div className="toggle-theme-wrapper">
       <p>Dark Mode</p>
@@ -47,8 +14,8 @@ const DarkModeButton = (props) => {
           sx={{ mr: 0 }}
           control={
             <Android12Switch
-              defaultChecked={defaultDark}
-              onChange={toggleTheme}
+              checked={props.defaultDark}
+              onChange={props.toggleTheme}
             />
           }
         />
@@ -57,12 +24,7 @@ const DarkModeButton = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  darkMode: state.darkMode,
-});
-export default connect(mapStateToProps, {
-  setDarkMode,
-})(DarkModeButton);
+export default DarkModeButton;
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,

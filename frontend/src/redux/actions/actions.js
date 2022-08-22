@@ -452,10 +452,3 @@ export const hometest = () => (dispatch) => {
   // })
   // })
 };
-
-export const setDarkMode = (data) => (dispatch) => {
-  dispatch({
-    type: DARK_MODE,
-    payload: data,
-  });
-};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory, useLocation, NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg";
@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import DarkModeButton from "../dark-mode-button/darkModeButton";
 import { beforeCollection } from "../../pages/collections/collections.actions";
 import { headerImages } from "../../assets/assets";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
 
 const NavbarMain = (props) => {
   let userId = ENV.getUserKeys("_id")._id;
@@ -18,7 +19,7 @@ const NavbarMain = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const history = useHistory();
   const location = useLocation();
-  const { darkMode } = props.darkMode;
+  const { darkMode, setDarkMode } = useContext(darkModeContext);
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
@@ -39,9 +40,44 @@ const NavbarMain = (props) => {
 
     history.push("/login");
   };
+
+  const setDark = () => {
+    localStorage.setItem("theme", "dark");
+    document.documentElement.setAttribute("data-theme", "dark");
+  };
+
+  const setLight = () => {
+    localStorage.setItem("theme", "light");
+    document.documentElement.setAttribute("data-theme", "light");
+  };
+  const storedTheme = localStorage.getItem("theme");
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const defaultDark =
+    storedTheme === "dark" || (storedTheme === null && prefersDark);
+
+  const toggleTheme = (e) => {
+    if (e.target.checked) {
+      setDark();
+      setDarkMode(true);
+    } else {
+      setLight();
+      setDarkMode(false);
+    }
+  };
+
   React.useEffect(() => {
     setPath(location.path);
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (defaultDark) {
+      setDark();
+      setDarkMode(true);
+    }
+  }, []);
 
   return (
     <div className="main-nav-section">
@@ -121,7 +157,10 @@ const NavbarMain = (props) => {
                   </NavLink>
                 </NavDropdown.Item>
                 {/* <NavDropdown.Item> */}
-                <DarkModeButton />
+                <DarkModeButton
+                  toggleTheme={toggleTheme}
+                  defaultDark={defaultDark}
+                />
                 {/* </NavDropdown.Item> */}
                 <NavDropdown.Item>
                   <NavLink
@@ -214,8 +253,6 @@ const NavbarMain = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  darkMode: state.darkMode,
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { beforeCollection })(NavbarMain);
