@@ -1,5 +1,5 @@
 import "./own-collection-today.css";
-import { Images } from "../../../src/assets/assets";
+import { Images } from "../../assets/assets";
 
 const OwnCollectionToday = () => {
   return (

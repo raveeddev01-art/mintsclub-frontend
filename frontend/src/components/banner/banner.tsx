@@ -1,7 +1,8 @@
-import React from "react";
+import {FC} from "react";
+import {BannerInterface} from '../../interfaces/components'
 import "./banner.css";
 
-const Banner = ({ subHeading, heading, content, bgImg, bannerImg }) => {
+const Banner:FC<BannerInterface> = ({ subHeading, heading, content, bgImg, bannerImg }) => {
   return (
     <>
       <div

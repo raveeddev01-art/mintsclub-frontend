@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,FC } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 import ArrowUp from "../../assets/images/arrowUp.svg";
@@ -11,10 +11,12 @@ import "./AuctionsCard.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
 import AuctionAudio from "../auction-audio/auctionAudio";
-const AuctionsCards = ({
+import {AuctionCardInterface} from '../../interfaces/components';
+
+
+const AuctionsCards:FC<AuctionCardInterface> = ({
   ownerName,
   userId,
-  ownerId,
   bidsProfile,
   item,
   cardBg,
@@ -24,10 +26,9 @@ const AuctionsCards = ({
   const { countDownRenderer } = ENV;
   const history = useHistory();
   const videoElement = React.useRef(null);
-  const { playerState, togglePlay, handleOnTimeUpdate } =
+  const { playerState, togglePlay } =
     useVideoPlayer(videoElement);
   const [loader, setLoader] = useState(true);
-
   const {
     image,
     auctionEndDate,
@@ -73,7 +74,7 @@ const AuctionsCards = ({
                   setLoader(false);
                 }}
                 ref={videoElement}
-                onTimeUpdate={handleOnTimeUpdate}
+                // onTimeUpdate={handleOnTimeUpdate}
                 style={{ display: `${!loader ? "block" : "none"}` }}
               />
 
@@ -115,7 +116,7 @@ const AuctionsCards = ({
             <div className="auction-card-avatar d-flex align-items-center">
               {bidsProfile &&
                 bidsProfile.length > 0 &&
-                bidsProfile.map((item, i) => {
+                bidsProfile.map((item:any, i:any) => {
                   if (i <= 2) {
                     return (
                       <img
@@ -186,7 +187,7 @@ const AuctionsCards = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   connectedAddress: state.wallet.connectedAddress,
 });
 

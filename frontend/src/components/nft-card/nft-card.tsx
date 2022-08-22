@@ -1,23 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
-
-import { ENV } from "../../config/config";
 import useVideoPlayer from "../test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import placeholderImg from "../../assets/images/placeholder.png";
-
 import { connect } from "react-redux";
 import "./nft-card.css";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../contentLoader/imageLoader";
 import Audio from "../audio/audio";
-const NFTCard = (props) => {
+import { NFTCardInt } from "../../interfaces/components";
+const NFTCard: FC<NFTCardInt> = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
-  const { playerState, togglePlay, handleOnTimeUpdate } =
-    useVideoPlayer(videoElement);
-  const [loader, setLoader] = useState(true);
+  const { playerState, togglePlay } = useVideoPlayer(videoElement);
+  const [loader, setLoader] = useState<any>(true);
   const {
     image,
     name,
@@ -32,9 +29,8 @@ const NFTCard = (props) => {
     ownerAddress,
   } = props.data;
   const { username, profileImage, profilePhoto } = props?.owner;
-  const user = ENV.getUserKeys("_id")?._id;
   const { likedNfts } = props;
-  const validateIfLiked = (likedNfts1, id) => {
+  const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
       let result = likedNfts.find((item) => item.nftId == id);
       if (result) {
@@ -46,6 +42,7 @@ const NFTCard = (props) => {
       return false;
     }
   };
+
 
   return (
     <Card className={`auction-card nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
@@ -74,7 +71,6 @@ const NFTCard = (props) => {
                 id="video1"
                 src={image}
                 ref={videoElement}
-                onTimeUpdate={handleOnTimeUpdate}
                 onEnded={() => {
                   togglePlay();
                 }}
@@ -107,7 +103,11 @@ const NFTCard = (props) => {
             </div>
             <Audio
               src={image}
-              onLoadCallback={() => setLoader(false)}
+              onLoadCallback={() => {
+                setLoader(false)
+                return false
+                 
+              } }
               loader={loader}
               fileType={fileType}
             />
@@ -202,7 +202,7 @@ const NFTCard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   connectedAddress: state.wallet.connectedAddress,
 });
 

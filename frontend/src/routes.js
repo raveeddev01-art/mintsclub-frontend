@@ -13,11 +13,11 @@ const UserProfile = lazy(() => import("./pages/user-profile/UserProfile"));
 const TopSellerList = lazy(() => import("./pages/top-seller/topsellerlist"));
 const AuctionsList = lazy(() => import("./pages/auctions/home-auction-list"));
 const AllNFT = lazy(() => import("./pages/all-nfts/all-nfts/allnft"));
+const AboutUs = lazy(() => import("./pages/aboutus/aboutus"));
+const Faqs = lazy(() => import("./pages/faqs/faqs"));
 const CreateCollections = lazy(() =>
   import("./pages/create-collections/CreateCollections")
 );
-const AboutUs = lazy(() => import("./pages/aboutus/aboutus"));
-const Faqs = lazy(() => import("./pages/faqs/faqs"));
 const PrivacyPolicy = lazy(() =>
   import("./pages/privacy-policy/privacyPolicy")
 );

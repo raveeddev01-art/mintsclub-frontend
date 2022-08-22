@@ -6,14 +6,16 @@ import {
   FaHandPaper,
 } from "react-icons/all";
 import ReactTimeAgo from "react-time-ago";
-const Table = ({
+import { TableInterface } from "../../interfaces/components";
+const Table: React.FC<TableInterface> = ({
   titles,
   data,
   lowestNftPrice,
   exchangeRate,
   status,
 }) => {
-  const [info, setInfo] = useState(null);
+  const [info, setInfo] = useState<any>(null);
+
   useEffect(() => {
     if (status === "Offers") {
       formateBidsInfo();
@@ -21,12 +23,14 @@ const Table = ({
       formateActivityInfo();
     }
   }, [data]);
-  const getPercentageChange = (oldNumber, newNumber) => {
+
+  const getPercentageChange = (oldNumber: number, newNumber: number) => {
     var decreaseValue = oldNumber - newNumber;
 
     return (decreaseValue / oldNumber) * 100;
   };
-  const handleAcitivityIcon = (type) => {
+
+  const handleAcitivityIcon = (type: string) => {
     if (type === "Mint") {
       return <MdShoppingCart />;
     } else if (type === "List") {
@@ -40,12 +44,14 @@ const Table = ({
 
   const formateBidsInfo = () => {
     if (data && data.length > 0) {
-      let formatedData = data.map((item) => {
+      let formatedData = data.map((item: any) => {
         return {
           item1: item.bidAmount,
           item2: `$ ${(item.bidAmount * exchangeRate).toFixed(2)}`,
           item3: `${
-            getPercentageChange(item.bidAmount, lowestNftPrice).toFixed(0) %
+            Number(
+              getPercentageChange(item.bidAmount, lowestNftPrice).toFixed(0)
+            ) %
               item.bidAmount >
             lowestNftPrice
               ? "above"
@@ -59,9 +65,10 @@ const Table = ({
       setInfo(formatedData);
     }
   };
+
   const formateActivityInfo = () => {
     if (data && data.length > 0) {
-      let formatedData = data.map((item) => {
+      let formatedData: any = data.map((item: any) => {
         return {
           item1: (
             <div className="d-flex align-items-center">
@@ -98,7 +105,7 @@ const Table = ({
         {data && data.length > 0 && (
           <thead>
             <tr>
-              {titles.map((item) => {
+              {titles.map((item: any) => {
                 return <th scope="col">{item}</th>;
               })}
             </tr>
@@ -107,7 +114,7 @@ const Table = ({
         <tbody>
           {info && info.length > 0 ? (
             <>
-              {info.map((val, index) => {
+              {info.map((val: any, index: any) => {
                 return (
                   <tr key={index}>
                     <th scope="row">{val.item1}</th>
