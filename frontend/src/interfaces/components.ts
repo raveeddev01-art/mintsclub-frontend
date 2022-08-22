@@ -82,3 +82,10 @@ export interface Levels {
     removeFormFields:(i:number,status:string)=>any,
     onSave:(status:string)=>any
 }
+
+export interface BreadcrumbInt {
+    title1:any,
+    title2:any,
+    title3:any,
+    title1Handler:()=>any
+}

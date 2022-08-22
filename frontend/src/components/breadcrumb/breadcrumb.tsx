@@ -1,7 +1,8 @@
-import React from "react";
+import {FC} from "react";
+import { BreadcrumbInt } from "../../interfaces/components";
 import "./breadcrumb.css";
 
-function Breadcrumb({ title1, title2, title3,title1Handler }) {
+const Breadcrumb:FC<BreadcrumbInt>=({ title1, title2, title3,title1Handler }) =>{
   return (
     <div className="top-breadcrumb ">
       <div className="container">
