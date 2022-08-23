@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
 import { beforeWallet, setWalletAddress } from "./pages/wallet/wallet.action";
-import DarkModeState from "./context/darkmode/DarkModeState";
 
 const App = React.memo((props) => {
   useGaTracker();
@@ -57,29 +56,27 @@ const App = React.memo((props) => {
 
   return (
     <React.Fragment>
-      <DarkModeState>
-        <Suspense fallback={<FullPageLoader />}>
-          <div>
-            <Switch>
-              {routes.map((route, index) => {
-                return (
-                  <PrivateRoute
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    access={route.access}
-                    component={(props) => (
-                      <route.layout {...props} title={route.title}>
-                        <route.component {...props} />
-                      </route.layout>
-                    )}
-                  />
-                );
-              })}
-            </Switch>
-          </div>
-        </Suspense>
-      </DarkModeState>
+      <Suspense fallback={<FullPageLoader />}>
+        <div>
+          <Switch>
+            {routes.map((route, index) => {
+              return (
+                <PrivateRoute
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  access={route.access}
+                  component={(props) => (
+                    <route.layout {...props} title={route.title}>
+                      <route.component {...props} />
+                    </route.layout>
+                  )}
+                />
+              );
+            })}
+          </Switch>
+        </div>
+      </Suspense>
     </React.Fragment>
   );
 });
