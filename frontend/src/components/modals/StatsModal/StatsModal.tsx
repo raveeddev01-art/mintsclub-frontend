@@ -1,14 +1,14 @@
 import {FC} from "react";
 import { Modal } from "react-bootstrap";
-import ModalClose from "../../assets/images/modal-close.svg";
-import InputClose from "../../assets/images/inp-close.svg";
-import "./PropertiesModal.css";
+import ModalClose from "../../../assets/images/modal-close.svg";
+import InputClose from "../../../assets/images/inp-close.svg";
+import "../PropertiesModal/PropertiesModal.css";
 import { toast } from "react-toastify";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-} from "../../utils/functions";
-import {StatsInt} from "../../interfaces/components"
+} from "../../../utils/functions";
+import {StatsInt} from "../../../interfaces/components";
 const StatsModal:FC<StatsInt> = (props) => {
   const { show, onHide } = props;
   const { addMoreValues, handleChange, removeFormFields, stats, onSave } =

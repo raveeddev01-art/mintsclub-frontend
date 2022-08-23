@@ -47,8 +47,8 @@ import {
   buyNow,
 } from "../../components/offers/offers.action";
 import { toast } from "react-toastify";
-import BuyModal from "../../components/modals/BuyModal";
-import BidModal from "../../components/modals/BidModal";
+import BuyModal from "../../components/modals/BuyModal/BuyModal";
+import BidModal from "../../components/modals/BidModal/BidModal";
 import useVideoPlayer from "../../components/test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import StatsInfo from "../create-nft/components/statsinfo";

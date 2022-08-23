@@ -30,7 +30,7 @@ import {
 import useVideoPlayer from "../../components/test-video-card/components/useVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { updateProfile } from "../../components/user/user.action";
-import ApprovalModal from "../../components/modals/ApprovalModal";
+import ApprovalModal from "../../components/modals/ApprovalModal/ApprovalModal";
 import { emptyError } from "../../redux/shared/error/error.action";
 import Banner from "../../components/banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";

@@ -1,11 +1,11 @@
 import {FC} from "react";
 import { Modal } from "react-bootstrap";
-import ModalClose from "../../assets/images/modal-close.svg";
-import InputClose from "../../assets/images/inp-close.svg";
+import ModalClose from "../../../assets/images/modal-close.svg";
+import InputClose from "../../../assets/images/inp-close.svg";
 import "./PropertiesModal.css";
 import { toast } from "react-toastify";
-import { firstInputCharacterSpace } from "../../utils/functions";
-import {PropertiesInt} from '../../interfaces/components';
+import { firstInputCharacterSpace } from "../../../utils/functions";
+import {PropertiesInt} from '../../../interfaces/components';
 
 const PropertiesModal:FC<PropertiesInt> = (props) => {
   const {

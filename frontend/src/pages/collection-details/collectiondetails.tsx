@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import "./collectiondetails.css";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
@@ -22,17 +22,17 @@ import Banner from "../../components/banner/banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import { Images } from "../../assets/assets";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
-
-const CollectionDetailsPage = (props) => {
+import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
+const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [loader, setLoader] = useState(true);
-  const [nfts, setNfts] = useState([]);
-  const [filterationLoader, setFilterationLoader] = useState(true);
-  const [likedNfts, setLikedNfts] = useState();
-  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
-  const [nftPagination, setNFTPagination] = useState(null);
+  const [nfts, setNfts] = useState<any>(null);
+  const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
+  const [likedNfts, setLikedNfts] = useState<Array<any> | null>(null);
+  const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
+  const [nftPagination, setNFTPagination] = useState<object | null>(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const location = useLocation();
+  const location:any = useLocation();
   const history = useHistory();
 
   useEffect(() => {
@@ -40,12 +40,12 @@ const CollectionDetailsPage = (props) => {
   }, []);
 
   useEffect(() => {
-    getNFTs();
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    getNFTs(null);
+    let qs: any = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
   }, []);
-  
+
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
@@ -75,9 +75,9 @@ const CollectionDetailsPage = (props) => {
     }
   }, [props.togleLikeRes]);
 
-  const getNFTs = (filter) => {
+  const getNFTs = (filter: any) => {
     props.beforeNFT();
-    let nftQS = {};
+    let nftQS: any = {};
     if (filter) {
       const {
         page,
@@ -96,7 +96,6 @@ const CollectionDetailsPage = (props) => {
         keyword,
       } = filter;
       nftQS.collectionId = location.state._id;
-
       if (collectionId) nftQS.collectionId = collectionId;
       if (gtePrice) nftQS.gtePrice = gtePrice;
       if (ltePrice) nftQS.ltePrice = ltePrice;
@@ -124,7 +123,11 @@ const CollectionDetailsPage = (props) => {
     props.getNFTs(qs);
   };
   ///////////Likes
-  const handleLikesTogleApi = async (nftId, status, likesCount) => {
+  const handleLikesTogleApi = async (
+    nftId: string,
+    status: string,
+    likesCount: number
+  ) => {
     if (ENV.getUserKeys("_id")?._id) {
       if (await validateNetwork()) {
         if (!likeButtonDisable) {
@@ -137,8 +140,10 @@ const CollectionDetailsPage = (props) => {
           };
 
           if (status === "dislike" && likesCount > 0) {
-            let result = likedNfts.filter((item) => item.nftId !== nftId);
-            setLikedNfts(result);
+            let result = likedNfts?.filter((item) => item.nftId !== nftId);
+            if (result) {
+              setLikedNfts(result);
+            }
             increOrDecreLikes(nftId, "dec");
             props.toggleLikeDislike(body);
           }
@@ -172,9 +177,9 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
-  const increOrDecreLikes = (id, status) => {
+  const increOrDecreLikes = (id: string, status: string) => {
     if (status === "dec") {
-      let newResult = nfts.map((item) => {
+      let newResult = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -185,7 +190,7 @@ const CollectionDetailsPage = (props) => {
       });
       setNfts(newResult);
     } else {
-      let final = nfts.map((item) => {
+      let final = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -196,10 +201,10 @@ const CollectionDetailsPage = (props) => {
     }
   };
 
-  const fetchData = (filterObj) => {
+  const fetchData = (filterObj: object) => {
     getNFTs(filterObj);
   };
-  const { name, logo, description, username } = location.state;
+  const { name, logo, description, username }: any = location.state;
 
   const bannerData = {
     subHeading: "Nfts",
@@ -213,7 +218,6 @@ const CollectionDetailsPage = (props) => {
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
           bgImg={BannerBg}
-          className="mb-0"
         />
         <div className="collection-detail-content">
           <div className="container">
@@ -278,7 +282,7 @@ const CollectionDetailsPage = (props) => {
     </>
   );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   nft: state.nft,
   user: state.user,
   getAuth: state.collection.getAuth,

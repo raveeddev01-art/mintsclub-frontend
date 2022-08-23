@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import AuctionsCards from "../../components/auctions-cards/AuctionsCards";
 import { connect } from "react-redux";
 import { beforeAuction, getLiveAuctions } from "./auctions.action";
@@ -12,12 +12,13 @@ import Banner from "../../components/banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import { AuctionsListInt } from "../../interfaces/auctions-list/interface";
 
-const AuctionsList = (props) => {
+const AuctionsList: FC<AuctionsListInt> = (props) => {
   const [isActive, setIsActive] = useState(0);
-  const [auctions, setAuctions] = useState(null);
+  const [auctions, setAuctions] = useState<Array<object> | null>(null);
   const [loader, setLoader] = useState(true); // auctions loader
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Array<object> | null>(null);
   const [categoryId, setCategoryId] = useState("all");
 
   useEffect(() => {
@@ -44,14 +45,14 @@ const AuctionsList = (props) => {
   useEffect(() => {
     props.getCategories();
   }, []);
-  
+
   useEffect(() => {
     if (props.collectionFlag) {
       setCategories(props.categories);
     }
   }, [props.collectionFlag]);
 
-  const handleCategoryFilter = (desc) => {
+  const handleCategoryFilter = (desc: string) => {
     setLoader(true);
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
@@ -72,7 +73,7 @@ const AuctionsList = (props) => {
         bgImg={BannerBg}
         bannerImg={BannerImage}
       />
-      
+
       <section className="explore-collection-section home-auction-list padding-wrapper">
         {
           // loader ? (
@@ -88,7 +89,7 @@ const AuctionsList = (props) => {
                     ? ""
                     : categories &&
                       categories.length > 0 &&
-                      categories.map((item, id) => {
+                      categories.map((item: any, id: any) => {
                         return (
                           <button
                             onClick={() => {
@@ -112,7 +113,7 @@ const AuctionsList = (props) => {
                     ? ""
                     : categories &&
                       categories.length > 0 &&
-                      categories.map((item, id) => {
+                      categories.map((item: any, id: any) => {
                         return (
                           <div className="col-6 col-sm-3" key={id}>
                             <button
@@ -136,7 +137,7 @@ const AuctionsList = (props) => {
               {loader ? (
                 <div className="spinner-border" role="status"></div>
               ) : auctions && auctions.length > 0 ? (
-                auctions.map((item, index) => {
+                auctions.map((item: any, index: number) => {
                   return (
                     <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <AuctionsCards
@@ -174,7 +175,7 @@ const AuctionsList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   auction: state.auction,
   user: state.user,
   collectionFlag: state.collection.collectionFlag,

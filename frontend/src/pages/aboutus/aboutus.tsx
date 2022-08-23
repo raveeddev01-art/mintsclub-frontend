@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./aboutus.css";
 import Banner from "../../components/banner/banner";
 import BannerBg from "../../assets/images/hero-bg.png";

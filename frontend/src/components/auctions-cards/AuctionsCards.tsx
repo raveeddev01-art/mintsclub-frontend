@@ -41,6 +41,7 @@ const AuctionsCards:FC<AuctionCardInterface> = ({
     ownerAddress,
   } = item;
   const { profilePhoto } = item?.owner;
+  
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
       <div className="auction-img-wrapper">

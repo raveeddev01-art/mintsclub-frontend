@@ -1,18 +1,18 @@
 import { useState,FC } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ModalClose from "../../assets/images/modal-close.svg";
+import ModalClose from "../../../assets/images/modal-close.svg";
 import "./BuyModal.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import TickIcon from "../../assets/images/tick-checkbox.svg";
-import { ReactComponent as FbIcon } from "../../assets/images/fb-blue.svg";
-import { ReactComponent as TwitterIcon } from "../../assets/images/twitter-blue.svg";
-import { ReactComponent as LinkedinIcon } from "../../assets/images/linkedin-blue.svg";
-import { ReactComponent as InstaIcon } from "../../assets/images/insta-blue.svg";
-import { ReactComponent as VideoIcon } from "../../assets/images/buy-video-icon.svg";
-import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
-import ModalSmiley from "../../assets/images/model-smiley.svg";
-import { Buy } from "../../interfaces/components";
+import TickIcon from "../../../assets/images/tick-checkbox.svg";
+import { ReactComponent as FbIcon } from "../../../assets/images/fb-blue.svg";
+import { ReactComponent as TwitterIcon } from "../../../assets/images/twitter-blue.svg";
+import { ReactComponent as LinkedinIcon } from "../../../assets/images/linkedin-blue.svg";
+import { ReactComponent as InstaIcon } from "../../../assets/images/insta-blue.svg";
+import { ReactComponent as VideoIcon } from "../../../assets/images/buy-video-icon.svg";
+import { ReactComponent as AudioIcon } from "../../../assets/images/audio-icon.svg";
+import ModalSmiley from "../../../assets/images/model-smiley.svg";
+import { Buy } from "../../../interfaces/components";
 const BuyModal:FC<Buy> = (props) => {
   const [purchase, setPurchase] = useState(true);
   const [checkBox, setCheckBox] = useState(false);

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import NotFoundImg from "../../assets/images/notfound-img.svg";
 
-function NotFound(props) {
+function NotFound() {
   return (
     <div className="not-found">
       <div className="container">

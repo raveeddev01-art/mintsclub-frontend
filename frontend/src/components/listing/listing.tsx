@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import "./listing.css";
 import SearchIcon from "../../assets/images/search-inp.svg";
 import NftCard from "../nft-card/nft-card";
 import FullPageLoader from "../full-page-loader/full-page-loader";
 import Select from "react-select";
-import {
-  decimalNumberValidator,
-} from "../../utils/functions";
-const Listing = (props) => {
+import { decimalNumberValidator } from "../../utils/functions";
+import { listingInt } from "../../interfaces/components";
+
+const Listing: FC<listingInt> = (props) => {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [statusActive, setStatusActive] = useState(null);
-  const [filterActive, setFilterActive] = useState(false);
+  const [filterActive, setFilterActive] = useState<any>(false);
   const [initial, setInitial] = useState(true);
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOption, setSelectedOption] = useState<any>();
   const [collectionActive, setCollectionActive] = useState(null);
   const [isActive, setIsActive] = useState(1);
-  const [keyword, setKeyword] = useState(
+  const [keyword, setKeyword] = useState<any>(
     props.initialKeyword ? props.initialKeyword : ""
   );
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<any>({
     collectionId: false,
     gtePrice: false,
     ltePrice: false,
@@ -54,7 +54,7 @@ const Listing = (props) => {
   useEffect(() => {
     fetchData(filter);
   }, [filter]);
-  const handleSelectChange = (selectedOption) => {
+  const handleSelectChange = (selectedOption: any) => {
     setSelectedOption(selectedOption);
   };
   const selectCustomStyles = {};
@@ -64,10 +64,10 @@ const Listing = (props) => {
     setFilterActive(!filterActive);
   };
   const isHideCollection = () => {
-    if(props.collectionDetail){
-      return false
+    if (props.collectionDetail) {
+      return false;
     }
-    if (props.UserProfile ) {
+    if (props.UserProfile) {
       if (isActive === 1) {
         return true;
       } else {
@@ -78,13 +78,13 @@ const Listing = (props) => {
     }
   };
 
-  const handleSortOptions = (e) => {
+  const handleSortOptions = (e: any) => {
     setFilterationLoader(true);
     setInitial(false);
 
     const { label } = e;
     if (label === "Low To High") {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         lowToHigh: true,
         highToLow: false,
@@ -92,7 +92,7 @@ const Listing = (props) => {
         newest: false,
       }));
     } else if (label === "High To Low") {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         highToLow: true,
         lowToHigh: false,
@@ -100,7 +100,7 @@ const Listing = (props) => {
         newest: false,
       }));
     } else if (label === "Oldest") {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         oldest: true,
         highToLow: false,
@@ -108,7 +108,7 @@ const Listing = (props) => {
         newest: false,
       }));
     } else if (label === "Recently Created") {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         newest: true,
         oldest: false,
@@ -119,10 +119,10 @@ const Listing = (props) => {
     }
   };
 
-  const onChangeMinPrice = (e) => {
+  const onChangeMinPrice = (e: any) => {
     setMinValue(e.target.value);
   };
-  const onChangeMaxPrice = (e) => {
+  const onChangeMaxPrice = (e: any) => {
     setMaxValue(e.target.value);
   };
 
@@ -131,53 +131,58 @@ const Listing = (props) => {
     if (!UserProfile) {
       setInitial(false);
       setFilterationLoader(true);
-      setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
+      setFilter((prev: any) => ({ ...prev, limit: filter.limit + 10 }));
     } else {
-      getPaginatedData();
+      getPaginatedData?.();
     }
   };
+
 
   const applyMinMaxFilter = () => {
     setInitial(false);
     setFilterationLoader(true);
-    setFilter((prev) => ({ ...prev, gtePrice: minValue, ltePrice: maxValue }));
+    setFilter((prev: any) => ({
+      ...prev,
+      gtePrice: minValue,
+      ltePrice: maxValue,
+    }));
   };
 
-  const handleCollectionsFilter = (id) => {
+  const handleCollectionsFilter = (id: string) => {
     setInitial(false);
     setFilterationLoader(true);
-    setFilter((prev) => ({ ...prev, collectionId: id }));
+    setFilter((prev: any) => ({ ...prev, collectionId: id }));
   };
 
-  const handleSearchKeyword = (value) => {
+  const handleSearchKeyword = (value: any) => {
     setInitial(false);
     setFilterationLoader(true);
     let capitalizeValue = "";
     if (value) {
       capitalizeValue = capitalize(value);
     }
-    setFilter((prev) => ({ ...prev, keyword: capitalizeValue }));
+    setFilter((prev: any) => ({ ...prev, keyword: capitalizeValue }));
   };
 
-  const handleStatusFilter = (id) => {
+  const handleStatusFilter = (id: string) => {
     setInitial(false);
     setFilterationLoader(true);
     if (id === "Buy Now") {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         buy: true,
         auction: false,
         newest: false,
       }));
     } else if (id === "On Auction") {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         auction: true,
         buy: false,
         newest: false,
       }));
     } else {
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         newest: true,
         buy: false,
@@ -185,10 +190,10 @@ const Listing = (props) => {
       }));
     }
   };
-  const handleClearFilter = (id) => {
+  const handleClearFilter = (id: any) => {
     if (id === "status") {
       setFilterationLoader(true);
-      setFilter((prev) => ({
+      setFilter((prev: any) => ({
         ...prev,
         buy: false,
         auction: false,
@@ -198,10 +203,10 @@ const Listing = (props) => {
       setFilterationLoader(true);
       setMinValue("");
       setMaxValue("");
-      setFilter((prev) => ({ ...prev, ltePrice: false, gtePrice: false }));
+      setFilter((prev: any) => ({ ...prev, ltePrice: false, gtePrice: false }));
     } else if (id === "collections") {
       setFilterationLoader(true);
-      setFilter((prev) => ({ ...prev, collectionId: false }));
+      setFilter((prev: any) => ({ ...prev, collectionId: false }));
     } else {
       setMinValue("");
       setMaxValue("");
@@ -227,7 +232,7 @@ const Listing = (props) => {
       });
     }
   };
-  const capitalize = (word) => {
+  const capitalize = (word: string) => {
     return word[0].toUpperCase() + word.slice(1).toLowerCase();
   };
 
@@ -249,6 +254,7 @@ const Listing = (props) => {
     getPaginatedData,
     UserProfile,
   } = props;
+
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -261,8 +267,8 @@ const Listing = (props) => {
                 <input
                   type="text"
                   placeholder="Search items and accounts"
-                  maxLength="50"
-                  onChange={(e) => {
+                  maxLength={50}
+                  onChange={(e: any) => {
                     if (keyword.trim() === "" && e.target.value.trim() === "") {
                       return false;
                     } else if (e.target.value === "") {
@@ -272,7 +278,7 @@ const Listing = (props) => {
                       setKeyword(e.target.value);
                     }
                   }}
-                  onKeyPress={(e) =>
+                  onKeyPress={(e: any) =>
                     e.key === "Enter" && handleSearchKeyword(keyword)
                   }
                   value={keyword}
@@ -317,8 +323,8 @@ const Listing = (props) => {
                         key={id}
                         onClick={() => {
                           setIsActive(id);
-                          handleNftFilter(item);
-                          setMenuFilter(item);
+                          handleNftFilter?.(item);
+                          setMenuFilter?.(item);
                         }}
                         className={`${
                           id === isActive ? "active-hero-nav" : ""
@@ -347,7 +353,7 @@ const Listing = (props) => {
               <hr />
               <div className="d-flex flex-wrap align-items-center ">
                 {statusData &&
-                  statusData.map((status, id) => {
+                  statusData.map((status: any, id: any) => {
                     return (
                       <button
                         key={id}
@@ -369,7 +375,7 @@ const Listing = (props) => {
                   <button
                     className="filter-clear-btn"
                     onClick={() => {
-                      setStatusActive();
+                      setStatusActive(null);
                       handleClearFilter("status");
                     }}
                   >
@@ -425,7 +431,7 @@ const Listing = (props) => {
                 <hr />
                 <div className="d-flex flex-wrap align-items-center ">
                   {collections && collections.length > 0 ? (
-                    collections.map((collection, id) => {
+                    collections.map((collection: any, id: any) => {
                       return (
                         <button
                           key={id}
@@ -461,7 +467,7 @@ const Listing = (props) => {
               </div>
             )}
             <div className="d-flex align-items-center justify-content-center btn-clear-all">
-              <button onClick={() => handleClearFilter()}>
+              <button onClick={() => handleClearFilter(null)}>
                 Clear All Filters
               </button>
             </div>
@@ -481,7 +487,7 @@ const Listing = (props) => {
                     </div>
                   </div>
                 ) : nfts && nfts.length > 0 ? (
-                  nfts.map((nft, index) => {
+                  nfts.map((nft: any, index: number) => {
                     return (
                       <div
                         key={index}

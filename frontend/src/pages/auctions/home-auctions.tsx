@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { beforeAuction, getLiveAuctions } from "./auctions.action";
@@ -7,7 +7,7 @@ import { ENV } from "../../config/config";
 import "slick-carousel";
 import "../../assets/slick/slick.min.css";
 import "../../assets/slick/slick-theme.min.css";
-import $ from "jquery";
+// import $ from "jquery";
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -24,21 +24,21 @@ import {
   beforeCategory,
   getCategories,
 } from "../collections/collections.actions";
+import {HomeAuction} from "../../interfaces/home-auctions/interface";
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
-
 const initData = {
   pre_heading: "Auctions",
   heading: "Live Auctions",
   btnText: "View All",
 };
 
-function AuctionsOne(props) {
-  const [auctions, setAuctions] = useState(null);
+const AuctionsOne:FC<HomeAuction>=(props)=> {
+  const [auctions, setAuctions] = useState<Array<object>|null>(null);
   const [loader, setLoader] = useState(false); // auctions loader
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState<any|null>(null);
   const [categoryId, setCategoryId] = useState("all");
-  const [auctionSettings, setAuctionSettings] = useState();
+  const [auctionSettings, setAuctionSettings] = useState<object|null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
 
@@ -57,7 +57,7 @@ function AuctionsOne(props) {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
       if (auctions) {
-        auctions.forEach((element, i) => {
+        auctions.forEach((element:any, i:number) => {
           auctions[i].totalBids = element.bidInfo?.bidBy?.length;
         });
       }
@@ -75,11 +75,11 @@ function AuctionsOne(props) {
   }, [props.auction.auctionsAuth]);
 
   // ready slides when auctions data is received
-  useEffect(() => {
-    if (auctions && auctions.length) {
-      $(".swiper-wrapper").slick(ENV.slickSettings);
-    }
-  }, [auctions]);
+  // useEffect(() => {
+  //   if (auctions && auctions.length) {
+  //     $(".swiper-wrapper").slick(ENV.slickSettings);
+  //   }
+  // }, [auctions]);
 
   useEffect(() => {
     props.getCategories();
@@ -100,7 +100,7 @@ function AuctionsOne(props) {
 
   const checkIfAuctionEnded = () => {
     if (auctions && auctions?.length > 0) {
-      auctions.forEach((item, index) => {
+      auctions.forEach((item:any, index:number) => {
         let auctionEndDate = new Date(item.auctionEndDate);
         let currentDate = new Date();
         if (currentDate > auctionEndDate) {
@@ -112,7 +112,7 @@ function AuctionsOne(props) {
     }
   };
 
-  const handleCategoryFilter = (desc) => {
+  const handleCategoryFilter = (desc:string) => {
     setFilterationLoader(true);
     setCategoryId(desc);
     const qs = ENV.objectToQueryString({ myFilter: desc });
@@ -151,7 +151,7 @@ function AuctionsOne(props) {
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item, id) => {
+                    categories.map((item:any, id:number) => {
                       if (id <= 3) {
                         return (
                           <button
@@ -196,7 +196,7 @@ function AuctionsOne(props) {
                   data={auctions}
                   homeAuction
                 >
-                  {auctions.map((item, index) => {
+                  {auctions.map((item:any, index:number) => {
                     return (
                       <AuctionsCards
                         cardBg={"card-bg-gray"}
@@ -223,7 +223,7 @@ function AuctionsOne(props) {
     </section>
   );
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   auction: state.auction,
   user: state.user,
   collectionFlag: state.collection.collectionFlag,

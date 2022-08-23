@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect,FC } from "react";
 import { Link } from "react-router-dom";
 import CollectionsCard from "../../components/collections-cards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
@@ -8,21 +8,21 @@ import { beforeCategory, getCategories } from "../../components/categories/categ
 import {
   beforePopularCollection,
   getPopularCollections,
-} from "../collections/collections.actions";
+} from "./collections.actions";
 import { connect } from "react-redux";
 import { Images } from "../../assets/assets";
-
+import { PopularCollectionInt } from "../../interfaces/PopularCollections/interface";
 const initData = {
   pre_heading: "Most Popular",
   heading: "Popular Collections",
   btnText: "Explore More",
 };
 
-const PopularCollections = (props) => {
+const PopularCollections:FC<PopularCollectionInt> = (props) => {
   const [popular, setpopular] = useState([]);
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState<any>(null);
   const [categoryId, setCategoryId] = useState("all");
-  const [popularSettings, settPopularSettings] = useState();
+  const [popularSettings, settPopularSettings] = useState<object|null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
 
@@ -44,9 +44,9 @@ const PopularCollections = (props) => {
     if (props.getPopularAuth) {
       const collectionListing = props.popularCollections.collectionsList;
       if (collectionListing) {
-        collectionListing.forEach((element, i) => {
+        collectionListing.forEach((element:any, i:number) => {
           if (element.likesCount.length > 0) {
-            var sumLikes = element.likesCount.reduce(function (a, b) {
+            var sumLikes = element.likesCount.reduce(function (a:number, b:number) {
               return a + b;
             }, 0);
             collectionListing[i].likesCount = sumLikes;
@@ -57,7 +57,7 @@ const PopularCollections = (props) => {
             ? element.nfts?.length
             : 0;
           if (element.soldCopies.length > 0) {
-            var soldCopiesSum = element.soldCopies.reduce(function (a, b) {
+            var soldCopiesSum = element.soldCopies.reduce(function (a:number, b:number) {
               return a + b;
             }, 0);
             collectionListing[i].soldCopies = soldCopiesSum;
@@ -68,7 +68,7 @@ const PopularCollections = (props) => {
       }
 
       const finalCollectionListing = collectionListing.sort(
-        (a, b) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
+        (a:any, b:any) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
       );
       let popularCollectionsSettings = ENV.popularCollectionsSettings;
       if (finalCollectionListing.length > 3) {
@@ -89,7 +89,7 @@ const PopularCollections = (props) => {
     }
   }, [props.getPopularAuth]);
 
-  const handleCategoryFilter = (desc) => {
+  const handleCategoryFilter = (desc:string) => {
     setFilterationLoader(true);
     props.beforePopularCollection();
     setCategoryId(desc);
@@ -97,9 +97,9 @@ const PopularCollections = (props) => {
     props.getPopularCollections(qs);
   };
 
-  const handleImage = (item, index) => {
+  const handleImage = (item:any, index:number) => {
     if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft) => nft.fileType === "image");
+      let result = item.nfts.filter((nft:any) => nft.fileType === "image");
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -136,7 +136,7 @@ const PopularCollections = (props) => {
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item, id) => {
+                    categories.map((item:any, id:number) => {
                       if (id <= 3) {
                         return (
                           <button
@@ -183,7 +183,7 @@ const PopularCollections = (props) => {
               data={popular}
               homeAuction
             >
-              {popular.map((item, i) => {
+              {popular.map((item:any, i:number) => {
                 return (
                   <CollectionsCard
                     key={i}
@@ -199,7 +199,6 @@ const PopularCollections = (props) => {
                     profileImage={item.profileImage[0]}
                     ownerAddress={item.ownerAddress}
                     connectedAddress={props.connectedAddress}
-                    index={i}
                   />
                 );
               })}
@@ -214,7 +213,7 @@ const PopularCollections = (props) => {
     </>
   );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   error: state.error,
   category: state.category,
   popularCollections: state.collection.popularCollections,
