@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { ENV } from './../../config/config';
+import { ENV } from '../../config/config';
 import {
   GET_ERRORS,
   SET_USER,

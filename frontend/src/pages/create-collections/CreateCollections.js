@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import Footer from "../../components/footer/footer";
+import Footer from "../../Components/Footer/Footer";
 import "./CreateCollections.css";
 import { connect } from "react-redux";
 import {
@@ -14,19 +14,19 @@ import {
 import {
   beforeCategory,
   getCategories,
-} from "../../components/categories/categories.action";
+} from "../../Components/Categories/categories.action";
 import { emptyError } from "../../redux/shared/error/error.action";
 import SimpleReactValidator from "simple-react-validator";
 import { ENV } from "../../config/config";
 import $ from "jquery";
 import { toast } from "react-toastify";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { Images } from "../../assets/assets";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 
 class CreateCollections extends Component {
   constructor(props) {

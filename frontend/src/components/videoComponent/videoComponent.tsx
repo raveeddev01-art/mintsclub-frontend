@@ -1,4 +1,4 @@
-import "./videoComponent.css";
+import "./VideoComponent.css";
 
 const VideoComponent = ({ videoUrl, videoStyles, videoWidth }:any) => {
   return (

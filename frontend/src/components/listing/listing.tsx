@@ -1,21 +1,21 @@
 import { useState, useEffect, FC } from "react";
-import "./listing.css";
+import "./Listing.css";
 import SearchIcon from "../../assets/images/search-inp.svg";
-import NftCard from "../nft-card/nft-card";
-import FullPageLoader from "../full-page-loader/full-page-loader";
+import NftCard from "../NftCard/NftCard";
+import FullPageLoader from "../FullPageLoader/FullPageLoader";
 import Select from "react-select";
 import { decimalNumberValidator } from "../../utils/functions";
 import { listingInt } from "../../interfaces/components";
 
 const Listing: FC<listingInt> = (props) => {
-  const [minValue, setMinValue] = useState("");
-  const [maxValue, setMaxValue] = useState("");
-  const [statusActive, setStatusActive] = useState(null);
+  const [minValue, setMinValue] = useState<any>("");
+  const [maxValue, setMaxValue] = useState<any>("");
+  const [statusActive, setStatusActive] = useState<any>(null);
   const [filterActive, setFilterActive] = useState<any>(false);
-  const [initial, setInitial] = useState(true);
+  const [initial, setInitial] = useState<any>(true);
   const [selectedOption, setSelectedOption] = useState<any>();
-  const [collectionActive, setCollectionActive] = useState(null);
-  const [isActive, setIsActive] = useState(1);
+  const [collectionActive, setCollectionActive] = useState<any>(null);
+  const [isActive, setIsActive] = useState<any>(1);
   const [keyword, setKeyword] = useState<any>(
     props.initialKeyword ? props.initialKeyword : ""
   );

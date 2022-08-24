@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./privacyPolicy.css";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import { privacyBanner } from "../../utils/exportData";

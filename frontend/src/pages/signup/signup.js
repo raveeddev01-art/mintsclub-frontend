@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { connectMetamaskCopy, signRequest } from "../../utils/web3";
 import { toast } from "react-toastify";
-import { signup } from "../../components/user/user.action";
+import { signup } from "../../Components/User/user.action";
 import "./signup.css";
 
 const SignUp = (props) => {

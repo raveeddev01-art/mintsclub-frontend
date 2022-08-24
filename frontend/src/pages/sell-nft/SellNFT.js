@@ -13,7 +13,7 @@ import {
   upsertNFT,
   getMyLikedNfts,
   createActivity,
-} from "../../components/nfts/nfts.action";
+} from "../../Components/Nfts/nfts.action";
 import {
   openNFTForBidding,
   putonsale,
@@ -22,22 +22,22 @@ import {
   validateNetwork,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
 } from "../all-nfts/explore.action";
-import useVideoPlayer from "../../components/test-video-card/components/useVideoPlayer";
+import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import { updateProfile } from "../../components/user/user.action";
-import ApprovalModal from "../../components/modals/ApprovalModal/ApprovalModal";
+import { updateProfile } from "../../Components/User/user.action";
+import ApprovalModal from "../../Components/Modals/ApprovalModal/ApprovalModal";
 import { emptyError } from "../../redux/shared/error/error.action";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
-import SellNFTLoader from "../../components/contentLoader/sellNFTLoader";
-import Audio from "../../components/audio/audio";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import SellNFTLoader from "../../Components/ContentLoader/SellNFTLoader";
+import Audio from "../../Components/Audio/Audio";
 import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 

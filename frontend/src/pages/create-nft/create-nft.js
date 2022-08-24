@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ENV } from "../../config/config";
 import $ from "jquery";
 import SimpleReactValidator from "simple-react-validator";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import {
   beforeCollection,
   getCollections,
@@ -21,26 +21,26 @@ import {
   createNFT,
   createActivity,
   beforeNFT,
-} from "../../components/nfts/nfts.action";
+} from "../../Components/Nfts/nfts.action";
 import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.css";
 import AddIcon from "../../assets/images/add-icon.svg";
-import PropertiesModal from "../../components/modals/PropertiesModal/PropertiesModal";
-import LevelsModal from "../../components/modals/LevelsModal/LevelsModal";
-import StatsModal from "../../components/modals/StatsModal/StatsModal";
+import PropertiesModal from "../../Components/Modals/PropertiesModal/PropertiesModal";
+import LevelsModal from "../../Components/Modals/LevelsModal/LevelsModal";
+import StatsModal from "../../Components/Modals/StatsModal/StatsModal";
 import StatsInfo from "./components/statsinfo";
 import LevelsInfo from "./components/levelsinfo";
 import PropertiesInfo from "./components/propertiesinfo";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import Audio from "../../components/audio/audio";
+import Audio from "../../Components/Audio/Audio";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 const placeholderImg = "";

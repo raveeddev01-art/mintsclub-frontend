@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import Hero from "../../components/hero/hero";
+import Hero from "../../Components/Hero/Hero";
 import Auctions from "../auctions/home-auctions";
 import TopSeller from "../top-seller/topseller";
-import Buysell from "../../components/buy-sell/Buysell";
+import Buysell from "../../Components/BuySell/BuySell";
 import PopularCollections from "../collections/popular-collections";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 
 function Home() {
   useEffect(() => {

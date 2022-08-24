@@ -1,17 +1,17 @@
 import { useState, useEffect, FC } from "react";
-import AuctionsCards from "../../components/auctions-cards/AuctionsCards";
+import AuctionsCards from "../../Components/AuctionsCards/AuctionsCards";
 import { connect } from "react-redux";
 import { beforeAuction, getLiveAuctions } from "./auctions.action";
-import { getCreators } from "../../components/user/user.action";
+import { getCreators } from "../../Components/User/user.action";
 import {
   beforeCategory,
   getCategories,
 } from "../collections/collections.actions";
 import { ENV } from "../../config/config";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { AuctionsListInt } from "../../interfaces/auctions-list/interface";
 
 const AuctionsList: FC<AuctionsListInt> = (props) => {

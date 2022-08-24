@@ -1,6 +1,6 @@
 import {FC} from "react";
 import { BreadcrumbInt } from "../../interfaces/components";
-import "./breadcrumb.css";
+import "./Breadcrumb.css";
 
 const Breadcrumb:FC<BreadcrumbInt>=({ title1, title2, title3,title1Handler }) =>{
   return (

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import NavbarMain from "../../components/navbar-main/NavbarMain";
-import Footer from "../../components/footer/footer";
+import NavbarMain from "../../Components/NavbarMain/NavbarMain";
+import Footer from "../../Components/Footer/Footer";
 
 class HomeLayout extends Component {
   render() {

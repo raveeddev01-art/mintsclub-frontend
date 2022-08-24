@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useContext } from "react";
 import routes from "./routes";
 import { PrivateRoute } from "./privateRoute";
 import { Switch } from "react-router-dom";
-import FullPageLoader from "./components/full-page-loader/full-page-loader";
+import FullPageLoader from "./Components/FullPageLoader/FullPageLoader";
 import tawkTo from "tawkto-react";
 import { ENV } from "./config/config";
 import "./App.css";

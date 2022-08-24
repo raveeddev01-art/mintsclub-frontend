@@ -7,21 +7,21 @@ import {
   getNFTs,
   beforeNFT,
   getMyLikedNfts,
-} from "../../components/nfts/nfts.action";
+} from "../../Components/Nfts/nfts.action";
 import { connect } from "react-redux";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { ENV } from "../../config/config";
 import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
 } from "../all-nfts/explore.action";
 import { validateNetwork } from "../../utils/web3";
-import Listing from "../../components/listing/listing";
+import Listing from "../../Components/Listing/Listing";
 import { toast } from "react-toastify";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import { Images } from "../../assets/assets";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [loader, setLoader] = useState(true);

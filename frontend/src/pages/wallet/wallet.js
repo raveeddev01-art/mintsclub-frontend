@@ -14,11 +14,11 @@ import {
   beforeCategory,
   beforeCollection,
 } from "../collections/collections.actions";
-import { login, signup } from "../../components/user/user.action";
+import { login, signup } from "../../Components/User/user.action";
 // import {setWalletAddress} from "../../redux/shared/shared/shared.action"
 import { Images } from "../../assets/assets";
 import "./wallet.css";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import { getWalletAddress, validateNetwork } from "../../utils/web3";
 import { ENV } from "../../config/config";

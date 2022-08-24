@@ -1,4 +1,4 @@
-import { ENV } from "./../../config/config";
+import { ENV } from "../../config/config";
 import {
   GET_ERRORS,
   BEFORE_FOOTER,

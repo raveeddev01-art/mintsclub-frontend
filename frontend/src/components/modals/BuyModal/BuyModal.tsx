@@ -14,8 +14,8 @@ import { ReactComponent as AudioIcon } from "../../../assets/images/audio-icon.s
 import ModalSmiley from "../../../assets/images/model-smiley.svg";
 import { Buy } from "../../../interfaces/components";
 const BuyModal:FC<Buy> = (props) => {
-  const [purchase, setPurchase] = useState(true);
-  const [checkBox, setCheckBox] = useState(false);
+  const [purchase, setPurchase] = useState<any>(true);
+  const [checkBox, setCheckBox] = useState<any>(false);
   const {
     name,
     image,

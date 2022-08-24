@@ -4,7 +4,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import CollectionsCard from "../../components/collections-cards/CollectionsCard";
+import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
 import {
@@ -14,12 +14,12 @@ import {
   beforeCategory,
   getCategories,
 } from "../collections/collections.actions";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { Images } from "../../assets/assets";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { popularBanner } from "../../utils/exportData";
 
 const Populars = forwardRef((props, ref) => {

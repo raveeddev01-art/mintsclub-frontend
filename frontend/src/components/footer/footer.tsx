@@ -5,13 +5,14 @@ import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
 import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
-import "./footer.css";
+import "./Footer.css";
 import { toast } from "react-toastify";
 import { emptyError } from "../../redux/shared/error/error.action";
-import {footerInt} from "../../interfaces/components"
+import {footerInt} from "../../interfaces/components";
+
 const Footer:FC<footerInt> = (props) => {
-  const [email, setEmail] = useState("");
-  const [loader, setLoader] = useState(false);
+  const [email, setEmail] = useState<any>("");
+  const [loader, setLoader] = useState<any>(false);
 
   useEffect(() => {
     if (props.subscribeAuth && props.error === null) {

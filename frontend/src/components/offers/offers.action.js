@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { GET_ERRORS, BEFORE_OFFER, GET_OFFERS, DELETE_OFFER, CREATE_OFFER, ACCEPT_OFFER,BUY_NOW } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
-import { ENV } from './../../config/config';
+import { ENV } from '../../config/config';
 export const beforeOffer = () => {
     return {
         type: BEFORE_OFFER

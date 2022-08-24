@@ -1,10 +1,10 @@
 import { useEffect, useState,FC } from "react";
 import { Link } from "react-router-dom";
 import { connectMetamaskCopy } from "../../utils/web3";
-import "./hero.css";
+import "./Hero.css";
 import Play from "../../assets/images/play.svg";
-import CardSlider from "../card-slider/CardSlider";
-import HeroCards from "../hero-cards/HeroCards";
+import CardSlider from "../CardSlider/CardSlider";
+import HeroCards from "../HeroCards/HeroCards";
 import { ENV } from "../../config/config";
 import {
   beforeAuction,
@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
 const Hero:FC< HeroInt>= (props) => {
-  const [connectedAddress, setConnectedAddress] = useState("");
+  const [connectedAddress, setConnectedAddress] = useState<any>("");
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;

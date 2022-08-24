@@ -9,16 +9,16 @@ import {
   setIndividualUserData,
   getUserById,
   beforeUser,
-} from "../../components/user/user.action";
+} from "../../Components/User/user.action";
 import { emptyError } from "../../redux/shared/error/error.action";
 import { ENV } from "./../../config/config";
 import { Images } from "../../assets/assets";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/profileBg.png";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import Compressor from "compressorjs";
 import axios from "axios";
 const EditProfile = (props) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./faqs.css";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import { Accordion, Card } from "react-bootstrap";

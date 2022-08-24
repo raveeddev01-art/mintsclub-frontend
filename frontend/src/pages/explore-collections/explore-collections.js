@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
 } from "react";
 import "./explore-collections.css";
-import CollectionsCard from "../../components/collections-cards/CollectionsCard";
+import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
 import {
@@ -16,9 +16,9 @@ import {
   getCategories
 } from "../collections/collections.actions";
 import { Images } from "../../assets/assets";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
-import Banner from "../../components/banner/banner";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import { exploreCollectionBanner } from "../../utils/exportData";

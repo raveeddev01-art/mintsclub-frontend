@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import "./contactus.css";
-import Banner from "../banner/banner";
+import "./ContactUs.css";
+import Banner from "../Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 

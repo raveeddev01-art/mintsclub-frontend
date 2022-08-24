@@ -1,10 +1,10 @@
 import { useState, useEffect,FC } from "react";
 import { Link } from "react-router-dom";
-import CollectionsCard from "../../components/collections-cards/CollectionsCard";
+import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
-import CardSlider from "../../components/card-slider/CardSlider";
+import CardSlider from "../../Components/CardSlider/CardSlider";
 import { ENV } from "../../config/config";
-import { beforeCategory, getCategories } from "../../components/categories/categories.action";
+import { beforeCategory, getCategories } from "../../Components/Categories/categories.action";
 import {
   beforePopularCollection,
   getPopularCollections,

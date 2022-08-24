@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getTopSellers, beforeUser } from "../../components/user/user.action";
+import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.css";

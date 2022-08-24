@@ -1,9 +1,9 @@
 import  { useState, useEffect,FC ,Fragment} from "react";
 import { connect } from "react-redux";
 import "./allnft.css";
-import { beforeNFT, getNFTs, getMyLikedNfts } from "../../../components/nfts/nfts.action";
+import { beforeNFT, getNFTs, getMyLikedNfts } from "../../../Components/Nfts/nfts.action";
 import { ENV } from "../../../config/config";
-import { getCreators, beforeUser } from "../../../components/user/user.action";
+import { getCreators, beforeUser } from "../../../Components/User/user.action";
 import { toggleLikeDislike, beforeTogleLikeDislike } from "../explore.action";
 import {
   beforeCollection,
@@ -11,11 +11,11 @@ import {
 } from "../../collections/collections.actions";
 import { validateNetwork } from "../../../utils/web3";
 import { toast } from "react-toastify";
-import Listing from "../../../components/listing/listing";
-import Banner from "../../../components/banner/banner";
+import Listing from "../../../Components/Listing/Listing";
+import Banner from "../../../Components/Banner/Banner";
 import BannerBg from "../../../assets/images/hero-bg.png";
 import BannerImage from "../../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../../Components/OwnCollectionToday/OwnCollectionToday";
 import { useHistory } from "react-router-dom";
 import { AllNFTsbBanner } from "../../../utils/exportData";
 import {ALLNFTINT} from '../../../interfaces/allnfts/interface'

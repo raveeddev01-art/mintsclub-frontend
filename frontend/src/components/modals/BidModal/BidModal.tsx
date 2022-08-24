@@ -8,8 +8,8 @@ import axios from "axios";
 import { BidModalInt } from "../../../interfaces/components";
 
 const BidModal:FC<BidModalInt> = (props) => {
-  const [checkBox, setCheckBox] = useState(false);
-  const [exchangeRate, setExchangeRate] = useState(0);
+  const [checkBox, setCheckBox] = useState<any>(false);
+  const [exchangeRate, setExchangeRate] = useState<any>(0);
   useEffect(() => {
     axios
       .get(

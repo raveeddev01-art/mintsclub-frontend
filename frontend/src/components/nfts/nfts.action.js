@@ -14,9 +14,9 @@ import {
   BEFORE_NFTS_BY_COLLECTION,
   CREATE_NFT_AUTH,
 } from "../../redux/types";
-import { ENV } from "./../../config/config";
+import { ENV } from "../../config/config";
 import { emptyError } from "../../redux/shared/error/error.action";
-import { axiosPostFormData, handleRequest } from "./../../utils/functions";
+import { axiosPostFormData, handleRequest } from "../../utils/functions";
 import axios from "axios";
 
 export const beforeNFT = () => {

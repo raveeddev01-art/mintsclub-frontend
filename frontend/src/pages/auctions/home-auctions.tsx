@@ -2,7 +2,7 @@ import React, { useEffect, useState,FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { beforeAuction, getLiveAuctions } from "./auctions.action";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { ENV } from "../../config/config";
 import "slick-carousel";
 import "../../assets/slick/slick.min.css";
@@ -16,10 +16,10 @@ import SwiperCore, {
 } from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./auction.css";
-import { getCreators } from "../../components/user/user.action";
+import { getCreators } from "../../Components/User/user.action";
 //CardSliders
-import CardSlider from "../../components/card-slider/CardSlider";
-import AuctionsCards from "../../components/auctions-cards/AuctionsCards";
+import CardSlider from "../../Components/CardSlider/CardSlider";
+import AuctionsCards from "../../Components/AuctionsCards/AuctionsCards";
 import {
   beforeCategory,
   getCategories,
