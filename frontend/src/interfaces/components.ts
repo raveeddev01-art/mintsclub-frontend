@@ -129,8 +129,8 @@ export interface CollectionCardInt {
   userName: string;
   NFTCount: number;
   profileImage: string;
-  ownerAddress: string;
-  connectedAddress: string;
+  ownerAddress?: string;
+  connectedAddress?: string;
 }
 
 export interface HeroInt {

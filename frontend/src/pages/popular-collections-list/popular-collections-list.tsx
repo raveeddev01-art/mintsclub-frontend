@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { useState, useEffect, FC } from "react";
 import CollectionsCard from "../../components/collections-cards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -21,28 +16,29 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
 import { popularBanner } from "../../utils/exportData";
+import { PopularCollectionlistInt } from "../../interfaces/PopularCollectionsList/interface";
 
-const Populars = forwardRef((props, ref) => {
+const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [popular, setpopular] = useState([]);
   const [isActive, setIsActive] = useState("All");
   const [collections, setCollections] = useState(null);
   const [categoryId, setCategoryId] = useState("all");
-  const [categoriesLoader, setCatLoader] = useState(true); 
-  const [collectionsLoader, setColLoader] = useState(true); 
+  const [categoriesLoader, setCatLoader] = useState(true);
+  const [collectionsLoader, setColLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState<any[] | null>(null);
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [pagination, setPagination] = useState(null);
+  const [pagination, setPagination] = useState<any>(null);
 
   useEffect(() => {
     window.scroll(0, 0);
 
-    if (props.setLoader) props.setLoader(false); 
+    if (props.setLoader) props.setLoader(false);
 
-    getPopularCollections(null, 1);
+    getPopularCollections(null, 1, null);
     const qs = ENV.objectToQueryString({
       myFilter: "all",
     });
@@ -57,11 +53,15 @@ const Populars = forwardRef((props, ref) => {
       const pagination = props.popularCollections.pagination;
 
       if (collectionListing) {
-        collectionListing.forEach((element, i) => {
+        collectionListing.forEach((element: any, i: number) => {
           if (element.likesCount.length > 0) {
-            var sumLikes = element.likesCount.reduce(function (a, b) {
+            var sumLikes = element.likesCount.reduce(function (
+              a: number,
+              b: number
+            ) {
               return a + b;
-            }, 0);
+            },
+            0);
             collectionListing[i].likesCount = sumLikes;
           }
           collectionListing[i].likesCount = 0;
@@ -70,9 +70,13 @@ const Populars = forwardRef((props, ref) => {
             ? element.nfts?.length
             : 0;
           if (element.soldCopies.length > 0) {
-            var soldCopiesSum = element.soldCopies.reduce(function (a, b) {
+            var soldCopiesSum = element.soldCopies.reduce(function (
+              a: number,
+              b: number
+            ) {
               return a + b;
-            }, 0);
+            },
+            0);
             collectionListing[i].soldCopies = soldCopiesSum;
           }
 
@@ -81,14 +85,15 @@ const Populars = forwardRef((props, ref) => {
       }
 
       const finalCollectionListing = collectionListing.sort(
-        (a, b) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
+        (a: any, b: any) =>
+          b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
       );
 
       setPagination(pagination);
       const userId = ENV.getUserKeys("_id")._id;
       if (props.finalCollectionListing) {
-        let finalCollectionListing = finalCollectionListing.filter(
-          (item) => item.userId === userId
+        let finalCollectionListing = props.finalCollectionListing.filter(
+          (item: any) => item.userId === userId
         );
         setpopular(finalCollectionListing);
       } else {
@@ -115,13 +120,16 @@ const Populars = forwardRef((props, ref) => {
     }
   }, [props.getPopularAuth]);
 
-  const getPopularCollections = (category, page, pageLimit) => {
-    const filter = {
+  const getPopularCollections = (
+    category: string | null,
+    page: number | null,
+    pageLimit: number | null
+  ) => {
+    const filter: any = {
       page,
     };
 
     if (props.userId) filter.userId = props.userId;
-
     if (props.popular) filter.popular = true;
     if (category) filter.myFilter = category;
     if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
@@ -132,15 +140,6 @@ const Populars = forwardRef((props, ref) => {
     props.getPopularCollections(qs);
   };
 
-  useImperativeHandle(ref, () => ({
-    getCatCollections: (catId) => {
-      if (props.setLoader) props.setLoader(true);
-
-      getPopularCollections(catId, page);
-    },
-    colCount: collections?.length || 0,
-  }));
-
   const handlePagination = () => {
     window.scroll(0, 500);
     setPage(page);
@@ -148,7 +147,7 @@ const Populars = forwardRef((props, ref) => {
     getPopularCollections(selectedCategory, page, limit + 10);
   };
 
-  const handleFilterCategory = (category) => {
+  const handleFilterCategory = (category: string) => {
     setCategoryId(category);
     setLoader(true);
     setPage(1);
@@ -156,9 +155,9 @@ const Populars = forwardRef((props, ref) => {
     getPopularCollections(category, 1, 10);
   };
 
-  const handleImage = (item, index) => {
+  const handleImage = (item: any, index: number) => {
     if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft) => nft.fileType === "image");
+      let result = item.nfts.filter((nft: any) => nft.fileType === "image");
       if (result.length >= index) {
         return result[index]?.image;
       } else {
@@ -172,9 +171,7 @@ const Populars = forwardRef((props, ref) => {
   return (
     <>
       <Banner
-        subHeading={
-          popularBanner.subHeading
-        }
+        subHeading={popularBanner.subHeading}
         heading={popularBanner.heading}
         content={popularBanner.content}
         bgImg={BannerBg}
@@ -197,7 +194,7 @@ const Populars = forwardRef((props, ref) => {
                       ? ""
                       : categories &&
                         categories.length > 0 &&
-                        categories.map((item, index) => {
+                        categories.map((item: any, index: number) => {
                           return (
                             <button
                               onClick={() => {
@@ -225,7 +222,7 @@ const Populars = forwardRef((props, ref) => {
                       ? ""
                       : categories &&
                         categories.length > 0 &&
-                        categories.map((item, index) => {
+                        categories.map((item: any, index: number) => {
                           return (
                             <div className="col-6 col-sm-3" key={index}>
                               <button
@@ -250,11 +247,11 @@ const Populars = forwardRef((props, ref) => {
               </div>
               <div className="row g-1 align-items-center justify-content-center">
                 {loader ? (
-                  <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+                  <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
                   </div>
                 ) : popular && popular.length > 0 ? (
-                  popular.map((item, index) => {
+                  popular.map((item: any, index: number) => {
                     return (
                       <div className="col-sm-6 col-lg-4 col-xl-3" key={index}>
                         <CollectionsCard
@@ -300,8 +297,8 @@ const Populars = forwardRef((props, ref) => {
       )}
     </>
   );
-});
-const mapStateToProps = (state) => ({
+};
+const mapStateToProps = (state: any) => ({
   collection: state.collection,
   error: state.error,
   category: state.category,
