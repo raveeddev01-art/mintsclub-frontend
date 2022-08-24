@@ -2,13 +2,7 @@ import { useState, useEffect, FC } from "react";
 import CollectionsCard from "../../components/collections-cards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
-import {
-  beforePopularCollection,
-  getPopularCollections,
-  toggleLikeDislike,
-  beforeCategory,
-  getCategories,
-} from "../collections/collections.actions";
+import { toggleLikeDislike } from "../collections/collections.actions";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import { Images } from "../../assets/assets";
 import Banner from "../../components/banner/banner";
@@ -17,17 +11,17 @@ import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
 import { popularBanner } from "../../utils/exportData";
 import { PopularCollectionlistInt } from "../../interfaces/PopularCollectionsList/interface";
+import {
+  useGetCategories,
+  useGetPopularCollections,
+} from "../../hooks/PopularCollections";
 
 const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [popular, setpopular] = useState([]);
   const [isActive, setIsActive] = useState("All");
-  const [collections, setCollections] = useState(null);
   const [categoryId, setCategoryId] = useState("all");
-  const [categoriesLoader, setCatLoader] = useState(true);
-  const [collectionsLoader, setColLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [categories, setCategories] = useState<any[] | null>(null);
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -35,22 +29,45 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 
   useEffect(() => {
     window.scroll(0, 0);
-
-    if (props.setLoader) props.setLoader(false);
-
-    getPopularCollections(null, 1, null);
-    const qs = ENV.objectToQueryString({
-      myFilter: "all",
-    });
-
-    props.getPopularCollections(qs);
-    props.getCategories();
   }, []);
 
+  const onSuccessPopular = (data: any) => {
+    calcualtePopularCollections(data.data?.data);
+  };
+
+  const onErrorPopular = (error: any) => {};
+
+  const {
+    isFetching: isFetchingPopular,
+    isLoading,
+    refetch: refetchPopular,
+  } = useGetPopularCollections(
+    onErrorPopular,
+    onSuccessPopular,
+    categoryId,
+    limit
+  );
+
+  const onSuccessCategories = (data: any) => {
+    setCategories(data.data.categories);
+  };
+
+  const {
+    isFetching: isFetchingCategories,
+    isLoading: categoryIsLoading,
+  }: any = useGetCategories(
+    (error: any) => console.log(error),
+    onSuccessCategories
+  );
+
   useEffect(() => {
-    if (props.getPopularAuth) {
-      const collectionListing = props.popularCollections.collectionsList;
-      const pagination = props.popularCollections.pagination;
+    refetchPopular();
+  }, [page, categoryId]);
+
+  const calcualtePopularCollections = (data: any) => {
+    if (data.collectionsList.length > 0) {
+      const collectionListing = data.collectionsList;
+      const pagination = data.pagination;
 
       if (collectionListing) {
         collectionListing.forEach((element: any, i: number) => {
@@ -103,48 +120,16 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
           setEmpty(false);
         }
         setpopular(finalCollectionListing);
-
-        setColLoader(false);
-        setLoader(false);
       }
-      props.beforePopularCollection();
+    } else {
+      setpopular([]);
     }
-  }, [props.getPopularAuth]);
-
-  useEffect(() => {
-    if (props.getPopularAuth) {
-      setCategories(props.collection.categories);
-
-      props.beforeCategory();
-      setCatLoader(false);
-    }
-  }, [props.getPopularAuth]);
-
-  const getPopularCollections = (
-    category: string | null,
-    page: number | null,
-    pageLimit: number | null
-  ) => {
-    const filter: any = {
-      page,
-    };
-
-    if (props.userId) filter.userId = props.userId;
-    if (props.popular) filter.popular = true;
-    if (category) filter.myFilter = category;
-    if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
-    else filter.all = true;
-
-    const qs = ENV.objectToQueryString(filter);
-
-    props.getPopularCollections(qs);
   };
 
   const handlePagination = () => {
     window.scroll(0, 500);
     setPage(page);
     setLimit(limit + 10);
-    getPopularCollections(selectedCategory, page, limit + 10);
   };
 
   const handleFilterCategory = (category: string) => {
@@ -152,7 +137,6 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
     setLoader(true);
     setPage(1);
     setLimit(10);
-    getPopularCollections(category, 1, 10);
   };
 
   const handleImage = (item: any, index: number) => {
@@ -177,7 +161,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
         bgImg={BannerBg}
         bannerImg={BannerImage}
       />
-      {categoriesLoader && collectionsLoader ? (
+      {categoryIsLoading && isLoading ? (
         <FullPageLoader />
       ) : (
         <>
@@ -199,7 +183,6 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                             <button
                               onClick={() => {
                                 setIsActive(item.name);
-                                setSelectedCategory(item.description);
                                 handleFilterCategory(item.description);
                               }}
                               key={index}
@@ -228,7 +211,6 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                               <button
                                 onClick={() => {
                                   setIsActive(item.name);
-                                  setSelectedCategory(item.description);
                                   handleFilterCategory(item.description);
                                 }}
                                 className={
@@ -246,7 +228,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                 </div>
               </div>
               <div className="row g-1 align-items-center justify-content-center">
-                {loader ? (
+                {isLoading || isFetchingCategories || isFetchingPopular ? (
                   <div className="spinner-border" role="status">
                     <span className="sr-only">Loading...</span>
                   </div>
@@ -299,22 +281,12 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  collection: state.collection,
   error: state.error,
-  category: state.category,
-  categories: state.collection,
-  pagination: state.pagination,
-  popularCollections: state.collection.popularCollections,
-  getPopularAuth: state.collection.getPopularAuth,
 });
 
 export default connect(
   mapStateToProps,
   {
-    beforePopularCollection,
-    getPopularCollections,
-    beforeCategory,
-    getCategories,
     toggleLikeDislike,
   },
   null,

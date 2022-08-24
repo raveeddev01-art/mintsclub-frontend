@@ -23,6 +23,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import { Images } from "../../assets/assets";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
 import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
+
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [loader, setLoader] = useState(true);
   const [nfts, setNfts] = useState<any>(null);
