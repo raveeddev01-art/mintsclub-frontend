@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useContext } from "react";
 import routes from "./routes";
 import { PrivateRoute } from "./privateRoute";
 import { Switch } from "react-router-dom";
-import FullPageLoader from "./components/full-page-loader/full-page-loader";
+import FullPageLoader from "./Components/FullPageLoader/FullPageLoader";
 import tawkTo from "tawkto-react";
 import { ENV } from "./config/config";
 import "./App.css";
@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
 import { beforeWallet, setWalletAddress } from "./pages/wallet/wallet.action";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = React.memo((props) => {
   useGaTracker();
@@ -53,9 +55,12 @@ const App = React.memo((props) => {
     props.beforeWallet();
     props.setWalletAddress(address);
   };
+const queryClient = new QueryClient();
+
 
   return (
     <React.Fragment>
+    
       <Suspense fallback={<FullPageLoader />}>
         <div>
           <Switch>
@@ -76,7 +81,9 @@ const App = React.memo((props) => {
             })}
           </Switch>
         </div>
+
       </Suspense>
+      {/* <ReactQueryDevtools initialIsOpen={true} position="bottom-left"/> */}
     </React.Fragment>
   );
 });

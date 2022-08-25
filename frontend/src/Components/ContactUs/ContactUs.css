@@ -1,0 +1,43 @@
+.contactus .contactus-content {
+    max-width: 1205px;
+    margin-bottom: 200px;
+  }
+  
+  .contactus .contactus-content h5 {
+    font-weight: 700;
+    font-size: 28px;
+    color: #000000;
+    margin-bottom: 18px;
+  }
+  
+  .contactus .contactus-content h6 {
+    font-weight: 700;
+    font-size: 22px;
+    color: #383838;
+  }
+  
+  .contactus .contactus-content p {
+    font-weight: 300;
+    font-size: 18px;
+    color: #111111;
+    line-height: 35px;
+  }
+  
+  .btn.btn-linear-gradient.conatct-btn-join {
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    max-width: 255px;
+    width: 100%;
+    height: 50px;
+  }
+  
+  @media (max-width: 575.9px) {
+    .contactus .contactus-content h5 {
+      font-size: 22px;
+    }
+    .contactus .contactus-content h6 {
+      font-size: 20px;
+    }
+  }
+  

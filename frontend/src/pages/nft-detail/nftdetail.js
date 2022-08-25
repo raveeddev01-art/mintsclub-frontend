@@ -10,8 +10,8 @@ import {
   getActivities,
   getItemsListing,
   beforeNFTByCollection,
-} from "../../components/nfts/nfts.action.js";
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
+} from "../../Components/Nfts/nfts.action.js";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
 import { decimalNumberValidator } from "../../utils/functions";
@@ -38,31 +38,31 @@ import {
   getBidSByNftId,
   beforeBid,
   deleteBid,
-} from "../../components/bids/bids.action";
+} from "../../Components/Bids/bids.action";
 import {
   makeOffer,
   getOffers,
   beforeOffer,
   deleteOffer,
   buyNow,
-} from "../../components/offers/offers.action";
+} from "../../Components/Offers/offers.action";
 import { toast } from "react-toastify";
-import BuyModal from "../../components/modals/BuyModal/BuyModal";
-import BidModal from "../../components/modals/BidModal/BidModal";
-import useVideoPlayer from "../../components/test-video-card/components/useVideoPlayer";
+import BuyModal from "../../Components/Modals/BuyModal/BuyModal";
+import BidModal from "../../Components/Modals/BidModal/BidModal";
+import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import StatsInfo from "../create-nft/components/statsinfo";
 import LevelsInfo from "../create-nft/components/levelsinfo";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { Images } from "../../assets/assets";
-import NftCard from "../../components/nft-card/nft-card";
-import NFTDetailLoader from "../../components/contentLoader/nftDetailLoader";
-import Audio from "../../components/audio/audio";
+import NftCard from "../../Components/NftCard/NftCard";
+import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
+import Audio from "../../Components/Audio/Audio";
 import { nftBanner } from "../../utils/exportData";
-import Table from "../../components/table/table";
+import Table from "../../Components/Table/Table";
 
 
 const NFTDetail = (props) => {

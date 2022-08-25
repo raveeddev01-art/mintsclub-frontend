@@ -174,3 +174,26 @@ export interface listingInt {
     collectionDetail?:any,
     totalItems?:any
 }
+
+
+export interface CollectionSubLoaderInt {
+  image:string
+}
+
+export interface VideoCardInterface {
+  CardImg : string,
+  handleLikesTogleApi:(_id:string,status:string,likeCount:any)=>any,
+  id : string,
+  name :string,
+  price :any,
+  likesCount : number,
+  likedNfts: any,
+  ownerId: string,
+  sellingMethod: any,
+  userProfile : string,
+  auctionStartDate : Date,
+  auctionEndDate: Date,
+  copies: any,
+  remainingCopies: any,
+  ownerName: string,
+}

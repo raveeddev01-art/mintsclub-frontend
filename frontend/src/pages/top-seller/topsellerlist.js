@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ENV } from "./../../config/config";
-import { getTopSellers, beforeUser } from "../../components/user/user.action";
+import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.css";
-import NavbarMain from "../../components/navbar-main/NavbarMain";
-import Footer from "../../components/footer/footer";
-import Breadcrumb from "../../components/breadcrumb/breadcrumb";
+import NavbarMain from "../../Components/NavbarMain/NavbarMain";
+import Footer from "../../Components/Footer/Footer";
+import Breadcrumb from "../../Components/Breadcrumb/Breadcrumb";
 import { Images } from "../../assets/assets";
 
 const TopSellerList = (props) => {

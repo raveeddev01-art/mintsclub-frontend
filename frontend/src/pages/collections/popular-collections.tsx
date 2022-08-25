@@ -1,10 +1,13 @@
-import { useState, useEffect,FC } from "react";
+import { useState, useEffect, FC } from "react";
 import { Link } from "react-router-dom";
-import CollectionsCard from "../../components/collections-cards/CollectionsCard";
+import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
-import CardSlider from "../../components/card-slider/CardSlider";
+import CardSlider from "../../Components/CardSlider/CardSlider";
 import { ENV } from "../../config/config";
-import { beforeCategory, getCategories } from "../../components/categories/categories.action";
+import {
+  beforeCategory,
+  getCategories,
+} from "../../Components/Categories/categories.action";
 import {
   beforePopularCollection,
   getPopularCollections,
@@ -12,43 +15,70 @@ import {
 import { connect } from "react-redux";
 import { Images } from "../../assets/assets";
 import { PopularCollectionInt } from "../../interfaces/PopularCollections/interface";
+import {
+  useGetCategories,
+  useGetPopularCollections,
+} from "../../hooks/PopularCollections";
 const initData = {
   pre_heading: "Most Popular",
   heading: "Popular Collections",
   btnText: "Explore More",
 };
 
-const PopularCollections:FC<PopularCollectionInt> = (props) => {
-  const [popular, setpopular] = useState([]);
+const PopularCollections: FC<PopularCollectionInt> = (props) => {
+  const [popular, setpopular] = useState<any>(null);
   const [categories, setCategories] = useState<any>(null);
   const [categoryId, setCategoryId] = useState("all");
-  const [popularSettings, settPopularSettings] = useState<object|null>(null);
+  const [popularSettings, settPopularSettings] = useState<object | null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
 
-  useEffect(() => {
-    const qs = ENV.objectToQueryString({
-      myFilter: "all",
-    });
-    props.getPopularCollections(qs);
-    props.getCategories();
-  }, []);
+  const handleCategoryFilter = (desc: string) => {
+    setFilterationLoader(true);
+    setCategoryId(desc);
+  };
 
-  useEffect(() => {
-    if (props.category.getAuth) {
-      setCategories(props.category.categories);
+  const handleImage = (item: any, index: number) => {
+    if (item?.nfts[index]?.image) {
+      let result = item.nfts.filter((nft: any) => nft.fileType === "image");
+      if (result.length >= index && result.length !== 0) {
+        return result[index]?.image;
+      } else {
+        return Images.imagePlaceholder;
+      }
+    } else {
+      return Images.imagePlaceholder;
     }
-  }, [props.category.getAuth]);
+  };
 
-  useEffect(() => {
-    if (props.getPopularAuth) {
-      const collectionListing = props.popularCollections.collectionsList;
+  /////get popular collections
+
+  const onSuccessPopular = (data: any) => {
+    console.log(data,"data")
+    calcualtePopularCollections(data.data?.data);
+  };
+
+  const onErrorPopular = (error: any) => {};
+
+  const {
+    isFetching: isFetchingPopular,
+    isLoading,
+    refetch: refetchPopular,
+  } = useGetPopularCollections(onErrorPopular, onSuccessPopular, categoryId);
+
+  const calcualtePopularCollections = (data: any) => {
+    if (data.collectionsList.length > 0) {
+      const collectionListing = data.collectionsList;
       if (collectionListing) {
-        collectionListing.forEach((element:any, i:number) => {
+        collectionListing.forEach((element: any, i: number) => {
           if (element.likesCount.length > 0) {
-            var sumLikes = element.likesCount.reduce(function (a:number, b:number) {
+            var sumLikes = element.likesCount.reduce(function (
+              a: number,
+              b: number
+            ) {
               return a + b;
-            }, 0);
+            },
+            0);
             collectionListing[i].likesCount = sumLikes;
           }
           collectionListing[i].likesCount = 0;
@@ -57,9 +87,13 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
             ? element.nfts?.length
             : 0;
           if (element.soldCopies.length > 0) {
-            var soldCopiesSum = element.soldCopies.reduce(function (a:number, b:number) {
+            var soldCopiesSum = element.soldCopies.reduce(function (
+              a: number,
+              b: number
+            ) {
               return a + b;
-            }, 0);
+            },
+            0);
             collectionListing[i].soldCopies = soldCopiesSum;
           }
 
@@ -68,7 +102,8 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
       }
 
       const finalCollectionListing = collectionListing.sort(
-        (a:any, b:any) => b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
+        (a: any, b: any) =>
+          b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
       );
       let popularCollectionsSettings = ENV.popularCollectionsSettings;
       if (finalCollectionListing.length > 3) {
@@ -85,30 +120,25 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
 
         setFilterationLoader(false);
       }
-      props.beforePopularCollection();
-    }
-  }, [props.getPopularAuth]);
+    }else{
+      setFilterationLoader(false)
+      setpopular(null);
 
-  const handleCategoryFilter = (desc:string) => {
-    setFilterationLoader(true);
-    props.beforePopularCollection();
-    setCategoryId(desc);
-    const qs = ENV.objectToQueryString({ myFilter: desc });
-    props.getPopularCollections(qs);
-  };
-
-  const handleImage = (item:any, index:number) => {
-    if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft:any) => nft.fileType === "image");
-      if (result.length >= index && result.length !== 0) {
-        return result[index]?.image;
-      } else {
-        return Images.imagePlaceholder;
-      }
-    } else {
-      return Images.imagePlaceholder;
     }
   };
+  const onSuccessCategories = (data: any) => {
+    setCategories(data.data.categories);
+  };
+
+  const {
+  }: any = useGetCategories(
+    (error: any) => console.log(error),
+    onSuccessCategories
+  );
+
+  useEffect(() => {
+    refetchPopular();
+  }, [categoryId]);
 
   return (
     <>
@@ -136,7 +166,7 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item:any, id:number) => {
+                    categories.map((item: any, id: number) => {
                       if (id <= 3) {
                         return (
                           <button
@@ -171,7 +201,7 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
               )}
             </div>
           </div>
-          {filterationLoader ? (
+          {filterationLoader || isFetchingPopular ? (
             <div className="spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
@@ -183,7 +213,7 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
               data={popular}
               homeAuction
             >
-              {popular.map((item:any, i:number) => {
+              {popular.map((item: any, i: number) => {
                 return (
                   <CollectionsCard
                     key={i}
@@ -213,13 +243,12 @@ const PopularCollections:FC<PopularCollectionInt> = (props) => {
     </>
   );
 };
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   error: state.error,
   category: state.category,
   popularCollections: state.collection.popularCollections,
   getPopularAuth: state.collection.getPopularAuth,
   connectedAddress: state.wallet.connectedAddress,
-
 });
 
 export default connect(mapStateToProps, {

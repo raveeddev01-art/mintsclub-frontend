@@ -7,27 +7,27 @@ import {
   getNFTs,
   beforeNFT,
   getMyLikedNfts,
-} from "../../components/nfts/nfts.action";
+} from "../../Components/Nfts/nfts.action";
 import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
 } from "../all-nfts/explore.action";
-import { getUserById, beforeUser } from "../../components/user/user.action";
+import { getUserById, beforeUser } from "../../Components/User/user.action";
 import { Images } from "../../assets/assets";
 import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
 import moment from "moment";
-import Banner from "../../components/banner/banner";
+import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/profileBg.png";
 import EthIcon from "../../assets/images/eth-icon.svg";
 import CopyIcon from "../../assets/images/copy-icon.svg";
-import Listing from "../../components/listing/listing";
+import Listing from "../../Components/Listing/Listing";
 import {
   beforeCollection,
   getCollections,
 } from "../collections/collections.actions";
 import { Link } from "react-router-dom";
-import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { useHistory } from "react-router";
 
 const UserProfile = (props) => {
