@@ -1,7 +1,7 @@
 import { useEffect, useState,FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
+import { getFooter, beforeFooter, subscribeUser } from "../Footer/footer.action";
 import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
