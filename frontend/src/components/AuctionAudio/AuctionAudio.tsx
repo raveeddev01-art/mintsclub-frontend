@@ -4,7 +4,6 @@ import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg"
 import {AuctionAudioInt} from  "../../interfaces/components";
 import "./AuctionAudio.css";
 
-
 const AuctionAudio:FC<AuctionAudioInt> = ({ src, onLoadCallback, loader }) => {
   return (
     <div
