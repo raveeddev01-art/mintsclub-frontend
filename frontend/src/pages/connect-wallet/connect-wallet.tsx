@@ -42,7 +42,7 @@ export default function connectWallet() {
             <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
               <Tab eventKey="ethereum" title="Ethereum">
                 <div className="tab-inner-content">
-                  {walletButtons.map((button) => {
+                  {walletButtons.map((button:any) => {
                     return (
                       <button className="wallet-button">
                         <img src={button.img} alt="services" />

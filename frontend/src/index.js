@@ -12,7 +12,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TimeAgo from "javascript-time-ago";
 import { AppContextProvider } from "./context/AppContextProvider";
 import en from "javascript-time-ago/locale/en.json";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
 TimeAgo.addDefaultLocale(en);
 
 toast.configure({
@@ -27,7 +28,9 @@ ReactDOM.render(
     <AppContextProvider>
       <ToastContainer />
       <BrowserRouter>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </BrowserRouter>
     </AppContextProvider>
   </Provider>,

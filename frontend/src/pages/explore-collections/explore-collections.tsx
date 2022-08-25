@@ -3,6 +3,7 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  FC,
 } from "react";
 import "./explore-collections.css";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
@@ -13,7 +14,7 @@ import {
   getCollections,
   toggleLikeDislike,
   beforeCategory,
-  getCategories
+  getCategories,
 } from "../collections/collections.actions";
 import { Images } from "../../assets/assets";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
@@ -22,26 +23,26 @@ import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import { exploreCollectionBanner } from "../../utils/exportData";
-
-const ExploreCollections = forwardRef((props, ref) => {
+import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
+const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [isActive, setIsActive] = useState("All");
-  const [collections, setCollections] = useState(null);
-  const [categoriesLoader, setCatLoader] = useState(true); 
-  const [collectionsLoader, setColLoader] = useState(true); 
+  const [collections, setCollections] = useState<any[]|null>(null);
+  const [categoriesLoader, setCatLoader] = useState(true);
+  const [collectionsLoader, setColLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState<any[]|null>(null);
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [pagination, setPagination] = useState(null);
+  const [pagination, setPagination] = useState<any>(null);
 
   useEffect(() => {
     window.scroll(0, 0);
 
-    if (props.setLoader) props.setLoader(false); 
+    if (props.setLoader) props.setLoader(false);
 
-    getCollections(null, 1);
+    getCollections(null, 1, null);
     props.getCategories();
   }, []);
 
@@ -52,7 +53,7 @@ const ExploreCollections = forwardRef((props, ref) => {
       const userId = ENV.getUserKeys("_id")._id;
       if (props.mycollections) {
         let myCollections = collections.filter(
-          (item) => item.userId === userId
+          (item: any) => item.userId === userId
         );
         setCollections(myCollections);
       } else {
@@ -79,8 +80,12 @@ const ExploreCollections = forwardRef((props, ref) => {
     }
   }, [props.collection.collectionFlag]);
 
-  const getCollections = (category, page, pageLimit) => {
-    const filter = {
+  const getCollections = (
+    category: string | null,
+    page: number | null,
+    pageLimit: number | null
+  ) => {
+    const filter: any = {
       page,
     };
 
@@ -95,14 +100,14 @@ const ExploreCollections = forwardRef((props, ref) => {
     props.getCollections(qs);
   };
 
-  useImperativeHandle(ref, () => ({
-    getCatCollections: (catId) => {
-      if (props.setLoader) props.setLoader(true);
+  // useImperativeHandle(ref, () => ({
+  //   getCatCollections: (catId:string) => {
+  //     if (props.setLoader) props.setLoader(true);
 
-      getCollections(catId, page);
-    },
-    colCount: collections?.length || 0,
-  }));
+  //     getCollections(catId, page);
+  //   },
+  //   colCount: collections?.length || 0,
+  // }));
 
   const handlePagination = () => {
     window.scroll(0, 500);
@@ -110,16 +115,18 @@ const ExploreCollections = forwardRef((props, ref) => {
     setLimit(limit + 10);
     getCollections(selectedCategory, page, limit + 10);
   };
-  const handleFilterCategory = (category) => {
+  const handleFilterCategory = (category:string) => {
     setLoader(true);
     setPage(1);
     setLimit(10);
     getCollections(category, 1, 10);
   };
 
-  const handleImage = (item, index) => {
+  const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
-      let result = item.nftDetail.filter((nft) => nft.fileType === "image");
+      let result = item.nftDetail.filter(
+        (nft: any) => nft.fileType === "image"
+      );
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -149,7 +156,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item, index) => {
+                    categories.map((item: any, index: number) => {
                       return (
                         <button
                           key={index}
@@ -170,7 +177,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                 <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                   {categories &&
                     categories.length > 0 &&
-                    categories.map((item, index) => {
+                    categories.map((item: any, index: any) => {
                       return (
                         <div className="col-6 col-sm-3" key={index}>
                           <button
@@ -197,7 +204,7 @@ const ExploreCollections = forwardRef((props, ref) => {
                   <span className="sr-only">Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
-                collections.map((collection, index) => {
+                collections.map((collection: any, index: number) => {
                   return (
                     <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <CollectionsCard
@@ -250,25 +257,20 @@ const ExploreCollections = forwardRef((props, ref) => {
       )}
     </>
   );
-});
-const mapStateToProps = (state) => ({
+};
+const mapStateToProps = (state: any) => ({
   collection: state.collection,
   error: state.error,
   category: state.category,
   categories: state.collection,
   pagination: state.pagination,
-  connectedAddress:state.wallet.connectedAddress
+  connectedAddress: state.wallet.connectedAddress,
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    beforeCollection,
-    getCollections,
-    beforeCategory,
-    getCategories,
-    toggleLikeDislike,
-  },
-  null,
-  { forwardRef: true }
-)(ExploreCollections);
+export default connect(mapStateToProps, {
+  beforeCollection,
+  getCollections,
+  beforeCategory,
+  getCategories,
+  toggleLikeDislike,
+})(ExploreCollections);
