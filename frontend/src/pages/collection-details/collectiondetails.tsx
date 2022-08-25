@@ -23,6 +23,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import { Images } from "../../assets/assets";
 import OwnCollectionToday from "../../components/own-collection-today/own-collection-today";
 import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
+import { useGetMyLikedNFTs, useGetNFTs } from "../../hooks/CollectionDetails";
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [loader, setLoader] = useState(true);
@@ -33,7 +34,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nftPagination, setNFTPagination] = useState<object | null>(null);
   const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const location:any = useLocation();
+  const [filter, setFilter] = useState<any>(null);
+  const location: any = useLocation();
   const history = useHistory();
 
   useEffect(() => {
@@ -41,17 +43,38 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   }, []);
 
   useEffect(() => {
-    getNFTs(null);
-    let qs: any = { userId: ENV.getUserKeys("_id")._id };
-    qs = ENV.objectToQueryString(qs);
-    props.getMyLikedNfts(qs);
+    // getNFTs(null);
+    // let qs: any = { userId: ENV.getUserKeys("_id")._id };
+    // qs = ENV.objectToQueryString(qs);
+    // props.getMyLikedNfts(qs);
   }, []);
 
-  useEffect(() => {
-    if (props.myLikedNftsStatus) {
-      setLikedNfts(props.myLikedNfts);
-    }
-  }, [props.myLikedNftsStatus]);
+  ////Get My liked NFTs
+  const onSuccessLikedNFTs = (data: any) => {
+    setLikedNfts(data.data.data);
+  };
+  const {
+    isLoading: likedNFTsLoader,
+    isError,
+    error,
+  } = useGetMyLikedNFTs(
+    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
+    onSuccessLikedNFTs
+  );
+
+  //Get NFTs
+
+  // const onSuccessNFTs = (data: any) => {
+  //   setNfts(data.data.data);
+  // };
+
+  // const { isLoading, refetch } = useGetNFTs(filter, onSuccessNFTs);
+
+  // useEffect(() => {
+  //   if (props.myLikedNftsStatus) {
+  //     setLikedNfts(props.myLikedNfts);
+  //   }
+  // }, [props.myLikedNftsStatus]);
 
   useEffect(() => {
     if (props.nftsAuth) {
@@ -76,53 +99,53 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     }
   }, [props.togleLikeRes]);
 
-  const getNFTs = (filter: any) => {
-    props.beforeNFT();
-    let nftQS: any = {};
-    if (filter) {
-      const {
-        page,
-        limit,
-        categoryId,
-        collectionId,
-        oldest,
-        lowToHigh,
-        highToLow,
-        newest,
-        buy,
-        auction,
-        latest,
-        gtePrice,
-        ltePrice,
-        keyword,
-      } = filter;
-      nftQS.collectionId = location.state._id;
-      if (collectionId) nftQS.collectionId = collectionId;
-      if (gtePrice) nftQS.gtePrice = gtePrice;
-      if (ltePrice) nftQS.ltePrice = ltePrice;
-      if (categoryId) nftQS.categoryId = categoryId;
-      if (oldest) nftQS.oldest = oldest;
-      if (lowToHigh) nftQS.lowToHigh = lowToHigh;
-      if (highToLow) nftQS.highToLow = highToLow;
-      if (newest) nftQS.newest = newest;
-      if (keyword) nftQS.keyword = keyword;
-      if (buy) nftQS.buy = buy;
-      if (auction) nftQS.auction = auction;
-      if (latest) nftQS.latest = latest;
-      if (page) {
-        nftQS.page = page;
-      } else {
-        nftQS.page = 1;
-      }
-      if (limit) {
-        nftQS.limit = limit;
-      } else {
-        nftQS.limit = 10;
-      }
-    }
-    const qs = ENV.objectToQueryString(nftQS);
-    props.getNFTs(qs);
-  };
+  // const getNFTs = (filter: any) => {
+  //   props.beforeNFT();
+  //   let nftQS: any = {};
+  //   if (filter) {
+  //     const {
+  //       page,
+  //       limit,
+  //       categoryId,
+  //       collectionId,
+  //       oldest,
+  //       lowToHigh,
+  //       highToLow,
+  //       newest,
+  //       buy,
+  //       auction,
+  //       latest,
+  //       gtePrice,
+  //       ltePrice,
+  //       keyword,
+  //     } = filter;
+  //     nftQS.collectionId = location.state._id;
+  //     if (collectionId) nftQS.collectionId = collectionId;
+  //     if (gtePrice) nftQS.gtePrice = gtePrice;
+  //     if (ltePrice) nftQS.ltePrice = ltePrice;
+  //     if (categoryId) nftQS.categoryId = categoryId;
+  //     if (oldest) nftQS.oldest = oldest;
+  //     if (lowToHigh) nftQS.lowToHigh = lowToHigh;
+  //     if (highToLow) nftQS.highToLow = highToLow;
+  //     if (newest) nftQS.newest = newest;
+  //     if (keyword) nftQS.keyword = keyword;
+  //     if (buy) nftQS.buy = buy;
+  //     if (auction) nftQS.auction = auction;
+  //     if (latest) nftQS.latest = latest;
+  //     if (page) {
+  //       nftQS.page = page;
+  //     } else {
+  //       nftQS.page = 1;
+  //     }
+  //     if (limit) {
+  //       nftQS.limit = limit;
+  //     } else {
+  //       nftQS.limit = 10;
+  //     }
+  //   }
+  //   const qs = ENV.objectToQueryString(nftQS);
+  //   props.getNFTs(qs);
+  // };
   ///////////Likes
   const handleLikesTogleApi = async (
     nftId: string,
@@ -203,7 +226,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   };
 
   const fetchData = (filterObj: object) => {
-    getNFTs(filterObj);
+    setFilter(filterObj);
+    // refetch(filterObj);
   };
   const { name, logo, description, username }: any = location.state;
 
