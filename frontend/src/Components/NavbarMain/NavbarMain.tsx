@@ -1,4 +1,4 @@
-import  { useEffect,useState, useContext,FC } from "react";
+import { useEffect, useState, useContext, FC } from "react";
 import { Link, useHistory, useLocation, NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
 import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg";
@@ -12,13 +12,13 @@ import { beforeCollection } from "../../pages/collections/collections.actions";
 import { headerImages } from "../../assets/assets";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 
-const NavbarMain= () => {
+const NavbarMain = () => {
   const [searchactive, setSearchActive] = useState<any>(false);
   const [searchValue, setSearchValue] = useState<any>("");
   const history = useHistory();
   const { darkMode, setDarkMode } = useContext(darkModeContext);
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setSearchValue(e.target.value);
     e.target.value ? setSearchActive(true) : setSearchActive(false);
   };
@@ -31,10 +31,10 @@ const NavbarMain= () => {
     }
   };
   const clearLocalStorage = () => {
-      if(ENV?.getUserKeys("_id")?._id){
-        localStorage.clear();
-        history.push("/login");
-      }
+    if (ENV?.getUserKeys("_id")?._id) {
+      localStorage.clear();
+      history.push("/login");
+    }
   };
 
   const setDark = () => {
@@ -54,7 +54,7 @@ const NavbarMain= () => {
   const defaultDark =
     storedTheme === "dark" || (storedTheme === null && prefersDark);
 
-  const toggleTheme = (e:any) => {
+  const toggleTheme = (e: any) => {
     if (e.target.checked) {
       setDark();
       setDarkMode(true);
@@ -70,7 +70,7 @@ const NavbarMain= () => {
       setDarkMode(true);
     }
   }, []);
-  console.log(ENV?.getUserKeys("_id"))
+  console.log(ENV?.getUserKeys("_id"));
 
   return (
     <div className="main-nav-section">

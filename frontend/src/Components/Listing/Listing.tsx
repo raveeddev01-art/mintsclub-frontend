@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import "./Listing.css";
-import SearchIcon from "../../assets/images/search-inp.svg";
+import { ReactComponent as SearchIcon } from "../../assets/images/searchicon.svg";
 import NftCard from "../NftCard/NftCard";
 import FullPageLoader from "../FullPageLoader/FullPageLoader";
 import Select from "react-select";
@@ -136,7 +136,6 @@ const Listing: FC<listingInt> = (props) => {
       getPaginatedData?.();
     }
   };
-
 
   const applyMinMaxFilter = () => {
     setInitial(false);
@@ -283,7 +282,7 @@ const Listing: FC<listingInt> = (props) => {
                   }
                   value={keyword}
                 />
-                <img src={SearchIcon} alt="search-input" />
+                <SearchIcon />
               </div>
               <div className="sort-by-select mb-4 mb-md-0">
                 <p className="me-3">Sort by:</p>

@@ -44,7 +44,7 @@
   p {
   font-weight: 400;
   font-size: 14px;
-  color: #262626;
+  color: var(--text-body-three);
   word-break: break-all;
 }
 
@@ -52,7 +52,7 @@
   font-weight: 700;
   font-size: 25px;
   line-height: 29px;
-  color: #000000;
+  color: var(--text-body);
   margin-bottom: 0;
 }
 
@@ -64,7 +64,7 @@
 .collection-detail-content .collection-owner-detail p {
   font-weight: 700;
   font-size: 14px;
-  color: #000000;
+  color: var(--text-body);
 }
 
 .collection-detail-content .collection-owner-detail p span {
