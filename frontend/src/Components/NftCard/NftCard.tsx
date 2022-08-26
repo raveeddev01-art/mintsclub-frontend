@@ -10,6 +10,7 @@ import { Images } from "../../assets/assets";
 import ImageLoader from "../ContentLoader/ImageLoader";
 import Audio from "../Audio/Audio";
 import { NFTCardInt } from "../../interfaces/components";
+
 const NFTCard: FC<NFTCardInt> = (props) => {
   const history = useHistory();
   const videoElement = React.useRef(null);
