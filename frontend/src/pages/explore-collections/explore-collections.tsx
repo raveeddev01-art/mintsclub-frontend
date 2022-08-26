@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
   FC,
 } from "react";
-import "./explore-collections.css";
+import "./explore-collections.scss";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -26,13 +26,13 @@ import { exploreCollectionBanner } from "../../utils/exportData";
 import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [isActive, setIsActive] = useState("All");
-  const [collections, setCollections] = useState<any[]|null>(null);
+  const [collections, setCollections] = useState<any[] | null>(null);
   const [categoriesLoader, setCatLoader] = useState(true);
   const [collectionsLoader, setColLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [categories, setCategories] = useState<any[]|null>(null);
+  const [categories, setCategories] = useState<any[] | null>(null);
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
   const [pagination, setPagination] = useState<any>(null);
@@ -115,7 +115,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     setLimit(limit + 10);
     getCollections(selectedCategory, page, limit + 10);
   };
-  const handleFilterCategory = (category:string) => {
+  const handleFilterCategory = (category: string) => {
     setLoader(true);
     setPage(1);
     setLimit(10);

@@ -64,7 +64,6 @@ import Audio from "../../Components/Audio/Audio";
 import { nftBanner } from "../../utils/exportData";
 import Table from "../../Components/Table/Table";
 
-
 const NFTDetail = (props) => {
   const [exchangeRate, setExchangeRate] = useState(0);
   const [toggle, setToggle] = React.useState(true);
@@ -738,7 +737,7 @@ const NFTDetail = (props) => {
                     );
                   })
                 ) : (
-                  <p className="text-center">No Properties Foud</p>
+                  <p className="text-center npf-text">No Properties Found</p>
                 )}
               </div>
               <div className="detail-box">
@@ -750,7 +749,7 @@ const NFTDetail = (props) => {
                       return <StatsInfo name={item.name} value={item.value} />;
                     })
                   ) : (
-                    <p className="text-center">No Stats Foud</p>
+                    <p className="text-center npf-text">No Stats Found</p>
                   )}
                 </div>
               </div>
@@ -763,7 +762,7 @@ const NFTDetail = (props) => {
                       return <LevelsInfo name={item.name} value={item.value} />;
                     })
                   ) : (
-                    <p className=" text-center">No Levels Foud</p>
+                    <p className=" text-center npf-text">No Levels Found</p>
                   )}
                 </div>
               </div>
@@ -1167,7 +1166,7 @@ const NFTDetail = (props) => {
                     }
                   })
                 ) : (
-                  <p className="text-center mt-4">No NFTs Found</p>
+                  <p className="text-center mt-4 text">No NFTs Found</p>
                 )}
               </div>
             </div>
