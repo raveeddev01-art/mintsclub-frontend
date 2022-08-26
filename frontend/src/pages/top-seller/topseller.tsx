@@ -7,9 +7,9 @@ import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.css";
 import { Images } from "../../assets/assets";
 
-const TopSeller = (props) => {
-  const [sellers, setSellers] = useState([]);
-  const [loader, setLoader] = useState(true);
+const TopSeller = (props:any) => {
+  const [sellers, setSellers] = useState<any>([]);
+  const [loader, setLoader] = useState<any>(true);
 
   useEffect(() => {
     props.getTopSellers();
@@ -59,7 +59,7 @@ const TopSeller = (props) => {
               </div>
             </div>
           ) : sellers && sellers.length ? (
-            sellers.map((author, idx) => {
+            sellers.map((author:any, idx:any) => {
               return (
                 <div
                   key={`ts_${idx}`}
@@ -111,7 +111,7 @@ const TopSeller = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   user: state.user,
 });
 

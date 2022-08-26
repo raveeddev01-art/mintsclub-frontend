@@ -87,10 +87,10 @@ export interface Levels {
 }
 
 export interface BreadcrumbInt {
-  title1: any;
-  title2: any;
-  title3: any;
-  title1Handler: () => any;
+  title1?: any;
+  title2?: any;
+  title3?: any;
+  title1Handler?: () => any;
 }
 
 export interface PropertiesInt {
