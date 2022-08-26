@@ -1,15 +1,24 @@
-import {FC} from "react";
+import { FC } from "react";
 import { BreadcrumbInt } from "../../interfaces/components";
-import "./Breadcrumb.css";
+import "./Breadcrumb.scss";
 
-const Breadcrumb:FC<BreadcrumbInt>=({ title1, title2, title3,title1Handler }) =>{
+const Breadcrumb: FC<BreadcrumbInt> = ({
+  title1,
+  title2,
+  title3,
+  title1Handler,
+}) => {
   return (
     <div className="top-breadcrumb ">
       <div className="container">
         <div className="row">
           <div className="col-12">
             <div className="breadcrumb-text d-flex align-items-center ">
-              {title1 ? <p onClick={()=>title1Handler&&title1Handler()}>{title1}</p> : ""}
+              {title1 ? (
+                <p onClick={() => title1Handler && title1Handler()}>{title1}</p>
+              ) : (
+                ""
+              )}
               {title2 ? (
                 <p>
                   <span className="px-1"> {">"} </span>
@@ -25,5 +34,5 @@ const Breadcrumb:FC<BreadcrumbInt>=({ title1, title2, title3,title1Handler }) =>
       </div>
     </div>
   );
-}
+};
 export default Breadcrumb;

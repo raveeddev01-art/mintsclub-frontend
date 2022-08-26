@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import "./ConnectWalletModal.css";
+import "./ConnectWalletModal.scss";
 import { connectModal } from "../../assets/assets";
 
 const walletButtons = [
@@ -52,7 +52,7 @@ export default function ConnectWalletModal() {
               <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
                 <Tab eventKey="ethereum" title="Ethereum">
                   <div className="tab-inner-content">
-                    {walletButtons.map((button:any) => {
+                    {walletButtons.map((button: any) => {
                       return (
                         <button className="wallet-button">
                           <img src={button.img} alt="services" />

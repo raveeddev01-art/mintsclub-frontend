@@ -1,8 +1,8 @@
-import {FC} from "react"
+import { FC } from "react";
 import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
 import { AudioInterface } from "../../interfaces/components";
-import "./Audio.css";
-const Audio:FC<AudioInterface> = ({ src, onLoadCallback, loader }) => {
+import "./Audio.scss";
+const Audio: FC<AudioInterface> = ({ src, onLoadCallback, loader }) => {
   return (
     <div
       className={`w-100 h-100 audio-container py-4 px-3 ${

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./OwnCollection.css";
+import "./OwnCollection.scss";
 //assets
 import DiscordIcon from "../../assets/images/discord-dashboard-icon.svg";
 import TelegramIcon from "../../assets/images/telegram-dashboard-icon.svg";

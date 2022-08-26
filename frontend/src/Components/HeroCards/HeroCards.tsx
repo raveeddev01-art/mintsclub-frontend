@@ -1,11 +1,11 @@
-import { useState,FC } from "react";
+import { useState, FC } from "react";
 import { useHistory } from "react-router";
 import ImageLoader from "../ContentLoader/HeroLoader";
 import { connect } from "react-redux";
-import {HeroCardInt} from '../../interfaces/components'
-import "./HeroCards.css";
+import { HeroCardInt } from "../../interfaces/components";
+import "./HeroCards.scss";
 
-const HeroCards:FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
+const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
   const { image, totalBids, owner, _id, ownerAddress } = data;
   const [loader, setLoader] = useState<boolean>(true);
   const history = useHistory();
@@ -58,7 +58,7 @@ const HeroCards:FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
     </div>
   );
 };
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   connectedAddress: state.wallet.connectedAddress,
 });
 
