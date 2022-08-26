@@ -17,7 +17,6 @@ export const useGetPopularCollections=(onError:any,onSuccess:any,categoryId:stri
         const qs = ENV.objectToQueryString({
           myFilter: categoryId,
           ...limit&&{limit}
-          // limit: limit ? limit : false,
         });
         const result = await axios.get(`${ENV.url}collection/popular?${qs}`);
         return result;

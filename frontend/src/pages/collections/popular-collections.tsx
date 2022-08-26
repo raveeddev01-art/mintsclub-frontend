@@ -54,7 +54,6 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   /////get popular collections
 
   const onSuccessPopular = (data: any) => {
-    console.log(data,"data")
     calcualtePopularCollections(data.data?.data);
   };
 

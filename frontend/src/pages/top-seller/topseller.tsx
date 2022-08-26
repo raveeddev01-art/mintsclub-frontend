@@ -6,26 +6,20 @@ import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.css";
 import { Images } from "../../assets/assets";
-
-const TopSeller = (props:any) => {
+import { useGetTopSellers } from "../../hooks/TopSellers";
+const TopSeller = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
-  const [loader, setLoader] = useState<any>(true);
 
-  useEffect(() => {
-    props.getTopSellers();
-  }, []);
-
-  useEffect(() => {
-    if (props.user.topSellersAuth) {
-      const { topSellers } = props.user.sellers;
-      setLoader(false);
-      if (topSellers?.length > 11) {
-        setSellers(topSellers.slice(0, 11));
-      } else {
-        setSellers(topSellers);
-      }
+  const onSuccessTopSellers = (data: any) => {
+    const { topSellers } = data.data.data;
+    if (topSellers?.length > 11) {
+      setSellers(topSellers.slice(0, 11));
+    } else {
+      setSellers(topSellers);
     }
-  }, [props.user.topSellersAuth]);
+  };
+  const { isLoading } = useGetTopSellers(onSuccessTopSellers);
+
   return (
     <section className="top-seller-area padding-wrapper">
       <div className="container">
@@ -52,14 +46,14 @@ const TopSeller = (props:any) => {
           </div>
         </div>
         <div className="row g-3 items">
-          {loader ? (
+          {isLoading  ? (
             <div className="top-seller spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
           ) : sellers && sellers.length ? (
-            sellers.map((author:any, idx:any) => {
+            sellers.map((author: any, idx: any) => {
               return (
                 <div
                   key={`ts_${idx}`}
@@ -111,7 +105,7 @@ const TopSeller = (props:any) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   user: state.user,
 });
 
