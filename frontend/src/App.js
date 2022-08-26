@@ -10,8 +10,6 @@ import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
 import { beforeWallet, setWalletAddress } from "./pages/wallet/wallet.action";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = React.memo((props) => {
   useGaTracker();
@@ -55,7 +53,6 @@ const App = React.memo((props) => {
     props.beforeWallet();
     props.setWalletAddress(address);
   };
-const queryClient = new QueryClient();
 
 
   return (
@@ -83,7 +80,6 @@ const queryClient = new QueryClient();
         </div>
 
       </Suspense>
-      {/* <ReactQueryDevtools initialIsOpen={true} position="bottom-left"/> */}
     </React.Fragment>
   );
 });
