@@ -30,6 +30,7 @@ import {
 } from "../../../hooks/CollectionDetails";
 import {useGetCollections} from "../../../hooks/AllNFTs";
 
+
 const AllNFT: FC<ALLNFTINT> = (props) => {
   const [nftPagination, setNFTPagination] = useState<any>(null);
   const [nfts, setNFTs] = useState<any>([]); // NFTs for explore section
