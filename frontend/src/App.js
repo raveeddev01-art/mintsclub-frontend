@@ -54,8 +54,10 @@ const App = React.memo((props) => {
     props.setWalletAddress(address);
   };
 
+
   return (
     <React.Fragment>
+    
       <Suspense fallback={<FullPageLoader />}>
         <div>
           <Switch>
@@ -76,6 +78,7 @@ const App = React.memo((props) => {
             })}
           </Switch>
         </div>
+
       </Suspense>
     </React.Fragment>
   );

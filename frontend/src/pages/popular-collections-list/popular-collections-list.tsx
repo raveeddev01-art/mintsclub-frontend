@@ -16,6 +16,7 @@ import {
   useGetPopularCollections,
 } from "../../hooks/PopularCollections";
 
+
 const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [popular, setpopular] = useState([]);
   const [isActive, setIsActive] = useState("All");

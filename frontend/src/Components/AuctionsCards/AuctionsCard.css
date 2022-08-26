@@ -10,7 +10,7 @@
 }
 
 .card.auction-card.card-bg-gray {
-  background-color: #f7f7f7;
+  background-color: var(--card-auction-bg);
 }
 .auction-card.card .card-img-top {
   width: 100%;
@@ -73,10 +73,10 @@
 .auction-card .card-body .card-title {
   font-size: 12px;
   font-weight: 700;
-  color: #454545;
+  color: var(--pc-card-title-clr);
   margin-top: 15px;
   margin-bottom: 8px;
-  background: #ffffff;
+  background: var(--pc-card-title-bg);
   box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
   border-radius: 44px;
   padding: 7px 7px 7px 10px;
@@ -115,11 +115,11 @@
 .auction-card .auction-card-owner-container .auction-owner-name p {
   font-size: 11px;
   font-weight: normal;
-  color: #6a6a6a;
+  color: var(--nft-owner-name);
 }
 
 .auction-card .auction-card-owner-container .auction-owner-name p span {
-  color: #000000;
+  color: var(--nft-owner-name2);
   font-weight: bold;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .auction-card .card-body .auction-bit-btn {
-  background: #282828;
+  background: var(--nft-detail-btn);
   border: none;
   border-radius: 55px;
   width: 100%;

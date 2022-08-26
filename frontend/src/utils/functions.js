@@ -69,7 +69,7 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
   });
 };
 
-export const handleRequest = async (method, endpoint, data=null, qs=null) => {
+export const handleRequest = async (method, endpoint, data=null, qs) => {
   let url = ENV.url + endpoint;
   if (qs) url += `?${qs}`;
   return new Promise((resolve, reject) => {

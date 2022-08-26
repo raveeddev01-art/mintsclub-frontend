@@ -1,16 +1,16 @@
-import { useEffect, useState,FC } from "react";
+import { useEffect, useState, FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFooter, beforeFooter, subscribeUser } from "../Footer/footer.action";
+import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
 import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
 import "./Footer.css";
 import { toast } from "react-toastify";
 import { emptyError } from "../../redux/shared/error/error.action";
-import {footerInt} from "../../interfaces/components";
+import { footerInt } from "../../interfaces/components";
 
-const Footer:FC<footerInt> = (props) => {
+const Footer: FC<footerInt> = (props) => {
   const [email, setEmail] = useState<any>("");
   const [loader, setLoader] = useState<any>(false);
 
@@ -21,7 +21,6 @@ const Footer:FC<footerInt> = (props) => {
       props.beforeFooter();
     }
   }, [props.subscribeAuth]);
-
 
   useEffect(() => {
     if (props.error !== null) {
@@ -45,7 +44,7 @@ const Footer:FC<footerInt> = (props) => {
     }
   };
 
-  const validateEmail = (email:any) => {
+  const validateEmail = (email: any) => {
     return String(email)
       .toLowerCase()
       .match(
@@ -136,7 +135,10 @@ const Footer:FC<footerInt> = (props) => {
                       onClick={() => subscribe()}
                     >
                       {loader ? (
-                        <div className="spinner-border footer-loader" role="status">
+                        <div
+                          className="spinner-border footer-loader"
+                          role="status"
+                        >
                           <span className="sr-only">Loading...</span>
                         </div>
                       ) : (
@@ -189,7 +191,7 @@ const Footer:FC<footerInt> = (props) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   error: state.error,
   settings: state.settings,
   subscribeAuth: state.footer.subscribeAuth,

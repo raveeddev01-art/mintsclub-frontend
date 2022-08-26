@@ -8,7 +8,7 @@
 .nft-info-container .stats-content p {
   font-weight: 700;
   font-size: 12px;
-  color: #000000;
+  color: var(--text-body);
   margin-bottom: 0;
 }
 
@@ -21,14 +21,14 @@
 .nft-info-container .content-heading p {
   font-weight: 400;
   font-size: 12px;
-  color: #3e3e3e;
+  color: var(--text-body-two);
   margin-bottom: 0;
 }
 
 .nft-info-container .content-heading p span {
   font-weight: 700;
   font-size: 12px;
-  color: #000000;
+  color: var(--text-body);
 }
 
 .nft-info-container .levels-info-container .levels-content {

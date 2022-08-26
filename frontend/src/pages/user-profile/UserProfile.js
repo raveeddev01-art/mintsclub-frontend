@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
-import "./UserProfile.css";
+import "./UserProfile.scss";
 import { ENV } from "../../config/config";
 import {
   getProfileNfts,
@@ -13,12 +13,15 @@ import {
   beforeTogleLikeDislike,
 } from "../all-nfts/explore.action";
 import { getUserById, beforeUser } from "../../Components/User/user.action";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
 import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/profileBg.png";
+import BannerDark from "../../assets/images/bannerbg.png";
+import BannerLight from "../../assets/images/bannerbg2.png";
 import EthIcon from "../../assets/images/eth-icon.svg";
 import CopyIcon from "../../assets/images/copy-icon.svg";
 import Listing from "../../Components/Listing/Listing";
@@ -47,6 +50,7 @@ const UserProfile = (props) => {
   const [dataLimit, setDataLimit] = useState(10);
   const [menuFilter, setMenuFilter] = useState(false);
   const [accAddress, setAccountAddress] = useState(props.connectedAddress);
+  const { darkMode } = useContext(darkModeContext);
   const userId = ENV.getUserKeys("_id")._id;
   const history = useHistory();
   useEffect(() => {
@@ -92,7 +96,6 @@ const UserProfile = (props) => {
       ENV.getUserKeys("address")?.address?.toUpperCase() !==
         props.connectedAddress.toUpperCase()
     ) {
-     
       // toast.info("Please login with new connected Account user");
       localStorage.clear();
       history.push("/login");
@@ -299,8 +302,8 @@ const UserProfile = (props) => {
   const menuData = ["Collected", "Created", "Favourited"];
   if (
     props.connectedAddress === "" ||
-    (ENV.getUserKeys("address")?.address?.toUpperCase() ===
-      props.connectedAddress?.toUpperCase())
+    ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      props.connectedAddress?.toUpperCase()
   ) {
     return (
       <>
@@ -308,16 +311,17 @@ const UserProfile = (props) => {
           <Banner
             subHeading={bannerData.subHeading}
             heading={bannerData.heading}
-            bgImg={BannerBg}
+            bgImg={darkMode ? BannerDark : BannerLight}
+            userprofile={true}
             className="mb-0"
           />
-          <div className="collection-detail-content">
+          <div className="user-detail-content">
             <div className="container">
               <div className="row">
                 <div className="col-12">
                   <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
                     <div className="user-avatar-edit">
-                      <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3">
+                      <div className="ms-lg-5 user-owner-avatar user-avatar-container me-3">
                         <img
                           src={
                             user?.profileImage
@@ -331,9 +335,9 @@ const UserProfile = (props) => {
                         <img src={Images.editIconSmall} />
                       </Link>
                     </div>
-                    <div className="collection-owner-detail text-center text-sm-start mt-4">
+                    <div className="user-owner-detail text-center text-sm-start mt-4">
                       {user && (
-                        <div className="collection-owner-name">
+                        <div className="user-owner-name">
                           <h3>{user.username ? user.username : "unnamed"}</h3>
                         </div>
                       )}
@@ -384,7 +388,7 @@ const UserProfile = (props) => {
 
                         <div className="mt-2 mt-sm-0">
                           {user && (
-                            <p>
+                            <p className="join-date">
                               Joined:{" "}
                               <span>
                                 {moment(user.createdAt).format("MMMM DD YYYY")}
@@ -424,7 +428,7 @@ const UserProfile = (props) => {
     );
   } else {
     toast.info("Please login with new connected account");
-    localStorage.clear()
+    localStorage.clear();
     history.push("/login");
     return " ";
   }

@@ -2,19 +2,8 @@ import { useState, useEffect, FC } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import "./collectiondetails.css";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
-import {
-  getNFTsByCollection,
-  getNFTs,
-  beforeNFT,
-  getMyLikedNfts,
-} from "../../Components/Nfts/nfts.action";
 import { connect } from "react-redux";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { ENV } from "../../config/config";
-import {
-  toggleLikeDislike,
-  beforeTogleLikeDislike,
-} from "../all-nfts/explore.action";
 import { validateNetwork } from "../../utils/web3";
 import Listing from "../../Components/Listing/Listing";
 import { toast } from "react-toastify";
@@ -23,106 +12,59 @@ import BannerBg from "../../assets/images/profileBg.png";
 import { Images } from "../../assets/assets";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
+import {
+  useGetMyLikedNFTs,
+  useGetNFTs,
+  useLikeDislike,
+} from "../../hooks/CollectionDetails";
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
-  const [loader, setLoader] = useState(true);
   const [nfts, setNfts] = useState<any>(null);
   const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
   const [likedNfts, setLikedNfts] = useState<Array<any> | null>(null);
   const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
   const [nftPagination, setNFTPagination] = useState<object | null>(null);
-  const [initial, setInitial] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const location:any = useLocation();
+  const location: any = useLocation();
+  const [filter, setFilter] = useState<any>({collectionId:location.state.id});
   const history = useHistory();
 
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
 
-  useEffect(() => {
-    getNFTs(null);
-    let qs: any = { userId: ENV.getUserKeys("_id")._id };
-    qs = ENV.objectToQueryString(qs);
-    props.getMyLikedNfts(qs);
-  }, []);
-
-  useEffect(() => {
-    if (props.myLikedNftsStatus) {
-      setLikedNfts(props.myLikedNfts);
-    }
-  }, [props.myLikedNftsStatus]);
-
-  useEffect(() => {
-    if (props.nftsAuth) {
-      if (props?.nfts?.length > 0) {
-        setDisabled(false);
-      } else {
-        if (initial) {
-          setDisabled(true);
-        }
-      }
-      setNfts(props.nfts);
-      setNFTPagination(props.pagination);
-      setLoader(false);
-
-      setFilterationLoader(false);
-    }
-  }, [props.nftsAuth]);
-  useEffect(() => {
-    if (props.togleLikeRes) {
-      setLikeBtnDisable(false);
-      props.beforeTogleLikeDislike();
-    }
-  }, [props.togleLikeRes]);
-
-  const getNFTs = (filter: any) => {
-    props.beforeNFT();
-    let nftQS: any = {};
-    if (filter) {
-      const {
-        page,
-        limit,
-        categoryId,
-        collectionId,
-        oldest,
-        lowToHigh,
-        highToLow,
-        newest,
-        buy,
-        auction,
-        latest,
-        gtePrice,
-        ltePrice,
-        keyword,
-      } = filter;
-      nftQS.collectionId = location.state._id;
-      if (collectionId) nftQS.collectionId = collectionId;
-      if (gtePrice) nftQS.gtePrice = gtePrice;
-      if (ltePrice) nftQS.ltePrice = ltePrice;
-      if (categoryId) nftQS.categoryId = categoryId;
-      if (oldest) nftQS.oldest = oldest;
-      if (lowToHigh) nftQS.lowToHigh = lowToHigh;
-      if (highToLow) nftQS.highToLow = highToLow;
-      if (newest) nftQS.newest = newest;
-      if (keyword) nftQS.keyword = keyword;
-      if (buy) nftQS.buy = buy;
-      if (auction) nftQS.auction = auction;
-      if (latest) nftQS.latest = latest;
-      if (page) {
-        nftQS.page = page;
-      } else {
-        nftQS.page = 1;
-      }
-      if (limit) {
-        nftQS.limit = limit;
-      } else {
-        nftQS.limit = 10;
-      }
-    }
-    const qs = ENV.objectToQueryString(nftQS);
-    props.getNFTs(qs);
+  ////Get My liked NFTs
+  const onSuccessLikedNFTs = (data: any) => {
+    setLikedNfts(data.data.data);
   };
+  const {} = useGetMyLikedNFTs(
+    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
+    onSuccessLikedNFTs
+  );
+
+  //Get NFTs
+
+  const onSuccessNFTs = (data: any) => {
+    setFilterationLoader(false);
+    setNFTPagination(data.data.data.pagination);
+    setNfts(data.data.data.nfts);
+  };
+
+  const { isLoading: isLoadingNFTs } = useGetNFTs(
+    filter,
+    onSuccessNFTs,
+  );
+
+  const onSuccessLikeDislike = () => {
+    setLikeBtnDisable(false);
+  };
+
+  //Like/Dislike
+  const { mutate } =
+    useLikeDislike(onSuccessLikeDislike);
+
+
+
   ///////////Likes
   const handleLikesTogleApi = async (
     nftId: string,
@@ -146,7 +88,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
               setLikedNfts(result);
             }
             increOrDecreLikes(nftId, "dec");
-            props.toggleLikeDislike(body);
+            mutate(body);
           }
 
           if (status === "like") {
@@ -164,7 +106,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 
             setLikedNfts(myLikedNfts);
             increOrDecreLikes(nftId, "inc");
-            props.toggleLikeDislike(body);
+            mutate(body);
           }
           // setNFTs(nfts);
         }
@@ -203,7 +145,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   };
 
   const fetchData = (filterObj: object) => {
-    getNFTs(filterObj);
+    setFilter(filterObj);
   };
   const { name, logo, description, username }: any = location.state;
 
@@ -263,14 +205,13 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
             </div>
           </div>
         </div>
-        {loader && <FullPageLoader />}
         <Listing
           disabled={disabled}
           totalItems={nfts && nfts.length}
           filterationLoader={filterationLoader}
           setFilterationLoader={setFilterationLoader}
           nfts={nfts}
-          loader={loader}
+          loader={isLoadingNFTs}
           likedNfts={likedNfts}
           nftPagination={nftPagination}
           handleLikesTogleApi={handleLikesTogleApi}
@@ -286,23 +227,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 const mapStateToProps = (state: any) => ({
   nft: state.nft,
   user: state.user,
-  getAuth: state.collection.getAuth,
-  collections: state.collection.collections,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  nfts: state.nft.nftsData.nfts,
-  pagination: state.nft.nftsData.pagination,
-  nftsAuth: state.nft.nftsAuth,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  togleLikeRes: state.explore.togleLikeRes,
 });
 
-export default connect(mapStateToProps, {
-  getNFTsByCollection,
-  beforeNFT,
-  getNFTs,
-  getMyLikedNfts,
-  toggleLikeDislike,
-  beforeTogleLikeDislike,
-})(CollectionDetailsPage);
+export default connect(mapStateToProps, {})(CollectionDetailsPage);

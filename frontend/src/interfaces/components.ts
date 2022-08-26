@@ -1,20 +1,21 @@
 export interface AuctionCardInterface {
-    ownerName:string,
-    userId:string,
-    bidsProfile:any[],
-    item:any,
-    cardBg?:string,
-    key:number,
-    connectedAddress:string,
-    ownerId?:string,
-    index?:number
+  ownerName: string;
+  userId: string;
+  bidsProfile: any[];
+  item: any;
+  cardBg?: string;
+  key: number;
+  connectedAddress: string;
+  ownerId?: string;
+  index?: number;
 }
 export interface BannerInterface {
-    subHeading?:string,
-    heading?:string,
-    content?:string,
-    bgImg?:string,
-    bannerImg?:string,
+  subHeading?: string;
+  heading?: string;
+  content?: string;
+  bgImg?: string;
+  bannerImg?: string;
+  userprofile?: boolean;
 }
 export interface TableInterface {
   titles: any[];
@@ -36,13 +37,13 @@ export interface CardSliderInt {
   settings: any;
 }
 export interface NFTCardInt {
-    data:any,
-    owner:any,
-    likedNfts:any[]|null,
-    index:number,
-    path:string,
-    connectedAddress:string,
-    handleLikesTogleApi:(_id:string,status:string,likeCount:any)=>{}
+  data: any;
+  owner: any;
+  likedNfts: any[] | null;
+  index: number;
+  path: string;
+  connectedAddress: string;
+  handleLikesTogleApi: (_id: string, status: string, likeCount: any) => {};
 }
 export interface ApprovalModalInt {
   approvalStatus: string;
@@ -113,9 +114,9 @@ export interface StatsInt {
   stats: any[];
 }
 export interface AuctionAudioInt {
-    src:string,
-    onLoadCallback:()=>any,
-    loader:boolean
+  src: string;
+  onLoadCallback: () => any;
+  loader: boolean;
 }
 
 export interface CollectionCardInt {
@@ -144,35 +145,33 @@ export interface HeroCardInt {
   status: string;
 }
 export interface footerInt {
-    subscribeAuth:boolean,
-    error:any,
-    emptyError:()=>any,
-    beforeFooter:()=>any,
-    subscribeUser:(email:any)=>any,
-
+  subscribeAuth: boolean;
+  error: any;
+  emptyError: () => any;
+  beforeFooter: () => any;
+  subscribeUser: (email: any) => any;
 }
 
-
 export interface listingInt {
-    collections?:any[],
-    disabled?:boolean,
-    menuData?:any[]|undefined,
-    handleNftFilter?:(item?:any)=>any|undefined,
-    setMenuFilter?:(item:any)=>any|undefined,
-    filterationLoader:boolean,
-    setFilterationLoader:(item:any)=>any,
-    nfts:any[],
-    loader:boolean,
-    likedNfts:any[]|null,
-    nftPagination:any,
-    handleLikesTogleApi:(_id:string,status:string,likeCount:any)=>any,
-    fetchData:(filter:any)=>any,
-    path:string,
-    getPaginatedData?:()=>any,
-    UserProfile?:any|undefined,
-    initialKeyword?:any,
-    collectionDetail?:any,
-    totalItems?:any
+  collections?: any[];
+  disabled?: boolean;
+  menuData?: any[] | undefined;
+  handleNftFilter?: (item?: any) => any | undefined;
+  setMenuFilter?: (item: any) => any | undefined;
+  filterationLoader: boolean;
+  setFilterationLoader: (item: any) => any;
+  nfts: any[];
+  loader: boolean;
+  likedNfts: any[] | null;
+  nftPagination: any;
+  handleLikesTogleApi: (_id: string, status: string, likeCount: any) => any;
+  fetchData: (filter: any) => any;
+  path: string;
+  getPaginatedData?: () => any;
+  UserProfile?: any | undefined;
+  initialKeyword?: any;
+  collectionDetail?: any;
+  totalItems?: any;
 }
 
 

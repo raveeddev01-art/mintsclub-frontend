@@ -12,7 +12,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TimeAgo from "javascript-time-ago";
 import { AppContextProvider } from "./context/AppContextProvider";
 import en from "javascript-time-ago/locale/en.json";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import  { QueryClient, QueryClientProvider } from  "react-query";
+
+import { ReactQueryDevtools } from 'react-query/devtools';
+
 const queryClient = new QueryClient();
 TimeAgo.addDefaultLocale(en);
 
@@ -30,6 +33,8 @@ ReactDOM.render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <App />
+          {/* <h1>testing</h1> */}
+          <ReactQueryDevtools position="bottom-left" />
         </QueryClientProvider>
       </BrowserRouter>
     </AppContextProvider>

@@ -3382,7 +3382,19 @@ input[type="number"] {
   background-image: var(--home-bg);
   background-repeat: no-repeat;
   background-position: top;
+  background-size: 100%;
 }
 .bg-clr {
   background-color: var(--page-bg);
+  background-image: var(--otherpage-bg);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 100%;
+}
+hr {
+  color: var(--hr-clr) !important;
+  opacity: 1 !important;
+}
+.text {
+  color: var(--text-body);
 }
