@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import { connect } from "react-redux";
-import "./allnft.css";
+import "./allnft.scss";
 import {
   beforeNFT,
   getNFTs,
@@ -28,8 +28,7 @@ import {
   useGetNFTs,
   useLikeDislike,
 } from "../../../hooks/CollectionDetails";
-import {useGetCollections} from "../../../hooks/AllNFTs";
-
+import { useGetCollections } from "../../../hooks/AllNFTs";
 
 const AllNFT: FC<ALLNFTINT> = (props) => {
   const [nftPagination, setNFTPagination] = useState<any>(null);
@@ -57,9 +56,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       setFilter(searchQs);
       setFilterationLoader(true);
       window.history.replaceState(null, "");
-
-    } 
-
+    }
   }, []);
 
   ////Get My liked NFTs
@@ -93,11 +90,10 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   };
 
   //Get Collections
-  const onSuccessCollections=(data:any)=>{
+  const onSuccessCollections = (data: any) => {
     setCollections(data.data.data.collections);
-
-  }
-  const{isLoading}=useGetCollections(onSuccessCollections)
+  };
+  const { isLoading } = useGetCollections(onSuccessCollections);
 
   const handleLikesTogleApi = async (
     nftId: string,

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-  formatBytes
+  formatBytes,
 } from "../../utils/functions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +24,7 @@ import {
 } from "../../Components/Nfts/nfts.action";
 import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
-import "./createNft.css";
+import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
 import PropertiesModal from "../../Components/Modals/PropertiesModal/PropertiesModal";
 import LevelsModal from "../../Components/Modals/LevelsModal/LevelsModal";
@@ -120,7 +120,7 @@ class CreateNFT extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // const videoElement = this.myRef;
-    const { connectedAddress, collection,error } = this.props;
+    const { connectedAddress, collection, error } = this.props;
 
     if (
       prevProps.connectedAddress !== "" &&
@@ -137,7 +137,7 @@ class CreateNFT extends Component {
         ? this.myRef?.current?.play()
         : this.myRef?.current?.pause();
     }
-    if (!prevProps.error&&error) {
+    if (!prevProps.error && error) {
       this.setState({ loader: false }, () => {
         this.props.emptyError();
       });

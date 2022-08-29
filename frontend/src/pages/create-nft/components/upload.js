@@ -2,7 +2,7 @@ import VideoComponent from "../../videoComponent/videoComponent";
 import UploadIcon from "../../../assets/images/uploadIcon.png";
 import { MdClose } from "react-icons/md";
 import AudioPlayer from "../../audioPlayer/AudioPlayer";
-import "./upload.css";
+import "./upload.scss";
 const videoStyles = {
   width: "100%",
   height: "100%",

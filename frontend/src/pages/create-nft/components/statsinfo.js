@@ -1,5 +1,5 @@
 import React from "react";
-import "./nftinfo.css";
+import "./nftinfo.scss";
 
 const StatsInfo = ({ name, value }) => {
   const filled = () => {

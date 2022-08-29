@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { ENV } from "../../config/config";
 import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
-import "./topseller.css";
+import "./topseller.scss";
 import NavbarMain from "../../Components/NavbarMain/NavbarMain";
 import Footer from "../../Components/Footer/Footer";
 import Breadcrumb from "../../Components/Breadcrumb/Breadcrumb";
 import { Images } from "../../assets/assets";
 
-const TopSellerList = (props:any) => {
+const TopSellerList = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
   const [limit, setLimit] = useState<any>(10);
   const [pagination, setPagination] = useState<any>(null);
@@ -36,7 +36,7 @@ const TopSellerList = (props:any) => {
   }, [props.user.topSellersAuth]);
 
   const handlePagination = () => {
-    let qs:any = { limit: limit + 10, page: 1 };
+    let qs: any = { limit: limit + 10, page: 1 };
     qs = ENV.objectToQueryString(qs);
     props.getTopSellers(qs);
   };
@@ -59,7 +59,7 @@ const TopSellerList = (props:any) => {
           </div>
           <div className="row items">
             {sellers && sellers.length ? (
-              sellers.map((author:any, idx:any) => {
+              sellers.map((author: any, idx: any) => {
                 return (
                   <div
                     key={`ts_${idx}`}
@@ -130,11 +130,11 @@ const TopSellerList = (props:any) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   user: state.user,
 });
 
 export default connect(mapStateToProps, { beforeUser, getTopSellers })(
-  TopSellerList,
+  TopSellerList
   // beforeUser
 );

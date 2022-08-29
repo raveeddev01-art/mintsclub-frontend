@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { connectMetamaskCopy, signRequest } from "../../utils/web3";
 import { toast } from "react-toastify";
 import { signup } from "../../Components/User/user.action";
-import "./signup.css";
+import "./signup.scss";
 
 const SignUp = (props) => {
   const [checkBox, setCheckBox] = useState(false);
