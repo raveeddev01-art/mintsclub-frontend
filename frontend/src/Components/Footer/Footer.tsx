@@ -5,7 +5,7 @@ import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
 import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
-import "./Footer.css";
+import "./Footer.scss";
 import { toast } from "react-toastify";
 import { emptyError } from "../../redux/shared/error/error.action";
 import { footerInt } from "../../interfaces/components";

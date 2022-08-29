@@ -1,7 +1,7 @@
-import { useEffect, useState,FC } from "react";
+import { useEffect, useState, FC } from "react";
 import { Link } from "react-router-dom";
 import { connectMetamaskCopy } from "../../utils/web3";
-import "./Hero.css";
+import "./Hero.scss";
 import Play from "../../assets/images/play.svg";
 import CardSlider from "../CardSlider/CardSlider";
 import HeroCards from "../HeroCards/HeroCards";
@@ -13,19 +13,18 @@ import {
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
-const Hero:FC< HeroInt>= (props) => {
+const Hero: FC<HeroInt> = (props) => {
   const [connectedAddress, setConnectedAddress] = useState<any>("");
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;
 
-  useEffect( () => {
-    const setAddress=async ()=>{
-
+  useEffect(() => {
+    const setAddress = async () => {
       let connectedAddress = await connectMetamaskCopy();
       setConnectedAddress(connectedAddress);
-    }
-    setAddress()
+    };
+    setAddress();
   }, []);
 
   useEffect(() => {
@@ -42,7 +41,9 @@ const Hero:FC< HeroInt>= (props) => {
       if (auctions && auctions.length > 1) {
         props.beforeAuction();
         setStatus("auctions");
-        updatedAuctions = auctions.filter((item:any) => item.fileType === "image");
+        updatedAuctions = auctions.filter(
+          (item: any) => item.fileType === "image"
+        );
         if (updatedAuctions?.length > 6) {
           updatedAuctions = updatedAuctions.slice(0, 6);
         }
@@ -88,7 +89,7 @@ const Hero:FC< HeroInt>= (props) => {
             <CardSlider settings={heroSettings}>
               {data &&
                 data.length > 0 &&
-                data.map((auction:any, id:any) => {
+                data.map((auction: any, id: any) => {
                   return (
                     <HeroCards
                       key={id}
@@ -106,7 +107,7 @@ const Hero:FC< HeroInt>= (props) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   auction: state.auction,
   nft: state.nft,
 });

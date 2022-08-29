@@ -1,7 +1,7 @@
-import React from "react";
-import "./nftinfo.css";
-
-const PropertiesInfo = ({ name, type }) => {
+import React ,{FC} from "react";
+import "./nftinfo.scss";
+import { PropertiesInfoInterface } from "../../../interfaces/components";
+const PropertiesInfo:FC<PropertiesInfoInterface>  = ({ name, type }) => {
   return (
     <>
       <div className="nft-propinfo-container mx-1">

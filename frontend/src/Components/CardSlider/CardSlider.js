@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
-import "./CardSlider.css";
+import "./CardSlider.scss";
 
 export default class CardSlider extends Component {
   constructor(props) {

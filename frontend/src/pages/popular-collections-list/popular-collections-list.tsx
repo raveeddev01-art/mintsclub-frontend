@@ -16,6 +16,7 @@ import {
   useGetPopularCollections,
 } from "../../hooks/PopularCollections";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import "./popular-collections-list.scss";
 
 const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [popular, setpopular] = useState([]);
@@ -169,10 +170,10 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
       ) : (
         <>
           {" "}
-          <section className="explore-collection-section padding-wrapper">
+          <section className="popular-collection-section padding-wrapper">
             <div className="container">
               <div className="row mb-5">
-                <div className="col-12 explore-collection-nav">
+                <div className="col-12 popular-collection-nav">
                   <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                     {categoryId === "all" &&
                     popular &&
@@ -191,7 +192,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                               key={index}
                               className={`${
                                 item.name === isActive
-                                  ? "active-explore-nav"
+                                  ? "active-popular-nav"
                                   : ""
                               } me-2 me-xl-3`}
                             >
@@ -218,7 +219,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                                 }}
                                 className={
                                   isActive === item.name
-                                    ? "active-explore-nav"
+                                    ? "active-popular-nav"
                                     : ""
                                 }
                               >

@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
-import "./topseller.css";
+import "./topseller.scss";
 import { Images } from "../../assets/assets";
 import { useGetTopSellers } from "../../hooks/TopSellers";
+
 const TopSeller = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
 

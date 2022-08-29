@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import { connect } from "react-redux";
-import "./allnft.css";
+import "./allnft.scss";
 import {
   beforeNFT,
   getNFTs,
@@ -26,10 +26,9 @@ import { ALLNFTINT } from "../../../interfaces/allnfts/interface";
 import {
   useGetMyLikedNFTs,
   useGetNFTs,
-  useLikeDislike,
 } from "../../../hooks/CollectionDetails";
-import {useGetCollections} from "../../../hooks/AllNFTs";
-
+import {useInsertData} from "../../../hooks/Common"
+import { useGetCollections } from "../../../hooks/AllNFTs";
 
 const AllNFT: FC<ALLNFTINT> = (props) => {
   const [nftPagination, setNFTPagination] = useState<any>(null);
@@ -57,9 +56,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       setFilter(searchQs);
       setFilterationLoader(true);
       window.history.replaceState(null, "");
-
-    } 
-
+    }
   }, []);
 
   ////Get My liked NFTs
@@ -86,18 +83,17 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   };
 
   //Like/Dislike
-  const { mutate } = useLikeDislike(onSuccessLikeDislike);
+  const { mutate } = useInsertData("nftLikes/likeDislike",onSuccessLikeDislike);
   const fetchData = (filterObj: object | null) => {
     setFilter(filterObj);
     // getNFTs(filterObj);
   };
 
   //Get Collections
-  const onSuccessCollections=(data:any)=>{
+  const onSuccessCollections = (data: any) => {
     setCollections(data.data.data.collections);
-
-  }
-  const{isLoading}=useGetCollections(onSuccessCollections)
+  };
+  const { isLoading } = useGetCollections(onSuccessCollections,nfts?true:false);
 
   const handleLikesTogleApi = async (
     nftId: string,

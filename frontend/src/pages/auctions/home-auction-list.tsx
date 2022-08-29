@@ -9,17 +9,18 @@ import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectio
 import { AuctionsListInt } from "../../interfaces/auctions-list/interface";
 import { useGetCategories } from "../../hooks/PopularCollections";
 import { useGetLiveAuctions } from "../../hooks/HomeAuctions";
+import "./home-auction-list.scss";
 
 const AuctionsList: FC<AuctionsListInt> = () => {
   const [isActive, setIsActive] = useState(0);
   const [auctions, setAuctions] = useState<Array<object> | null>(null);
   const [categories, setCategories] = useState<Array<object> | null>(null);
   const [categoryId, setCategoryId] = useState("all");
-  const [pagination,setPagination]=useState<any>(null)
+  const [pagination, setPagination] = useState<any>(null);
 
   const onSuccessLiveAuctions = (data: any) => {
     setAuctions(data.data.data.auctions);
-    setPagination(data.data.data.pagination)
+    setPagination(data.data.data.pagination);
   };
   const { isLoading: isLoadingLiveAuctions } = useGetLiveAuctions(
     categoryId,
@@ -35,11 +36,8 @@ const AuctionsList: FC<AuctionsListInt> = () => {
     onSuccessCategories
   );
 
-
-
   const handleCategoryFilter = (desc: string) => {
     setCategoryId(desc);
- 
   };
   const bannerData = {
     subHeading: "Auctions",
@@ -57,12 +55,11 @@ const AuctionsList: FC<AuctionsListInt> = () => {
         bannerImg={BannerImage}
       />
 
-      <section className="explore-collection-section home-auction-list padding-wrapper">
+      <section className="auction-collection-section home-auction-list padding-wrapper">
         {
-
           <div className="container">
             <div className="row mb-5">
-              <div className="col-12 explore-collection-nav">
+              <div className="col-12 auction-collection-nav">
                 <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                   {categoryId === "all" &&
                   (!auctions || (auctions && auctions?.length <= 1)) &&
@@ -79,7 +76,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
                             }}
                             key={id}
                             className={`${
-                              id === isActive ? "active-explore-nav" : ""
+                              id === isActive ? "active-auction-nav" : ""
                             } me-2 me-xl-3`}
                           >
                             {item.name}
@@ -103,7 +100,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
                                 handleCategoryFilter(item.description);
                               }}
                               className={`${
-                                id === isActive ? "active-explore-nav" : ""
+                                id === isActive ? "active-auction-nav" : ""
                               } me-2 me-xl-3`}
                             >
                               {item.name}
@@ -115,7 +112,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
               </div>
             </div>
             <div className="row g-3 align-items-center justify-content-center">
-              {isLoadingLiveAuctions||isLoadingCategories ? (
+              {isLoadingLiveAuctions || isLoadingCategories ? (
                 <div className="spinner-border" role="status"></div>
               ) : auctions && auctions.length > 0 ? (
                 auctions.map((item: any, index: number) => {
@@ -156,9 +153,5 @@ const AuctionsList: FC<AuctionsListInt> = () => {
   );
 };
 
-const mapStateToProps = () => ({
- 
-});
-export default connect(mapStateToProps, {
-
-})(AuctionsList);
+const mapStateToProps = () => ({});
+export default connect(mapStateToProps, {})(AuctionsList);

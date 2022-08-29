@@ -1,15 +1,14 @@
 import { handleRequest } from "../utils/functions";
 import { ENV } from "../config/config";
 import { useLocation } from "react-router-dom";
-import  { useQuery, useMutation } from "react-query";
+import  { useQuery } from "react-query";
 
-export const useGetMyLikedNFTs=(qs:any,onSuccess:any)=>{
+export const useGetMyLikedNFTs=(qs:any,onSuccess:any,enabled?:any)=>{
 
-    return useQuery(['myLikedNFTs'],()=>handleRequest("get", "nftLikes/userNftLikes",null,qs),{onSuccess,staleTime:0})
+    return useQuery(['myLikedNFTs'],()=>handleRequest("get", "nftLikes/userNftLikes",null,qs),{onSuccess,staleTime:0,enabled})
 }
 
 export const useGetNFTs=(filter:any,onSuccess:any)=>{
-
 
     const location: any = useLocation();
 
@@ -60,7 +59,3 @@ export const useGetNFTs=(filter:any,onSuccess:any)=>{
 }
 
 
-export const useLikeDislike=(onSuccess:any)=>{
-
-return useMutation((body:any)=>handleRequest("post", "nftLikes/likeDislike",body,null),{onSuccess})
-}

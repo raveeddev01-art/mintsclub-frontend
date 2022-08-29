@@ -1,4 +1,4 @@
-import "./OwnCollectionToday.css";
+import "./OwnCollectionToday.scss";
 import { Images } from "../../assets/assets";
 
 const OwnCollectionToday = () => {

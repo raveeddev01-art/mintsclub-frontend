@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import "./collectiondetails.css";
+import "./collectiondetails.scss";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -15,8 +15,9 @@ import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface
 import {
   useGetMyLikedNFTs,
   useGetNFTs,
-  useLikeDislike,
 } from "../../hooks/CollectionDetails";
+import {useInsertData} from "../../hooks/Common"
+
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nfts, setNfts] = useState<any>(null);
@@ -26,7 +27,9 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nftPagination, setNFTPagination] = useState<object | null>(null);
   const [disabled, setDisabled] = useState(false);
   const location: any = useLocation();
-  const [filter, setFilter] = useState<any>({collectionId:location.state.id});
+  const [filter, setFilter] = useState<any>({
+    collectionId: location.state.id,
+  });
   const history = useHistory();
 
   useEffect(() => {
@@ -39,7 +42,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   };
   const {} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
-    onSuccessLikedNFTs
+    onSuccessLikedNFTs,
+    nfts
   );
 
   //Get NFTs
@@ -50,20 +54,14 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     setNfts(data.data.data.nfts);
   };
 
-  const { isLoading: isLoadingNFTs } = useGetNFTs(
-    filter,
-    onSuccessNFTs,
-  );
+  const { isLoading: isLoadingNFTs } = useGetNFTs(filter, onSuccessNFTs);
 
   const onSuccessLikeDislike = () => {
     setLikeBtnDisable(false);
   };
 
   //Like/Dislike
-  const { mutate } =
-    useLikeDislike(onSuccessLikeDislike);
-
-
+  const { mutate } = useInsertData("nftLikes/likeDislike",onSuccessLikeDislike);
 
   ///////////Likes
   const handleLikesTogleApi = async (

@@ -1,7 +1,8 @@
-import React from "react";
-import "./nftinfo.css";
+import React,{FC} from "react";
+import "./nftinfo.scss";
+import { LevelsInfoInterface } from "../../../interfaces/components";
 
-const StatsInfo = ({ name, value }) => {
+const LevelsInfo:FC<LevelsInfoInterface> = ({ name, value,i }) => {
   const filled = () => {
     let filledArray = [];
     for (let i = 1; i <= value; i++) {
@@ -19,10 +20,10 @@ const StatsInfo = ({ name, value }) => {
   };
   return (
     <>
-      <div className="nft-info-container mx-1 mt-3">
+      <div className="nft-info-container mx-1 mt-3" key={i}>
         <div className="content-heading  d-flex align-items-center justify-content-between">
           <p>
-            <span>Stat Name: </span>
+            <span>Level Name: </span>
             {name.length > 8 ? name.slice(0, 8) + "..." : name}
           </p>
           <div className="stats-content">
@@ -39,4 +40,4 @@ const StatsInfo = ({ name, value }) => {
     </>
   );
 };
-export default StatsInfo;
+export default LevelsInfo;

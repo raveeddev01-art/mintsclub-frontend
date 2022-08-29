@@ -1,8 +1,8 @@
-import { useState,FC } from "react";
+import { useState, FC } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../../assets/images/modal-close.svg";
-import "./BuyModal.css";
+import "./BuyModal.scss";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TickIcon from "../../../assets/images/tick-checkbox.svg";
 import { ReactComponent as FbIcon } from "../../../assets/images/fb-blue.svg";
@@ -13,7 +13,7 @@ import { ReactComponent as VideoIcon } from "../../../assets/images/buy-video-ic
 import { ReactComponent as AudioIcon } from "../../../assets/images/audio-icon.svg";
 import ModalSmiley from "../../../assets/images/model-smiley.svg";
 import { Buy } from "../../../interfaces/components";
-const BuyModal:FC<Buy> = (props) => {
+const BuyModal: FC<Buy> = (props) => {
   const [purchase, setPurchase] = useState<any>(true);
   const [checkBox, setCheckBox] = useState<any>(false);
   const {
@@ -168,7 +168,9 @@ const BuyModal:FC<Buy> = (props) => {
             )}
             <p>
               By checking this box, I agree to MintsClub{" "}
-              <Link to="/termsandconditions" target="_blank">Terms of Services</Link>
+              <Link to="/termsandconditions" target="_blank">
+                Terms of Services
+              </Link>
             </p>
           </div>
         </div>
@@ -359,11 +361,26 @@ const BuyModal:FC<Buy> = (props) => {
           <p>Share</p>
         </div>
         <div className="social-icons d-flex justify-content-center justify-content-lg-start">
-
-          <FbIcon className="social-icon" onClick={()=>window.open("https://www.facebook.com/MintsClub.io/")} />
-          <TwitterIcon  className="social-icon"   onClick={()=>window.open("https://twitter.com/MintsClub")}/>
-          <LinkedinIcon  className="social-icon"   onClick={()=>window.open("https://www.linkedin.com/showcase/mints-club")}/>
-          <InstaIcon  className="social-icon"   onClick={()=>window.open("https://www.instagram.com/mintsclub/")}/>
+          <FbIcon
+            className="social-icon"
+            onClick={() =>
+              window.open("https://www.facebook.com/MintsClub.io/")
+            }
+          />
+          <TwitterIcon
+            className="social-icon"
+            onClick={() => window.open("https://twitter.com/MintsClub")}
+          />
+          <LinkedinIcon
+            className="social-icon"
+            onClick={() =>
+              window.open("https://www.linkedin.com/showcase/mints-club")
+            }
+          />
+          <InstaIcon
+            className="social-icon"
+            onClick={() => window.open("https://www.instagram.com/mintsclub/")}
+          />
         </div>
       </Modal.Footer>
     </Modal>

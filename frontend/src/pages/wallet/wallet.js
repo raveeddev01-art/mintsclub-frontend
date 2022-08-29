@@ -17,7 +17,7 @@ import {
 import { login, signup } from "../../Components/User/user.action";
 // import {setWalletAddress} from "../../redux/shared/shared/shared.action"
 import { Images } from "../../assets/assets";
-import "./wallet.css";
+import "./wallet.scss";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import { getWalletAddress, validateNetwork } from "../../utils/web3";
