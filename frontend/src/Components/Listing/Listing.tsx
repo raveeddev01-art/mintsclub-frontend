@@ -1,5 +1,5 @@
 import { useState, useEffect, FC } from "react";
-import "./Listing.css";
+import "./Listing.scss";
 import { ReactComponent as SearchIcon } from "../../assets/images/searchicon.svg";
 import NftCard from "../NftCard/NftCard";
 import FullPageLoader from "../FullPageLoader/FullPageLoader";

@@ -1,15 +1,15 @@
-import {FC} from "react";
+import { FC } from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
-import "../PropertiesModal/PropertiesModal.css";
+import "../PropertiesModal/PropertiesModal.scss";
 import { toast } from "react-toastify";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
 } from "../../../utils/functions";
 import { Levels } from "../../../interfaces/components";
-const LevelsModal:FC<Levels> = (props) => {
+const LevelsModal: FC<Levels> = (props) => {
   const {
     show,
     onHide,
@@ -23,7 +23,7 @@ const LevelsModal:FC<Levels> = (props) => {
   const handleSubmit = () => {
     if (levels && levels.length > 0) {
       let isEmpty = levels.filter(
-        (item:any) => item.name === "" || item.value === ""
+        (item: any) => item.name === "" || item.value === ""
       );
       if (isEmpty.length > 0) {
         toast.error("Please Fill Empty Fields ");
@@ -56,7 +56,7 @@ const LevelsModal:FC<Levels> = (props) => {
         <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
           {levels &&
             levels.length > 0 &&
-            levels.map((item:any, i:number) => {
+            levels.map((item: any, i: number) => {
               return (
                 <div
                   className="row g-2 align-items-center justify-content-between  mt-3"
@@ -97,7 +97,8 @@ const LevelsModal:FC<Levels> = (props) => {
                             onChange={(e) => {
                               if (
                                 +e.target.value > 5 ||
-                                (+e.target.value <= 0 && item.value == "") ||e.target.value.includes(".")
+                                (+e.target.value <= 0 && item.value == "") ||
+                                e.target.value.includes(".")
                               ) {
                                 return "";
                               }

@@ -1,13 +1,13 @@
-import React, { useState, useEffect,FC } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../../assets/images/modal-close.svg";
-import "../BuyModal/BuyModal.css"
+import "../BuyModal/BuyModal.scss";
 import TickIcon from "../../assets/images/tick-checkbox.svg";
 import axios from "axios";
 import { BidModalInt } from "../../../interfaces/components";
 
-const BidModal:FC<BidModalInt> = (props) => {
+const BidModal: FC<BidModalInt> = (props) => {
   const [checkBox, setCheckBox] = useState<any>(false);
   const [exchangeRate, setExchangeRate] = useState<any>(0);
   useEffect(() => {
@@ -30,7 +30,7 @@ const BidModal:FC<BidModalInt> = (props) => {
     price,
     show,
   } = props;
-  
+
   return (
     <Modal
       {...props}

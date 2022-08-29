@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./user-edit-profile.css";
+import "./user-edit-profile.scss";
 /////////
 import { connect } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";

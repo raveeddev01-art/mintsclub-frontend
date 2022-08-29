@@ -12,7 +12,7 @@ import SwiperCore, {
   Virtual,
 } from "swiper/core";
 import "swiper/swiper-bundle.css";
-import "./auction.css";
+import "./auction.scss";
 //CardSliders
 import CardSlider from "../../Components/CardSlider/CardSlider";
 import AuctionsCards from "../../Components/AuctionsCards/AuctionsCards";
@@ -160,7 +160,9 @@ const AuctionsOne: FC<HomeAuction> = () => {
 
         <div className="auctions-slides">
           <>
-            {filterationLoader || isLoadingLiveAuctions||isLoadingCategories ? (
+            {filterationLoader ||
+            isLoadingLiveAuctions ||
+            isLoadingCategories ? (
               <div className="spinner-loader-wrapper">
                 <div className="spinner-border text-secondary" role="status">
                   <span className="sr-only">Loading...</span>

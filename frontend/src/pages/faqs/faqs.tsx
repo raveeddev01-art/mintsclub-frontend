@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import "./faqs.css";
+import "./faqs.scss";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import { Accordion, Card } from "react-bootstrap";
-import { faqsBanner,faqsData } from "../../utils/exportData";
+import { faqsBanner, faqsData } from "../../utils/exportData";
 
 const Faqs = () => {
   useEffect(() => {

@@ -1,6 +1,6 @@
-import "./VideoComponent.css";
+import "./VideoComponent.scss";
 
-const VideoComponent = ({ videoUrl, videoStyles, videoWidth }:any) => {
+const VideoComponent = ({ videoUrl, videoStyles, videoWidth }: any) => {
   return (
     <>
       {videoUrl && (

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./index.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
@@ -12,9 +12,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TimeAgo from "javascript-time-ago";
 import { AppContextProvider } from "./context/AppContextProvider";
 import en from "javascript-time-ago/locale/en.json";
-import  { QueryClient, QueryClientProvider } from  "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 TimeAgo.addDefaultLocale(en);

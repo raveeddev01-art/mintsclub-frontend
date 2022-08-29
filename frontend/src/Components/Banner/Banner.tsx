@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { BannerInterface } from "../../interfaces/components";
-import "./Banner.css";
+import "./Banner.scss";
 
 const Banner: FC<BannerInterface> = ({
   subHeading,

@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
-import "./topseller.css";
+import "./topseller.scss";
 import { Images } from "../../assets/assets";
 
-const TopSeller = (props:any) => {
+const TopSeller = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
   const [loader, setLoader] = useState<any>(true);
 
@@ -59,7 +59,7 @@ const TopSeller = (props:any) => {
               </div>
             </div>
           ) : sellers && sellers.length ? (
-            sellers.map((author:any, idx:any) => {
+            sellers.map((author: any, idx: any) => {
               return (
                 <div
                   key={`ts_${idx}`}
@@ -111,7 +111,7 @@ const TopSeller = (props:any) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   user: state.user,
 });
 

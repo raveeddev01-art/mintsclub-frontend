@@ -5,7 +5,7 @@ import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg"
 import { ReactComponent as SearchIcon } from "../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ENV } from "../../config/config";
-import "./NavbarMain.css";
+import "./NavbarMain.scss";
 import { connect } from "react-redux";
 import DarkModeButton from "../DarkModeButton/DarkModeButton";
 import { beforeCollection } from "../../pages/collections/collections.actions";

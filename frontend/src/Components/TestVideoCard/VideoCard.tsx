@@ -1,15 +1,15 @@
-import React, { useRef , FC} from "react";
+import React, { useRef, FC } from "react";
 import { useHistory } from "react-router";
 import { Card } from "react-bootstrap";
 import HeartIcon from "../../assets/images/unlike-icon.svg";
 import { AiFillHeart } from "react-icons/ai";
-import "./VideoCard.css";
+import "./VideoCard.scss";
 import useVideoPlayer from "./Components/UseVideoPlayer";
 import { ENV } from "../../config/config";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import {VideoCardInterface} from '../../interfaces/components';
+import { VideoCardInterface } from "../../interfaces/components";
 
-const VideoCard:FC<VideoCardInterface> = ({
+const VideoCard: FC<VideoCardInterface> = ({
   CardImg,
   handleLikesTogleApi,
   id,
@@ -34,7 +34,7 @@ const VideoCard:FC<VideoCardInterface> = ({
 
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
-      let result = likedNfts.find((item: { nftId: any; }) => item.nftId == id);
+      let result = likedNfts.find((item: { nftId: any }) => item.nftId == id);
       if (result) {
         return true;
       } else {
@@ -63,19 +63,14 @@ const VideoCard:FC<VideoCardInterface> = ({
     }
   };
   const videoElement = useRef(null);
-  const { playerState, togglePlay,  } =
-    useVideoPlayer(videoElement);
+  const { playerState, togglePlay } = useVideoPlayer(videoElement);
 
   return (
     <Card className="auction-card listing-card">
       <div className="auction-img-wrapper">
         <div className="card-img-top">
           <div className="video-wrapper">
-            <video
-              src={CardImg}
-              ref={videoElement}
-            
-            />
+            <video src={CardImg} ref={videoElement} />
             <div className="controls">
               <div className="actions">
                 <button

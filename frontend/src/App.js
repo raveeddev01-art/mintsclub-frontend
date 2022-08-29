@@ -5,7 +5,7 @@ import { Switch } from "react-router-dom";
 import FullPageLoader from "./Components/FullPageLoader/FullPageLoader";
 import tawkTo from "tawkto-react";
 import { ENV } from "./config/config";
-import "./App.css";
+import "./App.scss";
 import { toast } from "react-toastify";
 import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
@@ -54,10 +54,8 @@ const App = React.memo((props) => {
     props.setWalletAddress(address);
   };
 
-
   return (
     <React.Fragment>
-    
       <Suspense fallback={<FullPageLoader />}>
         <div>
           <Switch>
@@ -78,7 +76,6 @@ const App = React.memo((props) => {
             })}
           </Switch>
         </div>
-
       </Suspense>
     </React.Fragment>
   );

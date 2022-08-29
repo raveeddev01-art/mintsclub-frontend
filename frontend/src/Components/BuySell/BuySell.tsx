@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Images } from "../../assets/assets";
-import "./BuySell.css";
+import "./BuySell.scss";
 
 const Buysell = () => {
   return (
@@ -52,4 +52,3 @@ const Buysell = () => {
 };
 
 export default Buysell;
-

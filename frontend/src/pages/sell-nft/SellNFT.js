@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./SellNFT.css";
+import "./SellNFT.scss";
 import { ENV } from "../../config/config";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import "bootstrap-daterangepicker/daterangepicker.css";

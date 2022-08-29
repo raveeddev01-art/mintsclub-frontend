@@ -1,7 +1,7 @@
 import React from "react";
-import "./nftinfo.css";
+import "./nftinfo.scss";
 
-const LevelsInfo = ({ name, value,i }) => {
+const LevelsInfo = ({ name, value, i }) => {
   const filled = () => {
     let filledArray = [];
     for (let i = 1; i <= value; i++) {
