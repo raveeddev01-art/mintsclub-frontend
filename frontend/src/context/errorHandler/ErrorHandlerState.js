@@ -12,7 +12,7 @@ export default function ErrorHandlerState({ children }) {
     }
   }, [error]);
   return (
-    <ErrorHandlerContext.Provider value={setError}>
+    <ErrorHandlerContext.Provider value={{setError,error}}>
       {children}
     </ErrorHandlerContext.Provider>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect,FC } from "react";
+import { useState, useEffect, FC, useContext } from "react";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -15,7 +15,7 @@ import {
   useGetCategories,
   useGetPopularCollections,
 } from "../../hooks/PopularCollections";
-
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [popular, setpopular] = useState([]);
@@ -27,7 +27,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
   const [pagination, setPagination] = useState<any>(null);
-
+  const { error,setError } = useContext(errorHandler);
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -36,7 +36,9 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
     calcualtePopularCollections(data.data?.data);
   };
 
-  const onErrorPopular = (error: any) => {};
+  const onErrorPopular = (error: any) => {
+    setError(error)
+  };
 
   const {
     isFetching: isFetchingPopular,
