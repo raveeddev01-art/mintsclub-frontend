@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-  formatBytes
+  formatBytes,
 } from "../../utils/functions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,15 +45,60 @@ import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 const placeholderImg = "";
 
-class CreateNFT extends React.Component<{beforeCollection:()=>any,myCollections:(func:any)=>any,history:any,emptyError:()=>any,beforeNFT:()=>any,
-  addNFTRecord:(payload:any)=>any},
-{isSubmitted:boolean,formValid:boolean,loader: boolean, errors: any,
-  nft:{userId:string,ownerId:string,creatorId: string,properties:any,levels:any,stats: any,image: string,name: string,description:string,copies: any,collectionId: string, ownerAddress: any,
-  categoryId:string,status:number,},properties:any,levels:any,stats:any, imageURL:string,videoURL:string,collections:any,allcollections:any,error:boolean,errorMessage:string,audioUrl:string,propertiesmodalShow:boolean,levelsmodalShow:boolean,statsmodalShow:boolean,
-selectedCollection:any,playerState:any} > {
+class CreateNFT extends React.Component<
+  {
+    beforeCollection: () => any;
+    myCollections: (func: any) => any;
+    history: any;
+    emptyError: () => any;
+    beforeNFT: () => any;
+    addNFTRecord: (payload: any) => any;
+    connectedAddress:string,
+    collection:any,
+    error:any,
+    createNFTauth:any,
+  },
+  {
+    isSubmitted: boolean;
+    formValid: boolean;
+    loader: boolean;
+    errors: any;
+    nft: {
+      userId?: string;
+      ownerId?: string;
+      creatorId?: string;
+      properties?: any;
+      levels?: any;
+      stats?: any;
+      image?: string;
+      name: string;
+      description: string;
+      copies?: any;
+      collectionId?: string;
+      ownerAddress?: any;
+      categoryId?: string;
+      status?: number;
+    };
+    properties: any;
+    levels: any;
+    stats: any;
+    imageURL: string;
+    videoURL: string;
+    collections: any;
+    allcollections: any;
+    error: boolean;
+    errorMessage: string;
+    audioUrl: string;
+    propertiesmodalShow: boolean;
+    levelsmodalShow: boolean;
+    statsmodalShow: boolean;
+    selectedCollection: any;
+    playerState: any;
+  }
+> {
   validator: SimpleReactValidator;
   myRef: any;
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.myRef = React.createRef();
     this.state = {
@@ -125,9 +170,9 @@ selectedCollection:any,playerState:any} > {
     });
   };
 
-  componentDidUpdate(prevProps:any, prevState:any) {
+  componentDidUpdate(prevProps: any, prevState: any) {
     // const videoElement = this.myRef;
-    const { connectedAddress, collection,error } = this.props;
+    const { connectedAddress, collection, error } = this.props;
 
     if (
       prevProps.connectedAddress !== "" &&
@@ -144,7 +189,7 @@ selectedCollection:any,playerState:any} > {
         ? this.myRef?.current?.play()
         : this.myRef?.current?.pause();
     }
-    if (!prevProps.error&&error) {
+    if (!prevProps.error && error) {
       this.setState({ loader: false }, () => {
         this.props.emptyError();
       });
@@ -179,7 +224,7 @@ selectedCollection:any,playerState:any} > {
     //check if NFT is created
     this.handleCreateNFTAuth(prevProps);
   }
-  handleCreateNFTAuth = (prevProps:any) => {
+  handleCreateNFTAuth = (prevProps: any) => {
     const { createNFTauth } = this.props;
     if (prevProps.createNFTauth !== createNFTauth && createNFTauth) {
       this.props.history.push("/explore/allNFT");
@@ -191,14 +236,14 @@ selectedCollection:any,playerState:any} > {
     this.setState({ playerState: test });
   };
 
-  onChange(e:any, status = null) {
+  onChange(e: any, status = null) {
     let { name, value } = e.target;
     if (status) value = status;
     let { nft } = this.state;
     nft = { ...nft, [name]: value };
     this.setState({ nft });
   }
-  onChangeSelect = (value:any) => {
+  onChangeSelect = (value: any) => {
     let { nft } = this.state;
     nft = { ...nft, collectionId: value.value, categoryId: value.categoryId };
     this.setState({
@@ -226,12 +271,12 @@ selectedCollection:any,playerState:any} > {
   capitalize(word: any) {
     return word[0].toUpperCase() + word.slice(1).toLowerCase();
   }
-  submit = async (e:any) => {
+  submit = async (e: any) => {
     e.preventDefault();
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
-      let nftInfo:any = { ...nft };
+      let nftInfo: any = { ...nft };
       nftInfo.properties = JSON.stringify(nftInfo.properties);
       nftInfo.levels = JSON.stringify(nftInfo.levels);
       nftInfo.stats = JSON.stringify(nftInfo.stats);
@@ -282,10 +327,10 @@ selectedCollection:any,playerState:any} > {
       toast.error("Please Connect Your Metamask With Ethereum Rinkeby Network");
     }
   };
-  mintNFT = async (metaData:any, image:any) => {
+  mintNFT = async (metaData: any, image: any) => {
     const { videoURL, audioUrl } = this.state;
 
-    let data:any = { ...this.state.nft };
+    let data: any = { ...this.state.nft };
     data.image = image;
     data.metaData = metaData.metaDataUrl;
     data.remainingCopies = data.copies;
@@ -309,23 +354,23 @@ selectedCollection:any,playerState:any} > {
         this.props.beforeNFT();
         this.props.addNFTRecord(payload);
       }
-    } catch (err:any) {
+    } catch (err: any) {
       console.log(err, "error====>");
       toast.error(err);
       this.setState({ loader: false });
     }
   };
 
-  pinFileToIPFS = async (file:any) => {
-    let data:any = new FormData();
+  pinFileToIPFS = async (file: any) => {
+    let data: any = new FormData();
     data.append("file", file);
-    const fileData:any = await this.uploadFileToIpfs(data);
-    const fileUrl:any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
-    const fileOutputData:any = { fileUrl, hash: fileData.data.IpfsHash };
-    const metaData :any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
+    const fileData: any = await this.uploadFileToIpfs(data);
+    const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
+    const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
+    const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
     this.mintNFT(metaData.dataInput, metaData.image);
   };
-  uploadFileToIpfs = async (formData:any) => {
+  uploadFileToIpfs = async (formData: any) => {
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
       const response = await axios.post(url, formData, {
@@ -335,12 +380,20 @@ selectedCollection:any,playerState:any} > {
         },
       });
       return response;
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err);
       this.setState({ loader: false });
     }
   };
-  uploadJsonToIpfs = async (dataInput: { fileUrl: any; hash?: any; ipfsJsonData?: any; metaDataUrl?: any; }, image: string) => {
+  uploadJsonToIpfs = async (
+    dataInput: {
+      fileUrl: any;
+      hash?: any;
+      ipfsJsonData?: any;
+      metaDataUrl?: any;
+    },
+    image: string
+  ) => {
     const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
     let properties = {
       properties: this.state.nft.properties,
@@ -365,16 +418,16 @@ selectedCollection:any,playerState:any} > {
       dataInput.metaDataUrl =
         "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash;
       return { dataInput, image };
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err);
       this.setState({ loader: false });
     }
   };
-  onFileChange = (e:any, status:any) => {
+  onFileChange = (e: any, status: any) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
-      let file:any = "";
-      let url:any = "";
-      let fileId:any = "";
+      let file: any = "";
+      let url: any = "";
+      let fileId: any = "";
       if (status === "onDrag") {
         file = e.dataTransfer.files[0];
         url = URL.createObjectURL(e.dataTransfer.files[0]);
@@ -401,7 +454,7 @@ selectedCollection:any,playerState:any} > {
               if (file) {
                 var reader = new FileReader();
 
-                reader.onload = function (e:any) {
+                reader.onload = function (e: any) {
                   $(`#nft-${fileId}`).attr("src", e.target.result);
                   $("#nft-image-label").html("File selected");
                 };
@@ -439,7 +492,7 @@ selectedCollection:any,playerState:any} > {
           file = {};
         }
     } else {
-      let message:any = this.handleFilesValidation(e, status);
+      let message: any = this.handleFilesValidation(e, status);
       toast.error(message);
       this.setState({
         error: true,
@@ -447,26 +500,32 @@ selectedCollection:any,playerState:any} > {
       });
     }
   };
-  dragOver = (e: { preventDefault: () => void; }) => {
+  dragOver = (e: { preventDefault: () => void }) => {
     e.preventDefault();
   };
 
-  dragEnter = (e: { preventDefault: () => void; }) => {
+  dragEnter = (e: { preventDefault: () => void }) => {
     e.preventDefault();
   };
 
-  dragLeave = (e: { preventDefault: () => void; }) => {
+  dragLeave = (e: { preventDefault: () => void }) => {
     e.preventDefault();
   };
-  onDrop = (e: { nativeEvent: { preventDefault: () => void; }; }) => {
+  onDrop = (e: { nativeEvent: { preventDefault: () => void } }) => {
     e.nativeEvent.preventDefault();
     if (!e) return;
     this.onFileChange(e, "onDrag");
   };
 
-  handleFilesValidation = (e: { dataTransfer: { files: { type: string; }[]; }; target: { files: { type: string; }[]; }; }, status: string) => {
-    let files:any;
-    let type:any;
+  handleFilesValidation = (
+    e: {
+      dataTransfer: { files: { type: string }[] };
+      target: { files: { type: string }[] };
+    },
+    status: string
+  ) => {
+    let files: any;
+    let type: any;
     if (status === "onDrag") {
       files = e.dataTransfer.files[0];
       type = e.dataTransfer.files[0].type;
@@ -524,7 +583,11 @@ selectedCollection:any,playerState:any} > {
     }
   };
 
-  handleChange = (i:any, e: { target: { name: string; value: string; }; }, status: string) => {
+  handleChange = (
+    i: any,
+    e: { target: { name: string; value: string } },
+    status: string
+  ) => {
     if (status === "properties") {
       let newFormValues = [...this.state.properties];
       newFormValues[i][e.target.name] = e.target.value;
@@ -778,10 +841,14 @@ selectedCollection:any,playerState:any} > {
                         <div className="uploaded-img-container">
                           <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
                             {/* <Waveform url={audioUrl} auction={false} /> */}
-                            <Audio src={audioUrl} 
-                            onLoadCallback={function (): {} {
-                                  throw new Error("Function not implemented.");
-                                } } loader={false} fileType={""} />
+                            <Audio
+                              src={audioUrl}
+                              onLoadCallback={function (): {} {
+                                throw new Error("Function not implemented.");
+                              }}
+                              loader={false}
+                              fileType={""}
+                            />
                           </div>
                           <label className="video-upload-label">
                             <div className="uploaded-video-container mx-auto">
@@ -876,7 +943,7 @@ selectedCollection:any,playerState:any} > {
                     className="create-collection-input mt-2"
                     name="name"
                     placeholder="Enter title"
-                    required="required"
+                    required={true}
                     maxLength={100}
                     minLength={3}
                     onKeyDown={(e) =>
@@ -884,7 +951,7 @@ selectedCollection:any,playerState:any} > {
                     }
                     onChange={(e) => {
                       if (
-                        nft.name.trim() === "" &&
+                        nft?.name.trim() === "" &&
                         e.target.value.includes(".")
                       ) {
                         return false;
@@ -909,7 +976,7 @@ selectedCollection:any,playerState:any} > {
                     placeholder="No. of Copies"
                     type="text"
                     autoComplete="off"
-                    required="required"
+                    required={true}
                     onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={(e) => {
                       if (
@@ -967,9 +1034,9 @@ selectedCollection:any,playerState:any} > {
                     rows={3}
                     placeholder="Max 500 characters"
                     maxLength={500}
-                    onChange={(e:any) => {
+                    onChange={(e: any) => {
                       if (
-                        nft.description.trim() === "" &&
+                        nft?.description.trim() === "" &&
                         e.target.value.includes(".")
                       ) {
                         return false;
@@ -977,7 +1044,7 @@ selectedCollection:any,playerState:any} > {
                       this.onChange(e);
                     }}
                     onKeyDown={(e) =>
-                      firstInputCharacterSpace(e, nft.description.length)
+                      firstInputCharacterSpace(e, nft?.description.length)
                     }
                     value={nft.description}
                   ></textarea>
@@ -1002,13 +1069,18 @@ selectedCollection:any,playerState:any} > {
                   </div>
                   <div className="nft-properties-container mx-2 mt-3">
                     <div className="row g-2">
-                      {this.state.nft.properties.map((item: { name: any; type: any; }) => {
-                        return (
-                          <div className="col-md-6">
-                            <PropertiesInfo name={item.name} type={item.type} />
-                          </div>
-                        );
-                      })}
+                      {this.state.nft.properties.map(
+                        (item: { name: any; type: any }) => {
+                          return (
+                            <div className="col-md-6">
+                              <PropertiesInfo
+                                name={item.name}
+                                type={item.type}
+                              />
+                            </div>
+                          );
+                        }
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1031,9 +1103,13 @@ selectedCollection:any,playerState:any} > {
                     </div>
                   </div>
                   <div className="nft-level-container mx-3 mt-3 ">
-                    {this.state.nft.levels.map((item: { name: any; value: any; }) => {
-                      return <LevelsInfo name={item.name} value={item.value} />;
-                    })}
+                    {this.state.nft.levels.map(
+                      (item: { name: any; value: any }) => {
+                        return (
+                          <LevelsInfo name={item.name} value={item.value} />
+                        );
+                      }
+                    )}
                   </div>
                 </div>
                 <div className="col-12 col-lg-6 mt-3 ">
@@ -1055,9 +1131,13 @@ selectedCollection:any,playerState:any} > {
                     </div>
                   </div>
                   <div className="nft-stat-container mx-2 mt-3">
-                    {this.state.nft.stats.map((item: { name: any; value: any; }) => {
-                      return <StatsInfo name={item.name} value={item.value} />;
-                    })}
+                    {this.state.nft.stats.map(
+                      (item: { name: any; value: any }) => {
+                        return (
+                          <StatsInfo name={item.name} value={item.value} />
+                        );
+                      }
+                    )}
                   </div>
                 </div>
 
@@ -1126,7 +1206,12 @@ selectedCollection:any,playerState:any} > {
   }
 }
 
-const mapStateToProps = (state: { error: any; collection: any; wallet: { connectedAddress: any; }; nft: { createNFTauth: any; }; }) => ({
+const mapStateToProps = (state: {
+  error: any;
+  collection: any;
+  wallet: { connectedAddress: any };
+  nft: { createNFTauth: any };
+}) => ({
   error: state.error,
   collection: state.collection,
   connectedAddress: state.wallet.connectedAddress,

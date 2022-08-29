@@ -430,7 +430,7 @@ const UserProfile = (props:any) => {
     toast.info("Please login with new connected account");
     localStorage.clear();
     history.push("/login");
-    return " ";
+    return <React.Fragment>{" "}</React.Fragment> ;
   }
 };
 

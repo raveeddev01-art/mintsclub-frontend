@@ -688,7 +688,7 @@ const NFTDetail = (props:any) => {
     {
       title: "Contract Address",
       value:
-        ENV.mintsClubContractAddress.slice(0, 6) +
+      ENV?.mintsClubContractAddress&&ENV.mintsClubContractAddress.slice(0, 6) +
         "...." +
         ENV.mintsClubContractAddress.slice(-6),
     },

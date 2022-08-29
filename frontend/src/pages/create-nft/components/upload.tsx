@@ -1,7 +1,7 @@
-import VideoComponent from "../../VideoComponent/VideoComponent";
+import VideoComponent from "../../../Components/VideoComponent/VideoComponent";
 import UploadIcon from "../../../assets/images/uploadIcon.png";
 import { MdClose } from "react-icons/md";
-import AudioPlayer from "../../AudioPlayer/AudioPlayer";
+import AudioPlayer from "../../../Components/AudioPlayer/AudioPlayer";
 import { UploadInterface } from "../../../interfaces/components";
 import {FC} from "react"
 import "./upload.css";
@@ -9,6 +9,7 @@ const videoStyles = {
   width: "100%",
   height: "100%",
 };
+
 
 const Upload:FC<UploadInterface> = ({
   Images,
