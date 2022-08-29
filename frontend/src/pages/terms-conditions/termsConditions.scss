@@ -7,34 +7,34 @@
 .terms .terms-content h5 {
   font-weight: 700;
   font-size: 28px;
-  color: #000000;
+  color: var(--text-body);
   margin-bottom: 18px;
 }
 
 .terms .terms-content h6 {
   font-weight: 700;
   font-size: 22px;
-  color: #383838;
+  color: var(--text-body-two);
 }
 
 .terms .terms-content p {
   font-weight: 300;
   font-size: 18px;
-  color: #111111;
+  color: var(--text-body);
   line-height: 35px;
 }
 
 .terms .terms-content p span {
   font-weight: 600;
   font-size: 18px;
-  color: #111111;
+  color: var(--text-body);
   line-height: 35px;
 }
 
 .terms .terms-content h6 span {
   font-weight: 300;
   font-size: 18px;
-  color: #111111;
+  color: var(--text-body);
   line-height: 35px;
 }
 
@@ -51,10 +51,11 @@
   width: 30px;
   font-weight: 600;
   font-size: 18px;
-  color: #111111;
+  color: var(--text-body);
 }
 .terms .terms-content ol li {
   clear: both;
+  color: var(--text-body-two);
 }
 
 .terms .terms-content ol .li-inner-ol ol {

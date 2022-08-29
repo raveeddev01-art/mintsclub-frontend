@@ -20,9 +20,9 @@ const SignUp = (props) => {
 
   useEffect(async () => {
     let connectedAddress = await connectMetamaskCopy();
-     setConnectedAddress(connectedAddress);
+    setConnectedAddress(connectedAddress);
   }, []);
-  
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -72,7 +72,7 @@ const SignUp = (props) => {
         content={signInbannerData.content}
         bgImg={BannerBg}
       />
-      <section className="signup-section padding-wrapper mb-5">
+      <section className="signup-section padding-wrapper">
         <div className="container">
           <form onSubmit={signup}>
             <div className="row">
@@ -150,7 +150,9 @@ const SignUp = (props) => {
                   )}
                   <p>
                     By checking this box, I agree to MintsClub{" "}
-                    <Link to="/termsandconditions" target="_blank">{"Terms & Conditions" }</Link>
+                    <Link to="/termsandconditions" target="_blank">
+                      {"Terms & Conditions"}
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -183,15 +185,13 @@ const SignUp = (props) => {
   );
 };
 
-const mapStateToProps = (state) => (
-  {
-    wallet: state.wallet,
-    collection: state.collection,
-    user: state.user,
-    userAuth: state.user.userAuth,
-    error: state.error,
-  }
-);
+const mapStateToProps = (state) => ({
+  wallet: state.wallet,
+  collection: state.collection,
+  user: state.user,
+  userAuth: state.user.userAuth,
+  error: state.error,
+});
 
 export default connect(mapStateToProps, {
   signup,

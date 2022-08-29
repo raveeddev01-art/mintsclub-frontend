@@ -6,20 +6,20 @@
 .aboutus .aboutus-content h5 {
   font-weight: 700;
   font-size: 28px;
-  color: #000000;
+  color: var(--text-body);
   margin-bottom: 18px;
 }
 
 .aboutus .aboutus-content h6 {
   font-weight: 700;
   font-size: 22px;
-  color: #383838;
+  color: var(--text-body-two);
 }
 
 .aboutus .aboutus-content p {
   font-weight: 300;
   font-size: 18px;
-  color: #111111;
+  color: var(--text-body-two);
   line-height: 35px;
 }
 
@@ -36,6 +36,7 @@
 
 .aboutus .aboutus-content ol li {
   list-style-position: inside;
+  color: var(--text-body-two);
 }
 
 .aboutus .aboutus-box-container {
@@ -49,7 +50,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #f5f9ff;
+  background: var(--nft-table-body-bg);
   border-radius: 8px;
   padding: 14px;
   text-align: center;
@@ -64,7 +65,7 @@
 .aboutus .aboutus-box-container .aboutus-box p {
   font-weight: 500;
   font-size: 18px;
-  color: #111111;
+  color: var(--text-body);
 }
 
 .btn.btn-linear-gradient.about-btn-explore {
