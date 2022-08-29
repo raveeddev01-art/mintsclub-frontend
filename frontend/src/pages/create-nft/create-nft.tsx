@@ -24,7 +24,7 @@ import {
 } from "../../Components/Nfts/nfts.action";
 import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
-import "./createNft.css";
+import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
 import PropertiesModal from "../../Components/Modals/PropertiesModal/PropertiesModal";
 import LevelsModal from "../../Components/Modals/LevelsModal/LevelsModal";

@@ -1,20 +1,25 @@
-import "./DarkModeButton.css";
+import "./DarkModeButton.scss";
 import { styled } from "@mui/material/styles";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import SunImg from "../../assets/images/sun-fill.svg";
 
-const DarkModeButton = (props:any) => {
+const DarkModeButton = (props: any) => {
   return (
     <div className="toggle-theme-wrapper">
       <p>Dark Mode</p>
       <FormGroup>
         <FormControlLabel
           sx={{ mr: 0 }}
-          control={<Android12Switch
-            checked={props.defaultDark}
-            onChange={props.toggleTheme} />} label={undefined}        />
+          control={
+            <Android12Switch
+              checked={props.defaultDark}
+              onChange={props.toggleTheme}
+            />
+          }
+          label={undefined}
+        />
       </FormGroup>
     </div>
   );

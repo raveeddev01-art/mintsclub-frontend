@@ -1,13 +1,13 @@
-import {FC} from "react";
+import { FC } from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
-import "./PropertiesModal.css";
+import "./PropertiesModal.scss";
 import { toast } from "react-toastify";
 import { firstInputCharacterSpace } from "../../../utils/functions";
-import {PropertiesInt} from '../../../interfaces/components';
+import { PropertiesInt } from "../../../interfaces/components";
 
-const PropertiesModal:FC<PropertiesInt> = (props) => {
+const PropertiesModal: FC<PropertiesInt> = (props) => {
   const {
     show,
     onHide,
@@ -20,7 +20,7 @@ const PropertiesModal:FC<PropertiesInt> = (props) => {
   const handleSubmit = () => {
     if (properties && properties.length > 0) {
       let isEmpty = properties.filter(
-        (item:any) => item.name === "" || item.type === ""
+        (item: any) => item.name === "" || item.type === ""
       );
       if (isEmpty.length > 0) {
         toast.error("Please Fill Empty Fields ");
@@ -54,7 +54,7 @@ const PropertiesModal:FC<PropertiesInt> = (props) => {
       </Modal.Header>
       <Modal.Body className="mt-0 pt-0 px-0 px-sm-3">
         <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
-          {properties.map((item:any, i:any) => {
+          {properties.map((item: any, i: any) => {
             return (
               <div
                 className="row g-2 align-items-center justify-content-between mt-3"

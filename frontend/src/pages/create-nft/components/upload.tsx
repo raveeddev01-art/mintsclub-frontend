@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md";
 import AudioPlayer from "../../../Components/AudioPlayer/AudioPlayer";
 import { UploadInterface } from "../../../interfaces/components";
 import {FC} from "react"
-import "./upload.css";
+import "./upload.scss";
 const videoStyles = {
   width: "100%",
   height: "100%",

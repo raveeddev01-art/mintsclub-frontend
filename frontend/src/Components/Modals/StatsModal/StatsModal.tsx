@@ -1,22 +1,22 @@
-import {FC} from "react";
+import { FC } from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
-import "../PropertiesModal/PropertiesModal.css";
+import "../PropertiesModal/PropertiesModal.scss";
 import { toast } from "react-toastify";
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
 } from "../../../utils/functions";
-import {StatsInt} from "../../../interfaces/components";
-const StatsModal:FC<StatsInt> = (props) => {
+import { StatsInt } from "../../../interfaces/components";
+const StatsModal: FC<StatsInt> = (props) => {
   const { show, onHide } = props;
   const { addMoreValues, handleChange, removeFormFields, stats, onSave } =
     props;
   const handleSubmit = () => {
     if (stats && stats.length > 0) {
       let isEmpty = stats.filter(
-        (item:any) => item.name === "" || item.value === ""
+        (item: any) => item.name === "" || item.value === ""
       );
       if (isEmpty.length > 0) {
         toast.error("Please Fill Empty Fields ");
@@ -51,7 +51,7 @@ const StatsModal:FC<StatsInt> = (props) => {
           <div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
             {stats &&
               stats.length > 0 &&
-              stats.map((item:any, i:any) => {
+              stats.map((item: any, i: any) => {
                 return (
                   <div
                     className="row g-2 align-items-center justify-content-between mt-3"
@@ -94,8 +94,8 @@ const StatsModal:FC<StatsInt> = (props) => {
                               onChange={(e) => {
                                 if (
                                   +e.target.value > 5 ||
-                                  (+e.target.value <= 0 && item.value == "")
-                                  ||e.target.value.includes(".")
+                                  (+e.target.value <= 0 && item.value == "") ||
+                                  e.target.value.includes(".")
                                 ) {
                                   return "";
                                 }

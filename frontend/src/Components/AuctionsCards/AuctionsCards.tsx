@@ -1,4 +1,4 @@
-import React, { useState,FC } from "react";
+import React, { useState, FC } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 import ArrowUp from "../../assets/images/arrowUp.svg";
@@ -7,14 +7,13 @@ import { ENV } from "../../config/config";
 import useVideoPlayer from "../TestVideoCard/Components/UseVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { connect } from "react-redux";
-import "./AuctionsCard.css";
+import "./AuctionsCard.scss";
 import { Images } from "../../assets/assets";
 import ImageLoader from "../ContentLoader/ImageLoader";
 import AuctionAudio from "../AuctionAudio/AuctionAudio";
-import {AuctionCardInterface} from '../../interfaces/components';
+import { AuctionCardInterface } from "../../interfaces/components";
 
-
-const AuctionsCards:FC<AuctionCardInterface> = ({
+const AuctionsCards: FC<AuctionCardInterface> = ({
   ownerName,
   userId,
   bidsProfile,
@@ -26,8 +25,7 @@ const AuctionsCards:FC<AuctionCardInterface> = ({
   const { countDownRenderer } = ENV;
   const history = useHistory();
   const videoElement = React.useRef(null);
-  const { playerState, togglePlay } =
-    useVideoPlayer(videoElement);
+  const { playerState, togglePlay } = useVideoPlayer(videoElement);
   const [loader, setLoader] = useState<any>(true);
   const {
     image,
@@ -41,7 +39,7 @@ const AuctionsCards:FC<AuctionCardInterface> = ({
     ownerAddress,
   } = item;
   const { profilePhoto } = item?.owner;
-  
+
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
       <div className="auction-img-wrapper">
@@ -117,7 +115,7 @@ const AuctionsCards:FC<AuctionCardInterface> = ({
             <div className="auction-card-avatar d-flex align-items-center">
               {bidsProfile &&
                 bidsProfile.length > 0 &&
-                bidsProfile.map((item:any, i:any) => {
+                bidsProfile.map((item: any, i: any) => {
                   if (i <= 2) {
                     return (
                       <img
@@ -188,7 +186,7 @@ const AuctionsCards:FC<AuctionCardInterface> = ({
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   connectedAddress: state.wallet.connectedAddress,
 });
 

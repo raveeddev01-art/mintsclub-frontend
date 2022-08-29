@@ -1,5 +1,5 @@
 import React,{FC} from "react";
-import "./nftinfo.css";
+import "./nftinfo.scss";
 import { StatsInfoInterface } from "../../../interfaces/components";
 const StatsInfo:FC<StatsInfoInterface> = ({ name, value }) => {
   const filled = () => {

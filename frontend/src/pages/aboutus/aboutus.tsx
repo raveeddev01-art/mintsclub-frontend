@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./aboutus.css";
+import "./aboutus.scss";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";

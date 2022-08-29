@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import Footer from "../../Components/Footer/Footer";
-import "./CreateCollections.css";
+import "./CreateCollections.scss";
 import { connect } from "react-redux";
 import {
   beforeCollection,

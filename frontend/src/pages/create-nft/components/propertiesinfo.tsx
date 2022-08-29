@@ -1,5 +1,5 @@
 import React ,{FC} from "react";
-import "./nftinfo.css";
+import "./nftinfo.scss";
 import { PropertiesInfoInterface } from "../../../interfaces/components";
 const PropertiesInfo:FC<PropertiesInfoInterface>  = ({ name, type }) => {
   return (

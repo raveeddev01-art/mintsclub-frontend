@@ -1,5 +1,5 @@
 import React,{FC} from "react";
-import "./nftinfo.css";
+import "./nftinfo.scss";
 import { LevelsInfoInterface } from "../../../interfaces/components";
 
 const LevelsInfo:FC<LevelsInfoInterface> = ({ name, value,i }) => {

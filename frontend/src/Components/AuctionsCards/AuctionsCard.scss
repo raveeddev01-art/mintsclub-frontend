@@ -1,0 +1,210 @@
+.card.auction-card {
+  padding: 10px;
+  cursor: pointer;
+  background-color: var(--pc-card-bg);
+  border-radius: 32px;
+  &.card-bg-gray {
+    background-color: var(--card-auction-bg);
+  }
+  .auction-img-wrapper {
+    position: relative;
+    height: 310px;
+    .card-img-top {
+      width: 100%;
+      height: 310px;
+      border-radius: 30px;
+      object-fit: cover;
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .auction-countdown {
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+      margin-bottom: 16px;
+      .countdown-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: #fff;
+        .countdown-heading {
+          font-size: 14px !important;
+          font-weight: bold;
+          background: rgba(255, 255, 255, 0.4);
+          width: 100%;
+          height: 30px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 3px;
+        }
+        .countdown-wrapper-time {
+          width: 35px;
+          height: 30px;
+          border-radius: 8px;
+          background: #ffffff;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: bold;
+          color: #000000;
+        }
+      }
+      .auction-card-avatar-container {
+        min-height: 32px;
+        span {
+          font-size: 13px;
+          font-weight: normal;
+          color: #feffff;
+        }
+        .options-icon img {
+          width: 25px;
+        }
+      }
+    }
+  }
+  .card-body {
+    padding: 0;
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--pc-card-title-clr);
+      margin-top: 15px;
+      margin-bottom: 8px;
+      background: var(--pc-card-title-bg);
+      box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
+      border-radius: 44px;
+      padding: 7px 7px 7px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .auction-owner-price {
+        background: #387fff;
+        box-shadow: 7px 11px 22px 2px rgba(0, 0, 0, 0.05);
+        border-radius: 77px;
+        color: #ffffff;
+        padding: 10px;
+        font-size: 11px;
+        font-weight: 700;
+        img {
+          width: 15px;
+          height: 13px;
+        }
+      }
+    }
+    .auction-card-owner-container {
+      .auction-owner-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+      .auction-owner-name p {
+        font-size: 11px;
+        font-weight: normal;
+        color: var(--nft-owner-name);
+        span {
+          color: var(--nft-owner-name2);
+          font-weight: bold;
+        }
+      }
+      img {
+        width: 13px;
+        height: 13px;
+      }
+    }
+  }
+}
+
+.auction-card-avatar img {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: -18px;
+}
+
+.auction-card-avatar img:first-child {
+  margin-left: 0;
+}
+
+.auction-card-avatar .avatar-above-img {
+  margin-left: -10px;
+}
+
+/* .auction-img-wrapper img{
+  width: 100%;
+  height: 310px;
+  border-radius: 30px;
+} */
+
+.auction-card .card-body .auction-bit-btn {
+  background: var(--nft-detail-btn);
+  border: none;
+  border-radius: 55px;
+  width: 100%;
+  padding: 10px 0;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  &:hover {
+    background: #387fff;
+  }
+  img {
+    width: 15px;
+    height: 17px;
+  }
+}
+
+.auction-card.card .card-img-top {
+  video {
+    height: 310px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 30px;
+  }
+  .video-wrapper {
+    height: 310px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    .controls {
+      position: absolute;
+      top: 0;
+      right: 5px;
+      padding: 14px;
+    }
+    .actions .play-pause-btn {
+      background: #ffffff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        color: #434343;
+      }
+    }
+  }
+}
+
+@media (max-width: 575.9px) {
+  .card.auction-card {
+    max-width: 350px;
+  }
+}

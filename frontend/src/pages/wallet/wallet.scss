@@ -1,9 +1,12 @@
-.log-in-banner .banner-wrapper {
-  min-height: unset;
+.log-in-banner {
+  .banner-wrapper {
+    min-height: unset;
+    &.padding-wrapper {
+      padding: 70px 0;
+    }
+  }
 }
-.log-in-banner .banner-wrapper.padding-wrapper {
-  padding: 25px 0;
-}
+
 .wallet-metamask-card {
   background-color: #10103c !important;
 }
@@ -19,7 +22,6 @@
 .sign-in-spinner {
   height: 1.3rem !important;
   width: 1.3rem !important;
-  
 }
 .sign-up-input {
   background-color: black !important;
@@ -99,14 +101,14 @@
   font-weight: 700;
   font-size: 35px;
   line-height: 41px;
-  color: #000000;
+  color: var(--text-body);
 }
 .intro.wallet-intro p {
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 33px;
-  color: #272727;
+  color: var(--text-body-two);
 }
 .sign-content-wrapper h4 {
   font-style: normal;
@@ -142,17 +144,18 @@
   border-radius: 55px;
   color: white;
   padding: 7px 33px;
+  border: none;
 }
 .new-member {
   font-style: normal;
-font-weight: 600;
-font-size: 20px;
-line-height: 33px;
-color: #272727;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 33px;
+  color: var(--text-body-two);
 }
 
 .new-member .register-member {
-  color: #387FFF !important;
+  color: #387fff !important;
   text-decoration: underline !important;
   cursor: pointer;
 }
