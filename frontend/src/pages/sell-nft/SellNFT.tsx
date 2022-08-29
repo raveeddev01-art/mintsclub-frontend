@@ -42,18 +42,18 @@ import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 
 const { dateRangeInitialSettings } = ENV;
-const SellNFT = (props) => {
-  const [activeBtn, setActiveBtn] = useState(0);
-  const [toggle, setToggle] = React.useState(true);
-  const [sellingMethod, setSellingMethod] = useState(1); // 1 = Fixed Price, 2 = Timed Auction
-  const [fixedPriceConfig, setFixedPriceConfig] = useState({
+const SellNFT = (props:any) => {
+  const [activeBtn, setActiveBtn] = useState<any>(0);
+  const [toggle, setToggle] = React.useState<boolean>(true);
+  const [sellingMethod, setSellingMethod] = useState<number>(1); // 1 = Fixed Price, 2 = Timed Auction
+  const [fixedPriceConfig, setFixedPriceConfig] = useState<any>({
     price: {
       currency: ENV.currency,
       amount: "",
     },
     reserveFor: "", // if user selects reserve buyer
   });
-  const [timedAuctionConfig, setTimedAuctionConfig] = useState({
+  const [timedAuctionConfig, setTimedAuctionConfig] = useState<any>({
     startPrice: {
       currency: ENV.currency,
       amount: "",
@@ -65,28 +65,28 @@ const SellNFT = (props) => {
       endTime: "23:59",
     },
   });
-  const [nftDetail, setNftDetail] = useState("");
-  const [loader, setLoader] = useState(true); // NFT loader
-  const location = useLocation();
-  const [likeButtonDisable, setLikeBtnDisable] = useState(null);
-  const [likedNfts, setLikedNfts] = useState();
-  const [copies, setCopies] = useState("");
-  const [show, setShow] = useState(false);
-  const [approvalStatus, setApprovalStatus] = useState("not-approved");
-  const [address, setAddress] = useState(props.connectedAddress);
-  const [copiesError, setCopiesError] = useState(false);
-  const [contentLoader, setContentLoader] = useState(true);
+  const [nftDetail, setNftDetail] = useState<any>("");
+  const [loader, setLoader] = useState<boolean>(true); // NFT loader
+  const location:any = useLocation();
+  const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
+  const [likedNfts, setLikedNfts] = useState<number>();
+  const [copies, setCopies] = useState<string>("");
+  const [show, setShow] = useState<boolean>(false);
+  const [approvalStatus, setApprovalStatus] = useState<string>("not-approved");
+  const [address, setAddress] = useState<string>(props.connectedAddress);
+  const [copiesError, setCopiesError] = useState<boolean>(false);
+  const [contentLoader, setContentLoader] = useState<boolean>(true);
   const history = useHistory();
   let nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
-  const { playerState, togglePlay, handleOnTimeUpdate } =
+  const { playerState, togglePlay } =
     useVideoPlayer(videoElement);
 
   useEffect(() => {
     window.scroll(0, 600);
     props.getNFT(nftId);
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    let qs:any = { userId: ENV.getUserKeys("_id")._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
     validateIfLiked();
@@ -153,7 +153,7 @@ const SellNFT = (props) => {
     }
   }, [props.myLikedNftsStatus]);
 
-  const onChange = (e) => {
+  const onChange = (e:any) => {
     const { name, value } = e.target;
 
     let data = null;
@@ -177,7 +177,7 @@ const SellNFT = (props) => {
     }
   };
 
-  const handleDateChange = (e, picker) => {
+  const handleDateChange = (e:any, picker:any) => {
     const { name } = e.target;
     const { startDate, endDate } = picker;
 
@@ -198,7 +198,7 @@ const SellNFT = (props) => {
     });
   };
 
-  const submit = async (e) => {
+  const submit = async (e:any) => {
     e.preventDefault();
     if (copies > nftDetail.copies) {
       if (Number(nftDetail.copies) === 1) {
@@ -216,8 +216,8 @@ const SellNFT = (props) => {
         return "";
       }
 
-      let price = "";
-      let payload = "";
+      let price:any = "";
+      let payload:object = {};
 
       let timedConfig = { ...timedAuctionConfig };
 
@@ -292,10 +292,10 @@ const SellNFT = (props) => {
   };
 
   const openBidding = async (
-    timedAuctionConfig,
-    payload,
-    activityPayload,
-    price
+    timedAuctionConfig:any,
+    payload:any,
+    activityPayload:any,
+    price:any
   ) => {
     var formData = new FormData();
     try {
@@ -318,13 +318,13 @@ const SellNFT = (props) => {
         props.createActivity(activityPayload);
         props.upsertNFT("edit", formData, "PUT");
       }
-    } catch (err) {
+    } catch (err:any) {
       setLoader(false);
       toast.error(err);
     }
   };
 
-  const openForSale = async (activityPayload, payload, fixedConfig, price) => {
+  const openForSale = async (activityPayload:any, payload:any, fixedConfig:any, price:any) => {
     var formData = new FormData();
     try {
       let result = await putonsale(
@@ -339,23 +339,23 @@ const SellNFT = (props) => {
         props.createActivity(activityPayload);
         props.upsertNFT("edit", formData, "PUT");
       }
-    } catch (err) {
+    } catch (err:any) {
       setLoader(false);
       toast.error(err);
     }
   };
 
-  const calclateStartOrEndTime = (auctionConfig, startOrEndTime) => {
+  const calclateStartOrEndTime = (auctionConfig:any, startOrEndTime:any) => {
     let time = auctionConfig.toString();
     time = time.slice(0, 15) + " " + startOrEndTime + ":00" + time.slice(24);
     return time;
   };
   //match if nft liked
 
-  const validateIfLiked = (nfts, nft) => {
+  const validateIfLiked = (nfts?:any, nft?:any) => {
     if (nfts && nfts?.length > 0) {
       setLoader(false);
-      let result = nfts.find((item) => item.nftId == nft._id);
+      let result = nfts.find((item:any) => item.nftId == nft._id);
 
       if (result) {
         return setToggle(true);
@@ -370,7 +370,7 @@ const SellNFT = (props) => {
 
   const approveAccount = async () => {
     setApprovalStatus("pending");
-    var formData = new FormData();
+    var formData:any = new FormData();
     formData.append("isApproved", true);
     formData.append("userId", nftDetail.user._id);
     try {
@@ -438,7 +438,7 @@ const SellNFT = (props) => {
                         <video
                           src={image}
                           ref={videoElement}
-                          onTimeUpdate={handleOnTimeUpdate}
+                          // onTimeUpdate={handleOnTimeUpdate}
                           onEnded={() => {
                             togglePlay();
                           }}
@@ -475,10 +475,9 @@ const SellNFT = (props) => {
                         <SellNFTLoader />
                       </div>
                       <Audio
-                        src={image}
-                        onLoadCallback={() => setContentLoader(false)}
-                        loader={contentLoader}
-                      />
+                            src={image}
+                            onLoadCallback={async () => setContentLoader(false)}
+                            loader={contentLoader} fileType={""}                      />
                     </>
                   ) : (
                     " "
@@ -576,7 +575,7 @@ const SellNFT = (props) => {
                           style={{
                             borderRadius: "4px",
                           }}
-                          maxLength={"8"}
+                          maxLength={8}
                           onChange={(e) => {
                             if (e.target.value == "00") {
                               return "";
@@ -610,7 +609,7 @@ const SellNFT = (props) => {
                             borderRadius: "4px",
                           }}
                           min={"1"}
-                          onChange={(e) => {
+                          onChange={(e:any) => {
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
@@ -675,11 +674,11 @@ const SellNFT = (props) => {
                           type="text"
                           name="timedAuctionConfig.startPrice.amount"
                           placeholder="Amount"
-                          maxLength="8"
+                          maxLength={8}
                           style={{
                             borderRadius: "4px",
                           }}
-                          onChange={(e) => {
+                          onChange={(e:any) => {
                             if (e.target.value === "00") {
                               return false;
                             } else {
@@ -709,13 +708,13 @@ const SellNFT = (props) => {
                           type="number"
                           name="copies"
                           placeholder="Copies"
-                          maxLength={"3"}
+                          maxLength={3}
                           style={{
                             borderRadius: "4px",
                           }}
                           min={"1"}
                           max={`${nftDetail.copies}`}
-                          onChange={(e) => {
+                          onChange={(e:any) => {
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
@@ -744,7 +743,7 @@ const SellNFT = (props) => {
                       <h5>Duration:</h5>
                       <hr />
                       <div className="sell-date-picker">
-                        <DateRangePicker
+                        {/* <DateRangePicker
                           initialSettings={dateRangeInitialSettings}
                           minDate={moment().toDate()}
                           onApply={handleDateChange}
@@ -775,7 +774,7 @@ const SellNFT = (props) => {
                               />
                             </svg>
                           </button>
-                        </DateRangePicker>
+                        </DateRangePicker> */}
                       </div>
 
                       <div className="sell-time-inp mx-auto my-3">
@@ -841,7 +840,7 @@ const SellNFT = (props) => {
           show={show}
           approveAccount={approveAccount}
           approvalStatus={approvalStatus}
-          onHide={() => setShow(false)}
+          onHide={async () => setShow(false)}
           address={address}
         />
       </section>
@@ -850,7 +849,7 @@ const SellNFT = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   nft: state.nft,
   error: state.error,
   nftDetail: state.nft.nftsData,

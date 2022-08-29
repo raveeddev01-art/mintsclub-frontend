@@ -1,7 +1,7 @@
-import React from "react";
+import React,{FC} from "react";
 import "./nftinfo.css";
-
-const StatsInfo = ({ name, value }) => {
+import { StatsInfoInterface } from "../../../interfaces/components";
+const StatsInfo:FC<StatsInfoInterface> = ({ name, value }) => {
   const filled = () => {
     let filledArray = [];
     for (let i = 1; i <= value; i++) {

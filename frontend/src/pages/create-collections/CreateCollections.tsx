@@ -28,8 +28,12 @@ import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 
-class CreateCollections extends Component {
-  constructor(props) {
+class CreateCollections extends React.Component<{connectedAddress:string,getCategories:() => any,history:any,error:any,emptyError:()=>any,collection:any,
+  beforeCollection:()=>any,category:any,beforeCategory:()=>any,upsertCollection:(url:string,data:any)=>any},
+{ isSubmitted:boolean,formValid:boolean,loader:boolean,errors:any,collection:any,categories:any,selectedCategory:string,selectedOption:any}>
+{
+  validator: SimpleReactValidator;
+  constructor(props:any) {
     super(props);
     this.state = {
       isSubmitted: false,
@@ -52,6 +56,7 @@ class CreateCollections extends Component {
       },
       categories: null,
       selectedCategory: "",
+      selectedOption:"",
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -66,7 +71,7 @@ class CreateCollections extends Component {
     // this.props.getUser()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps:any) {
     const { connectedAddress } = this.props;
     if (
       prevProps.connectedAddress !== "" &&
@@ -111,7 +116,7 @@ class CreateCollections extends Component {
     }
   }
 
-  onFileChange(e) {
+  onFileChange(e:any) {
     let file = e.target.files[0];
     if (file)
       if (file.type.includes("image")) {
@@ -133,7 +138,7 @@ class CreateCollections extends Component {
         this.setState({ collection });
       }
   }
-  formatBytes = (bytes, decimals = 2) => {
+  formatBytes = (bytes:number, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
 
     const k = 1024;
@@ -145,7 +150,7 @@ class CreateCollections extends Component {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
-  onChange(e) {
+  onChange(e:any) {
     let { name, value } = e.target;
     const userId = ENV.getUserKeys("_id")._id;
     let { collection } = this.state;
@@ -168,7 +173,7 @@ class CreateCollections extends Component {
     this.setState({ collection, isSubmitted: false });
   };
 
-  submit = (e) => {
+  submit = (e:any) => {
     e.preventDefault();
     const userId = ENV.getUserKeys("_id")._id;
     this.setState(
@@ -185,11 +190,11 @@ class CreateCollections extends Component {
             },
             async () => {
               const { collection } = this.state;
-              var formData = new FormData();
+              var formData:any = new FormData();
               for (var val in collection) {
                 if (val === "logo" || val === "featuredImg") {
-                  let result = await this.uploadFileToIpfs(collection[val]);
-                  let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  let result:any = await this.uploadFileToIpfs(collection[val]);
+                  let url:any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
                   formData.append(val, url);
                 }
                 if (collection[val]) {
@@ -207,15 +212,15 @@ class CreateCollections extends Component {
               formValid: false,
             },
             () => {
-              $("#create-collection").scrollTop(0, 0);
+              $("#create-collection").scrollTop(0);
             }
           );
         }
       }
     );
   };
-  uploadFileToIpfs = async (file) => {
-    var data = new FormData();
+  uploadFileToIpfs = async (file:any) => {
+    var data:any = new FormData();
     data.append("file", file);
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
@@ -228,12 +233,12 @@ class CreateCollections extends Component {
         },
       });
       return response;
-    } catch (err) {
+    } catch (err:any) {
       toast.error(err);
       this.setState({ loader: false });
     }
   };
-  handleSelectChange = (selectedOption) => {
+  handleSelectChange = (selectedOption:any) => {
     let { collection } = this.state;
     collection = { ...collection, categoryId: selectedOption.value };
     this.setState({
@@ -403,7 +408,7 @@ class CreateCollections extends Component {
                       firstInputCharacterSpace(e, collection.name.length)
                     }
                     placeholder="Enter name"
-                    maxLength="55"
+                    maxLength={55}
                     autoComplete="off"
                   />
                 </div>
@@ -424,7 +429,7 @@ class CreateCollections extends Component {
                     onKeyDown={(e) =>
                       firstInputCharacterSpace(e, collection.url.length)
                     }
-                    maxLength="55"
+                    maxLength={55}
                     autoComplete="off"
                   />
                 </div>
@@ -454,8 +459,8 @@ class CreateCollections extends Component {
                     className="create-collection-area mt-2"
                     name="description"
                     placeholder="Max 500 characters"
-                    maxLength="500"
-                    rows="3"
+                    maxLength={500}
+                    rows={3}
                     onChange={(e) => this.onChange(e)}
                     onKeyDown={(e) =>
                       firstInputCharacterSpace(e, collection.description.length)
@@ -483,7 +488,7 @@ class CreateCollections extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   collection: state.collection,
   // user: state.user,
   error: state.error,

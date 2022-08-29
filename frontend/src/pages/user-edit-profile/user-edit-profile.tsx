@@ -11,7 +11,7 @@ import {
   beforeUser,
 } from "../../Components/User/user.action";
 import { emptyError } from "../../redux/shared/error/error.action";
-import { ENV } from "./../../config/config";
+import { ENV } from "../../config/config";
 import { Images } from "../../assets/assets";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -21,20 +21,20 @@ import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import Compressor from "compressorjs";
 import axios from "axios";
-const EditProfile = (props) => {
-  const [loader, setLoader] = useState(false);
-  const [errors, setErrors] = useState("");
-  const [image, setImage] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [banner, setBannerImage] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [description, setDescription] = useState("");
-  const [twitterLink, setTwitterLink] = useState("");
-  const [instaLink, setInstaLink] = useState("");
-  const [webLink, setWebLink] = useState("");
-  const [_id, setUserId] = useState("");
+const EditProfile = (props:any) => {
+  const [loader, setLoader] = useState<boolean>(false);
+  const [errors, setErrors] = useState<string>("");
+  const [image, setImage] = useState<any>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [banner, setBannerImage] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [twitterLink, setTwitterLink] = useState<string>("");
+  const [instaLink, setInstaLink] = useState<string>("");
+  const [webLink, setWebLink] = useState<string>("");
+  const [_id, setUserId] = useState<string>("");
 
   const history = useHistory();
   useEffect(() => {
@@ -87,7 +87,7 @@ const EditProfile = (props) => {
     }
   }, [props.user.userAuth]);
 
-  const onFileChange = (e) => {
+  const onFileChange = (e:any) => {
     let file = e.target.files[0];
     let fileURL = "";
     let sizeBeforeCompress = formatBytes(file.size);
@@ -115,7 +115,7 @@ const EditProfile = (props) => {
       });
     }
   };
-  const formatBytes = (bytes, decimals = 2) => {
+  const formatBytes = (bytes:number, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
 
     const k = 1024;
@@ -127,7 +127,7 @@ const EditProfile = (props) => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
-  const submit = async (e) => {
+  const submit = async (e:any) => {
     e.preventDefault();
     setErrors("");
     setLoader(true);
@@ -137,7 +137,7 @@ const EditProfile = (props) => {
     var formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
     if (image) {
-      let result = await uploadFileToIpfs(image);
+      let result:any = await uploadFileToIpfs(image);
       let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append("profileImage", url);
     }
@@ -154,8 +154,8 @@ const EditProfile = (props) => {
     // return ''
     props.updateProfile(formData);
   };
-  const uploadFileToIpfs = async (file) => {
-    var data = new FormData();
+  const uploadFileToIpfs = async (file:string) => {
+    var data:any = new FormData();
     data.append("file", file);
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
@@ -166,9 +166,9 @@ const EditProfile = (props) => {
         },
       });
       return response;
-    } catch (err) {
+    } catch (err:any) {
       toast.error(err);
-      this.setState({ loader: false });
+      // this.setState({ loader: false });
     }
   };
   const bannerData = {
@@ -183,7 +183,7 @@ const EditProfile = (props) => {
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
           bgImg={BannerBg}
-          className="mb-0"
+          // className="mb-0"
         />
         {loader && <FullPageLoader />}
         <div className="collection-detail-content">
@@ -253,8 +253,8 @@ const EditProfile = (props) => {
                     }}
                     value={username}
                     placeholder="Username"
-                    maxLength="55"
-                    minLength="3"
+                    maxLength={55}
+                    minLength={3}
                     autoComplete="off"
                   />
                 </div>
@@ -279,7 +279,7 @@ const EditProfile = (props) => {
                       }
                     }}
                     value={email}
-                    maxLength="55"
+                    maxLength={55}
                     autoComplete="off"
                   />
                 </div>
@@ -310,8 +310,8 @@ const EditProfile = (props) => {
                     className="create-collection-area mt-2"
                     name="description"
                     placeholder="Enter BioData"
-                    maxLength="500"
-                    minLength="3"
+                    maxLength={500}
+                    minLength={3}
                     onChange={(e) => {
                       if (e.target.value.trim() === "" && description === "") {
                         return false;
@@ -341,7 +341,7 @@ const EditProfile = (props) => {
                     }}
                     value={twitterLink}
                     placeholder="Twitter Link"
-                    maxLength="55"
+                    maxLength={55}
                     autoComplete="off"
                   />
                 </div>
@@ -365,7 +365,7 @@ const EditProfile = (props) => {
                       }
                     }}
                     value={instaLink}
-                    maxLength="55"
+                    maxLength={55}
                     autoComplete="off"
                   />
                 </div>
@@ -388,7 +388,7 @@ const EditProfile = (props) => {
                       }
                     }}
                     value={webLink}
-                    maxLength="55"
+                    maxLength={55}
                     autoComplete="off"
                   />
                 </div>
@@ -410,7 +410,7 @@ const EditProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
   wallet: state.wallet,
   user: state.user,
   error: state.error,

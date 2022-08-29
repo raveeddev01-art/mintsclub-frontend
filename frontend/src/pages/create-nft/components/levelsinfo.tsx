@@ -1,7 +1,8 @@
-import React from "react";
+import React,{FC} from "react";
 import "./nftinfo.css";
+import { LevelsInfoInterface } from "../../../interfaces/components";
 
-const LevelsInfo = ({ name, value,i }) => {
+const LevelsInfo:FC<LevelsInfoInterface> = ({ name, value,i }) => {
   const filled = () => {
     let filledArray = [];
     for (let i = 1; i <= value; i++) {
