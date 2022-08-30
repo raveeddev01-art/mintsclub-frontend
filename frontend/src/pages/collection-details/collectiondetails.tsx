@@ -43,7 +43,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const {} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
     onSuccessLikedNFTs,
-    nfts
+    nfts?.length>0?true:false
   );
 
   //Get NFTs
