@@ -15,7 +15,7 @@ export interface BannerInterface {
   content?: string;
   bgImg?: string;
   bannerImg?: string;
-  userprofile?: boolean;
+  bg?: boolean;
 }
 export interface TableInterface {
   titles: any[];
@@ -23,7 +23,7 @@ export interface TableInterface {
   lowestNftPrice: number;
   exchangeRate: number;
   status: string;
-  show?:boolean
+  show?: boolean;
 }
 export interface AudioInterface {
   src: string;
@@ -78,9 +78,9 @@ export interface Buy {
   disabled: boolean;
   balance: number;
   fileType: string;
-  show:boolean;
-  modal:number;
-  setModal:any
+  show: boolean;
+  modal: number;
+  setModal: any;
 }
 export interface Levels {
   show: boolean;
@@ -179,23 +179,22 @@ export interface listingInt {
   totalItems?: any;
 }
 
-
 export interface CollectionSubLoaderInt {
-  image:string
+  image: string;
 }
 
 export interface VideoCardInterface {
-  CardImg : string,
-  handleLikesTogleApi:(_id:string,status:string,likeCount:any)=>any,
-  id : string;
-  name :string;
-  price :any;
-  likesCount : number;
+  CardImg: string;
+  handleLikesTogleApi: (_id: string, status: string, likeCount: any) => any;
+  id: string;
+  name: string;
+  price: any;
+  likesCount: number;
   likedNfts: any;
   ownerId: string;
   sellingMethod: any;
-  userProfile : string;
-  auctionStartDate : Date;
+  userProfile: string;
+  auctionStartDate: Date;
   auctionEndDate: Date;
   copies: any;
   remainingCopies: any;
@@ -203,28 +202,28 @@ export interface VideoCardInterface {
 }
 export interface LevelsInfoInterface {
   name: string;
-  value:any;
+  value: any;
   i?: any;
 }
 
 export interface PropertiesInfoInterface {
-  name:string;
-  type:any;
+  name: string;
+  type: any;
 }
 
 export interface StatsInfoInterface {
-  name : string;
-  value:any;
+  name: string;
+  value: any;
 }
 export interface UploadInterface {
-  Images:any;
-  onFileChange:(e?:any,event?:string) => any;
-  imageURL:any;
-  onDrop:(e:any) => any;
-  dragOver:(e:any) => any;
-  dragEnter:(e:any) => any;
-  dragLeave:(e:any) => any;
-  videoURL:any;
-  audioSrc:any;
-  clearData:any;
+  Images: any;
+  onFileChange: (e?: any, event?: string) => any;
+  imageURL: any;
+  onDrop: (e: any) => any;
+  dragOver: (e: any) => any;
+  dragEnter: (e: any) => any;
+  dragLeave: (e: any) => any;
+  videoURL: any;
+  audioSrc: any;
+  clearData: any;
 }

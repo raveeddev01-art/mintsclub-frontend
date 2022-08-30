@@ -1,32 +1,102 @@
-.create-nft .upload-nft-container {
-  max-width: 500px;
-  height: 360px;
-  background: #fbfcff;
-  border: 1px solid #c9daff;
-  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.create-nft {
+  .banner-wrapper {
+    min-height: 420px;
+    margin-bottom: 50px;
+  }
+  .upload-nft-container {
+    max-width: 500px;
+    height: 360px;
+    background: var(--create-nft-upload-bg);
+    border: var(--nft-search-border);
+    box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .create-collection .create-collection-label {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    color: var(--text-body-two);
+    margin-left: 1.5rem;
+  }
+  .create-collection-label {
+    color: var(--login-label);
+  }
+
+  .create-collection-input {
+    border: 1px solid #c9daff;
+    height: 42px;
+    border-radius: 44px;
+    box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+    color: var(--text-body);
+    outline: none;
+    padding-left: 24px;
+    background-color: var(--nft-search-bg);
+    &::placeholder {
+      color: #9c9c9c !important;
+    }
+  }
+  .create-collection-area {
+    height: 324px;
+    background: var(--nft-search-bg);
+    border: 1px solid #c9daff;
+    box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+    border-radius: 18px;
+    color: var(--text-body);
+    resize: none;
+    &::placeholder {
+      color: #9c9c9c !important;
+    }
+  }
+  .react-select-cls {
+    .react-select__control {
+      background-color: var(--nft-search-bg);
+      margin-top: 0.45rem;
+      border: 1px solid #c9daff;
+      box-shadow: 0px 0px 0px 4px rgb(60 102 243 / 6%);
+      border-radius: 44px;
+      .react-select__value-container {
+        max-height: 40px;
+        display: flex;
+        align-items: start;
+        color: var(--text-body-two);
+        padding: 8px;
+        padding-left: 24px;
+        .react-select__placeholder {
+          color: #9c9c9c;
+        }
+      }
+    }
+    .react-select__indicator-separator {
+      display: none;
+    }
+  }
 }
 
 .create-nft .upload-nft-container .upload-icon-container h6 {
   font-weight: 700;
   font-size: 12px;
-  color: #2957b8;
+  color: var(--create-nft-upload-clr);
   margin-bottom: 0;
 }
 
 .create-nft .upload-nft-container .upload-icon-container p {
   font-weight: 400;
   font-size: 11px;
-  color: #2957b8;
+  color: var(--create-nft-upload-clr);
   margin-bottom: 0;
 }
 
 .create-nft .upload-nft-container .upload-icon-container span {
-  color: #436bc1;
+  color: var(--create-nft-upload-clr);
+}
+
+.create-nft .upload-nft-container .upload-icon-container span.upload-nft-btn {
+  color: var(--btn-bg-sec);
 }
 
 .create-nft .create-collection-input {
@@ -44,7 +114,7 @@
   border: none;
   outline: none;
   box-shadow: none;
-  padding: 5px;
+  padding: 0 5px 4px 5px;
 }
 
 .nft-properties-container {
@@ -172,8 +242,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
-  width: 70%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 20px;
 }

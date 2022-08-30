@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, useContext, FC } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import "./collectiondetails.scss";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
@@ -9,6 +9,9 @@ import Listing from "../../Components/Listing/Listing";
 import { toast } from "react-toastify";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/profileBg.png";
+import BannerDark from "../../assets/images/bannerbg.png";
+import BannerLight from "../../assets/images/bannerbg2.png";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
@@ -26,6 +29,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
   const [nftPagination, setNFTPagination] = useState<object | null>(null);
   const [disabled, setDisabled] = useState(false);
+  const { darkMode } = useContext(darkModeContext);
   const location: any = useLocation();
   const [filter, setFilter] = useState<any>({
     collectionId: location.state.id,
@@ -158,7 +162,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
-          bgImg={BannerBg}
+          bgImg={darkMode ? BannerDark : BannerLight}
+          bg={true}
         />
         <div className="collection-detail-content">
           <div className="container">

@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
 import "../PropertiesModal/PropertiesModal.scss";
+import "../BuyModal/BuyModal.scss";
 import { toast } from "react-toastify";
 import {
   decimalNumberValidator,

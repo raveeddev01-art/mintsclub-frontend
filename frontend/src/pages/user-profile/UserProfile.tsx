@@ -32,13 +32,10 @@ import {
 import { Link } from "react-router-dom";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { useHistory } from "react-router";
-import {
-  useGetMyLikedNFTs,
-} from "../../hooks/CollectionDetails";
+import { useGetMyLikedNFTs } from "../../hooks/CollectionDetails";
 import { useGetCollections, useGetNFTs } from "../../hooks/AllNFTs";
 import { useGetUserDataById } from "../../hooks/UserProfile";
-import {useInsertData} from "../../hooks/Common"
-
+import { useInsertData } from "../../hooks/Common";
 
 const UserProfile = (props: any) => {
   const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
@@ -60,7 +57,7 @@ const UserProfile = (props: any) => {
     props.connectedAddress
   );
   const { darkMode } = useContext(darkModeContext);
-  const [filter,setFilter]=useState({page:1,limit:9999999})
+  const [filter, setFilter] = useState({ page: 1, limit: 9999999 });
   const userId = ENV.getUserKeys("_id")._id;
   const history = useHistory();
   useEffect(() => {
@@ -69,8 +66,8 @@ const UserProfile = (props: any) => {
 
   const onSuccessNFTs = (res: any) => {
     const { nfts } = res?.data?.data;
-    console.log(nfts,"nfts")
-    const data:any = nfts;
+    console.log(nfts, "nfts");
+    const data: any = nfts;
     if (!menuFilter) {
       const Nfts = data?.filter((item: any) => item.ownerId === userId);
       if (Nfts?.length > 0) {
@@ -91,7 +88,7 @@ const UserProfile = (props: any) => {
     setLoader(false);
     setFilterationLoader(false);
   };
-  const {isLoading:isLoadingNFTs,refetch} = useGetNFTs(
+  const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
     filter,
     onSuccessNFTs,
     9999999
@@ -126,8 +123,10 @@ const UserProfile = (props: any) => {
   };
 
   //Like/Dislike
-  const { mutate } = useInsertData("nftLikes/likeDislike",
-  onSuccessLikeDislike);
+  const { mutate } = useInsertData(
+    "nftLikes/likeDislike",
+    onSuccessLikeDislike
+  );
   useEffect(() => {
     if (props.getAuth) {
       let myCollections = props.collections.filter(
@@ -157,24 +156,22 @@ const UserProfile = (props: any) => {
     }
   }, [props.connectedAddress]);
 
-
-
   useEffect(() => {
     if (props.myLikedNftsStatus) {
       setLikedNfts(props.myLikedNfts);
     }
   }, [props.myLikedNftsStatus]);
 
-
   const ChangeTooltip = () =>
     setTimeout(() => {
       setAddressCopied(false);
     }, 3000);
 
-
   const handleLikesTogleApi = async (
     nftId: string,
+
     status: string,
+
     likesCount: number
   ) => {
     if (await validateNetwork()) {
@@ -274,9 +271,9 @@ const UserProfile = (props: any) => {
   };
 
   const fetchData = (filterObj: any) => {
-    setFilter(filterObj)
+    setFilter(filterObj);
     getNFTs(filterObj);
-    refetch()
+    refetch();
   };
   const getPaginatedData = () => {
     setDataLimit((prev) => prev + 10);
@@ -299,7 +296,7 @@ const UserProfile = (props: any) => {
             subHeading={bannerData.subHeading}
             heading={bannerData.heading}
             bgImg={darkMode ? BannerDark : BannerLight}
-            userprofile={true}
+            bg={true}
             // className="mb-0"
           />
           <div className="user-detail-content">

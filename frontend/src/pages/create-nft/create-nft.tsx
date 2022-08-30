@@ -53,10 +53,10 @@ class CreateNFT extends React.Component<
     emptyError: () => any;
     beforeNFT: () => any;
     addNFTRecord: (payload: any) => any;
-    connectedAddress:string,
-    collection:any,
-    error:any,
-    createNFTauth:any,
+    connectedAddress: string;
+    collection: any;
+    error: any;
+    createNFTauth: any;
   },
   {
     isSubmitted: boolean;
@@ -714,6 +714,7 @@ class CreateNFT extends React.Component<
               content={createNFTbanner.content}
               bgImg={BannerBg}
               bannerImg={BannerImage}
+              bg={true}
             />
             <div className="container">
               {/* <form> */}

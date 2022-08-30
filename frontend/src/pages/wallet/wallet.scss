@@ -11,7 +11,7 @@
   background-color: #10103c !important;
 }
 .sign-in-card {
-  background: #e2ecff;
+  background: var(--login-card-bg);
   border: 1px solid rgba(56, 127, 255, 0.18);
   border-radius: 20px;
   height: 296px;
@@ -135,14 +135,14 @@
 
   text-align: center;
 
-  color: #232323;
+  color: var(--text-body-two);
   word-break: break-all;
   padding: 0 10px;
 }
 .change-wallet-btn {
-  background: #3d3d3d;
+  background: var(--login-btn-bg);
   border-radius: 55px;
-  color: white;
+  color: var(--login-btn-clr);
   padding: 7px 33px;
   border: none;
 }
