@@ -4,10 +4,10 @@ import  { useQuery ,useMutation} from "react-query";
 import errorHandler from "../context/errorHandler/ErrorHandlerContext";
 import { ENV } from "../config/config";
 
-export const useGetCollections=(onSuccess:any,enabled?:any)=>{
+export const useGetCollections=(onSuccess:any,enabled?:any,qs?:any)=>{
   const {setError } = useContext(errorHandler);
 
-    return useQuery(["AllCollections"], () => handleRequest("get", "collection/list"),{
+    return useQuery(["AllCollections",qs&&qs], () => handleRequest("get", "collection/list",null,qs),{
         onSuccess,
         enabled,
         onError:(error:any)=>{

@@ -46,7 +46,6 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   }, []);
 
   useEffect(() => {
-    props.getCollections();
     if (props?.location?.state) {
       let searchQs: object | string = {
         keyword: props.location.state,

@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ENV } from "../../config/config";
 import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.scss";
-import NavbarMain from "../../Components/NavbarMain/NavbarMain";
-import Footer from "../../Components/Footer/Footer";
 import Breadcrumb from "../../Components/Breadcrumb/Breadcrumb";
 import { Images } from "../../assets/assets";
+import { useGetTopSellers } from "../../hooks/TopSellers";
 
 const TopSellerList = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
@@ -36,14 +35,20 @@ const TopSellerList = (props: any) => {
   }, [props.user.topSellersAuth]);
 
   const handlePagination = () => {
-    let qs: any = { limit: limit + 10, page: 1 };
-    qs = ENV.objectToQueryString(qs);
-    props.getTopSellers(qs);
+    setLimit(limit+10)
+    // let qs: any = { limit: limit + 10, page: 1 };
+    // qs = ENV.objectToQueryString(qs);
+    // props.getTopSellers(qs);
   };
+
+  const onSuccessTopSellers = (data: any) => {
+    const { topSellers } = data.data.data;
+    setSellers(topSellers)
+  };
+  const { isLoading } = useGetTopSellers(onSuccessTopSellers, ENV.objectToQueryString( { limit, page:1 }));
   return (
     <>
-      <NavbarMain />
-      <Breadcrumb title1={"Sellers"} title2={"TopSellers"} />
+      {/* <Breadcrumb title1={"Sellers"} title2={"TopSellers"} /> */}
       <section className="top-seller-area padding-wrapper">
         <div className="container">
           <div className="row">
@@ -125,7 +130,6 @@ const TopSellerList = (props: any) => {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 };

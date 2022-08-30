@@ -1,8 +1,6 @@
-import React, {
+import {
   useState,
   useEffect,
-  forwardRef,
-  useImperativeHandle,
   FC,
 } from "react";
 import "./explore-collections.scss";
@@ -24,11 +22,11 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import { exploreCollectionBanner } from "../../utils/exportData";
 import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
+import { useGetCollections } from "../../hooks/AllNFTs";
+import {useGetCategories} from "../../hooks/PopularCollections";
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [isActive, setIsActive] = useState("All");
   const [collections, setCollections] = useState<any[] | null>(null);
-  const [categoriesLoader, setCatLoader] = useState(true);
-  const [collectionsLoader, setColLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -39,87 +37,46 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 
   useEffect(() => {
     window.scroll(0, 0);
-
-    if (props.setLoader) props.setLoader(false);
-
-    getCollections(null, 1, null);
-    props.getCategories();
   }, []);
 
-  useEffect(() => {
-    if (props.collection.getAuth) {
-      const { collections, pagination } = props.collection;
-      setPagination(pagination);
-      const userId = ENV.getUserKeys("_id")._id;
-      if (props.mycollections) {
-        let myCollections = collections.filter(
-          (item: any) => item.userId === userId
-        );
-        setCollections(myCollections);
-      } else {
-        if (collections === null) {
-          setEmpty(true);
-        } else {
-          setEmpty(false);
-        }
-        setCollections(collections);
-
-        setColLoader(false);
-        setLoader(false);
-      }
-      props.beforeCollection();
+  const onSuccessCollections = (data: any) => {
+    const { collections, pagination } = data.data.data;
+    if(collections.length>0){
+      setEmpty(false);
     }
-  }, [props.collection.getAuth]);
-
-  useEffect(() => {
-    if (props.collection.collectionFlag) {
-      setCategories(props.collection.categories);
-
-      props.beforeCategory();
-      setCatLoader(false);
-    }
-  }, [props.collection.collectionFlag]);
-
-  const getCollections = (
-    category: string | null,
-    page: number | null,
-    pageLimit: number | null
-  ) => {
-    const filter: any = {
-      page,
-    };
-
-    if (props.userId) filter.userId = props.userId;
-    if (props.popular) filter.popular = true;
-    if (category) filter.myFilter = category;
-    if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
-    else filter.all = true;
-
-    const qs = ENV.objectToQueryString(filter);
-
-    props.getCollections(qs);
+    setCollections(collections);
+    setPagination(pagination);
+  };
+  const { isLoading: isLoadinCollections } = useGetCollections(
+    onSuccessCollections,
+    true,
+    ENV.objectToQueryString({
+      page: page,
+      limit: limit,
+      myFilter: selectedCategory,
+    })
+  );
+  const onSuccessCategories = (data: any) => {
+    setCategories(data.data.categories);
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   getCatCollections: (catId:string) => {
-  //     if (props.setLoader) props.setLoader(true);
-
-  //     getCollections(catId, page);
-  //   },
-  //   colCount: collections?.length || 0,
-  // }));
+  const {
+    isFetching: isFetchingCategories,
+    isLoading: isCategoryLoading,
+  }: any = useGetCategories(
+    (error: any) => console.log(error),
+    onSuccessCategories
+  );
 
   const handlePagination = () => {
     window.scroll(0, 500);
     setPage(page);
     setLimit(limit + 10);
-    getCollections(selectedCategory, page, limit + 10);
   };
   const handleFilterCategory = (category: string) => {
     setLoader(true);
     setPage(1);
     setLimit(10);
-    getCollections(category, 1, 10);
   };
 
   const handleImage = (item: any, index: number) => {
@@ -139,7 +96,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 
   return (
     <>
-      {categoriesLoader && collectionsLoader ? (
+      {isCategoryLoading && isLoadinCollections ? (
         <FullPageLoader />
       ) : (
         <section className="explore-collection-section padding-wrapper pt-0">
@@ -199,7 +156,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
               </div>
             </div>
             <div className="row g-1 align-items-center justify-content-center">
-              {loader ? (
+              {isLoadinCollections ? (
                 <div className="spinner-border" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
@@ -239,7 +196,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                 <div className="mt-5 d-flex justify-content-center align-items-center">
                   {!empty &&
                     collections?.length === 10 &&
-                    !loader &&
+                    !isLoadinCollections &&
                     pagination.totalRecords > collections.length && (
                       <button
                         className="btn btn-rounded-bordered px-5"
