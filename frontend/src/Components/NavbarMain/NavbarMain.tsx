@@ -70,7 +70,6 @@ const NavbarMain = () => {
       setDarkMode(true);
     }
   }, []);
-  console.log(ENV?.getUserKeys("_id"));
 
   return (
     <div className="main-nav-section">

@@ -150,7 +150,10 @@ const UserProfile = (props: any) => {
     ) {
       // toast.info("Please login with new connected Account user");
       localStorage.clear();
-      history.push("/login");
+      history.push({
+        pathname: `/connect-wallet`,
+        state: `/userprofile`,
+      });
     }
   }, [props.connectedAddress]);
 
@@ -413,7 +416,10 @@ const UserProfile = (props: any) => {
   } else {
     toast.info("Please login with new connected account");
     localStorage.clear();
-    history.push("/login");
+    history.push({
+      pathname: `/connect-wallet`,
+      state: `/userprofile`,
+    });
     return <React.Fragment> </React.Fragment>;
   }
 };

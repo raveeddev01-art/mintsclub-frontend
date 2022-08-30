@@ -158,7 +158,10 @@ class CreateNFT extends React.Component<
     this.props.beforeCollection();
     this.props.myCollections(ENV.getUserKeys("_id")._id);
     if (!ENV.getUserKeys("_id")._id) {
-      this.props.history.push("/login");
+      this.props.history.push({
+        pathname: `/connect-wallet`,
+        state: `/create`,
+      });
     }
 
     let ownerAddress = await getCurrentAddress();
@@ -182,7 +185,10 @@ class CreateNFT extends React.Component<
     ) {
       toast.info("Please login with new connected account");
       localStorage.clear();
-      return this.props.history.push("/login");
+      return     this.props.history.push({
+        pathname: `/connect-wallet`,
+        state: `/create`,
+      });
     }
     if (this.state.playerState.isPlaying !== prevState.playerState.isPlaying) {
       this.state.playerState.isPlaying
@@ -1200,7 +1206,10 @@ class CreateNFT extends React.Component<
       );
     } else {
       toast.info("Please login with new connected account");
-      this.props.history.push("/login");
+      this.props.history.push({
+        pathname: `/connect-wallet`,
+        state: `/create`,
+      })
       return " ";
     }
   }

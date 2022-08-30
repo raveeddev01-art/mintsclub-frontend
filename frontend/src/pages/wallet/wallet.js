@@ -33,6 +33,7 @@ const Wallet = (props) => {
   const [username, setUsername] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [loader, setLoader] = useState(false);
+
   useEffect(async () => {
     let address = await getWalletAddress();
     if (address) {
@@ -40,6 +41,7 @@ const Wallet = (props) => {
     }
     window.ethereum.on("disconnect", () => setConnectedAddress(null));
   }, []);
+  
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window.ethereum) {

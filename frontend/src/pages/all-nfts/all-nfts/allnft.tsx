@@ -153,7 +153,10 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       } else {
         toast.info("Please login first to continue");
       }
-      history.push("/login");
+      history.push({
+        pathname: `/connect-wallet`,
+        state: `/explore/allNFT`,
+      })
     }
   };
   const increOrDecreLikes = (id: string, status: string) => {

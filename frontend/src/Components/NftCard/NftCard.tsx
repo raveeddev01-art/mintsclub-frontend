@@ -29,7 +29,8 @@ const NFTCard: FC<NFTCardInt> = (props) => {
     remainingCopies,
     ownerAddress,
   } = props.data;
-  const { username, profileImage, profilePhoto } = props?.owner;
+ 
+  const { username, profileImage, profilePhoto }: any = props?.owner||{}
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
@@ -183,7 +184,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
                   ? "You"
                   : username && username?.length > 19
                   ? username.substring(0, 19) + "..."
-                  : username?.length <= 19
+                  : username&&username?.length <= 19
                   ? username
                   : "unnamed"}
               </span>

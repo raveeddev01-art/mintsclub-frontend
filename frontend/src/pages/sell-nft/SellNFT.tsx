@@ -107,7 +107,10 @@ const SellNFT = (props: any) => {
         props.connectedAddress.toUpperCase()
     ) {
       toast.info("Please login with new connected account");
-      return history.push("/login");
+      return  history.push({
+        pathname: `/connect-wallet`,
+        state: `/sellnft`,
+      });
     }
   }, [props.connectedAddress]);
 

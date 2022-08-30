@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 import Footer from "../../Components/Footer/Footer";
 import "./CreateCollections.scss";
 import { connect } from "react-redux";
@@ -28,12 +28,32 @@ import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 
-class CreateCollections extends React.Component<{connectedAddress:string,getCategories:() => any,history:any,error:any,emptyError:()=>any,collection:any,
-  beforeCollection:()=>any,category:any,beforeCategory:()=>any,upsertCollection:(url:string,data:any)=>any},
-{ isSubmitted:boolean,formValid:boolean,loader:boolean,errors:any,collection:any,categories:any,selectedCategory:string,selectedOption:any}>
-{
+class CreateCollections extends React.Component<
+  {
+    connectedAddress: string;
+    getCategories: () => any;
+    history: any;
+    error: any;
+    emptyError: () => any;
+    collection: any;
+    beforeCollection: () => any;
+    category: any;
+    beforeCategory: () => any;
+    upsertCollection: (url: string, data: any) => any;
+  },
+  {
+    isSubmitted: boolean;
+    formValid: boolean;
+    loader: boolean;
+    errors: any;
+    collection: any;
+    categories: any;
+    selectedCategory: string;
+    selectedOption: any;
+  }
+> {
   validator: SimpleReactValidator;
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.state = {
       isSubmitted: false,
@@ -56,7 +76,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
       },
       categories: null,
       selectedCategory: "",
-      selectedOption:"",
+      selectedOption: "",
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
@@ -71,7 +91,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
     // this.props.getUser()
   }
 
-  componentDidUpdate(prevProps:any) {
+  componentDidUpdate(prevProps: any) {
     const { connectedAddress } = this.props;
     if (
       prevProps.connectedAddress !== "" &&
@@ -80,7 +100,10 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
       connectedAddress !== ""
     ) {
       toast.info("Please login with new connected account");
-      return this.props.history.push("/login");
+      return this.props.history.push({
+        pathname: `/connect-wallet`,
+        state: `/createcollection`,
+      });
     }
     if (prevProps.connectedAddress === "" && connectedAddress) {
       let { collection } = this.state;
@@ -116,7 +139,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
     }
   }
 
-  onFileChange(e:any) {
+  onFileChange(e: any) {
     let file = e.target.files[0];
     if (file)
       if (file.type.includes("image")) {
@@ -138,7 +161,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
         this.setState({ collection });
       }
   }
-  formatBytes = (bytes:number, decimals = 2) => {
+  formatBytes = (bytes: number, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
 
     const k = 1024;
@@ -150,7 +173,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
-  onChange(e:any) {
+  onChange(e: any) {
     let { name, value } = e.target;
     const userId = ENV.getUserKeys("_id")._id;
     let { collection } = this.state;
@@ -173,7 +196,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
     this.setState({ collection, isSubmitted: false });
   };
 
-  submit = (e:any) => {
+  submit = (e: any) => {
     e.preventDefault();
     const userId = ENV.getUserKeys("_id")._id;
     this.setState(
@@ -190,11 +213,13 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
             },
             async () => {
               const { collection } = this.state;
-              var formData:any = new FormData();
+              var formData: any = new FormData();
               for (var val in collection) {
                 if (val === "logo" || val === "featuredImg") {
-                  let result:any = await this.uploadFileToIpfs(collection[val]);
-                  let url:any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  let result: any = await this.uploadFileToIpfs(
+                    collection[val]
+                  );
+                  let url: any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
                   formData.append(val, url);
                 }
                 if (collection[val]) {
@@ -219,8 +244,8 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
       }
     );
   };
-  uploadFileToIpfs = async (file:any) => {
-    var data:any = new FormData();
+  uploadFileToIpfs = async (file: any) => {
+    var data: any = new FormData();
     data.append("file", file);
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
@@ -233,12 +258,12 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
         },
       });
       return response;
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err);
       this.setState({ loader: false });
     }
   };
-  handleSelectChange = (selectedOption:any) => {
+  handleSelectChange = (selectedOption: any) => {
     let { collection } = this.state;
     collection = { ...collection, categoryId: selectedOption.value };
     this.setState({
@@ -488,7 +513,7 @@ class CreateCollections extends React.Component<{connectedAddress:string,getCate
   }
 }
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
   collection: state.collection,
   // user: state.user,
   error: state.error,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import "./nftdetail.scss";
 import {
   getNFT,
@@ -92,7 +92,6 @@ const NFTDetail = (props: any) => {
   const [initial, setInitial] = useState<boolean>(false);
   const [contentLoader, setContentLoader] = useState<boolean>(true);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
-
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
   useEffect(() => {
@@ -281,7 +280,10 @@ const NFTDetail = (props: any) => {
       } else {
         toast.info("Please login first to continue");
       }
-      history.push("/login");
+      history.push({
+        pathname: `/connect-wallet`,
+        state: `/nftdetail/${props.match.params.id}`,
+      });
     }
   };
 
@@ -503,7 +505,10 @@ const NFTDetail = (props: any) => {
       } else {
         toast.info("Please login first to continue");
       }
-      history.push("/login");
+      history.push({
+        pathname: `/connect-wallet`,
+        state: `/nftdetail/${props.match.params.id}`,
+      });
     }
   };
 

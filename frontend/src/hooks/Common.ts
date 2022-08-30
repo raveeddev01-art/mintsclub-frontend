@@ -3,7 +3,7 @@ import  { useMutation} from "react-query";
 import { handleRequest } from "../utils/functions";
 
 export const useInsertData=(url:any,onSuccess:any,)=>{
-    return useMutation((paylaod:any)=>handleRequest("post",url,paylaod))
+    return useMutation((paylaod:any)=>handleRequest("post",url,paylaod),{onSuccess})
   }
 
 
