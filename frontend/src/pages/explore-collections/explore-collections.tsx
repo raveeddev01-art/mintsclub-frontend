@@ -24,6 +24,7 @@ import { exploreCollectionBanner } from "../../utils/exportData";
 import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
 import { useGetCollections } from "../../hooks/AllNFTs";
 import {useGetCategories} from "../../hooks/PopularCollections";
+
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [isActive, setIsActive] = useState("All");
   const [collections, setCollections] = useState<any[] | null>(null);
@@ -32,7 +33,6 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState<any[] | null>(null);
   const [empty, setEmpty] = useState(false);
-  const [loader, setLoader] = useState(true);
   const [pagination, setPagination] = useState<any>(null);
 
   useEffect(() => {
@@ -73,12 +73,6 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     setPage(page);
     setLimit(limit + 10);
   };
-  const handleFilterCategory = (category: string) => {
-    setLoader(true);
-    setPage(1);
-    setLimit(10);
-  };
-
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
       let result = item.nftDetail.filter(
@@ -120,7 +114,6 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                           onClick={() => {
                             setIsActive(item.name);
                             setSelectedCategory(item.description);
-                            handleFilterCategory(item.description);
                           }}
                           className={`${
                             item.name === isActive ? "active-explore-nav" : ""
@@ -141,7 +134,6 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                             onClick={() => {
                               setIsActive(item.name);
                               setSelectedCategory(item.description);
-                              handleFilterCategory(item.description);
                             }}
                             className={
                               isActive === item.name ? "active-explore-nav" : ""
