@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
+import BannerDark from "../../assets/images/loginbg.png";
+import BannerLight from "../../assets/images/loginbg-light.png";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { connectMetamaskCopy, signRequest } from "../../utils/web3";
 import { toast } from "react-toastify";
 import { signup } from "../../Components/User/user.action";
+
 import "./signup.scss";
 
 const SignUp = (props) => {
@@ -15,7 +19,7 @@ const SignUp = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [loader, setLoader] = useState(false);
-
+  const { darkMode } = useContext(darkModeContext);
   const history = useHistory();
 
   useEffect(async () => {
@@ -70,7 +74,8 @@ const SignUp = (props) => {
         subHeading={signInbannerData.subHeading}
         heading={signInbannerData.heading}
         content={signInbannerData.content}
-        bgImg={BannerBg}
+        bgImg={darkMode ? BannerDark : BannerLight}
+        bg={true}
       />
       <section className="signup-section padding-wrapper">
         <div className="container">

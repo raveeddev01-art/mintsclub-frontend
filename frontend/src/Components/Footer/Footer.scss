@@ -90,16 +90,19 @@
 
 .footer-area .footer-items ul li {
   margin: 0.8rem 0;
-  list-style-image: url("../../assets/images/list-arrow.svg");
+  list-style-image: var(--footer-arrow);
   list-style-position: inside;
+  color: var(--footer-text);
 }
 
-.footer-area .footer-items ul li a {
-  font-weight: 400;
-  font-size: 13px;
-  color: var(--footer-text);
-  text-decoration: none;
-  padding-left: 5px;
+.footer-area .footer-items ul li {
+  a {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--footer-text);
+    text-decoration: none;
+    padding-left: 5px;
+  }
 }
 
 .footer-bottom {

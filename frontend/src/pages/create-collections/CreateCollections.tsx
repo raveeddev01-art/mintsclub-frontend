@@ -325,6 +325,7 @@ class CreateCollections extends React.Component<
               content={bannerData.content}
               bgImg={BannerBg}
               bannerImg={BannerImage}
+              bg={true}
             />
             <div className="container">
               <div className="row">

@@ -38,12 +38,24 @@
   --sort-by: #404040;
   --filter-heading: #393939;
   --filter-btn: #ffffff;
+  --filter-btn-border: 1px solid #c9daff;
   --explore-btn-clr: #1a1a1a;
   --side-join-date: #000000;
   --clear-btn-bg: #ebf2ff;
   --clear-btn-clr: #174baa;
   --clear-btn-border: 1.5px solid #ebf2ff;
   --card-auction-bg: #f7f7f7;
+  --login-card-bg: #e2ecff;
+  --login-btn-bg: #3d3d3d;
+  --login-btn-clr: #ffffff;
+  --login-label: #343434;
+  --footer-arrow: url("../images/list-arrow.svg");
+  --create-nft-upload-bg: #fbfcff;
+  --create-nft-prop-bg: #f2f6fe;
+  --create-nft-prop-clr: #3e3e3e;
+  --create-nft-upload-clr: #2957b8;
+  --modal-bg: #ffffff;
+  --undefined-level: #c4c4c4;
 }
 
 [data-theme="dark"] {
@@ -86,10 +98,22 @@
   --sort-by: #ffffff;
   --filter-heading: #ffffff;
   --filter-btn: #42495d;
+  --filter-btn-border: 1px solid #387fff;
   --explore-btn-clr: #ffffff;
   --side-join-date: #dadada;
   --clear-btn-bg: #212226;
   --clear-btn-clr: #387fff;
   --clear-btn-border: 1.5px solid rgba(123, 168, 252, 0.47);
   --card-auction-bg: #31384e;
+  --login-card-bg: #1f2b4b;
+  --login-btn-bg: #ffffff;
+  --login-btn-clr: #282828;
+  --login-label: #ffffff;
+  --footer-arrow: url("../images/list-arrow-dark.svg");
+  --create-nft-upload-bg: #182338;
+  --create-nft-prop-bg: #31384e;
+  --create-nft-prop-clr: #e7e7e7;
+  --create-nft-upload-clr: #ffffff;
+  --modal-bg: #1f2b4b;
+  --undefined-level: #dae4fd;
 }

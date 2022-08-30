@@ -8,20 +8,20 @@ const Banner: FC<BannerInterface> = ({
   content,
   bgImg,
   bannerImg,
-  userprofile,
+  bg,
 }) => {
   return (
     <>
       <div
         className="banner-wrapper padding-wrapper pb-0"
-        style={{ backgroundImage: `url(${userprofile ? bgImg : ""})` }}
+        style={{ backgroundImage: `url(${bg ? bgImg : ""})` }}
       >
         <div className="container">
           <div className="row align-items-end">
             <div className="col-md-9 col-lg-7">
               <div className="intro">
                 <div className="intro-content clr-blue">
-                  {subHeading && userprofile && <span>{subHeading}</span>}
+                  {subHeading && bg && <span>{subHeading}</span>}
                   {heading && <h3 className="mb-0">{heading}</h3>}
                   {content && <p className="pt-4">{content}</p>}
                 </div>

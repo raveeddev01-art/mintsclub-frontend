@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { connect } from "react-redux";
@@ -20,6 +20,9 @@ import { Images } from "../../assets/assets";
 import "./wallet.scss";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
+import BannerDark from "../../assets/images/loginbg.png";
+import BannerLight from "../../assets/images/loginbg-light.png";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { getWalletAddress, validateNetwork } from "../../utils/web3";
 import { ENV } from "../../config/config";
 const Wallet = (props) => {
@@ -32,6 +35,7 @@ const Wallet = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [disabled, setDisabled] = useState(false);
+  const { darkMode } = useContext(darkModeContext);
   const [loader, setLoader] = useState(false);
 
   useEffect(async () => {
@@ -101,7 +105,7 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
-    if (props.collection.getAuth&&ENV.getUserKeys("_id")?._id) {
+    if (props.collection.getAuth && ENV.getUserKeys("_id")?._id) {
       props.beforeCollection();
       toast.success("User logged in successfully");
       history.push("/");
@@ -145,9 +149,7 @@ const Wallet = (props) => {
         let newAcc = await switchNetworkToChainId(ENV.chainId);
         props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
-      } catch (error) {
-     
-      }
+      } catch (error) {}
     }
     try {
       setDisabled(true);
@@ -156,7 +158,7 @@ const Wallet = (props) => {
       let payload = {
         address: connectedAddress,
       };
-      props.setWalletAddress(connectedAddress)
+      props.setWalletAddress(connectedAddress);
 
       props.login(payload);
     } catch (err) {
@@ -216,7 +218,8 @@ const Wallet = (props) => {
                 subHeading={signInbannerData.subHeading}
                 heading={signInbannerData.heading}
                 content={signInbannerData.content}
-                bgImg={BannerBg}
+                bgImg={darkMode ? BannerDark : BannerLight}
+                bg={true}
               />
             </div>
             <div className="padding-wrapper">

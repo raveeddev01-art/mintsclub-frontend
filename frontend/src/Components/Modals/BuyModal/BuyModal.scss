@@ -3,10 +3,10 @@
 }
 
 .buy-modal .buy-modal-content {
-  background-color: #ffffff;
+  background-color: var(--modal-bg);
   color: #343434;
   border-radius: 16px;
-  border: 1px solid #c9daff;
+  border: var(--clear-btn-border);
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
 }
 
@@ -18,7 +18,7 @@
 }
 
 .buy-modal .buy-modal-content .modal-header .modal-title.h4 {
-  color: #343434;
+  color: var(--login-label);
   font-weight: 600;
   font-size: 22px;
   margin-top: 10px;
