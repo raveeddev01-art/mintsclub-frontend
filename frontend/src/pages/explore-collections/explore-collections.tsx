@@ -5,6 +5,7 @@ import React, {
   useImperativeHandle,
   FC,
 } from "react";
+import { toast } from "react-toastify";
 import "./explore-collections.scss";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
@@ -16,6 +17,10 @@ import {
   beforeCategory,
   getCategories,
 } from "../collections/collections.actions";
+
+import { useQuery } from '@tanstack/react-query'
+import axios from "axios";
+
 import { Images } from "../../assets/assets";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
@@ -37,13 +42,39 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [loader, setLoader] = useState(true);
   const [pagination, setPagination] = useState<any>(null);
 
+  const useGetCategoriesQuery = () => {
+    const url = `${ENV.url}category/list`;
+      const { isLoading, error, data } = useQuery(["getCategories"], () =>
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: ENV.Authorization,
+          "x-auth-token": ENV.x_auth_token,
+          "Access-Control-Allow-Origin": "*",
+          "x-access-token":
+            ENV.getUserKeys("accessToken") &&
+            ENV.getUserKeys("accessToken").accessToken
+              ? ENV.getUserKeys("accessToken").accessToken
+              : "",
+        },
+      })
+      .then((res) => res.json()));
+
+      console.log("1 data",data);
+      if (isLoading) return "Loading...";
+      if (error) return toast.error(data.message);
+      console.log("2 data", data);
+    }
+
   useEffect(() => {
     window.scroll(0, 0);
 
     if (props.setLoader) props.setLoader(false);
 
     getCollections(null, 1, null);
-    props.getCategories();
+    useGetCategoriesQuery();
+    //props.getCategories();
   }, []);
 
   useEffect(() => {
@@ -96,10 +127,38 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     else filter.all = true;
 
     const qs = ENV.objectToQueryString(filter);
-
-    props.getCollections(qs);
+    if(qs !== null){
+      useGetCollectionsQuery(qs)
+    }
+    // props.getCollections(qs);
   };
+  
 
+  const useGetCollectionsQuery = (qs: Object) => {
+      let url = `${ENV.url}collection/list`;
+      if (qs) url += `?${qs}`;
+      const { isLoading, error, data } = useQuery(["getCollections"], () =>
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: ENV.Authorization,
+          "x-auth-token": ENV.x_auth_token,
+          "Access-Control-Allow-Origin": "*",
+          "x-access-token":
+            ENV.getUserKeys("accessToken") &&
+            ENV.getUserKeys("accessToken").accessToken
+              ? ENV.getUserKeys("accessToken").accessToken
+              : "",
+        },
+      })
+      .then((res) => res.json()));
+      console.log("1 data",data);
+      if (isLoading) return "Loading...";
+      if (error) return toast.error(data.message);
+      console.log("2 data", data);
+    
+  }
   // useImperativeHandle(ref, () => ({
   //   getCatCollections: (catId:string) => {
   //     if (props.setLoader) props.setLoader(true);
@@ -121,7 +180,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     setLimit(10);
     getCollections(category, 1, 10);
   };
-
+  
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
       let result = item.nftDetail.filter(
