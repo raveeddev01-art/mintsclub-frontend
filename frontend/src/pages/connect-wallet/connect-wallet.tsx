@@ -5,7 +5,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
-import { useHistory,useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
@@ -16,21 +16,33 @@ import {
   switchNetworkToChainId,
   getWalletAddress,
   validateNetwork,
+  getWeb3,
+  connectMetamask,
+  handleSign,
 } from "../../utils/web3";
 import { ENV } from "../../config/config";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
-import { useInsertData } from "../../hooks/Common";
+import { useGetData, useInsertData } from "../../hooks/Common";
+import Web3 from "web3";
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const history = useHistory();
-  const location:any=useLocation();
+  const location: any = useLocation();
+  const [connectedAddress, setConnectedAddres] = useState<any>(null);
   useEffect(() => {
     if (props.error) {
       toast.error(props.error.message);
     }
   }, [props.error]);
+  useEffect(() => {
+    const getAddress = async () => {
+      const address = await connectMetamask();
+      setConnectedAddres(address);
+    };
+    getAddress();
+  }, []);
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window?.ethereum) {
@@ -61,7 +73,7 @@ const ConnectWallet = (props: any) => {
   };
   const onSuccessLogin = (data: any) => {
     ENV.encryptUserData(data.data.data);
-    history.push(location?.state?location.state:"/");
+    history.push(location?.state ? location.state : "/");
   };
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
@@ -117,12 +129,46 @@ const ConnectWallet = (props: any) => {
     //   img: connectModal.phantomImg,
     // },
   ];
+  /////////////////////////////////////
+
+  
+  const onSuccessValidateUser = async (data: any) => {
+    const publicAddress: any = await connectMetamask();
+
+    if (data?.data?.users?.length > 0) {
+      const res = await handleSign();
+      authenticate(res);
+    } else {
+      handleSignUp({ publicAddress });
+    }
+  };
+  const { mutate: validateUser } = useInsertData(
+    `users/validate/${connectedAddress}`,
+    onSuccessValidateUser
+  );
+  const onSuccessSignUp = async () => {
+    const res = await handleSign();
+    authenticate(res);
+  };
+
+  const { mutate: handleSignUp } = useInsertData(
+    "users/createUser",
+    onSuccessSignUp
+  );
+
+  const { mutate: authenticate } = useInsertData(
+    "users/authenticate",
+    () => console.log("onSuccess"),
+    (err: any) => console.log(err, "onError")
+  );
 
   return (
     <>
       <Container>
         <div className="connect-wallet-container">
-          <h3 className="modal-title">Connect Your Wallet</h3>
+          <h3 className="modal-title" onClick={() => validateUser(null)}>
+            Connect Your Wallet
+          </h3>
           <p className="modal-description">
             Select what network and wallet you want to connect
           </p>
