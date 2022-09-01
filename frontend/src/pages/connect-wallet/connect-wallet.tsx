@@ -105,38 +105,14 @@ const ConnectWallet = (props: any) => {
       return false;
     }
   };
-  const walletButtons = [
-    {
-      name: "MetaMask",
-      img: connectModal.metaImg,
-      type: "ethereum",
-      func: () => connectMetamaskCall(),
-    },
-    // {
-    //   name: "Coinbase Wallet",
-    //   img: connectModal.coinBaseImg,
-    // },
-    // {
-    //   name: "WalletConnect",
-    //   img: connectModal.wcImg,
-    // },
-    // {
-    //   name: "Glow",
-    //   img: connectModal.glowImg,
-    // },
-    // {
-    //   name: "Phantom",
-    //   img: connectModal.phantomImg,
-    // },
-  ];
+
   /////////////////////////////////////
 
-  
+  ///Validate 
   const onSuccessValidateUser = async (data: any) => {
     const publicAddress: any = await connectMetamask();
-
     if (data?.data?.users?.length > 0) {
-      const res = await handleSign();
+      const res = await handleSign(data?.data?.users[0].nounce);
       authenticate(res);
     } else {
       handleSignUp({ publicAddress });
@@ -146,8 +122,10 @@ const ConnectWallet = (props: any) => {
     `users/validate/${connectedAddress}`,
     onSuccessValidateUser
   );
-  const onSuccessSignUp = async () => {
-    const res = await handleSign();
+
+  ///Sign up
+  const onSuccessSignUp = async (data:any) => {
+    const res = await handleSign(data?.data?.data?.nounce);
     authenticate(res);
   };
 
@@ -155,18 +133,26 @@ const ConnectWallet = (props: any) => {
     "users/createUser",
     onSuccessSignUp
   );
-
+ ///Authenticate
   const { mutate: authenticate } = useInsertData(
     "users/authenticate",
-    () => console.log("onSuccess"),
+    () => toast.success("User logged in successfully"),
     (err: any) => console.log(err, "onError")
   );
+  const walletButtons = [
+    {
+      name: "MetaMask",
+      img: connectModal.metaImg,
+      type: "ethereum",
+      func: () => validateUser(null),
+    },
 
+  ];
   return (
     <>
       <Container>
         <div className="connect-wallet-container">
-          <h3 className="modal-title" onClick={() => validateUser(null)}>
+          <h3 className="modal-title">
             Connect Your Wallet
           </h3>
           <p className="modal-description">
@@ -199,7 +185,7 @@ const ConnectWallet = (props: any) => {
                 3
               </Tab>
             </Tabs>
-            {walletButtons.length > 6 && (
+            {walletButtons&&walletButtons.length > 6 && (
               <button className="show-more-btn">Show More</button>
             )}
           </div>

@@ -295,13 +295,13 @@ export const getCurrentAddress = async () => {
   return address;
 };
 
-export const handleSign = async () => {
+export const handleSign = async (nounce) => {
   const web3 = new Web3(Web3.givenProvider);
   // const publicAddress =await web3?.eth.coinbase.toLowerCase();
   const publicAddress=await connectMetamask();
   return new Promise((resolve, reject) =>
     web3.eth.personal.sign(
-      web3.utils.fromUtf8(`I am signing my one-time nonce: ${227772}`),
+      web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
       publicAddress?.toLowerCase(),
       (err, signature) => {
         console.log(signature,"signature==>")
