@@ -137,7 +137,7 @@ const ConnectWallet = (props: any) => {
   const { mutate: authenticate } = useInsertData(
     "users/authenticate",
     () => toast.success("User logged in successfully"),
-    (err: any) => console.log(err, "onError")
+    (err: any) => toast.error(err?.message)
   );
   const walletButtons = [
     {
