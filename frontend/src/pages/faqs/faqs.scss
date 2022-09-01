@@ -5,21 +5,22 @@
 
 .faqs .faqs-accordion.accordion .accordion-item {
   border: none;
+  background: var(--nft-search-bg);
 }
 
 .faqs .faqs-accordion.accordion .accordion-item .accordion-header {
-  background: #ffffff;
+  background: var(--nft-search-bg);
   border: 1px solid #c9daff;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
   border-radius: 44px;
 }
 
 .faqs .faqs-accordion.accordion .accordion-item .accordion-button {
-  background: #ffffff;
+  background: var(--nft-search-bg);
   border-radius: 44px;
   font-weight: 500;
   font-size: 20px;
-  color: #111111;
+  color: var(--text-body);
   padding: 7px 16px 7px 10px;
 }
 
@@ -45,7 +46,7 @@
 }
 
 .faqs .faqs-accordion.accordion .accordion-item .accordion-body {
-  background: #ffffff;
+  background: var(--nft-search-bg);
   border: 1px solid #c9daff;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
   border-radius: 16px;
@@ -57,5 +58,5 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
-  color: #2e2e2e;
+  color: var(--text-body);
 }

@@ -1,101 +1,8 @@
-/* .edit-profile .edit-inp-subheading h6 {
-  font-size: 20px;
-  font-weight: bold;
-  font-family: Manrope;
-  color: #fff;
-  line-height: 0;
-}
-
-.edit-profile .edit-inp input,
-.edit-profile .edit-inp textarea {
-  background-color: #101029;
-  outline: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 10px;
-  color: #fff;
-}
-
-.edit-profile .edit-inp input {
-  height: 60px;
-}
-
-.edit-profile .edit-inp textarea {
-  height: 215px;
-  resize: none;
-}
-
-.edit-profile .edit-banner-container {
-  padding-top: 45px;
-}
-
-.edit-profile .edit-banner-container .edit-banner {
-  height: 135px;
-  max-width: 300px;
-}
-
-.edit-profile .edit-banner-container .edit-banner img {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.edit-link-inp {
-  background-color: #101029;
-  outline: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 10px;
-}
-
-.edit-avatar {
-  width: max-content;
-}
-
-.edit-avatar img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.edit-avatar,
-.edit-banner {
-  position: relative;
-}
-
-.avatar-btn-pen {
-  height: 30px;
-  width: 30px;
-  background-color: #5666fe;
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  text-align: center;
-  position: absolute;
-  right: 0;
-  top: 30px;
-  cursor: pointer;
-}
-
-.banner-btn-pen {
-  height: 30px;
-  width: 30px;
-  background-color: #5666fe;
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  text-align: center;
-  position: absolute;
-  right: 30px;
-  top: 10px;
-  cursor: pointer;
-} */
 .user-profile .logo-wrapper {
   margin-bottom: 3rem;
   position: relative;
 }
+
 .user-profile.feature-image .feature-img-round .feature-img-round-info {
   position: absolute;
   right: 70px;
@@ -137,14 +44,14 @@
   font-size: 22px;
   line-height: 26px;
 
-  color: #000000;
+  color: var(--text-body);
 }
 .user-profile .create-collection-input {
   border: 1px solid #c9daff;
   height: 42px;
   border-radius: 44px;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  color: #000;
+  color: var(--text-body);
   outline: none;
 }
 .user-profile .create-collection-label {
@@ -152,15 +59,15 @@
   font-weight: 700;
   font-size: 13px;
   line-height: 15px;
-  color: #343434;
+  color: var(--login-label);
   margin-left: 1.5rem;
 }
 .user-profile .create-collection-area {
   height: 208px;
-  background: #ffffff;
+  background: var(--nft-search-bg);
   border: 1px solid #c9daff;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
   border-radius: 18px;
-  color: #000;
+  color: var(--text-body);
   resize: none;
 }

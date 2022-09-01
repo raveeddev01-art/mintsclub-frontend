@@ -5,6 +5,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./ConnectWalletModal.scss";
 import { connectModal } from "../../assets/assets";
+import ConnectWallet from "../../pages/connect-wallet/connect-wallet";
 
 const walletButtons = [
   {
@@ -30,7 +31,7 @@ const walletButtons = [
 ];
 
 export default function ConnectWalletModal() {
-  const [show, setShow] = useState<any>(false);
+  const [show, setShow] = useState<any>(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
@@ -43,7 +44,8 @@ export default function ConnectWalletModal() {
         className="connect-wallet-modal"
       >
         <Modal.Body>
-          <div className="w-100">
+          <ConnectWallet />
+          {/* <div className="w-100">
             <h3 className="modal-title">Connect Your Wallet</h3>
             <p className="modal-description">
               Select what network and wallet you want to connect
@@ -74,7 +76,7 @@ export default function ConnectWalletModal() {
               </Tabs>
               <button className="show-more-btn">Show More</button>
             </div>
-          </div>
+          </div> */}
         </Modal.Body>
       </Modal>
     </>
