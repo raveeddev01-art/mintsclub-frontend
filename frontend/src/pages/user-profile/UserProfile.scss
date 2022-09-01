@@ -112,6 +112,9 @@
     }
   }
   .filterhoc-wrapper.padding-wrapper {
+    .no-nft-title {
+      color: var(--text-body-two);
+    }
     .sort-by-select .react-select-cls .react-select__control {
       background-color: var(--filter-btn);
       div#react-select-2-placeholder {
