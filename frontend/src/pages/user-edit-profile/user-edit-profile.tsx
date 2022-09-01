@@ -19,7 +19,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import Compressor from "compressorjs";
-import {useEditData} from "../../hooks/Common"
+import { useEditData } from "../../hooks/Common";
 import { useGetUserDataById } from "../../hooks/UserProfile";
 import axios from "axios";
 const EditProfile = (props: any) => {
@@ -83,8 +83,10 @@ const EditProfile = (props: any) => {
     toast.success("Profile updated successfully");
     history.push("/userprofile");
   };
-  const { mutate, isLoading: isUpdatingData } = useEditData("users/updateProfile",onSuccessUpdate);
-
+  const { mutate, isLoading: isUpdatingData } = useEditData(
+    "users/updateProfile",
+    onSuccessUpdate
+  );
 
   const onFileChange = (e: any) => {
     let file = e.target.files[0];
@@ -183,6 +185,7 @@ const EditProfile = (props: any) => {
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
           bgImg={BannerBg}
+          bg={true}
           // className="mb-0"
         />
         {isLoadingUser || (isUpdatingData && <FullPageLoader />)}
