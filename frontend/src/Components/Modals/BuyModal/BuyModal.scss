@@ -38,7 +38,7 @@
 
 .buy-modal .buy-modal-content .buy-modal-subheadings-container {
   padding: 40px 0 15px 0;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid var(--hr-clr);
   margin: 0 1rem;
 }
 
@@ -57,7 +57,7 @@
   p {
   font-weight: 400;
   font-size: 18px;
-  color: #343434;
+  color: var(--login-label);
 }
 
 .buy-modal .buy-modal-content .modal-body {
@@ -72,7 +72,7 @@
   height: 150px;
   padding: 10px;
   border-radius: 12px;
-  background: #f2f7ff;
+  background: var(--pc-card-bg);
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-container .modal-nft-img {
@@ -128,7 +128,7 @@
   p {
   font-weight: 700;
   font-size: 12px;
-  color: #454545;
+  color: var(--nft-inner-detail-clr);
 }
 
 .buy-modal
@@ -151,7 +151,7 @@
   h6 {
   font-weight: 400;
   font-size: 12px;
-  color: #1d1d1d;
+  color: var(--text-body);
   margin-bottom: 0;
 }
 
@@ -163,7 +163,7 @@
   h6
   span {
   font-weight: 800;
-  color: #1d1d1d;
+  color: var(--text-body);
 }
 
 .buy-modal
@@ -174,13 +174,13 @@
   p {
   font-weight: 800;
   font-size: 12px;
-  color: #414141;
+  color: var(--nft-inner-detail-clr);
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail h6 {
   font-weight: 700;
   font-size: 18px;
-  color: #000000;
+  color: var(--text-body);
   margin-bottom: 0;
 }
 
@@ -193,14 +193,14 @@
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail p {
   font-weight: 400;
   font-size: 18px;
-  color: #343434;
+  color: var(--login-label);
   margin-bottom: 0;
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail span {
   font-weight: 700;
   font-size: 12px;
-  color: #414141;
+  color: var(--nft-inner-detail-clr);
 }
 
 .buy-modal .buy-modal-content .modal-body .total-row {
@@ -224,7 +224,7 @@
 .buy-modal .buy-modal-content .modal-nft-footer .checkbox-container p {
   font-weight: 400;
   font-size: 12px;
-  color: #1d1d1d;
+  color: var(--text-body);
   margin-bottom: 0;
 }
 
@@ -308,7 +308,7 @@
 .modal.buy-modal.purchase-modal .modal-nft-footer p {
   font-weight: 400;
   font-size: 18px;
-  color: #343434;
+  color: var(--login-label);
   margin-bottom: 0;
 }
 
@@ -335,7 +335,7 @@
   border: none;
   font-weight: 700;
   font-size: 12px;
-  color: #414141;
+  color: var(--nft-inner-detail-clr);
   background-color: transparent;
   height: 40px;
 }
@@ -367,7 +367,7 @@
 .buy-modal.bid-modal .modal-body .bid-inp-container .inp-container p {
   font-weight: 500;
   font-size: 10px;
-  color: #818181;
+  color: var(--pc-card-title-ob2);
   margin: 0;
   padding-right: 10px;
 }
@@ -398,7 +398,7 @@
 .buy-modal.bid-modal .modal-body .bid-balance p {
   font-weight: 400;
   font-size: 11px;
-  color: #1d1d1d;
+  color: var(--text-body);
 }
 
 .buy-modal.bid-modal .buy-modal-content {

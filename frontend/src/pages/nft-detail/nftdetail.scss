@@ -1,9 +1,10 @@
 .new-nft-detail .detail-box {
   padding: 16px;
-  border: 1px solid #e3dddd;
+  border: var(--filter-container-border);
   border-radius: 12px;
   min-height: 150px;
   margin-bottom: 17px;
+  background-color: var(--ts-card-bg);
 }
 
 .new-nft-detail .detail-box h6 {
@@ -17,10 +18,11 @@
 }
 
 .new-nft-detail .detail-box .detail-rounded-type {
-  border: 1px solid #e7e7e7;
+  border: var(--nft-prop-border);
   border-radius: 44px;
   padding: 6px;
   margin-bottom: 6px;
+  background-color: var(--filter-btn);
 }
 
 .new-nft-detail .detail-box .detail-rounded-type .detail-rounded-name {
@@ -191,14 +193,14 @@
 }
 
 .new-nft-detail .nft-detail-btn button {
-  background: #353535;
+  background: var(--btn-bg);
   border-radius: 55px;
   width: 100%;
   padding: 12px 0;
   color: #fff;
   font-weight: 700;
   font-size: 18px;
-  border: 2px solid #000000;
+  border: 2px solid var(--btn-bg);
 }
 
 .new-nft-detail .detail-bg-box {

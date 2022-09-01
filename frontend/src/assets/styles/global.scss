@@ -1453,6 +1453,11 @@ aside {
   color: #ffffff;
   min-width: 100px;
   min-height: 40px;
+  &:disabled {
+    background: #387fff;
+    color: #ffffff;
+    border: 1px solid #387fff;
+  }
 }
 
 .btn.btn-rounded-bordered {
