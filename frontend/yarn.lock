@@ -12320,6 +12320,11 @@ react-popper@^2.2.4:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
+react-query-class-component@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-query-class-component/-/react-query-class-component-1.0.4.tgz#4eee3187a1eb13b74a6e5dd2ac4a6b0667f56789"
+  integrity sha512-yGXYgVtPhBRmJLuiZ93RjDnt4oTcPT4fabzz2TmaOBZnKHxuofs6ckbKJyjlZzjka1lx19tkI2WQ0SLOF2fMwQ==
+
 react-query-devtools@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/react-query-devtools/-/react-query-devtools-2.6.3.tgz#f7c982839d4b0001cee4d5ddfa826493c2f6341f"

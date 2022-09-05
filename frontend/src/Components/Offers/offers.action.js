@@ -177,7 +177,7 @@ export const acceptOffer = (body) => dispatch => {
 };
 export const buyNow = (body) => dispatch => {
     dispatch(emptyError());
-    const url = `${ENV.url}nfts/buyNft`;
+    const url = `${ENV.url}auctions/buyNft`;
     fetch(url, {
         method: 'POST',
         headers: {

@@ -644,9 +644,9 @@ const NFTDetail = (props: any) => {
           : "",
     };
     let res = await axios.post(
-      `${ENV.url}nfts/endAuction`,
+      `${ENV.url}auctions/endAuction`,
       {
-        nft: nftDetail,
+        nft: nftDetail?.auctions?._id,
       },
       {
         headers: headers,
@@ -680,12 +680,15 @@ const NFTDetail = (props: any) => {
     image,
     user,
     ownerId,
+    tokenId,
     auctionStartDate,
     auctionEndDate,
     description,
     currentPrice,
     ownerAddress,
   } = nftDetail;
+
+  console.log(nftDetail,"nftDetail")
   const { connectedAddress } = props;
 
   let nftInfo: any = [
@@ -699,7 +702,7 @@ const NFTDetail = (props: any) => {
     },
     {
       title: "Token ID",
-      value: nftToken,
+      value: tokenId,
     },
     {
       title: "Token Standard",
@@ -1203,7 +1206,7 @@ const NFTDetail = (props: any) => {
         price={currentPrice}
         image={image}
         exchangeRate={exchangeRate}
-        tokenId={nftToken}
+        tokenId={tokenId}
         modal={modal}
         setModal={setModal}
         buyNow={BuyNow}

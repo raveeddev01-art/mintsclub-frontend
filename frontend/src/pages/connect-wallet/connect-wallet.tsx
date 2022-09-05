@@ -6,7 +6,6 @@ import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
 import { useHistory, useLocation } from "react-router-dom";
-
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
 import {
@@ -20,12 +19,11 @@ import {
   connectMetamask,
   handleSign,
 } from "../../utils/web3";
-import { ENV } from "../../config/config";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { useGetData, useInsertData } from "../../hooks/Common";
 import Web3 from "web3";
-
+import { ENV } from "../../config/config";
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const history = useHistory();
@@ -71,6 +69,7 @@ const ConnectWallet = (props: any) => {
       console.log(connectedAddress, "connectedAddress");
     }
   };
+
   const onSuccessLogin = (data: any) => {
     ENV.encryptUserData(data.data.data);
     history.push(location?.state ? location.state : "/");
@@ -108,14 +107,14 @@ const ConnectWallet = (props: any) => {
 
   /////////////////////////////////////
 
-  ///Validate 
+  ///Validate
   const onSuccessValidateUser = async (data: any) => {
     const publicAddress: any = await connectMetamask();
     if (data?.data?.users?.length > 0) {
       const res = await handleSign(data?.data?.users[0].nounce);
       authenticate(res);
     } else {
-      handleSignUp({ publicAddress });
+      handleSignUp({ address:publicAddress });
     }
   };
   const { mutate: validateUser } = useInsertData(
@@ -124,7 +123,7 @@ const ConnectWallet = (props: any) => {
   );
 
   ///Sign up
-  const onSuccessSignUp = async (data:any) => {
+  const onSuccessSignUp = async (data: any) => {
     const res = await handleSign(data?.data?.data?.nounce);
     authenticate(res);
   };
@@ -133,12 +132,17 @@ const ConnectWallet = (props: any) => {
     "users/createUser",
     onSuccessSignUp
   );
- ///Authenticate
+  ///Authenticate
+  const onSuccessAuthentication=(data:any)=>{
+    ENV.encryptUserData(data.data.data);
+    history.push(location?.state?location.state:"/")
+  }
   const { mutate: authenticate } = useInsertData(
     "users/authenticate",
-    () => toast.success("User logged in successfully"),
+    onSuccessAuthentication,
     (err: any) => toast.error(err?.message)
   );
+
   const walletButtons = [
     {
       name: "MetaMask",
@@ -146,15 +150,12 @@ const ConnectWallet = (props: any) => {
       type: "ethereum",
       func: () => validateUser(null),
     },
-
   ];
   return (
     <>
       <Container>
         <div className="connect-wallet-container">
-          <h3 className="modal-title">
-            Connect Your Wallet
-          </h3>
+          <h3 className="modal-title">Connect Your Wallet</h3>
           <p className="modal-description">
             Select what network and wallet you want to connect
           </p>
@@ -185,7 +186,7 @@ const ConnectWallet = (props: any) => {
                 3
               </Tab>
             </Tabs>
-            {walletButtons&&walletButtons.length > 6 && (
+            {walletButtons && walletButtons.length > 6 && (
               <button className="show-more-btn">Show More</button>
             )}
           </div>
