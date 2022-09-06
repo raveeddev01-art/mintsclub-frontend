@@ -35,8 +35,8 @@ import SellNFTLoader from "../../Components/ContentLoader/SellNFTLoader";
 import Audio from "../../Components/Audio/Audio";
 import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
-import { useGetNFTbyId  } from "../../hooks/AllNFTs";
-import { useInsertData,useEditData } from "../../hooks/Common";
+import { useGetNFTbyId } from "../../hooks/AllNFTs";
+import { useInsertData, useEditData } from "../../hooks/Common";
 
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
@@ -91,10 +91,7 @@ const SellNFT = (props: any) => {
   };
   const { isLoading, mutate: editNFT } = useEditData(onEditNFT);
   const onInsertData = () => {};
-  const {} = useInsertData(
-    "activity/create",
-    onInsertData
-  );
+  const {} = useInsertData("activity/create", onInsertData);
 
   useEffect(() => {
     if (address === "") {
@@ -107,7 +104,7 @@ const SellNFT = (props: any) => {
         props.connectedAddress.toUpperCase()
     ) {
       toast.info("Please login with new connected account");
-      return  history.push({
+      return history.push({
         pathname: `/connect-wallet`,
         state: `/sellnft`,
       });
@@ -353,7 +350,7 @@ const SellNFT = (props: any) => {
         bannerImg={BannerImage}
       />
       {isLoadingNFT && <FullPageLoader />}
-      <section className="padding-wrapper sell-nft new-nft-detail ">
+      <section className="padding-wrapper sell-nft">
         <div className="container">
           <div className="row g-4 g-xl-5">
             <div className="col-12">

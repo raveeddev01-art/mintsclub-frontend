@@ -5,7 +5,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
-import { useHistory,useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
@@ -21,11 +21,12 @@ import { ENV } from "../../config/config";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { useInsertData } from "../../hooks/Common";
+import { callbackify } from "util";
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const history = useHistory();
-  const location:any=useLocation();
+  const location: any = useLocation();
   useEffect(() => {
     if (props.error) {
       toast.error(props.error.message);
@@ -61,7 +62,7 @@ const ConnectWallet = (props: any) => {
   };
   const onSuccessLogin = (data: any) => {
     ENV.encryptUserData(data.data.data);
-    history.push(location?.state?location.state:"/");
+    history.push(location?.state ? location.state : "/");
   };
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 

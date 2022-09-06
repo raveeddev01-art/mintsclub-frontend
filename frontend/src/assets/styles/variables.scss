@@ -21,6 +21,8 @@
   --ts-card-bg: #ffffff;
   --tab-color: #7a7a7a;
   --hr-clr: #e8e8e8;
+  --hr-clr2: #e8e8e8;
+
   --nft-inner-detail-bg: #ffffff;
   --nft-inner-detail-clr: #454545;
   --nft-inner-detail-clr2: #4b4b4b;
@@ -36,7 +38,7 @@
   --nft-search-bg2: #c9daff;
   --nft-search-input-clr: #737373;
   --nft-detail-btn: #282828;
-  --nft-prop-border: 1px solid #42495d;
+  --nft-prop-border: 1px solid #e7e7e7;
   --sort-by: #404040;
   --filter-heading: #393939;
   --filter-btn: #ffffff;
@@ -59,6 +61,7 @@
   --create-nft-upload-clr: #2957b8;
   --modal-bg: #ffffff;
   --undefined-level: #c4c4c4;
+  --input-bg: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -84,6 +87,7 @@
   --ts-card-bg: #31384e;
   --tab-color: #b9b9b9;
   --hr-clr: #535a6d;
+  --hr-clr2: #54668d;
   --nft-inner-detail-bg: #42495e;
   --nft-inner-detail-clr: #ffffff;
   --nft-inner-detail-clr2: #dcd6d6;
@@ -122,4 +126,5 @@
   --create-nft-upload-clr: #ffffff;
   --modal-bg: #1f2b4b;
   --undefined-level: #dae4fd;
+  --input-bg: transparent;
 }
