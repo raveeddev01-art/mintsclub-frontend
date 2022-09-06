@@ -100,6 +100,7 @@ export const openNFTForBidding = async (
   tokenId,
   copies
 ) => {
+ 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();

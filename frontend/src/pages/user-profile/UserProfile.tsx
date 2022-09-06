@@ -66,7 +66,6 @@ const UserProfile = (props: any) => {
 
   const onSuccessNFTs = (res: any) => {
     const { nfts } = res?.data?.data;
-    console.log(nfts, "nfts");
     const data: any = nfts;
     if (!menuFilter) {
       const Nfts = data?.filter((item: any) => item.ownerId === userId);

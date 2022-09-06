@@ -208,8 +208,6 @@ class CreateNFT extends React.Component<
         collection.myCollectionsResult
     ) {
       const collections = collection.myCollections.collections.Collections;
-      console.log(collections,"collections")
-
       if (!collections.length) {
         toast.info("Please create a collection first");
         return this.props.history.push("/createcollection");
