@@ -58,7 +58,7 @@ export const login = (payload) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      if (data.status) {
+      if (data.success) {
         ENV.encryptUserData(data.data);
         const userId = data.data._id;
         dispatch(getCollections());

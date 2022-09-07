@@ -12,7 +12,6 @@ export const useInsertData=(url:any,onSuccess:any,onError?:any)=>{
 
   }
 
-
   export const useGetData=(key:any,url:any,qs:any,onSuccess:any,onError:any)=>{
     //   console.log(qs,"qs")
      return useQuery([key],()=>handleRequest("get",url),{onSuccess,onError,refetchOnWindowFocus:false,refetchOnMount:false})

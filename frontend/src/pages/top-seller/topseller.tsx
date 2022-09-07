@@ -89,7 +89,7 @@ const TopSeller = (props: any) => {
                         </p>
                         <span className="text-end">
                           {" "}
-                          {author.totalETH.toFixed(2)}
+                          {author?.totalETH?.toFixed(2)}
                         </span>
                       </div>
                     </div>

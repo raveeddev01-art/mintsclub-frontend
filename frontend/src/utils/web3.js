@@ -100,6 +100,7 @@ export const openNFTForBidding = async (
   tokenId,
   copies
 ) => {
+ 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -123,7 +124,6 @@ export const placeABid = async (amount, tokenId) => {
     const contractM = await getContractMethods();
     const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
     // let bidAmount = Number(amount) * 1000000000000000000;
-    console.log(bidAmount, "bidAmount");
     let id = Number(tokenId);
     let web3 = await getWeb3();
 
@@ -139,7 +139,6 @@ export const placeABid = async (amount, tokenId) => {
       return result;
     }
   } catch (err) {
-    console.log(err,"error while bidding")
     if (err?.message) {
       toast.error(err.message);
     } else {
