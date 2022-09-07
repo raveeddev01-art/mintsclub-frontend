@@ -27,6 +27,9 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import { useQuery } from "react-query";
+import { handleRequest } from "../../utils/functions";
+import { QueryClientHook } from "react-query-class-component";
 
 class CreateCollections extends React.Component<
   {
@@ -42,14 +45,14 @@ class CreateCollections extends React.Component<
     upsertCollection: (url: string, data: any) => any;
   },
   {
-    isSubmitted: boolean;
-    formValid: boolean;
-    loader: boolean;
-    errors: any;
-    collection: any;
-    categories: any;
-    selectedCategory: string;
-    selectedOption: any;
+    isSubmitted?: boolean;
+    formValid?: boolean;
+    loader?: boolean;
+    errors?: any;
+    collection?: any;
+    categories?: any;
+    selectedCategory?: string;
+    selectedOption?: any;
   }
 > {
   validator: SimpleReactValidator;
@@ -138,6 +141,22 @@ class CreateCollections extends React.Component<
       });
     }
   }
+  formateCategories = (data: any) => {
+    if(data&&data?.length>0){
+
+      let updatedCategories = [];
+      for (var item of data) {
+        let obj = {
+          value: item._id,
+          label: item.name,
+        };
+        updatedCategories.push(obj);
+      }
+      return updatedCategories;
+    }else {
+      return []
+    }
+  };
 
   onFileChange(e: any) {
     let file = e.target.files[0];
@@ -226,6 +245,7 @@ class CreateCollections extends React.Component<
                   formData.append(val, collection[val]);
                 }
               }
+
               this.props.upsertCollection("collection/create", formData);
             }
           );
@@ -293,6 +313,13 @@ class CreateCollections extends React.Component<
     this.setState({ collection });
   };
 
+  /////////UseQuery Actions////////////////
+
+  //  onSuccessGetCategories=(data:any)=>{
+
+  //    useGetCategories((error:any)=>console.log(error),(data:any)=>console.log(data))
+  // }
+
   render() {
     const {
       collection,
@@ -301,7 +328,7 @@ class CreateCollections extends React.Component<
       isSubmitted,
       categories,
       selectedOption,
-    } = this.state;
+    }: any = this.state;
 
     if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");
@@ -461,19 +488,35 @@ class CreateCollections extends React.Component<
                 </div>
 
                 <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
-                  <label className="create-collection-label">
-                    Select Category:*
-                  </label>
-
-                  <Select
-                    className="react-select-cls"
-                    classNamePrefix="react-select"
-                    value={selectedOption}
-                    isSearchable={false}
-                    onChange={this.handleSelectChange}
-                    options={categories}
-                    placeholder="Select Category"
-                  />
+                  <QueryClientHook
+                    hook={useQuery} // react query hook
+                    params={[
+                      "categories", // keyName
+                      () => handleRequest("get", "category/list"),
+                      // ...options
+                    ]}
+                  >
+                    {({ data }: any) => {
+                      return (
+                        <>
+                          <label className="create-collection-label">
+                            Select Category:*
+                          </label>
+                          <Select
+                            className="react-select-cls"
+                            classNamePrefix="react-select"
+                            value={selectedOption}
+                            isSearchable={false}
+                            onChange={this.handleSelectChange}
+                            options={this.formateCategories(
+                              data?.data?.categories
+                            )}
+                            placeholder="Select Category"
+                          />
+                        </>
+                      );
+                    }}
+                  </QueryClientHook>
                 </div>
 
                 <div className="col-12 mt-3 mt-lg-5">
@@ -507,6 +550,7 @@ class CreateCollections extends React.Component<
               </div>
             </div>
           </section>
+
           <OwnCollectionToday />
         </>
       );

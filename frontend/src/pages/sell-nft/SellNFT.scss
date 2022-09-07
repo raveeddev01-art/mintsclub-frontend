@@ -1,6 +1,12 @@
 .sell-nft {
   .nft-img-detail {
     margin-bottom: 17px;
+    h5 {
+      font-weight: 700;
+      font-size: 23px;
+      color: var(--text-body-two);
+      margin: 0;
+    }
   }
   .nft-img-detail-box {
     background-color: var(--pc-card-bg);
@@ -45,6 +51,9 @@
     font-weight: 700;
     color: #ffffff;
     border: none;
+    @media (max-width: 575.9px) {
+      width: 100px;
+    }
   }
   .sell-btn-not-active {
     height: 50px;
@@ -56,6 +65,9 @@
     font-size: 14px;
     font-weight: 400;
     color: var(--nft-table-clr);
+    @media (max-width: 575.9px) {
+      width: 100px;
+    }
   }
   .detail-bg-box {
     &.nft-img-detail {
@@ -128,6 +140,46 @@
         }
       }
     }
+    .sell-date-picker button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--filter-heading);
+      background: #ffffff;
+      border: 1px solid #c9daff;
+      box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+      border-radius: 55px;
+      height: 45px;
+      padding: 0 25px;
+      svg {
+        width: 20px;
+        height: 20px;
+        path {
+          fill: #387fff;
+        }
+      }
+    }
+    .sell-time-inp {
+      input {
+        color: var(--filter-heading);
+        background: var(--input-bg);
+        border: var(--nft-search-border);
+        box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+        border-radius: 55px;
+        height: 45px;
+        padding: 0 20px 0 25px;
+        font-size: 12px;
+      }
+      input[type="time"]::-webkit-calendar-picker-indicator {
+        cursor: pointer !important;
+        width: 20px;
+        height: 20px;
+        background-image: url("../../assets/images/clock-icon.svg");
+        filter: url("../../assets/images/clock-icon.svg");
+      }
+    }
   }
   .btn.btn-linear-gradient.sell-btn-completed {
     font-weight: 700;
@@ -137,61 +189,7 @@
     max-width: 255px;
     width: 100%;
   }
-}
-
-.sell-nft .sell-btn-container {
-  margin-top: 70px;
-}
-
-.sell-nft .sell-detail-box .sell-date-picker button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--filter-heading);
-  background: #ffffff;
-  border: 1px solid #c9daff;
-  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  border-radius: 55px;
-  height: 45px;
-  padding: 0 25px;
-}
-
-.sell-nft .sell-detail-box .sell-date-picker button svg {
-  width: 20px;
-  height: 20px;
-}
-
-.sell-nft .sell-detail-box .sell-date-picker button svg path {
-  fill: #387fff;
-}
-
-.sell-nft .sell-detail-box .sell-time-inp input {
-  color: var(--filter-heading);
-  background: var(--input-bg);
-  border: var(--nft-search-border);
-  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  border-radius: 55px;
-  height: 45px;
-  padding: 0 20px 0 25px;
-  font-size: 12px;
-}
-
-.sell-nft
-  .sell-detail-box
-  .sell-time-inp
-  input[type="time"]::-webkit-calendar-picker-indicator {
-  cursor: pointer !important;
-  width: 20px;
-  height: 20px;
-  background-image: url("../../assets/images/clock-icon.svg");
-  filter: url("../../assets/images/clock-icon.svg");
-}
-
-@media (max-width: 575.9px) {
-  .sell-nft .sell-btn-active,
-  .sell-nft .sell-btn-not-active {
-    width: 100px;
+  .sell-btn-container {
+    margin-top: 70px;
   }
 }

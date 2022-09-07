@@ -164,9 +164,9 @@ const SignUp = (props) => {
             </div>
 
             <button
-              disabled={
-                !checkBox || email.trim() === "" || username.trim() === ""
-              }
+              // disabled={
+              //   !checkBox || email.trim() === "" || username.trim() === ""
+              // }
               type="submit"
               className="btn btn-linear-gradient sign-up-btn mt-5"
             >

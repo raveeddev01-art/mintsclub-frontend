@@ -227,3 +227,8 @@ export interface UploadInterface {
   audioSrc: any;
   clearData: any;
 }
+
+export interface ConnectWallModal {
+  showModal: boolean;
+  setShowModal: (e: any) => any;
+}

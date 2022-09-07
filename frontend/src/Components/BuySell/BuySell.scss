@@ -1,47 +1,49 @@
 .buy-sell-section {
   background: var(--alt-section-bg);
-}
-
-.buy-sell-section .buy-card {
-  padding: 50px 0;
-  border-radius: 10px;
-  height: 100%;
-}
-
-.buy-sell-section .sell-card {
-  padding: 50px 0;
-  border-radius: 10px;
-  height: 100%;
-}
-
-.buy-sell-section .buy-card-img {
-  max-width: 150px;
-  max-height: 150px;
-  margin: 0 auto;
-}
-
-.buy-sell-section .buy-card-content {
-  padding-left: 4%;
-}
-
-.buy-sell-section .buy-card-content h5 {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 26px;
-  /* identical to box height */
-
-  color: var(--text-body-two);
-}
-
-.buy-sell-section .buy-card-content p {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 35px;
-  /* identical to box height, or 219% */
-
-  color: var(--text-body-two);
+  .buy-card,
+  .sell-card {
+    padding: 50px 0;
+    border-radius: 10px;
+    height: 100%;
+    @media (max-width: 767.9px) {
+      margin: 10px auto;
+    }
+  }
+  .buy-card-img {
+    max-width: 150px;
+    max-height: 150px;
+    margin: 0 auto;
+    @media (max-width: 767.9px) {
+      width: 100%;
+    }
+  }
+  .buy-card-content {
+    padding-left: 4%;
+    @media (max-width: 767.9px) {
+      width: 100%;
+      text-align: center;
+    }
+    h5 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 26px;
+      color: var(--text-body-two);
+      @media (max-width: 767.9px) {
+        margin-top: 10px;
+      }
+    }
+    p {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 35px;
+      color: var(--text-body-two);
+    }
+    @media (max-width: 991.9px) {
+      padding-right: 5px;
+    }
+  }
 }
 
 .btn.btn-rounded-bordered.btn-start-selling {
@@ -52,28 +54,4 @@
 .btn.btn-rounded-bordered.btn-start-selling:hover {
   background: transparent;
   color: #000000;
-}
-
-@media (max-width: 991.9px) {
-  .buy-sell-section .buy-card-content {
-    padding-right: 5px;
-  }
-}
-
-@media (max-width: 767.9px) {
-  .buy-sell-section .buy-card,
-  .buy-sell-section .sell-card {
-    margin: 10px auto;
-  }
-  .buy-sell-section .buy-card-img {
-    width: 100%;
-  }
-
-  .buy-sell-section .buy-card-content {
-    width: 100%;
-    text-align: center;
-  }
-  .buy-sell-section .buy-card-content h5 {
-    margin-top: 10px;
-  }
 }

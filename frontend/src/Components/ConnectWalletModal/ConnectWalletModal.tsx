@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./ConnectWalletModal.scss";
 import { connectModal } from "../../assets/assets";
+import { ConnectWallModal } from "../../interfaces/components";
 import ConnectWallet from "../../pages/connect-wallet/connect-wallet";
 
 const walletButtons = [
@@ -30,14 +31,16 @@ const walletButtons = [
   },
 ];
 
-export default function ConnectWalletModal() {
-  const [show, setShow] = useState<any>(true);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+const ConnectWalletModal: FC<ConnectWallModal> = ({
+  showModal,
+  setShowModal,
+}) => {
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
   return (
     <>
       <Modal
-        show={show}
+        show={showModal}
         onHide={handleClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -49,4 +52,5 @@ export default function ConnectWalletModal() {
       </Modal>
     </>
   );
-}
+};
+export default ConnectWalletModal;

@@ -24,7 +24,7 @@ export const getCategories = () => dispatch => {
             'x-access-token': ENV.getUserKeys('accessToken') && ENV.getUserKeys('accessToken').accessToken ? ENV.getUserKeys('accessToken').accessToken : ''
         }
     }).then(res => res.json()).then(data => {
-        if (data.status) {
+        if (data.success) {
     
             dispatch({
                 type: GET_CATEGORIES,

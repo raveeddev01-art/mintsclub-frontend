@@ -43,6 +43,7 @@ import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Audio from "../../Components/Audio/Audio";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
+
 const placeholderImg = "";
 
 class CreateNFT extends React.Component<
@@ -207,7 +208,6 @@ class CreateNFT extends React.Component<
         collection.myCollectionsResult
     ) {
       const collections = collection.myCollections.collections.Collections;
-
       if (!collections.length) {
         toast.info("Please create a collection first");
         return this.props.history.push("/createcollection");
@@ -429,6 +429,7 @@ class CreateNFT extends React.Component<
       this.setState({ loader: false });
     }
   };
+  
   onFileChange = (e: any, status: any) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file: any = "";

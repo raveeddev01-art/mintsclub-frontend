@@ -1,19 +1,19 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import NavbarMain from "../../Components/NavbarMain/NavbarMain";
 import Footer from "../../Components/Footer/Footer";
+import ConnectWalletModal from "../../Components/ConnectWalletModal/ConnectWalletModal";
+import ConnectModalContext from "../../context/connectModal/ConnectModalContext";
 
-class HomeLayout extends Component {
-  render() {
-    return (
-      <>
-        <div className="home-layout">
-          <NavbarMain />
-          <div className="main">{this.props.children}</div>
-          <Footer />
-        </div>
-      </>
-    );
-  }
+export default function HomeLayout(props) {
+  const { showModal, setShowModal } = useContext(ConnectModalContext);
+  return (
+    <>
+      <div className="home-layout">
+        <NavbarMain />
+        <div className="main">{props.children}</div>
+        <Footer />
+      </div>
+      <ConnectWalletModal showModal={showModal} setShowModal={setShowModal} />
+    </>
+  );
 }
-
-export default HomeLayout;
