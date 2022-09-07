@@ -682,7 +682,6 @@ const NFTDetail = (props: any) => {
     currentPrice,
     ownerAddress,
   }:any = nftDetail;
-  console.log(nftDetail,"detail")
 
   const {sellingMethod,auctionStartDate,auctionEndDate,copiesForAuction}:any=nftDetail?.auction||{}
   const { connectedAddress } = props;
