@@ -1,37 +1,58 @@
 .hero-section {
-  /* background-color: var(--page-bg); */
-  /* background: url("../../assets/images/hero-bg.png"); */
   background-position: center;
   background-size: cover;
-}
-
-.hero-section h1 {
-  font-weight: 700;
-  font-size: 60px;
-  color: var(--text-body);
-}
-
-.hero-section h1 span {
-  background: radial-gradient(
-    41.03% 358.74% at 81.02% 69.95%,
-    #1448ff 0%,
-    #00fff0 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-}
-
-.hero-section p {
-  font-weight: 300;
-  font-size: 20px;
-  color: var(--text-body-two);
-}
-
-.hero-section .mp-explore-text {
-  padding-top: 50px;
-  max-width: 500px;
+  h1 {
+    font-weight: 700;
+    font-size: 60px;
+    color: var(--text-body);
+    span {
+      background: radial-gradient(
+        41.03% 358.74% at 81.02% 69.95%,
+        #1448ff 0%,
+        #00fff0 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+  }
+  p {
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--text-body-two);
+  }
+  .mp-explore-text {
+    padding-top: 50px;
+    max-width: 500px;
+  }
+  .btn-hero-create,
+  .btn-hero-explore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 218px;
+    height: 55px;
+  }
+  .hero-play-btn {
+    outline: none;
+    border: none;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+    background: #ffffff;
+    box-shadow: 0px 6px 22px rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    p {
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      line-height: 22px;
+    }
+  }
 }
 
 .test-container {
@@ -42,32 +63,6 @@
 }
 .btn-container {
   width: max-content;
-}
-
-.hero-section .btn-hero-create {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-section .btn-hero-create,
-.hero-section .btn-hero-explore {
-  width: 218px;
-  height: 55px;
-}
-
-.hero-section .hero-play-btn {
-  outline: none;
-  border: none;
-  width: 55px;
-  height: 55px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 10px;
-  background: #ffffff;
-  box-shadow: 0px 6px 22px rgba(0, 0, 0, 0.05);
-  border-radius: 50%;
 }
 
 .hero-section .btn-hero-create p {
@@ -88,36 +83,30 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--text-body);
-}
-
-.hero-section .btn-hero-explore svg {
-  height: 16px;
-}
-
-.hero-section .btn-hero-explore svg path {
-  fill: #151515;
-}
-
-.hero-section .btn-hero-explore p {
-  font-size: 14px;
-  font-weight: bold;
-  color: #151515;
-  line-height: 22px;
-}
-
-.hero-section .btn-hero-explore:hover {
-  background: #387fff;
-  border: 1px solid #387fff;
-  color: #ffffff;
-  font-weight: 700;
-}
-
-.hero-section .btn-hero-explore:hover svg path {
-  fill: #fff;
-}
-
-.hero-section .btn-hero-explore:hover p {
-  color: #fff;
+  p {
+    font-size: 14px;
+    font-weight: bold;
+    color: #151515;
+    line-height: 22px;
+  }
+  svg {
+    height: 16px;
+    path {
+      fill: #151515;
+    }
+  }
+  &:hover {
+    background: #387fff;
+    border: 1px solid #387fff;
+    color: #ffffff;
+    font-weight: 700;
+    svg path {
+      fill: #fff;
+    }
+    p {
+      color: #fff;
+    }
+  }
 }
 
 .hero-left-content {

@@ -114,7 +114,7 @@ const ConnectWallet = (props: any) => {
       const res = await handleSign(data?.data?.users[0].nounce);
       authenticate(res);
     } else {
-      handleSignUp({ address:publicAddress });
+      handleSignUp({ address: publicAddress });
     }
   };
   const { mutate: validateUser } = useInsertData(
@@ -133,10 +133,10 @@ const ConnectWallet = (props: any) => {
     onSuccessSignUp
   );
   ///Authenticate
-  const onSuccessAuthentication=(data:any)=>{
+  const onSuccessAuthentication = (data: any) => {
     ENV.encryptUserData(data.data.data);
-    history.push(location?.state?location.state:"/")
-  }
+    history.push(location?.state ? location.state : "/");
+  };
   const { mutate: authenticate } = useInsertData(
     "users/authenticate",
     onSuccessAuthentication,

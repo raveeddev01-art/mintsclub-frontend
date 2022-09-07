@@ -5,8 +5,6 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100% 100%;
-  // min-height: 420px;
-  // margin-bottom: 50px;
 }
 
 .banner-img {
@@ -24,8 +22,6 @@
   }
   .user-profile .banner-wrapper {
     min-height: unset;
-  }
-  .user-profile .banner-wrapper {
     padding: 50px 0 70px 0 !important;
   }
 }
@@ -33,7 +29,6 @@
 @media (max-width: 767.9px) {
   .user-profile .banner-wrapper {
     background-image: url("../../assets/images/hero-bg.png") !important;
-
     padding: 80px 0;
   }
 }

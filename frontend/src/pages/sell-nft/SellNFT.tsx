@@ -29,7 +29,7 @@ import Audio from "../../Components/Audio/Audio";
 import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 import { useGetNFTbyId } from "../../hooks/AllNFTs";
-import { useInsertData,useEditData } from "../../hooks/Common";
+import { useInsertData, useEditData } from "../../hooks/Common";
 
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
@@ -69,7 +69,7 @@ const SellNFT = (props: any) => {
 
   const videoElement = React.useRef(null);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
-    //Get NFT
+  //Get NFT
   const onSuccessNFT = (data: any) => {
     if (copies === "") {
       setLoader(false);
@@ -77,10 +77,13 @@ const SellNFT = (props: any) => {
     }
   };
   const { isLoading: isLoadingNFT } = useGetNFTbyId(nftId, onSuccessNFT);
-  
+
   //Create Activity
   const onInsertData = () => {};
-  const {mutate:insertActivity} = useInsertData("activity/create", onInsertData);
+  const { mutate: insertActivity } = useInsertData(
+    "activity/create",
+    onInsertData
+  );
 
   const { isLoading: isInsertingAuction, mutate: insertAuction } =
     useInsertData("auctions/create", () => {
@@ -88,10 +91,14 @@ const SellNFT = (props: any) => {
       history.push(`/userprofile`);
     });
 
-    //Edit Profile
-  
-  const {mutate:updateProfile} = useEditData("users/updateProfile",()=>console.log(),()=>console.log())
-  
+  //Edit Profile
+
+  const { mutate: updateProfile } = useEditData(
+    "users/updateProfile",
+    () => console.log(),
+    () => console.log()
+  );
+
   useEffect(() => {
     if (address === "") {
       setAddress(props.connectedAddress);
@@ -251,7 +258,7 @@ const SellNFT = (props: any) => {
         activityPayload.price = price;
         payload.sellId = Number(result);
         for (const key in payload) formData.append(key, payload[key]);
-        insertActivity(activityPayload)
+        insertActivity(activityPayload);
         insertAuction(payload);
       }
     } catch (err: any) {
@@ -278,7 +285,7 @@ const SellNFT = (props: any) => {
         activityPayload.price = price;
         payload.sellId = Number(result);
         for (const key in payload) formData.append(key, payload[key]);
-        insertActivity(activityPayload)
+        insertActivity(activityPayload);
         insertAuction(formData);
       }
     } catch (err: any) {
@@ -327,7 +334,7 @@ const SellNFT = (props: any) => {
         let updatedNFTDetail = { ...nftDetail };
         updatedNFTDetail.user.isApproved = true;
         setNftDetail(updatedNFTDetail);
-        updateProfile(formData)
+        updateProfile(formData);
         // props.updateProfile(formData);
         setApprovalStatus("approved");
         toast.success("Your Account is Approved!.");
@@ -349,9 +356,7 @@ const SellNFT = (props: any) => {
         bgImg={BannerBg}
         bannerImg={BannerImage}
       />
-      {isLoadingNFT ||
-        isInsertingAuction ||
-        (loader && <FullPageLoader />)}
+      {isLoadingNFT || isInsertingAuction || (loader && <FullPageLoader />)}
       <section className="padding-wrapper sell-nft new-nft-detail ">
         <div className="container">
           <div className="row g-4 g-xl-5">

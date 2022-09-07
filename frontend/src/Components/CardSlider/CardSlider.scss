@@ -7,20 +7,17 @@
   text-align: center;
   justify-self: center;
   align-self: center;
-}
-
-.card-slider-btn .fa-arrow-right,
-.card-slider-btn .fa-arrow-left {
-  color: #fff;
-}
-
-.card-slider-btn:hover {
-  background-color: transparent;
-  border: 1px solid #316feb;
-  color: #0e0e0e;
-}
-
-.card-slider-btn:hover .fa-arrow-right,
-.card-slider-btn:hover .fa-arrow-left {
-  color: var(--text-body);
+  .fa-arrow-right,
+  .fa-arrow-left {
+    color: #fff;
+  }
+  &:hover {
+    background-color: transparent;
+    border: 1px solid #316feb;
+    color: #0e0e0e;
+    .fa-arrow-right,
+    .fa-arrow-left {
+      color: var(--text-body);
+    }
+  }
 }
