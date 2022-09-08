@@ -47,7 +47,7 @@ const TopSeller = (props: any) => {
           </div>
         </div>
         <div className="row g-3 items">
-          {isLoading  ? (
+          {isLoading ? (
             <div className="top-seller spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
@@ -98,7 +98,7 @@ const TopSeller = (props: any) => {
               );
             })
           ) : (
-            <p className="text-center">No Top Sellers Found</p>
+            <p className="text-center not-found">No Top Sellers Found</p>
           )}
         </div>
       </div>
