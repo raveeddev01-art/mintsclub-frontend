@@ -34,7 +34,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   }, []);
 
   const onSuccessPopular = (data: any) => {
-    calcualtePopularCollections(data.data?.data);
+      calcualtePopularCollections(data.data?.data);
   };
 
   const onErrorPopular = (error: any) => {
@@ -52,7 +52,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
     limit
   );
 
-  const onSuccessCategories = (data: any) => {
+  const onSuccessCategories = (data: any) => {  
     setCategories(data.data.categories);
   };
 

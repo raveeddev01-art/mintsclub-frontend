@@ -709,6 +709,7 @@ class CreateNFT extends React.Component<
       return (
         <>
           <section className="create-collection create-nft">
+        
             <Banner
               subHeading={createNFTbanner.subHeading}
               heading={createNFTbanner.heading}
@@ -718,6 +719,7 @@ class CreateNFT extends React.Component<
               bg={true}
             />
             <div className="container">
+        
               {/* <form> */}
               {loader && <FullPageLoader />}
 
