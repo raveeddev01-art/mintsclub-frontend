@@ -8,11 +8,19 @@ import nft7 from "../assets/images/famous7.jpeg";
 import { aboutusImages } from "../assets/assets";
 
 import {
-  AiFillHeart,
-  BsTagFill,
-  GrTransaction,
-  MdShoppingCart,
-} from "react-icons/all";
+  GrTransaction
+} from "react-icons/gr";
+
+
+import {
+  BsTagFill
+} from "react-icons/bs";
+
+import {
+  MdShoppingCart
+} from "react-icons/md";
+
+
 export const WordsFamousNfts = [
   {
     img: nft3,
