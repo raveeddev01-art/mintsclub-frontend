@@ -1,303 +1,306 @@
+import { useState, useEffect, useContext, FC } from "react";
+import "./explore-collections.scss";
+import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
+import { connect } from "react-redux";
+import { ENV } from "../../config/config";
 import {
-    useState,
-    useEffect,
-    FC,
-  } from "react";
-  import "./explore-collections.scss";
-  import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
-  import { connect } from "react-redux";
-  import { ENV } from "../../config/config";
-  import {
-    beforeCollection,
-    getCollections,
-    toggleLikeDislike,
-    beforeCategory,
-    getCategories,
-  } from "../collections/collections.actions";
-  import { Images } from "../../assets/assets";
-  import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-  import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-  import Banner from "../../Components/Banner/Banner";
-  import BannerBg from "../../assets/images/hero-bg.png";
-  import BannerImage from "../../assets/images/bannerimg.png";
-  import { exploreCollectionBanner } from "../../utils/exportData";
-  import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
-  import { useGetCollections } from "../../hooks/AllNFTs";
-  import {useGetCategories} from "../../hooks/PopularCollections";
-  const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
-    const [isActive, setIsActive] = useState("All");
-    const [collections, setCollections] = useState<any[] | null>(null);
-    // const [categoriesLoader, setCatLoader] = useState(true);
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [categories, setCategories] = useState<any[] | null>(null);
-    const [empty, setEmpty] = useState(false);
-    const [loader, setLoader] = useState(true);
-    const [pagination, setPagination] = useState<any>(null);
-  
-    useEffect(() => {
-      window.scroll(0, 0);
-  
-      // if (props.setLoader) props.setLoader(false);
-  
-      // // getCollections(null, 1, null);
-      // props.getCategories();
-    }, []);
-  
-    const onSuccessCollections = (data: any) => {
+  beforeCollection,
+  getCollections,
+  toggleLikeDislike,
+  beforeCategory,
+  getCategories,
+} from "../collections/collections.actions";
+import { Images } from "../../assets/assets";
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import Banner from "../../Components/Banner/Banner";
+import BannerBg from "../../assets/images/hero-bg.png";
+import BannerImage from "../../assets/images/bannerimg.png";
+import { exploreCollectionBanner } from "../../utils/exportData";
+import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
+import { useGetCollections } from "../../hooks/AllNFTs";
+import { useGetCategories } from "../../hooks/PopularCollections";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+
+const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
+  const [isActive, setIsActive] = useState("All");
+  const [collections, setCollections] = useState<any[] | null>(null);
+  // const [categoriesLoader, setCatLoader] = useState(true);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState<any[] | null>(null);
+  const [empty, setEmpty] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const [pagination, setPagination] = useState<any>(null);
+  const { setError } = useContext(errorHandler);
+
+  useEffect(() => {
+    window.scroll(0, 0);
+
+    // if (props.setLoader) props.setLoader(false);
+
+    // // getCollections(null, 1, null);
+    // props.getCategories();
+  }, []);
+
+  const onSuccessCollections = (data: any) => {
+    if (data.data.success) {
       const { collections, pagination } = data.data.data;
-      if(collections.length>0){
+      if (collections.length > 0) {
         setEmpty(false);
       }
-      console.log(data,"data==>")
+      console.log(data, "data==>");
       console.log(collections, "collecitons==>");
       setCollections(collections);
       setPagination(pagination);
-    };
-    const { isLoading: isLoadinCollections } = useGetCollections(
-      onSuccessCollections,
-      true,
-      ENV.objectToQueryString({
-        page: page,
-        limit: limit,
-        category: selectedCategory,
-      })
-    );
-    const onSuccessCategories = (data: any) => {
+    } else {
+      setError(data.data.message);
+    }
+  };
+  const { isLoading: isLoadinCollections } = useGetCollections(
+    onSuccessCollections,
+    true,
+    ENV.objectToQueryString({
+      page: page,
+      limit: limit,
+      category: selectedCategory,
+    })
+  );
+  const onSuccessCategories = (data: any) => {
+    if (data.data.success) {
       setCategories(data.data.categories);
-    };
-  
-    const {
-      isFetching: isFetchingCategories,
-      isLoading: isCategoryLoading,
-    }: any = useGetCategories(
-      (error: any) => console.log(error),
-      onSuccessCategories
-    );
-  
-  
-  
-  
-    ////////////////////////////////////////////////////////
-  
-    // useEffect(() => {
-    //   if (props.collection.getAuth) {
-    //     const { collections, pagination } = props.collection;
-    //     setPagination(pagination);
-    //     const userId = ENV.getUserKeys("_id")._id;
-    //     if (props.mycollections) {
-    //       let myCollections = collections.filter(
-    //         (item: any) => item.userId === userId
-    //       );
-    //       setCollections(myCollections);
-    //     } else {
-    //       if (collections === null) {
-    //         setEmpty(true);
-    //       } else {
-    //         setEmpty(false);
-    //       }
-    //       setCollections(collections);
-  
-    //       setColLoader(false);
-    //       setLoader(false);
-    //     }
-    //     props.beforeCollection();
-    //   }
-    // }, [props.collection.getAuth]);
-  
-    // useEffect(() => {
-    //   if (props.collection.collectionFlag) {
-    //     setCategories(props.collection.categories);
-  
-    //     props.beforeCategory();
-    //     setCatLoader(false);
-    //   }
-    // }, [props.collection.collectionFlag]);
-  
-    // const getCollections = (
-    //   category: string | null,
-    //   page: number | null,
-    //   pageLimit: number | null
-    // ) => {
-    //   const filter: any = {
-    //     page,
-    //   };
-  
-    //   if (props.userId) filter.userId = props.userId;
-    //   if (props.popular) filter.popular = true;
-    //   if (category) filter.myFilter = category;
-    //   if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
-    //   else filter.all = true;
-  
-    //   const qs = ENV.objectToQueryString(filter);
-  
-    //   props.getCollections(qs);
-    // };
-  
-    const handlePagination = () => {
-      window.scroll(0, 500);
-      setPage(page);
-      setLimit(limit + 10);
-      // getCollections(selectedCategory, page, limit + 10);
-    };
-    const handleFilterCategory = (category: string) => {
-      setLoader(true);
-      setPage(1);
-      setLimit(10);
-      // getCollections(category, 1, 10);
-    };
-  
-    const handleImage = (item: any, index: number) => {
-      if (item?.nftDetail[index]?.image) {
-        let result = item.nftDetail.filter(
-          (nft: any) => nft.fileType === "image"
-        );
-        if (result.length >= index && result.length !== 0) {
-          return result[index]?.image;
-        } else {
-          return Images.imagePlaceholder;
-        }
+    } else {
+      setError(data.data.message);
+    }
+  };
+
+  const {
+    isFetching: isFetchingCategories,
+    isLoading: isCategoryLoading,
+  }: any = useGetCategories(
+    (error: any) => console.log(error),
+    onSuccessCategories
+  );
+
+  ////////////////////////////////////////////////////////
+
+  // useEffect(() => {
+  //   if (props.collection.getAuth) {
+  //     const { collections, pagination } = props.collection;
+  //     setPagination(pagination);
+  //     const userId = ENV.getUserKeys("_id")._id;
+  //     if (props.mycollections) {
+  //       let myCollections = collections.filter(
+  //         (item: any) => item.userId === userId
+  //       );
+  //       setCollections(myCollections);
+  //     } else {
+  //       if (collections === null) {
+  //         setEmpty(true);
+  //       } else {
+  //         setEmpty(false);
+  //       }
+  //       setCollections(collections);
+
+  //       setColLoader(false);
+  //       setLoader(false);
+  //     }
+  //     props.beforeCollection();
+  //   }
+  // }, [props.collection.getAuth]);
+
+  // useEffect(() => {
+  //   if (props.collection.collectionFlag) {
+  //     setCategories(props.collection.categories);
+
+  //     props.beforeCategory();
+  //     setCatLoader(false);
+  //   }
+  // }, [props.collection.collectionFlag]);
+
+  // const getCollections = (
+  //   category: string | null,
+  //   page: number | null,
+  //   pageLimit: number | null
+  // ) => {
+  //   const filter: any = {
+  //     page,
+  //   };
+
+  //   if (props.userId) filter.userId = props.userId;
+  //   if (props.popular) filter.popular = true;
+  //   if (category) filter.myFilter = category;
+  //   if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
+  //   else filter.all = true;
+
+  //   const qs = ENV.objectToQueryString(filter);
+
+  //   props.getCollections(qs);
+  // };
+
+  const handlePagination = () => {
+    window.scroll(0, 500);
+    setPage(page);
+    setLimit(limit + 10);
+    // getCollections(selectedCategory, page, limit + 10);
+  };
+  const handleFilterCategory = (category: string) => {
+    setLoader(true);
+    setPage(1);
+    setLimit(10);
+    // getCollections(category, 1, 10);
+  };
+
+  const handleImage = (item: any, index: number) => {
+    if (item?.nftDetail[index]?.image) {
+      let result = item.nftDetail.filter(
+        (nft: any) => nft.fileType === "image"
+      );
+      if (result.length >= index && result.length !== 0) {
+        return result[index]?.image;
       } else {
         return Images.imagePlaceholder;
       }
-    };
-  
-    return (
-      <>
-        {isCategoryLoading && isLoadinCollections ? (
-          <FullPageLoader />
-        ) : (
-          <section className="explore-collection-section padding-wrapper pt-0">
-            <Banner
-              subHeading={exploreCollectionBanner.subHeading}
-              heading={exploreCollectionBanner.heading}
-              content={exploreCollectionBanner.content}
-              bgImg={BannerBg}
-              bannerImg={BannerImage}
-            />
-            <div className="container">
-              <div className="row mb-5">
-                <div className="col-12 explore-collection-nav">
-                  <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
-                    {categories &&
-                      categories.length > 0 &&
-                      categories.map((item: any, index: number) => {
-                        return (
+    } else {
+      return Images.imagePlaceholder;
+    }
+  };
+
+  return (
+    <>
+      {isCategoryLoading && isLoadinCollections ? (
+        <FullPageLoader />
+      ) : (
+        <section className="explore-collection-section padding-wrapper pt-0">
+          <Banner
+            subHeading={exploreCollectionBanner.subHeading}
+            heading={exploreCollectionBanner.heading}
+            content={exploreCollectionBanner.content}
+            bgImg={BannerBg}
+            bannerImg={BannerImage}
+          />
+          <div className="container">
+            <div className="row mb-5">
+              <div className="col-12 explore-collection-nav">
+                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+                  {categories &&
+                    categories.length > 0 &&
+                    categories.map((item: any, index: number) => {
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            setIsActive(item.name);
+                            setSelectedCategory(item.description);
+                            handleFilterCategory(item.description);
+                          }}
+                          className={`${
+                            item.name === isActive ? "active-explore-nav" : ""
+                          } me-2 me-xl-3`}
+                        >
+                          {item.name}
+                        </button>
+                      );
+                    })}
+                </div>
+                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                  {categories &&
+                    categories.length > 0 &&
+                    categories.map((item: any, index: any) => {
+                      return (
+                        <div className="col-6 col-sm-3" key={index}>
                           <button
-                            key={index}
                             onClick={() => {
                               setIsActive(item.name);
                               setSelectedCategory(item.description);
                               handleFilterCategory(item.description);
                             }}
-                            className={`${
-                              item.name === isActive ? "active-explore-nav" : ""
-                            } me-2 me-xl-3`}
+                            className={
+                              isActive === item.name ? "active-explore-nav" : ""
+                            }
                           >
                             {item.name}
                           </button>
-                        );
-                      })}
-                  </div>
-                  <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
-                    {categories &&
-                      categories.length > 0 &&
-                      categories.map((item: any, index: any) => {
-                        return (
-                          <div className="col-6 col-sm-3" key={index}>
-                            <button
-                              onClick={() => {
-                                setIsActive(item.name);
-                                setSelectedCategory(item.description);
-                                handleFilterCategory(item.description);
-                              }}
-                              className={
-                                isActive === item.name ? "active-explore-nav" : ""
-                              }
-                            >
-                              {item.name}
-                            </button>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-              </div>
-              <div className="row g-1 align-items-center justify-content-center">
-                {isLoadinCollections ? (
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                ) : collections && collections.length > 0 ? (
-                  collections.map((collection: any, index: number) => {
-                    return (
-                      <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
-                        <CollectionsCard
-                          CardImg={collection.featuredImg}
-                          Subimg1={handleImage(collection, 0)}
-                          Subimg2={handleImage(collection, 1)}
-                          Subimg3={handleImage(collection, 2)}
-                          name={collection.name}
-                          id={collection._id}
-                          collection={collection}
-                          userName={
-                            collection?.username[0] ? collection.username[0] : ""
-                          }
-                          NFTCount={
-                            collection.nftDetail[0].image
-                              ? collection.nftDetail?.length
-                              : 0
-                          }
-                          profileImage={collection?.profileImage[0]}
-                          ownerAddress={collection?.ownerAddress}
-                          connectedAddress={props.connectedAddress}
-                        />
-                      </div>
-                    );
-                  })
-                ) : (
-                  <p className="text-center not-found-title mt-5">
-                    No Collections found
-                  </p>
-                )}
-                <div className="col-12">
-                  <div className="mt-5 d-flex justify-content-center align-items-center">
-                    {!empty &&
-                      collections?.length === 10 &&
-                      !isLoadinCollections &&
-                      pagination.totalRecords > collections.length && (
-                        <button
-                          className="btn btn-rounded-bordered px-5"
-                          onClick={() => handlePagination()}
-                        >
-                          Load more...
-                        </button>
-                      )}
-                  </div>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>
-            <OwnCollectionToday />
-          </section>
-        )}
-      </>
-    );
-  };
-  const mapStateToProps = (state: any) => ({
-    collection: state.collection,
-    error: state.error,
-    category: state.category,
-    categories: state.collection,
-    pagination: state.pagination,
-    connectedAddress: state.wallet.connectedAddress,
-  });
-  
-  export default connect(mapStateToProps, {
-    beforeCollection,
-    getCollections,
-    beforeCategory,
-    getCategories,
-    toggleLikeDislike,
-  })(ExploreCollections);
-  
+            <div className="row g-1 align-items-center justify-content-center">
+              {isLoadinCollections ? (
+                <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              ) : collections && collections.length > 0 ? (
+                collections.map((collection: any, index: number) => {
+                  return (
+                    <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
+                      <CollectionsCard
+                        CardImg={collection.featuredImg}
+                        Subimg1={handleImage(collection, 0)}
+                        Subimg2={handleImage(collection, 1)}
+                        Subimg3={handleImage(collection, 2)}
+                        name={collection.name}
+                        id={collection._id}
+                        collection={collection}
+                        userName={
+                          collection?.username[0] ? collection.username[0] : ""
+                        }
+                        NFTCount={
+                          collection.nftDetail[0].image
+                            ? collection.nftDetail?.length
+                            : 0
+                        }
+                        profileImage={collection?.profileImage[0]}
+                        ownerAddress={collection?.ownerAddress}
+                        connectedAddress={props.connectedAddress}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-center not-found-title mt-5">
+                  No Collections found
+                </p>
+              )}
+              <div className="col-12">
+                <div className="mt-5 d-flex justify-content-center align-items-center">
+                  {!empty &&
+                    collections?.length === 10 &&
+                    !isLoadinCollections &&
+                    pagination.totalRecords > collections.length && (
+                      <button
+                        className="btn btn-rounded-bordered px-5"
+                        onClick={() => handlePagination()}
+                      >
+                        Load more...
+                      </button>
+                    )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <OwnCollectionToday />
+        </section>
+      )}
+    </>
+  );
+};
+const mapStateToProps = (state: any) => ({
+  collection: state.collection,
+  error: state.error,
+  category: state.category,
+  categories: state.collection,
+  pagination: state.pagination,
+  connectedAddress: state.wallet.connectedAddress,
+});
+
+export default connect(mapStateToProps, {
+  beforeCollection,
+  getCollections,
+  beforeCategory,
+  getCategories,
+  toggleLikeDislike,
+})(ExploreCollections);

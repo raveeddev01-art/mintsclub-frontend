@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./SellNFT.scss";
 import { ENV } from "../../config/config";
 import "bootstrap-daterangepicker/daterangepicker.css";
@@ -30,6 +30,7 @@ import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 import { useGetNFTbyId } from "../../hooks/AllNFTs";
 import { useInsertData, useEditData } from "../../hooks/Common";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
@@ -64,6 +65,7 @@ const SellNFT = (props: any) => {
   const [address, setAddress] = useState<string>(props.connectedAddress);
   const [copiesError, setCopiesError] = useState<boolean>(false);
   const [contentLoader, setContentLoader] = useState<boolean>(true);
+  const { setError } = useContext(errorHandler);
   const history = useHistory();
   let nftId = props.match.params.id;
 
@@ -71,9 +73,13 @@ const SellNFT = (props: any) => {
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   //Get NFT
   const onSuccessNFT = (data: any) => {
-    if (copies === "") {
-      setLoader(false);
-      setNftDetail(data?.data?.data);
+    if (data.data.success) {
+      if (copies === "") {
+        setLoader(false);
+        setNftDetail(data?.data?.data);
+      }
+    } else {
+      setError(data.data.message);
     }
   };
   const { isLoading: isLoadingNFT } = useGetNFTbyId(nftId, onSuccessNFT);
