@@ -36,6 +36,7 @@ import { useGetMyLikedNFTs } from "../../hooks/CollectionDetails";
 import { useGetCollections, useGetNFTs } from "../../hooks/AllNFTs";
 import { useGetUserDataById } from "../../hooks/UserProfile";
 import { useInsertData } from "../../hooks/Common";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const UserProfile = (props: any) => {
   const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
@@ -57,6 +58,7 @@ const UserProfile = (props: any) => {
     props.connectedAddress
   );
   const { darkMode } = useContext(darkModeContext);
+  const { setError } = useContext(errorHandler);
   const [filter, setFilter] = useState({ page: 1, limit: 9999999 });
   const userId = ENV.getUserKeys("_id")._id;
   const history = useHistory();
@@ -94,7 +96,11 @@ const UserProfile = (props: any) => {
   );
 
   const onSuccessUser = (data: any) => {
-    setUser(data.data.data);
+    if (data.data.success) {
+      setUser(data.data.data);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const { isLoading: isLoadingUser } = useGetUserDataById(
@@ -102,7 +108,11 @@ const UserProfile = (props: any) => {
     onSuccessUser
   );
   const onSuccessLikedNFTs = (data: any) => {
-    setLikedNfts(data.data.data);
+    if (data.data.success) {
+      setLikedNfts(data.data.data);
+    } else {
+      setError(data.data.message);
+    }
   };
   const {} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
@@ -110,10 +120,14 @@ const UserProfile = (props: any) => {
     nfts ? true : false
   );
   const onSuccessCollections = (data: any) => {
-    let myCollections = data?.data?.data?.collections.filter(
-      (item: any) => item.userId === userId
-    );
-    setCollections(myCollections);
+    if (data.data.success) {
+      let myCollections = data?.data?.data?.collections.filter(
+        (item: any) => item.userId === userId
+      );
+      setCollections(myCollections);
+    } else {
+      setError(data.data.message);
+    }
   };
   const {} = useGetCollections(onSuccessCollections, nfts ? true : false);
 
