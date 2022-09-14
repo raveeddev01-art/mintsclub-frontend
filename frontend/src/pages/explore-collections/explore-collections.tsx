@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  FC,
-} from "react";
+import { useState, useEffect, useContext, FC } from "react";
 import "./explore-collections.scss";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
@@ -23,7 +19,8 @@ import BannerImage from "../../assets/images/bannerimg.png";
 import { exploreCollectionBanner } from "../../utils/exportData";
 import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
 import { useGetCollections } from "../../hooks/AllNFTs";
-import {useGetCategories} from "../../hooks/PopularCollections";
+import { useGetCategories } from "../../hooks/PopularCollections";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [isActive, setIsActive] = useState("All");
@@ -34,18 +31,23 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const [categories, setCategories] = useState<any[] | null>(null);
   const [empty, setEmpty] = useState(false);
   const [pagination, setPagination] = useState<any>(null);
+  const { setError } = useContext(errorHandler);
 
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
 
   const onSuccessCollections = (data: any) => {
-    const { collections, pagination } = data.data.data;
-    if(collections.length>0){
-      setEmpty(false);
+    if (data.data.success) {
+      const { collections, pagination } = data.data.data;
+      if (collections.length > 0) {
+        setEmpty(false);
+      }
+      setCollections(collections);
+      setPagination(pagination);
+    } else {
+      setError(data.data.message);
     }
-    setCollections(collections);
-    setPagination(pagination);
   };
   const { isLoading: isLoadinCollections } = useGetCollections(
     onSuccessCollections,
@@ -57,7 +59,11 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     })
   );
   const onSuccessCategories = (data: any) => {
-    setCategories(data.data.categories);
+    if (data.data.success) {
+      setCategories(data.data.categories);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const {

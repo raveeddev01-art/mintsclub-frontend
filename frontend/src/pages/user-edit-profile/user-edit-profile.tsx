@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./user-edit-profile.scss";
 /////////
 import { connect } from "react-redux";
@@ -21,7 +21,9 @@ import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectio
 import Compressor from "compressorjs";
 import { useEditData } from "../../hooks/Common";
 import { useGetUserDataById } from "../../hooks/UserProfile";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 import axios from "axios";
+
 const EditProfile = (props: any) => {
   const [loader, setLoader] = useState<boolean>(false);
   const [errors, setErrors] = useState<string>("");
@@ -36,6 +38,7 @@ const EditProfile = (props: any) => {
   const [instaLink, setInstaLink] = useState<string>("");
   const [webLink, setWebLink] = useState<string>("");
   const [_id, setUserId] = useState<string>("");
+  const { setError } = useContext(errorHandler);
 
   const history = useHistory();
   useEffect(() => {
@@ -49,30 +52,34 @@ const EditProfile = (props: any) => {
     }
   }, [props.error]);
   const onSuccessUser = (data: any) => {
-    const {
-      address,
-      email,
-      bio,
-      twitterLink,
-      username,
-      profileImage,
-      bannerImage,
-      instaLink,
-      webLink,
-    } = data.data.data;
-    props.beforeUser();
-    setLoader(false);
-    setAddress(address ? address : "");
-    setEmail(email ? email : "");
-    setUserId(_id ? _id : "");
-    setDescription(bio ? bio : "");
-    setTwitterLink(twitterLink ? twitterLink : "");
-    setUsername(username ? username : "");
-    setImageUrl(profileImage ? profileImage : "");
-    setImage(profileImage ? profileImage : "");
-    setBannerImage(bannerImage ? bannerImage : "");
-    setInstaLink(instaLink ? instaLink : "");
-    setWebLink(webLink ? webLink : "");
+    if (data.data.success) {
+      const {
+        address,
+        email,
+        bio,
+        twitterLink,
+        username,
+        profileImage,
+        bannerImage,
+        instaLink,
+        webLink,
+      } = data.data.data;
+      props.beforeUser();
+      setLoader(false);
+      setAddress(address ? address : "");
+      setEmail(email ? email : "");
+      setUserId(_id ? _id : "");
+      setDescription(bio ? bio : "");
+      setTwitterLink(twitterLink ? twitterLink : "");
+      setUsername(username ? username : "");
+      setImageUrl(profileImage ? profileImage : "");
+      setImage(profileImage ? profileImage : "");
+      setBannerImage(bannerImage ? bannerImage : "");
+      setInstaLink(instaLink ? instaLink : "");
+      setWebLink(webLink ? webLink : "");
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const { isLoading: isLoadingUser } = useGetUserDataById(

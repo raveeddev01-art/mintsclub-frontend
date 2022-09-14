@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getTopSellers, beforeUser } from "../../Components/User/user.action";
@@ -7,16 +7,22 @@ import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.scss";
 import { Images } from "../../assets/assets";
 import { useGetTopSellers } from "../../hooks/TopSellers";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const TopSeller = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
+  const { setError } = useContext(errorHandler);
 
   const onSuccessTopSellers = (data: any) => {
-    const { topSellers } = data.data.data;
-    if (topSellers?.length > 11) {
-      setSellers(topSellers.slice(0, 11));
+    if (data.data.success) {
+      const { topSellers } = data.data.data;
+      if (topSellers?.length > 11) {
+        setSellers(topSellers.slice(0, 11));
+      } else {
+        setSellers(topSellers);
+      }
     } else {
-      setSellers(topSellers);
+      setError(data.data.message);
     }
   };
   const { isLoading } = useGetTopSellers(onSuccessTopSellers);
@@ -47,7 +53,7 @@ const TopSeller = (props: any) => {
           </div>
         </div>
         <div className="row g-3 items">
-          {isLoading  ? (
+          {isLoading ? (
             <div className="top-seller spinner-loader-wrapper">
               <div className="spinner-border text-secondary" role="status">
                 <span className="sr-only">Loading...</span>
@@ -98,7 +104,7 @@ const TopSeller = (props: any) => {
               );
             })
           ) : (
-            <p className="text-center">No Top Sellers Found</p>
+            <p className="text-center not-found">No Top Sellers Found</p>
           )}
         </div>
       </div>

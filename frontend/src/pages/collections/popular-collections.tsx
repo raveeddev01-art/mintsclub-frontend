@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
@@ -19,6 +19,7 @@ import {
   useGetCategories,
   useGetPopularCollections,
 } from "../../hooks/PopularCollections";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 const initData = {
   pre_heading: "Most Popular",
   heading: "Popular Collections",
@@ -32,6 +33,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   const [popularSettings, settPopularSettings] = useState<object | null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
+  const { setError } = useContext(errorHandler);
 
   const handleCategoryFilter = (desc: string) => {
     setFilterationLoader(true);
@@ -54,7 +56,11 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   /////get popular collections
 
   const onSuccessPopular = (data: any) => {
-    calcualtePopularCollections(data.data?.data);
+    if (data.data.success) {
+      calcualtePopularCollections(data.data?.data);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const onErrorPopular = (error: any) => {};
@@ -119,18 +125,20 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
         setFilterationLoader(false);
       }
-    }else{
-      setFilterationLoader(false)
+    } else {
+      setFilterationLoader(false);
       setpopular(null);
-
     }
   };
   const onSuccessCategories = (data: any) => {
-    setCategories(data.data.categories);
+    if (data.data.success) {
+      setCategories(data.data.categories);
+    } else {
+      setError(data.data.message);
+    }
   };
 
-  const {
-  }: any = useGetCategories(
+  const {}: any = useGetCategories(
     (error: any) => console.log(error),
     onSuccessCategories
   );

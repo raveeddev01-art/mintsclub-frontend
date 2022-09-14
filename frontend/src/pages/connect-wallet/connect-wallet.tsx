@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
@@ -24,11 +24,14 @@ import { connect } from "react-redux";
 import { useGetData, useInsertData } from "../../hooks/Common";
 import Web3 from "web3";
 import { ENV } from "../../config/config";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const history = useHistory();
   const location: any = useLocation();
   const [connectedAddress, setConnectedAddres] = useState<any>(null);
+  const { setError } = useContext(errorHandler);
   useEffect(() => {
     if (props.error) {
       toast.error(props.error.message);
@@ -71,8 +74,12 @@ const ConnectWallet = (props: any) => {
   };
 
   const onSuccessLogin = (data: any) => {
-    ENV.encryptUserData(data.data.data);
-    history.push(location?.state ? location.state : "/");
+    if (data.data.success) {
+      ENV.encryptUserData(data.data.data);
+      history.push(location?.state ? location.state : "/");
+    } else {
+      setError(data.data.message);
+    }
   };
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
@@ -109,12 +116,16 @@ const ConnectWallet = (props: any) => {
 
   ///Validate
   const onSuccessValidateUser = async (data: any) => {
-    const publicAddress: any = await connectMetamask();
-    if (data?.data?.users?.length > 0) {
-      const res = await handleSign(data?.data?.users[0].nounce);
-      authenticate(res);
+    if (data.data.success) {
+      const publicAddress: any = await connectMetamask();
+      if (data?.data?.users?.length > 0) {
+        const res = await handleSign(data?.data?.users[0].nounce);
+        authenticate(res);
+      } else {
+        handleSignUp({ address: publicAddress });
+      }
     } else {
-      handleSignUp({ address: publicAddress });
+      setError(data.data.message);
     }
   };
   const { mutate: validateUser } = useInsertData(
@@ -124,8 +135,12 @@ const ConnectWallet = (props: any) => {
 
   ///Sign up
   const onSuccessSignUp = async (data: any) => {
-    const res = await handleSign(data?.data?.data?.nounce);
-    authenticate(res);
+    if (data.data.success) {
+      const res = await handleSign(data?.data?.data?.nounce);
+      authenticate(res);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const { mutate: handleSignUp } = useInsertData(
@@ -134,8 +149,12 @@ const ConnectWallet = (props: any) => {
   );
   ///Authenticate
   const onSuccessAuthentication = (data: any) => {
-    ENV.encryptUserData(data.data.data);
-    history.push(location?.state ? location.state : "/");
+    if (data.data.success) {
+      ENV.encryptUserData(data.data.data);
+      history.push(location?.state ? location.state : "/");
+    } else {
+      setError(data.data.message);
+    }
   };
   const { mutate: authenticate } = useInsertData(
     "users/authenticate",
