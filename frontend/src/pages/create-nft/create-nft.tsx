@@ -22,7 +22,7 @@ import {
   createActivity,
   beforeNFT,
 } from "../../Components/Nfts/nfts.action";
-import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
+import { getCurrentAddress, mintNFt, validateNetwork,creatVoucher,redeemVoucher } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -374,6 +374,8 @@ class CreateNFT extends React.Component<
     const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
+    console.log(metaData,"metaData==>")
+    return ""
     this.mintNFT(metaData.dataInput, metaData.image);
   };
   uploadFileToIpfs = async (formData: any) => {
@@ -719,7 +721,8 @@ class CreateNFT extends React.Component<
               bg={true}
             />
             <div className="container">
-        
+        {/* <button onClick={()=>creatVoucher(true)}>Lazy Mint</button>
+        <button onClick={()=>redeemVoucher(true)}>Redeem voucher</button> */}
               {/* <form> */}
               {loader && <FullPageLoader />}
 

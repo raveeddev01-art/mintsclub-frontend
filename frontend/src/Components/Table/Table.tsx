@@ -1,11 +1,25 @@
 import { useEffect, useState } from "react";
 import {
-  BsTagFill,
-  BiTransferAlt,
+
   MdShoppingCart,
+} from "react-icons/md";
+
+
+import {
+  BiTransferAlt,
+} from "react-icons/bi";
+
+
+import {
+  BsTagFill,
+} from "react-icons/bs";
+
+import {
   FaHandPaper,
-} from "react-icons/all";
+} from "react-icons/fa";
+
 import ReactTimeAgo from "react-time-ago";
+
 import { TableInterface } from "../../interfaces/components";
 const Table: React.FC<TableInterface> = ({
   titles,

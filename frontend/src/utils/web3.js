@@ -1,8 +1,10 @@
 import Web3 from "web3";
 import { toast } from "react-toastify";
-
 import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
+import typedDataV4 from "./typeDatav4";
+import voucherAbi from "./abis/voucher-abi.json";
+import batchMintAbi from "./abis/voucher-abi.json";
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
@@ -100,7 +102,6 @@ export const openNFTForBidding = async (
   tokenId,
   copies
 ) => {
- 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -127,13 +128,11 @@ export const placeABid = async (amount, tokenId) => {
     let id = Number(tokenId);
     let web3 = await getWeb3();
 
-    const result = await contractM.methods
-      .bid(id)
-      .send({
-        from: connectedAddress,
-        value: bidAmount,
-        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-      });
+    const result = await contractM.methods.bid(id).send({
+      from: connectedAddress,
+      value: bidAmount,
+      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+    });
 
     if (result) {
       return result;
@@ -234,7 +233,6 @@ export const claimNFTfromContract = async (tokenId) => {
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
       gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-
     });
     if (result) {
       return result;
@@ -296,19 +294,71 @@ export const getCurrentAddress = async () => {
 
 export const handleSign = async (nounce) => {
   const web3 = new Web3(Web3.givenProvider);
-  // const publicAddress =await web3?.eth.coinbase.toLowerCase();
-  const publicAddress=await connectMetamask();
+  const publicAddress = await connectMetamask();
   return new Promise((resolve, reject) =>
     web3.eth.personal.sign(
       web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
       publicAddress?.toLowerCase(),
       (err, signature) => {
-        console.log(signature,"signature==>")
+        console.log(signature, "signature==>");
         if (err) return reject(err);
         return resolve({ publicAddress, signature });
       }
     )
   );
+};
+
+export const creatVoucher = async (batchMint) => {
+  if (batchMint) {
+    typedDataV4.message.amount = 4;
+  }
+  const web3 = new Web3(Web3.givenProvider);
+  const publicAddress = await connectMetamask();
+  try {
+    await web3.currentProvider.sendAsync(
+      {
+        method: "eth_signTypedData_v4",
+        params: [publicAddress, JSON.stringify(typedDataV4)],
+        from: publicAddress,
+      },
+      function (err, result) {
+        if (result?.error) {
+          alert(result.error.message);
+        }
+        console.log(result, "result");
+        console.log(result.result.substring(2), "signature");
+      }
+    );
+  } catch (err) {
+    console.log(err, "error");
+  }
+};
+
+export const redeemVoucher = async (batchMint) => {
+  try {
+    let web3 = await getWeb3();
+    const publicAddress = await connectMetamask();
+
+    const contractM = new web3.eth.Contract(
+      batchMint ? batchMintAbi : voucherAbi,
+      // "0x043F1FD137AFdDb66b0c31fAa1D3E96f720EaE2f"
+      // "0x3EB384f3BbF38be551a00b4e5549Eb1eF4C883A8" //ERC-721 WORKING
+      "0x1159BE61067eF14127B9c57E42043373E7d9655B" //ERC-1155
+    );
+    let result = await contractM.methods
+      .redeem(publicAddress, {
+        tokenId: 3,
+        uri: "https://gateway.pinata.cloud/ipfs/QmVmCVj7ZbgP94uL74ek7RfqYUBVjdcRvQkZdmp5EmPw8p",
+        minPrice: 0,
+        amount: 4,
+        signature:
+          "0x1bb087574ed54a164c30113ae01dcabb5c43c2851e2fb9b643e0d07afe1b66cb110d098a21b637571814a0244e353d3e8b7085e703ba3223b75a7f8a7195d3881b",
+      })
+      .send({ from: publicAddress });
+    console.log(result, "result");
+  } catch (err) {
+    console.log(err, "error==>");
+  }
 };
 
 //////////////////////////////////////////////////////////////////////////////////ariswap functions start///////////////////////////
@@ -410,8 +460,6 @@ export const signRequest = async () => {
   }
 };
 
-
-
 const handleSignMessage = (address) => {
   return new Promise((resolve, reject) => {
     try {
@@ -431,8 +479,3 @@ const handleSignMessage = (address) => {
     }
   });
 };
-
-
-
-
-

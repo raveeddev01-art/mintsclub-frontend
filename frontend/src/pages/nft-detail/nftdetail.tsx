@@ -21,7 +21,6 @@ import {
 } from "../all-nfts/explore.action";
 import moment from "moment";
 import axios from "axios";
-
 import {
   placeABid,
   connectMetamask,
@@ -94,6 +93,7 @@ const NFTDetail = (props: any) => {
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
+
   useEffect(() => {
     window.scroll(0, 600);
   }, []);

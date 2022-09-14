@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useInsertData } from "../../hooks/Common";
 
+
 const BulkUpload = () => {
   const [file, setFile] = useState<any>("");
   const { mutate: uploadFolder } = useInsertData("nfts/batchUpload", () =>
@@ -12,7 +13,6 @@ const BulkUpload = () => {
     formData.append("batchUpload", file);
     uploadFolder(formData);
   };
-
   return (
     <>
       <label className="w-100">
