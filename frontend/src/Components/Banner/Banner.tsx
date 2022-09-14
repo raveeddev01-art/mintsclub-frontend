@@ -13,11 +13,11 @@ const Banner: FC<BannerInterface> = ({
   return (
     <>
       <div
-        className="banner-wrapper padding-wrapper pb-0"
+        className="banner-wrapper padding-wrapper"
         style={{ backgroundImage: `url(${bg ? bgImg : ""})` }}
       >
         <div className="container">
-          <div className="row align-items-end">
+          <div className="row align-items-center">
             <div className="col-md-9 col-lg-7">
               <div className="intro">
                 <div className="intro-content clr-blue">
@@ -29,7 +29,7 @@ const Banner: FC<BannerInterface> = ({
             </div>
             <div className="col-lg-5 d-none d-lg-block">
               <div className="banner-img">
-                {/* {bannerImg && <img src={bannerImg} alt="banner-img" />} */}
+                {bannerImg && <img src={bannerImg} alt="banner-img" />}
               </div>
             </div>
           </div>

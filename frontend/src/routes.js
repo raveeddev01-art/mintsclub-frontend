@@ -5,6 +5,10 @@ const layout3 = lazy(() => import("./layouts/layout3/layout3"));
 const layout4 = lazy(() => import("./layouts/layout4/layout4"));
 const Home = lazy(() => import("./pages/home/home"));
 const CreateNFT = lazy(() => import("./pages/create-nft/create-nft"));
+const ChooseType = lazy(() => import("./pages/choose-type/chooseType"));
+const CreateMultipleNFT = lazy(() =>
+  import("./pages/create-multiple-nft/createMultipleNFT")
+);
 const Wallet = lazy(() => import("./pages/wallet/wallet"));
 const Signup = lazy(() => import("./pages/signup/signup"));
 const SellNFT = lazy(() => import("./pages/sell-nft/SellNFT"));
@@ -93,7 +97,6 @@ const routes = [
     layout: layout,
     component: TopSellerList,
   },
-
   {
     path: "/create",
     access: false,
@@ -101,6 +104,22 @@ const routes = [
     title: "Create",
     layout: layout,
     component: CreateNFT,
+  },
+  {
+    path: "/choose-type",
+    access: false,
+    exact: true,
+    title: "Choose Type",
+    layout: layout,
+    component: ChooseType,
+  },
+  {
+    path: "/create-multiple-nft",
+    access: false,
+    exact: true,
+    title: "Create Multiple NFT",
+    layout: layout,
+    component: CreateMultipleNFT,
   },
   {
     path: "/explore/nftdetail/:id",
