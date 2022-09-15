@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Banner from "../../Components/Banner/Banner";
