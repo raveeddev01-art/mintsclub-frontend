@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
   decimalNumberValidator,
@@ -26,8 +26,6 @@ import {
   getCurrentAddress,
   mintNFt,
   validateNetwork,
-  creatVoucher,
-  redeemVoucher,
 } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
