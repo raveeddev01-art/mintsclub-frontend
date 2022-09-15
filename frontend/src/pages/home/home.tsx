@@ -5,7 +5,6 @@ import TopSeller from "../top-seller/topseller";
 import Buysell from "../../Components/BuySell/BuySell";
 import PopularCollections from "../collections/popular-collections";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import BatchUpload from "../BatchUpload/BatchUpload"
 function Home() {
   useEffect(() => {
     window.scroll(0, 0);
@@ -19,7 +18,6 @@ function Home() {
       <TopSeller viewAll={"View All"} />
       <PopularCollections />
       <Buysell />
-      <BatchUpload/>
       <OwnCollectionToday />
     </>
   );
