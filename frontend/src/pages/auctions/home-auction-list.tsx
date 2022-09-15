@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useState, useContext, FC } from "react";
 import AuctionsCards from "../../Components/AuctionsCards/AuctionsCards";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -9,6 +9,7 @@ import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectio
 import { AuctionsListInt } from "../../interfaces/auctions-list/interface";
 import { useGetCategories } from "../../hooks/PopularCollections";
 import { useGetLiveAuctions } from "../../hooks/HomeAuctions";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 import "./home-auction-list.scss";
 
 const AuctionsList: FC<AuctionsListInt> = () => {
@@ -17,10 +18,15 @@ const AuctionsList: FC<AuctionsListInt> = () => {
   const [categories, setCategories] = useState<Array<object> | null>(null);
   const [categoryId, setCategoryId] = useState("all");
   const [pagination, setPagination] = useState<any>(null);
+  const { setError } = useContext(errorHandler);
 
   const onSuccessLiveAuctions = (data: any) => {
-    setAuctions(data.data.data.auctions);
-    setPagination(data.data.data.pagination);
+    if (data.data.success) {
+      setAuctions(data.data.data.auctions);
+      setPagination(data.data.data.pagination);
+    } else {
+      setError(data.data.message);
+    }
   };
   const { isLoading: isLoadingLiveAuctions } = useGetLiveAuctions(
     categoryId,
@@ -29,7 +35,11 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 
   //Get Categories
   const onSuccessCategories = (data: any) => {
-    setCategories(data.data.categories);
+    if (data.data.success) {
+      setCategories(data.data.categories);
+    } else {
+      setError(data.data.message);
+    }
   };
   const { isLoading: isLoadingCategories } = useGetCategories(
     null,

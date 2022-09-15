@@ -3,10 +3,10 @@ export default {
     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
     chainId: 4,
     // Give a user friendly name to the specific contract you are signing for.
-    name: "Lazy Mint Voucher",
+    name: "LazyNFT-Voucher",
     // If name isn't enough add verifying contract to make sure you are establishing contracts with the proper entity
     // verifyingContract: "0x043F1FD137AFdDb66b0c31fAa1D3E96f720EaE2f",
-    verifyingContract: "0x1159BE61067eF14127B9c57E42043373E7d9655B",
+    verifyingContract: "0x56945FFb6eFcD7709695B0d6d8e92d9289ec1196",
     // Just let's you know the latest version. Definitely make sure the field name is correct.
     version: "1",
   },
@@ -19,11 +19,10 @@ export default {
        - This is DApp Specific
        - Be as explicit as possible when building out the message schema.
       */
-    contents: "Hello, Bob!",
-    tokenId: 3,
+    tokenId: 2323,
     uri: "https://gateway.pinata.cloud/ipfs/QmVmCVj7ZbgP94uL74ek7RfqYUBVjdcRvQkZdmp5EmPw8p",
     minPrice: 0,
-    // amount:4,
+    amount:4,
 
     //   attachedMoneyInEth: 4.2,
     //   from: {

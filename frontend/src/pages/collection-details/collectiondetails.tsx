@@ -15,12 +15,9 @@ import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
-import {
-  useGetMyLikedNFTs,
-  useGetNFTs,
-} from "../../hooks/CollectionDetails";
-import {useInsertData} from "../../hooks/Common"
-
+import { useGetMyLikedNFTs, useGetNFTs } from "../../hooks/CollectionDetails";
+import { useInsertData } from "../../hooks/Common";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nfts, setNfts] = useState<any>(null);
@@ -34,6 +31,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [filter, setFilter] = useState<any>({
     collectionId: location.state.id,
   });
+  const { setError } = useContext(errorHandler);
   const history = useHistory();
 
   useEffect(() => {
@@ -42,20 +40,28 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 
   ////Get My liked NFTs
   const onSuccessLikedNFTs = (data: any) => {
-    setLikedNfts(data.data.data);
+    if (data.data.success) {
+      setLikedNfts(data.data.data);
+    } else {
+      setError(data.data.message);
+    }
   };
   const {} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
     onSuccessLikedNFTs,
-    nfts?.length>0?true:false
+    nfts?.length > 0 ? true : false
   );
 
   //Get NFTs
 
   const onSuccessNFTs = (data: any) => {
-    setFilterationLoader(false);
-    setNFTPagination(data.data.data.pagination);
-    setNfts(data.data.data.nfts);
+    if (data.data.success) {
+      setFilterationLoader(false);
+      setNFTPagination(data.data.data.pagination);
+      setNfts(data.data.data.nfts);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const { isLoading: isLoadingNFTs } = useGetNFTs(filter, onSuccessNFTs);
@@ -65,7 +71,10 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   };
 
   //Like/Dislike
-  const { mutate } = useInsertData("nftLikes/likeDislike",onSuccessLikeDislike);
+  const { mutate } = useInsertData(
+    "nftLikes/likeDislike",
+    onSuccessLikeDislike
+  );
 
   ///////////Likes
   const handleLikesTogleApi = async (

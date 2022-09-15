@@ -447,7 +447,9 @@ const Listing: FC<listingInt> = (props) => {
                       );
                     })
                   ) : (
-                    <p className="text-center mx-auto">No Collections Found</p>
+                    <p className="text-center mx-auto not-found">
+                      No Collections Found
+                    </p>
                   )}
                 </div>
                 <div className="d-flex align-items-end justify-content-end">

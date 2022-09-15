@@ -4,7 +4,7 @@ import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
 import typedDataV4 from "./typeDatav4";
 import voucherAbi from "./abis/voucher-abi.json";
-import batchMintAbi from "./abis/voucher-abi.json";
+import batchMintAbi from "./abis/batchMint-abi.json";
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
@@ -308,12 +308,10 @@ export const handleSign = async (nounce) => {
   );
 };
 
-export const creatVoucher = async (batchMint) => {
-  if (batchMint) {
-    typedDataV4.message.amount = 4;
-  }
+export const creatVoucher = async () => {
   const web3 = new Web3(Web3.givenProvider);
   const publicAddress = await connectMetamask();
+  console.log(publicAddress, "publicAddress");
   try {
     await web3.currentProvider.sendAsync(
       {
@@ -334,25 +332,24 @@ export const creatVoucher = async (batchMint) => {
   }
 };
 
-export const redeemVoucher = async (batchMint) => {
+export const redeemVoucher = async () => {
   try {
     let web3 = await getWeb3();
     const publicAddress = await connectMetamask();
-
     const contractM = new web3.eth.Contract(
-      batchMint ? batchMintAbi : voucherAbi,
+      batchMintAbi,
       // "0x043F1FD137AFdDb66b0c31fAa1D3E96f720EaE2f"
       // "0x3EB384f3BbF38be551a00b4e5549Eb1eF4C883A8" //ERC-721 WORKING
-      "0x1159BE61067eF14127B9c57E42043373E7d9655B" //ERC-1155
+      "0x56945FFb6eFcD7709695B0d6d8e92d9289ec1196" //ERC-1155
     );
     let result = await contractM.methods
       .redeem(publicAddress, {
-        tokenId: 3,
+        tokenId: 11,
         uri: "https://gateway.pinata.cloud/ipfs/QmVmCVj7ZbgP94uL74ek7RfqYUBVjdcRvQkZdmp5EmPw8p",
         minPrice: 0,
         amount: 4,
         signature:
-          "0x1bb087574ed54a164c30113ae01dcabb5c43c2851e2fb9b643e0d07afe1b66cb110d098a21b637571814a0244e353d3e8b7085e703ba3223b75a7f8a7195d3881b",
+          "0x59f7e6814f16e0d02f7d93dfd81a077a8e9539e39a02b6c2da96cf583c86c1b5145635b3f635425540e39f76fc99a760352ac6ca3008cb53aa698d41a9044ba31c",
       })
       .send({ from: publicAddress });
     console.log(result, "result");

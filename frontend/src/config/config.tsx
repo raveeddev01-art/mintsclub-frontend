@@ -18,6 +18,9 @@ export const ENV = {
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,
   requiredChainName: process.env.REACT_APP_REQUIRED_CHAIN_NAME,
+  awsAccessKeyId:process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  awsAccessSecretKey:process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  awsS3Bucket:process.env.REACT_APP_AWS_S3_BUCKET,
   //Social media
   twitterLink: process.env.REACT_APP_TWITTER_LINK,
   discordLink: process.env.REACT_APP_DISCORD_LINK,

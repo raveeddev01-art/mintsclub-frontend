@@ -22,7 +22,13 @@ import {
   createActivity,
   beforeNFT,
 } from "../../Components/Nfts/nfts.action";
-import { getCurrentAddress, mintNFt, validateNetwork,creatVoucher,redeemVoucher } from "../../utils/web3";
+import {
+  getCurrentAddress,
+  mintNFt,
+  validateNetwork,
+  creatVoucher,
+  redeemVoucher,
+} from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -186,7 +192,7 @@ class CreateNFT extends React.Component<
     ) {
       toast.info("Please login with new connected account");
       localStorage.clear();
-      return     this.props.history.push({
+      return this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/create`,
       });
@@ -374,8 +380,8 @@ class CreateNFT extends React.Component<
     const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
-    console.log(metaData,"metaData==>")
-    return ""
+    console.log(metaData, "metaData==>");
+    return "";
     this.mintNFT(metaData.dataInput, metaData.image);
   };
   uploadFileToIpfs = async (formData: any) => {
@@ -431,7 +437,7 @@ class CreateNFT extends React.Component<
       this.setState({ loader: false });
     }
   };
-  
+
   onFileChange = (e: any, status: any) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file: any = "";
@@ -711,7 +717,6 @@ class CreateNFT extends React.Component<
       return (
         <>
           <section className="create-collection create-nft">
-        
             <Banner
               subHeading={createNFTbanner.subHeading}
               heading={createNFTbanner.heading}
@@ -721,8 +726,6 @@ class CreateNFT extends React.Component<
               bg={true}
             />
             <div className="container">
-        {/* <button onClick={()=>creatVoucher(true)}>Lazy Mint</button>
-        <button onClick={()=>redeemVoucher(true)}>Redeem voucher</button> */}
               {/* <form> */}
               {loader && <FullPageLoader />}
 
@@ -1216,7 +1219,7 @@ class CreateNFT extends React.Component<
       this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/create`,
-      })
+      });
       return " ";
     }
   }
