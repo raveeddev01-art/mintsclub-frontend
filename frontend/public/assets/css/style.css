@@ -46,11 +46,11 @@
 
 /* #region Import */
 
-@import url(vendor/bootstrap.min.css);
-@import url(vendor/animate.min.css);
-@import url(vendor/all.min.css);
-@import url(vendor/icons.min.css);
-@import url(vendor/slider.min.css);
+/* @import url(vendor/bootstrap.min.css); */
+/* @import url(vendor/animate.min.css); */
+/* @import url(vendor/all.min.css); */
+/* @import url(vendor/icons.min.css); */
+/* @import url(vendor/slider.min.css); */
 /* #endregion Import */
 
 /*----------------------------------------------
@@ -58,6 +58,7 @@
 ----------------------------------------------*/
 
 /* #region Root */
+<<<<<<< HEAD
 
 :root {
   --primary-font: "Manrope", sans-serif;
@@ -3439,3 +3440,5 @@ input[type="number"] {
     width: 90px;
   }
 }
+=======
+>>>>>>> 9af7900a2511fb1defffa43a3df87ee5f6e49f13

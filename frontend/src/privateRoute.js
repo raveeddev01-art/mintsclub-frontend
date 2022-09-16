@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { ENV } from "./config/config";
 
@@ -16,7 +15,8 @@ export const PrivateRoute = ({
       ) : (
         <Redirect
           to={{
-            pathname: "/login",
+            pathname: `/connect-wallet`,
+            state:path
           }}
         />
       )

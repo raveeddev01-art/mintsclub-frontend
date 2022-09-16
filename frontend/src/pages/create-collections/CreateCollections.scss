@@ -1,0 +1,194 @@
+.create-collection {
+  .banner-wrapper.padding-wrapper {
+    min-height: 420px;
+    margin-bottom: 50px;
+  }
+  .upload-container {
+    display: flex;
+    padding: 0rem 0rem 4rem 4rem;
+  }
+  .react-select-cls .react-select__control {
+    background-color: var(--nft-search-bg);
+    div#react-select-2-placeholder {
+      color: var(--text-body-two);
+    }
+  }
+}
+.create-collection .create-collection-label {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+  color: var(--text-body-two);
+  margin-left: 1.5rem;
+}
+
+.create-collection .create-collection-input {
+  border: 1px solid #c9daff;
+  height: 42px;
+  border-radius: 44px;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  color: var(--text-body);
+  outline: none;
+  padding-left: 24px;
+  background-color: var(--nft-search-bg);
+}
+.create-collection .create-collection-area {
+  height: 324px;
+  background: var(--nft-search-bg);
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  border-radius: 18px;
+  color: var(--text-body);
+  resize: none;
+}
+
+/* .create-collection .create-collection-btn-container {
+  max-width: 255px;
+} */
+.btn.create-collection-btn.btn-linear-gradient {
+  max-width: 255px;
+  width: 100%;
+  height: 60px;
+  font-size: 18px;
+}
+
+.create-collection .create-collection-input:focus {
+  outline: none;
+  color: var(--text-body);
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+}
+.create-collection .create-collection-area:focus {
+  outline: none;
+  color: var(--text-body);
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+}
+.create-collection .feature-wrapper {
+  position: relative;
+}
+.create-collection .logo-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: 9rem;
+}
+.create-collection .logo-image {
+  border: 1px solid #2269ff;
+  width: max-content;
+
+  padding: 10px;
+  border-radius: 50%;
+}
+.create-collection .uploaded-logo-img {
+  width: 128.43px;
+  height: 128.43px;
+  border-radius: 50%;
+}
+.create-collection .logo-image .logo-image-round {
+  position: relative;
+  cursor: pointer;
+}
+.create-collection .upload-icon {
+  cursor: pointer;
+}
+.create-collection .upload-feature-icon {
+  position: absolute;
+  left: 4;
+  bottom: 67px;
+  left: 8px;
+  cursor: pointer;
+}
+.create-collection .upload-feature-icon img {
+  cursor: pointer;
+}
+.create-collection .upload-feature-icon-logo {
+  position: absolute;
+  left: 4;
+  bottom: 49px;
+  left: 2px;
+  cursor: pointer;
+}
+.create-collection .upload-feature-icon-logo img {
+  cursor: pointer;
+}
+.create-collection .feature-img-title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+  color: var(--text-body);
+}
+.create-collection .feature-image {
+  border: 1px solid #2269ff;
+  width: max-content;
+
+  padding: 10px;
+  border-radius: 50%;
+}
+.create-collection .feature-image .feature-img-round {
+  position: relative;
+}
+.create-collection .uploaded-feature-img {
+  width: 226px;
+  height: 226px;
+  border-radius: 50%;
+}
+.create-collection .feature-image .feature-img-round .feature-img-round-info {
+  position: absolute;
+  right: 70px;
+  top: -10px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+}
+.create-collection .browse-file {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+}
+
+.create-collection .react-select-cls .react-select__control {
+  margin-top: 0.45rem;
+  border: 1px solid #c9daff;
+  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+  border-radius: 44px;
+}
+
+.create-collection .react-select-cls .react-select__value-container {
+  max-height: 40px;
+  display: flex;
+  align-items: start;
+  color: var(--text-body-two);
+  padding: 8px;
+  padding-left: 24px;
+}
+
+.create-collection .react-select-cls .react-select__input-container {
+  max-height: 40px;
+}
+
+.create-collection .react-select-cls .react-select__input-container:after {
+  display: none;
+}
+
+.create-collection .react-select-cls .react-select__indicator-separator {
+  display: none;
+}
+
+.create-collection .react-select-cls .react-select__single-value {
+  font-weight: 400;
+  color: var(--text-body-two);
+}
+
+@media (max-width: 768px) {
+  .create-collection .logo-wrapper {
+    padding-right: 0rem;
+  }
+}

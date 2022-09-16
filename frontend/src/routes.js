@@ -1,27 +1,49 @@
-import layout from "./layouts/layout/layout";
-import layout3 from "./layouts/layout3/layout3";
-import layout4 from "./layouts/layout4/layout4";
-// components
-import Home from "./components/home/home";
-import Populars from "./components/popular-collections-list/popular-collections-list";
-import CreateNFT from "./components/create-nft/create-nft";
-import Wallet from "./components/wallet/wallet";
-import Signup from "./components/signup/signup";
-import SellNFT from "./components/sell-nft/SellNFT";
-import NotFound from "./components/not-found/not-found";
-import ExploreCollections from "./components/collections/explore-collections";
-import AllNFT from "./components/explore/all-nft/allnft";
-import CollectionDetailsPage from "./components/collection-details/collectiondetails";
-import NFTDetail from "./components/nft-detail/nftdetail";
-import UserProfile from "./components/user-profile/UserProfile";
-import TopSellerList from "./components/top-seller/topsellerlist";
-import AuctionsList from "./components/auctions/home-auction-list";
-import EditProfile from "./components/user-profile/user-edit-profile";
-import CreateCollections from "./components/creat-collections/CreateCollections";
-import AboutUs from "./components/aboutus/aboutus";
-import Faqs from "./components/faqs/faqs";
-import PrivacyPolicy from "./components/privacy-policy/privacyPolicy";
-import TermsConditions from "./components/terms-conditions/termsConditions";
+import { lazy } from "react";
+const layout = lazy(() => import("./layouts/layout/layout"));
+const homelayout = lazy(() => import("./layouts/home-layout/home-layout"));
+const layout3 = lazy(() => import("./layouts/layout3/layout3"));
+const layout4 = lazy(() => import("./layouts/layout4/layout4"));
+const Home = lazy(() => import("./pages/home/home"));
+const CreateNFT = lazy(() => import("./pages/create-nft/create-nft"));
+const ChooseType = lazy(() => import("./pages/choose-type/chooseType"));
+const CreateMultipleNFT = lazy(() =>
+  import("./pages/create-multiple-nft/createMultipleNFT")
+);
+const Wallet = lazy(() => import("./pages/wallet/wallet"));
+const Signup = lazy(() => import("./pages/signup/signup"));
+const SellNFT = lazy(() => import("./pages/sell-nft/SellNFT"));
+const NotFound = lazy(() => import("./pages/not-found/not-found"));
+const NFTDetail = lazy(() => import("./pages/nft-detail/nftdetail"));
+const UserProfile = lazy(() => import("./pages/user-profile/UserProfile"));
+const TopSellerList = lazy(() => import("./pages/top-seller/topsellerlist"));
+const AuctionsList = lazy(() => import("./pages/auctions/home-auction-list"));
+const AllNFT = lazy(() => import("./pages/all-nfts/all-nfts/allnft"));
+const AboutUs = lazy(() => import("./pages/aboutus/aboutus"));
+const Faqs = lazy(() => import("./pages/faqs/faqs"));
+const CreateCollections = lazy(() =>
+  import("./pages/create-collections/CreateCollections")
+);
+const PrivacyPolicy = lazy(() =>
+  import("./pages/privacy-policy/privacyPolicy")
+);
+const TermsConditions = lazy(() =>
+  import("./pages/terms-conditions/termsConditions")
+);
+const ConnectWallet = lazy(() =>
+  import("./pages/connect-wallet/connect-wallet")
+);
+const Populars = lazy(() =>
+  import("./pages/popular-collections-list/popular-collections-list")
+);
+const ExploreCollections = lazy(() =>
+  import("./pages/explore-collections/explore-collections")
+);
+const CollectionDetailsPage = lazy(() =>
+  import("./pages/collection-details/collectiondetails")
+);
+const EditProfile = lazy(() =>
+  import("./pages/user-edit-profile/user-edit-profile")
+);
 
 // routes
 const routes = [
@@ -30,8 +52,16 @@ const routes = [
     access: true,
     exact: true,
     title: "Home",
-    layout: layout,
+    layout: homelayout,
     component: Home,
+  },
+  {
+    path: "/connect-wallet",
+    access: true,
+    exact: true,
+    title: "ConnectWallet",
+    layout: layout,
+    component: ConnectWallet,
   },
   {
     path: "/auctions",
@@ -67,7 +97,6 @@ const routes = [
     layout: layout,
     component: TopSellerList,
   },
-
   {
     path: "/create",
     access: false,
@@ -75,6 +104,22 @@ const routes = [
     title: "Create",
     layout: layout,
     component: CreateNFT,
+  },
+  {
+    path: "/choose-type",
+    access: false,
+    exact: true,
+    title: "Choose Type",
+    layout: layout,
+    component: ChooseType,
+  },
+  {
+    path: "/create-multiple-nft",
+    access: false,
+    exact: true,
+    title: "Create Multiple NFT",
+    layout: layout,
+    component: CreateMultipleNFT,
   },
   {
     path: "/explore/nftdetail/:id",
@@ -147,7 +192,7 @@ const routes = [
     access: true,
     exact: true,
     title: "login",
-    layout: layout4,
+    layout: layout,
     component: Wallet,
   },
   {
@@ -155,7 +200,7 @@ const routes = [
     access: true,
     exact: true,
     title: "Signup",
-    layout: layout4,
+    layout: layout,
     component: Signup,
   },
   {

@@ -15,6 +15,7 @@ export const GET_AUCTIONS = "GET_AUCTIONS";
 
 // NFTS
 export const BEFORE_NFT = "BEFORE_NFT";
+export const CREATE_NFT_AUTH = " CREATE_NFT_AUTH";
 export const GET_NFTS = "GET_NFTS";
 export const GET_NFT = "GET_NFT";
 export const UPSERT_NFT = "UPSERT_NFT";
@@ -71,9 +72,9 @@ export const BEFORE_POPULAR_COLLECTION = "BEFORE_POPULAR_COLLECTION";
 // FOOTER
 export const BEFORE_FOOTER = "BEFORE_FOOTER";
 export const GET_FOOTER = "GET_FOOTER";
-export const BEFORE_SUBSCRIBE="BEFORE_SUBSCRIBE";
-export const SUBSCRIBE="SUBSCRIBE";
-export const SUBSCRIBE_RESPONSE="SUBSCRIBE_RESPONSE"
+export const BEFORE_SUBSCRIBE = "BEFORE_SUBSCRIBE";
+export const SUBSCRIBE = "SUBSCRIBE";
+export const SUBSCRIBE_RESPONSE = "SUBSCRIBE_RESPONSE";
 // FAQ
 export const BEFORE_FAQ = "BEFORE_FAQ";
 export const GET_FAQS = "GET_FAQS";

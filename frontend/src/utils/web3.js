@@ -9,7 +9,7 @@ let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
 /////////////////////////////////////////////////////////////////////////////MintsClub market start /////////////////////////
 
-const getWeb3 = async () => {
+export const getWeb3 = async () => {
   let instance;
   if (window.ethereum) {
     await window.web3.currentProvider.enable();
@@ -70,7 +70,7 @@ export const getBalance = async () => {
   return ethBalance;
 };
 
-export const mintNFt = async (metaData, amount, ) => {
+export const mintNFt = async (metaData, amount) => {
   let web3 = await getWeb3();
 
   if (!web3) {
@@ -100,6 +100,7 @@ export const openNFTForBidding = async (
   tokenId,
   copies
 ) => {
+ 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -123,7 +124,6 @@ export const placeABid = async (amount, tokenId) => {
     const contractM = await getContractMethods();
     const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
     // let bidAmount = Number(amount) * 1000000000000000000;
-    console.log(bidAmount, "bidAmount");
     let id = Number(tokenId);
     let web3 = await getWeb3();
 
@@ -139,7 +139,6 @@ export const placeABid = async (amount, tokenId) => {
       return result;
     }
   } catch (err) {
-    console.log(err,"error while bidding")
     if (err?.message) {
       toast.error(err.message);
     } else {
@@ -288,6 +287,30 @@ export const getMetamaskConnectedAddress = async () => {
 //   }
 // }
 
+export const getCurrentAddress = async () => {
+  let web3 = await getWeb3();
+  let accounts = await web3.eth.getAccounts();
+  let address = accounts[0];
+  return address;
+};
+
+export const handleSign = async (nounce) => {
+  const web3 = new Web3(Web3.givenProvider);
+  // const publicAddress =await web3?.eth.coinbase.toLowerCase();
+  const publicAddress=await connectMetamask();
+  return new Promise((resolve, reject) =>
+    web3.eth.personal.sign(
+      web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
+      publicAddress?.toLowerCase(),
+      (err, signature) => {
+        console.log(signature,"signature==>")
+        if (err) return reject(err);
+        return resolve({ publicAddress, signature });
+      }
+    )
+  );
+};
+
 //////////////////////////////////////////////////////////////////////////////////ariswap functions start///////////////////////////
 
 export const connectMetamaskCopy = async (address) => {
@@ -387,16 +410,7 @@ export const signRequest = async () => {
   }
 };
 
-export const mint = async () => {
-  const web3 = await getWeb3();
-  if (!web3) {
-    toast.error("No web3 instance found");
-    return false;
-  }
 
-  try {
-  } catch (e) {}
-};
 
 const handleSignMessage = (address) => {
   return new Promise((resolve, reject) => {
@@ -418,57 +432,7 @@ const handleSignMessage = (address) => {
   });
 };
 
-export const ClaimFundsAfterBidding = () => {};
 
-export const createNft = async () => {};
 
-export const setNftToken = (body) => {
-  let url = process.env.REACT_APP_BASE_URL + `nftTokens/addToken`;
-  // alert("calling");
 
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body: JSON.stringify(body),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        window.location.href = "/explore-all";
-      } else {
-      }
-    })
-    .catch((error) => {
-      // console.log(error, "error in catch blcok");
-      if (error.response && error.response.data) {
-      }
-    });
-};
 
-export const NftOwner = async () => {};
-
-export const placeBidNft = async () => {};
-
-export const SellOnFixedPrice = async () => {};
-
-export const BuyFixedPriceNFTs = async () => {};
-
-export const getCurrentAddress = async () => {
-  let web3 = await getWeb3();
-  let accounts = await web3.eth.getAccounts();
-  let address = accounts[0];
-  return address;
-};
-
-export const acceptNftOffer = async () => {};
-export const signTransaction = async () => {};

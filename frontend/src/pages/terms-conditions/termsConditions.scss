@@ -1,0 +1,75 @@
+.terms .terms-content {
+  max-width: 1205px;
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.terms .terms-content h5 {
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--text-body);
+  margin-bottom: 18px;
+}
+
+.terms .terms-content h6 {
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text-body-two);
+}
+
+.terms .terms-content p {
+  font-weight: 300;
+  font-size: 18px;
+  color: var(--text-body);
+  line-height: 35px;
+}
+
+.terms .terms-content p span {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-body);
+  line-height: 35px;
+}
+
+.terms .terms-content h6 span {
+  font-weight: 300;
+  font-size: 18px;
+  color: var(--text-body);
+  line-height: 35px;
+}
+
+.terms .terms-content a {
+  text-decoration: none;
+}
+
+.terms .terms-content ol {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.terms .terms-content ol li span {
+  width: 30px;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-body);
+}
+.terms .terms-content ol li {
+  clear: both;
+  color: var(--text-body-two);
+}
+
+.terms .terms-content ol .li-inner-ol ol {
+  padding-left: 30px;
+}
+
+@media (max-width: 575.9px) {
+  .terms .terms-content h5 {
+    font-size: 22px;
+  }
+  .terms .terms-content h6 {
+    font-size: 20px;
+  }
+  .terms .terms-content ol .li-inner-ol ol {
+    padding-left: 10px;
+  }
+}

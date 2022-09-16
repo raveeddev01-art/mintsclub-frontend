@@ -1,0 +1,161 @@
+.log-in-banner {
+  .banner-wrapper {
+    min-height: unset;
+    &.padding-wrapper {
+      padding: 70px 0;
+    }
+  }
+}
+
+.wallet-metamask-card {
+  background-color: #10103c !important;
+}
+.sign-in-card {
+  background: var(--login-card-bg);
+  border: 1px solid rgba(56, 127, 255, 0.18);
+  border-radius: 20px;
+  height: 296px;
+}
+.signup-card {
+  background: #10103c !important;
+}
+.sign-in-spinner {
+  height: 1.3rem !important;
+  width: 1.3rem !important;
+}
+.sign-up-input {
+  background-color: black !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: white !important;
+  padding: 1rem !important;
+  height: 3.2rem !important;
+}
+.back-link {
+  background: -webkit-linear-gradient(#5666fe, #5666fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2rem;
+  text-decoration: underline !important;
+}
+.text-gray {
+  color: gray !important;
+}
+.text-center {
+  text-align: center;
+}
+.btn-signin {
+  background: linear-gradient(to top, #4355ff, #5695fd);
+  padding: 10px 25px;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn-signin:hover {
+  color: #ffffff;
+  opacity: 0.9;
+  box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3) !important;
+  -webkit-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
+  -moz-box-shadow: 0px 0px 18px 0px rgba(86, 149, 253, 0.3);
+}
+.connect-metamask-container {
+  background: #387fff;
+  border-radius: 20px;
+  height: 296px;
+  max-width: 480px;
+  cursor: pointer;
+}
+
+.metamask-title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 33px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+.metamask-desc {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 24px;
+  /* or 141% */
+
+  text-align: center;
+
+  color: #ffffff;
+}
+.intro.wallet-intro span {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 43px;
+  color: #2269ff;
+}
+.intro.wallet-intro h3 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 41px;
+  color: var(--text-body);
+}
+.intro.wallet-intro p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 33px;
+  color: var(--text-body-two);
+}
+.sign-content-wrapper h4 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 33px;
+  /* identical to box height */
+
+  color: #387fff;
+}
+.sign-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.sign-content-wrapper p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  /* identical to box height, or 160% */
+
+  text-align: center;
+
+  color: var(--text-body-two);
+  word-break: break-all;
+  padding: 0 10px;
+}
+.change-wallet-btn {
+  background: var(--login-btn-bg);
+  border-radius: 55px;
+  color: var(--login-btn-clr);
+  padding: 7px 33px;
+  border: none;
+}
+.new-member {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 33px;
+  color: var(--text-body-two);
+}
+
+.new-member .register-member {
+  color: #387fff !important;
+  text-decoration: underline !important;
+  cursor: pointer;
+}
