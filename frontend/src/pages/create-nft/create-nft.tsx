@@ -22,13 +22,7 @@ import {
   createActivity,
   beforeNFT,
 } from "../../Components/Nfts/nfts.action";
-import {
-  getCurrentAddress,
-  mintNFt,
-  validateNetwork,
-  createVoucher,
-  redeemVoucher,
-} from "../../utils/web3";
+import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -318,7 +312,6 @@ class CreateNFT extends React.Component<
                 var formData = new FormData();
                 for (const key in nftInfo)
                   if (nftInfo[key]) formData.append(key, nftInfo[key]);
-                // this.mintNFT("https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE","https://gateway.pinata.cloud/ipfs/QmXcPBxY9kY5WAXBXQXuCMhATHsVh47f8WQD1y7NVWfMK1")
                 this.pinFileToIPFS(nft.image);
               }
             );
@@ -349,6 +342,7 @@ class CreateNFT extends React.Component<
     // data.metaData = metaData;
 
     data.remainingCopies = data.copies;
+    data.activeAuction = null;
     if (videoURL) {
       data.fileType = "video";
     } else if (audioUrl !== "") {
@@ -380,7 +374,6 @@ class CreateNFT extends React.Component<
       this.props.beforeNFT();
       this.props.addNFTRecord(paylaod);
     } catch (err: any) {
-      console.log(err, "error====>");
       toast.error(err);
       this.setState({ loader: false });
     }

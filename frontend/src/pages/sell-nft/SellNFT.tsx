@@ -147,7 +147,7 @@ const SellNFT = (props: any) => {
       setTimedAuctionConfig({ ...data });
     }
   };
-//onSubmit
+  //onSubmit
   const submit = async (e: any) => {
     e.preventDefault();
     if (copies > nftDetail.copies) {
@@ -210,7 +210,8 @@ const SellNFT = (props: any) => {
           auctionConfig.startPrice.amount
         );
         payload = {
-          _id: location.state._id,
+          nftId: location.state._id,
+          userId: ENV.getUserKeys("_id")._id,
           sellingMethod,
           sellingConfig: JSON.stringify(auctionConfig),
           copiesForAuction: copies,
@@ -271,7 +272,6 @@ const SellNFT = (props: any) => {
         insertAuction(payload);
       }
     } catch (err: any) {
-      console.log(err, "error==>");
       setLoader(false);
       toast.error(err);
     }
@@ -287,19 +287,17 @@ const SellNFT = (props: any) => {
     try {
       let res = null;
       if (nftDetail?.lazyMinted) {
-
-          res = await createVoucher(
-            nftDetail.tokenId,
-            copies,
-            nftDetail.metaData,
-            price
-          );
-          if(!res.success){
-            setLoader(false);
-            toast.error(res.data.message);
-            return false
-          }
-   
+        res = await createVoucher(
+          nftDetail.tokenId,
+          copies,
+          nftDetail.metaData,
+          price
+        );
+        if (!res.success) {
+          setLoader(false);
+          toast.error(res.data.message);
+          return false;
+        }
       } else {
         res = await putonsale(
           nftDetail.tokenId,
@@ -350,7 +348,6 @@ const SellNFT = (props: any) => {
     });
   };
 
-  
   //Approve account
 
   const approveAccount = async () => {
