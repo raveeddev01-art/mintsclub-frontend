@@ -88,7 +88,12 @@
   color: #ffffff;
   height: 55px;
   max-width: 255px;
+  border: 1px solid #3574fb;
   width: 100%;
+}
+.sell-nft .btn.btn-linear-gradient.sell-btn-completed:focus,
+.sell-nft .btn.btn-linear-gradient.sell-btn-completed:active {
+  color: #0e0e0e !important;
 }
 
 .sell-nft .sell-btn-container {

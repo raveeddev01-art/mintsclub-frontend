@@ -1533,13 +1533,15 @@ aside {
   font-weight: bold;
 }
 
-.btn.btn-linear-gradient:hover {
+.btn.btn-linear-gradient:hover,
+.btn.btn-linear-gradient:focus {
   background-color: transparent;
   border: 1px solid #316feb;
   color: #0e0e0e !important;
 }
 
-.btn.btn-rounded-bordered:hover {
+.btn.btn-rounded-bordered:hover,
+.btn.btn-rounded-bordered:focus {
   background-color: #387fff;
   border: 1px solid #387fff;
   color: #ffffff;
