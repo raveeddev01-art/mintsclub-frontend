@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Banner from "../../Components/Banner/Banner";
@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { formatBytes } from "../../utils/functions";
 import "./createMultipleNFT.scss";
 import { Link } from "react-router-dom";
+import { uploadToS3Bucket } from "../../utils/s3Bucket";
 
 const options = [
   { value: "Ethereum", label: "Ethereum" },
@@ -122,6 +123,13 @@ function CreateMultipleNFT() {
       setError(true);
       setErrorMessage(message);
     }
+  };
+  const submit = async () => {
+    let uploadFile = await uploadToS3Bucket(
+      batchFile.file,
+      batchFile.file.name
+    );
+    console.log(uploadFile, "uploadFile==>");
   };
   return (
     <div className="create-multiple-nft">
@@ -296,6 +304,7 @@ function CreateMultipleNFT() {
               <button
                 className="btn upload btn-linear-gradient mt-5"
                 disabled={!checkBox}
+                onClick={() => submit()}
               >
                 Upload
               </button>
