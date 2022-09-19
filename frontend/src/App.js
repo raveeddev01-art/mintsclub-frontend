@@ -27,10 +27,9 @@ const App = React.memo((props) => {
     tawkTo(tawkToPropertyId, tawkToKey);
   }, [ENV]);
 
- 
   useEffect(() => {
     if (!window.ethereum) {
-      return;
+      return toast.error("This app requires metamask,Please Install Metamask ");
     }
     const accountWasChanged = (accounts) => {
       setWallet(accounts[0]);
@@ -42,24 +41,19 @@ const App = React.memo((props) => {
       if (changedAccounts.length === 0) {
         toast.error("you are not connected with metamask");
       }
-      setWallet(changedAccounts[0])
-
+      setWallet(changedAccounts[0]);
     };
-    const clearAccount = () => {
-    
-    };
+    const clearAccount = () => {};
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
     // window.ethereum.on("disconnect", ()=>alert("account cleared"));
     window.ethereum.request({ method: "eth_requestAccounts" }).then(
       (accounts) => {
-        setWallet(accounts[0])
+        setWallet(accounts[0]);
       },
       (error) => {}
     );
-    return () => {
-
-    };
+    return () => {};
   }, []);
   const setWallet = (address) => {
     props.beforeWallet();

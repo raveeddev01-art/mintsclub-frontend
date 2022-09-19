@@ -319,7 +319,6 @@ export const connectMetamaskCopy = async (address) => {
       return address[0];
     }
   } else {
-    toast.error("This app requires metamask,Please Install Metamask ");
   }
 };
 export const getWalletAddress = async () => {

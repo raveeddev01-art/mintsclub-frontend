@@ -9,6 +9,7 @@ import { ENV } from "../../config/config";
 import { beforeAuction, getLiveAuctions } from "../auctions/auctions.action";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
+
 const Hero = (props) => {
   const [connectedAddress, setConnectedAddress] = useState("");
   const [data, setData] = useState(null);
@@ -16,8 +17,8 @@ const Hero = (props) => {
   const heroSettings = ENV.heroSettings;
 
   useEffect(async () => {
-    let connectedAddress = await connectMetamaskCopy();
-    setConnectedAddress(connectedAddress);
+      let connectedAddress = await connectMetamaskCopy(connectedAddress);
+      setConnectedAddress(connectedAddress);
   }, []);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Hero = (props) => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
       let updatedAuctions = [];
-      if (auctions&&auctions.length>1) {
+      if (auctions && auctions.length > 1) {
         props.beforeAuction();
         setStatus("auctions");
         updatedAuctions = auctions.filter((item) => item.fileType === "image");
@@ -45,7 +46,6 @@ const Hero = (props) => {
       }
     }
   }, [props.auction.auctionsAuth]);
-
 
   return (
     <section className="hero-section padding-wrapper">
