@@ -19,10 +19,6 @@ export default {
        - This is DApp Specific
        - Be as explicit as possible when building out the message schema.
       */
-    tokenId: 2323,
-    uri: "https://gateway.pinata.cloud/ipfs/QmVmCVj7ZbgP94uL74ek7RfqYUBVjdcRvQkZdmp5EmPw8p",
-    minPrice: 0,
-    amount:4,
 
     //   attachedMoneyInEth: 4.2,
     //   from: {

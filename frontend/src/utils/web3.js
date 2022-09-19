@@ -308,53 +308,75 @@ export const handleSign = async (nounce) => {
   );
 };
 
-export const creatVoucher = async () => {
-  const web3 = new Web3(Web3.givenProvider);
+export const createVoucher = async (tokenId, amount, uri, price) => {
+  let data = { ...typedDataV4 };
+  data.message.tokenId = tokenId;
+  data.message.amount = amount;
+  data.message.uri = uri;
+  data.message.minPrice = price;
+
   const publicAddress = await connectMetamask();
-  console.log(publicAddress, "publicAddress");
-  try {
-    await web3.currentProvider.sendAsync(
-      {
-        method: "eth_signTypedData_v4",
-        params: [publicAddress, JSON.stringify(typedDataV4)],
-        from: publicAddress,
-      },
-      function (err, result) {
-        if (result?.error) {
-          alert(result.error.message);
+  return new Promise((resolve, reject) => {
+    const web3 = new Web3(Web3.givenProvider);
+    try {
+      web3.currentProvider.sendAsync(
+        {
+          method: "eth_signTypedData_v4",
+          params: [publicAddress, JSON.stringify(data)],
+          from: publicAddress,
+        },
+        function (err, result) {
+          if (err) {
+            resolve({ success: false, data: err });
+          }
+          console.log(result.result, "result");
+          resolve({ success: true, data: result.result });
         }
-        console.log(result, "result");
-        console.log(result.result.substring(2), "signature");
-      }
-    );
-  } catch (err) {
-    console.log(err, "error");
-  }
+      );
+    } catch (err) {
+
+      resolve({ success: false, data: err });
+    }
+  });
 };
 
-export const redeemVoucher = async () => {
+export const redeemVoucher = async (
+  voucher,
+  setTransactionHash,
+  setConfirmed
+) => {
+  const { tokenId, uri, minPrice, copies, signature } = voucher;
+  // console.log(voucher,"vocher")
+  let web3 = await getWeb3();
+  const publicAddress = await connectMetamask();
+  // BigInt(Web3.utils.toWei(`${minPrice}`, "ether"))
   try {
-    let web3 = await getWeb3();
-    const publicAddress = await connectMetamask();
     const contractM = new web3.eth.Contract(
       batchMintAbi,
-      // "0x043F1FD137AFdDb66b0c31fAa1D3E96f720EaE2f"
       // "0x3EB384f3BbF38be551a00b4e5549Eb1eF4C883A8" //ERC-721 WORKING
       "0x56945FFb6eFcD7709695B0d6d8e92d9289ec1196" //ERC-1155
     );
     let result = await contractM.methods
       .redeem(publicAddress, {
-        tokenId: 11,
-        uri: "https://gateway.pinata.cloud/ipfs/QmVmCVj7ZbgP94uL74ek7RfqYUBVjdcRvQkZdmp5EmPw8p",
-        minPrice: 0,
-        amount: 4,
-        signature:
-          "0x59f7e6814f16e0d02f7d93dfd81a077a8e9539e39a02b6c2da96cf583c86c1b5145635b3f635425540e39f76fc99a760352ac6ca3008cb53aa698d41a9044ba31c",
+        tokenId,
+        uri,
+        minPrice: Web3.utils.toWei(`${minPrice}`, "ether"),
+        amount: copies,
+        signature,
       })
-      .send({ from: publicAddress });
-    console.log(result, "result");
+      .send({
+        from: publicAddress,
+        value: Web3.utils.toWei(`${minPrice}`, "ether"),
+      })
+      .on("transactionHash", function (hash) {
+        setTransactionHash(hash);
+        setConfirmed(true);
+      });
+    return result;
   } catch (err) {
-    console.log(err, "error==>");
+    console.log(err, "error");
+    setConfirmed(false);
+    throw new Error(err);
   }
 };
 
