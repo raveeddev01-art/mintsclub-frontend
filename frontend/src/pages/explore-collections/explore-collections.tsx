@@ -94,6 +94,8 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     }
   };
 
+  console.log("collections", collections);
+
   return (
     <>
       {isCategoryLoading && isLoadinCollections ? (
@@ -164,6 +166,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                     <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
+                      
                         Subimg1={handleImage(collection, 0)}
                         Subimg2={handleImage(collection, 1)}
                         Subimg3={handleImage(collection, 2)}
@@ -174,8 +177,8 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                           collection?.username[0] ? collection.username[0] : ""
                         }
                         NFTCount={
-                          collection.nftDetail[0].image
-                            ? collection.nftDetail?.length
+                          collection.TotalNfts
+                            ? collection.TotalNfts
                             : 0
                         }
                         profileImage={collection?.profileImage[0]}
