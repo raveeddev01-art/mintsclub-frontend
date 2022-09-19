@@ -389,6 +389,7 @@ class CreateNFT extends React.Component<
     console.log(metaData, "metaData==>");
     this.mintNFT(metaData.dataInput, metaData.image);
   };
+  
   uploadFileToIpfs = async (formData: any) => {
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;

@@ -36,7 +36,7 @@ export const useGetData = (
 ) => {
   const { setError } = useContext(errorHandler);
   //   console.log(qs,"qs")
-  return useQuery([key], () => handleRequest("get", url), {
+  return useQuery([key,qs&&qs], () => handleRequest("get", url,null,qs), {
     onSuccess,
     onError: (error: any) => {
       setError(error);

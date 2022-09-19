@@ -12,7 +12,8 @@ import { formatBytes } from "../../utils/functions";
 import "./createMultipleNFT.scss";
 import { Link } from "react-router-dom";
 import { uploadToS3Bucket } from "../../utils/s3Bucket";
-
+import {ChainsOptions} from "../../utils/exportData";
+import {useGetData} from "../../hooks/Common";
 const options = [
   { value: "Ethereum", label: "Ethereum" },
   { value: "Algorand", label: "Algorand" },
@@ -60,6 +61,15 @@ function CreateMultipleNFT() {
   //   if (!e) return;
   //   onFileChange(e, "onDrag");
   // };
+////////React Query////////////
+
+
+// const {isLoading:isFetchingCollections}=useGetData("myCollections","collection/list",qs,()=>{
+
+// })
+
+
+///////React Query End ////////
 
   const handleFilesValidation = (
     e: {
@@ -93,6 +103,8 @@ function CreateMultipleNFT() {
       }
     }
   };
+
+
 
   const onFileChange = (e: any, status: any) => {
     if (handleFilesValidation(e, status) === "file matched") {
@@ -131,6 +143,8 @@ function CreateMultipleNFT() {
     );
     console.log(uploadFile, "uploadFile==>");
   };
+
+
   return (
     <div className="create-multiple-nft">
       <Banner
@@ -201,7 +215,7 @@ function CreateMultipleNFT() {
                   setSelectedChain(value);
                   setBatchFile({ ...batchFile, chainType: value.value });
                 }}
-                options={options}
+                options={ChainsOptions}
               />
             </div>
             <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
