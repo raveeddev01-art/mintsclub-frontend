@@ -513,16 +513,20 @@ const NFTDetail = (props: any) => {
   const BuyLazyNft = async () => {
     try {
       const { metaData, copies } = nftDetail;
-      const { signature, sellId, sellingConfig,copiesForAuction
-      } = nftDetail.auction;
+      const { signature, sellId, sellingConfig, copiesForAuction } =
+        nftDetail.auction;
       setConfirmed("pending");
-      let res = await redeemVoucher({
-        uri: metaData,
-        signature,
-        tokenId: sellId,
-        copies:copiesForAuction,
-        minPrice: Number(sellingConfig.price.amount),
-      },setTransactionHash,setConfirmed);
+      let res = await redeemVoucher(
+        {
+          uri: metaData,
+          signature,
+          tokenId: sellId,
+          copies: copiesForAuction,
+          minPrice: Number(sellingConfig.price.amount),
+        },
+        setTransactionHash,
+        setConfirmed
+      );
       let ownerAddress = await getWalletAddress();
       let payload = {
         userId,
@@ -537,7 +541,6 @@ const NFTDetail = (props: any) => {
       toast.error(err);
     }
   };
-  
 
   const createActivity = async (type: any, bidPrice: any, address?: any) => {
     const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;

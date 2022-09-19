@@ -22,7 +22,13 @@ import {
   createActivity,
   beforeNFT,
 } from "../../Components/Nfts/nfts.action";
-import { getCurrentAddress, mintNFt, validateNetwork,createVoucher,redeemVoucher } from "../../utils/web3";
+import {
+  getCurrentAddress,
+  mintNFt,
+  validateNetwork,
+  createVoucher,
+  redeemVoucher,
+} from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -312,8 +318,8 @@ class CreateNFT extends React.Component<
                 var formData = new FormData();
                 for (const key in nftInfo)
                   if (nftInfo[key]) formData.append(key, nftInfo[key]);
-                  this.mintNFT("https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE","https://gateway.pinata.cloud/ipfs/QmXcPBxY9kY5WAXBXQXuCMhATHsVh47f8WQD1y7NVWfMK1")
-                // this.pinFileToIPFS(nft.image);
+                // this.mintNFT("https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE","https://gateway.pinata.cloud/ipfs/QmXcPBxY9kY5WAXBXQXuCMhATHsVh47f8WQD1y7NVWfMK1")
+                this.pinFileToIPFS(nft.image);
               }
             );
           } else {
@@ -339,9 +345,8 @@ class CreateNFT extends React.Component<
 
     let data: any = { ...this.state.nft };
     data.image = image;
-    // data.metaData = metaData.metaDataUrl;
-    data.metaData = metaData;
-
+    data.metaData = metaData.metaDataUrl;
+    // data.metaData = metaData;
 
     data.remainingCopies = data.copies;
     if (videoURL) {
@@ -351,25 +356,26 @@ class CreateNFT extends React.Component<
     } else {
       data.fileType = "image";
     }
-    // return ''
 
     try {
       let paylaod = {};
-      if (false) {
-        let createNftResult = await mintNFt(metaData, this.state.nft.copies);
-        if (createNftResult.events.TransferSingle.returnValues.id) {
-          paylaod = {
-            nftToken: createNftResult.events.TransferSingle.returnValues.id,
-            data,
-            image,
-          };
-        }
+      // if (false) {
+      let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+      if (createNftResult.events.TransferSingle.returnValues.id) {
+        paylaod = {
+          nftToken: createNftResult.events.TransferSingle.returnValues.id,
+          data,
+          image,
+        };
       }
+      // }
       paylaod = {
-        nftToken: (Math.floor(Math.random() * 10000) + 10000).toString().substring(1),
+        nftToken: (Math.floor(Math.random() * 10000) + 10000)
+          .toString()
+          .substring(1),
         data,
         image,
-        lazyMinted:true
+        lazyMinted: true,
       };
       this.props.beforeNFT();
       this.props.addNFTRecord(paylaod);
@@ -735,7 +741,6 @@ class CreateNFT extends React.Component<
               {/* <form> */}
               {/* <button onClick={()=>createVoucher()}>create Voucher</button>
               <button onClick={()=>redeemVoucher()}>redeem Voucher</button> */}
-
 
               {loader && <FullPageLoader />}
 

@@ -334,7 +334,6 @@ export const createVoucher = async (tokenId, amount, uri, price) => {
         }
       );
     } catch (err) {
-
       resolve({ success: false, data: err });
     }
   });
@@ -354,7 +353,7 @@ export const redeemVoucher = async (
     const contractM = new web3.eth.Contract(
       batchMintAbi,
       // "0x3EB384f3BbF38be551a00b4e5549Eb1eF4C883A8" //ERC-721 WORKING
-      "0x56945FFb6eFcD7709695B0d6d8e92d9289ec1196" //ERC-1155
+      ENV.batchMintLazyContract
     );
     let result = await contractM.methods
       .redeem(publicAddress, {

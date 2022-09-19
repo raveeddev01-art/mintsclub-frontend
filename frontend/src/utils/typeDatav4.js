@@ -1,3 +1,5 @@
+import {ENV} from "../config/config"
+
 export default {
   domain: {
     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
@@ -6,7 +8,7 @@ export default {
     name: "LazyNFT-Voucher",
     // If name isn't enough add verifying contract to make sure you are establishing contracts with the proper entity
     // verifyingContract: "0x043F1FD137AFdDb66b0c31fAa1D3E96f720EaE2f",
-    verifyingContract: "0x56945FFb6eFcD7709695B0d6d8e92d9289ec1196",
+    verifyingContract: ENV.batchMintLazyContract,
     // Just let's you know the latest version. Definitely make sure the field name is correct.
     version: "1",
   },
