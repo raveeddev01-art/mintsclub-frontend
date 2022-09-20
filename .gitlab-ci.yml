@@ -6,7 +6,7 @@ mintsclub-v3:
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo "Deploy to dev server"
+    - echo "Deploy to mintsclub-v3 server"
     - ssh-add <(echo "$ID_RSA")
     - rm -rf .git
     - ssh -o StrictHostKeyChecking=no mintsclub@135.181.49.66 "cd /home/mintsclub/mintsclub-frontend git reset --hard; git pull origin mintsclub-v3; npm install; if [ '${isclean}' == 'true' ]; then npm run clean; else echo 'Cache Not Cleaned...'; fi; npm run build; exit"
