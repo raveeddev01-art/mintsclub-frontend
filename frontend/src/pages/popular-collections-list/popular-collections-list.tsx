@@ -28,17 +28,21 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
   const [pagination, setPagination] = useState<any>(null);
-  const { error,setError } = useContext(errorHandler);
+  const { error, setError } = useContext(errorHandler);
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
 
   const onSuccessPopular = (data: any) => {
-    calcualtePopularCollections(data.data?.data);
+    if (data.data.success) {
+      calcualtePopularCollections(data.data?.data);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const onErrorPopular = (error: any) => {
-    setError(error)
+    setError(error);
   };
 
   const {
@@ -53,7 +57,11 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   );
 
   const onSuccessCategories = (data: any) => {
-    setCategories(data.data.categories);
+    if (data.data.success) {
+      setCategories(data.data.categories);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const {

@@ -55,13 +55,13 @@
 
 .create-collection .create-collection-input:focus {
   outline: none;
-  color: #000;
+  color: var(--text-body);
   border: 1px solid #c9daff;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
 }
 .create-collection .create-collection-area:focus {
   outline: none;
-  color: #000;
+  color: var(--text-body);
   border: 1px solid #c9daff;
   box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
 }

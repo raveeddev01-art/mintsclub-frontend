@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react";
+import { useEffect, useState, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -19,6 +19,8 @@ import AuctionsCards from "../../Components/AuctionsCards/AuctionsCards";
 import { HomeAuction } from "../../interfaces/home-auctions/interface";
 import { useGetCategories } from "../../hooks/PopularCollections";
 import { useGetLiveAuctions } from "../../hooks/HomeAuctions";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
 const initData = {
   pre_heading: "Auctions",
@@ -33,6 +35,7 @@ const AuctionsOne: FC<HomeAuction> = () => {
   const [auctionSettings, setAuctionSettings] = useState<object | null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
+  const { setError } = useContext(errorHandler);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -40,7 +43,11 @@ const AuctionsOne: FC<HomeAuction> = () => {
 
   //Get categories
   const onSuccessCategories = (data: any) => {
-    setCategories(data.data.categories);
+    if (data.data.success) {
+      setCategories(data.data.categories);
+    } else {
+      setError(data.data.message);
+    }
   };
   const { isLoading: isLoadingCategories } = useGetCategories(
     null,
@@ -50,7 +57,11 @@ const AuctionsOne: FC<HomeAuction> = () => {
   //get LiveAuctions
 
   const onSuccessLiveAuctions = (data: any) => {
-    setLiveAuctions(data.data.data.auctions);
+    if (data.data.success) {
+      setLiveAuctions(data.data.data.auctions);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const setLiveAuctions = (auctions: any) => {
@@ -183,7 +194,7 @@ const AuctionsOne: FC<HomeAuction> = () => {
                       ownerName={item?.owner?.username}
                       userId={ENV.getUserKeys("_id")?._id}
                       ownerId={item.owner?._id}
-                      bidsProfile={item?.bidInfo?.bidByProfile}
+                      bidsProfile={item?.bidDetail}
                       index={index}
                     />
                   );

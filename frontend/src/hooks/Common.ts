@@ -1,18 +1,47 @@
-
-import  { useMutation,useQuery} from "react-query";
+import { useContext } from "react";
+import { useMutation, useQuery } from "react-query";
 import { handleRequest } from "../utils/functions";
+import errorHandler from "../context/errorHandler/ErrorHandlerContext";
 
-export const useInsertData=(url:any,onSuccess:any,onError?:any)=>{
-    // console.log("inserting data")
-    return useMutation((paylaod:any)=>handleRequest("post",url,paylaod?paylaod:null),{onSuccess,onError})
-  }
+export const useInsertData = (url: any, onSuccess: any, onError?: any) => {
+  const { setError } = useContext(errorHandler);
+  // console.log("inserting data")
+  return useMutation(
+    (paylaod: any) => handleRequest("post", url, paylaod ? paylaod : null),
+    {
+      onSuccess,
+      onError: (error: any) => {
+        setError(error);
+      },
+    }
+  );
+};
 
-  export const useEditData=(url:any,onSuccess?:any,onError?:any)=>{
-      return useMutation((paylaod:any)=>handleRequest("put",url,paylaod),{onSuccess,onError})
+export const useEditData = (url: any, onSuccess?: any, onError?: any) => {
+  const { setError } = useContext(errorHandler);
+  return useMutation((paylaod: any) => handleRequest("put", url, paylaod), {
+    onSuccess,
+    onError: (error: any) => {
+      setError(error);
+    },
+  });
+};
 
-  }
-
-  export const useGetData=(key:any,url:any,qs:any,onSuccess:any,onError:any)=>{
-    //   console.log(qs,"qs")
-     return useQuery([key],()=>handleRequest("get",url),{onSuccess,onError,refetchOnWindowFocus:false,refetchOnMount:false})
-  }
+export const useGetData = (
+  key: any,
+  url: any,
+  qs: any,
+  onSuccess: any,
+  onError: any
+) => {
+  const { setError } = useContext(errorHandler);
+  //   console.log(qs,"qs")
+  return useQuery([key], () => handleRequest("get", url), {
+    onSuccess,
+    onError: (error: any) => {
+      setError(error);
+    },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+};

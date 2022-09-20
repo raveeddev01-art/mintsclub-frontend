@@ -1,5 +1,8 @@
 .top-seller-area {
   background: var(--alt-section-bg);
+  .not-found {
+    color: var(--text-body);
+  }
 }
 .seller-info a {
   text-decoration: none;

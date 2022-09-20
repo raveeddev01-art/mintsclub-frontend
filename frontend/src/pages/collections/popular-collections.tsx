@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
@@ -19,6 +19,7 @@ import {
   useGetCategories,
   useGetPopularCollections,
 } from "../../hooks/PopularCollections";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 const initData = {
   pre_heading: "Most Popular",
   heading: "Popular Collections",
@@ -32,6 +33,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   const [popularSettings, settPopularSettings] = useState<object | null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
+  const { setError } = useContext(errorHandler);
 
   const handleCategoryFilter = (desc: string) => {
     setFilterationLoader(true);
@@ -39,8 +41,8 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   };
 
   const handleImage = (item: any, index: number) => {
-    if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft: any) => nft.fileType === "image");
+    if (item?.nftDetail[index]?.image) {
+      let result = item.nftDetail.filter((nft: any) => nft.fileType === "image");
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -54,7 +56,11 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   /////get popular collections
 
   const onSuccessPopular = (data: any) => {
-    calcualtePopularCollections(data.data?.data);
+    if (data.data.success) {
+      calcualtePopularCollections(data.data?.data);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const onErrorPopular = (error: any) => {};
@@ -82,8 +88,8 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
           }
           collectionListing[i].likesCount = 0;
 
-          collectionListing[i].totalNfts = element.nfts[0].image
-            ? element.nfts?.length
+          collectionListing[i].totalNfts = element.nftDetail[0].image
+            ? element.nftDetail?.length
             : 0;
           if (element.soldCopies.length > 0) {
             var soldCopiesSum = element.soldCopies.reduce(function (
@@ -119,18 +125,20 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
         setFilterationLoader(false);
       }
-    }else{
-      setFilterationLoader(false)
+    } else {
+      setFilterationLoader(false);
       setpopular(null);
-
     }
   };
   const onSuccessCategories = (data: any) => {
-    setCategories(data.data.categories);
+    if (data.data.success) {
+      setCategories(data.data.categories);
+    } else {
+      setError(data.data.message);
+    }
   };
 
-  const {
-  }: any = useGetCategories(
+  const {}: any = useGetCategories(
     (error: any) => console.log(error),
     onSuccessCategories
   );
@@ -212,21 +220,21 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
               data={popular}
               homeAuction
             >
-              {popular.map((item: any, i: number) => {
+              {popular.map((collection: any, index: number) => {
                 return (
                   <CollectionsCard
-                    key={i}
-                    Subimg1={handleImage(item, 0)}
-                    Subimg2={handleImage(item, 1)}
-                    Subimg3={handleImage(item, 2)}
-                    collection={item}
-                    CardImg={item.featuredImg}
-                    name={item.name}
-                    id={item._id}
-                    userName={item.username[0]}
-                    NFTCount={item.totalNfts}
-                    profileImage={item.profileImage[0]}
-                    ownerAddress={item.ownerAddress}
+                    key={index}
+                    Subimg1={handleImage(collection, 0)}
+                    Subimg2={handleImage(collection, 1)}
+                    Subimg3={handleImage(collection, 2)}
+                    collection={collection}
+                    CardImg={collection.featuredImg}
+                    name={collection.name}
+                    id={collection._id}
+                    userName={collection.username[0]}
+                    NFTCount={collection.TotalNfts}
+                    profileImage={collection.profileImage[0]}
+                    ownerAddress={collection.ownerAddress}
                     connectedAddress={props.connectedAddress}
                   />
                 );

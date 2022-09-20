@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, useContext, FC } from "react";
 import { connect } from "react-redux";
 import "./allnft.scss";
 import {
@@ -27,8 +27,9 @@ import {
   useGetMyLikedNFTs,
   useGetNFTs,
 } from "../../../hooks/CollectionDetails";
-import {useInsertData} from "../../../hooks/Common"
+import { useInsertData } from "../../../hooks/Common";
 import { useGetCollections } from "../../../hooks/AllNFTs";
+import errorHandler from "../../../context/errorHandler/ErrorHandlerContext";
 
 const AllNFT: FC<ALLNFTINT> = (props) => {
   const [nftPagination, setNFTPagination] = useState<any>(null);
@@ -39,6 +40,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
   const [disabled, setDisabled] = useState(false);
   const [filter, setFilter] = useState<any>({ limit: 10, page: 1 });
+  const { setError } = useContext(errorHandler);
   const history = useHistory();
 
   useEffect(() => {
@@ -60,7 +62,11 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 
   ////Get My liked NFTs
   const onSuccessLikedNFTs = (data: any) => {
-    setLikedNfts(data.data.data);
+    if (data.data.success) {
+      setLikedNfts(data.data.data);
+    } else {
+      setError(data.data.message);
+    }
   };
   const {} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
@@ -70,9 +76,13 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   //Get NFTs
 
   const onSuccessNFTs = (data: any) => {
-    setFilterationLoader(false);
-    setNFTPagination(data.data.data.pagination);
-    setNFTs(data.data.data.nfts);
+    if (data.data.success) {
+      setFilterationLoader(false);
+      setNFTPagination(data.data.data.pagination);
+      setNFTs(data.data.data.nfts);
+    } else {
+      setError(data.data.message);
+    }
   };
 
   const { isLoading: isLoadingNFTs } = useGetNFTs(filter, onSuccessNFTs);
@@ -82,7 +92,10 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   };
 
   //Like/Dislike
-  const { mutate } = useInsertData("nftLikes/likeDislike",onSuccessLikeDislike);
+  const { mutate } = useInsertData(
+    "nftLikes/likeDislike",
+    onSuccessLikeDislike
+  );
   const fetchData = (filterObj: object | null) => {
     setFilter(filterObj);
     // getNFTs(filterObj);
@@ -90,9 +103,16 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 
   //Get Collections
   const onSuccessCollections = (data: any) => {
-    setCollections(data.data.data.collections);
+    if (data.data.success) {
+      setCollections(data.data.data.collections);
+    } else {
+      setError(data.data.message);
+    }
   };
-  const { isLoading } = useGetCollections(onSuccessCollections,nfts?true:false);
+  const { isLoading } = useGetCollections(
+    onSuccessCollections,
+    nfts ? true : false
+  );
 
   const handleLikesTogleApi = async (
     nftId: string,
@@ -156,7 +176,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       history.push({
         pathname: `/connect-wallet`,
         state: `/explore/allNFT`,
-      })
+      });
     }
   };
   const increOrDecreLikes = (id: string, status: string) => {

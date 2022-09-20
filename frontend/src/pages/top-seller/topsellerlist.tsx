@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ENV } from "../../config/config";
@@ -8,12 +8,14 @@ import "./topseller.scss";
 import Breadcrumb from "../../Components/Breadcrumb/Breadcrumb";
 import { Images } from "../../assets/assets";
 import { useGetTopSellers } from "../../hooks/TopSellers";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const TopSellerList = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
   const [limit, setLimit] = useState<any>(10);
   const [pagination, setPagination] = useState<any>(null);
   const [empty, setEmpty] = useState<any>(false);
+  const { setError } = useContext(errorHandler);
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -35,17 +37,24 @@ const TopSellerList = (props: any) => {
   }, [props.user.topSellersAuth]);
 
   const handlePagination = () => {
-    setLimit(limit+10)
+    setLimit(limit + 10);
     // let qs: any = { limit: limit + 10, page: 1 };
     // qs = ENV.objectToQueryString(qs);
     // props.getTopSellers(qs);
   };
 
   const onSuccessTopSellers = (data: any) => {
-    const { topSellers } = data.data.data;
-    setSellers(topSellers)
+    if (data.data.success) {
+      const { topSellers } = data.data.data;
+      setSellers(topSellers);
+    } else {
+      setError(data.data.message);
+    }
   };
-  const { isLoading } = useGetTopSellers(onSuccessTopSellers, ENV.objectToQueryString( { limit, page:1 }));
+  const { isLoading } = useGetTopSellers(
+    onSuccessTopSellers,
+    ENV.objectToQueryString({ limit, page: 1 })
+  );
   return (
     <>
       {/* <Breadcrumb title1={"Sellers"} title2={"TopSellers"} /> */}

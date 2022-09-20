@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./SellNFT.scss";
 import { ENV } from "../../config/config";
 import "bootstrap-daterangepicker/daterangepicker.css";
@@ -12,6 +12,7 @@ import {
   getWalletAddress,
   setApprovalForAll,
   validateNetwork,
+  createVoucher,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
@@ -30,6 +31,7 @@ import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 import { useGetNFTbyId } from "../../hooks/AllNFTs";
 import { useInsertData, useEditData } from "../../hooks/Common";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
@@ -64,6 +66,7 @@ const SellNFT = (props: any) => {
   const [address, setAddress] = useState<string>(props.connectedAddress);
   const [copiesError, setCopiesError] = useState<boolean>(false);
   const [contentLoader, setContentLoader] = useState<boolean>(true);
+  const { setError } = useContext(errorHandler);
   const history = useHistory();
   let nftId = props.match.params.id;
 
@@ -71,9 +74,13 @@ const SellNFT = (props: any) => {
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   //Get NFT
   const onSuccessNFT = (data: any) => {
-    if (copies === "") {
-      setLoader(false);
-      setNftDetail(data?.data?.data);
+    if (data.data.success) {
+      if (copies === "") {
+        setLoader(false);
+        setNftDetail(data?.data?.data);
+      }
+    } else {
+      setError(data.data.message);
     }
   };
   const { isLoading: isLoadingNFT } = useGetNFTbyId(nftId, onSuccessNFT);
@@ -140,7 +147,7 @@ const SellNFT = (props: any) => {
       setTimedAuctionConfig({ ...data });
     }
   };
-
+  //onSubmit
   const submit = async (e: any) => {
     e.preventDefault();
     if (copies > nftDetail.copies) {
@@ -154,9 +161,9 @@ const SellNFT = (props: any) => {
       return "";
     }
     if (await validateNetwork()) {
-      if (!nftDetail.user.isApproved) {
-        setShow(true);
-        return "";
+      if (!nftDetail?.user?.isApproved) {
+        // setShow(true);
+        // return "";
       }
 
       let price: any = "";
@@ -203,7 +210,8 @@ const SellNFT = (props: any) => {
           auctionConfig.startPrice.amount
         );
         payload = {
-          _id: location.state._id,
+          nftId: location.state._id,
+          userId: ENV.getUserKeys("_id")._id,
           sellingMethod,
           sellingConfig: JSON.stringify(auctionConfig),
           copiesForAuction: copies,
@@ -215,7 +223,7 @@ const SellNFT = (props: any) => {
           return "";
         }
         payload = {
-          _id: location.state._id,
+          nftId: location.state._id,
           sellingMethod,
           sellingConfig: JSON.stringify(fixedConfig),
           copiesForAuction: copies,
@@ -233,6 +241,8 @@ const SellNFT = (props: any) => {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
     }
   };
+
+  //Open for Bidding/Auction
 
   const openBidding = async (
     timedAuctionConfig: any,
@@ -262,12 +272,11 @@ const SellNFT = (props: any) => {
         insertAuction(payload);
       }
     } catch (err: any) {
-      console.log(err, "error==>");
       setLoader(false);
       toast.error(err);
     }
   };
-
+  //Open for fixed price
   const openForSale = async (
     activityPayload: any,
     payload: any,
@@ -276,14 +285,33 @@ const SellNFT = (props: any) => {
   ) => {
     var formData = new FormData();
     try {
-      let result = await putonsale(
-        nftDetail.tokenId,
-        copies,
-        fixedConfig.price.amount
-      );
-      if (result) {
+      let res = null;
+      if (nftDetail?.lazyMinted) {
+        res = await createVoucher(
+          nftDetail.tokenId,
+          copies,
+          nftDetail.metaData,
+          price
+        );
+        if (!res.success) {
+          setLoader(false);
+          toast.error(res.data.message);
+          return false;
+        }
+      } else {
+        res = await putonsale(
+          nftDetail.tokenId,
+          copies,
+          fixedConfig.price.amount
+        );
+      }
+
+      if (res) {
         activityPayload.price = price;
-        payload.sellId = Number(result);
+        payload.sellId = Number(nftDetail.lazyMinted ? nftDetail.tokenId : res);
+        if (nftDetail.lazyMinted) {
+          payload.signature = res.data;
+        }
         for (const key in payload) formData.append(key, payload[key]);
         insertActivity(activityPayload);
         insertAuction(formData);
@@ -294,7 +322,6 @@ const SellNFT = (props: any) => {
       toast.error(err);
     }
   };
-
   const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
     let time = auctionConfig.toString();
     time = time.slice(0, 15) + " " + startOrEndTime + ":00" + time.slice(24);
@@ -321,7 +348,7 @@ const SellNFT = (props: any) => {
     });
   };
 
-  //match if nft liked
+  //Approve account
 
   const approveAccount = async () => {
     setApprovalStatus("pending");
@@ -503,19 +530,23 @@ const SellNFT = (props: any) => {
                 >
                   Fixed Prize
                 </button>
-                <button
-                  className={` ${
-                    activeBtn === 1 ? "sell-btn-active" : "sell-btn-not-active"
-                  } `}
-                  onClick={() => {
-                    setActiveBtn(1);
-                    setSellingMethod(2);
-                    setCopies("");
-                    setCopiesError(false);
-                  }}
-                >
-                  Timed Auction
-                </button>
+                {!nftDetail && nftDetail?.lazyMinted && (
+                  <button
+                    className={` ${
+                      activeBtn === 1
+                        ? "sell-btn-active"
+                        : "sell-btn-not-active"
+                    } `}
+                    onClick={() => {
+                      setActiveBtn(1);
+                      setSellingMethod(2);
+                      setCopies("");
+                      setCopiesError(false);
+                    }}
+                  >
+                    Timed Auction
+                  </button>
+                )}
               </div>
             </div>
             {activeBtn === 0 ? (
