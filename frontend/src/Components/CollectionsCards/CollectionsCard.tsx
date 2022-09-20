@@ -36,15 +36,15 @@ const CollectionsCard: FC<CollectionCardInt> = ({
       <div className="row">
         <div className="col-12">
           <div className="row g-3">
-            <div className="col-4 collection-subImg1">
-              <SubImgLoader image={Subimg1} />
-            </div>
-            <div className="col-4 collection-subImg2">
-              <SubImgLoader image={Subimg2} />
-            </div>
-            <div className="col-4 collection-subImg3">
-              <SubImgLoader image={Subimg3} />
-            </div>
+
+            {collection.nftDetail &&
+              collection.nftDetail.length > 0 &&
+              collection.nftDetail.map((item: any, i: any) => {
+
+                return  <div className="col-4 collection-subImg1">
+                  <SubImgLoader image={item.image ? item.image : Images.imagePlaceholder} />
+                </div>
+              })}
 
             <div style={{ display: `${loader ? "block" : "none"}` }}>
               <ImageLoader />
@@ -64,7 +64,7 @@ const CollectionsCard: FC<CollectionCardInt> = ({
           <Card.Body>
             <Card.Title>
               <div>
-                {name && name.length > 15 ? name.slice(0, 15) + "..." : name}
+                {name && name.length > 22 ? name.slice(0, 22) + "..." : name}
               </div>
               <div className="collection-items d-flex align-items-center">
                 <span>{NFTCount} items</span>
@@ -81,11 +81,11 @@ const CollectionsCard: FC<CollectionCardInt> = ({
                   Owned by:{" "}
                   <span className="text-capitalize ms-1">
                     {ownerAddress?.toUpperCase() ===
-                    connectedAddress?.toUpperCase()
+                      connectedAddress?.toUpperCase()
                       ? "You"
                       : userName
-                      ? userName
-                      : "unnamed"}
+                        ? userName
+                        : "unnamed"}
                   </span>
                 </p>
               </div>

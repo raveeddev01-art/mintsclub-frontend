@@ -27,8 +27,8 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
   const videoElement = React.useRef(null);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   const [loader, setLoader] = useState<any>(true);
-  const { image, auctionEndDate, name, _id, highestBid, totalBids, currentPrice, fileType, ownerAddress } = item;
-  const { profilePhoto } = item?.owner || {};
+  const { nftImage, auctionEndDate, name, _id, highestBid, Totalbids, currentPrice, fileType, ownerAddress,username,profilePhoto } = item;
+
 
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
@@ -42,7 +42,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               variant='top'
               onLoad={() => setLoader(false)}
               onClick={() => history.push(`explore/nftdetail/${_id}`)}
-              src={image}
+              src={nftImage}
               alt='AuctionTopImg'
               style={{ display: `${!loader ? 'block' : 'none'}` }}
             />
@@ -55,7 +55,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               </div>
 
               <video
-                src={image}
+                src={nftImage}
                 onEnded={() => {
                   togglePlay();
                 }}
@@ -85,7 +85,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               <ImageLoader />
             </div>
 
-            <AuctionAudio src={image} onLoadCallback={() => setLoader(false)} loader={loader} />
+            <AuctionAudio src={nftImage} onLoadCallback={() => setLoader(false)} loader={loader} />
           </>
         ) : (
           ' '
@@ -98,17 +98,18 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
-                  if (i <= 2) {
-                    return <img src={item === null ? Images.placeholderImg : item} alt='AvatarImg' key={i} />;
-                  }
+                
+                  return <img src={item.bidByProfile === null ? Images.placeholderImg : item.bidByProfile} alt='Avatar' key={i} />;
+                   
+                  
                 })}
 
-              <span className={`${totalBids === 0 ? '' : 'ms-4'}`}>
-                {totalBids === 0
+              <span className={`${Totalbids === 0 ? '' : 'ms-4'}`}>
+                {Totalbids === 0
                   ? 'No Bids Found'
-                  : totalBids < 4
-                  ? totalBids + ' People Placed Bid'
-                  : totalBids - 1 + '+ People Placed Bid'}
+                  : Totalbids < 4
+                  ? Totalbids + ' People Placed Bid'
+                  : Totalbids - 1 + '+ People Placed Bid'}
               </span>
             </div>
           </div>
@@ -119,7 +120,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
           <div>{name && name.length > 10 ? name.slice(0, 10) + '...' : name}</div>
           <div className='auction-owner-price d-flex align-items-center'>
             <img src={ArrowUp} alt='' className='me-1' />
-            <span>{totalBids > 0 ? highestBid : currentPrice}</span>
+            <span>{Totalbids > 0 ? highestBid : currentPrice}</span>
           </div>
         </Card.Title>
         <div className='auction-card-owner-container d-flex align-items-center mb-2'>
@@ -131,13 +132,13 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
             <p>
               {'Owned by:'}
               <span className='text-capitalize ms-1'>
-                {!ownerName
+                {!username
                   ? 'unnamed'
                   : connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
                   ? 'You'
-                  : ownerName && ownerName.length > 12
-                  ? ownerName.substring(0, 12) + '....'
-                  : ownerName}
+                  : username && username.length > 12
+                  ? username.substring(0, 12) + '....'
+                  : username}
               </span>
             </p>
           </div>
