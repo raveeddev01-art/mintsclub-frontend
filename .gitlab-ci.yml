@@ -1,4 +1,4 @@
-mintsclub-design-v2:
+mintsclub-v3:
   stage: deploy
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
