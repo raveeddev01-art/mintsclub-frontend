@@ -166,10 +166,8 @@ export const myCollections = (userId) => (dispatch) => {
 export const upsertCollection =
   (apiURL, body, method = "POST") =>
   (dispatch) => {
-    console.log('body---->', body)
     dispatch(emptyError());
     const url = `${ENV.url}${apiURL}`;
-
     fetch(url, {
       method,
       headers: {

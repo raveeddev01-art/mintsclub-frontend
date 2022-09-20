@@ -137,7 +137,6 @@ export interface CollectionCardInt {
   profileImage: string;
   ownerAddress?: string;
   connectedAddress?: string;
- 
 }
 
 export interface HeroInt {

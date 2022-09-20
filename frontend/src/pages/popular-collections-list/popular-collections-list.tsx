@@ -249,7 +249,6 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                     return (
                       <div className="col-sm-6 col-lg-4 col-xl-3" key={index}>
                         <CollectionsCard
-                          
                           CardImg={item.featuredImg}
                           Subimg1={handleImage(item, 0)}
                           Subimg2={handleImage(item, 1)}

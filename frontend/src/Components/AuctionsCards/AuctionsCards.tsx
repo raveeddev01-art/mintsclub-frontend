@@ -28,7 +28,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   const [loader, setLoader] = useState<any>(true);
   const { nftImage, auctionEndDate, name, _id, highestBid, Totalbids, currentPrice, fileType, ownerAddress,username,profilePhoto } = item;
-  // const { profilePhoto } = item?.owner || {};
+
 
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>

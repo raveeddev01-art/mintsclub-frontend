@@ -9,7 +9,6 @@ import "./CollectionsCard.scss";
 
 const CollectionsCard: FC<CollectionCardInt> = ({
   CardImg,
-
   Subimg1,
   Subimg2,
   Subimg3,
@@ -24,9 +23,6 @@ const CollectionsCard: FC<CollectionCardInt> = ({
 }) => {
   const [loader, setLoader] = useState<any>(true);
   const history = useHistory();
-
-
-
   return (
     <Card
       className="collection-cards-container m-1 mx-auto mx-sm-1"
