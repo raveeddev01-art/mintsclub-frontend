@@ -136,6 +136,21 @@ export const ChainsOptions = [
     value: 0,
   },
 ];
+export const nftTypesOptions=[
+  {
+    label:"Image",
+    value:"image",
+  },
+  {
+    label:"Video",
+    value:"video",
+  },
+  {
+    label:"Audio",
+    value:"audio",
+  },
+]
+
 
 //Faqs
 export const faqsBanner = {

@@ -12,8 +12,10 @@ import { formatBytes } from "../../utils/functions";
 import "./createMultipleNFT.scss";
 import { Link } from "react-router-dom";
 import { uploadToS3Bucket } from "../../utils/s3Bucket";
-import {ChainsOptions} from "../../utils/exportData";
-import {useGetData} from "../../hooks/Common";
+import { ChainsOptions,nftTypesOptions } from "../../utils/exportData";
+import { useGetData,useInsertData } from "../../hooks/Common";
+import { ENV } from "../../config/config";
+import {getWalletAddress} from "../../utils/web3"
 const options = [
   { value: "Ethereum", label: "Ethereum" },
   { value: "Algorand", label: "Algorand" },
@@ -38,10 +40,12 @@ function CreateMultipleNFT() {
   const [selectedCollectionType, setSelectedCollectionType] =
     useState<any>(null);
   const [selectedChain, setSelectedChain] = useState<any>(null);
+  const [collectionsOptions,setCollectionsOptions]=useState<any>([])
   const [batchFile, setBatchFile] = useState<any>({
     file: "",
-    chainType: "",
-    collection: "",
+    chainId: "",
+    collectionId: "",
+    categoryId:"12345678",
     nftCollectionType: "",
   });
 
@@ -61,15 +65,30 @@ function CreateMultipleNFT() {
   //   if (!e) return;
   //   onFileChange(e, "onDrag");
   // };
-////////React Query////////////
+  //////React Query////////////
 
-
-// const {isLoading:isFetchingCollections}=useGetData("myCollections","collection/list",qs,()=>{
-
-// })
-
-
-///////React Query End ////////
+  const { isLoading: isFetchingCollections } = useGetData(
+    "myCollections",
+    "collection/myCollectionList",
+    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id ,page:1,limit:10000000}),
+    (res: any) => {
+      if (res.data.success) {
+        console.log(res.data.data.collections, "collections");
+      let collectionsOptions=  res.data.data.collections.Collections.map((item: any) => {
+          return {
+            value: item._id,
+            label: item.name,
+            categoryId: item.categoryId,
+          };
+        });
+        setCollectionsOptions(collectionsOptions)
+      }
+    }
+  );
+ const {isLoading:isUploadingFiles,mutate:uploadFiles}=useInsertData("/batchUpload",(res:any)=>{
+console.log(res,"response")
+ })
+  ///////React Query End ////////
 
   const handleFilesValidation = (
     e: {
@@ -103,8 +122,6 @@ function CreateMultipleNFT() {
       }
     }
   };
-
-
 
   const onFileChange = (e: any, status: any) => {
     if (handleFilesValidation(e, status) === "file matched") {
@@ -141,9 +158,20 @@ function CreateMultipleNFT() {
       batchFile.file,
       batchFile.file.name
     );
-    console.log(uploadFile, "uploadFile==>");
+    let payload={
+      key:uploadFile.key,
+      fileName:batchFile.file.name,
+      collectionId:batchFile.collectionId,
+      fileType:batchFile.nftCollectionType,
+      chainId:batchFile.chainId,
+      status:"pending",
+      ownerAddress:await getWalletAddress(),
+      userId:ENV.getUserKeys("_id")._id,
+    }
+    console.log(payload, "payload==>");
+    uploadFiles(payload)
   };
-
+  console.log(batchFile,"batchFile")
 
   return (
     <div className="create-multiple-nft">
@@ -210,10 +238,10 @@ function CreateMultipleNFT() {
                 placeholder="Select Chain"
                 isSearchable={false}
                 value={selectedChain}
-                name="chainType"
+                name="chainId"
                 onChange={(value: any) => {
                   setSelectedChain(value);
-                  setBatchFile({ ...batchFile, chainType: value.value });
+                  setBatchFile({ ...batchFile, chainId: value.value });
                 }}
                 options={ChainsOptions}
               />
@@ -229,15 +257,15 @@ function CreateMultipleNFT() {
                 placeholder="Select Collection"
                 isSearchable={false}
                 value={selectedCollection}
-                name="collection"
+                name="collectionId"
                 onChange={(value: any) => {
                   setSelectedCollection(value);
                   setBatchFile({
                     ...batchFile,
-                    collection: value.value,
+                    collectionId: value.value,
                   });
                 }}
-                options={options}
+                options={collectionsOptions}
               />
             </div>
             <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
@@ -259,7 +287,7 @@ function CreateMultipleNFT() {
                     nftCollectionType: value.value,
                   });
                 }}
-                options={options}
+                options={nftTypesOptions}
               />
             </div>
             <div className="col-12">

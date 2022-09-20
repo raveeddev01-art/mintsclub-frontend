@@ -32,7 +32,7 @@ export const useGetData = (
   url: any,
   qs: any,
   onSuccess: any,
-  onError: any
+  onError?: any
 ) => {
   const { setError } = useContext(errorHandler);
   //   console.log(qs,"qs")
