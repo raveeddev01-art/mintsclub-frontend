@@ -9,6 +9,6 @@ mintsclub-v3:
     - echo "Deploy to mintsclub-v3 server"
     - ssh-add <(echo "$SSH_KEY_V3")
     - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no mintsclub@10.10.10.41 "cd /home/mintsclub/mintsclub-frontend/frontend-v2/frontend; git reset --hard;  git pull origin mintsclub-v3; npm install; if [ '${isclean}' == 'true' ]; then npm run clean; else echo 'Cache Not Cleaned...'; fi; npm run build; exit"
+    - ssh -o StrictHostKeyChecking=no mintsclub@10.10.10.41 "cd /home/mintsclub/mintsclub-frontend/frontend-v2/frontend; git reset --hard;  git pull origin mintsclub-v3; yarn install; if [ '${isclean}' == 'true' ]; then npm run clean; else echo 'Cache Not Cleaned...'; fi; npm run build; exit"
   only:
     - mintsclub-v3
