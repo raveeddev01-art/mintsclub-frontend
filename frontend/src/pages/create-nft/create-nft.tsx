@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
   decimalNumberValidator,
@@ -186,7 +186,7 @@ class CreateNFT extends React.Component<
     ) {
       toast.info("Please login with new connected account");
       localStorage.clear();
-      return     this.props.history.push({
+      return this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/create`,
       });
@@ -339,7 +339,10 @@ class CreateNFT extends React.Component<
     let data: any = { ...this.state.nft };
     data.image = image;
     data.metaData = metaData.metaDataUrl;
+    // data.metaData = metaData;
+
     data.remainingCopies = data.copies;
+    data.activeAuction = null;
     if (videoURL) {
       data.fileType = "video";
     } else if (audioUrl !== "") {
@@ -347,21 +350,30 @@ class CreateNFT extends React.Component<
     } else {
       data.fileType = "image";
     }
-    // return ''
-    try {
-      let createNftResult = await mintNFt(metaData, this.state.nft.copies);
 
+    try {
+      let paylaod = {};
+      // if (false) {
+      let createNftResult = await mintNFt(metaData, this.state.nft.copies);
       if (createNftResult.events.TransferSingle.returnValues.id) {
-        let payload = {
+        paylaod = {
           nftToken: createNftResult.events.TransferSingle.returnValues.id,
           data,
           image,
         };
-        this.props.beforeNFT();
-        this.props.addNFTRecord(payload);
       }
+      // }
+      paylaod = {
+        nftToken: (Math.floor(Math.random() * 10000) + 10000)
+          .toString()
+          .substring(1),
+        data,
+        image,
+        lazyMinted: true,
+      };
+      this.props.beforeNFT();
+      this.props.addNFTRecord(paylaod);
     } catch (err: any) {
-      console.log(err, "error====>");
       toast.error(err);
       this.setState({ loader: false });
     }
@@ -374,6 +386,7 @@ class CreateNFT extends React.Component<
     const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
+    console.log(metaData, "metaData==>");
     this.mintNFT(metaData.dataInput, metaData.image);
   };
   uploadFileToIpfs = async (formData: any) => {
@@ -429,7 +442,7 @@ class CreateNFT extends React.Component<
       this.setState({ loader: false });
     }
   };
-  
+
   onFileChange = (e: any, status: any) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file: any = "";
@@ -719,6 +732,9 @@ class CreateNFT extends React.Component<
             />
             <div className="container">
               {/* <form> */}
+              {/* <button onClick={()=>createVoucher()}>create Voucher</button>
+              <button onClick={()=>redeemVoucher()}>redeem Voucher</button> */}
+
               {loader && <FullPageLoader />}
 
               <div className="row">
@@ -1211,7 +1227,7 @@ class CreateNFT extends React.Component<
       this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/create`,
-      })
+      });
       return " ";
     }
   }
