@@ -1,17 +1,23 @@
 mintsclub-v3:
-  stage: deploy
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - pwd
+  stage:  deploy
+  image: usamaciit96/mintsclub-v2:v2
   script:
-    - echo "Deploy to AWS server"
-    - ssh-add <(echo "$AWS_KEY")
-    - rm -rf .git
-    - ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub; touch test_1.txt; exit"
-    #- ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub/mintsclub-prod/frontend-v2/frontend; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
-#    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; git reset --hard; git pull origin mintsclub-design-v2; yarn install; exit"
+    - cd /root/frontend-v3/frontend
+    - git reset --hard
+    - git pull origin mintsclub-v3
+    - which node
+    - node -v
+    - npm cache clean --force
+    - yarn install
+    - unset CI
+    - npm run build
+    - cd /root/frontend-v2
+    - tar -czf frontend.tar.gz frontend
+    - scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -rp  frontend.tar.gz mintsclub@3.135.80.29:/home/mintsclub/mintsclub-prod/.
+
+  after_script:
+    - echo "Deploying MintsClub-Frontend-V2 to AWS Server"
+    - ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub/mintsclub-prod; rm -rf frontend; tar -xzf frontend.tar.gz; rm -rf frontend.tar.gz; exit"
+
   only:
     - mintsclub-v3
