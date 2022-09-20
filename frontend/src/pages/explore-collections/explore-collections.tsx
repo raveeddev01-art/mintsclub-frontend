@@ -94,7 +94,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
     }
   };
 
-  console.log("collections", collections);
+  
 
   return (
     <>
