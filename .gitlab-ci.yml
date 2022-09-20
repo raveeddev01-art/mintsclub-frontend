@@ -1,23 +1,14 @@
 mintsclub-v3:
-  stage:  deploy
-  image: usamaciit96/mintsclub-v2:v2
+  stage: deploy
+  before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - cd /root/frontend-v3/frontend
-    - git reset --hard
-    - git pull origin mintsclub-v3
-    - which node
-    - node -v
-    - npm cache clean --force
-    - yarn install
-    - unset CI
-    - npm run build
-    - cd /root/frontend-v2
-    - tar -czf frontend.tar.gz frontend
-    - scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -rp  frontend.tar.gz mintsclub@3.135.80.29:/home/mintsclub/mintsclub-prod/.
-
-  after_script:
-    - echo "Deploying MintsClub-Frontend-V2 to AWS Server"
-    - ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub/mintsclub-prod; rm -rf frontend; tar -xzf frontend.tar.gz; rm -rf frontend.tar.gz; exit"
-
+    - echo "Deploy to dev server"
+    - ssh-add <(echo "$ID_RSA")
+    - rm -rf .git
+    - ssh -o StrictHostKeyChecking=no mintsclub@135.181.49.66 "cd /home/mintsclub/mintsclub-frontend git reset --hard; git pull origin mintsclub-v3; npm install; if [ '${isclean}' == 'true' ]; then npm run clean; else echo 'Cache Not Cleaned...'; fi; npm run build; exit"
   only:
     - mintsclub-v3
