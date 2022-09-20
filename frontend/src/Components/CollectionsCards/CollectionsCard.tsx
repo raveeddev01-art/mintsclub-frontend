@@ -48,8 +48,6 @@ const CollectionsCard: FC<CollectionCardInt> = ({
                 return  <div className="col-4 collection-subImg1">
                   <SubImgLoader image={item.image ? item.image : Images.imagePlaceholder} />
                 </div>
-
-
               })}
 
             <div style={{ display: `${loader ? "block" : "none"}` }}>
