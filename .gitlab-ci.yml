@@ -14,4 +14,4 @@ mintsclub-design-v2:
     #- ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub/mintsclub-prod/frontend-v2/frontend; git reset --hard; git pull origin mintsclub-design-v2; yarn install; npm run build; exit"
 #    - ssh -o StrictHostKeyChecking=no $PM2_USER@$SERVER_IP -p $SSH_PORT "cd /home/mints-club-v2; git reset --hard; git pull origin mintsclub-design-v2; yarn install; exit"
   only:
-    - mintsclub-design-v2
+    - mintsclub-v3
