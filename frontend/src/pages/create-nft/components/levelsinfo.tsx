@@ -4,7 +4,7 @@ import { LevelsInfoInterface } from "../../../interfaces/components";
 
 const LevelsInfo:FC<LevelsInfoInterface> = ({ name, value,i }) => {
   const filled = () => {
-    let filledArray = [];
+    const filledArray = [];
     for (let i = 1; i <= value; i++) {
       filledArray.push(<div className="level-filled"></div>);
     }
@@ -12,7 +12,7 @@ const LevelsInfo:FC<LevelsInfoInterface> = ({ name, value,i }) => {
   };
 
   const unFilled = () => {
-    let unFilledArray = [];
+    const unFilledArray = [];
     for (let i = 1; i <= 5 - value; i++) {
       unFilledArray.push(<div className="level-unfilled"></div>);
     }

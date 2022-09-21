@@ -22,7 +22,6 @@ const NFTCard: FC<NFTCardInt> = (props) => {
     _id,
     fileType,
     cardBg,
-    ownerId,
     likeCount,
     currentPrice,
     copies,
@@ -34,7 +33,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
-      let result = likedNfts.find((item) => item.nftId == id);
+      const result = likedNfts.find((item) => item.nftId === id);
       if (result) {
         return true;
       } else {

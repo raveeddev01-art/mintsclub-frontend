@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 
   MdShoppingCart,
@@ -39,7 +39,7 @@ const Table: React.FC<TableInterface> = ({
   }, [data]);
 
   const getPercentageChange = (oldNumber: number, newNumber: number) => {
-    var decreaseValue = oldNumber - newNumber;
+    const decreaseValue = oldNumber - newNumber;
 
     return (decreaseValue / oldNumber) * 100;
   };
@@ -58,7 +58,7 @@ const Table: React.FC<TableInterface> = ({
 
   const formateBidsInfo = () => {
     if (data && data.length > 0) {
-      let formatedData = data.map((item: any) => {
+      const formatedData = data.map((item: any) => {
         return {
           item1: item.bidAmount,
           item2: `$ ${(item.bidAmount * exchangeRate).toFixed(2)}`,
@@ -82,7 +82,7 @@ const Table: React.FC<TableInterface> = ({
 
   const formateActivityInfo = () => {
     if (data && data.length > 0) {
-      let formatedData: any = data.map((item: any) => {
+      const formatedData: any = data.map((item: any) => {
         return {
           item1: (
             <div className="d-flex align-items-center">
@@ -119,8 +119,8 @@ const Table: React.FC<TableInterface> = ({
         {data && data.length > 0 && (
           <thead>
             <tr>
-              {titles.map((item: any) => {
-                return <th scope="col">{item}</th>;
+              {titles.map((item: any, index: any) => {
+                return <th scope="col" key={index}>{item}</th>;
               })}
             </tr>
           </thead>

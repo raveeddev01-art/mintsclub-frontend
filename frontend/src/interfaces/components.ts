@@ -232,3 +232,9 @@ export interface ConnectWallModal {
   showModal: boolean;
   setShowModal: (e: any) => any;
 }
+
+export interface PrivateRoutesInterface{
+  component : any;
+  access: any;
+  path: any;
+}

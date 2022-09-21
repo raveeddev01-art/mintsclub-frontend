@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { handleRequest } from "../utils/functions";
-import { useQuery, useMutation } from "react-query";
+import { useQuery } from "react-query";
 import errorHandler from "../context/errorHandler/ErrorHandlerContext";
 import { ENV } from "../config/config";
 
@@ -22,7 +22,7 @@ export const useGetCollections = (onSuccess: any, enabled?: any, qs?: any) => {
 };
 
 export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
-  let nftQS: any = {};
+  const nftQS: any = {};
   if (filter) {
     const {
       page,

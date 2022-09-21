@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, FC } from "react";
+import React, { useState, useEffect, useContext, FC } from "react";
 import { connect } from "react-redux";
 import "./allnft.scss";
 import {
@@ -49,7 +49,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 
   useEffect(() => {
     if (props?.location?.state) {
-      let searchQs: object | string = {
+      const searchQs: object | string = {
         keyword: props.location.state,
         page: 1,
         limit: 10,
@@ -68,11 +68,10 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetMyLikedNFTs(
+  const {isLoading : isLoadingLikedNFT} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
     onSuccessLikedNFTs
   );
-
   //Get NFTs
 
   const onSuccessNFTs = (data: any) => {
@@ -126,16 +125,16 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       if (await validateNetwork()) {
         if (!likeButtonDisable || likeButtonDisable === null) {
           setLikeBtnDisable(true);
-          let userId = ENV.getUserKeys("_id")._id;
+          const userId = ENV.getUserKeys("_id")._id;
 
-          let body = {
+          const body = {
             userId,
             nftId,
             count: 1,
           };
 
           if (status === "dislike" && likesCount > 0) {
-            let result = likedNfts.filter((item: any) => item.nftId !== nftId);
+            const result = likedNfts.filter((item: any) => item.nftId !== nftId);
 
             setLikedNfts(result);
             increOrDecreLikes(nftId, "dec");
@@ -149,7 +148,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
               myLikedNfts = likedNfts;
             }
 
-            let obj = {
+            const obj = {
               _id: "1234455",
               nftId,
             };
@@ -181,7 +180,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   };
   const increOrDecreLikes = (id: string, status: string) => {
     if (status === "dec") {
-      let newResult = nfts.map((item: any) => {
+      const newResult = nfts.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -192,7 +191,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       });
       setNFTs(newResult);
     } else {
-      let final = nfts.map((item: any) => {
+      const final = nfts.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {

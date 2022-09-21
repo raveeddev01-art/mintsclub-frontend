@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./user-edit-profile.scss";
 /////////
 import { connect } from "react-redux";
@@ -98,7 +98,7 @@ const EditProfile = (props: any) => {
   const onFileChange = (e: any) => {
     let file = e.target.files[0];
     let fileURL = "";
-    let sizeBeforeCompress = formatBytes(file.size);
+    const sizeBeforeCompress = formatBytes(file.size);
     if (file) {
       if (file.type.includes("image")) {
         fileURL = URL.createObjectURL(file);
@@ -115,10 +115,11 @@ const EditProfile = (props: any) => {
         success(result) {
           setImage(result);
 
-          let sizeAfterCompress = formatBytes(result.size);
+          const sizeAfterCompress = formatBytes(result.size);
+         
         },
         error(err) {
-          console.log(err.message);
+         // This comment added due to eslint error, Empity arrow function
         },
       });
     }
@@ -138,15 +139,16 @@ const EditProfile = (props: any) => {
   const submit = async (e: any) => {
     e.preventDefault();
     setErrors("");
+    
     setLoader(true);
     // let signature = await signRequest();
     setLoader(true);
-
-    var formData = new FormData();
+   
+    const formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
     if (image) {
-      let result: any = await uploadFileToIpfs(image);
-      let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+      const result: any = await uploadFileToIpfs(image);
+      const url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append("profileImage", url);
     }
     if (banner) {
@@ -164,7 +166,7 @@ const EditProfile = (props: any) => {
     // props.updateProfile(formData,onSuccessUpdate);
   };
   const uploadFileToIpfs = async (file: string) => {
-    var data: any = new FormData();
+    const data: any = new FormData();
     data.append("file", file);
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;

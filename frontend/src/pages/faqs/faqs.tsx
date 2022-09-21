@@ -3,7 +3,6 @@ import "./faqs.scss";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
-import { Accordion, Card } from "react-bootstrap";
 import { faqsBanner, faqsData } from "../../utils/exportData";
 
 const Faqs = () => {
@@ -27,9 +26,10 @@ const Faqs = () => {
                 className="faqs-accordion accordion accordion-flush mx-auto"
                 id="accordionFlushExample"
               >
-                {faqsData.map((faq, id) => {
+                {faqsData.map((faq, id, index: any) => {
                   return (
-                    <div className="accordion-item mb-4">
+                    <div key={index}
+                    className="accordion-item mb-4">
                       <h2 className="accordion-header" id={`${id}`}>
                         <button
                           className="accordion-button collapsed"

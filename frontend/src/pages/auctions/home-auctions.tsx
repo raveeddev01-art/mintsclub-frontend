@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, FC } from "react";
+import React, { useEffect, useState, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -72,7 +72,7 @@ const AuctionsOne: FC<HomeAuction> = () => {
     }
     setAuctions(auctions);
     setFilterationLoader(false);
-    let auctionCollectionsSettings = ENV.auctionCollectionsSettings;
+    const auctionCollectionsSettings = ENV.auctionCollectionsSettings;
     if (auctions.length > 4) {
       auctionCollectionsSettings.infinite = true;
     } else {
@@ -95,10 +95,10 @@ const AuctionsOne: FC<HomeAuction> = () => {
   const checkIfAuctionEnded = () => {
     if (auctions && auctions?.length > 0) {
       auctions.forEach((item: any, index: number) => {
-        let auctionEndDate = new Date(item.auctionEndDate);
-        let currentDate = new Date();
+        const auctionEndDate = new Date(item.auctionEndDate);
+        const currentDate = new Date();
         if (currentDate > auctionEndDate) {
-          let updatedAuctions = [...auctions];
+          const updatedAuctions = [...auctions];
           updatedAuctions.splice(index, 1);
           setAuctions(updatedAuctions);
         }
@@ -122,7 +122,7 @@ const AuctionsOne: FC<HomeAuction> = () => {
                 <span>{initData.pre_heading}</span>
                 <h3 className="mb-0">{initData.heading}</h3>
                 <p>
-                  Explore on the world's best & largest NFT marketplace with our
+                  Explore on the world&apos;s best & largest NFT marketplace with our
                   beautiful NFT products. <br className="d-none d-xxl-block" />
                   We want to be a part of your smile, success and future growth.
                 </p>

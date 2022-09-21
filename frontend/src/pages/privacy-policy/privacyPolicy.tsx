@@ -111,7 +111,7 @@ const PrivacyPolicy = () => {
                 application programming interface (API)-key and network
                 information regarding transactions. Please note that your
                 Ethereum wallet address is not collected by{" "}
-                <a href="https://metamask.io/" target="_blank">
+                <a href="https://metamask.io/" target="_blank" rel="noreferrer">
                   Metamask{" "}
                 </a>
                 or associated plugins and mobile applications.
@@ -345,7 +345,7 @@ const PrivacyPolicy = () => {
               Protection Regulations (“GDPR”) and the respective California
               Consumer Privacy Act (“CCPA”).
               <br />
-              ​Collectively, depending the situation you have the following data
+               Collectively, depending the situation you have the following data
               protection rights:
             </p>
             <ul>

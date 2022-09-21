@@ -20,6 +20,6 @@ export const toggleLikeDislike = (body) => (dispatch) => {
       });
     })
     .catch(function (error) {
-      // console.log(error);
+      // this comment is added due to eslint empty arrow function.
     });
 };

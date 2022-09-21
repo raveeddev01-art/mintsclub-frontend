@@ -24,7 +24,7 @@ const bannerContent = {
   content:
     "If you want to share your NFT with a large number of community members",
 };
-const placeholderImg = "";
+
 
 function CreateMultipleNFT() {
   const [checkBox, setCheckBox] = useState<any>(false);
@@ -78,7 +78,7 @@ function CreateMultipleNFT() {
     }
     if (files) {
       if (type === "application/zip") {
-        let fileSize = formatBytes(files.size).split(" ");
+        const fileSize = formatBytes(files.size).split(" ");
         if (
           (+fileSize[0] > 100 && fileSize[1] === "MB") ||
           fileSize[1] === "GB"
@@ -107,6 +107,7 @@ function CreateMultipleNFT() {
         url = URL.createObjectURL(e.target.files[0]);
         fileId = e.target.id;
       }
+     
       if (file)
         if (file.type.includes("zip")) {
           setUploadStatus(true);
@@ -117,7 +118,7 @@ function CreateMultipleNFT() {
           toast.success("File successfully added");
         }
     } else {
-      let message: any = handleFilesValidation(e, status);
+      const message: any = handleFilesValidation(e, status);
       toast.error(message);
       setError(true);
       setErrorMessage(message);
@@ -273,7 +274,7 @@ function CreateMultipleNFT() {
                         height="10"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd" // here i use insted of fill-rule (fillRule)
                           fill="#182338"
                           d="M11.356.624c.034.009-.617.141-.838.368-1.93 1.93-3.692 3.823-5.546 5.712L2.794 4.961h-.001a1.223 1.223 0 0 0-.897-.26c-.321.036-.616.198-.116.45-.904.252-.997.574-.962 1.309.036-.093.342.201.451.403l3.049 2.434a1.218 1.218 0 0 0 1.626-.095C8.138 7.8 10.103 4.854 12.246 2.71A1.22 1.22 0 0 0 12.24.967c.16-.229-.555-.352-.884-.343z"
                         />

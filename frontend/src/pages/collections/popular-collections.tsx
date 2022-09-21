@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, FC } from "react";
+import React, { useState, useEffect, useContext, FC } from "react";
 import { Link } from "react-router-dom";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
@@ -42,7 +42,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
   const handleImage = (item: any, index: number) => {
     if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft: any) => nft.fileType === "image");
+      const result = item.nfts.filter((nft: any) => nft.fileType === "image");
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -63,11 +63,13 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
     }
   };
 
-  const onErrorPopular = (error: any) => {};
+  const onErrorPopular = (error: any) => {
+    // this comment added due to eslint error.
+   
+  };
 
   const {
     isFetching: isFetchingPopular,
-    isLoading,
     refetch: refetchPopular,
   } = useGetPopularCollections(onErrorPopular, onSuccessPopular, categoryId);
 
@@ -77,7 +79,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
       if (collectionListing) {
         collectionListing.forEach((element: any, i: number) => {
           if (element.likesCount.length > 0) {
-            var sumLikes = element.likesCount.reduce(function (
+            const sumLikes = element.likesCount.reduce(function (
               a: number,
               b: number
             ) {
@@ -92,7 +94,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
             ? element.nfts?.length
             : 0;
           if (element.soldCopies.length > 0) {
-            var soldCopiesSum = element.soldCopies.reduce(function (
+            const soldCopiesSum = element.soldCopies.reduce(function (
               a: number,
               b: number
             ) {
@@ -110,7 +112,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
         (a: any, b: any) =>
           b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
       );
-      let popularCollectionsSettings = ENV.popularCollectionsSettings;
+      const popularCollectionsSettings = ENV.popularCollectionsSettings;
       if (finalCollectionListing.length > 3) {
         popularCollectionsSettings.infinite = true;
       } else {
@@ -138,10 +140,13 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
     }
   };
 
-  const {}: any = useGetCategories(
-    (error: any) => console.log(error),
+  const {isLoadingCategories}: any = useGetCategories(
+    (error: any) => {
+      // This comment added due to eslint error, Empity arrow function
+    },
     onSuccessCategories
   );
+
 
   useEffect(() => {
     refetchPopular();
@@ -158,7 +163,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
                   <span>{initData.pre_heading}</span>
                   <h3 className=" mb-1">{initData.heading}</h3>
                   <p>
-                    Explore on the world's best & largest NFT marketplace with
+                    Explore on the world&apos;s best & largest NFT marketplace with
                     our beautiful NFT products.{" "}
                     <br className="d-none d-xxl-block" /> We want to be a part
                     of your smile, success and future growth.
@@ -167,7 +172,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
               </div>
             </div>
             <div className="col-12 col-lg-4 mt-3 mt-lg-0">
-              {categoryId === "all" && popular && popular?.length == 0 ? (
+              {categoryId === "all" && popular && popular?.length === 0 ? (
                 ""
               ) : (
                 <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">

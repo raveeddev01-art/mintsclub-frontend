@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { ReactComponent as AudioIcon } from "../../assets/images/audio-icon.svg";
 import { AuctionAudioInt } from "../../interfaces/components";
 import "./AuctionAudio.scss";

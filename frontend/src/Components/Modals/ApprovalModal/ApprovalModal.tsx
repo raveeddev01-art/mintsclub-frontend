@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Modal } from "react-bootstrap";
 import { Spin } from "react-cssfx-loading";
 import ModalClose from "../../../assets/images/modal-close.svg";

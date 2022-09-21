@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, FC } from "react";
+import React, { useState, useEffect, useContext, FC } from "react";
 import "./explore-collections.scss";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
@@ -67,10 +67,12 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   };
 
   const {
-    isFetching: isFetchingCategories,
+    // isFetching: isFetchingCategories,
     isLoading: isCategoryLoading,
   }: any = useGetCategories(
-    (error: any) => console.log(error),
+    (error: any) => {
+      // This comment added due to eslint error, Empity arrow function
+    },
     onSuccessCategories
   );
 
@@ -81,7 +83,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   };
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
-      let result = item.nftDetail.filter(
+      const result = item.nftDetail.filter(
         (nft: any) => nft.fileType === "image"
       );
       if (result.length >= index && result.length !== 0) {

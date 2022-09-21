@@ -327,9 +327,11 @@ export const toggleLikeDislike = (body) => (dispatch) => {
     data,
   })
     .then((res) => res.json())
-    .then((data) => {})
+    .then((data) => {
+      // This comment added due to eslint error, Empity arrow function
+    })
     .catch((error) => {
-      //console.log(error, 'error likes');
+      // This comment added due to eslint error, Empity arrow function
     });
 };
 
@@ -365,7 +367,6 @@ export const getPopularCollections =
     })
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data, 'popular collections api response');
         if (data.success) {
           dispatch({
             type: GET_POPULAR_COLLECTIONS,

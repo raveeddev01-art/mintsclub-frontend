@@ -7,6 +7,7 @@ import {
   connectWithMetamask,
   getChainId,
   switchNetworkToChainId,
+  getWalletAddress
 } from "../../utils/web3";
 import { beforeWallet, setWalletAddress } from "./wallet.action";
 import { toast } from "react-toastify";
@@ -23,7 +24,6 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerDark from "../../assets/images/loginbg.png";
 import BannerLight from "../../assets/images/loginbg-light.png";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
-import { getWalletAddress, validateNetwork } from "../../utils/web3";
 import { ENV } from "../../config/config";
 const Wallet = (props) => {
   const history = useHistory();
@@ -149,7 +149,9 @@ const Wallet = (props) => {
         let newAcc = await switchNetworkToChainId(ENV.chainId);
         props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
-      } catch (error) {}
+      } catch (error) {
+        // this was an empity statatem due to eslint enter this commented line in it.
+      }
     }
     try {
       setDisabled(true);
@@ -463,13 +465,13 @@ const Wallet = (props) => {
                   <p className="metamask-title mt-2">Metamask</p>
                   <p className="metamask-desc px-sm-0 px-3">
                     A browser extension with great flexibility.
-                    <br className="d-none d-sm-block" /> The web's most popular
+                    <br className="d-none d-sm-block" /> The web&apos;s most popular
                     wallet
                   </p>
                 </div>
 
                 <span className="new-member d-flex  justify-content-center mt-5">
-                  Don't have Metamask ? Click
+                  Don&apos;t have Metamask ? Click
                   <span
                     className="register-member mx-1"
                     onClick={() => window.open("https://metamask.io/download/")}

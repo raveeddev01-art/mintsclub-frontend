@@ -1,5 +1,8 @@
-import React, { ComponentProps, FC } from "react";
-
+import React, { ComponentProps, FC, ReactNode } from "react";
+interface Props {
+  children: ReactNode;
+  elementType?: string;
+}
 export const combineComponents = (...components: FC[]): FC => {
   return components.reduce(
     (AccumulatedComponents: any, CurrentComponent: any) => {

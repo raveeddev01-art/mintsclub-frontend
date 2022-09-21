@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, FC } from "react";
+import React, { useState, useEffect, useContext, FC } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import "./collectiondetails.scss";
 import TickIcon from "../../assets/images/seller-tick-icon.svg";
@@ -8,7 +8,6 @@ import { validateNetwork } from "../../utils/web3";
 import Listing from "../../Components/Listing/Listing";
 import { toast } from "react-toastify";
 import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/profileBg.png";
 import BannerDark from "../../assets/images/bannerbg.png";
 import BannerLight from "../../assets/images/bannerbg2.png";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
@@ -46,7 +45,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetMyLikedNFTs(
+  const {isLoading: isLoadingLikedNFT} = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
     onSuccessLikedNFTs,
     nfts?.length > 0 ? true : false
@@ -86,15 +85,15 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
       if (await validateNetwork()) {
         if (!likeButtonDisable) {
           setLikeBtnDisable(true);
-          let userId = ENV.getUserKeys("_id")._id;
-          let body = {
+          const userId = ENV.getUserKeys("_id")._id;
+          const body = {
             userId,
             nftId,
             count: 1,
           };
 
           if (status === "dislike" && likesCount > 0) {
-            let result = likedNfts?.filter((item) => item.nftId !== nftId);
+            const result = likedNfts?.filter((item) => item.nftId !== nftId);
             if (result) {
               setLikedNfts(result);
             }
@@ -108,7 +107,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
               myLikedNfts = likedNfts;
             }
 
-            let obj = {
+            const obj = {
               _id: "1234455",
               nftId,
             };
@@ -133,7 +132,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 
   const increOrDecreLikes = (id: string, status: string) => {
     if (status === "dec") {
-      let newResult = nfts?.map((item: any) => {
+      const newResult = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -144,7 +143,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
       });
       setNfts(newResult);
     } else {
-      let final = nfts?.map((item: any) => {
+      const final = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {

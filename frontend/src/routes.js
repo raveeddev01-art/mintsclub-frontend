@@ -2,7 +2,6 @@ import { lazy } from "react";
 const layout = lazy(() => import("./layouts/layout/layout"));
 const homelayout = lazy(() => import("./layouts/home-layout/home-layout"));
 const layout3 = lazy(() => import("./layouts/layout3/layout3"));
-const layout4 = lazy(() => import("./layouts/layout4/layout4"));
 const Home = lazy(() => import("./pages/home/home"));
 const CreateNFT = lazy(() => import("./pages/create-nft/create-nft"));
 const ChooseType = lazy(() => import("./pages/choose-type/chooseType"));

@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import React, { useState, FC } from 'react';
 import { useHistory } from 'react-router';
 import ImageLoader from '../ContentLoader/HeroLoader';
 import { connect } from 'react-redux';

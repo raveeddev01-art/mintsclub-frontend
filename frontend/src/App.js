@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { beforeWallet, setWalletAddress } from "./pages/wallet/wallet.action";
 
 const App = React.memo((props) => {
+  
   useGaTracker();
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
@@ -39,14 +40,17 @@ const App = React.memo((props) => {
     };
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
-    // window.ethereum.on("disconnect", ()=>alert("account cleared"));
     window.ethereum.request({ method: "eth_requestAccounts" }).then(
       (accounts) => {
         setWallet(accounts[0]);
       },
-      (error) => {}
+      (error) => {
+          // This comment added due to eslint error, Empity arrow function
+      }
     );
-    return () => {};
+    return () => {
+      //this was an errow empity funtion it's commented due to eslint error.
+    };
   }, []);
 
   const setWallet = (address) => {
@@ -81,7 +85,7 @@ const App = React.memo((props) => {
   );
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = () => ({}); // state is removed as a parameter from this function.
 
 export default connect(mapStateToProps, {
   setWalletAddress,

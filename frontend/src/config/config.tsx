@@ -1,7 +1,10 @@
+import React from 'react';
 require("dotenv").config();
 const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
+// import moment from "moment";
+ 
 
 export const ENV = {
   // blockchain variables
@@ -48,9 +51,9 @@ export const ENV = {
 
   //set user in local storage
   encryptUserData: function (data:any) {
-    let userData = localStorage.getItem("encuse");
+    const userData = localStorage.getItem("encuse");
     if (userData && !data.accessToken) {
-      let bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
+      const bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
       let originalData = bytes.toString(CryptoJS.enc.Utf8);
       originalData = JSON.parse(originalData);
       if (originalData && originalData.accessToken) {
@@ -58,7 +61,7 @@ export const ENV = {
       }
     }
     data = JSON.stringify(data);
-    let encryptedUser = CryptoJS.AES.encrypt(
+    const encryptedUser = CryptoJS.AES.encrypt(
       data,
       dataEncryptionKey
     ).toString();
@@ -72,16 +75,16 @@ export const ENV = {
       [key: string]: any;
     };
     
-    let userData = localStorage.getItem("encuse");
+    const userData = localStorage.getItem("encuse");
     if (userData) {
-      var bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
-      var originalData = bytes.toString(CryptoJS.enc.Utf8);
+      const bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
+      let originalData = bytes.toString(CryptoJS.enc.Utf8);
       originalData = JSON.parse(originalData);
       let user:User = {};
       if (keys) {
         keys = keys.split(" ");
-        for (let key in keys) {
-          let keyV = keys[key];
+        for (const key in keys) {
+          const keyV = keys[key];
           user[keyV] = originalData[keyV];
         }
       } else {

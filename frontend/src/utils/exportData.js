@@ -1,3 +1,5 @@
+//due to "this 'React' must be in scope when using JSX" error blow line entered. 
+import React from "react";
 import nft1 from "../assets/images/famous1.jpeg";
 import nft2 from "../assets/images/famous2.webp";
 import nft3 from "../assets/images/famous3.jpg";
@@ -97,7 +99,7 @@ export const comingSoon = [
   },
 ];
 
-export const getBannerData=(subHeading,heading)=>{
+export const getBannerData=(subHeading,heading) => {
  return  {
     subHeading: subHeading,
     heading: heading,

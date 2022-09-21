@@ -1,7 +1,6 @@
-
-
+import React from 'react';
 import ContentLoader from 'react-content-loader'
-const NFTDetailLoader=(props:any)=>{
+const NFTDetailLoader=(props:any) => {
 
     return (
         <ContentLoader

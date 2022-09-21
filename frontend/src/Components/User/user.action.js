@@ -8,7 +8,6 @@ import {
   TOP_SELLERS,
   SET_INDIVIDUAL_USER,
   BEFORE_USER,
-  UPDATE_API_STATEC,
   EDIT_APPROVAL,
   GET_APPROVALS
 } from '../../redux/types';
@@ -60,7 +59,7 @@ export const login = (payload) => (dispatch) => {
     .then((data) => {
       if (data.success) {
         ENV.encryptUserData(data.data);
-        const userId = data.data._id;
+        // const userId = data.data._id;
         dispatch(getCollections());
         dispatch({
           type: SET_USER,

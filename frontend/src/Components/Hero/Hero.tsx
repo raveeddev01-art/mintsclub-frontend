@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { connectMetamaskCopy } from '../../utils/web3';
 import './Hero.scss';
@@ -18,7 +18,7 @@ const Hero: FC<HeroInt> = (props) => {
 
   useEffect(() => {
     const setAddress = async () => {
-      let connectedAddress = await connectMetamaskCopy();
+      const connectedAddress = await connectMetamaskCopy();
       setConnectedAddress(connectedAddress);
     };
     setAddress();
@@ -49,7 +49,6 @@ const Hero: FC<HeroInt> = (props) => {
       }
     }
   }, [props.auction.auctionsAuth]);
-  console.log('auction', data);
   return (
     <section className='hero-section padding-wrapper'>
       <div className='container'>

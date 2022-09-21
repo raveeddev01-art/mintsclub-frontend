@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
@@ -20,7 +20,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
   } = props;
   const handleSubmit = () => {
     if (properties && properties.length > 0) {
-      let isEmpty = properties.filter(
+      const isEmpty = properties.filter(
         (item: any) => item.name === "" || item.type === ""
       );
       if (isEmpty.length > 0) {

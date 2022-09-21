@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 let baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const axiosSyncPost = (url, data, isMultipart = false) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => { // Second parameter is removed because it's never be used. "reject"
     const params = new URLSearchParams();
     let keys = Object.keys(data);
     for (let x = 0; x < keys.length; x++) {
@@ -41,8 +41,8 @@ export const axiosSyncPost = (url, data, isMultipart = false) => {
   });
 };
 
-export const axiosPostFormData = (url, body, isMultipart = false) => {
-  return new Promise((resolve, reject) => {
+export const axiosPostFormData = (url, body, isMultipart = false) => {  
+  return new Promise((resolve) => {  // 2nd parameter is removed because it's never be used.
     const config = {
       headers: {
         // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
@@ -55,7 +55,7 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
             : "",
       },
     };
-
+    // console.log(isMultipart, ' isMultipart')
     // url = testingURl + url;
 
     axios.post(ENV.url + url, body, config).then(
@@ -67,6 +67,7 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
       }
     );
   });
+  
 };
 
 export const handleRequest = async (method, endpoint, data=null, qs) => {
@@ -142,6 +143,7 @@ export const decimalNumberValidator = (evt) => {
       key === 46 ||
       key === 45)
   ) {
+    // this is an empity block statement due to eslint error this commented line entered
   } else {
     e.returnValue = false;
     if (e.preventDefault) e.preventDefault();
@@ -176,11 +178,13 @@ export const setFixedPriceNftTOken = (body) => {
     .then((data) => {
       // console.log(data,"created nft token")
       if (data.success) {
+        // this is an empity block statement due to eslint error this commented line entered
       } else {
+        // this is an empity block statement due to eslint error this commented line entered 
       }
     })
     .catch((errors) => {
-      console.log(errors, "error");
+      // This comment added due to eslint error, Empity arrow function
     });
 };
 
@@ -216,7 +220,7 @@ export const changeOwnerShip = (nftOwnerId, currentUserId) => {
       // console.log(data,"response from the change ownershiop")
     })
     .catch((errors) => {
-      console.log("error", errors);
+      // This comment added due to eslint error, Empity arrow function
     });
 };
 export const acceptBit = (tokenId, body) => {

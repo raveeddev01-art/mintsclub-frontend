@@ -52,7 +52,7 @@ export const placeBid = (body) => dispatch => {
     })
  
 };
-export const getBidSByNftId=(qs='')=>dispatch=>{
+export const getBidSByNftId=(qs='') => dispatch => {
     let url = `${ENV.url}bid/claimableBidListbyNftId`;
     if(qs){
         url+=`?${qs}`   
@@ -75,7 +75,7 @@ export const getBidSByNftId=(qs='')=>dispatch=>{
                 payload: data.data.Bids
             })
         } else {
-            
+            // this comment is added due to eslint error
         }
     }).catch(error => {
         dispatch({
@@ -168,8 +168,8 @@ export const deleteBid = (bidId) => dispatch => {
         })
     })
 };
-
-export const acceptBid = (body,tokenId) => dispatch => {
+// in blow line remove the second parameter "tokenId" due to eslint error, that shows it's never be used.
+export const acceptBid = (body) => dispatch => {
     dispatch(emptyError());
    
     const url = `${ENV.url}bid/accept`;

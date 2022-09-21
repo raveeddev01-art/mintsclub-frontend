@@ -1,4 +1,5 @@
-import ContentLoader, { IContentLoaderProps } from "react-content-loader";
+import React from 'react';
+import ContentLoader from "react-content-loader";
 import "./ImageLoader.scss";
 const HeroLoader = (props: any) => {
   return (

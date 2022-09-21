@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect, useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -11,18 +10,13 @@ import { connectModal } from "../../assets/assets";
 import {
   signRequest,
   connectWithMetamask,
-  getChainId,
-  switchNetworkToChainId,
   getWalletAddress,
-  validateNetwork,
-  getWeb3,
   connectMetamask,
   handleSign,
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
-import { useGetData, useInsertData } from "../../hooks/Common";
-import Web3 from "web3";
+import { useInsertData } from "../../hooks/Common";
 import { ENV } from "../../config/config";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
@@ -69,7 +63,7 @@ const ConnectWallet = (props: any) => {
         }
       }
       login(connectedAddress);
-      console.log(connectedAddress, "connectedAddress");
+     
     }
   };
 
@@ -88,7 +82,7 @@ const ConnectWallet = (props: any) => {
       try {
         setDisabled(true);
         await signRequest();
-        let payload = {
+        const payload = {
           address: connectedAddress,
         };
         props.setWalletAddress(connectedAddress);
@@ -98,7 +92,6 @@ const ConnectWallet = (props: any) => {
         toast.error(err.message);
       }
     }
-    //
   };
   const detectMobile = () => {
     if (
@@ -182,9 +175,10 @@ const ConnectWallet = (props: any) => {
             <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
               <Tab eventKey="ethereum" title="Ethereum">
                 <div className="tab-inner-content">
-                  {walletButtons.map((button: any) => {
+                  {walletButtons.map((button: any, index: any) => {
                     return (
                       <button
+                        key={index}
                         className="wallet-button"
                         onClick={() => button.func()}
                       >

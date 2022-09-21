@@ -1,7 +1,6 @@
-
-
+import React from 'react';
 import ContentLoader from 'react-content-loader'
-const SellNFTLoader=(props:any)=>{
+const SellNFTLoader=(props:any) => {
 
     return (
         <ContentLoader

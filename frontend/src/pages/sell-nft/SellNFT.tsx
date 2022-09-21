@@ -35,7 +35,7 @@ import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
   const [activeBtn, setActiveBtn] = useState<any>(0);
-  const [toggle, setToggle] = React.useState<boolean>(true);
+  // const [toggle, setToggle] = React.useState<boolean>(true);
   const [sellingMethod, setSellingMethod] = useState<number>(1); // 1 = Fixed Price, 2 = Timed Auction
   const [fixedPriceConfig, setFixedPriceConfig] = useState<any>({
     price: {
@@ -67,7 +67,7 @@ const SellNFT = (props: any) => {
   const [contentLoader, setContentLoader] = useState<boolean>(true);
   const { setError } = useContext(errorHandler);
   const history = useHistory();
-  let nftId = props.match.params.id;
+  const nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
@@ -85,7 +85,9 @@ const SellNFT = (props: any) => {
   const { isLoading: isLoadingNFT } = useGetNFTbyId(nftId, onSuccessNFT);
 
   //Create Activity
-  const onInsertData = () => {};
+  const onInsertData = () => {
+    // console.log("Unexpected empity function ")
+  };
   const { mutate: insertActivity } = useInsertData(
     "activity/create",
     onInsertData
@@ -101,8 +103,12 @@ const SellNFT = (props: any) => {
 
   const { mutate: updateProfile } = useEditData(
     "users/updateProfile",
-    () => console.log(),
-    () => console.log()
+    () => {
+      // 
+    },
+    () => {
+      //
+    }
   );
 
   useEffect(() => {
@@ -168,12 +174,12 @@ const SellNFT = (props: any) => {
       let price: any = "";
       let payload: object = {};
 
-      let timedConfig = { ...timedAuctionConfig };
+      const timedConfig = { ...timedAuctionConfig };
 
-      let fixedConfig = { ...fixedPriceConfig };
+      const fixedConfig = { ...fixedPriceConfig };
       const { _id, ownerId } = nftDetail;
 
-      let activityPayload = {
+      const activityPayload = {
         nftId: _id,
         ownerId,
         fromAddress: await getWalletAddress(),
@@ -185,8 +191,8 @@ const SellNFT = (props: any) => {
           toast.error("Price should be greater then 0");
           return "";
         }
-        let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-        let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+        const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+        const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
         //calculate end time
         timedConfig.duration.endDate = calclateStartOrEndTime(
           timedAuctionEndTime,
@@ -200,7 +206,7 @@ const SellNFT = (props: any) => {
         );
 
         //Deleting unused data from payload
-        let auctionConfig = timedConfig;
+        const auctionConfig = timedConfig;
         delete auctionConfig.duration.startTime;
         delete auctionConfig.duration.endTime;
         delete auctionConfig.method;
@@ -246,15 +252,15 @@ const SellNFT = (props: any) => {
     activityPayload: any,
     price: any
   ) => {
-    var formData = new FormData();
+    const formData = new FormData();
     try {
-      let auctionEndDate = timedAuctionConfig.duration.endDate;
-      let auctionStartDate = timedAuctionConfig.duration.startDate;
+      const auctionEndDate = timedAuctionConfig.duration.endDate;
+      const auctionStartDate = timedAuctionConfig.duration.startDate;
 
       const biddingTime = new Date(auctionEndDate).getTime();
       const startTime = new Date(auctionStartDate).getTime();
 
-      let result = await openNFTForBidding(
+      const result = await openNFTForBidding(
         biddingTime,
         startTime,
         nftDetail?.tokenId,
@@ -268,7 +274,6 @@ const SellNFT = (props: any) => {
         insertAuction(payload);
       }
     } catch (err: any) {
-      console.log(err, "error==>");
       setLoader(false);
       toast.error(err);
     }
@@ -280,9 +285,9 @@ const SellNFT = (props: any) => {
     fixedConfig: any,
     price: any
   ) => {
-    var formData = new FormData();
+    const formData = new FormData();
     try {
-      let result = await putonsale(
+      const result = await putonsale(
         nftDetail.tokenId,
         copies,
         fixedConfig.price.amount
@@ -295,7 +300,6 @@ const SellNFT = (props: any) => {
         insertAuction(formData);
       }
     } catch (err: any) {
-      console.log(err, "error");
       setLoader(false);
       toast.error(err);
     }
@@ -331,13 +335,13 @@ const SellNFT = (props: any) => {
 
   const approveAccount = async () => {
     setApprovalStatus("pending");
-    var formData: any = new FormData();
+    const formData: any = new FormData();
     formData.append("isApproved", true);
     formData.append("userId", nftDetail.user._id);
     try {
-      let accApproved = await setApprovalForAll(setApprovalStatus);
+      const accApproved = await setApprovalForAll(setApprovalStatus);
       if (accApproved) {
-        let updatedNFTDetail = { ...nftDetail };
+        const updatedNFTDetail = { ...nftDetail };
         updatedNFTDetail.user.isApproved = true;
         setNftDetail(updatedNFTDetail);
         updateProfile(formData);
@@ -541,7 +545,7 @@ const SellNFT = (props: any) => {
                           }}
                           maxLength={8}
                           onChange={(e) => {
-                            if (e.target.value == "00") {
+                            if (e.target.value === "00") {
                               return "";
                             }
                             onChange(e);
@@ -579,7 +583,7 @@ const SellNFT = (props: any) => {
                               return false;
                             }
                             if (
-                              (e.target.value == 0 && copies === "") ||
+                              (e.target.value === 0 && copies === "") ||
                               e.target.value.includes(".")
                             ) {
                               return false;
@@ -684,7 +688,7 @@ const SellNFT = (props: any) => {
                               return false;
                             }
                             if (
-                              (e.target.value == 0 && copies === "") ||
+                              (e.target.value === 0 && copies === "") ||
                               e.target.value.includes(".")
                             ) {
                               return false;

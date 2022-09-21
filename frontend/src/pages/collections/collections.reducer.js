@@ -1,4 +1,4 @@
-/* eslint-disable import/no-anonymous-default-export */
+ 
 import {
   BEFORE_COLLECTION,
   GET_COLLECTION,

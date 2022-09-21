@@ -1,10 +1,10 @@
-import { useState, FC } from "react";
+import React, { useState, FC } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import "./BuyModal.scss";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import TickIcon from "../../../assets/images/tick-checkbox.svg";
+// import TickIcon from "../../../assets/images/tick-checkbox.svg";
 import { ReactComponent as FbIcon } from "../../../assets/images/fb-blue.svg";
 import { ReactComponent as TwitterIcon } from "../../../assets/images/twitter-blue.svg";
 import { ReactComponent as LinkedinIcon } from "../../../assets/images/linkedin-blue.svg";
@@ -14,7 +14,7 @@ import { ReactComponent as AudioIcon } from "../../../assets/images/audio-icon.s
 import ModalSmiley from "../../../assets/images/model-smiley.svg";
 import { Buy } from "../../../interfaces/components";
 const BuyModal: FC<Buy> = (props) => {
-  const [purchase, setPurchase] = useState<any>(true);
+  // const [purchase, setPurchase] = useState<any>(true);
   const [checkBox, setCheckBox] = useState<any>(false);
   const {
     name,
@@ -154,7 +154,7 @@ const BuyModal: FC<Buy> = (props) => {
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="10">
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"  //raplace fill-rule to fillRule due to eslint error
                     fill="#FFF"
                     d="M11.356.624c.034.009-.617.141-.838.368-1.93 1.93-3.692 3.823-5.546 5.712L2.794 4.961h-.001a1.223 1.223 0 0 0-.897-.26c-.321.036-.616.198-.116.45-.904.252-.997.574-.962 1.309.036-.093.342.201.451.403l3.049 2.434a1.218 1.218 0 0 0 1.626-.095C8.138 7.8 10.103 4.854 12.246 2.71A1.22 1.22 0 0 0 12.24.967c.16-.229-.555-.352-.884-.343z"
                   />

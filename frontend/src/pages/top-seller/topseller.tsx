@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getTopSellers, beforeUser } from "../../Components/User/user.action";

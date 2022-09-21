@@ -1,7 +1,7 @@
-import { useEffect, useState, useContext, FC } from "react";
-import { Link, useHistory, useLocation, NavLink } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useHistory, NavLink } from "react-router-dom";
 import MintsClub from "../../assets/images/main-logo.svg";
-import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg";
+// import { ReactComponent as LoginIcon } from "../../assets/images/login-icon.svg";
 import { ReactComponent as SearchIcon } from "../../assets/images/nav-search-icon.svg";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ENV } from "../../config/config";

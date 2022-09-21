@@ -31,7 +31,6 @@ export const upsertNFT =
     dispatch(emptyError());
     try {
       let result = await handleRequest(method, `/nfts/${type}`, body);
-      console.log(result, "result");
       const { data, success, message } = result.data;
       if (success) {
         toast.success(message);
@@ -115,7 +114,7 @@ export const createActivity = (body) => async (dispatch) => {
   dispatch(emptyError());
   try {
     let res = await handleRequest("post", "activity/create", body);
-    const { success, data } = res.data;
+    const { success } = res.data;
     if (!success) {
       dispatch({
         type: GET_ERRORS,

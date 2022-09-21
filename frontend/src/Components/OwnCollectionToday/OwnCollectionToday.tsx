@@ -1,3 +1,4 @@
+import React from "react";
 import "./OwnCollectionToday.scss";
 import { Images } from "../../assets/assets";
 

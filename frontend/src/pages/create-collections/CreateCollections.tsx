@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
-import Footer from "../../Components/Footer/Footer";
 import "./CreateCollections.scss";
 import { connect } from "react-redux";
 import {
@@ -8,8 +7,8 @@ import {
   upsertCollection,
 } from "../collections/collections.actions";
 import {
-  decimalNumberValidator,
   firstInputCharacterSpace,
+  handleRequest
 } from "../../utils/functions";
 import {
   beforeCategory,
@@ -28,7 +27,6 @@ import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { useQuery } from "react-query";
-import { handleRequest } from "../../utils/functions";
 import { QueryClientHook } from "react-query-class-component";
 
 class CreateCollections extends React.Component<
@@ -128,9 +126,9 @@ class CreateCollections extends React.Component<
     }
     if (this.props.category.getAuth) {
       const { categories } = this.props.category;
-      let updatedCategories = [];
-      for (var item of categories) {
-        let obj = {
+      const updatedCategories = [];
+      for (const item of categories) {
+        const obj = {
           value: item._id,
           label: item.name,
         };
@@ -144,9 +142,9 @@ class CreateCollections extends React.Component<
   formateCategories = (data: any) => {
     if(data&&data?.length>0){
 
-      let updatedCategories = [];
-      for (var item of data) {
-        let obj = {
+      const updatedCategories = [];
+      for (const item of data) {
+        const obj = {
           value: item._id,
           label: item.name,
         };
@@ -159,10 +157,10 @@ class CreateCollections extends React.Component<
   };
 
   onFileChange(e: any) {
-    let file = e.target.files[0];
+    const file = e.target.files[0];
     if (file)
       if (file.type.includes("image")) {
-        let fileSize = this.formatBytes(file.size).split(" ");
+        const fileSize = this.formatBytes(file.size).split(" ");
         if (
           (+fileSize[0] > 100 && fileSize[1] === "MB") ||
           fileSize[1] === "GB"
@@ -193,7 +191,7 @@ class CreateCollections extends React.Component<
   };
 
   onChange(e: any) {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
     const userId = ENV.getUserKeys("_id")._id;
     let { collection } = this.state;
     collection = { ...collection, [name]: value, userId: userId };
@@ -217,7 +215,7 @@ class CreateCollections extends React.Component<
 
   submit = (e: any) => {
     e.preventDefault();
-    const userId = ENV.getUserKeys("_id")._id;
+    // const userId = ENV.getUserKeys("_id")._id;
     this.setState(
       {
         isSubmitted: true,
@@ -232,13 +230,13 @@ class CreateCollections extends React.Component<
             },
             async () => {
               const { collection } = this.state;
-              var formData: any = new FormData();
-              for (var val in collection) {
+              const formData: any = new FormData();
+              for (const val in collection) {
                 if (val === "logo" || val === "featuredImg") {
-                  let result: any = await this.uploadFileToIpfs(
+                  const result: any = await this.uploadFileToIpfs(
                     collection[val]
                   );
-                  let url: any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  const url: any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
                   formData.append(val, url);
                 }
                 if (collection[val]) {
@@ -265,7 +263,7 @@ class CreateCollections extends React.Component<
     );
   };
   uploadFileToIpfs = async (file: any) => {
-    var data: any = new FormData();
+    const data: any = new FormData();
     data.append("file", file);
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
@@ -323,10 +321,7 @@ class CreateCollections extends React.Component<
   render() {
     const {
       collection,
-      errors,
       loader,
-      isSubmitted,
-      categories,
       selectedOption,
     }: any = this.state;
 
@@ -339,7 +334,7 @@ class CreateCollections extends React.Component<
         subHeading: "Create New",
         heading: "Create New Collection",
         content:
-          "Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+          "Explore on the world's best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
       };
       //create collection max size validation
       return (

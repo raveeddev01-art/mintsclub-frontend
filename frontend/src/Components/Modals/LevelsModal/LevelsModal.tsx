@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
@@ -23,7 +23,7 @@ const LevelsModal: FC<Levels> = (props) => {
 
   const handleSubmit = () => {
     if (levels && levels.length > 0) {
-      let isEmpty = levels.filter(
+      const isEmpty = levels.filter(
         (item: any) => item.name === "" || item.value === ""
       );
       if (isEmpty.length > 0) {
@@ -98,7 +98,7 @@ const LevelsModal: FC<Levels> = (props) => {
                             onChange={(e) => {
                               if (
                                 +e.target.value > 5 ||
-                                (+e.target.value <= 0 && item.value == "") ||
+                                (+e.target.value <= 0 && item.value === "") ||
                                 e.target.value.includes(".")
                               ) {
                                 return "";

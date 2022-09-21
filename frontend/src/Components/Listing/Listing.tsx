@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import React, { useState, useEffect, FC } from "react";
 import "./Listing.scss";
 import { ReactComponent as SearchIcon } from "../../assets/images/searchicon.svg";
 import NftCard from "../NftCard/NftCard";
@@ -45,7 +45,7 @@ const Listing: FC<listingInt> = (props) => {
   useEffect(() => {
     const { initialKeyword } = props;
     if (initialKeyword) {
-      let capitalizeValue = capitalize(initialKeyword);
+      const capitalizeValue = capitalize(initialKeyword);
       setKeyword(capitalizeValue);
       handleSearchKeyword(capitalizeValue);
     }
@@ -116,6 +116,7 @@ const Listing: FC<listingInt> = (props) => {
         lowToHigh: false,
       }));
     } else {
+      // this comment is added due to eslint error
     }
   };
 

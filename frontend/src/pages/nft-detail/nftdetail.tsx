@@ -61,7 +61,7 @@ import { Images } from "../../assets/assets";
 import NftCard from "../../Components/NftCard/NftCard";
 import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
 import Audio from "../../Components/Audio/Audio";
-import { getBannerData, nftBanner } from "../../utils/exportData";
+import { nftBanner } from "../../utils/exportData";
 import Table from "../../Components/Table/Table";
 
 const NFTDetail = (props: any) => {
@@ -69,7 +69,6 @@ const NFTDetail = (props: any) => {
   const [toggle, setToggle] = React.useState<boolean>(true);
   const [likedNfts, setLikedNfts] = useState<any>();
   const [nftDetail, setNftDetail] = useState<any>("");
-  const [listedItem, setListedItem] = useState<any>([]);
   const [nfts, setNFTs] = useState<any>([]);
   const [activities, setActivities] = useState<any>([]);
   // const [itemsListing, setItemsListing] = useState([]);
@@ -92,8 +91,8 @@ const NFTDetail = (props: any) => {
   const [initial, setInitial] = useState<boolean>(false);
   const [contentLoader, setContentLoader] = useState<boolean>(true);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
-  let nftId = props.match.params.id;
-  let userId = ENV.getUserKeys("_id")._id;
+  const nftId = props.match.params.id;
+  const userId = ENV.getUserKeys("_id")._id;
   useEffect(() => {
     window.scroll(0, 600);
   }, []);
@@ -107,7 +106,7 @@ const NFTDetail = (props: any) => {
       qs = ENV.objectToQueryString(qs);
       props.getMyLikedNfts(qs);
       validateIfLiked();
-      let balance = await getBalance();
+      const balance = await getBalance();
       setBalance(balance);
       // setLoader(true);
     };
@@ -159,7 +158,6 @@ const NFTDetail = (props: any) => {
       setOffers(props.offers);
     }
   }, [props.getAuthOffer]);
-
   useEffect(() => {
     if (props.getAuth) {
       setBids(props.bids);
@@ -209,7 +207,7 @@ const NFTDetail = (props: any) => {
       fivePerc = (5 / 100) * highestBid;
       fivePerc = fivePerc + highestBid;
     }
-    let result = fivePerc.toString().slice(0, 8);
+    const result = fivePerc.toString().slice(0, 8);
     setPrice(result);
     validateIfLiked(likedNfts, props.nftDetail);
     props.beforeNFTByCollection();
@@ -246,7 +244,7 @@ const NFTDetail = (props: any) => {
   const handleRouting = async () => {
     const { ownerAddress } = nftDetail;
 
-    let currentAddress = connectedAddress?.toUpperCase();
+    const currentAddress = connectedAddress?.toUpperCase();
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
@@ -267,6 +265,7 @@ const NFTDetail = (props: any) => {
         } else if (nftDetail?.auction?.sellingMethod  === 1) {
           setModalShow(true);
         } else {
+          // due to eslint error this line is added in this place.
         }
       } else {
         toast.error(
@@ -292,22 +291,22 @@ const NFTDetail = (props: any) => {
         setLikeBtnDisable(true);
         setToggle(!toggle);
 
-        let userId = ENV.getUserKeys("_id")._id;
+        const userId = ENV.getUserKeys("_id")._id;
 
-        let data = {
+        const data = {
           userId,
           nftId,
           count: 1,
         };
 
         if (status === "dislike" && nftDetail.likesCount > 0) {
-          let nft = nftDetail;
+          const nft = nftDetail;
           nft.likesCount = nft.likesCount - 1;
 
           setNftDetail(nft);
           props.toggleLikeDislike(data);
         } else {
-          let nft = nftDetail;
+          const nft = nftDetail;
           nft.likesCount = nft.likesCount + 1;
 
           setNftDetail(nft);
@@ -324,7 +323,7 @@ const NFTDetail = (props: any) => {
 
   const validateIfLiked = (nfts?: any, nft?: any) => {
     if (nfts && nfts?.length > 0) {
-      let result = nfts.find((item: any) => item.nftId == nft._id);
+      const result = nfts.find((item: any) => item.nftId === nft._id);
 
       if (result) {
         return setToggle(true);
@@ -373,7 +372,7 @@ const NFTDetail = (props: any) => {
   }, [props.togleLikeRes]);
 
   const onChange = (e: any) => {
-    let result = e.target.value.slice(0, 8);
+    const result = e.target.value.slice(0, 8);
 
     setPrice(result);
   };
@@ -393,7 +392,7 @@ const NFTDetail = (props: any) => {
   const placeBid = async () => {
     if (await validateNetwork()) {
       try {
-        let result = await placeABid(price, nftDetail?.auction?.sellId);
+        const result = await placeABid(price, nftDetail?.auction?.sellId);
         if (result) {
           const payload = {
             ownerId: nftDetail.ownerId,
@@ -421,7 +420,7 @@ const NFTDetail = (props: any) => {
   const makeOffer = async () => {
     setLoader(true);
     try {
-      let result = true;
+      const result = true;
       if (result) {
         const payload = {
           toAddress: nftDetail.ownerAddress,
@@ -443,18 +442,18 @@ const NFTDetail = (props: any) => {
       toast.error(err);
     }
   };
-  const getPercentageChange = (oldNumber: any, newNumber: any) => {
-    var decreaseValue = oldNumber - newNumber;
+  // const getPercentageChange = (oldNumber: any, newNumber: any) => {
+  //   const decreaseValue = oldNumber - newNumber;
 
-    return (decreaseValue / oldNumber) * 100;
-  };
+  //   return (decreaseValue / oldNumber) * 100;
+  // };
 
   const auctionEndTimeConversion = (auctionEndDate: any) => {
-    var dateString = moment(new Date(auctionEndDate))
+    const dateString = moment(new Date(auctionEndDate))
       .utc(true)
       .format("MMMM D, Y");
-    var timeString = moment(new Date(auctionEndDate)).utc(true).format("h:mma");
-    var totalDateTime = dateString + " at " + timeString + " PKT";
+    const timeString = moment(new Date(auctionEndDate)).utc(true).format("h:mma");
+    const totalDateTime = dateString + " at " + timeString + " PKT";
     return totalDateTime;
   };
 
@@ -466,8 +465,8 @@ const NFTDetail = (props: any) => {
       if (await validateNetwork()) {
         setDisabled(true);
         try {
-          let currentPrice = nftDetail.currentPrice;
-          let nftToken = nftDetail?.auction?.sellId;
+          const currentPrice = nftDetail.currentPrice;
+          const nftToken = nftDetail?.auction?.sellId;
 
           const result = await BuyFixedPriceNFT(
             currentPrice,
@@ -476,8 +475,8 @@ const NFTDetail = (props: any) => {
             setTransactionHash
           );
           if (result) {
-            let ownerAddress = await getWalletAddress();
-            let payload = {
+            const ownerAddress = await getWalletAddress();
+            const payload = {
               userId,
               nftId,
               ownerAddress,
@@ -522,7 +521,7 @@ const NFTDetail = (props: any) => {
       toAddress = address;
     }
 
-    let activityPayload = {
+    const activityPayload = {
       nftId: _id,
       ownerId,
       fromAddress:
@@ -538,16 +537,16 @@ const NFTDetail = (props: any) => {
     //check if i am owner
 
     if (
-      props.connectedAddress?.toUpperCase() ==
+      props.connectedAddress?.toUpperCase() ===
         nftDetail.ownerAddress?.toUpperCase() ||
       nftDetail?.auction?.sellingMethod  === 1
     ) {
       return true;
     }
     if (startDate && endDate && nftDetail?.auction?.sellingMethod ) {
-      let currentDate = new Date();
-      let auctionStartDate = new Date(startDate);
-      let auctionEndDate = new Date(endDate);
+      const currentDate = new Date();
+      const auctionStartDate = new Date(startDate);
+      const auctionEndDate = new Date(endDate);
 
       if (currentDate > auctionStartDate && currentDate < auctionEndDate) {
         return true;
@@ -560,9 +559,9 @@ const NFTDetail = (props: any) => {
   };
 
   const checkIfAuctionIsStarted = (startDate: Date, endDate: Date) => {
-    let currentDate = new Date();
-    let auctionStartDate = new Date(startDate);
-    let auctionEndDate = new Date(endDate);
+    const currentDate = new Date();
+    const auctionStartDate = new Date(startDate);
+    const auctionEndDate = new Date(endDate);
     if (currentDate < auctionStartDate) {
       return "Sale will start on " + auctionEndTimeConversion(auctionStartDate);
     } else {
@@ -579,23 +578,23 @@ const NFTDetail = (props: any) => {
 
   const isAuctionEnded = async () => {
     if (nftDetail && nftDetail?.auction?.sellingMethod  === 2) {
-      let auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
-      let currentDate = new Date();
+      const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
+      const currentDate = new Date();
       if (currentDate > auctionEndDate) {
         if (!initial) {
           let qs: any = { nftId: nftDetail._id };
           qs = ENV.objectToQueryString(qs);
           let url = `${ENV.url}bid/list`;
           url += `?${qs}`;
-          let res = await axios.get(url);
-          let newBids = res.data.data.Bids;
+          const res = await axios.get(url);
+          const newBids = res.data.data.Bids;
           if (!initial) {
             setInitial(true);
           }
 
           if (newBids?.length > 0) {
-            let highestBidByUser = newBids.reduce((max: any, obj: any) =>
-              max.bidAmount > obj.bidAmount ? max : obj
+            const highestBidByUser = newBids.reduce((max: any, obj: any) =>
+              (max.bidAmount > obj.bidAmount ? max : obj)
             );
             if (highestBidByUser.fromAddress === connectedAddress) {
               if (!claimNFT) {
@@ -613,13 +612,13 @@ const NFTDetail = (props: any) => {
     const {sellingMethod,sellId}=nftDetail?.auction||{}
     try {
       setLoader(true);
-      if (userId == ownerId && sellingMethod == 2) {
-        let result = await endAuctionFromContract(sellId);
+      if (userId === ownerId && sellingMethod === 2) {
+        const result = await endAuctionFromContract(sellId);
         if (result) {
           EndAuctionFromBackend();
         }
       } else {
-        let result = await claimNFTfromContract(sellId);
+        const result = await claimNFTfromContract(sellId);
         if (result) {
           EndAuctionFromBackend();
         }
@@ -641,7 +640,7 @@ const NFTDetail = (props: any) => {
           ? ENV.getUserKeys("accessToken").accessToken
           : "",
     };
-    let res = await axios.post(
+    const res = await axios.post(
       `${ENV.url}auctions/endAuction`,
       {
         auctionId: nftDetail?.auction?._id,
@@ -651,7 +650,7 @@ const NFTDetail = (props: any) => {
       }
     );
     if (res.data.success) {
-      if (userId == ownerId) {
+      if (userId === ownerId) {
         props.beforeBid();
         setBids(null);
         toast.success(res.data.message);
@@ -671,7 +670,6 @@ const NFTDetail = (props: any) => {
     properties,
     levels,
     stats,
-    nftToken,
     lowestNftPrice,
     fileType,
     image,
@@ -686,7 +684,7 @@ const NFTDetail = (props: any) => {
   const {sellingMethod,auctionStartDate,auctionEndDate,copiesForAuction}:any=nftDetail?.auction||{}
   const { connectedAddress } = props;
 
-  let nftInfo: any = [
+  const nftInfo: any = [
     {
       title: "Contract Address",
       value:
@@ -751,8 +749,8 @@ const NFTDetail = (props: any) => {
                 <hr />
                 <div>
                   {stats && stats?.length > 0 ? (
-                    stats.map((item: any) => {
-                      return <StatsInfo name={item.name} value={item.value} />;
+                    stats.map((item: any, index: any) => {
+                      return <StatsInfo name={item.name} value={item.value} key={index} />;
                     })
                   ) : (
                     <p className="text-center npf-text">No Stats Found</p>
@@ -764,9 +762,10 @@ const NFTDetail = (props: any) => {
                 <hr />
                 <div>
                   {levels && levels.length > 0 ? (
-                    levels.map((item: any) => {
+                    levels.map((item: any, index: any) => {
                       return (
                         <LevelsInfo
+                          key={index}
                           name={item.name}
                           value={item.value}
                           i={undefined}
@@ -781,21 +780,22 @@ const NFTDetail = (props: any) => {
               <div className="detail-box">
                 <h6>Details</h6>
                 <hr />
-                {nftInfo.map((item: any) => {
-                  return (
+                {nftInfo.map((item: any, index: any) => 
+                 (
                     <div
+                      key={index}
                       className={`detail-rounded-type d-flex align-items-center ${
                         item.title === "Contract Address"
                           ? "text-highlighted"
                           : ""
                       }`}
-                      onClick={() => {
+                      onClick={() => 
                         item.title === "Contract Address" &&
                           window.open(
                             "https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43",
                             "_blank"
-                          );
-                      }}
+                          )
+                      }
                     >
                       <div className={`detail-rounded-name `}>
                         <p>{item.title}:</p>
@@ -804,8 +804,8 @@ const NFTDetail = (props: any) => {
                         <p> {item.value}</p>
                       </div>
                     </div>
-                  );
-                })}
+                  )
+                )}
               </div>
             </div>
 
@@ -1008,14 +1008,14 @@ const NFTDetail = (props: any) => {
                           onClick={() => handleRouting()}
                         >
                           {" "}
-                          {ownerAddress?.toUpperCase() ==
-                            connectedAddress.toUpperCase() && sellingMethod == 2
+                          {ownerAddress?.toUpperCase() ===
+                            connectedAddress.toUpperCase() && sellingMethod === 2
                             ? "End Auction"
-                            : ownerAddress?.toUpperCase() ==
+                            : ownerAddress?.toUpperCase() ===
                                 connectedAddress.toUpperCase() &&
-                              sellingMethod == 1
+                              sellingMethod === 1
                             ? "Resale"
-                            : ownerAddress?.toUpperCase() ==
+                            : ownerAddress?.toUpperCase() ===
                               connectedAddress.toUpperCase()
                             ? "Sell"
                             : sellingMethod === 2
@@ -1061,9 +1061,9 @@ const NFTDetail = (props: any) => {
                     <h6>Stats</h6>
                     <hr />
                     {stats && stats?.length > 0 ? (
-                      stats.map((item: any) => {
+                      stats.map((item: any, index: any) => {
                         return (
-                          <StatsInfo name={item.name} value={item.value} />
+                          <StatsInfo key={index} name={item.name} value={item.value} />
                         );
                       })
                     ) : (
@@ -1079,6 +1079,7 @@ const NFTDetail = (props: any) => {
                         levels.map((item: any, i: any) => {
                           return (
                             <LevelsInfo
+                              key={i}
                               name={item.name}
                               value={item.value}
                               i={i}

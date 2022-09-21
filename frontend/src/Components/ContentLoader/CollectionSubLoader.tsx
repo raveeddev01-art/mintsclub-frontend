@@ -1,4 +1,4 @@
-import { useState,FC} from "react";
+import React, { useState,FC} from "react";
 import ContentLoader from "react-content-loader";
 import {CollectionSubLoaderInt} from  "../../interfaces/components";
 

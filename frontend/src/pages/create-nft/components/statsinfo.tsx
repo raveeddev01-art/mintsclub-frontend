@@ -1,9 +1,9 @@
-import React,{FC} from "react";
+import React, {FC} from "react";
 import "./nftinfo.scss";
 import { StatsInfoInterface } from "../../../interfaces/components";
 const StatsInfo:FC<StatsInfoInterface> = ({ name, value }) => {
   const filled = () => {
-    let filledArray = [];
+    const filledArray = [];
     for (let i = 1; i <= value; i++) {
       filledArray.push(<div className="level-filled"></div>);
     }
@@ -11,7 +11,7 @@ const StatsInfo:FC<StatsInfoInterface> = ({ name, value }) => {
   };
 
   const unFilled = () => {
-    let unFilledArray = [];
+    const unFilledArray = [];
     for (let i = 1; i <= 5 - value; i++) {
       unFilledArray.push(<div className="level-unfilled"></div>);
     }

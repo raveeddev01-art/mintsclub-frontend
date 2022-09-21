@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, useContext } from "react";
+import React, { useState, useEffect, FC, useContext } from "react";
 import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
 import { connect } from "react-redux";
 import { ENV } from "../../config/config";
@@ -63,12 +63,13 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
       setError(data.data.message);
     }
   };
-
   const {
     isFetching: isFetchingCategories,
     isLoading: categoryIsLoading,
   }: any = useGetCategories(
-    (error: any) => console.log(error),
+    (error: any) => {
+      // This comment added due to eslint error, Empity arrow function
+    },
     onSuccessCategories
   );
 
@@ -84,7 +85,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
       if (collectionListing) {
         collectionListing.forEach((element: any, i: number) => {
           if (element.likesCount.length > 0) {
-            var sumLikes = element.likesCount.reduce(function (
+            const sumLikes = element.likesCount.reduce(function (
               a: number,
               b: number
             ) {
@@ -99,7 +100,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
             ? element.nfts?.length
             : 0;
           if (element.soldCopies.length > 0) {
-            var soldCopiesSum = element.soldCopies.reduce(function (
+            const soldCopiesSum = element.soldCopies.reduce(function (
               a: number,
               b: number
             ) {
@@ -121,7 +122,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
       setPagination(pagination);
       const userId = ENV.getUserKeys("_id")._id;
       if (props.finalCollectionListing) {
-        let finalCollectionListing = props.finalCollectionListing.filter(
+        const finalCollectionListing = props.finalCollectionListing.filter(
           (item: any) => item.userId === userId
         );
         setpopular(finalCollectionListing);
@@ -153,7 +154,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 
   const handleImage = (item: any, index: number) => {
     if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft: any) => nft.fileType === "image");
+      const result = item.nfts.filter((nft: any) => nft.fileType === "image");
       if (result.length >= index) {
         return result[index]?.image;
       } else {
@@ -185,7 +186,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                   <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
                     {categoryId === "all" &&
                     popular &&
-                    popular?.length == 0 &&
+                    popular?.length === 0 &&
                     !loader
                       ? ""
                       : categories &&
@@ -212,7 +213,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                   <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
                     {categoryId === "all" &&
                     popular &&
-                    popular?.length == 0 &&
+                    popular?.length === 0 &&
                     !loader
                       ? ""
                       : categories &&

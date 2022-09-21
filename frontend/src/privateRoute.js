@@ -1,7 +1,10 @@
+//due to "this 'React' must be in scope when using JSX" error blow line entered.
+
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { ENV } from "./config/config";
 
-export const PrivateRoute = ({
+export const PrivateRoute= ({
   component: Component,
   access,
   path,
@@ -10,16 +13,16 @@ export const PrivateRoute = ({
   <Route
     {...rest}
     render={(props) =>
-      access||ENV.getUserKeys("_id")?._id ? (
+      (access || ENV.getUserKeys("_id")?._id ? (
         <Component {...props} />
       ) : (
         <Redirect
           to={{
             pathname: `/connect-wallet`,
-            state:path
+            state: path,
           }}
         />
-      )
+      ))
     }
   />
 );

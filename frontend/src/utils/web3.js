@@ -5,7 +5,7 @@ import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
-let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
+// let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
 /////////////////////////////////////////////////////////////////////////////MintsClub market start /////////////////////////
 
@@ -150,7 +150,7 @@ export const placeABid = async (amount, tokenId) => {
 
 export const putonsale = async (tokenId, amount, price) => {
   try {
-    /* global BigInt */
+    // /* global BigInt */
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     let weiAmount = BigInt(Web3.utils.toWei(price, "ether"));
@@ -180,7 +180,7 @@ export const BuyFixedPriceNFT = async (
 ) => {
   setConfirmed("pending");
   try {
-    /* global BigInt */
+    // /* global BigInt */
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
 
@@ -193,7 +193,11 @@ export const BuyFixedPriceNFT = async (
         setTransactionHash(hash);
         setConfirmed(true);
       })
-      .on("confirmation", function (confirmationNumber, receipt) {});
+      .on("confirmation", function (
+        // confirmationNumber, receipt
+        ) {
+        // this is empity functin
+      });
     if (result) {
       return result;
     }
@@ -213,7 +217,7 @@ export const setApprovalForAll = async (setApprovalStatus) => {
       .send({
         from: connectedAddress,
       })
-      .on("transactionHash", function (hash) {
+      .on("transactionHash", function () { //hash keyword is removed from the callback function
         // setTransactionHash(hash);
         setApprovalStatus("in-progress");
       });
@@ -303,7 +307,6 @@ export const handleSign = async (nounce) => {
       web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
       publicAddress?.toLowerCase(),
       (err, signature) => {
-        console.log(signature,"signature==>")
         if (err) return reject(err);
         return resolve({ publicAddress, signature });
       }
@@ -324,8 +327,9 @@ export const connectMetamaskCopy = async (address) => {
       // toast.error("Please Connect your metamask with Ethereum Network");
       return false;
     }
-    if (chainId !== requiredChainId) {
-    }
+    // if (chainId !== requiredChainId) {
+    
+    // }
 
     if (accounts[0]) {
       if (accounts[0] === address) {
@@ -355,9 +359,10 @@ export const connectMetamask = async () => {
   if (window.ethereum) {
     let web3 = await getWeb3();
     let accounts = await web3.eth.getAccounts();
-    let chainId = await web3.eth.getChainId();
-    if (chainId !== requiredChainId) {
-    }
+    // let chainId = await web3.eth.getChainId();
+    // if (chainId !== requiredChainId) {
+    //   // this is empity
+    // }
     return accounts[0];
   } else {
     toast.error("Please install metamask to connect to the Marketplace");
@@ -381,7 +386,7 @@ export const connectWithMetamask = async () => {
   }
 };
 
-export const switchNetworkToChainId = async (id) => {
+export const switchNetworkToChainId = async () => { //id is removed from the function.
   if (window.ethereum) {
     try {
       let web3 = await getWeb3();

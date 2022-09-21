@@ -1,10 +1,9 @@
-import { useEffect, useState, FC } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, FC } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
+import { beforeFooter, subscribeUser } from "./footer.action";
 import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
-import { useLocation } from "react-router-dom";
 import "./Footer.scss";
 import { toast } from "react-toastify";
 import { emptyError } from "../../redux/shared/error/error.action";
@@ -152,22 +151,28 @@ const Footer: FC<footerInt> = (props) => {
                   <a
                     href={"https://www.linkedin.com/showcase/mints-club"}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <i className={"fab fa-linkedin-in"} />
                   </a>
                   <a
                     href={"https://www.facebook.com/MintsClub.io/"}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <i className={"fab fa-facebook-f"} />
                   </a>
                   <a
                     href={"https://www.instagram.com/mintsclub/"}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <i className={"fab fa-instagram"} />
                   </a>
-                  <a href={"https://twitter.com/MintsClub"} target="_blank">
+                  <a href={"https://twitter.com/MintsClub"}
+                  target="_blank" 
+                  rel="noreferrer"
+                  >
                     <i className={"fab fa-twitter"} />
                   </a>
                 </div>

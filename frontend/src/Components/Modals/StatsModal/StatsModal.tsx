@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Modal } from "react-bootstrap";
 import ModalClose from "../../../assets/images/modal-close.svg";
 import InputClose from "../../../assets/images/inp-close.svg";
@@ -16,7 +16,7 @@ const StatsModal: FC<StatsInt> = (props) => {
     props;
   const handleSubmit = () => {
     if (stats && stats.length > 0) {
-      let isEmpty = stats.filter(
+      const isEmpty = stats.filter(
         (item: any) => item.name === "" || item.value === ""
       );
       if (isEmpty.length > 0) {
@@ -95,7 +95,7 @@ const StatsModal: FC<StatsInt> = (props) => {
                               onChange={(e) => {
                                 if (
                                   +e.target.value > 5 ||
-                                  (+e.target.value <= 0 && item.value == "") ||
+                                  (+e.target.value <= 0 && item.value === "") ||
                                   e.target.value.includes(".")
                                 ) {
                                   return "";

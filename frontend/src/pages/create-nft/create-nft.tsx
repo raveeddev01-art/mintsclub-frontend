@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
   decimalNumberValidator,
@@ -165,7 +165,7 @@ class CreateNFT extends React.Component<
       });
     }
 
-    let ownerAddress = await getCurrentAddress();
+    const ownerAddress = await getCurrentAddress();
 
     let { nft } = this.state;
     nft = { ...nft, ownerAddress: ownerAddress };
@@ -212,9 +212,9 @@ class CreateNFT extends React.Component<
         toast.info("Please create a collection first");
         return this.props.history.push("/createcollection");
       } else {
-        let updatedCollections = [];
-        for (var item of collections) {
-          let obj = {
+        const updatedCollections = [];
+        for (const item of collections) {
+          const obj = {
             value: item._id,
             label: item.name,
             categoryId: item.categoryId,
@@ -243,7 +243,8 @@ class CreateNFT extends React.Component<
   };
 
   onChange(e: any, status = null) {
-    let { name, value } = e.target;
+    let { value } = e.target;
+    const { name } = e.target;
     if (status) value = status;
     let { nft } = this.state;
     nft = { ...nft, [name]: value };
@@ -282,7 +283,7 @@ class CreateNFT extends React.Component<
     if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
 
-      let nftInfo: any = { ...nft };
+      const nftInfo: any = { ...nft };
       nftInfo.properties = JSON.stringify(nftInfo.properties);
       nftInfo.levels = JSON.stringify(nftInfo.levels);
       nftInfo.stats = JSON.stringify(nftInfo.stats);
@@ -309,7 +310,7 @@ class CreateNFT extends React.Component<
                 loader: true,
               },
               async () => {
-                var formData = new FormData();
+                const formData = new FormData();
                 for (const key in nftInfo)
                   if (nftInfo[key]) formData.append(key, nftInfo[key]);
                 this.pinFileToIPFS(nft.image);
@@ -336,7 +337,7 @@ class CreateNFT extends React.Component<
   mintNFT = async (metaData: any, image: any) => {
     const { videoURL, audioUrl } = this.state;
 
-    let data: any = { ...this.state.nft };
+    const data: any = { ...this.state.nft };
     data.image = image;
     data.metaData = metaData.metaDataUrl;
     data.remainingCopies = data.copies;
@@ -349,10 +350,10 @@ class CreateNFT extends React.Component<
     }
     // return ''
     try {
-      let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+      const createNftResult = await mintNFt(metaData, this.state.nft.copies);
 
       if (createNftResult.events.TransferSingle.returnValues.id) {
-        let payload = {
+        const payload = {
           nftToken: createNftResult.events.TransferSingle.returnValues.id,
           data,
           image,
@@ -361,14 +362,13 @@ class CreateNFT extends React.Component<
         this.props.addNFTRecord(payload);
       }
     } catch (err: any) {
-      console.log(err, "error====>");
       toast.error(err);
       this.setState({ loader: false });
     }
   };
 
   pinFileToIPFS = async (file: any) => {
-    let data: any = new FormData();
+    const data: any = new FormData();
     data.append("file", file);
     const fileData: any = await this.uploadFileToIpfs(data);
     const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
@@ -401,7 +401,7 @@ class CreateNFT extends React.Component<
     image: string
   ) => {
     const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-    let properties = {
+    const properties = {
       properties: this.state.nft.properties,
       levels: this.state.nft.levels,
       stats: this.state.nft.stats,
@@ -459,7 +459,7 @@ class CreateNFT extends React.Component<
             },
             () => {
               if (file) {
-                var reader = new FileReader();
+                const reader = new FileReader();
 
                 reader.onload = function (e: any) {
                   $(`#nft-${fileId}`).attr("src", e.target.result);
@@ -499,7 +499,7 @@ class CreateNFT extends React.Component<
           file = {};
         }
     } else {
-      let message: any = this.handleFilesValidation(e, status);
+      const message: any = this.handleFilesValidation(e, status);
       toast.error(message);
       this.setState({
         error: true,
@@ -549,7 +549,7 @@ class CreateNFT extends React.Component<
         type === "audio/mpeg" ||
         type === "image/webp"
       ) {
-        let fileSize = formatBytes(files.size).split(" ");
+        const fileSize = formatBytes(files.size).split(" ");
         if (
           (+fileSize[0] > 100 && fileSize[1] === "MB") ||
           fileSize[1] === "GB"
@@ -596,13 +596,13 @@ class CreateNFT extends React.Component<
     status: string
   ) => {
     if (status === "properties") {
-      let newFormValues = [...this.state.properties];
+      const newFormValues = [...this.state.properties];
       newFormValues[i][e.target.name] = e.target.value;
       this.setState({
         properties: newFormValues,
       });
     } else if (status === "stats") {
-      let newFormValues = [...this.state.stats];
+      const newFormValues = [...this.state.stats];
       newFormValues[i][e.target.name] =
         e.target.name === "value" && e.target.value !== ""
           ? +e.target.value
@@ -611,7 +611,7 @@ class CreateNFT extends React.Component<
         stats: newFormValues,
       });
     } else {
-      let newFormValues = [...this.state.levels];
+      const newFormValues = [...this.state.levels];
       newFormValues[i][e.target.name] =
         e.target.name === "value" && e.target.value !== ""
           ? +e.target.value
@@ -625,9 +625,9 @@ class CreateNFT extends React.Component<
   removeFormFields = (i: number, status: string) => {
     let { nft } = this.state;
     if (status === "properties") {
-      let newFormValues = [...this.state.properties];
+      const newFormValues = [...this.state.properties];
       newFormValues.splice(i, 1);
-      let newNFTValues = [...this.state.nft.properties];
+      const newNFTValues = [...this.state.nft.properties];
       newNFTValues.splice(i, 1);
       nft = { ...nft, properties: newNFTValues };
       this.setState({
@@ -635,9 +635,9 @@ class CreateNFT extends React.Component<
         nft,
       });
     } else if (status === "stats") {
-      let newFormValues = [...this.state.stats];
+      const newFormValues = [...this.state.stats];
       newFormValues.splice(i, 1);
-      let newNFTValues = [...this.state.nft.stats];
+      const newNFTValues = [...this.state.nft.stats];
       newNFTValues.splice(i, 1);
       nft = { ...nft, stats: newNFTValues };
       this.setState({
@@ -645,9 +645,9 @@ class CreateNFT extends React.Component<
         nft,
       });
     } else {
-      let newFormValues = [...this.state.levels];
+      const newFormValues = [...this.state.levels];
       newFormValues.splice(i, 1);
-      let newNFTValues = [...this.state.nft.levels];
+      const newNFTValues = [...this.state.nft.levels];
       newNFTValues.splice(i, 1);
       nft = { ...nft, levels: newNFTValues };
       this.setState({
@@ -694,8 +694,6 @@ class CreateNFT extends React.Component<
       collections,
       imageURL,
       videoURL,
-      error,
-      errorMessage,
       audioUrl,
       selectedCollection,
     } = this.state;
@@ -851,7 +849,9 @@ class CreateNFT extends React.Component<
                             {/* <Waveform url={audioUrl} auction={false} /> */}
                             <Audio
                               src={audioUrl}
-                              onLoadCallback={function (): {} {
+                              onLoadCallback={function (): {
+                                // this comment is added due to eslint error
+                              } {
                                 throw new Error("Function not implemented.");
                               }}
                               loader={false}
@@ -1078,9 +1078,9 @@ class CreateNFT extends React.Component<
                   <div className="nft-properties-container mx-2 mt-3">
                     <div className="row g-2">
                       {this.state.nft.properties.map(
-                        (item: { name: any; type: any }) => {
+                        (item: { name: any; type: any }, index: any) => {
                           return (
-                            <div className="col-md-6">
+                            <div key={index} className="col-md-6">
                               <PropertiesInfo
                                 name={item.name}
                                 type={item.type}
@@ -1112,9 +1112,9 @@ class CreateNFT extends React.Component<
                   </div>
                   <div className="nft-level-container mx-3 mt-3 ">
                     {this.state.nft.levels.map(
-                      (item: { name: any; value: any }) => {
+                      (item: { name: any; value: any }, index: any) => {
                         return (
-                          <LevelsInfo name={item.name} value={item.value} />
+                          <LevelsInfo key={index} name={item.name} value={item.value} />
                         );
                       }
                     )}
@@ -1140,9 +1140,9 @@ class CreateNFT extends React.Component<
                   </div>
                   <div className="nft-stat-container mx-2 mt-3">
                     {this.state.nft.stats.map(
-                      (item: { name: any; value: any }) => {
+                      (item: { name: any; value: any }, index: any) => {
                         return (
-                          <StatsInfo name={item.name} value={item.value} />
+                          <StatsInfo key={index} name={item.name} value={item.value} />
                         );
                       }
                     )}
