@@ -194,7 +194,7 @@ const AuctionsOne: FC<HomeAuction> = () => {
                       ownerName={item?.owner?.username}
                       userId={ENV.getUserKeys("_id")?._id}
                       ownerId={item.owner?._id}
-                      bidsProfile={item?.bidInfo?.bidByProfile}
+                      bidsProfile={item?.bidDetail}
                       index={index}
                     />
                   );

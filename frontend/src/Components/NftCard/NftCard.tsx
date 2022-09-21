@@ -124,7 +124,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
       <Card.Body>
         <Card.Title>
           <div>
-            {name && name.length > 15 ? name.slice(0, 10) + "..." : name}
+            {name && name.length > 25 ? name.slice(0, 25) + "..." : name}
           </div>
           <div className="nft-owner-price d-flex align-items-center">
             <span className="me-2">{likeCount ? likeCount : 0}</span>

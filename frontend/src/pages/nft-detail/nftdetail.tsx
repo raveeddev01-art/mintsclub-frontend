@@ -21,7 +21,6 @@ import {
 } from "../all-nfts/explore.action";
 import moment from "moment";
 import axios from "axios";
-
 import {
   placeABid,
   connectMetamask,
@@ -31,6 +30,7 @@ import {
   validateNetwork,
   claimNFTfromContract,
   endAuctionFromContract,
+  redeemVoucher,
 } from "../../utils/web3";
 import {
   placeBid,
@@ -101,6 +101,7 @@ const NFTDetail = (props: any) => {
   const [beforeGetBids, setBeforeGetBids] = useState<boolean>(false);
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
+
   useEffect(() => {
     window.scroll(0, 600);
   }, []);
@@ -551,30 +552,34 @@ const NFTDetail = (props: any) => {
     ) {
       if (await validateNetwork()) {
         setDisabled(true);
-        try {
-          let currentPrice = nftDetail.currentPrice;
-          let nftToken = nftDetail?.auction?.sellId;
+        if (nftDetail.lazyMinted) {
+          BuyLazyNft();
+        } else {
+          try {
+            let currentPrice = nftDetail.currentPrice;
+            let nftToken = nftDetail?.auction?.sellId;
 
-          const result = await BuyFixedPriceNFT(
-            currentPrice,
-            nftToken,
-            setConfirmed,
-            setTransactionHash
-          );
-          if (result) {
-            let ownerAddress = await getWalletAddress();
-            let payload = {
-              userId,
-              nftId,
-              ownerAddress,
-            };
-            props.beforeOffer();
-            props.buyNow(payload);
-            createActivity("Transfer", false, ownerAddress);
+            const result = await BuyFixedPriceNFT(
+              currentPrice,
+              nftToken,
+              setConfirmed,
+              setTransactionHash
+            );
+            if (result) {
+              let ownerAddress = await getWalletAddress();
+              let payload = {
+                userId,
+                nftId,
+                ownerAddress,
+              };
+              props.beforeOffer();
+              props.buyNow(payload);
+              createActivity("Transfer", false, ownerAddress);
+            }
+          } catch (err: any) {
+            setDisabled(false);
+            toast.error(err);
           }
-        } catch (err: any) {
-          setDisabled(false);
-          toast.error(err);
         }
       } else {
         toast.error(
@@ -591,6 +596,38 @@ const NFTDetail = (props: any) => {
         pathname: `/connect-wallet`,
         state: `/nftdetail/${props.match.params.id}`,
       });
+    }
+  };
+
+  const BuyLazyNft = async () => {
+    try {
+      const { metaData, copies } = nftDetail;
+      const { signature, sellId, sellingConfig, copiesForAuction } =
+        nftDetail.auction;
+      setConfirmed("pending");
+      let res = await redeemVoucher(
+        {
+          uri: metaData,
+          signature,
+          tokenId: sellId,
+          copies: copiesForAuction,
+          minPrice: Number(sellingConfig.price.amount),
+        },
+        setTransactionHash,
+        setConfirmed
+      );
+      let ownerAddress = await getWalletAddress();
+      let payload = {
+        userId,
+        nftId,
+        ownerAddress,
+      };
+      createActivity("Transfer", false, ownerAddress);
+      props.beforeOffer();
+      props.buyNow(payload);
+    } catch (err: any) {
+      setDisabled(false);
+      toast.error(err);
     }
   };
 
@@ -768,7 +805,6 @@ const NFTDetail = (props: any) => {
     currentPrice,
     ownerAddress,
   }: any = nftDetail;
-
   const {
     sellingMethod,
     auctionStartDate,
@@ -814,6 +850,7 @@ const NFTDetail = (props: any) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-4 col-xl-3 order-1 order-lg-0 d-none d-lg-block">
+              {/* <button onClick={() => BuyLazyNft()}>buyNOw</button> */}
               <div className="detail-box">
                 <h6>Properties</h6>
                 <hr />

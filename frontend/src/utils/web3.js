@@ -1,8 +1,10 @@
 import Web3 from "web3";
 import { toast } from "react-toastify";
-
 import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
+import typedDataV4 from "./typeDatav4";
+import voucherAbi from "./abis/voucher-abi.json";
+import batchMintAbi from "./abis/batchMint-abi.json";
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
@@ -100,7 +102,6 @@ export const openNFTForBidding = async (
   tokenId,
   copies
 ) => {
- 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -127,13 +128,11 @@ export const placeABid = async (amount, tokenId) => {
     let id = Number(tokenId);
     let web3 = await getWeb3();
 
-    const result = await contractM.methods
-      .bid(id)
-      .send({
-        from: connectedAddress,
-        value: bidAmount,
-        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-      });
+    const result = await contractM.methods.bid(id).send({
+      from: connectedAddress,
+      value: bidAmount,
+      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+    });
 
     if (result) {
       return result;
@@ -234,7 +233,6 @@ export const claimNFTfromContract = async (tokenId) => {
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
       gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-
     });
     if (result) {
       return result;
@@ -296,19 +294,89 @@ export const getCurrentAddress = async () => {
 
 export const handleSign = async (nounce) => {
   const web3 = new Web3(Web3.givenProvider);
-  // const publicAddress =await web3?.eth.coinbase.toLowerCase();
-  const publicAddress=await connectMetamask();
+  const publicAddress = await connectMetamask();
   return new Promise((resolve, reject) =>
     web3.eth.personal.sign(
       web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
       publicAddress?.toLowerCase(),
       (err, signature) => {
-        console.log(signature,"signature==>")
+        console.log(signature, "signature==>");
         if (err) return reject(err);
         return resolve({ publicAddress, signature });
       }
     )
   );
+};
+
+export const createVoucher = async (tokenId, amount, uri, price) => {
+  let data = { ...typedDataV4 };
+  data.message.tokenId = tokenId;
+  data.message.amount = amount;
+  data.message.uri = uri;
+  data.message.minPrice = price;
+
+  const publicAddress = await connectMetamask();
+  return new Promise((resolve, reject) => {
+    const web3 = new Web3(Web3.givenProvider);
+    try {
+      web3.currentProvider.sendAsync(
+        {
+          method: "eth_signTypedData_v4",
+          params: [publicAddress, JSON.stringify(data)],
+          from: publicAddress,
+        },
+        function (err, result) {
+          if (err) {
+            resolve({ success: false, data: err });
+          }
+          console.log(result.result, "result");
+          resolve({ success: true, data: result.result });
+        }
+      );
+    } catch (err) {
+      resolve({ success: false, data: err });
+    }
+  });
+};
+
+export const redeemVoucher = async (
+  voucher,
+  setTransactionHash,
+  setConfirmed
+) => {
+  const { tokenId, uri, minPrice, copies, signature } = voucher;
+  // console.log(voucher,"vocher")
+  let web3 = await getWeb3();
+  const publicAddress = await connectMetamask();
+  // BigInt(Web3.utils.toWei(`${minPrice}`, "ether"))
+  try {
+    const contractM = new web3.eth.Contract(
+      batchMintAbi,
+      // "0x3EB384f3BbF38be551a00b4e5549Eb1eF4C883A8" //ERC-721 WORKING
+      ENV.batchMintLazyContract
+    );
+    let result = await contractM.methods
+      .redeem(publicAddress, {
+        tokenId,
+        uri,
+        minPrice: Web3.utils.toWei(`${minPrice}`, "ether"),
+        amount: copies,
+        signature,
+      })
+      .send({
+        from: publicAddress,
+        value: Web3.utils.toWei(`${minPrice}`, "ether"),
+      })
+      .on("transactionHash", function (hash) {
+        setTransactionHash(hash);
+        setConfirmed(true);
+      });
+    return result;
+  } catch (err) {
+    console.log(err, "error");
+    setConfirmed(false);
+    throw new Error(err);
+  }
 };
 
 //////////////////////////////////////////////////////////////////////////////////ariswap functions start///////////////////////////
@@ -410,8 +478,6 @@ export const signRequest = async () => {
   }
 };
 
-
-
 const handleSignMessage = (address) => {
   return new Promise((resolve, reject) => {
     try {
@@ -431,8 +497,3 @@ const handleSignMessage = (address) => {
     }
   });
 };
-
-
-
-
-
