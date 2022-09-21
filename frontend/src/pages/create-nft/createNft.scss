@@ -15,16 +15,21 @@
     align-items: center;
     justify-content: center;
   }
-  .create-collection .create-collection-label {
+  &.create-collection .create-collection-label {
     font-style: normal;
     font-weight: 700;
     font-size: 13px;
     line-height: 15px;
-    color: var(--text-body-two);
-    margin-left: 1.5rem;
-  }
-  .create-collection-label {
     color: var(--login-label);
+    margin-left: 1.5rem;
+    & + p {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 15px;
+      color: var(--login-label);
+      margin-top: 7px;
+    }
   }
 
   .create-collection-input {
