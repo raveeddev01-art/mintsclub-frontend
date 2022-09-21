@@ -293,7 +293,7 @@ const UserProfile = (props: any) => {
   };
 
   const bannerData = {
-    subHeading: "Information",
+    subHeading: "",
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];

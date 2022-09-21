@@ -32,11 +32,13 @@ export const useGetData = (
   url: any,
   qs: any,
   onSuccess: any,
-  onError: any
+  onError?: any,
+  enabled?: any
 ) => {
   const { setError } = useContext(errorHandler);
   //   console.log(qs,"qs")
-  return useQuery([key], () => handleRequest("get", url), {
+  return useQuery([key, qs && qs], () => handleRequest("get", url, null, qs), {
+    enabled,
     onSuccess,
     onError: (error: any) => {
       setError(error);

@@ -5,6 +5,37 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100% 100%;
+  .intro {
+    margin-bottom: 30px;
+    .intro-content {
+      span {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 43px;
+        color: #2269ff;
+      }
+      h3 {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 47px;
+        color: var(--text-body);
+        margin-bottom: 15px;
+      }
+      p.created-by {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 33px;
+        color: var(--text-body-two);
+        margin-bottom: 0;
+        span {
+          color: #2269ff;
+        }
+      }
+    }
+  }
 }
 
 .banner-img {
@@ -14,6 +45,12 @@
 
 .user-profile .banner-wrapper {
   min-height: 350px;
+}
+.collection {
+  .banner-wrapper {
+    padding-bottom: 0;
+    min-height: 0;
+  }
 }
 
 @media (max-width: 991.9px) {
