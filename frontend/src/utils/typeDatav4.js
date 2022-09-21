@@ -21,8 +21,11 @@ export default {
        - This is DApp Specific
        - Be as explicit as possible when building out the message schema.
       */
-
-    //   attachedMoneyInEth: 4.2,
+     tokenId:5,
+     amount:4,
+     minPrice:0.1,
+     uri:"https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE"
+         //   attachedMoneyInEth: 4.2,
     //   from: {
     //     name: "Cow",
     //     wallets: [

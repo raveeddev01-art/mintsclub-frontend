@@ -22,7 +22,7 @@ import {
   createActivity,
   beforeNFT,
 } from "../../Components/Nfts/nfts.action";
-import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
+import { getCurrentAddress, mintNFt, validateNetwork,createVoucher,redeemVoucher } from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -733,8 +733,8 @@ class CreateNFT extends React.Component<
             />
             <div className="container">
               {/* <form> */}
-              {/* <button onClick={()=>createVoucher()}>create Voucher</button>
-              <button onClick={()=>redeemVoucher()}>redeem Voucher</button> */}
+              <button onClick={()=>createVoucher()}>create Voucher</button>
+              <button onClick={()=>redeemVoucher()}>redeem Voucher</button>
 
               {loader && <FullPageLoader />}
 
