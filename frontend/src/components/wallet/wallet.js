@@ -43,9 +43,7 @@ const Wallet = (props) => {
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window.ethereum) {
-      window.open(
-        "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
-      );
+      window.open("https://metamask.app.link/dapp/mintsclub.io/");
     } else {
       // if (await validateNetwork()) {
       if (getChainId !== ENV.chainId) {
@@ -99,7 +97,7 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
-    if (props.collection.getAuth&&ENV.getUserKeys("_id")?._id) {
+    if (props.collection.getAuth && ENV.getUserKeys("_id")?._id) {
       props.beforeCollection();
       toast.success("User logged in successfully");
       history.push("/");
@@ -143,9 +141,7 @@ const Wallet = (props) => {
         let newAcc = await switchNetworkToChainId(ENV.chainId);
         props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
-      } catch (error) {
-     
-      }
+      } catch (error) {}
     }
     try {
       setDisabled(true);
@@ -154,7 +150,7 @@ const Wallet = (props) => {
       let payload = {
         address: connectedAddress,
       };
-      props.setWalletAddress(connectedAddress)
+      props.setWalletAddress(connectedAddress);
 
       props.login(payload);
     } catch (err) {
@@ -463,7 +459,7 @@ const Wallet = (props) => {
                   </p>
                 </div>
 
-                <span className="new-member d-flex  justify-content-center mt-5">
+                <span className="new-member d-block text-center mt-5">
                   Don't have Metamask ? Click
                   <span
                     className="register-member mx-1"
