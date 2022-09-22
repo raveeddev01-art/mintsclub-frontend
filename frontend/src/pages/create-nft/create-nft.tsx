@@ -401,24 +401,26 @@ class CreateNFT extends React.Component<
 
     try {
       let paylaod = {};
-      if (this.state.isFreeMint) {
+      if (!this.state.isFreeMint) {
         let createNftResult = await mintNFt(metaData, this.state.nft.copies);
         if (createNftResult.events.TransferSingle.returnValues.id) {
           paylaod = {
             nftToken: createNftResult.events.TransferSingle.returnValues.id,
             data,
             image,
+            lazyMinted: false,
           };
         }
+      } else {
+        paylaod = {
+          nftToken: (Math.floor(Math.random() * 10000) + 10000)
+            .toString()
+            .substring(1),
+          data,
+          image,
+          lazyMinted: this.state.isFreeMint,
+        };
       }
-      paylaod = {
-        nftToken: (Math.floor(Math.random() * 10000) + 10000)
-          .toString()
-          .substring(1),
-        data,
-        image,
-        lazyMinted: true,
-      };
       this.props.beforeNFT();
       this.props.addNFTRecord(paylaod);
     } catch (err: any) {
