@@ -42,7 +42,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
   const handleImage = (item: any, index: number) => {
     if (item?.nfts[index]?.image) {
-      const result = item.nfts.filter((nft: any) => nft.fileType === "image");
+      const result = item?.nfts?.filter((nft: any) => nft.fileType === "image");
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -65,13 +65,10 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
   const onErrorPopular = (error: any) => {
     // this comment added due to eslint error.
-   
   };
 
-  const {
-    isFetching: isFetchingPopular,
-    refetch: refetchPopular,
-  } = useGetPopularCollections(onErrorPopular, onSuccessPopular, categoryId);
+  const { isFetching: isFetchingPopular, refetch: refetchPopular } =
+    useGetPopularCollections(onErrorPopular, onSuccessPopular, categoryId);
 
   const calcualtePopularCollections = (data: any) => {
     if (data.collectionsList.length > 0) {
@@ -90,8 +87,8 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
           }
           collectionListing[i].likesCount = 0;
 
-          collectionListing[i].totalNfts = element.nfts[0].image
-            ? element.nfts?.length
+          collectionListing[i].totalNfts = element.nftDetail[0].image
+            ? element.nftDetail?.length
             : 0;
           if (element.soldCopies.length > 0) {
             const soldCopiesSum = element.soldCopies.reduce(function (
@@ -140,13 +137,9 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
     }
   };
 
-  const {isLoadingCategories}: any = useGetCategories(
-    (error: any) => {
-      // This comment added due to eslint error, Empity arrow function
-    },
-    onSuccessCategories
-  );
-
+  const { isLoadingCategories }: any = useGetCategories((error: any) => {
+    // This comment added due to eslint error, Empity arrow function
+  }, onSuccessCategories);
 
   useEffect(() => {
     refetchPopular();
@@ -163,8 +156,8 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
                   <span>{initData.pre_heading}</span>
                   <h3 className=" mb-1">{initData.heading}</h3>
                   <p>
-                    Explore on the world&apos;s best & largest NFT marketplace with
-                    our beautiful NFT products.{" "}
+                    Explore on the world&apos;s best & largest NFT marketplace
+                    with our beautiful NFT products.{" "}
                     <br className="d-none d-xxl-block" /> We want to be a part
                     of your smile, success and future growth.
                   </p>
@@ -225,21 +218,21 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
               data={popular}
               homeAuction
             >
-              {popular.map((item: any, i: number) => {
+              {popular.map((collection: any, index: number) => {
                 return (
                   <CollectionsCard
-                    key={i}
-                    Subimg1={handleImage(item, 0)}
-                    Subimg2={handleImage(item, 1)}
-                    Subimg3={handleImage(item, 2)}
-                    collection={item}
-                    CardImg={item.featuredImg}
-                    name={item.name}
-                    id={item._id}
-                    userName={item.username[0]}
-                    NFTCount={item.totalNfts}
-                    profileImage={item.profileImage[0]}
-                    ownerAddress={item.ownerAddress}
+                    key={index}
+                    Subimg1={handleImage(collection, 0)}
+                    Subimg2={handleImage(collection, 1)}
+                    Subimg3={handleImage(collection, 2)}
+                    collection={collection}
+                    CardImg={collection.featuredImg}
+                    name={collection.name}
+                    id={collection._id}
+                    userName={collection.username[0]}
+                    NFTCount={collection.TotalNfts}
+                    profileImage={collection.profileImage[0]}
+                    ownerAddress={collection.ownerAddress}
                     connectedAddress={props.connectedAddress}
                   />
                 );

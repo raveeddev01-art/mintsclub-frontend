@@ -22,7 +22,13 @@ import {
   createActivity,
   beforeNFT,
 } from "../../Components/Nfts/nfts.action";
-import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
+import {
+  getCurrentAddress,
+  mintNFt,
+  validateNetwork,
+  createVoucher,
+  redeemVoucher,
+} from "../../utils/web3";
 import { emptyError } from "../../redux/shared/error/error.action";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -41,10 +47,56 @@ import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Audio from "../../Components/Audio/Audio";
+import { styled } from "@mui/material/styles";
+import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 
 const placeholderImg = "";
+
+const MintSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
+    padding: 2,
+    "&.Mui-checked": {
+      transform: "translateX(12px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "#387fff" : "#387fff",
+      },
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: theme.transitions.create(["width"], {
+      duration: 200,
+    }),
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
+  },
+}));
 
 class CreateNFT extends React.Component<
   {
@@ -94,6 +146,7 @@ class CreateNFT extends React.Component<
     levelsmodalShow: boolean;
     statsmodalShow: boolean;
     selectedCollection: any;
+    isFreeMint: any;
     playerState: any;
   }
 > {
@@ -137,6 +190,7 @@ class CreateNFT extends React.Component<
       levelsmodalShow: false,
       statsmodalShow: false,
       selectedCollection: null,
+      isFreeMint: false,
       playerState: {
         isPlaying: false,
         progress: 0,
@@ -186,7 +240,7 @@ class CreateNFT extends React.Component<
     ) {
       toast.info("Please login with new connected account");
       localStorage.clear();
-      return     this.props.history.push({
+      return this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/create`,
       });
@@ -340,7 +394,10 @@ class CreateNFT extends React.Component<
     const data: any = { ...this.state.nft };
     data.image = image;
     data.metaData = metaData.metaDataUrl;
+    // data.metaData = metaData;
+
     data.remainingCopies = data.copies;
+    data.activeAuction = null;
     if (videoURL) {
       data.fileType = "video";
     } else if (audioUrl !== "") {
@@ -348,19 +405,31 @@ class CreateNFT extends React.Component<
     } else {
       data.fileType = "image";
     }
-    // return ''
-    try {
-      const createNftResult = await mintNFt(metaData, this.state.nft.copies);
 
-      if (createNftResult.events.TransferSingle.returnValues.id) {
-        const payload = {
-          nftToken: createNftResult.events.TransferSingle.returnValues.id,
+    try {
+      let paylaod = {};
+      if (!this.state.isFreeMint) {
+        const createNftResult = await mintNFt(metaData, this.state.nft.copies);
+        if (createNftResult.events.TransferSingle.returnValues.id) {
+          paylaod = {
+            nftToken: createNftResult.events.TransferSingle.returnValues.id,
+            data,
+            image,
+            lazyMinted: false,
+          };
+        }
+      } else {
+        paylaod = {
+          nftToken: (Math.floor(Math.random() * 10000) + 10000)
+            .toString()
+            .substring(1),
           data,
           image,
+          lazyMinted: this.state.isFreeMint,
         };
-        this.props.beforeNFT();
-        this.props.addNFTRecord(payload);
       }
+      this.props.beforeNFT();
+      this.props.addNFTRecord(paylaod);
     } catch (err: any) {
       toast.error(err);
       this.setState({ loader: false });
@@ -376,6 +445,7 @@ class CreateNFT extends React.Component<
     const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
     this.mintNFT(metaData.dataInput, metaData.image);
   };
+
   uploadFileToIpfs = async (formData: any) => {
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
@@ -429,7 +499,7 @@ class CreateNFT extends React.Component<
       this.setState({ loader: false });
     }
   };
-  
+
   onFileChange = (e: any, status: any) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file: any = "";
@@ -717,6 +787,9 @@ class CreateNFT extends React.Component<
             />
             <div className="container">
               {/* <form> */}
+              {/* <button onClick={()=>createVoucher()}>create Voucher</button>
+              <button onClick={()=>redeemVoucher()}>redeem Voucher</button> */}
+
               {loader && <FullPageLoader />}
 
               <div className="row">
@@ -1114,7 +1187,11 @@ class CreateNFT extends React.Component<
                     {this.state.nft.levels.map(
                       (item: { name: any; value: any }, index: any) => {
                         return (
-                          <LevelsInfo key={index} name={item.name} value={item.value} />
+                          <LevelsInfo
+                            key={index}
+                            name={item.name}
+                            value={item.value}
+                          />
                         );
                       }
                     )}
@@ -1142,11 +1219,30 @@ class CreateNFT extends React.Component<
                     {this.state.nft.stats.map(
                       (item: { name: any; value: any }, index: any) => {
                         return (
-                          <StatsInfo key={index} name={item.name} value={item.value} />
+                          <StatsInfo
+                            key={index}
+                            name={item.name}
+                            value={item.value}
+                          />
                         );
                       }
                     )}
                   </div>
+                </div>
+                <div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+                  <div>
+                    <label className="create-collection-label ms-0">
+                      Free minting
+                    </label>
+                    <p>Buyer will pay gas fess for minting</p>
+                  </div>
+                  <MintSwitch
+                    checked={this.state.isFreeMint}
+                    onChange={() => {
+                      this.setState({ isFreeMint: !this.state.isFreeMint });
+                    }}
+                    inputProps={{ "aria-label": "mint" }}
+                  />
                 </div>
 
                 <div className="create-collection-btn-container">
@@ -1211,7 +1307,7 @@ class CreateNFT extends React.Component<
       this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/create`,
-      })
+      });
       return " ";
     }
   }

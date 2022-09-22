@@ -6,6 +6,7 @@ const Banner: FC<BannerInterface> = ({
   subHeading,
   heading,
   content,
+  createdby,
   bgImg,
   bannerImg,
   bg,
@@ -21,9 +22,14 @@ const Banner: FC<BannerInterface> = ({
             <div className="col-md-9 col-lg-7">
               <div className="intro">
                 <div className="intro-content clr-blue">
-                  {subHeading && bg && <span>{subHeading}</span>}
-                  {heading && <h3 className="mb-0">{heading}</h3>}
-                  {content && <p className="pt-4">{content}</p>}
+                  {subHeading && <span>{subHeading}</span>}
+                  {heading && <h3 className="heading">{heading}</h3>}
+                  {createdby && (
+                    <p className="created-by">
+                      Created by <span>{createdby}</span>
+                    </p>
+                  )}
+                  {content && <p className="">{content}</p>}
                 </div>
               </div>
             </div>

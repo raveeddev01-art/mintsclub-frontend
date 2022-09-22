@@ -11,7 +11,11 @@ import { toast } from "react-toastify";
 import { formatBytes } from "../../utils/functions";
 import "./createMultipleNFT.scss";
 import { Link } from "react-router-dom";
-
+import { uploadToS3Bucket } from "../../utils/s3Bucket";
+import { ChainsOptions, nftTypesOptions } from "../../utils/exportData";
+import { useGetData, useInsertData } from "../../hooks/Common";
+import { ENV } from "../../config/config";
+import { getWalletAddress } from "../../utils/web3";
 const options = [
   { value: "Ethereum", label: "Ethereum" },
   { value: "Algorand", label: "Algorand" },
@@ -25,7 +29,6 @@ const bannerContent = {
     "If you want to share your NFT with a large number of community members",
 };
 
-
 function CreateMultipleNFT() {
   const [checkBox, setCheckBox] = useState<any>(false);
   const [fileName, setFileName] = useState<string>("File Name");
@@ -36,29 +39,64 @@ function CreateMultipleNFT() {
   const [selectedCollectionType, setSelectedCollectionType] =
     useState<any>(null);
   const [selectedChain, setSelectedChain] = useState<any>(null);
+  const [collectionsOptions, setCollectionsOptions] = useState<any>([]);
   const [batchFile, setBatchFile] = useState<any>({
     file: "",
-    chainType: "",
-    collection: "",
+    chainId: "",
+    collectionId: "",
+    categoryId: "12345678",
     nftCollectionType: "",
   });
 
-  // const dragOver = (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-  // };
+  const dragOver = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+  };
 
-  // const dragEnter = (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-  // };
+  const dragEnter = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+  };
 
-  // const dragLeave = (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-  // };
-  // const onDrop = (e: { nativeEvent: { preventDefault: () => void } }) => {
-  //   e.nativeEvent.preventDefault();
-  //   if (!e) return;
-  //   onFileChange(e, "onDrag");
-  // };
+  const dragLeave = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+  };
+  const onDrop = (e: any) => {
+    e.nativeEvent.preventDefault();
+    if (!e) return;
+    onFileChange(e, "onDrag");
+  };
+
+  //////React Query////////////
+
+  const { isLoading: isFetchingCollections } = useGetData(
+    "myCollections",
+    "collection/myCollectionList",
+    ENV.objectToQueryString({
+      userId: ENV.getUserKeys("_id")._id,
+      page: 1,
+      limit: 10000000,
+    }),
+    (res: any) => {
+      if (res.data.success) {
+        const collectionsOptions = res.data.data.collections.Collections.map(
+          (item: any) => {
+            return {
+              value: item._id,
+              label: item.name,
+              categoryId: item.categoryId,
+            };
+          }
+        );
+        setCollectionsOptions(collectionsOptions);
+      }
+    }
+  );
+  const { isLoading: isUploadingFiles, mutate: uploadFiles } = useInsertData(
+    "/batchUpload",
+    (res: any) => {
+      console.log(res, "response");
+    }
+  );
+  ///////React Query End ////////
 
   const handleFilesValidation = (
     e: {
@@ -80,7 +118,7 @@ function CreateMultipleNFT() {
       if (type === "application/zip") {
         const fileSize = formatBytes(files.size).split(" ");
         if (
-          (+fileSize[0] > 100 && fileSize[1] === "MB") ||
+          (+fileSize[0] > 300 && fileSize[1] === "MB") ||
           fileSize[1] === "GB"
         ) {
           return "File size limit is exceeded";
@@ -107,7 +145,7 @@ function CreateMultipleNFT() {
         url = URL.createObjectURL(e.target.files[0]);
         fileId = e.target.id;
       }
-     
+
       if (file)
         if (file.type.includes("zip")) {
           setUploadStatus(true);
@@ -118,12 +156,30 @@ function CreateMultipleNFT() {
           toast.success("File successfully added");
         }
     } else {
-      const message: any = handleFilesValidation(e, status);
-      toast.error(message);
       setError(true);
-      setErrorMessage(message);
     }
   };
+  const submit = async () => {
+    const uploadFile = await uploadToS3Bucket(
+      batchFile.file,
+      batchFile.file.name
+    );
+    const payload = {
+      key: uploadFile.key,
+      fileName: batchFile.file.name.substring(
+        0,
+        batchFile.file.name.indexOf(".")
+      ),
+      collectionId: batchFile.collectionId,
+      fileType: batchFile.nftCollectionType,
+      chainId: batchFile.chainId,
+      status: "pending",
+      ownerAddress: await getWalletAddress(),
+      userId: ENV.getUserKeys("_id")._id,
+    };
+    uploadFiles(payload);
+  };
+
   return (
     <div className="create-multiple-nft">
       <Banner
@@ -139,10 +195,15 @@ function CreateMultipleNFT() {
           <div className="row">
             <div className="col-12 mb-4">
               <label className="w-100 mb-3">Upload</label>
-              <div className="upload-icon-container text-center ">
+              <div
+                className="upload-icon-container text-center "
+                onDrop={(e) => onDrop(e)}
+                onDragOver={(e) => dragOver(e)}
+                onDragEnter={(e) => dragEnter(e)}
+                onDragLeave={(e) => dragLeave(e)}
+              >
                 <img src={UploadIcon} alt="upload" className="mb-2" />
-                <h6 className="mb-2">Drag and drop your files</h6>
-                <p className="mb-2">PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+                <h6 className="mb-2">Drag and drop your zip files</h6>
                 <div className="">
                   <span>|</span>
                   <h6>OR</h6>
@@ -167,12 +228,17 @@ function CreateMultipleNFT() {
                     <ZipFileIcon />
                     <div className="ms-4">
                       <p>
-                        Uploading Zip File : <span>{fileName}</span>
+                        Uploaded File : <span>{fileName}</span>
                       </p>
-                      <ProgressBar now={60} />
+                      {/* <ProgressBar now={60} /> */}
                     </div>
                   </div>
-                  <button onClick={() => setUploadStatus(false)}>
+                  <button
+                    onClick={() => {
+                      setUploadStatus(false);
+                      setBatchFile({ ...batchFile, file: "" });
+                    }}
+                  >
                     <BinIcon />
                   </button>
                 </div>
@@ -189,12 +255,12 @@ function CreateMultipleNFT() {
                 placeholder="Select Chain"
                 isSearchable={false}
                 value={selectedChain}
-                name="chainType"
+                name="chainId"
                 onChange={(value: any) => {
                   setSelectedChain(value);
-                  setBatchFile({ ...batchFile, chainType: value.value });
+                  setBatchFile({ ...batchFile, chainId: value.value });
                 }}
-                options={options}
+                options={ChainsOptions}
               />
             </div>
             <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
@@ -208,15 +274,15 @@ function CreateMultipleNFT() {
                 placeholder="Select Collection"
                 isSearchable={false}
                 value={selectedCollection}
-                name="collection"
+                name="collectionId"
                 onChange={(value: any) => {
                   setSelectedCollection(value);
                   setBatchFile({
                     ...batchFile,
-                    collection: value.value,
+                    collectionId: value.value,
                   });
                 }}
-                options={options}
+                options={collectionsOptions}
               />
             </div>
             <div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
@@ -238,7 +304,7 @@ function CreateMultipleNFT() {
                     nftCollectionType: value.value,
                   });
                 }}
-                options={options}
+                options={nftTypesOptions}
               />
             </div>
             <div className="col-12">
@@ -297,6 +363,7 @@ function CreateMultipleNFT() {
               <button
                 className="btn upload btn-linear-gradient mt-5"
                 disabled={!checkBox}
+                onClick={() => submit()}
               >
                 Upload
               </button>

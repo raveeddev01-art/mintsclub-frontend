@@ -1,22 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
+import { useEffect, useState } from "react";
+import { MdShoppingCart } from "react-icons/md";
 
-  MdShoppingCart,
-} from "react-icons/md";
+import { BiTransferAlt } from "react-icons/bi";
 
+import { BsTagFill } from "react-icons/bs";
 
-import {
-  BiTransferAlt,
-} from "react-icons/bi";
-
-
-import {
-  BsTagFill,
-} from "react-icons/bs";
-
-import {
-  FaHandPaper,
-} from "react-icons/fa";
+import { FaHandPaper } from "react-icons/fa";
 
 import ReactTimeAgo from "react-time-ago";
 
@@ -120,7 +109,11 @@ const Table: React.FC<TableInterface> = ({
           <thead>
             <tr>
               {titles.map((item: any, index: any) => {
-                return <th scope="col" key={index}>{item}</th>;
+                return (
+                  <th scope="col" key={index}>
+                    {item}
+                  </th>
+                );
               })}
             </tr>
           </thead>

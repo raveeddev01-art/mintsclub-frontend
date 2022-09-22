@@ -10,6 +10,7 @@ import { beforeAuction, getLiveAuctions } from '../../pages/auctions/auctions.ac
 import { connect } from 'react-redux';
 import { WordsFamousNfts } from '../../utils/exportData';
 import { HeroInt } from '../../interfaces/components';
+
 const Hero: FC<HeroInt> = (props) => {
   const [connectedAddress, setConnectedAddress] = useState<any>('');
   const [data, setData] = useState<any>(null);

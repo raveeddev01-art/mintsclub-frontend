@@ -9,6 +9,7 @@ import Listing from "../../Components/Listing/Listing";
 import { toast } from "react-toastify";
 import Banner from "../../Components/Banner/Banner";
 import BannerDark from "../../assets/images/bannerbg.png";
+import { ReactComponent as PolygonIcon } from "../../assets/images/poligon.svg";
 import BannerLight from "../../assets/images/bannerbg2.png";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
@@ -160,20 +161,46 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const { name, logo, description, username }: any = location.state;
 
   const bannerData = {
-    subHeading: "Nfts",
-    heading: "Collections Info",
+    subHeading: "Explore",
+    heading: name,
   };
 
   return (
     <>
-      <section className="user-profile pt-0">
+      <section className="user-profile pt-0 collection">
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
+          // content={description && description}
           bgImg={darkMode ? BannerDark : BannerLight}
-          bg={true}
+          createdby={username?.[0] && username?.[0]}
+          bg={false}
         />
-        <div className="collection-detail-content">
+        <div className="container">
+          <div className="collection-detail-cards">
+            <div className="info-card">
+              <h3>0</h3>
+              <p>Floor Price</p>
+            </div>
+            <div className="info-card">
+              <h3>11</h3>
+              <p>Items</p>
+            </div>
+            <div className="info-card">
+              <h3>0</h3>
+              <p>Total Volume</p>
+            </div>
+            <div className="info-card">
+              <h3>0</h3>
+              <p>Avg Sale Price</p>
+            </div>
+            <div className="info-card">
+              <PolygonIcon />
+              <p>Polygon Matic</p>
+            </div>
+          </div>
+        </div>
+        <div className="collection-detail-content d-none">
           <div className="container">
             <div className="row">
               <div className="col-12">

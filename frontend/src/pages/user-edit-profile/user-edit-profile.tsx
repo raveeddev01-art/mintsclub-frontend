@@ -116,10 +116,9 @@ const EditProfile = (props: any) => {
           setImage(result);
 
           const sizeAfterCompress = formatBytes(result.size);
-         
         },
         error(err) {
-         // This comment added due to eslint error, Empity arrow function
+          console.log(err.message);
         },
       });
     }
@@ -139,15 +138,15 @@ const EditProfile = (props: any) => {
   const submit = async (e: any) => {
     e.preventDefault();
     setErrors("");
-    
     setLoader(true);
     // let signature = await signRequest();
     setLoader(true);
-   
+
     const formData = new FormData();
     formData.append("userId", ENV.getUserKeys("_id")._id);
-    if (image) {
+    if (image?.name) {
       const result: any = await uploadFileToIpfs(image);
+
       const url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append("profileImage", url);
     }

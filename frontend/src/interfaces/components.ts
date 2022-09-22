@@ -13,6 +13,7 @@ export interface BannerInterface {
   subHeading?: string;
   heading?: string;
   content?: string;
+  createdby?: string;
   bgImg?: string;
   bannerImg?: string;
   bg?: boolean;
@@ -233,8 +234,7 @@ export interface ConnectWallModal {
   setShowModal: (e: any) => any;
 }
 
-export interface PrivateRoutesInterface{
-  component : any;
-  access: any;
-  path: any;
+export interface SideNftListInterface {
+  showSideList: boolean;
+  setShowSideList: (e: any) => any;
 }

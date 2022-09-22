@@ -1,3 +1,40 @@
+.collection {
+  .collection-detail-cards {
+    display: flex;
+    align-items: center;
+    .info-card {
+      background: #ffffff;
+      box-shadow: 0px 4px 42px rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+      width: 230px;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: -30px;
+      h3 {
+        margin-right: 8px;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 38px;
+        color: var(--footer-text);
+        margin-bottom: 0;
+      }
+      p {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: var(--footer-text);
+      }
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
 .collection-detail-hero {
   height: 300px;
   width: 100%;

@@ -5,7 +5,6 @@ import TopSeller from "../top-seller/topseller";
 import Buysell from "../../Components/BuySell/BuySell";
 import PopularCollections from "../collections/popular-collections";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-
 function Home() {
   useEffect(() => {
     window.scroll(0, 0);

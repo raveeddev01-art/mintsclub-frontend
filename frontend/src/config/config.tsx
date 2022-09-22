@@ -1,26 +1,29 @@
-import React from 'react';
+import React from "react";
 require("dotenv").config();
 const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
 // import moment from "moment";
- 
 
 export const ENV = {
   // blockchain variables
   mintsClubContractAddress: process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS,
   web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
   ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
-  pinataJWT:process.env.REACT_APP_PINATA_JWT,
+  pinataJWT: process.env.REACT_APP_PINATA_JWT,
+  batchMintLazyContract: process.env.REACT_APP_BATCHMINT_LAZY_CONTRACT,
   // process variables
   url: process.env.REACT_APP_BASE_URL,
   adminUrl: process.env.REACT_APP_ADMIN_BASE_URL,
   // url:"https://v2-mintsclubapi.invo.zone/v1/front/",
-  chainId:4,
+  chainId: 4,
   assetUrl: process.env.REACT_APP_BASE_URL,
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,
   requiredChainName: process.env.REACT_APP_REQUIRED_CHAIN_NAME,
+  awsAccessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  awsAccessSecretKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  awsS3Bucket: process.env.REACT_APP_AWS_S3_BUCKET,
   //Social media
   twitterLink: process.env.REACT_APP_TWITTER_LINK,
   discordLink: process.env.REACT_APP_DISCORD_LINK,
@@ -29,7 +32,7 @@ export const ENV = {
   // tawkto
   tawkToPropertyId: process.env.REACT_APP_TAWK_TO_PROPERTY_ID,
   tawkToKey: process.env.REACT_APP_TAWK_TO_KEY,
-  gaTrackerId:process.env.REACT_APP_GATRACKER_ID,
+  gaTrackerId: process.env.REACT_APP_GATRACKER_ID,
   currencies: [
     {
       name: "Ethereum",
@@ -38,19 +41,16 @@ export const ENV = {
     },
   ],
   serviceFee: 2.5,
-
   // Headers
   Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION}`,
   x_auth_token: process.env.REACT_APP_X_AUTH_TOKEN,
-
   // default images placeholders
   globalPlaceholderImage: "/img/placeholder.png",
   collectionFeaturedImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
   userDefaultImg: "https://via.placeholder.com/600x600/8e8e8e/ccc.png",
   categoryDefaultImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
-
   //set user in local storage
-  encryptUserData: function (data:any) {
+  encryptUserData: function (data: any) {
     const userData = localStorage.getItem("encuse");
     if (userData && !data.accessToken) {
       const bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
@@ -68,19 +68,19 @@ export const ENV = {
     localStorage.setItem("encuse", encryptedUser);
     return true;
   },
-  
+
   //return required keys
-  getUserKeys: function (keys:any) {
+  getUserKeys: function (keys: any) {
     type User = {
       [key: string]: any;
     };
-    
+
     const userData = localStorage.getItem("encuse");
     if (userData) {
       const bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
       let originalData = bytes.toString(CryptoJS.enc.Utf8);
       originalData = JSON.parse(originalData);
-      let user:User = {};
+      let user: User = {};
       if (keys) {
         keys = keys.split(" ");
         for (const key in keys) {
@@ -96,7 +96,7 @@ export const ENV = {
   },
 
   //Object to query string
-  objectToQueryString: function (body:any) {
+  objectToQueryString: function (body: any) {
     const qs = Object.keys(body)
       .map((key) => `${key}=${body[key]}`)
       .join("&");
@@ -104,7 +104,7 @@ export const ENV = {
   },
 
   //validate image types
-  isValidImageType: function (file:any) {
+  isValidImageType: function (file: any) {
     if (file && file.type) {
       const acceptableTypes = [
         "image/png",
@@ -255,7 +255,7 @@ export const ENV = {
     },
   },
 
-  countDownRenderer: ({ days, hours, minutes, seconds }:any) => {
+  countDownRenderer: ({ days, hours, minutes, seconds }: any) => {
     return (
       <div
         className="countdown-container d-flex justify-content-center mx-auto mb-2"

@@ -243,7 +243,6 @@ class CreateCollections extends React.Component<
                   formData.append(val, collection[val]);
                 }
               }
-
               this.props.upsertCollection("collection/create", formData);
             }
           );

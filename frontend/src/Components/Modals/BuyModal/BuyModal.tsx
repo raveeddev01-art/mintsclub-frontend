@@ -31,7 +31,6 @@ const BuyModal: FC<Buy> = (props) => {
     balance,
     fileType,
   } = props;
-
   return confirmed === "" || confirmed === false || confirmed === "pending" ? (
     <Modal
       {...props}

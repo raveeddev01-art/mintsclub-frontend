@@ -1,8 +1,10 @@
 import Web3 from "web3";
 import { toast } from "react-toastify";
-
 import { ENV } from "./../config/config";
 import abi from "./abis/v2-abi.json";
+import typedDataV4 from "./typeDatav4";
+import voucherAbi from "./abis/voucher-abi.json";
+import batchMintAbi from "./abis/batchMint-abi.json";
 const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 // let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
@@ -100,7 +102,6 @@ export const openNFTForBidding = async (
   tokenId,
   copies
 ) => {
- 
   try {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
@@ -127,13 +128,11 @@ export const placeABid = async (amount, tokenId) => {
     let id = Number(tokenId);
     let web3 = await getWeb3();
 
-    const result = await contractM.methods
-      .bid(id)
-      .send({
-        from: connectedAddress,
-        value: bidAmount,
-        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-      });
+    const result = await contractM.methods.bid(id).send({
+      from: connectedAddress,
+      value: bidAmount,
+      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+    });
 
     if (result) {
       return result;
@@ -193,9 +192,8 @@ export const BuyFixedPriceNFT = async (
         setTransactionHash(hash);
         setConfirmed(true);
       })
-      .on("confirmation", function (
-        // confirmationNumber, receipt
-        ) {
+      .on("confirmation", function () // confirmationNumber, receipt
+      {
         // this is empity functin
       });
     if (result) {
@@ -217,7 +215,8 @@ export const setApprovalForAll = async (setApprovalStatus) => {
       .send({
         from: connectedAddress,
       })
-      .on("transactionHash", function () { //hash keyword is removed from the callback function
+      .on("transactionHash", function () {
+        //hash keyword is removed from the callback function
         // setTransactionHash(hash);
         setApprovalStatus("in-progress");
       });
@@ -238,7 +237,6 @@ export const claimNFTfromContract = async (tokenId) => {
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
       gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-
     });
     if (result) {
       return result;
@@ -300,8 +298,7 @@ export const getCurrentAddress = async () => {
 
 export const handleSign = async (nounce) => {
   const web3 = new Web3(Web3.givenProvider);
-  // const publicAddress =await web3?.eth.coinbase.toLowerCase();
-  const publicAddress=await connectMetamask();
+  const publicAddress = await connectMetamask();
   return new Promise((resolve, reject) =>
     web3.eth.personal.sign(
       web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
@@ -312,6 +309,76 @@ export const handleSign = async (nounce) => {
       }
     )
   );
+};
+
+export const createVoucher = async (tokenId, amount, uri, price) => {
+  let data = { ...typedDataV4 };
+  // data.message.tokenId = tokenId;
+  // data.message.amount = amount;
+  // data.message.uri = uri;
+  // data.message.minPrice = price;
+
+  const publicAddress = await connectMetamask();
+  return new Promise((resolve, reject) => {
+    const web3 = new Web3(Web3.givenProvider);
+    try {
+      web3.currentProvider.sendAsync(
+        {
+          method: "eth_signTypedData_v4",
+          params: [publicAddress, JSON.stringify(data)],
+          from: publicAddress,
+        },
+        function (err, result) {
+          if (err) {
+            resolve({ success: false, data: err });
+          }
+          resolve({ success: true, data: result.result });
+        }
+      );
+    } catch (err) {
+      resolve({ success: false, data: err });
+    }
+  });
+};
+
+export const redeemVoucher = async (
+  voucher,
+  setTransactionHash,
+  setConfirmed
+) => {
+  // const { tokenId, uri, minPrice, copies, signature } = voucher;
+  // console.log(voucher,"vocher")
+  let web3 = await getWeb3();
+  const publicAddress = await connectMetamask();
+  // BigInt(Web3.utils.toWei(`${minPrice}`, "ether"))
+  try {
+    const contractM = new web3.eth.Contract(
+      batchMintAbi,
+      // "0x3EB384f3BbF38be551a00b4e5549Eb1eF4C883A8" //ERC-721 WORKING
+      ENV.batchMintLazyContract
+    );
+    let result = await contractM.methods
+      .redeem(publicAddress, {
+        tokenId: 5,
+        uri: "https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE",
+        minPrice: Web3.utils.toWei(`${0.1}`, "ether"),
+        amount: 4,
+        signature:
+          "0xf0d56691ae6ff525e974176c3b63ff0cbe79cc2eec6b46dc858a7e18feaac30b4b917eacdad3f7cb8c4f7a3aec24695818aaa53f7a8df101027085c2a6c98e861c",
+      })
+      .send({
+        from: publicAddress,
+        value: Web3.utils.toWei(`${0.1}`, "ether"),
+      })
+      .on("transactionHash", function (hash) {
+        // setTransactionHash(hash);
+        // setConfirmed(true);
+      });
+    return result;
+  } catch (err) {
+    // setConfirmed(false);
+    throw new Error(err);
+  }
 };
 
 //////////////////////////////////////////////////////////////////////////////////ariswap functions start///////////////////////////
@@ -328,7 +395,7 @@ export const connectMetamaskCopy = async (address) => {
       return false;
     }
     // if (chainId !== requiredChainId) {
-    
+
     // }
 
     if (accounts[0]) {
@@ -386,7 +453,8 @@ export const connectWithMetamask = async () => {
   }
 };
 
-export const switchNetworkToChainId = async () => { //id is removed from the function.
+export const switchNetworkToChainId = async () => {
+  //id is removed from the function.
   if (window.ethereum) {
     try {
       let web3 = await getWeb3();
@@ -415,8 +483,6 @@ export const signRequest = async () => {
   }
 };
 
-
-
 const handleSignMessage = (address) => {
   return new Promise((resolve, reject) => {
     try {
@@ -436,8 +502,3 @@ const handleSignMessage = (address) => {
     }
   });
 };
-
-
-
-
-

@@ -168,7 +168,6 @@ export const upsertCollection =
   (dispatch) => {
     dispatch(emptyError());
     const url = `${ENV.url}${apiURL}`;
-
     fetch(url, {
       method,
       headers: {

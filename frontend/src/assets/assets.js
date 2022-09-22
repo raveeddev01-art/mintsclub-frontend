@@ -49,6 +49,9 @@ import binance from "./images/about-binance.svg";
 import cardano from "./images/about-cardano.svg";
 import solana from "./images/about-solana.svg";
 import algoran from "./images/about-algoran.svg";
+import algoIconCircle from "./images/polygon-cir.svg";
+import algoIcon from "./images/poligon.svg";
+
 
 //famous NFTs
 import nft1 from "./images/famous1.jpeg";
@@ -91,6 +94,8 @@ export const Images = {
   ClockIcon,
   sellerTickIcon,
   smile,
+  algoIconCircle,
+  algoIcon
 };
 
 export const aboutusImages = {
