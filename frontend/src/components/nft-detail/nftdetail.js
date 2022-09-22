@@ -743,9 +743,8 @@ const NFTDetail = (props) => {
         nft: nftDetail,
       },
       {
-        headers:headers,
-      },
-     
+        headers: headers,
+      }
     );
     if (res.data.success) {
       if (userId == ownerId) {
@@ -1355,7 +1354,7 @@ const NFTDetail = (props) => {
               <div className="detail-more-collection">
                 <h6>More from this collection</h6>
               </div>
-              <div className="row align-items-center g-3">
+              <div className="row align-items-center g-3 justify-content-md-start justify-content-center">
                 {nfts && nfts.length > 0 ? (
                   nfts.map((nft, id) => {
                     if (id <= 3) {

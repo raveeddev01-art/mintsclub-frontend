@@ -17,6 +17,7 @@
   border-radius: 50%;
   width: max-content;
   height: max-content;
+  border: 1px solid #2269ff;
 }
 
 .collection-detail-content .collection-owner-avatar img {
@@ -25,7 +26,6 @@
   border-radius: 50%;
   object-fit: cover;
   border: 10px solid #fff;
-  outline: 1px solid #2269ff;
 }
 
 .collection-detail-content .collection-owner-detail {
