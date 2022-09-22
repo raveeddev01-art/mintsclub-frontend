@@ -41,10 +41,56 @@ import UploadIcon from "../../assets/images/upload-icon.png";
 import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import Audio from "../../Components/Audio/Audio";
+import { styled } from "@mui/material/styles";
+import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 
 const placeholderImg = "";
+
+const MintSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
+    padding: 2,
+    "&.Mui-checked": {
+      transform: "translateX(12px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "#387fff" : "#387fff",
+      },
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: theme.transitions.create(["width"], {
+      duration: 200,
+    }),
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
+  },
+}));
 
 class CreateNFT extends React.Component<
   {
@@ -94,6 +140,7 @@ class CreateNFT extends React.Component<
     levelsmodalShow: boolean;
     statsmodalShow: boolean;
     selectedCollection: any;
+    isFreeMint: any;
     playerState: any;
   }
 > {
@@ -137,6 +184,7 @@ class CreateNFT extends React.Component<
       levelsmodalShow: false,
       statsmodalShow: false,
       selectedCollection: null,
+      isFreeMint: false,
       playerState: {
         isPlaying: false,
         progress: 0,
@@ -353,16 +401,16 @@ class CreateNFT extends React.Component<
 
     try {
       let paylaod = {};
-      // if (false) {
-      let createNftResult = await mintNFt(metaData, this.state.nft.copies);
-      if (createNftResult.events.TransferSingle.returnValues.id) {
-        paylaod = {
-          nftToken: createNftResult.events.TransferSingle.returnValues.id,
-          data,
-          image,
-        };
+      if (this.state.isFreeMint) {
+        let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+        if (createNftResult.events.TransferSingle.returnValues.id) {
+          paylaod = {
+            nftToken: createNftResult.events.TransferSingle.returnValues.id,
+            data,
+            image,
+          };
+        }
       }
-      // }
       paylaod = {
         nftToken: (Math.floor(Math.random() * 10000) + 10000)
           .toString()
@@ -1163,6 +1211,21 @@ class CreateNFT extends React.Component<
                       }
                     )}
                   </div>
+                </div>
+                <div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+                  <div>
+                    <label className="create-collection-label ms-0">
+                      Free minting
+                    </label>
+                    <p>Buyer will pay gas fess for minting</p>
+                  </div>
+                  <MintSwitch
+                    checked={this.state.isFreeMint}
+                    onChange={() => {
+                      this.setState({ isFreeMint: !this.state.isFreeMint });
+                    }}
+                    inputProps={{ "aria-label": "mint" }}
+                  />
                 </div>
 
                 <div className="create-collection-btn-container">

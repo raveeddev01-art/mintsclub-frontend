@@ -148,8 +148,7 @@ function CreateMultipleNFT() {
               <label className="w-100 mb-3">Upload</label>
               <div className="upload-icon-container text-center ">
                 <img src={UploadIcon} alt="upload" className="mb-2" />
-                <h6 className="mb-2">Drag and drop your files</h6>
-                <p className="mb-2">PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+                <h6 className="mb-2">Drag and drop your zip files</h6>
                 <div className="">
                   <span>|</span>
                   <h6>OR</h6>
