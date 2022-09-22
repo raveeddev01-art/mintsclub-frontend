@@ -436,7 +436,6 @@ class CreateNFT extends React.Component<
     const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
-    console.log(metaData, "metaData==>");
     this.mintNFT(metaData.dataInput, metaData.image);
   };
   
@@ -783,8 +782,8 @@ class CreateNFT extends React.Component<
             />
             <div className="container">
               {/* <form> */}
-              <button onClick={()=>createVoucher()}>create Voucher</button>
-              <button onClick={()=>redeemVoucher()}>redeem Voucher</button>
+              {/* <button onClick={()=>createVoucher()}>create Voucher</button>
+              <button onClick={()=>redeemVoucher()}>redeem Voucher</button> */}
 
               {loader && <FullPageLoader />}
 
