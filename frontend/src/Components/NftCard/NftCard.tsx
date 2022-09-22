@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import useVideoPlayer from "../TestVideoCard/Components/UseVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import placeholderImg from "../../assets/images/placeholder.png";
+import { ReactComponent as PolygonIcon } from "../../assets/images/polygon-cir.svg";
 import { connect } from "react-redux";
 import "./NftCard.scss";
 import { Images } from "../../assets/assets";
@@ -29,8 +30,8 @@ const NFTCard: FC<NFTCardInt> = (props) => {
     remainingCopies,
     ownerAddress,
   } = props.data;
- 
-  const { username, profileImage, profilePhoto }: any = props?.owner||{}
+
+  const { username, profileImage, profilePhoto }: any = props?.owner || {};
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
@@ -48,6 +49,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
   return (
     <Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
       <div className="nft-img-wrapper">
+        <div className="nft-chain">
+          <PolygonIcon className="icon" />
+          <span className="name">Polugon Matic</span>
+        </div>
         {fileType === "image" ? (
           <>
             <div style={{ display: `${loader ? "block" : "none"}` }}>
@@ -119,7 +124,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
       <Card.Body>
         <Card.Title>
           <div>
-            {name && name.length > 15 ? name.slice(0, 10) + "..." : name}
+            {name && name.length > 25 ? name.slice(0, 25) + "..." : name}
           </div>
           <div className="nft-owner-price d-flex align-items-center">
             <span className="me-2">{likeCount ? likeCount : 0}</span>
@@ -142,7 +147,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
             )}
           </div>
         </Card.Title>
-        <div className="nft-status ">
+        <div className="nft-status d-none">
           <div className="status-info status-sold">
             <span className="status">
               Sold:{" "}
@@ -155,48 +160,46 @@ const NFTCard: FC<NFTCardInt> = (props) => {
             </span>
           </div>
         </div>
-
-        <div className="mt-3">
-          <span className="nft-price mt-2">
-            <img className="me-2" src={Images.nftPriceTag} />
-            Price:<a className="price ms-1">{currentPrice} ETH</a>
-          </span>
-        </div>
-        <div className="nft-card-owner-container d-flex align-items-center mb-2 mt-3">
-          <div className="nft-owner-avatar">
-            <img
-              src={
-                !profilePhoto && !profileImage
-                  ? placeholderImg
-                  : profilePhoto
-                  ? profilePhoto
-                  : profileImage
-              }
-              alt="avatar"
-            />
+        <div className="d-flex align-items-center justify-content-between nft-bottom">
+          <div className="nft-card-owner-container d-flex align-items-center">
+            <div className="nft-owner-avatar">
+              <img
+                src={
+                  !profilePhoto && !profileImage
+                    ? placeholderImg
+                    : profilePhoto
+                    ? profilePhoto
+                    : profileImage
+                }
+                alt="avatar"
+              />
+            </div>
+            <div className="ms-2 nft-owner-name">
+              <p className="d-flex flex-column">
+                <span className="text-capitalize ms-1">
+                  {ownerAddress?.toUpperCase() ===
+                  props.connectedAddress?.toUpperCase()
+                    ? "You"
+                    : username && username?.length > 19
+                    ? username.substring(0, 19) + "..."
+                    : username && username?.length <= 19
+                    ? username
+                    : "unnamed"}
+                </span>
+                <span className="nft-price mt-1">
+                  <img className="me-2" src={Images.nftPriceTag} />
+                  <a className="price ms-1">{currentPrice} ETH</a>
+                </span>
+              </p>
+            </div>
           </div>
-          <div className="ms-2 nft-owner-name">
-            <p>
-              {"Owned by:"}
-              <span className="text-capitalize ms-1">
-                {ownerAddress?.toUpperCase() ===
-                props.connectedAddress?.toUpperCase()
-                  ? "You"
-                  : username && username?.length > 19
-                  ? username.substring(0, 19) + "..."
-                  : username&&username?.length <= 19
-                  ? username
-                  : "unnamed"}
-              </span>
-            </p>
-          </div>
+          <button
+            className="nft-bit-btn"
+            onClick={() => history.push(`${props.path}${_id}`)}
+          >
+            {"View Detail"}
+          </button>
         </div>
-        <button
-          className="nft-bit-btn"
-          onClick={() => history.push(`${props.path}${_id}`)}
-        >
-          {"View Detail"}
-        </button>
       </Card.Body>
     </Card>
   );

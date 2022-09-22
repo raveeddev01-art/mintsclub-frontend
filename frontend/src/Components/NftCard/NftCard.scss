@@ -6,6 +6,33 @@
   .nft-img-wrapper {
     position: relative;
     height: 310px;
+    .nft-chain {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      height: 28px;
+      background-color: #ffffff;
+      padding: 4px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      .icon {
+        height: 20px;
+        width: 20px;
+        &:hover + .name {
+          display: block;
+        }
+      }
+      .name {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        color: #000000;
+        margin: 5px;
+        display: none;
+      }
+    }
     .card-img-top {
       width: 100%;
       height: 310px;
@@ -16,31 +43,38 @@
   .card-body {
     padding: 0;
     .card-title {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--nft-inner-detail-clr);
       margin-top: 15px;
       margin-bottom: 8px;
-      background: var(--filter-btn);
-      box-shadow: 7px 11px 22px 2px rgb(0 0 0 / 5%);
+      // background: var(--filter-btn);
+      // box-shadow: 7px 11px 22px 2px rgb(0 0 0 / 5%);
       border-radius: 44px;
-      padding: 7px 7px 7px 10px;
+      padding: 7px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       .nft-owner-price {
-        background: #387fff;
-        box-shadow: 7px 11px 22px 2px rgb(0 0 0 / 5%);
+        // background: #387fff;
+        // box-shadow: 7px 11px 22px 2px rgb(0 0 0 / 5%);
         border-radius: 77px;
+        border: 1px solid #387fff;
         color: #ffffff;
         padding: 10px;
         font-size: 11px;
         font-weight: 700;
+        span {
+          color: var(--footer-text);
+        }
         img {
           width: 15px;
           height: 13px;
         }
       }
+    }
+    .nft-bottom {
+      padding: 0 10px 10px;
     }
     .nft-card-owner-container {
       .nft-owner-avatar {
@@ -66,15 +100,16 @@
       }
     }
     .nft-bit-btn {
-      background: var(--nft-detail-btn);
+      background: var(--btn-bg);
       border: none;
       border-radius: 55px;
-      width: 100%;
-      padding: 10px 0;
+      // width: 100%;
+      padding: 10px 10px;
       color: #fff;
-      font-size: 15px;
+      font-size: 13px;
+      line-height: 18px;
       font-weight: bold;
-      margin-top: 7px;
+      // margin-top: 7px;
     }
     .nft-status {
       display: flex;
@@ -101,11 +136,14 @@
       font-size: 12px;
       line-height: 14px;
       color: var(--nft-inner-detail-clr);
+      img {
+        max-width: 13px;
+      }
     }
     .nft-price .price {
       font-style: normal;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 11px;
       line-height: 18px;
       text-decoration-line: underline !important;
       color: #dc1b1b !important;

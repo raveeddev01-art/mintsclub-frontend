@@ -39,17 +39,14 @@ export const ENV = {
     },
   ],
   serviceFee: 2.5,
-
   // Headers
   Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION}`,
   x_auth_token: process.env.REACT_APP_X_AUTH_TOKEN,
-
   // default images placeholders
   globalPlaceholderImage: "/img/placeholder.png",
   collectionFeaturedImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
   userDefaultImg: "https://via.placeholder.com/600x600/8e8e8e/ccc.png",
   categoryDefaultImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
-
   //set user in local storage
   encryptUserData: function (data: any) {
     let userData = localStorage.getItem("encuse");
