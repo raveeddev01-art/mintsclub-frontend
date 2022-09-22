@@ -13,6 +13,7 @@ export interface BannerInterface {
   subHeading?: string;
   heading?: string;
   content?: string;
+  createdby?: string;
   bgImg?: string;
   bannerImg?: string;
   bg?: boolean;
@@ -231,4 +232,9 @@ export interface UploadInterface {
 export interface ConnectWallModal {
   showModal: boolean;
   setShowModal: (e: any) => any;
+}
+
+export interface SideNftListInterface {
+  showSideList: boolean;
+  setShowSideList: (e: any) => any;
 }

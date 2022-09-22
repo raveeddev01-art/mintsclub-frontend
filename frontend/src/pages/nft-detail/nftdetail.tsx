@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import "./nftdetail.scss";
 import {
@@ -57,12 +57,14 @@ import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 import { Images } from "../../assets/assets";
 import NftCard from "../../Components/NftCard/NftCard";
 import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
 import Audio from "../../Components/Audio/Audio";
 import { getBannerData, nftBanner } from "../../utils/exportData";
 import Table from "../../Components/Table/Table";
+import { useGetData } from "../../hooks/Common";
 
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -92,6 +94,11 @@ const NFTDetail = (props: any) => {
   const [initial, setInitial] = useState<boolean>(false);
   const [contentLoader, setContentLoader] = useState<boolean>(true);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
+  const { setError } = useContext(errorHandler);
+  const [beforeGetActivities, setBeforeGetActivities] =
+    useState<boolean>(false);
+  const [beforeGetOffers, setBeforeGetOffers] = useState<boolean>(false);
+  const [beforeGetBids, setBeforeGetBids] = useState<boolean>(false);
   let nftId = props.match.params.id;
   let userId = ENV.getUserKeys("_id")._id;
 
@@ -99,10 +106,92 @@ const NFTDetail = (props: any) => {
     window.scroll(0, 600);
   }, []);
 
+  // Get NFT
+  const onSuccessGetNFT = (data: any) => {
+    if (data.data.success) {
+      const nftDetailsData = data.data.data;
+      setNftDetail(nftDetailsData);
+      setLoader(false);
+      // Get Activities
+      setBeforeGetActivities(true);
+      // Get Offers and Bids
+      if (nftDetailsData?.auction?.sellingMethod) {
+        if (nftDetailsData?.auction?.sellingMethod === 1) {
+          setBeforeGetOffers(true);
+        } else {
+          setBeforeGetBids(true);
+        }
+      }
+    } else {
+      setError(data.data.message);
+    }
+  };
+
+  const { isLoading: isLoadingNFT } = useGetData(
+    "GetNFT",
+    `nfts/get/${nftId}`,
+    null,
+    onSuccessGetNFT
+  );
+
+  //get activities
+  const onSuccessGetActivities = (data: any) => {
+    if (data.data.success) {
+      setActivities(data.data.data);
+    } else {
+      setError(data.data.message);
+    }
+  };
+
+  const { isLoading: isLoadingActivity } = useGetData(
+    "GetActivities",
+    "activity/get",
+    ENV.objectToQueryString({ nftId: nftDetail._id }),
+    onSuccessGetActivities,
+    null,
+    beforeGetActivities
+  );
+
+  //get offers
+  const onSuccessGetOffers = (data: any) => {
+    if (data.data.success) {
+      setOffers(data.offers);
+    } else {
+      setError(data.data.message);
+    }
+  };
+
+  const { isLoading: isLoadingOffers } = useGetData(
+    "GetOffers",
+    "offer/list",
+    ENV.objectToQueryString({ nftId: nftDetail._id }),
+    onSuccessGetOffers,
+    null,
+    beforeGetOffers
+  );
+
+  //get Bids
+  const onSuccessGetBids = (data: any) => {
+    if (data.data.success) {
+      setBids(data.data.data.Bids);
+    } else {
+      setError(data.data.message);
+    }
+  };
+
+  const { isLoading: isLoadingBids } = useGetData(
+    "GetBids",
+    "bid/list",
+    ENV.objectToQueryString({ nftId: nftDetail._id }),
+    onSuccessGetBids,
+    null,
+    beforeGetBids
+  );
+
   useEffect(() => {
     const getBannerData = async () => {
-      props.beforeNFT();
-      props.getNFT(nftId);
+      // props.beforeNFT();
+      // props.getNFT(nftId);
       props.beforeNFTByCollection();
       let qs: any = { userId };
       qs = ENV.objectToQueryString(qs);
@@ -155,46 +244,46 @@ const NFTDetail = (props: any) => {
     }
   }, [props.myLikedNftsStatus]);
 
-  useEffect(() => {
-    if (props.getAuthOffer) {
-      setOffers(props.offers);
-    }
-  }, [props.getAuthOffer]);
+  // useEffect(() => {
+  //   if (props.getAuthOffer) {
+  //     setOffers(props.offers);
+  //   }
+  // }, [props.getAuthOffer]);
 
-  useEffect(() => {
-    if (props.getAuth) {
-      setBids(props.bids);
-    }
-  }, [props.getAuth]);
+  // useEffect(() => {
+  //   if (props.getAuth) {
+  //     setBids(props.bids);
+  //   }
+  // }, [props.getAuth]);
 
-  useEffect(() => {
-    if (props.nftsAuth) {
-      setNftDetail(props.nftDetail);
-      setLoader(false);
-      props.beforeNFT();
+  // useEffect(() => {
+  //   if (props.nftsAuth) {
+  //     setNftDetail(props.nftDetail);
+  //     setLoader(false);
+  //     props.beforeNFT();
 
-      //get activities
-      let activityQs: any = { nftId: props.nftDetail._id };
-      activityQs = ENV.objectToQueryString(activityQs);
-      props.getActivities(activityQs);
+  //     //get activities
+  //     let activityQs: any = { nftId: props.nftDetail._id };
+  //     activityQs = ENV.objectToQueryString(activityQs);
+  //     props.getActivities(activityQs);
 
-      //get offers
-      if (props.nftDetail?.auction?.sellingMethod) {
-        if (props.nftDetail?.auction?.sellingMethod === 1) {
-          let qs: any = { nftId: props.nftDetail._id };
-          qs = ENV.objectToQueryString(qs);
-          props.getOffers(qs);
-        } else {
-          let qs: any = { nftId: props.nftDetail._id };
-          qs = ENV.objectToQueryString(qs);
-          props.getBids(qs);
-        }
-      }
+  //     //get offers
+  //     if (props.nftDetail?.auction?.sellingMethod) {
+  //       if (props.nftDetail?.auction?.sellingMethod === 1) {
+  //         let qs: any = { nftId: props.nftDetail._id };
+  //         qs = ENV.objectToQueryString(qs);
+  //         props.getOffers(qs);
+  //       } else {
+  //         let qs: any = { nftId: props.nftDetail._id };
+  //         qs = ENV.objectToQueryString(qs);
+  //         props.getBids(qs);
+  //       }
+  //     }
 
-      // Set Next bid to 5%
-      setNextBidFivePercHigh();
-    }
-  }, [props.nftsAuth]);
+  //     // Set Next bid to 5%
+  //     setNextBidFivePercHigh();
+  //   }
+  // }, [props.nftsAuth]);
 
   const setNextBidFivePercHigh = () => {
     let fivePerc: any = "";
@@ -235,11 +324,11 @@ const NFTDetail = (props: any) => {
     }
   }, [props.togleLikeRes]);
 
-  useEffect(() => {
-    if (props.activitiesAuth) {
-      setActivities(props.activities);
-    }
-  }, [props.activitiesAuth]);
+  // useEffect(() => {
+  //   if (props.activitiesAuth) {
+  //     setActivities(props.activities);
+  //   }
+  // }, [props.activitiesAuth]);
 
   const handleRouting = async () => {
     const { ownerAddress } = nftDetail;
