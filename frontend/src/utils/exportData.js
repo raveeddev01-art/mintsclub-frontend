@@ -7,19 +7,11 @@ import nft6 from "../assets/images/famous6.jpeg";
 import nft7 from "../assets/images/famous7.jpeg";
 import { aboutusImages } from "../assets/assets";
 
-import {
-  GrTransaction
-} from "react-icons/gr";
+import { GrTransaction } from "react-icons/gr";
 
+import { BsTagFill } from "react-icons/bs";
 
-import {
-  BsTagFill
-} from "react-icons/bs";
-
-import {
-  MdShoppingCart
-} from "react-icons/md";
-
+import { MdShoppingCart } from "react-icons/md";
 
 export const WordsFamousNfts = [
   {
@@ -97,14 +89,14 @@ export const comingSoon = [
   },
 ];
 
-export const getBannerData=(subHeading,heading)=>{
- return  {
+export const getBannerData = (subHeading, heading) => {
+  return {
     subHeading: subHeading,
     heading: heading,
     content:
       "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
   };
-}
+};
 //All NFTs
 export const AllNFTsbBanner = {
   subHeading: "Explore",
@@ -128,6 +120,37 @@ export const createNFTbanner = {
   content:
     "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
 };
+
+//Create Multiple
+export const ChainsOptions = [
+  {
+    label: "Ethereum",
+    value: 1,
+  },
+  {
+    label: "Polygon",
+    value: 137,
+  },
+  {
+    label: "Binance",
+    value: 0,
+  },
+];
+export const nftTypesOptions=[
+  {
+    label:"Image",
+    value:"image",
+  },
+  {
+    label:"Video",
+    value:"video",
+  },
+  {
+    label:"Audio",
+    value:"audio",
+  },
+]
+
 
 //Faqs
 export const faqsBanner = {
@@ -172,7 +195,7 @@ export const popularBanner = {
     " Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
 };
 
-//privacePolicy 
+//privacePolicy
 export const privacyBanner = {
   subHeading: "Our Privacy Policy",
   heading: "Privacy Policy",
