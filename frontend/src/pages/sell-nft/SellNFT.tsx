@@ -530,7 +530,7 @@ const SellNFT = (props: any) => {
                 >
                   Fixed Prize
                 </button>
-                {!nftDetail && nftDetail?.lazyMinted && (
+                {nftDetail&& !nftDetail?.lazyMinted && (
                   <button
                     className={` ${
                       activeBtn === 1

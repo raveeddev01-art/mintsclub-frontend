@@ -310,10 +310,10 @@ export const handleSign = async (nounce) => {
 
 export const createVoucher = async (tokenId, amount, uri, price) => {
   let data = { ...typedDataV4 };
-  data.message.tokenId = tokenId;
-  data.message.amount = amount;
-  data.message.uri = uri;
-  data.message.minPrice = price;
+  // data.message.tokenId = tokenId;
+  // data.message.amount = amount;
+  // data.message.uri = uri;
+  // data.message.minPrice = price;
 
   const publicAddress = await connectMetamask();
   return new Promise((resolve, reject) => {
@@ -344,7 +344,7 @@ export const redeemVoucher = async (
   setTransactionHash,
   setConfirmed
 ) => {
-  const { tokenId, uri, minPrice, copies, signature } = voucher;
+  // const { tokenId, uri, minPrice, copies, signature } = voucher;
   // console.log(voucher,"vocher")
   let web3 = await getWeb3();
   const publicAddress = await connectMetamask();
@@ -357,24 +357,24 @@ export const redeemVoucher = async (
     );
     let result = await contractM.methods
       .redeem(publicAddress, {
-        tokenId,
-        uri,
-        minPrice: Web3.utils.toWei(`${minPrice}`, "ether"),
-        amount: copies,
-        signature,
+        tokenId:5,
+        uri:"https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE",
+        minPrice: Web3.utils.toWei(`${0.1}`, "ether"),
+        amount: 4,
+        signature:"0xf0d56691ae6ff525e974176c3b63ff0cbe79cc2eec6b46dc858a7e18feaac30b4b917eacdad3f7cb8c4f7a3aec24695818aaa53f7a8df101027085c2a6c98e861c",
       })
       .send({
         from: publicAddress,
-        value: Web3.utils.toWei(`${minPrice}`, "ether"),
+        value: Web3.utils.toWei(`${0.1}`, "ether"),
       })
       .on("transactionHash", function (hash) {
-        setTransactionHash(hash);
-        setConfirmed(true);
+        // setTransactionHash(hash);
+        // setConfirmed(true);
       });
     return result;
   } catch (err) {
     console.log(err, "error");
-    setConfirmed(false);
+    // setConfirmed(false);
     throw new Error(err);
   }
 };
