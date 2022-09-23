@@ -200,8 +200,10 @@ const ExploreCollections = forwardRef((props, ref) => {
             </div>
             <div className="row g-1 align-items-center">
               {loader ? (
-                <div className="spinner-border mx-auto" role="status">
-                  <span className="sr-only">Loading...</span>
+                <div className="d-flex align-items-center justify-content-center">
+                  <div className="spinner-border mx-auto" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
                 </div>
               ) : collections && collections.length > 0 ? (
                 collections.map((collection, index) => {
