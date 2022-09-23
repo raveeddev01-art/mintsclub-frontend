@@ -12,4 +12,5 @@ export interface PopularCollectionlistInt {
     finalCollectionListing:any,
     all:any,
     collection:any,
+    connectedAddress:string,
 }
