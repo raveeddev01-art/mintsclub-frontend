@@ -238,7 +238,6 @@ const SellNFT = (props) => {
     }
     if (await validateNetwork()) {
       if (!nftDetail.user.isApproved) {
-
         setShow(true);
         return "";
       }
@@ -548,7 +547,7 @@ const SellNFT = (props) => {
                   </div>
                   <div>
                     <div className="detail-bg-box nft-img-detail">
-                      <h5>Descriptions:</h5>
+                      <h5>Description:</h5>
                       <hr />
                       <p>{description}</p>
                     </div>

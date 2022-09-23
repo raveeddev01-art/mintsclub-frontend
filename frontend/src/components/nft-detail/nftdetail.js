@@ -1214,7 +1214,7 @@ const NFTDetail = (props) => {
                 </div>
                 <div className="col-12 mt-lg-5">
                   <div className="detail-bg-box">
-                    <h5>Descriptions:</h5>
+                    <h5>Description:</h5>
                     <hr />
                     <p>{description}</p>
                   </div>
