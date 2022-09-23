@@ -23,7 +23,7 @@ import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Select from "react-select";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
-import axios from 'axios'
+import axios from "axios";
 class CreateCollections extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +64,7 @@ class CreateCollections extends Component {
 
   componentDidUpdate(prevProps) {
     const { connectedAddress } = this.props;
-   
+
     if (
       prevProps.connectedAddress !== "" &&
       prevProps.connectedAddress.toUpperCase() !==
@@ -74,12 +74,12 @@ class CreateCollections extends Component {
       toast.info("Please login with new connected account");
       return this.props.history.push("/login");
     }
-    if(prevProps.connectedAddress===""&&connectedAddress){
+    if (prevProps.connectedAddress === "" && connectedAddress) {
       let { collection } = this.state;
-    collection = { ...collection, ownerAddress: connectedAddress };
-    this.setState({
-      collection,
-    });
+      collection = { ...collection, ownerAddress: connectedAddress };
+      this.setState({
+        collection,
+      });
     }
     if (this.props.error !== null && prevProps.error === null) {
       toast.error(this.props.error.message);
@@ -186,7 +186,7 @@ class CreateCollections extends Component {
               for (var val in collection) {
                 if (val === "logo" || val === "featuredImg") {
                   let result = await this.uploadFileToIpfs(collection[val]);
-                  let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  let url = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
                   formData.append(val, url);
                 }
                 if (collection[val]) {
@@ -260,7 +260,6 @@ class CreateCollections extends Component {
     this.setState({ collection });
   };
 
-
   render() {
     const {
       collection,
@@ -270,7 +269,6 @@ class CreateCollections extends Component {
       categories,
       selectedOption,
     } = this.state;
-
 
     if (!ENV.getUserKeys("_id")._id) {
       toast.error("Please login to create Collection");

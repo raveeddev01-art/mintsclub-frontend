@@ -836,16 +836,16 @@ const NFTDetail = (props) => {
                         key={i}
                       >
                         <div className="detail-rounded-name">
-                          <p>{detail.name}:</p>
+                          <p>{detail.type}:</p>
                         </div>
                         <div className="detail-content">
-                          <p>{detail.type}</p>
+                          <p>{detail.name}</p>
                         </div>
                       </div>
                     );
                   })
                 ) : (
-                  <p className="text-center">No Properties Foud</p>
+                  <p className="text-center">No Properties Found</p>
                 )}
               </div>
               <div className="detail-box">
@@ -857,7 +857,7 @@ const NFTDetail = (props) => {
                       return <StatsInfo name={item.name} value={item.value} />;
                     })
                   ) : (
-                    <p className="text-center">No Stats Foud</p>
+                    <p className="text-center">No Stats Found</p>
                   )}
                 </div>
               </div>
@@ -870,7 +870,7 @@ const NFTDetail = (props) => {
                       return <LevelsInfo name={item.name} value={item.value} />;
                     })
                   ) : (
-                    <p className=" text-center">No Levels Foud</p>
+                    <p className=" text-center">No Levels Found</p>
                   )}
                 </div>
               </div>
@@ -1156,7 +1156,7 @@ const NFTDetail = (props) => {
                         );
                       })
                     ) : (
-                      <p className="text-center">No Properties Foud</p>
+                      <p className="text-center">No Properties Found</p>
                     )}
                   </div>
                   <div className="detail-box">
@@ -1169,7 +1169,7 @@ const NFTDetail = (props) => {
                         );
                       })
                     ) : (
-                      <p className="text-center">No Stats Foud</p>
+                      <p className="text-center">No Stats Found</p>
                     )}
                   </div>
 
@@ -1188,7 +1188,7 @@ const NFTDetail = (props) => {
                           );
                         })
                       ) : (
-                        <p className="text-center">No Levels Foud</p>
+                        <p className="text-center">No Levels Found</p>
                       )}
                     </div>
                   </div>

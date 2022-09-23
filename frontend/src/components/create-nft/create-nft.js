@@ -349,7 +349,7 @@ class CreateNFT extends Component {
     //   })
     // );
     const fileData = await this.uploadFileToIpfs(data);
-    const fileUrl = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
+    const fileUrl = `https://mintsclub.mypinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
     this.mintNFT(metaData.dataInput, metaData.image);
@@ -357,8 +357,7 @@ class CreateNFT extends Component {
   };
   uploadFileToIpfs = async (formData) => {
     // console.log('formData=====>', formData.get('file'));
-    try{
-
+    try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
       const response = await axios.post(url, formData, {
         headers: {
@@ -369,7 +368,7 @@ class CreateNFT extends Component {
         },
       });
       return response;
-    }catch (err) {
+    } catch (err) {
       toast.error(err);
       this.setState({ loader: false });
     }
@@ -400,7 +399,7 @@ class CreateNFT extends Component {
       });
       dataInput.ipfsJsonData = data;
       dataInput.metaDataUrl =
-        "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash;
+        "https://mintsclub.mypinata.cloud/ipfs/" + response.data.IpfsHash;
       return { dataInput, image };
     } catch (err) {
       toast.error(err);
@@ -949,7 +948,7 @@ class CreateNFT extends Component {
 
                 <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
                   <label className="create-collection-label d-flex">
-                    No of Copies:* (Max 1000000)
+                    No of Copies:* (Max M)
                     <span className="text-danger ms-2">
                       {this.validator.message("name", nft.copies, "required")}
                     </span>

@@ -17,8 +17,8 @@ const Hero = (props) => {
   const heroSettings = ENV.heroSettings;
 
   useEffect(async () => {
-      let connectedAddress = await connectMetamaskCopy(connectedAddress);
-      setConnectedAddress(connectedAddress);
+    let address = await connectMetamaskCopy(connectedAddress);
+    setConnectedAddress(address);
   }, []);
 
   useEffect(() => {

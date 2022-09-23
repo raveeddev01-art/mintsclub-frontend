@@ -198,9 +198,9 @@ const ExploreCollections = forwardRef((props, ref) => {
                 </div>
               </div>
             </div>
-            <div className="row g-1 align-items-center justify-content-center">
+            <div className="row g-1 align-items-center">
               {loader ? (
-                <div className="spinner-border" role="status">
+                <div className="spinner-border mx-auto" role="status">
                   <span className="sr-only">Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
@@ -264,7 +264,7 @@ const mapStateToProps = (state) => ({
   category: state.category,
   categories: state.collection,
   pagination: state.pagination,
-  connectedAddress:state.wallet.connectedAddress
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(

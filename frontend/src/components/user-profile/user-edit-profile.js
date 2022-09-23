@@ -23,7 +23,7 @@ import BannerBg from "../../assets/images/profileBg.png";
 import FullPageLoader from "../../components/full-page-loader/full-page-loader";
 import OwnCollectionToday from "../own-collection-today/own-collection-today";
 import Compressor from "compressorjs";
-import axios from 'axios'
+import axios from "axios";
 const EditProfile = (props) => {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState("");
@@ -51,7 +51,7 @@ const EditProfile = (props) => {
 
     props.getUserById(ENV.getUserKeys("_id")._id);
   }, []);
-  
+
   useEffect(() => {
     if (props.error !== null) {
       setLoader(false);
@@ -140,7 +140,7 @@ const EditProfile = (props) => {
   };
 
   const submit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setErrors("");
     setLoader(true);
     // let signature = await signRequest();
@@ -150,7 +150,7 @@ const EditProfile = (props) => {
     formData.append("userId", ENV.getUserKeys("_id")._id);
     if (image) {
       let result = await uploadFileToIpfs(image);
-      let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+      let url = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append("profileImage", url);
     }
     if (banner) {

@@ -31,7 +31,7 @@ const BidModal = (props) => {
     price,
     show,
   } = props;
-  
+
   return (
     <Modal
       {...props}
@@ -120,7 +120,9 @@ const BidModal = (props) => {
             )}
             <p>
               By checking this box, I agree to MintsClub{" "}
-              <Link to="/termsandconditions">Terms of Services</Link>
+              <Link to="/termsandconditions" target="_blank">
+                Terms of Services
+              </Link>
             </p>
           </div>
         </div>
