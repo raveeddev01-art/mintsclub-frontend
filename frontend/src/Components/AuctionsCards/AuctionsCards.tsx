@@ -27,8 +27,20 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
   const videoElement = React.useRef(null);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   const [loader, setLoader] = useState<any>(true);
-  const { nftImage, auctionEndDate, name, _id, highestBid, Totalbids, currentPrice, fileType, ownerAddress,username,profilePhoto } = item;
-
+  const {
+    nftImage,
+    auctionEndDate,
+    nftName,
+    _id,
+    nftId,
+    highestBid,
+    Totalbids,
+    currentPrice,
+    fileType,
+    ownerAddress,
+    username,
+    profilePhoto
+  } = item;
 
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
@@ -95,13 +107,17 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
           <Countdown date={auctionEndDate} renderer={countDownRenderer} />
           <div className='auction-card-avatar-container d-flex align-items-center justify-content-between'>
             <div className='auction-card-avatar d-flex align-items-center'>
+              {/* {console.log('profile', bidByProfile)} */}
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
-                
-                  return <img src={item.bidByProfile === null ? Images.placeholderImg : item.bidByProfile} alt='Avatar' key={i} />;
-                   
-                  
+                  return (
+                    <img
+                      src={item.bidByProfile === null ? Images.placeholderImg : item.bidByProfile}
+                      alt='Avatar'
+                      key={i}
+                    />
+                  );
                 })}
 
               <span className={`${Totalbids === 0 ? '' : 'ms-4'}`}>
@@ -117,7 +133,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
       </div>
       <Card.Body>
         <Card.Title onClick={() => history.push(`explore/nftdetail/${_id}`)}>
-          <div>{name && name.length > 10 ? name.slice(0, 10) + '...' : name}</div>
+          <div>{nftName && nftName.length > 10 ? nftName.slice(0, 10) + '...' : nftName}</div>
           <div className='auction-owner-price d-flex align-items-center'>
             <img src={ArrowUp} alt='' className='me-1' />
             <span>{Totalbids > 0 ? highestBid : currentPrice}</span>
@@ -143,7 +159,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
             </p>
           </div>
         </div>
-        <button className='auction-bit-btn' onClick={() => history.push(`explore/nftdetail/${_id}`)}>
+        <button className='auction-bit-btn' onClick={() => history.push(`explore/nftdetail/${nftId}`)}>
           {connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() || !userId ? 'View' : 'Place a Bid'}
         </button>
       </Card.Body>
