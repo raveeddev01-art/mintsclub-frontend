@@ -27,6 +27,8 @@
   padding: 6px 12px;
   text-align: center;
   margin-right: 12px;
+  word-break: break-all;
+  max-width: 60%;
 }
 
 .new-nft-detail .detail-box .detail-rounded-type .detail-rounded-name p {
@@ -39,6 +41,7 @@
   font-weight: 400;
   font-size: 11px;
   color: #1c1c1c;
+  word-break: break-all;
 }
 
 .new-nft-detail .nft-img-container {

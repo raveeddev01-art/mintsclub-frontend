@@ -568,7 +568,7 @@ const SellNFT = (props) => {
                     setCopiesError(false);
                   }}
                 >
-                  Fixed Prize
+                  Fixed Price
                 </button>
                 <button
                   className={` ${
