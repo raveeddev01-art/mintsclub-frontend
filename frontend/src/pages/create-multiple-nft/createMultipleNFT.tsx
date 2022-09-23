@@ -16,11 +16,8 @@ import { ChainsOptions, nftTypesOptions } from "../../utils/exportData";
 import { useGetData, useInsertData } from "../../hooks/Common";
 import { ENV } from "../../config/config";
 import { getWalletAddress } from "../../utils/web3";
-const options = [
-  { value: "Ethereum", label: "Ethereum" },
-  { value: "Algorand", label: "Algorand" },
-  { value: "Solana", label: "Solana" },
-];
+import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
+
 
 const bannerContent = {
   subHeading: "Get Started",
@@ -28,7 +25,6 @@ const bannerContent = {
   content:
     "If you want to share your NFT with a large number of community members",
 };
-const placeholderImg = "";
 
 function CreateMultipleNFT() {
   const [checkBox, setCheckBox] = useState<any>(false);
@@ -41,11 +37,12 @@ function CreateMultipleNFT() {
     useState<any>(null);
   const [selectedChain, setSelectedChain] = useState<any>(null);
   const [collectionsOptions, setCollectionsOptions] = useState<any>([]);
+  const [loader,setLoader]=useState(false)
   const [batchFile, setBatchFile] = useState<any>({
     file: "",
     chainId: "",
     collectionId: "",
-    categoryId: "12345678",
+    categoryId: "",
     nftCollectionType: "",
   });
 
@@ -96,6 +93,8 @@ function CreateMultipleNFT() {
   const { isLoading: isUploadingFiles, mutate: uploadFiles } = useInsertData(
     "/batchUpload",
     (res: any) => {
+      setLoader(false)
+      toast.success("your NFTs are added to the queue")
       console.log(res, "response");
     }
   );
@@ -162,6 +161,7 @@ function CreateMultipleNFT() {
     }
   };
   const submit = async () => {
+    setLoader(true)
     let uploadFile = await uploadToS3Bucket(
       batchFile.file,
       batchFile.file.name
@@ -175,6 +175,7 @@ function CreateMultipleNFT() {
       collectionId: batchFile.collectionId,
       fileType: batchFile.nftCollectionType,
       chainId: batchFile.chainId,
+      categoryId:batchFile.categoryId,
       status: "pending",
       ownerAddress: await getWalletAddress(),
       userId: ENV.getUserKeys("_id")._id,
@@ -184,6 +185,8 @@ function CreateMultipleNFT() {
   };
 
   return (
+    <>
+    {loader&&<FullPageLoader/>}
     <div className="create-multiple-nft">
       <Banner
         subHeading={bannerContent.subHeading}
@@ -283,6 +286,7 @@ function CreateMultipleNFT() {
                   setBatchFile({
                     ...batchFile,
                     collectionId: value.value,
+                    categoryId:value.categoryId,
                   });
                 }}
                 options={collectionsOptions}
@@ -375,6 +379,7 @@ function CreateMultipleNFT() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
