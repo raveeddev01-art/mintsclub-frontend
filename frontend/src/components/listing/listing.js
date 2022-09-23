@@ -65,10 +65,10 @@ const Listing = (props) => {
     setFilterActive(!filterActive);
   };
   const isHideCollection = () => {
-    if(props.collectionDetail){
-      return false
+    if (props.collectionDetail) {
+      return false;
     }
-    if (props.UserProfile ) {
+    if (props.UserProfile) {
       if (isActive === 1) {
         return true;
       } else {
@@ -503,7 +503,7 @@ const Listing = (props) => {
                     );
                   })
                 ) : (
-                  <p className="text-center mt-5 no-nft-title">No NFTs Found</p>
+                  <p className="text-center mt-5 no-nft-title">No NFT Found</p>
                 )}
                 <div className="col-12">
                   <div className="mt-5 text-center">

@@ -129,10 +129,10 @@ const AuctionsCards = ({
 
               <span className={`${totalBids === 0 ? "" : "ms-4"}`}>
                 {totalBids === 0
-                  ? "No Bids Found"
+                  ? "No bid found"
                   : totalBids < 4
-                  ? totalBids + " People Placed Bid"
-                  : totalBids - 1 + "+ People Placed Bid"}
+                  ? totalBids + " Person placed bid"
+                  : totalBids - 1 + "+ Person placed bid"}
               </span>
             </div>
           </div>

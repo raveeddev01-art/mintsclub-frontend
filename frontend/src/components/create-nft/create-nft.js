@@ -329,8 +329,8 @@ class CreateNFT extends Component {
         };
 
         this.props.addNFTRecord(payload);
-
-        this.props.history.push("/explore/allNFT");
+        toast.success("Your NFT created successfully");
+        this.props.history.push("/userprofile");
       }
     } catch (err) {
       console.log(err, "error====>");

@@ -1270,7 +1270,7 @@ const NFTDetail = (props) => {
                             </>
                           ) : (
                             <p className="text-center d-flex justify-content-center align-items-center">
-                              No Offers Found
+                              No Offer Found
                             </p>
                           )}
                         </tbody>
@@ -1318,7 +1318,7 @@ const NFTDetail = (props) => {
                                       ? activity.fromAddress.slice(0, 4) +
                                         "..." +
                                         activity.fromAddress.slice(-6)
-                                      : "null address"}
+                                      : "Null address"}
                                   </td>
                                   <td>
                                     {activity.toAddress
@@ -1350,37 +1350,39 @@ const NFTDetail = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col-12 order-2 mt-5">
-              <div className="detail-more-collection">
-                <h6>More from this collection</h6>
+            {nfts.length > 0 && (
+              <div className="col-12 order-2 mt-5">
+                <div className="detail-more-collection">
+                  <h6>More from this collection</h6>
+                </div>
+                <div className="row align-items-center g-3 justify-content-md-start justify-content-center">
+                  {nfts && nfts.length > 0 ? (
+                    nfts.map((nft, id) => {
+                      if (id <= 3) {
+                        return (
+                          <div
+                            className="col-10 col-sm-6 col-md-4 col-lg-3 px-1"
+                            key={id}
+                          >
+                            {
+                              <NftCard
+                                data={nft}
+                                handleLikesTogleApi={handleLikesTogleApi}
+                                likedNfts={likedNfts}
+                                owner={nft?.owner[0]}
+                                path="/explore/nftdetail/"
+                              />
+                            }
+                          </div>
+                        );
+                      }
+                    })
+                  ) : (
+                    <p className="text-center mt-4">No NFT Found</p>
+                  )}
+                </div>
               </div>
-              <div className="row align-items-center g-3 justify-content-md-start justify-content-center">
-                {nfts && nfts.length > 0 ? (
-                  nfts.map((nft, id) => {
-                    if (id <= 3) {
-                      return (
-                        <div
-                          className="col-10 col-sm-6 col-md-4 col-lg-3 px-1"
-                          key={id}
-                        >
-                          {
-                            <NftCard
-                              data={nft}
-                              handleLikesTogleApi={handleLikesTogleApi}
-                              likedNfts={likedNfts}
-                              owner={nft?.owner[0]}
-                              path="/explore/nftdetail/"
-                            />
-                          }
-                        </div>
-                      );
-                    }
-                  })
-                ) : (
-                  <p className="text-center mt-4">No NFTs Found</p>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

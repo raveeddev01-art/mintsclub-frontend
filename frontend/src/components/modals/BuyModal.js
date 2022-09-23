@@ -116,7 +116,7 @@ const BuyModal = (props) => {
                 <div className="col-6">
                   <div className="modal-nft-detail">
                     <h6>
-                      Creator Fees: <span>5%</span>
+                      Creator Fee: <span>5%</span>
                     </h6>
                   </div>
                 </div>
@@ -169,7 +169,9 @@ const BuyModal = (props) => {
             )}
             <p>
               By checking this box, I agree to MintsClub{" "}
-              <Link to="/termsandconditions" target="_blank">Terms of Services</Link>
+              <Link to="/termsandconditions" target="_blank">
+                Terms of Services
+              </Link>
             </p>
           </div>
         </div>
@@ -283,7 +285,7 @@ const BuyModal = (props) => {
                 <div className="col-6">
                   <div className="modal-nft-detail">
                     <h6>
-                      Creator Fees: <span>5%</span>
+                      Creator Fee: <span>5%</span>
                     </h6>
                   </div>
                 </div>
@@ -360,11 +362,26 @@ const BuyModal = (props) => {
           <p>Share</p>
         </div>
         <div className="social-icons d-flex justify-content-center justify-content-lg-start">
-
-          <FbIcon className="social-icon" onClick={()=>window.open("https://www.facebook.com/MintsClub.io/")} />
-          <TwitterIcon  className="social-icon"   onClick={()=>window.open("https://twitter.com/MintsClub")}/>
-          <LinkedinIcon  className="social-icon"   onClick={()=>window.open("https://www.linkedin.com/showcase/mints-club")}/>
-          <InstaIcon  className="social-icon"   onClick={()=>window.open("https://www.instagram.com/mintsclub/")}/>
+          <FbIcon
+            className="social-icon"
+            onClick={() =>
+              window.open("https://www.facebook.com/MintsClub.io/")
+            }
+          />
+          <TwitterIcon
+            className="social-icon"
+            onClick={() => window.open("https://twitter.com/MintsClub")}
+          />
+          <LinkedinIcon
+            className="social-icon"
+            onClick={() =>
+              window.open("https://www.linkedin.com/showcase/mints-club")
+            }
+          />
+          <InstaIcon
+            className="social-icon"
+            onClick={() => window.open("https://www.instagram.com/mintsclub/")}
+          />
         </div>
       </Modal.Footer>
     </Modal>

@@ -664,7 +664,7 @@ const SellNFT = (props) => {
                       <div className="fee-details d-flex align-items-center justify-content-between">
                         <div>
                           <p>
-                            Service Fees:
+                            Service Fee:
                             <span className="ms-2">2.5%</span>
                           </p>
                         </div>
@@ -835,7 +835,7 @@ const SellNFT = (props) => {
                       <div className="fee-details d-flex align-items-center justify-content-between">
                         <div>
                           <p>
-                            Service Fees:
+                            Service Fee:
                             <span className="ms-2">2.5%</span>
                           </p>
                         </div>

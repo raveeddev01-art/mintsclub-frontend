@@ -46,9 +46,7 @@ const HeroCards = ({ data, connectedAddress, status }) => {
       <div className="hero-placed-bid text-center">
         {status !== "nfts" ? (
           <h6>
-            {totalBids > 0
-              ? `${totalBids}+ People placed Bid`
-              : "No Bids Found"}
+            {totalBids > 0 ? `${totalBids} Person placed Bid` : "No bid found"}
           </h6>
         ) : (
           <h6>{"World's Famous NFTs "}</h6>
