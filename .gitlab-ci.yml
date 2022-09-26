@@ -19,7 +19,7 @@ mintsclub-Front-v2:
 
   after_script:
     - echo "Deploying MintsClub-Frontend-V2 to AWS Server"
-    - ssh -o StrictHostKeyChecking=no $AWS_USER@$AWS_SERVER_IP "cd /home/mintsclub/mintsclub-prod; rm -rf frontend; tar -xzf frontend.tar.gz; rm -rf frontend.tar.gz; exit"
+    - ssh -o StrictHostKeyChecking=no mintsclub@3.135.80.29 "cd /home/mintsclub/mintsclub-prod; rm -rf frontend; tar -xzf frontend.tar.gz; rm -rf frontend.tar.gz; exit"
 
   only:
     - mintsclub-design-v2
