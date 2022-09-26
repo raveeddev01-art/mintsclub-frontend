@@ -201,7 +201,7 @@ const Populars = forwardRef((props, ref) => {
                       ? ""
                       : categories &&
                         categories.length > 0 &&
-                        categories.map((item,index) => {
+                        categories.map((item, index) => {
                           return (
                             <button
                               onClick={() => {
@@ -229,7 +229,7 @@ const Populars = forwardRef((props, ref) => {
                       ? ""
                       : categories &&
                         categories.length > 0 &&
-                        categories.map((item,index) => {
+                        categories.map((item, index) => {
                           return (
                             <div className="col-6 col-sm-3" key={index}>
                               <button
@@ -252,13 +252,15 @@ const Populars = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="row g-1 align-items-center justify-content-center">
+              <div className="row g-1 align-items-center">
                 {loader ? (
-                  <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+                  <div className="d-flex align-items-center justify-content-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
                   </div>
                 ) : popular && popular.length > 0 ? (
-                  popular.map((item,index) => {
+                  popular.map((item, index) => {
                     return (
                       <div className="col-sm-6 col-lg-4 col-xl-3" key={index}>
                         <CollectionsCard
@@ -272,6 +274,8 @@ const Populars = forwardRef((props, ref) => {
                           userName={item.username[0]}
                           NFTCount={item.totalNfts}
                           profileImage={item.profileImage[0]}
+                          ownerAddress={item.ownerAddress}
+                          connectedAddress={props.connectedAddress}
                         />
                       </div>
                     );
@@ -313,6 +317,7 @@ const mapStateToProps = (state) => ({
   pagination: state.pagination,
   popularCollections: state.collection.popularCollections,
   getPopularAuth: state.collection.getPopularAuth,
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(

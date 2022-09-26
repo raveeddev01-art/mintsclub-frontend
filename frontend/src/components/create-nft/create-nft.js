@@ -1029,7 +1029,7 @@ class CreateNFT extends Component {
                     onKeyDown={(e) =>
                       firstInputCharacterSpace(e, nft.description.length)
                     }
-                    value={nft.description}
+                    defaultValue={nft.description}
                   ></textarea>
                 </div>
                 <div className="col-12 col-lg-6 mt-3 mt-lg-5">
