@@ -1,12 +1,11 @@
 mintsclub-Front-v2:
   stage:  deploy
-  image: usamaciit96/mintsclub-v2:v2
+  image: usamaciit96/mintsclub-v2:v3
   script:
-    - cd /root/frontend-v2/frontend
+    - cd /root/frontend-v2
     - git reset --hard
     - git pull origin mintsclub-design-v2
-    - which node
-    - node -v
+    - cd /root/frontend-v2/frontend
     - npm cache clean --force
     - yarn install
     - unset CI
