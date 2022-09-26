@@ -83,7 +83,13 @@ const EditProfile = (props) => {
       setTwitterLink(twitterLink ? twitterLink : "");
       setUsername(username ? username : "");
       setImageUrl(profileImage ? profileImage : "");
-      setImage(profileImage ? profileImage : "");
+      console.log(profileImage);
+      if (profileImage) {
+        setImage(null);
+      } else {
+        setImage(profileImage ? profileImage : "");
+      }
+
       setBannerImage(bannerImage ? bannerImage : "");
       setInstaLink(instaLink ? instaLink : "");
       setWebLink(webLink ? webLink : "");
@@ -152,6 +158,8 @@ const EditProfile = (props) => {
       let result = await uploadFileToIpfs(image);
       let url = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append("profileImage", url);
+    } else {
+      formData.append("profileImage", imageUrl);
     }
     if (banner) {
       formData.append("bannerImage", banner);
@@ -207,7 +215,7 @@ const EditProfile = (props) => {
                 <div className="col-12 mt-5">
                   <div className="logo-wrapper">
                     <div className="logo-image">
-                      {image && image ? (
+                      {imageUrl && imageUrl ? (
                         <img
                           className="uploaded-logo-img"
                           src={imageUrl ? imageUrl : Images.logoImage}

@@ -41,19 +41,16 @@
 
 .auction-card .auction-card-avatar-container {
   min-height: 32px;
+  background: hsla(0, 0%, 100%, 0.55);
+  padding: 7px;
+  border-radius: 28px;
 }
 
 .auction-card .auction-card-avatar-container span {
   font-size: 13px;
   font-weight: normal;
   text-align: center;
-  -webkit-text-fill-color: transparent;
-  background: radial-gradient(
-    41.03% 358.74% at 81.02% 69.95%,
-    #2754f7 0,
-    #00fff0 100%
-  );
-  -webkit-background-clip: text;
+  color: #000000;
 }
 
 .auction-card .auction-card-avatar-container .options-icon img {
