@@ -122,6 +122,7 @@ const NFTDetail = (props: any) => {
           setBeforeGetBids(true);
         }
       }
+      setNextBidFivePercHigh( data.data.data)
     } else {
       setError(data.data.message);
     }
@@ -285,10 +286,10 @@ const NFTDetail = (props: any) => {
   //   }
   // }, [props.nftsAuth]);
 
-  const setNextBidFivePercHigh = () => {
+  const setNextBidFivePercHigh = (data:any) => {
     let fivePerc: any = "";
-    const { highestBid } = props.nftDetail?.auction || {};
-    const { currentPrice, collectionId } = props.nftDetail;
+    const { highestBid } = data.auction || {};
+    const { currentPrice, collectionId } = data;
     if (highestBid === 0 || highestBid === undefined) {
       fivePerc = (5 / 100) * currentPrice;
       fivePerc = fivePerc + currentPrice;
@@ -298,7 +299,7 @@ const NFTDetail = (props: any) => {
     }
     let result = fivePerc.toString().slice(0, 8);
     setPrice(result);
-    validateIfLiked(likedNfts, props.nftDetail);
+    validateIfLiked(likedNfts, data);
     props.beforeNFTByCollection();
     props.getNFTsByCollection(collectionId);
   };

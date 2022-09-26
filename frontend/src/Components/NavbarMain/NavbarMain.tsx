@@ -34,7 +34,7 @@ const NavbarMain = () => {
     if (ENV?.getUserKeys("_id")?._id) {
       localStorage.clear();
       localStorage.setItem("theme", darkMode ? "dark" : "light");
-      history.push("/login");
+      history.push("/connect-wallet");
     }
   };
 
