@@ -119,7 +119,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                     />
                   );
                 })}
-
               <span className={`${Totalbids === 0 ? '' : 'ms-4'}`}>
                 {Totalbids === 0
                   ? 'No Bids Found'
