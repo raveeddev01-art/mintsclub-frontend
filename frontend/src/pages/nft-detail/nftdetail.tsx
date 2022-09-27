@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import "./nftdetail.scss";
+import React, { useEffect, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import './nftdetail.scss';
 import {
   getNFT,
   getNFTsByCollection,
@@ -10,17 +10,17 @@ import {
   getActivities,
   getItemsListing,
   beforeNFTByCollection,
-} from "../../Components/Nfts/nfts.action.js";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
-import { decimalNumberValidator } from "../../utils/functions";
+} from '../../Components/Nfts/nfts.action.js';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
+import { decimalNumberValidator } from '../../utils/functions';
 import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
-} from "../all-nfts/explore.action";
-import moment from "moment";
-import axios from "axios";
+} from '../all-nfts/explore.action';
+import moment from 'moment';
+import axios from 'axios';
 import {
   placeABid,
   connectMetamask,
@@ -31,46 +31,46 @@ import {
   claimNFTfromContract,
   endAuctionFromContract,
   redeemVoucher,
-} from "../../utils/web3";
+} from '../../utils/web3';
 import {
   placeBid,
   getBids,
   getBidSByNftId,
   beforeBid,
   deleteBid,
-} from "../../Components/Bids/bids.action";
+} from '../../Components/Bids/bids.action';
 import {
   makeOffer,
   getOffers,
   beforeOffer,
   deleteOffer,
   buyNow,
-} from "../../Components/Offers/offers.action";
-import { toast } from "react-toastify";
-import BuyModal from "../../Components/Modals/BuyModal/BuyModal";
-import BidModal from "../../Components/Modals/BidModal/BidModal";
-import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import StatsInfo from "../create-nft/components/statsinfo";
-import LevelsInfo from "../create-nft/components/levelsinfo";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
-import { Images } from "../../assets/assets";
-import NftCard from "../../Components/NftCard/NftCard";
-import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
-import Audio from "../../Components/Audio/Audio";
-import { nftBanner } from "../../utils/exportData";
-import Table from "../../Components/Table/Table";
-import { useGetData } from "../../hooks/Common";
+} from '../../Components/Offers/offers.action';
+import { toast } from 'react-toastify';
+import BuyModal from '../../Components/Modals/BuyModal/BuyModal';
+import BidModal from '../../Components/Modals/BidModal/BidModal';
+import useVideoPlayer from '../../Components/TestVideoCard/Components/UseVideoPlayer';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import StatsInfo from '../create-nft/components/statsinfo';
+import LevelsInfo from '../create-nft/components/levelsinfo';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import { Images } from '../../assets/assets';
+import NftCard from '../../Components/NftCard/NftCard';
+import NFTDetailLoader from '../../Components/ContentLoader/NftDetailLoader';
+import Audio from '../../Components/Audio/Audio';
+import { nftBanner } from '../../utils/exportData';
+import Table from '../../Components/Table/Table';
+import { useGetData } from '../../hooks/Common';
 
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [toggle, setToggle] = React.useState<boolean>(true);
   const [likedNfts, setLikedNfts] = useState<any>();
-  const [nftDetail, setNftDetail] = useState<any>("");
+  const [nftDetail, setNftDetail] = useState<any>('');
   const [nfts, setNFTs] = useState<any>([]);
   const [activities, setActivities] = useState<any>([]);
   // const [itemsListing, setItemsListing] = useState([]);
@@ -81,11 +81,11 @@ const NFTDetail = (props: any) => {
   const [modalShow, setModalShow] = useState<any>(false);
   const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
   const [modal, setModal] = useState<number>(1);
-  const [confirmed, setConfirmed] = useState<string>("");
-  const [transactionHash, setTransactionHash] = useState<string>("");
+  const [confirmed, setConfirmed] = useState<string>('');
+  const [transactionHash, setTransactionHash] = useState<string>('');
   const [transactionSuccess, setTransactionSuccess] = useState<any>(false);
   const [bidModalShow, setBidModalShow] = useState<any>(false);
-  const [balance, setBalance] = useState<any>("");
+  const [balance, setBalance] = useState<any>('');
   const [disabled, setDisabled] = useState<boolean>(false);
   const history = useHistory();
   const videoElement = React.useRef(null);
@@ -99,7 +99,7 @@ const NFTDetail = (props: any) => {
   const [beforeGetOffers, setBeforeGetOffers] = useState<boolean>(false);
   const [beforeGetBids, setBeforeGetBids] = useState<boolean>(false);
   const nftId = props.match.params.id;
-  const userId = ENV.getUserKeys("_id")._id;
+  const userId = ENV.getUserKeys('_id')._id;
 
   useEffect(() => {
     window.scroll(0, 600);
@@ -127,7 +127,7 @@ const NFTDetail = (props: any) => {
   };
 
   const { isLoading: isLoadingNFT } = useGetData(
-    "GetNFT",
+    'GetNFT',
     `nfts/get/${nftId}`,
     null,
     onSuccessGetNFT
@@ -143,8 +143,8 @@ const NFTDetail = (props: any) => {
   };
 
   const { isLoading: isLoadingActivity } = useGetData(
-    "GetActivities",
-    "activity/get",
+    'GetActivities',
+    'activity/get',
     ENV.objectToQueryString({ nftId: nftDetail._id }),
     onSuccessGetActivities,
     null,
@@ -161,8 +161,8 @@ const NFTDetail = (props: any) => {
   };
 
   const { isLoading: isLoadingOffers } = useGetData(
-    "GetOffers",
-    "offer/list",
+    'GetOffers',
+    'offer/list',
     ENV.objectToQueryString({ nftId: nftDetail._id }),
     onSuccessGetOffers,
     null,
@@ -179,8 +179,8 @@ const NFTDetail = (props: any) => {
   };
 
   const { isLoading: isLoadingBids } = useGetData(
-    "GetBids",
-    "bid/list",
+    'GetBids',
+    'bid/list',
     ENV.objectToQueryString({ nftId: nftDetail._id }),
     onSuccessGetBids,
     null,
@@ -207,7 +207,7 @@ const NFTDetail = (props: any) => {
     if (props.createAuth) {
       setLoader(false);
       props.beforeBid();
-      history.push("/explore/allNFT");
+      history.push('/explore/allNFT');
     }
   }, [props.createAuth]);
 
@@ -217,21 +217,21 @@ const NFTDetail = (props: any) => {
       setDisabled(false);
       setTransactionSuccess(true);
       props.getNFT(nftId);
-      let qs: any = { userId: ENV.getUserKeys("_id")._id };
+      let qs: any = { userId: ENV.getUserKeys('_id')._id };
       qs = ENV.objectToQueryString(qs);
       props.getMyLikedNfts(qs);
       validateIfLiked();
       // props.getBids();
       props.beforeOffer();
-      toast.success("You have purchased NFT successfully");
-      history.push("/userprofile");
+      toast.success('You have purchased NFT successfully');
+      history.push('/userprofile');
     }
   }, [props.buyAuth]);
 
   useEffect(() => {
     if (props.createAuthOffer) {
       setLoader(false);
-      history.push("/explore/allNFT");
+      history.push('/explore/allNFT');
     }
   }, [props.createAuthOffer]);
 
@@ -285,7 +285,7 @@ const NFTDetail = (props: any) => {
   // }, [props.nftsAuth]);
 
   const setNextBidFivePercHigh = () => {
-    let fivePerc: any = "";
+    let fivePerc: any = '';
     const { highestBid } = props.nftDetail?.auction || {};
     const { currentPrice, collectionId } = props.nftDetail;
     if (highestBid === 0 || highestBid === undefined) {
@@ -334,7 +334,7 @@ const NFTDetail = (props: any) => {
 
     const currentAddress = connectedAddress?.toUpperCase();
     if (
-      ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      ENV.getUserKeys('address')?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
     ) {
       if (await validateNetwork()) {
@@ -357,14 +357,14 @@ const NFTDetail = (props: any) => {
         }
       } else {
         toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
+          'Please Connect Your Metamask With Ethereum Rinkby Network'
         );
       }
     } else {
-      if (ENV.getUserKeys("address")?.address) {
-        toast.info("Please login with new connected account");
+      if (ENV.getUserKeys('address')?.address) {
+        toast.info('Please login with new connected account');
       } else {
-        toast.info("Please login first to continue");
+        toast.info('Please login first to continue');
       }
       history.push({
         pathname: `/connect-wallet`,
@@ -379,7 +379,7 @@ const NFTDetail = (props: any) => {
         setLikeBtnDisable(true);
         setToggle(!toggle);
 
-        const userId = ENV.getUserKeys("_id")._id;
+        const userId = ENV.getUserKeys('_id')._id;
 
         const data = {
           userId,
@@ -387,7 +387,7 @@ const NFTDetail = (props: any) => {
           count: 1,
         };
 
-        if (status === "dislike" && nftDetail.likesCount > 0) {
+        if (status === 'dislike' && nftDetail.likesCount > 0) {
           const nft = nftDetail;
           nft.likesCount = nft.likesCount - 1;
 
@@ -403,7 +403,7 @@ const NFTDetail = (props: any) => {
         }
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
     }
   };
 
@@ -444,7 +444,7 @@ const NFTDetail = (props: any) => {
   useEffect(() => {
     axios
       .get(
-        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH"
+        'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
       )
       .then((res) => {
         const currentUSD = res.data.USD;
@@ -474,7 +474,7 @@ const NFTDetail = (props: any) => {
         makeOffer();
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
     }
   };
   const placeBid = async () => {
@@ -487,21 +487,21 @@ const NFTDetail = (props: any) => {
             auctionId: nftDetail?.auction?._id,
             bidAmount: price,
             nftId: nftDetail._id,
-            bidBy: ENV.getUserKeys("_id")._id,
+            bidBy: ENV.getUserKeys('_id')._id,
             isAccepted: false,
             toAddress: nftDetail.ownerAddress,
             fromAddress: await connectMetamask(),
           };
           props.beforeBid();
           props.placeBid(payload);
-          createActivity("Bid", price);
+          createActivity('Bid', price);
         }
       } catch (err: any) {
         setLoader(false);
         toast.error(err);
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
     }
   };
 
@@ -513,7 +513,7 @@ const NFTDetail = (props: any) => {
         const payload = {
           toAddress: nftDetail.ownerAddress,
           fromAddress: await connectMetamask(),
-          offerBy: ENV.getUserKeys("_id")._id,
+          offerBy: ENV.getUserKeys('_id')._id,
           ownerId: nftDetail.ownerId,
           nftId: nftDetail._id,
           price: price,
@@ -539,17 +539,17 @@ const NFTDetail = (props: any) => {
   const auctionEndTimeConversion = (auctionEndDate: any) => {
     const dateString = moment(new Date(auctionEndDate))
       .utc(true)
-      .format("MMMM D, Y");
+      .format('MMMM D, Y');
     const timeString = moment(new Date(auctionEndDate))
       .utc(true)
-      .format("h:mma");
-    const totalDateTime = dateString + " at " + timeString + " PKT";
+      .format('h:mma');
+    const totalDateTime = dateString + ' at ' + timeString + ' PKT';
     return totalDateTime;
   };
 
   const BuyNow = async () => {
     if (
-      ENV.getUserKeys("address")?.address?.toUpperCase() ===
+      ENV.getUserKeys('address')?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
     ) {
       if (await validateNetwork()) {
@@ -576,7 +576,7 @@ const NFTDetail = (props: any) => {
               };
               props.beforeOffer();
               props.buyNow(payload);
-              createActivity("Transfer", false, ownerAddress);
+              createActivity('Transfer', false, ownerAddress);
             }
           } catch (err: any) {
             setDisabled(false);
@@ -585,14 +585,14 @@ const NFTDetail = (props: any) => {
         }
       } else {
         toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
+          'Please Connect Your Metamask With Ethereum Rinkby Network'
         );
       }
     } else {
-      if (ENV.getUserKeys("address")?.address) {
-        toast.info("Please login with new connected account");
+      if (ENV.getUserKeys('address')?.address) {
+        toast.info('Please login with new connected account');
       } else {
-        toast.info("Please login first to continue");
+        toast.info('Please login first to continue');
       }
       history.push({
         pathname: `/connect-wallet`,
@@ -606,7 +606,7 @@ const NFTDetail = (props: any) => {
       const { metaData, copies } = nftDetail;
       const { signature, sellId, sellingConfig, copiesForAuction } =
         nftDetail.auction;
-      setConfirmed("pending");
+      setConfirmed('pending');
       const res = await redeemVoucher(
         {
           uri: metaData,
@@ -624,7 +624,7 @@ const NFTDetail = (props: any) => {
         nftId,
         ownerAddress,
       };
-      createActivity("Transfer", false, ownerAddress);
+      createActivity('Transfer', false, ownerAddress);
       props.beforeOffer();
       props.buyNow(payload);
     } catch (err: any) {
@@ -635,15 +635,15 @@ const NFTDetail = (props: any) => {
 
   const createActivity = async (type: any, bidPrice: any, address?: any) => {
     const { _id, ownerId, ownerAddress, currentPrice } = nftDetail;
-    let price = "";
-    let toAddress = "";
+    let price = '';
+    let toAddress = '';
     if (bidPrice) {
       price = bidPrice;
     } else {
       price = currentPrice;
     }
 
-    if (type === "Transfer" || type === "Bid") {
+    if (type === 'Transfer' || type === 'Bid') {
       toAddress = address;
     }
 
@@ -651,7 +651,7 @@ const NFTDetail = (props: any) => {
       nftId: _id,
       ownerId,
       fromAddress:
-        type === "Transfer" ? ownerAddress : await getWalletAddress(),
+        type === 'Transfer' ? ownerAddress : await getWalletAddress(),
       activityType: type,
       toAddress,
       price: price,
@@ -689,9 +689,9 @@ const NFTDetail = (props: any) => {
     const auctionStartDate = new Date(startDate);
     const auctionEndDate = new Date(endDate);
     if (currentDate < auctionStartDate) {
-      return "Sale will start on " + auctionEndTimeConversion(auctionStartDate);
+      return 'Sale will start on ' + auctionEndTimeConversion(auctionStartDate);
     } else {
-      return "Sale ends " + auctionEndTimeConversion(auctionEndDate);
+      return 'Sale ends ' + auctionEndTimeConversion(auctionEndDate);
     }
   };
 
@@ -719,8 +719,9 @@ const NFTDetail = (props: any) => {
           }
 
           if (newBids?.length > 0) {
+            // prettier-ignore
             const highestBidByUser = newBids.reduce((max: any, obj: any) =>
-              max.bidAmount > obj.bidAmount ? max : obj
+              (max.bidAmount > obj.bidAmount ? max : obj)
             );
             if (highestBidByUser.fromAddress === connectedAddress) {
               if (!claimNFT) {
@@ -758,13 +759,13 @@ const NFTDetail = (props: any) => {
   const EndAuctionFromBackend = async () => {
     const headers = {
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     };
     const res = await axios.post(
       `${ENV.url}auctions/endAuction`,
@@ -783,9 +784,9 @@ const NFTDetail = (props: any) => {
       } else {
         props.beforeBid();
         setBids(null);
-        toast.success("You have purchased NFT successfully");
+        toast.success('You have purchased NFT successfully');
       }
-      history.push("/userprofile");
+      history.push('/userprofile');
     }
   };
 
@@ -816,24 +817,24 @@ const NFTDetail = (props: any) => {
 
   const nftInfo: any = [
     {
-      title: "Contract Address",
+      title: 'Contract Address',
       value:
         ENV?.mintsClubContractAddress &&
         ENV.mintsClubContractAddress.slice(0, 6) +
-          "...." +
+          '....' +
           ENV.mintsClubContractAddress.slice(-6),
     },
     {
-      title: "Token ID",
+      title: 'Token ID',
       value: tokenId,
     },
     {
-      title: "Token Standard",
-      value: "ERC-1155",
+      title: 'Token Standard',
+      value: 'ERC-1155',
     },
     {
-      title: "Blockchain",
-      value: "Ethereum",
+      title: 'Blockchain',
+      value: 'Ethereum',
     },
   ];
   return (
@@ -847,35 +848,35 @@ const NFTDetail = (props: any) => {
       />
       {loader && <FullPageLoader />}
 
-      <div className="new-nft-detail padding-wrapper">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-4 col-xl-3 order-1 order-lg-0 d-none d-lg-block">
+      <div className='new-nft-detail padding-wrapper'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-lg-4 col-xl-3 order-1 order-lg-0 d-none d-lg-block'>
               {/* <button onClick={() => BuyLazyNft()}>buyNOw</button> */}
-              <div className="detail-box">
+              <div className='detail-box'>
                 <h6>Properties</h6>
                 <hr />
                 {properties && properties.length > 0 ? (
                   properties.map((detail: any, i: any) => {
                     return (
                       <div
-                        className="detail-rounded-type d-flex align-items-center"
+                        className='detail-rounded-type d-flex align-items-center'
                         key={i}
                       >
-                        <div className="detail-rounded-name">
+                        <div className='detail-rounded-name'>
                           <p>{detail.name}:</p>
                         </div>
-                        <div className="detail-content">
+                        <div className='detail-content'>
                           <p>{detail.type}</p>
                         </div>
                       </div>
                     );
                   })
                 ) : (
-                  <p className="text-center npf-text">No Properties Found</p>
+                  <p className='text-center npf-text'>No Properties Found</p>
                 )}
               </div>
-              <div className="detail-box">
+              <div className='detail-box'>
                 <h6>Stats</h6>
                 <hr />
                 <div>
@@ -890,11 +891,11 @@ const NFTDetail = (props: any) => {
                       );
                     })
                   ) : (
-                    <p className="text-center npf-text">No Stats Found</p>
+                    <p className='text-center npf-text'>No Stats Found</p>
                   )}
                 </div>
               </div>
-              <div className="detail-box">
+              <div className='detail-box'>
                 <h6>Levels</h6>
                 <hr />
                 <div>
@@ -910,26 +911,26 @@ const NFTDetail = (props: any) => {
                       );
                     })
                   ) : (
-                    <p className=" text-center npf-text">No Levels Found</p>
+                    <p className=' text-center npf-text'>No Levels Found</p>
                   )}
                 </div>
               </div>
-              <div className="detail-box">
+              <div className='detail-box'>
                 <h6>Details</h6>
                 <hr />
                 {nftInfo.map((item: any, index: any) => (
                   <div
                     key={index}
                     className={`detail-rounded-type d-flex align-items-center ${
-                      item.title === "Contract Address"
-                        ? "text-highlighted"
-                        : ""
+                      item.title === 'Contract Address'
+                        ? 'text-highlighted'
+                        : ''
                     }`}
                     onClick={() =>
-                      item.title === "Contract Address" &&
+                      item.title === 'Contract Address' &&
                       window.open(
-                        "https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43",
-                        "_blank"
+                        'https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43',
+                        '_blank'
                       )
                     }
                   >
@@ -944,32 +945,32 @@ const NFTDetail = (props: any) => {
               </div>
             </div>
 
-            <div className="col-lg-8 col-xl-9 order-0 order-lg-1">
-              <div className="row g-4 g-lg-5 g-xl-4">
-                <div className="col-xl-6">
-                  {fileType === "image" ? (
-                    <div className="nft-img-container mx-auto mx-lg-0">
+            <div className='col-lg-8 col-xl-9 order-0 order-lg-1'>
+              <div className='row g-4 g-lg-5 g-xl-4'>
+                <div className='col-xl-6'>
+                  {fileType === 'image' ? (
+                    <div className='nft-img-container mx-auto mx-lg-0'>
                       <div
                         style={{
-                          display: `${contentLoader ? "block" : "none"}`,
+                          display: `${contentLoader ? 'block' : 'none'}`,
                         }}
                       >
                         <NFTDetailLoader />
                       </div>
                       <img
                         src={image}
-                        alt="nft-image"
+                        alt='nft-image'
                         onLoad={() => setContentLoader(false)}
                         style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
+                          display: `${!contentLoader ? 'block' : 'none'}`,
                         }}
                       />
                     </div>
-                  ) : fileType === "video" ? (
-                    <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
+                  ) : fileType === 'video' ? (
+                    <div className='nft-img-container nft-video-container mx-auto mx-lg-0'>
                       <div
                         style={{
-                          display: `${contentLoader ? "block" : "none"}`,
+                          display: `${contentLoader ? 'block' : 'none'}`,
                         }}
                       >
                         <NFTDetailLoader />
@@ -985,13 +986,13 @@ const NFTDetail = (props: any) => {
                         }}
                         // onTimeUpdate={handleOnTimeUpdate}
                         style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
+                          display: `${!contentLoader ? 'block' : 'none'}`,
                         }}
                       />
-                      <div className="controls">
-                        <div className="actions">
+                      <div className='controls'>
+                        <div className='actions'>
                           <button
-                            className="play-pause-btn d-flex align-items-center justify-content-center"
+                            className='play-pause-btn d-flex align-items-center justify-content-center'
                             onClick={togglePlay}
                           >
                             {playerState.isPlaying ? (
@@ -1003,11 +1004,11 @@ const NFTDetail = (props: any) => {
                         </div>
                       </div>
                     </div>
-                  ) : fileType === "audio" ? (
+                  ) : fileType === 'audio' ? (
                     <>
                       <div
                         style={{
-                          display: `${contentLoader ? "block" : "none"}`,
+                          display: `${contentLoader ? 'block' : 'none'}`,
                         }}
                       >
                         <NFTDetailLoader />
@@ -1016,64 +1017,64 @@ const NFTDetail = (props: any) => {
                         src={image}
                         onLoadCallback={async () => setContentLoader(false)}
                         loader={contentLoader}
-                        fileType={""}
+                        fileType={''}
                       />
                     </>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
-                <div className="col-xl-6">
-                  <div className="nft-img-detail">
+                <div className='col-xl-6'>
+                  <div className='nft-img-detail'>
                     <h5>NFT Details:</h5>
                   </div>
-                  <div className="nft-img-detail-box">
-                    <div className="nft-detail-rounded-box">
+                  <div className='nft-img-detail-box'>
+                    <div className='nft-detail-rounded-box'>
                       <p>
                         {name && name.length > 30
-                          ? name.slice(0, 30) + "..."
+                          ? name.slice(0, 30) + '...'
                           : name}
                       </p>
                     </div>
-                    <div className="row g-2 g-sm-4">
-                      <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-                        <div className="nft-detail-rounded-box">
+                    <div className='row g-2 g-sm-4'>
+                      <div className='col-6 col-sm-4 col-xl-6 col-xxl-4'>
+                        <div className='nft-detail-rounded-box'>
                           <p>
                             Total Copies: <span>{copies}</span>
                           </p>
                         </div>
                       </div>
-                      <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-                        <div className="nft-detail-rounded-box">
+                      <div className='col-6 col-sm-4 col-xl-6 col-xxl-4'>
+                        <div className='nft-detail-rounded-box'>
                           <p>
                             Sold: <span>{copies - remainingCopies}</span>
                           </p>
                         </div>
                       </div>
-                      <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-                        <div className="nft-detail-rounded-box">
+                      <div className='col-6 col-sm-4 col-xl-6 col-xxl-4'>
+                        <div className='nft-detail-rounded-box'>
                           <p>
                             Remaining: <span>{remainingCopies}</span>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div className="nft-detail-price d-flex align-items-center  mb-3">
-                      <div className="d-flex align-items-center me-2">
-                        <img src={Images.onsale} className="me-3" />
+                    <div className='nft-detail-price d-flex align-items-center  mb-3'>
+                      <div className='d-flex align-items-center me-2'>
+                        <img src={Images.onsale} className='me-3' />
                         <h2>{currentPrice}</h2>
                       </div>
-                      <div className="price-in-dollar">
+                      <div className='price-in-dollar'>
                         <p> ($ {(currentPrice * exchangeRate).toFixed(2)})</p>
                       </div>
                     </div>
-                    <div className="nft-detail-rounded-box on-sale">
+                    <div className='nft-detail-rounded-box on-sale'>
                       <p>
-                        Copies On Sale:{" "}
+                        Copies On Sale:{' '}
                         <span> {copiesForAuction ? copiesForAuction : 0}</span>
                       </p>
                     </div>
-                    <div className="nft-detail-date d-flex align-items-center">
+                    <div className='nft-detail-date d-flex align-items-center'>
                       <p>
                         {sellingMethod && sellingMethod === 2 && (
                           <>
@@ -1085,14 +1086,14 @@ const NFTDetail = (props: any) => {
                                 <>
                                   <img
                                     src={Images.ClockIcon}
-                                    alt="clock-icon"
-                                    className="me-1"
+                                    alt='clock-icon'
+                                    className='me-1'
                                   />
                                   <span>
                                     {checkIfAuctionIsStarted(
                                       auctionStartDate,
                                       auctionEndDate
-                                    )}{" "}
+                                    )}{' '}
                                     {/* {auctionEndTimeConversion(
                                       new Date(auctionEndDate)
                                     )}{" "} */}
@@ -1104,30 +1105,30 @@ const NFTDetail = (props: any) => {
                       </p>
                     </div>
                   </div>
-                  <div className="nft-detail-owner d-flex align-items-center">
+                  <div className='nft-detail-owner d-flex align-items-center'>
                     <img
                       src={
                         user?.profileImage
                           ? user?.profileImage
                           : Images.placeholderImg
                       }
-                      alt="avatar"
-                      className="me-2"
+                      alt='avatar'
+                      className='me-2'
                     />
                     <p>
                       Owned by:
-                      <span className="text-capitalize ms-1">
-                        {" "}
+                      <span className='text-capitalize ms-1'>
+                        {' '}
                         {ownerAddress?.toUpperCase() ===
                         connectedAddress?.toUpperCase()
-                          ? "You"
+                          ? 'You'
                           : user?.username
                           ? user.username
-                          : "unnamed"}
+                          : 'unnamed'}
                       </span>
                     </p>
                   </div>
-                  <div className="nft-detail-btn">
+                  <div className='nft-detail-btn'>
                     {checkIfAuctionStartedorEnded(
                       auctionStartDate,
                       auctionEndDate
@@ -1137,58 +1138,58 @@ const NFTDetail = (props: any) => {
                           // disabled={disabled}
                           onClick={() => handleRouting()}
                         >
-                          {" "}
+                          {' '}
                           {ownerAddress?.toUpperCase() ===
                             connectedAddress.toUpperCase() &&
                           sellingMethod === 2
-                            ? "End Auction"
+                            ? 'End Auction'
                             : ownerAddress?.toUpperCase() ===
                                 connectedAddress.toUpperCase() &&
                               sellingMethod === 1
-                            ? "Resale"
+                            ? 'Resale'
                             : ownerAddress?.toUpperCase() ===
                               connectedAddress.toUpperCase()
-                            ? "Sell"
+                            ? 'Sell'
                             : sellingMethod === 2
-                            ? "Place A Bid"
+                            ? 'Place A Bid'
                             : sellingMethod === 1
-                            ? "Buy Now"
-                            : ""}
+                            ? 'Buy Now'
+                            : ''}
                         </button>
                       )}
 
                     {claimNFT && (
                       <button onClick={() => EndAuction()}>
-                        {"Claim NFT"}
+                        {'Claim NFT'}
                       </button>
                     )}
                   </div>
                 </div>
-                <div className="col-12 d-block d-lg-none">
-                  <div className="detail-box">
+                <div className='col-12 d-block d-lg-none'>
+                  <div className='detail-box'>
                     <h6>Properties</h6>
                     <hr />
                     {properties && properties.length > 0 ? (
                       properties.map((detail: any, key: any) => {
                         return (
                           <div
-                            className="detail-rounded-type d-flex align-items-center"
+                            className='detail-rounded-type d-flex align-items-center'
                             key={key}
                           >
-                            <div className="detail-rounded-name">
+                            <div className='detail-rounded-name'>
                               <p>{detail.name}:</p>
                             </div>
-                            <div className="detail-content">
+                            <div className='detail-content'>
                               <p>{detail.type}</p>
                             </div>
                           </div>
                         );
                       })
                     ) : (
-                      <p className="text-center">No Properties Foud</p>
+                      <p className='text-center'>No Properties Foud</p>
                     )}
                   </div>
-                  <div className="detail-box">
+                  <div className='detail-box'>
                     <h6>Stats</h6>
                     <hr />
                     {stats && stats?.length > 0 ? (
@@ -1202,11 +1203,11 @@ const NFTDetail = (props: any) => {
                         );
                       })
                     ) : (
-                      <p className="text-center">No Stats Foud</p>
+                      <p className='text-center'>No Stats Foud</p>
                     )}
                   </div>
 
-                  <div className="detail-box">
+                  <div className='detail-box'>
                     <h6>Levels</h6>
                     <hr />
                     <div>
@@ -1222,23 +1223,23 @@ const NFTDetail = (props: any) => {
                           );
                         })
                       ) : (
-                        <p className="text-center">No Levels Foud</p>
+                        <p className='text-center'>No Levels Foud</p>
                       )}
                     </div>
                   </div>
-                  <div className="detail-box">
+                  <div className='detail-box'>
                     <h6>Details</h6>
                     <hr />
                     {nftInfo.map((detail: any, i: any) => {
                       return (
                         <div
-                          className="detail-rounded-type d-flex align-items-center"
+                          className='detail-rounded-type d-flex align-items-center'
                           key={i}
                         >
-                          <div className="detail-rounded-name">
+                          <div className='detail-rounded-name'>
                             <p>{detail.title}:</p>
                           </div>
-                          <div className="detail-content">
+                          <div className='detail-content'>
                             <p>{detail.value}</p>
                           </div>
                         </div>
@@ -1246,42 +1247,42 @@ const NFTDetail = (props: any) => {
                     })}
                   </div>
                 </div>
-                <div className="col-12 mt-lg-5">
-                  <div className="detail-bg-box">
+                <div className='col-12 mt-lg-5'>
+                  <div className='detail-bg-box'>
                     <h5>Descriptions:</h5>
                     <hr />
                     <p>{description}</p>
                   </div>
                 </div>
-                <div className="col-12">
-                  <div className="detail-bg-box">
+                <div className='col-12'>
+                  <div className='detail-bg-box'>
                     <h5>Offers:</h5>
                     <hr />
                     <Table
                       data={bids}
                       titles={[
-                        "Price",
-                        "USD Price",
-                        "Floor Difference",
-                        "From",
+                        'Price',
+                        'USD Price',
+                        'Floor Difference',
+                        'From',
                       ]}
                       exchangeRate={exchangeRate}
                       lowestNftPrice={lowestNftPrice}
-                      status="Offers"
+                      status='Offers'
                       show={sellingMethod === 2}
                     />
                   </div>
                 </div>
 
-                <div className="col-12">
-                  <div className="detail-bg-box">
+                <div className='col-12'>
+                  <div className='detail-bg-box'>
                     <h5>Activity:</h5>
                     <hr />
                     {activities && activities.length > 0 && (
                       <Table
                         data={activities}
-                        titles={["Event", "Price", "From", "To", "Date"]}
-                        status="Activities"
+                        titles={['Event', 'Price', 'From', 'To', 'Date']}
+                        status='Activities'
                         lowestNftPrice={0}
                         exchangeRate={0}
                       />
@@ -1290,17 +1291,17 @@ const NFTDetail = (props: any) => {
                 </div>
               </div>
             </div>
-            <div className="col-12 order-2 mt-5">
-              <div className="detail-more-collection">
+            <div className='col-12 order-2 mt-5'>
+              <div className='detail-more-collection'>
                 <h6>More from this collection</h6>
               </div>
-              <div className="row align-items-center g-3">
+              <div className='row align-items-center g-3'>
                 {nfts && nfts.length > 0 ? (
                   nfts.map((nft: any, id: any) => {
                     if (id <= 3) {
                       return (
                         <div
-                          className="col-10 col-sm-6 col-md-4 col-lg-3 px-1"
+                          className='col-10 col-sm-6 col-md-4 col-lg-3 px-1'
                           key={id}
                         >
                           {
@@ -1309,7 +1310,7 @@ const NFTDetail = (props: any) => {
                               handleLikesTogleApi={handleLikesTogleApi}
                               likedNfts={likedNfts}
                               owner={nft?.owner[0]}
-                              path="/explore/nftdetail/"
+                              path='/explore/nftdetail/'
                             />
                           }
                         </div>
@@ -1317,7 +1318,7 @@ const NFTDetail = (props: any) => {
                     }
                   })
                 ) : (
-                  <p className="text-center mt-4 text">No NFTs Found</p>
+                  <p className='text-center mt-4 text'>No NFTs Found</p>
                 )}
               </div>
             </div>
