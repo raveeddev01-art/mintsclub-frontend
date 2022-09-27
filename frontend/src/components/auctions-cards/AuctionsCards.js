@@ -39,6 +39,7 @@ const AuctionsCards = ({
     fileType,
     ownerAddress,
   } = item;
+  console.log(item);
   const { profilePhoto } = item?.owner;
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>

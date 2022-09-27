@@ -34,6 +34,11 @@ const AuctionsList = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
+      if (auctions) {
+        auctions.forEach((element, i) => {
+          auctions[i].totalBids = element.bidInfo?.bidBy?.length;
+        });
+      }
 
       setAuctions(auctions);
       setLoader(false);
@@ -44,7 +49,7 @@ const AuctionsList = (props) => {
   useEffect(() => {
     props.getCategories();
   }, []);
-  
+
   useEffect(() => {
     if (props.collectionFlag) {
       setCategories(props.categories);
@@ -72,7 +77,7 @@ const AuctionsList = (props) => {
         bgImg={BannerBg}
         bannerImg={BannerImage}
       />
-      
+
       <section className="explore-collection-section home-auction-list padding-wrapper">
         {
           // loader ? (
@@ -132,9 +137,11 @@ const AuctionsList = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row g-3 align-items-center justify-content-center">
+            <div className="row g-3 align-items-center">
               {loader ? (
-                <div className="spinner-border" role="status"></div>
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
               ) : auctions && auctions.length > 0 ? (
                 auctions.map((item, index) => {
                   return (
@@ -146,6 +153,7 @@ const AuctionsList = (props) => {
                         userId={ENV.getUserKeys("_id")._id}
                         ownerId={item.owner._id}
                         bidsProfile={item.bidInfo.bidByProfile}
+                        index={index}
                       />
                     </div>
                   );
