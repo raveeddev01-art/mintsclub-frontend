@@ -95,8 +95,8 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
           }
           collectionListing[i].likesCount = 0;
 
-          collectionListing[i].totalNfts = element.nfts[0].image
-            ? element.nfts?.length
+          collectionListing[i].totalNfts = element.nftDetail[0].image
+            ? element.nftDetail?.length
             : 0;
           if (element.soldCopies.length > 0) {
             var soldCopiesSum = element.soldCopies.reduce(function (
@@ -152,8 +152,8 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   };
 
   const handleImage = (item: any, index: number) => {
-    if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft: any) => nft.fileType === "image");
+    if (item?.nftDetail[index]?.image) {
+      let result = item.nftDetail.filter((nft: any) => nft.fileType === "image");
       if (result.length >= index) {
         return result[index]?.image;
       } else {
@@ -245,20 +245,22 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                     <span className="sr-only">Loading...</span>
                   </div>
                 ) : popular && popular.length > 0 ? (
-                  popular.map((item: any, index: number) => {
+                  popular.map((collection: any, index: number) => {
                     return (
                       <div className="col-sm-6 col-lg-4 col-xl-3" key={index}>
                         <CollectionsCard
-                          CardImg={item.featuredImg}
-                          Subimg1={handleImage(item, 0)}
-                          Subimg2={handleImage(item, 1)}
-                          Subimg3={handleImage(item, 2)}
-                          name={item.name}
-                          id={item._id}
-                          collection={item}
-                          userName={item.username[0]}
-                          NFTCount={item.totalNfts}
-                          profileImage={item.profileImage[0]}
+                          CardImg={collection.featuredImg}
+                          Subimg1={handleImage(collection, 0)}
+                          Subimg2={handleImage(collection, 1)}
+                          Subimg3={handleImage(collection, 2)}
+                          name={collection.name}
+                          id={collection._id}
+                          collection={collection}
+                          userName={collection.username[0]}
+                          NFTCount={collection.TotalNfts}
+                          profileImage={collection.profileImage[0]}
+                           ownerAddress={collection.ownerAddress}
+                        connectedAddress={props.connectedAddress}
                         />
                       </div>
                     );
@@ -294,6 +296,8 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 };
 const mapStateToProps = (state: any) => ({
   error: state.error,
+  connectedAddress: state.wallet.connectedAddress,
+
 });
 
 export default connect(
