@@ -128,7 +128,7 @@ const AuctionsCards = ({
                   }
                 })}
 
-              <span className={`${totalBids === 0 ? "" : "ms-3"}`}>
+              <span className={`${totalBids === 0 ? "" : "ms-2"}`}>
                 {totalBids === 0
                   ? "No bid found"
                   : totalBids < 4
