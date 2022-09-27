@@ -1,13 +1,13 @@
-import { ENV } from "../../config/config";
+import { ENV } from '../../config/config';
 import {
   GET_ERRORS,
   BEFORE_FOOTER,
   GET_FOOTER,
   SUBSCRIBE_RESPONSE,
   SUBSCRIBE,
-} from "../../redux/types";
-import { emptyError } from "../../redux/shared/error/error.action";
-import axios from "axios";
+} from '../../redux/types';
+import { emptyError } from '../../redux/shared/error/error.action';
+import axios from 'axios';
 
 export const beforeFooter = () => {
   return {
@@ -20,16 +20,16 @@ export const getFooter = () => (dispatch) => {
   dispatch({ type: SUBSCRIBE });
   const url = `${ENV.url}/settings/get`;
   fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
   })
     .then((res) => res.json())

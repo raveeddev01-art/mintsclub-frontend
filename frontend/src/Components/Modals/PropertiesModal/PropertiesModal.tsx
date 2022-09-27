@@ -1,12 +1,12 @@
-import { FC } from "react";
-import { Modal } from "react-bootstrap";
-import ModalClose from "../../../assets/images/modal-close.svg";
-import InputClose from "../../../assets/images/inp-close.svg";
-import "./PropertiesModal.scss";
-import "../BuyModal/BuyModal.scss";
-import { toast } from "react-toastify";
-import { firstInputCharacterSpace } from "../../../utils/functions";
-import { PropertiesInt } from "../../../interfaces/components";
+import React, { FC } from 'react';
+import { Modal } from 'react-bootstrap';
+import ModalClose from '../../../assets/images/modal-close.svg';
+import InputClose from '../../../assets/images/inp-close.svg';
+import './PropertiesModal.scss';
+import '../BuyModal/BuyModal.scss';
+import { toast } from 'react-toastify';
+import { firstInputCharacterSpace } from '../../../utils/functions';
+import { PropertiesInt } from '../../../interfaces/components';
 
 const PropertiesModal: FC<PropertiesInt> = (props) => {
   const {
@@ -20,14 +20,14 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
   } = props;
   const handleSubmit = () => {
     if (properties && properties.length > 0) {
-      let isEmpty = properties.filter(
-        (item: any) => item.name === "" || item.type === ""
+      const isEmpty = properties.filter(
+        (item: any) => item.name === '' || item.type === ''
       );
       if (isEmpty.length > 0) {
-        toast.error("Please Fill Empty Fields ");
-        return "";
+        toast.error('Please Fill Empty Fields ');
+        return '';
       } else {
-        onSave("properties");
+        onSave('properties');
       }
     }
   };
@@ -74,7 +74,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
                         onKeyDown={(e) =>
                           firstInputCharacterSpace(e, item.type.length)
                         }
-                        onChange={(e) => handleChange(i, e, "properties")}
+                        onChange={(e) => handleChange(i, e, 'properties')}
                         autoComplete="off"
                       />
                     </div>
@@ -93,7 +93,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
                         onKeyDown={(e) =>
                           firstInputCharacterSpace(e, item.name.length)
                         }
-                        onChange={(e) => handleChange(i, e, "properties")}
+                        onChange={(e) => handleChange(i, e, 'properties')}
                         autoComplete="off"
                       />
                     </div>
@@ -101,7 +101,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
                 </div>
                 <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
                   <div className="inp-close text-end me-2">
-                    <button onClick={() => removeFormFields(i, "properties")}>
+                    <button onClick={() => removeFormFields(i, 'properties')}>
                       <img src={InputClose} alt="closemodal" />
                     </button>
                   </div>
@@ -115,7 +115,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
         <div className="modal-nft-footer d-flex align-items-center">
           <button
             className="btn modal-btn-addMore mt-2"
-            onClick={() => addMoreValues("properties")}
+            onClick={() => addMoreValues('properties')}
           >
             Add more
           </button>

@@ -1,27 +1,27 @@
-import { useState, useEffect, FC, useContext } from "react";
-import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
-import { toggleLikeDislike } from "../collections/collections.actions";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import { Images } from "../../assets/assets";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import { popularBanner } from "../../utils/exportData";
-import { PopularCollectionlistInt } from "../../interfaces/PopularCollectionsList/interface";
+import React, { useState, useEffect, FC, useContext } from 'react';
+import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
+import { toggleLikeDislike } from '../collections/collections.actions';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import { Images } from '../../assets/assets';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import { popularBanner } from '../../utils/exportData';
+import { PopularCollectionlistInt } from '../../interfaces/PopularCollectionsList/interface';
 import {
   useGetCategories,
   useGetPopularCollections,
-} from "../../hooks/PopularCollections";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
-import "./popular-collections-list.scss";
+} from '../../hooks/PopularCollections';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import './popular-collections-list.scss';
 
 const Populars: FC<PopularCollectionlistInt> = (props) => {
   const [popular, setpopular] = useState([]);
-  const [isActive, setIsActive] = useState("All");
-  const [categoryId, setCategoryId] = useState("all");
+  const [isActive, setIsActive] = useState('All');
+  const [categoryId, setCategoryId] = useState('all');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [categories, setCategories] = useState<any[] | null>(null);
@@ -84,7 +84,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
       if (collectionListing) {
         collectionListing.forEach((element: any, i: number) => {
           if (element.likesCount.length > 0) {
-            var sumLikes = element.likesCount.reduce(function (
+            const sumLikes = element.likesCount.reduce(function (
               a: number,
               b: number
             ) {
@@ -99,7 +99,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
             ? element.nftDetail?.length
             : 0;
           if (element.soldCopies.length > 0) {
-            var soldCopiesSum = element.soldCopies.reduce(function (
+            const soldCopiesSum = element.soldCopies.reduce(function (
               a: number,
               b: number
             ) {
@@ -119,9 +119,9 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
       );
 
       setPagination(pagination);
-      const userId = ENV.getUserKeys("_id")._id;
+      const userId = ENV.getUserKeys('_id')._id;
       if (props.finalCollectionListing) {
-        let finalCollectionListing = props.finalCollectionListing.filter(
+        const finalCollectionListing = props.finalCollectionListing.filter(
           (item: any) => item.userId === userId
         );
         setpopular(finalCollectionListing);
@@ -153,7 +153,9 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
-      let result = item.nftDetail.filter((nft: any) => nft.fileType === "image");
+      const result = item.nftDetail.filter(
+        (nft: any) => nft.fileType === 'image'
+      );
       if (result.length >= index) {
         return result[index]?.image;
       } else {
@@ -177,17 +179,17 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
         <FullPageLoader />
       ) : (
         <>
-          {" "}
+          {' '}
           <section className="popular-collection-section padding-wrapper">
             <div className="container">
               <div className="row mb-5">
                 <div className="col-12 popular-collection-nav">
                   <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
-                    {categoryId === "all" &&
+                    {categoryId === 'all' &&
                     popular &&
-                    popular?.length == 0 &&
+                    popular?.length === 0 &&
                     !loader
-                      ? ""
+                      ? ''
                       : categories &&
                         categories.length > 0 &&
                         categories.map((item: any, index: number) => {
@@ -200,8 +202,8 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                               key={index}
                               className={`${
                                 item.name === isActive
-                                  ? "active-popular-nav"
-                                  : ""
+                                  ? 'active-popular-nav'
+                                  : ''
                               } me-2 me-xl-3`}
                             >
                               {item.name}
@@ -210,11 +212,11 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                         })}
                   </div>
                   <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
-                    {categoryId === "all" &&
+                    {categoryId === 'all' &&
                     popular &&
-                    popular?.length == 0 &&
+                    popular?.length === 0 &&
                     !loader
-                      ? ""
+                      ? ''
                       : categories &&
                         categories.length > 0 &&
                         categories.map((item: any, index: number) => {
@@ -227,8 +229,8 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                                 }}
                                 className={
                                   isActive === item.name
-                                    ? "active-popular-nav"
-                                    : ""
+                                    ? 'active-popular-nav'
+                                    : ''
                                 }
                               >
                                 {item.name}
@@ -259,8 +261,8 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
                           userName={collection.username[0]}
                           NFTCount={collection.TotalNfts}
                           profileImage={collection.profileImage[0]}
-                           ownerAddress={collection.ownerAddress}
-                        connectedAddress={props.connectedAddress}
+                          ownerAddress={collection.ownerAddress}
+                          connectedAddress={props.connectedAddress}
                         />
                       </div>
                     );
@@ -297,7 +299,6 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 const mapStateToProps = (state: any) => ({
   error: state.error,
   connectedAddress: state.wallet.connectedAddress,
-
 });
 
 export default connect(

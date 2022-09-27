@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import ErrorHandlerContext from "./ErrorHandlerContext";
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import ErrorHandlerContext from './ErrorHandlerContext';
 
 export default function ErrorHandlerState({ children }) {
   const [error, setError] = useState(null);

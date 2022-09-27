@@ -1,17 +1,16 @@
-import VideoComponent from "../../../Components/VideoComponent/VideoComponent";
-import UploadIcon from "../../../assets/images/uploadIcon.png";
-import { MdClose } from "react-icons/md";
-import AudioPlayer from "../../../Components/AudioPlayer/AudioPlayer";
-import { UploadInterface } from "../../../interfaces/components";
-import {FC} from "react"
-import "./upload.scss";
+import VideoComponent from '../../../Components/VideoComponent/VideoComponent';
+import UploadIcon from '../../../assets/images/uploadIcon.png';
+import { MdClose } from 'react-icons/md';
+import AudioPlayer from '../../../Components/AudioPlayer/AudioPlayer';
+import { UploadInterface } from '../../../interfaces/components';
+import React, { FC } from 'react';
+import './upload.scss';
 const videoStyles = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 };
 
-
-const Upload:FC<UploadInterface> = ({
+const Upload: FC<UploadInterface> = ({
   Images,
   onFileChange,
   imageURL,
@@ -33,7 +32,7 @@ const Upload:FC<UploadInterface> = ({
             onClick={() => clearData()}
           />
         ) : (
-          ""
+          ''
         )}
         <label
           className="w-100"
@@ -57,7 +56,7 @@ const Upload:FC<UploadInterface> = ({
                 />
                 <input
                   type="file"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   onChange={onFileChange}
                   accept=".mp4, .png,.jpeg"
                   name="image"
@@ -77,7 +76,7 @@ const Upload:FC<UploadInterface> = ({
                 />
                 <input
                   type="file"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   onChange={onFileChange}
                   accept=".mp4, .png,.jpeg"
                   name="image"
@@ -93,7 +92,7 @@ const Upload:FC<UploadInterface> = ({
                 />
                 <input
                   type="file"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   onChange={onFileChange}
                   accept=".mp4, .png,.jpeg"
                   name="image"
@@ -101,7 +100,7 @@ const Upload:FC<UploadInterface> = ({
               </div>
             ) : (
               <>
-                {" "}
+                {' '}
                 <img
                   className="upload-image-place-holder"
                   src={Images.uploadImage}
@@ -113,8 +112,8 @@ const Upload:FC<UploadInterface> = ({
                 </div>
                 <input
                   type="file"
-                  style={{ display: "none" }}
-                  onChange={(e) => onFileChange(e, "onChange")}
+                  style={{ display: 'none' }}
+                  onChange={(e) => onFileChange(e, 'onChange')}
                   accept=".mp4, .png,.jpeg"
                   name="image"
                 />

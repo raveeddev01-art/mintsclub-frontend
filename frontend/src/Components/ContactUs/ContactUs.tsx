@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import "./ContactUs.scss";
-import Banner from "../Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
+import React, { useEffect } from 'react';
+import './ContactUs.scss';
+import Banner from '../Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
 
 const bannerData = {
-  subHeading: "Get in touch",
-  heading: "Contact Us",
+  subHeading: 'Get in touch',
+  heading: 'Contact Us',
   content:
-    "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+    'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
 };
 const ContactUs = () => {
   useEffect(() => {

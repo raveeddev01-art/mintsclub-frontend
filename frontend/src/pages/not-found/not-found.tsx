@@ -1,8 +1,8 @@
-import React from "react";
-import "./not-found.scss";
-import { NavLink } from "react-router-dom";
-import MintsClub from "../../assets/images/main-logo.svg";
-import NotFoundImg from "../../assets/images/notfound-img.svg";
+import React from 'react';
+import './not-found.scss';
+import { NavLink } from 'react-router-dom';
+import MintsClub from '../../assets/images/main-logo.svg';
+import NotFoundImg from '../../assets/images/notfound-img.svg';
 
 function NotFound() {
   return (

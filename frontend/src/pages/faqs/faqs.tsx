@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import "./faqs.scss";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
-import { Accordion, Card } from "react-bootstrap";
-import { faqsBanner, faqsData } from "../../utils/exportData";
+import React, { useEffect } from 'react';
+import './faqs.scss';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
+import { Accordion, Card } from 'react-bootstrap';
+import { faqsBanner, faqsData } from '../../utils/exportData';
 
 const Faqs = () => {
   useEffect(() => {
@@ -29,7 +29,7 @@ const Faqs = () => {
               >
                 {faqsData.map((faq, id) => {
                   return (
-                    <div className="accordion-item mb-4">
+                    <div className="accordion-item mb-4" key={id}>
                       <h2 className="accordion-header" id={`${id}`}>
                         <button
                           className="accordion-button collapsed"

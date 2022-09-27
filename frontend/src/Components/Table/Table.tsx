@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { MdShoppingCart } from "react-icons/md";
+import React, { useEffect, useState } from 'react';
+import { MdShoppingCart } from 'react-icons/md';
 
-import { BiTransferAlt } from "react-icons/bi";
+import { BiTransferAlt } from 'react-icons/bi';
 
-import { BsTagFill } from "react-icons/bs";
+import { BsTagFill } from 'react-icons/bs';
 
-import { FaHandPaper } from "react-icons/fa";
+import { FaHandPaper } from 'react-icons/fa';
 
-import ReactTimeAgo from "react-time-ago";
+import ReactTimeAgo from 'react-time-ago';
 
-import { TableInterface } from "../../interfaces/components";
+import { TableInterface } from '../../interfaces/components';
 const Table: React.FC<TableInterface> = ({
   titles,
   data,
@@ -20,7 +20,7 @@ const Table: React.FC<TableInterface> = ({
   const [info, setInfo] = useState<any>(null);
 
   useEffect(() => {
-    if (status === "Offers") {
+    if (status === 'Offers') {
       formateBidsInfo();
     } else {
       formateActivityInfo();
@@ -28,17 +28,17 @@ const Table: React.FC<TableInterface> = ({
   }, [data]);
 
   const getPercentageChange = (oldNumber: number, newNumber: number) => {
-    var decreaseValue = oldNumber - newNumber;
+    const decreaseValue = oldNumber - newNumber;
 
     return (decreaseValue / oldNumber) * 100;
   };
 
   const handleAcitivityIcon = (type: string) => {
-    if (type === "Mint") {
+    if (type === 'Mint') {
       return <MdShoppingCart />;
-    } else if (type === "List") {
+    } else if (type === 'List') {
       return <BsTagFill />;
-    } else if (type === "Bid") {
+    } else if (type === 'Bid') {
       return <FaHandPaper />;
     } else {
       return <BiTransferAlt />;
@@ -47,7 +47,7 @@ const Table: React.FC<TableInterface> = ({
 
   const formateBidsInfo = () => {
     if (data && data.length > 0) {
-      let formatedData = data.map((item: any) => {
+      const formatedData = data.map((item: any) => {
         return {
           item1: item.bidAmount,
           item2: `$ ${(item.bidAmount * exchangeRate).toFixed(2)}`,
@@ -57,11 +57,11 @@ const Table: React.FC<TableInterface> = ({
             ) %
               item.bidAmount >
             lowestNftPrice
-              ? "above"
-              : "below"
+              ? 'above'
+              : 'below'
           }`,
           item4: `${
-            item.fromAddress.slice(0, 4) + "..." + item.fromAddress.slice(-4)
+            item.fromAddress.slice(0, 4) + '...' + item.fromAddress.slice(-4)
           }`,
         };
       });
@@ -71,7 +71,7 @@ const Table: React.FC<TableInterface> = ({
 
   const formateActivityInfo = () => {
     if (data && data.length > 0) {
-      let formatedData: any = data.map((item: any) => {
+      const formatedData: any = data.map((item: any) => {
         return {
           item1: (
             <div className="d-flex align-items-center">
@@ -83,14 +83,14 @@ const Table: React.FC<TableInterface> = ({
           item3: `${
             item.fromAddress
               ? item.fromAddress.slice(0, 4) +
-                "..." +
+                '...' +
                 item.fromAddress.slice(-6)
-              : "null address"
+              : 'null address'
           }`,
           item4: `${
             item.toAddress
-              ? item.toAddress.slice(0, 4) + "..." + item.toAddress.slice(-4)
-              : ""
+              ? item.toAddress.slice(0, 4) + '...' + item.toAddress.slice(-4)
+              : ''
           }`,
           item5: (
             <div>

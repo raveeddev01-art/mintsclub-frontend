@@ -1,6 +1,6 @@
-import { ENV } from "../../config/config";
-import { TOGGLE_LIKE_RES, BEFORE_TOGGLE_LIKE } from "../../redux/types";
-import axios from "axios";
+import { ENV } from '../../config/config';
+import { TOGGLE_LIKE_RES, BEFORE_TOGGLE_LIKE } from '../../redux/types';
+import axios from 'axios';
 
 export const beforeTogleLikeDislike = () => (dispatch) => {
   dispatch({

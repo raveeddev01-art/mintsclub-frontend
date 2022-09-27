@@ -1,4 +1,4 @@
-import { useState, useContext, FC } from 'react';
+import React, { useState, useContext, FC } from 'react';
 import AuctionsCards from '../../Components/AuctionsCards/AuctionsCards';
 import { connect } from 'react-redux';
 import { ENV } from '../../config/config';
@@ -28,7 +28,10 @@ const AuctionsList: FC<AuctionsListInt> = () => {
       setError(data.data.message);
     }
   };
-  const { isLoading: isLoadingLiveAuctions } = useGetLiveAuctions(categoryId, onSuccessLiveAuctions);
+  const { isLoading: isLoadingLiveAuctions } = useGetLiveAuctions(
+    categoryId,
+    onSuccessLiveAuctions
+  );
 
   //Get Categories
   const onSuccessCategories = (data: any) => {
@@ -38,7 +41,10 @@ const AuctionsList: FC<AuctionsListInt> = () => {
       setError(data.data.message);
     }
   };
-  const { isLoading: isLoadingCategories } = useGetCategories(null, onSuccessCategories);
+  const { isLoading: isLoadingCategories } = useGetCategories(
+    null,
+    onSuccessCategories
+  );
 
   const handleCategoryFilter = (desc: string) => {
     setCategoryId(desc);
@@ -47,7 +53,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
     subHeading: 'Auctions',
     heading: 'Live Auctions',
     content:
-      ' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.'
+      ' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
   };
   return (
     <>
@@ -59,13 +65,15 @@ const AuctionsList: FC<AuctionsListInt> = () => {
         bannerImg={BannerImage}
       />
 
-      <section className='auction-collection-section home-auction-list padding-wrapper'>
+      <section className="auction-collection-section home-auction-list padding-wrapper">
         {
-          <div className='container'>
-            <div className='row mb-5'>
-              <div className='col-12 auction-collection-nav'>
-                <div className='d-none d-xxl-flex justify-content-lg-end text-end align-items-center'>
-                  {categoryId === 'all' && (!auctions || (auctions && auctions?.length <= 1)) && isLoadingCategories
+          <div className="container">
+            <div className="row mb-5">
+              <div className="col-12 auction-collection-nav">
+                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+                  {categoryId === 'all' &&
+                  (!auctions || (auctions && auctions?.length <= 1)) &&
+                  isLoadingCategories
                     ? ''
                     : categories &&
                       categories.length > 0 &&
@@ -77,27 +85,33 @@ const AuctionsList: FC<AuctionsListInt> = () => {
                               handleCategoryFilter(item.description);
                             }}
                             key={id}
-                            className={`${id === isActive ? 'active-auction-nav' : ''} me-2 me-xl-3`}
+                            className={`${
+                              id === isActive ? 'active-auction-nav' : ''
+                            } me-2 me-xl-3`}
                           >
                             {item.name}
                           </button>
                         );
                       })}
                 </div>
-                <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none'>
-                  {categoryId === 'all' && (!auctions || (auctions && auctions?.length <= 1)) && isLoadingCategories
+                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                  {categoryId === 'all' &&
+                  (!auctions || (auctions && auctions?.length <= 1)) &&
+                  isLoadingCategories
                     ? ''
                     : categories &&
                       categories.length > 0 &&
                       categories.map((item: any, id: any) => {
                         return (
-                          <div className='col-6 col-sm-3' key={id}>
+                          <div className="col-6 col-sm-3" key={id}>
                             <button
                               onClick={() => {
                                 setIsActive(id);
                                 handleCategoryFilter(item.description);
                               }}
-                              className={`${id === isActive ? 'active-auction-nav' : ''} me-2 me-xl-3`}
+                              className={`${
+                                id === isActive ? 'active-auction-nav' : ''
+                              } me-2 me-xl-3`}
                             >
                               {item.name}
                             </button>
@@ -107,13 +121,13 @@ const AuctionsList: FC<AuctionsListInt> = () => {
                 </div>
               </div>
             </div>
-            <div className='row g-3 align-items-center justify-content-center'>
+            <div className="row g-3 align-items-center justify-content-center">
               {isLoadingLiveAuctions || isLoadingCategories ? (
-                <div className='spinner-border' role='status'></div>
+                <div className="spinner-border" role="status"></div>
               ) : auctions && auctions.length > 0 ? (
                 auctions.map((item: any, index: number) => {
                   return (
-                    <div className='col-sm-6 col-md-4 col-xl-3' key={index}>
+                    <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <AuctionsCards
                         key={index}
                         item={item}
@@ -126,14 +140,18 @@ const AuctionsList: FC<AuctionsListInt> = () => {
                   );
                 })
               ) : (
-                <p className='text-center mt-5'>No Live Auctions Found</p>
+                <p className="text-center mt-5">No Live Auctions Found</p>
               )}
 
-              <div className='col-12'>
-                <div className='mt-5 text-center'>
-                  {auctions && pagination.total > auctions.length && auctions.length > 10 && (
-                    <button className='btn btn-linear-gradient px-5'>Load more</button>
-                  )}
+              <div className="col-12">
+                <div className="mt-5 text-center">
+                  {auctions &&
+                    pagination.total > auctions.length &&
+                    auctions.length > 10 && (
+                      <button className="btn btn-linear-gradient px-5">
+                        Load more
+                      </button>
+                    )}
                 </div>
               </div>
             </div>

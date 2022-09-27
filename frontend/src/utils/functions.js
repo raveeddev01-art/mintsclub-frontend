@@ -1,7 +1,7 @@
-import axios from "axios";
-import { ENV } from "../config/config";
+import axios from 'axios';
+import { ENV } from '../config/config';
 
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 let baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -15,16 +15,16 @@ export const axiosSyncPost = (url, data, isMultipart = false) => {
 
     const config = {
       headers: {
-        "Content-Type": isMultipart
-          ? "multipart/form-data"
-          : "application/x-www-form-urlencoded",
+        'Content-Type': isMultipart
+          ? 'multipart/form-data'
+          : 'application/x-www-form-urlencoded',
         Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
+        'x-auth-token': ENV.x_auth_token,
+        'x-access-token':
+          ENV.getUserKeys('accessToken') &&
+          ENV.getUserKeys('accessToken').accessToken
+            ? ENV.getUserKeys('accessToken').accessToken
+            : '',
       },
     };
 
@@ -47,12 +47,12 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
       headers: {
         // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
         Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
+        'x-auth-token': ENV.x_auth_token,
+        'x-access-token':
+          ENV.getUserKeys('accessToken') &&
+          ENV.getUserKeys('accessToken').accessToken
+            ? ENV.getUserKeys('accessToken').accessToken
+            : '',
       },
     };
 
@@ -69,35 +69,33 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
   });
 };
 
-export const handleRequest = async (method, endpoint, data=null, qs) => {
+export const handleRequest = async (method, endpoint, data = null, qs) => {
   let url = ENV.url + endpoint;
   if (qs) url += `?${qs}`;
   return new Promise((resolve, reject) => {
     let headers = {
       // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     };
     axios({
       method,
       url,
-      ...data&&{ data},
+      ...(data && { data }),
       headers,
-    })
-      .then(
-        (res) => {
-
-          resolve(res);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
+    }).then(
+      (res) => {
+        resolve(res);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
   });
 };
 
@@ -142,6 +140,7 @@ export const decimalNumberValidator = (evt) => {
       key === 46 ||
       key === 45)
   ) {
+    // empty block statement
   } else {
     e.returnValue = false;
     if (e.preventDefault) e.preventDefault();
@@ -158,17 +157,17 @@ export const setFixedPriceNftTOken = (body) => {
   // console.log(url,"url==>123")
 
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
     body: body,
   })
@@ -176,11 +175,13 @@ export const setFixedPriceNftTOken = (body) => {
     .then((data) => {
       // console.log(data,"created nft token")
       if (data.success) {
+        // empty block statement
       } else {
+        // empty block statement
       }
     })
     .catch((errors) => {
-      console.log(errors, "error");
+      console.log(errors, 'error');
     });
 };
 
@@ -193,47 +194,47 @@ export const changeOwnerShip = (nftOwnerId, currentUserId) => {
     currentUserId,
   };
   fetch(url, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
     body: JSON.stringify(body),
   })
     .then((res) => res.json())
     .then((data) => {
-      if (data.status === "success") {
-        toast.success("Successfully bought nft");
-        window.location.href = "/explore-all";
+      if (data.status === 'success') {
+        toast.success('Successfully bought nft');
+        window.location.href = '/explore-all';
       }
       // console.log(data,"response from the change ownershiop")
     })
     .catch((errors) => {
-      console.log("error", errors);
+      console.log('error', errors);
     });
 };
 export const acceptBit = (tokenId, body) => {
   const url = `${ENV.url}bid/accept`;
 
   fetch(url, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
     body: JSON.stringify(body),
   })
@@ -243,7 +244,7 @@ export const acceptBit = (tokenId, body) => {
         // acceptNftOffer(tokenId,body);
 
         toast.success(data.message);
-        window.location.href = "/explore-all";
+        window.location.href = '/explore-all';
         // dispatch({
         //     type: ACCEPT_BID,
         //     payload: data
@@ -264,17 +265,17 @@ export const placeBidApi = (body) => {
   const url = `${ENV.url}bid/create`;
 
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
     body: JSON.stringify(body),
   })
@@ -284,7 +285,7 @@ export const placeBidApi = (body) => {
         //    placeBidNft(body,tokenId,price,toAddress,fromAddress)
 
         toast.success(data.message);
-        window.location.href = "/explore-all";
+        window.location.href = '/explore-all';
         // dispatch({
         //     type: CREATE_BID,
         //     payload: data
@@ -309,13 +310,13 @@ export const placeBidApi = (body) => {
     });
 };
 export const formatBytes = (bytes, decimals = 2) => {
-  if (bytes === 0) return "0 Bytes";
+  if (bytes === 0) return '0 Bytes';
 
   const k = 1024;
   const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };

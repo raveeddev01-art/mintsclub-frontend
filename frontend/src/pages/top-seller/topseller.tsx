@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { getTopSellers, beforeUser } from "../../Components/User/user.action";
-import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
-import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
-import "./topseller.scss";
-import { Images } from "../../assets/assets";
-import { useGetTopSellers } from "../../hooks/TopSellers";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import React, { useEffect, useState, useContext } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getTopSellers, beforeUser } from '../../Components/User/user.action';
+import ViewAllIcon from '../../assets/images/view-all-arrow.svg';
+import SellerTickIcon from '../../assets/images/seller-tick-icon.svg';
+import './topseller.scss';
+import { Images } from '../../assets/assets';
+import { useGetTopSellers } from '../../hooks/TopSellers';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const TopSeller = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
@@ -84,7 +84,7 @@ const TopSeller = (props: any) => {
                             <img src={SellerTickIcon} alt="tick-icon" />
                           </span>
                         ) : (
-                          ""
+                          ''
                         )}
                       </div>
 
@@ -94,7 +94,7 @@ const TopSeller = (props: any) => {
                           {author.username}
                         </p>
                         <span className="text-end">
-                          {" "}
+                          {' '}
                           {author?.totalETH?.toFixed(2)}
                         </span>
                       </div>

@@ -1,16 +1,16 @@
-import { useContext } from "react";
-import { handleRequest } from "../utils/functions";
-import { ENV } from "../config/config";
-import { useLocation } from "react-router-dom";
-import errorHandler from "../context/errorHandler/ErrorHandlerContext";
-import { useQuery } from "react-query";
+import { useContext } from 'react';
+import { handleRequest } from '../utils/functions';
+import { ENV } from '../config/config';
+import { useLocation } from 'react-router-dom';
+import errorHandler from '../context/errorHandler/ErrorHandlerContext';
+import { useQuery } from 'react-query';
 
 export const useGetMyLikedNFTs = (qs: any, onSuccess: any, enabled?: any) => {
   const { setError } = useContext(errorHandler);
 
   return useQuery(
-    ["myLikedNFTs"],
-    () => handleRequest("get", "nftLikes/userNftLikes", null, qs),
+    ['myLikedNFTs'],
+    () => handleRequest('get', 'nftLikes/userNftLikes', null, qs),
     {
       onSuccess,
       staleTime: 0,
@@ -25,7 +25,7 @@ export const useGetMyLikedNFTs = (qs: any, onSuccess: any, enabled?: any) => {
 export const useGetNFTs = (filter: any, onSuccess: any) => {
   const location: any = useLocation();
 
-  let nftQS: any = {};
+  const nftQS: any = {};
   if (filter) {
     const {
       page,
@@ -71,11 +71,11 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
   return useQuery(
     [
       `collectionNFTs/${
-        location?.state?._id ? location?.state?._id : "AllNFTs"
+        location?.state?._id ? location?.state?._id : 'AllNFTs'
       }`,
       qs,
     ],
-    () => handleRequest("get", "nfts/list", null, qs),
+    () => handleRequest('get', 'nfts/list', null, qs),
     { onSuccess, staleTime: 0, cacheTime: 0 }
   );
 };

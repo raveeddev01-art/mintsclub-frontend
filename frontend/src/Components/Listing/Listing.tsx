@@ -1,15 +1,15 @@
-import { useState, useEffect, FC } from "react";
-import "./Listing.scss";
-import { ReactComponent as SearchIcon } from "../../assets/images/searchicon.svg";
-import NftCard from "../NftCard/NftCard";
-import FullPageLoader from "../FullPageLoader/FullPageLoader";
-import Select from "react-select";
-import { decimalNumberValidator } from "../../utils/functions";
-import { listingInt } from "../../interfaces/components";
+import React, { useState, useEffect, FC } from 'react';
+import './Listing.scss';
+import { ReactComponent as SearchIcon } from '../../assets/images/searchicon.svg';
+import NftCard from '../NftCard/NftCard';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
+import Select from 'react-select';
+import { decimalNumberValidator } from '../../utils/functions';
+import { listingInt } from '../../interfaces/components';
 
 const Listing: FC<listingInt> = (props) => {
-  const [minValue, setMinValue] = useState<any>("");
-  const [maxValue, setMaxValue] = useState<any>("");
+  const [minValue, setMinValue] = useState<any>('');
+  const [maxValue, setMaxValue] = useState<any>('');
   const [statusActive, setStatusActive] = useState<any>(null);
   const [filterActive, setFilterActive] = useState<any>(false);
   const [initial, setInitial] = useState<any>(true);
@@ -17,7 +17,7 @@ const Listing: FC<listingInt> = (props) => {
   const [collectionActive, setCollectionActive] = useState<any>(null);
   const [isActive, setIsActive] = useState<any>(1);
   const [keyword, setKeyword] = useState<any>(
-    props.initialKeyword ? props.initialKeyword : ""
+    props.initialKeyword ? props.initialKeyword : ''
   );
   const [filter, setFilter] = useState<any>({
     collectionId: false,
@@ -33,19 +33,19 @@ const Listing: FC<listingInt> = (props) => {
     buy: false,
     auction: false,
     latest: false,
-    keyword: props.initialKeyword ? props.initialKeyword : "",
+    keyword: props.initialKeyword ? props.initialKeyword : '',
   });
 
   const priceOptions = [
-    { value: "lowtohigh", label: "Low To High" },
-    { value: "hightolow", label: "High To Low" },
-    { value: "oldest", label: "Oldest" },
-    { value: "newest", label: "Recently Created" },
+    { value: 'lowtohigh', label: 'Low To High' },
+    { value: 'hightolow', label: 'High To Low' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'newest', label: 'Recently Created' },
   ];
   useEffect(() => {
     const { initialKeyword } = props;
     if (initialKeyword) {
-      let capitalizeValue = capitalize(initialKeyword);
+      const capitalizeValue = capitalize(initialKeyword);
       setKeyword(capitalizeValue);
       handleSearchKeyword(capitalizeValue);
     }
@@ -59,7 +59,7 @@ const Listing: FC<listingInt> = (props) => {
   };
   const selectCustomStyles = {};
 
-  const statusData = ["Buy Now", "On Auction", "New"];
+  const statusData = ['Buy Now', 'On Auction', 'New'];
   const handleFilters = () => {
     setFilterActive(!filterActive);
   };
@@ -83,7 +83,7 @@ const Listing: FC<listingInt> = (props) => {
     setInitial(false);
 
     const { label } = e;
-    if (label === "Low To High") {
+    if (label === 'Low To High') {
       setFilter((prev: any) => ({
         ...prev,
         lowToHigh: true,
@@ -91,7 +91,7 @@ const Listing: FC<listingInt> = (props) => {
         oldest: false,
         newest: false,
       }));
-    } else if (label === "High To Low") {
+    } else if (label === 'High To Low') {
       setFilter((prev: any) => ({
         ...prev,
         highToLow: true,
@@ -99,7 +99,7 @@ const Listing: FC<listingInt> = (props) => {
         oldest: false,
         newest: false,
       }));
-    } else if (label === "Oldest") {
+    } else if (label === 'Oldest') {
       setFilter((prev: any) => ({
         ...prev,
         oldest: true,
@@ -107,7 +107,7 @@ const Listing: FC<listingInt> = (props) => {
         lowToHigh: false,
         newest: false,
       }));
-    } else if (label === "Recently Created") {
+    } else if (label === 'Recently Created') {
       setFilter((prev: any) => ({
         ...prev,
         newest: true,
@@ -116,6 +116,7 @@ const Listing: FC<listingInt> = (props) => {
         lowToHigh: false,
       }));
     } else {
+      // empity block statement
     }
   };
 
@@ -156,7 +157,7 @@ const Listing: FC<listingInt> = (props) => {
   const handleSearchKeyword = (value: any) => {
     setInitial(false);
     setFilterationLoader(true);
-    let capitalizeValue = "";
+    let capitalizeValue = '';
     if (value) {
       capitalizeValue = capitalize(value);
     }
@@ -166,14 +167,14 @@ const Listing: FC<listingInt> = (props) => {
   const handleStatusFilter = (id: string) => {
     setInitial(false);
     setFilterationLoader(true);
-    if (id === "Buy Now") {
+    if (id === 'Buy Now') {
       setFilter((prev: any) => ({
         ...prev,
         buy: true,
         auction: false,
         newest: false,
       }));
-    } else if (id === "On Auction") {
+    } else if (id === 'On Auction') {
       setFilter((prev: any) => ({
         ...prev,
         auction: true,
@@ -190,7 +191,7 @@ const Listing: FC<listingInt> = (props) => {
     }
   };
   const handleClearFilter = (id: any) => {
-    if (id === "status") {
+    if (id === 'status') {
       setFilterationLoader(true);
       setFilter((prev: any) => ({
         ...prev,
@@ -198,22 +199,22 @@ const Listing: FC<listingInt> = (props) => {
         auction: false,
         new: false,
       }));
-    } else if (id === "price") {
+    } else if (id === 'price') {
       setFilterationLoader(true);
-      setMinValue("");
-      setMaxValue("");
+      setMinValue('');
+      setMaxValue('');
       setFilter((prev: any) => ({ ...prev, ltePrice: false, gtePrice: false }));
-    } else if (id === "collections") {
+    } else if (id === 'collections') {
       setFilterationLoader(true);
       setFilter((prev: any) => ({ ...prev, collectionId: false }));
     } else {
-      setMinValue("");
-      setMaxValue("");
+      setMinValue('');
+      setMaxValue('');
       setStatusActive(null);
       setCollectionActive(null);
       setSelectedOption(null);
       setFilterActive(null);
-      setKeyword("");
+      setKeyword('');
       setFilter({
         collectionId: false,
         gtePrice: false,
@@ -268,9 +269,9 @@ const Listing: FC<listingInt> = (props) => {
                   placeholder="Search items and accounts"
                   maxLength={50}
                   onChange={(e: any) => {
-                    if (keyword.trim() === "" && e.target.value.trim() === "") {
+                    if (keyword.trim() === '' && e.target.value.trim() === '') {
                       return false;
-                    } else if (e.target.value === "") {
+                    } else if (e.target.value === '') {
                       handleSearchKeyword(false);
                       setKeyword(e.target.value);
                     } else {
@@ -278,7 +279,7 @@ const Listing: FC<listingInt> = (props) => {
                     }
                   }}
                   onKeyPress={(e: any) =>
-                    e.key === "Enter" && handleSearchKeyword(keyword)
+                    e.key === 'Enter' && handleSearchKeyword(keyword)
                   }
                   value={keyword}
                 />
@@ -302,7 +303,7 @@ const Listing: FC<listingInt> = (props) => {
               </div>
               <div className="mob-filters-btn d-flex d-lg-none align-items-center justify-content-center">
                 <button
-                  className={`${filterActive ? "mob-active-filter" : ""}`}
+                  className={`${filterActive ? 'mob-active-filter' : ''}`}
                   onClick={handleFilters}
                 >
                   Filters
@@ -313,7 +314,7 @@ const Listing: FC<listingInt> = (props) => {
           <div className="col-12 my-5 order-2 order-lg-1 ">
             <div className="hero-nav d-flex flex-column flex-sm-row align-items-center justify-content-between">
               <div>
-                {" "}
+                {' '}
                 {menuData &&
                   menuData.length > 0 &&
                   menuData.map((item, id) => {
@@ -326,7 +327,7 @@ const Listing: FC<listingInt> = (props) => {
                           setMenuFilter?.(item);
                         }}
                         className={`${
-                          id === isActive ? "active-hero-nav" : ""
+                          id === isActive ? 'active-hero-nav' : ''
                         } me-2 me-xl-3`}
                       >
                         {item}
@@ -336,7 +337,7 @@ const Listing: FC<listingInt> = (props) => {
               </div>
               <div className="total-items mt-3 mt-sm-0">
                 <p>
-                  Total items:{" "}
+                  Total items:{' '}
                   <span>{nftPagination?.total ? nftPagination?.total : 0}</span>
                 </p>
               </div>
@@ -344,7 +345,7 @@ const Listing: FC<listingInt> = (props) => {
           </div>
           <div
             className={`${
-              filterActive ? "d-block d-lg-block" : "d-none d-lg-block"
+              filterActive ? 'd-block d-lg-block' : 'd-none d-lg-block'
             } col-md-5 col-lg-4 col-xl-3 order-1 order-lg-2 mt-4 mt-lg-0`}
           >
             <div className="filter-container mb-4">
@@ -361,7 +362,7 @@ const Listing: FC<listingInt> = (props) => {
                           setStatusActive(status);
                         }}
                         className={`${
-                          status === statusActive ? "active-filter-btn" : ""
+                          status === statusActive ? 'active-filter-btn' : ''
                         } filter-btn me-3`}
                       >
                         {status}
@@ -375,7 +376,7 @@ const Listing: FC<listingInt> = (props) => {
                     className="filter-clear-btn"
                     onClick={() => {
                       setStatusActive(null);
-                      handleClearFilter("status");
+                      handleClearFilter('status');
                     }}
                   >
                     Clear
@@ -408,7 +409,7 @@ const Listing: FC<listingInt> = (props) => {
                 <button
                   className="mt-3 mt-sm-0"
                   onClick={() => applyMinMaxFilter()}
-                  disabled={disabled || minValue === "" || maxValue === ""}
+                  disabled={disabled || minValue === '' || maxValue === ''}
                 >
                   Apply
                 </button>
@@ -417,7 +418,7 @@ const Listing: FC<listingInt> = (props) => {
                 {minValue && maxValue && (
                   <button
                     className="filter-clear-btn"
-                    onClick={() => handleClearFilter("price")}
+                    onClick={() => handleClearFilter('price')}
                   >
                     Clear
                   </button>
@@ -439,7 +440,7 @@ const Listing: FC<listingInt> = (props) => {
                             setCollectionActive(id);
                           }}
                           className={`${
-                            id === collectionActive ? "active-filter-btn" : ""
+                            id === collectionActive ? 'active-filter-btn' : ''
                           } filter-btn me-2 me-xl-3`}
                         >
                           {collection.name}
@@ -458,7 +459,7 @@ const Listing: FC<listingInt> = (props) => {
                       className="filter-clear-btn"
                       onClick={() => {
                         setCollectionActive(null);
-                        handleClearFilter("collections");
+                        handleClearFilter('collections');
                       }}
                     >
                       Clear

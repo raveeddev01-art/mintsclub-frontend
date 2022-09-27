@@ -1,24 +1,24 @@
-import { useState, useEffect, useContext, FC } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import "./collectiondetails.scss";
-import TickIcon from "../../assets/images/seller-tick-icon.svg";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
-import { validateNetwork } from "../../utils/web3";
-import Listing from "../../Components/Listing/Listing";
-import { toast } from "react-toastify";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/profileBg.png";
-import BannerDark from "../../assets/images/bannerbg.png";
-import { ReactComponent as PolygonIcon } from "../../assets/images/poligon.svg";
-import BannerLight from "../../assets/images/bannerbg2.png";
-import darkModeContext from "../../context/darkmode/DarkModeContext";
-import { Images } from "../../assets/assets";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
-import { useGetMyLikedNFTs, useGetNFTs } from "../../hooks/CollectionDetails";
-import { useInsertData } from "../../hooks/Common";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import React, { useState, useEffect, useContext, FC } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import './collectiondetails.scss';
+import TickIcon from '../../assets/images/seller-tick-icon.svg';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
+import { validateNetwork } from '../../utils/web3';
+import Listing from '../../Components/Listing/Listing';
+import { toast } from 'react-toastify';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/profileBg.png';
+import BannerDark from '../../assets/images/bannerbg.png';
+import { ReactComponent as PolygonIcon } from '../../assets/images/poligon.svg';
+import BannerLight from '../../assets/images/bannerbg2.png';
+import darkModeContext from '../../context/darkmode/DarkModeContext';
+import { Images } from '../../assets/assets';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import { CollectionDetailInt } from '../../interfaces/CollectionDetail/interface';
+import { useGetMyLikedNFTs, useGetNFTs } from '../../hooks/CollectionDetails';
+import { useInsertData } from '../../hooks/Common';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nfts, setNfts] = useState<any>(null);
@@ -48,7 +48,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     }
   };
   const {} = useGetMyLikedNFTs(
-    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
+    ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
     onSuccessLikedNFTs,
     nfts?.length > 0 ? true : false
   );
@@ -73,7 +73,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 
   //Like/Dislike
   const { mutate } = useInsertData(
-    "nftLikes/likeDislike",
+    'nftLikes/likeDislike',
     onSuccessLikeDislike
   );
 
@@ -83,58 +83,58 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     status: string,
     likesCount: number
   ) => {
-    if (ENV.getUserKeys("_id")?._id) {
+    if (ENV.getUserKeys('_id')?._id) {
       if (await validateNetwork()) {
         if (!likeButtonDisable) {
           setLikeBtnDisable(true);
-          let userId = ENV.getUserKeys("_id")._id;
-          let body = {
+          const userId = ENV.getUserKeys('_id')._id;
+          const body = {
             userId,
             nftId,
             count: 1,
           };
 
-          if (status === "dislike" && likesCount > 0) {
-            let result = likedNfts?.filter((item) => item.nftId !== nftId);
+          if (status === 'dislike' && likesCount > 0) {
+            const result = likedNfts?.filter((item) => item.nftId !== nftId);
             if (result) {
               setLikedNfts(result);
             }
-            increOrDecreLikes(nftId, "dec");
+            increOrDecreLikes(nftId, 'dec');
             mutate(body);
           }
 
-          if (status === "like") {
+          if (status === 'like') {
             let myLikedNfts = [];
             if (likedNfts && likedNfts.length > 0) {
               myLikedNfts = likedNfts;
             }
 
-            let obj = {
-              _id: "1234455",
+            const obj = {
+              _id: '1234455',
               nftId,
             };
 
             myLikedNfts.push(obj);
 
             setLikedNfts(myLikedNfts);
-            increOrDecreLikes(nftId, "inc");
+            increOrDecreLikes(nftId, 'inc');
             mutate(body);
           }
           // setNFTs(nfts);
         }
       } else {
         toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
+          'Please Connect Your Metamask With Ethereum Rinkby Network'
         );
       }
     } else {
-      history.push("/login");
+      history.push('/login');
     }
   };
 
   const increOrDecreLikes = (id: string, status: string) => {
-    if (status === "dec") {
-      let newResult = nfts?.map((item: any) => {
+    if (status === 'dec') {
+      const newResult = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -145,7 +145,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
       });
       setNfts(newResult);
     } else {
-      let final = nfts?.map((item: any) => {
+      const final = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -162,7 +162,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const { name, logo, description, username }: any = location.state;
 
   const bannerData = {
-    subHeading: "Explore",
+    subHeading: 'Explore',
     heading: name,
   };
 
@@ -216,7 +216,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
                     <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
                       <div className="collection-owner-name">
                         <h3>
-                          {name}{" "}
+                          {name}{' '}
                           <span>
                             <img
                               src={TickIcon}

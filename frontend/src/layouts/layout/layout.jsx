@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import NavbarMain from "../../Components/NavbarMain/NavbarMain";
-import Footer from "../../Components/Footer/Footer";
+import React, { Component } from 'react';
+import NavbarMain from '../../Components/NavbarMain/NavbarMain';
+import Footer from '../../Components/Footer/Footer';
 
 class Layout extends Component {
   render() {

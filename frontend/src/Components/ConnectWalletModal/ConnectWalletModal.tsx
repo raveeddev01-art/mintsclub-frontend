@@ -1,32 +1,32 @@
-import React, { useState, FC } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import "./ConnectWalletModal.scss";
-import { connectModal } from "../../assets/assets";
-import { ConnectWallModal } from "../../interfaces/components";
-import ConnectWallet from "../../pages/connect-wallet/connect-wallet";
+import React, { useState, FC } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import './ConnectWalletModal.scss';
+import { connectModal } from '../../assets/assets';
+import { ConnectWallModal } from '../../interfaces/components';
+import ConnectWallet from '../../pages/connect-wallet/connect-wallet';
 
 const walletButtons = [
   {
-    name: "MetaMask",
+    name: 'MetaMask',
     img: connectModal.metaImg,
   },
   {
-    name: "Coinbase Wallet",
+    name: 'Coinbase Wallet',
     img: connectModal.coinBaseImg,
   },
   {
-    name: "WalletConnect",
+    name: 'WalletConnect',
     img: connectModal.wcImg,
   },
   {
-    name: "Glow",
+    name: 'Glow',
     img: connectModal.glowImg,
   },
   {
-    name: "Phantom",
+    name: 'Phantom',
     img: connectModal.phantomImg,
   },
 ];

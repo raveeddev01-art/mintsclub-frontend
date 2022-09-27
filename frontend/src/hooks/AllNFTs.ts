@@ -1,15 +1,15 @@
-import { useContext } from "react";
-import { handleRequest } from "../utils/functions";
-import { useQuery, useMutation } from "react-query";
-import errorHandler from "../context/errorHandler/ErrorHandlerContext";
-import { ENV } from "../config/config";
+import { useContext } from 'react';
+import { handleRequest } from '../utils/functions';
+import { useQuery, useMutation } from 'react-query';
+import errorHandler from '../context/errorHandler/ErrorHandlerContext';
+import { ENV } from '../config/config';
 
 export const useGetCollections = (onSuccess: any, enabled?: any, qs?: any) => {
   const { setError } = useContext(errorHandler);
 
   return useQuery(
-    ["AllCollections", qs && qs],
-    () => handleRequest("get", "collection/list", null, qs),
+    ['AllCollections', qs && qs],
+    () => handleRequest('get', 'collection/list', null, qs),
     {
       onSuccess,
       enabled,
@@ -22,7 +22,7 @@ export const useGetCollections = (onSuccess: any, enabled?: any, qs?: any) => {
 };
 
 export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
-  let nftQS: any = {};
+  const nftQS: any = {};
   if (filter) {
     const {
       page,
@@ -65,16 +65,16 @@ export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
   }
   const qs = ENV.objectToQueryString(nftQS);
   return useQuery(
-    ["nfts", nftQS],
-    () => handleRequest("get", "nfts/list", null, qs),
+    ['nfts', nftQS],
+    () => handleRequest('get', 'nfts/list', null, qs),
     { onSuccess }
   );
 };
 
 export const useGetNFTbyId = (nftId: any, onSuccess: any) => {
   return useQuery(
-    ["getNFTById"],
-    () => handleRequest("get", `nfts/get/${nftId}`),
+    ['getNFTById'],
+    () => handleRequest('get', `nfts/get/${nftId}`),
     { onSuccess }
   );
 };

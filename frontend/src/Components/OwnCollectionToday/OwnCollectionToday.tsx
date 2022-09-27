@@ -1,5 +1,6 @@
-import "./OwnCollectionToday.scss";
-import { Images } from "../../assets/assets";
+import React from 'react';
+import './OwnCollectionToday.scss';
+import { Images } from '../../assets/assets';
 
 const OwnCollectionToday = () => {
   return (
@@ -10,7 +11,7 @@ const OwnCollectionToday = () => {
             <div className="own-collection-content text-center  text-lg-start">
               <img src={Images.community} alt="community" />
               <p className="own-collection-title mt-3">
-                Join the community,{" "}
+                Join the community,{' '}
                 <span>
                   Change <br className="d-none d-sm-block" /> the world.
                 </span>
@@ -27,7 +28,7 @@ const OwnCollectionToday = () => {
             <div className="own-collection-content text-center  text-lg-start">
               <img src={Images.ownCollection} alt="community" />
               <p className="own-collection-title mt-3">
-                Start your own{" "}
+                Start your own{' '}
                 <span>
                   collection <br className="d-none d-sm-block" />
                   today.

@@ -1,16 +1,16 @@
-import React, { useState, FC } from "react";
-import { Card } from "react-bootstrap";
-import { useHistory } from "react-router";
-import useVideoPlayer from "../TestVideoCard/Components/UseVideoPlayer";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import placeholderImg from "../../assets/images/placeholder.png";
-import { ReactComponent as PolygonIcon } from "../../assets/images/polygon-cir.svg";
-import { connect } from "react-redux";
-import "./NftCard.scss";
-import { Images } from "../../assets/assets";
-import ImageLoader from "../ContentLoader/ImageLoader";
-import Audio from "../Audio/Audio";
-import { NFTCardInt } from "../../interfaces/components";
+import React, { useState, FC } from 'react';
+import { Card } from 'react-bootstrap';
+import { useHistory } from 'react-router';
+import useVideoPlayer from '../TestVideoCard/Components/UseVideoPlayer';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import placeholderImg from '../../assets/images/placeholder.png';
+import { ReactComponent as PolygonIcon } from '../../assets/images/polygon-cir.svg';
+import { connect } from 'react-redux';
+import './NftCard.scss';
+import { Images } from '../../assets/assets';
+import ImageLoader from '../ContentLoader/ImageLoader';
+import Audio from '../Audio/Audio';
+import { NFTCardInt } from '../../interfaces/components';
 
 const NFTCard: FC<NFTCardInt> = (props) => {
   const history = useHistory();
@@ -35,7 +35,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
   const { likedNfts } = props;
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
-      let result = likedNfts.find((item) => item.nftId == id);
+      const result = likedNfts.find((item) => item.nftId === id);
       if (result) {
         return true;
       } else {
@@ -53,9 +53,9 @@ const NFTCard: FC<NFTCardInt> = (props) => {
           <PolygonIcon className="icon" />
           <span className="name">Polugon Matic</span>
         </div>
-        {fileType === "image" ? (
+        {fileType === 'image' ? (
           <>
-            <div style={{ display: `${loader ? "block" : "none"}` }}>
+            <div style={{ display: `${loader ? 'block' : 'none'}` }}>
               <ImageLoader />
             </div>
             <Card.Img
@@ -64,13 +64,13 @@ const NFTCard: FC<NFTCardInt> = (props) => {
               onClick={() => history.push(`${props.path}${_id}`)}
               src={image}
               alt="AuctionTopImg"
-              style={{ display: `${!loader ? "block" : "none"}` }}
+              style={{ display: `${!loader ? 'block' : 'none'}` }}
             />
           </>
-        ) : fileType === "video" ? (
+        ) : fileType === 'video' ? (
           <div className="card-img-top">
             <div className="video-wrapper">
-              <div style={{ display: `${loader ? "block" : "none"}` }}>
+              <div style={{ display: `${loader ? 'block' : 'none'}` }}>
                 <ImageLoader />
               </div>
               <video
@@ -83,7 +83,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
                 onCanPlay={() => {
                   setLoader(false);
                 }}
-                style={{ display: `${!loader ? "block" : "none"}` }}
+                style={{ display: `${!loader ? 'block' : 'none'}` }}
               />
 
               <div className="controls">
@@ -102,9 +102,9 @@ const NFTCard: FC<NFTCardInt> = (props) => {
               </div>
             </div>
           </div>
-        ) : fileType === "audio" ? (
+        ) : fileType === 'audio' ? (
           <>
-            <div style={{ display: `${loader ? "block" : "none"}` }}>
+            <div style={{ display: `${loader ? 'block' : 'none'}` }}>
               <ImageLoader />
             </div>
             <Audio
@@ -118,13 +118,13 @@ const NFTCard: FC<NFTCardInt> = (props) => {
             />
           </>
         ) : (
-          " "
+          ' '
         )}
       </div>
       <Card.Body>
         <Card.Title>
           <div>
-            {name && name.length > 25 ? name.slice(0, 25) + "..." : name}
+            {name && name.length > 25 ? name.slice(0, 25) + '...' : name}
           </div>
           <div className="nft-owner-price d-flex align-items-center">
             <span className="me-2">{likeCount ? likeCount : 0}</span>
@@ -133,7 +133,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
                 src={Images.whiteEmptyHeart}
                 alt=""
                 onClick={() => {
-                  props.handleLikesTogleApi(_id, "like", likeCount);
+                  props.handleLikesTogleApi(_id, 'like', likeCount);
                 }}
               />
             ) : (
@@ -141,7 +141,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
                 src={Images.whiteFillHeart}
                 alt=""
                 onClick={() => {
-                  props.handleLikesTogleApi(_id, "dislike", likeCount);
+                  props.handleLikesTogleApi(_id, 'dislike', likeCount);
                 }}
               />
             )}
@@ -150,13 +150,13 @@ const NFTCard: FC<NFTCardInt> = (props) => {
         <div className="nft-status d-none">
           <div className="status-info status-sold">
             <span className="status">
-              Sold:{" "}
-              <span className="status-count">{copies - remainingCopies}</span>{" "}
+              Sold:{' '}
+              <span className="status-count">{copies - remainingCopies}</span>{' '}
             </span>
           </div>
           <div className="status-info status-remaining">
             <span className="status">
-              Remaining: <span className="status-count">{remainingCopies}</span>{" "}
+              Remaining: <span className="status-count">{remainingCopies}</span>{' '}
             </span>
           </div>
         </div>
@@ -179,12 +179,12 @@ const NFTCard: FC<NFTCardInt> = (props) => {
                 <span className="text-capitalize ms-1">
                   {ownerAddress?.toUpperCase() ===
                   props.connectedAddress?.toUpperCase()
-                    ? "You"
+                    ? 'You'
                     : username && username?.length > 19
-                    ? username.substring(0, 19) + "..."
+                    ? username.substring(0, 19) + '...'
                     : username && username?.length <= 19
                     ? username
-                    : "unnamed"}
+                    : 'unnamed'}
                 </span>
                 <span className="nft-price mt-1">
                   <img className="me-2" src={Images.nftPriceTag} />
@@ -197,7 +197,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
             className="nft-bit-btn"
             onClick={() => history.push(`${props.path}${_id}`)}
           >
-            {"View Detail"}
+            {'View Detail'}
           </button>
         </div>
       </Card.Body>

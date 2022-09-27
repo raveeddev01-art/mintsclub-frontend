@@ -7,7 +7,7 @@ import {
   GET_USER,
   GET_APPROVALS,
   EDIT_APPROVAL,
-} from "../../redux/types";
+} from '../../redux/types';
 
 const initialState = {
   userData: null,

@@ -1,3 +1,3 @@
-export type Location ={
-    state?:string
-}
+export type Location = {
+  state?: string;
+};

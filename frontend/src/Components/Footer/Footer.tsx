@@ -1,23 +1,22 @@
-import { useEffect, useState, FC } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
-import { firstInputCharacterSpace } from "../../utils/functions";
-import EmailIcon from "../../assets/images/mailbox-icon.svg";
-import { useLocation } from "react-router-dom";
-import "./Footer.scss";
-import { toast } from "react-toastify";
-import { emptyError } from "../../redux/shared/error/error.action";
-import { footerInt } from "../../interfaces/components";
+import React, { useEffect, useState, FC } from 'react';
+import { connect } from 'react-redux';
+import { getFooter, beforeFooter, subscribeUser } from './footer.action';
+import { firstInputCharacterSpace } from '../../utils/functions';
+import EmailIcon from '../../assets/images/mailbox-icon.svg';
+import { useLocation, Link } from 'react-router-dom';
+import './Footer.scss';
+import { toast } from 'react-toastify';
+import { emptyError } from '../../redux/shared/error/error.action';
+import { footerInt } from '../../interfaces/components';
 
 const Footer: FC<footerInt> = (props) => {
-  const [email, setEmail] = useState<any>("");
+  const [email, setEmail] = useState<any>('');
   const [loader, setLoader] = useState<any>(false);
 
   useEffect(() => {
     if (props.subscribeAuth && props.error === null) {
       setLoader(false);
-      toast.success("Subscribed successfully");
+      toast.success('Subscribed successfully');
       props.beforeFooter();
     }
   }, [props.subscribeAuth]);
@@ -32,15 +31,15 @@ const Footer: FC<footerInt> = (props) => {
   }, [props.error]);
 
   const subscribe = () => {
-    if (email.trim() === "") {
-      return toast.error("Please enter an email to subscribe");
+    if (email.trim() === '') {
+      return toast.error('Please enter an email to subscribe');
     }
     if (validateEmail(email)) {
       props.beforeFooter();
       setLoader(true);
       props.subscribeUser(email);
     } else {
-      toast.error("Please enter a valid email address");
+      toast.error('Please enter a valid email address');
     }
   };
 
@@ -59,7 +58,7 @@ const Footer: FC<footerInt> = (props) => {
           <div className="row justify-content-center justify-content-lg-between">
             <div className="col-12 col-md-3 col-lg-2 res-margin  text-center  text-md-start">
               <div className="footer-items">
-                <h4 className="footer-title">{"Who Are We?"}</h4>
+                <h4 className="footer-title">{'Who Are We?'}</h4>
                 <ul>
                   <li>
                     <Link to="/aboutus">About Us</Link>
@@ -72,7 +71,7 @@ const Footer: FC<footerInt> = (props) => {
             </div>
             <div className="col-12 col-md-3 col-lg-2 res-margin text-center  text-md-start">
               <div className="footer-items">
-                <h4 className="footer-title">{"Join MintsClub"}</h4>
+                <h4 className="footer-title">{'Join MintsClub'}</h4>
                 <ul>
                   <li>
                     <Link to="/login">Sign In</Link>
@@ -86,10 +85,10 @@ const Footer: FC<footerInt> = (props) => {
             </div>
             <div className="col-12 col-md-3 col-lg-2 res-margin text-center  text-md-start">
               <div className="footer-items">
-                <h4 className="footer-title">{"Quick Links"}</h4>
+                <h4 className="footer-title">{'Quick Links'}</h4>
                 <ul>
-                  {location.pathname !== "/login" &&
-                    location.pathname !== "/Signup" && (
+                  {location.pathname !== '/login' &&
+                    location.pathname !== '/Signup' && (
                       <>
                         <li>
                           <Link to="/auctions">Live Auction</Link>
@@ -142,7 +141,7 @@ const Footer: FC<footerInt> = (props) => {
                           <span className="sr-only">Loading...</span>
                         </div>
                       ) : (
-                        "Subscribe"
+                        'Subscribe'
                       )}
                     </button>
                   </div>
@@ -150,25 +149,32 @@ const Footer: FC<footerInt> = (props) => {
                 {/* <p>{data.desc}</p> */}
                 <div className="social-icons d-flex justify-content-center justify-content-lg-end">
                   <a
-                    href={"https://www.linkedin.com/showcase/mints-club"}
+                    href={'https://www.linkedin.com/showcase/mints-club'}
                     target="_blank"
+                    rel="noreferrer"
                   >
-                    <i className={"fab fa-linkedin-in"} />
+                    <i className={'fab fa-linkedin-in'} />
                   </a>
                   <a
-                    href={"https://www.facebook.com/MintsClub.io/"}
+                    href={'https://www.facebook.com/MintsClub.io/'}
                     target="_blank"
+                    rel="noreferrer"
                   >
-                    <i className={"fab fa-facebook-f"} />
+                    <i className={'fab fa-facebook-f'} />
                   </a>
                   <a
-                    href={"https://www.instagram.com/mintsclub/"}
+                    href={'https://www.instagram.com/mintsclub/'}
                     target="_blank"
+                    rel="noreferrer"
                   >
-                    <i className={"fab fa-instagram"} />
+                    <i className={'fab fa-instagram'} />
                   </a>
-                  <a href={"https://twitter.com/MintsClub"} target="_blank">
-                    <i className={"fab fa-twitter"} />
+                  <a
+                    href={'https://twitter.com/MintsClub'}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className={'fab fa-twitter'} />
                   </a>
                 </div>
               </div>

@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { Modal } from "react-bootstrap";
-import { Spin } from "react-cssfx-loading";
-import ModalClose from "../../../assets/images/modal-close.svg";
-import { Images } from "../../../assets/assets";
-import { ApprovalModalInt } from "../../../interfaces/components";
-import "./ApprovalModal.scss";
+import React, { FC } from 'react';
+import { Modal } from 'react-bootstrap';
+import { Spin } from 'react-cssfx-loading';
+import ModalClose from '../../../assets/images/modal-close.svg';
+import { Images } from '../../../assets/assets';
+import { ApprovalModalInt } from '../../../interfaces/components';
+import './ApprovalModal.scss';
 
 const ApprovalModal: FC<ApprovalModalInt> = ({
   approvalStatus,
@@ -27,11 +27,11 @@ const ApprovalModal: FC<ApprovalModalInt> = ({
         >
           <Modal.Header>
             <Modal.Title className="acc-title mt-lg-3 mt-5">
-              {approvalStatus === "approved"
-                ? "Congratulations"
-                : approvalStatus === "in-progress"
-                ? "We’re on it"
-                : "Your account if not approved yet."}
+              {approvalStatus === 'approved'
+                ? 'Congratulations'
+                : approvalStatus === 'in-progress'
+                ? 'We’re on it'
+                : 'Your account if not approved yet.'}
             </Modal.Title>
             <div className="modal-close-container" onClick={onHide}>
               <button>
@@ -40,7 +40,7 @@ const ApprovalModal: FC<ApprovalModalInt> = ({
             </div>
           </Modal.Header>
           <Modal.Body>
-            {approvalStatus === "approved" ? (
+            {approvalStatus === 'approved' ? (
               <>
                 <img src={Images.sellerTickIcon} className="success-icon" />
                 <div className="w-100 px-4 mb-2">
@@ -52,7 +52,7 @@ const ApprovalModal: FC<ApprovalModalInt> = ({
                   </div>
                 </div>
               </>
-            ) : approvalStatus === "in-progress" ? (
+            ) : approvalStatus === 'in-progress' ? (
               <>
                 <div className="approval-spinner mb-4">
                   <Spin color="#5666FE" width="60px" height="60px"></Spin>
@@ -85,16 +85,16 @@ const ApprovalModal: FC<ApprovalModalInt> = ({
                 </div>
                 <button
                   className="btn btn-linear-gradient mt-4 my-4 get-approved-btn"
-                  disabled={approvalStatus === "pending"}
+                  disabled={approvalStatus === 'pending'}
                   onClick={() => approveAccount()}
                 >
-                  {approvalStatus === "pending" ? (
+                  {approvalStatus === 'pending' ? (
                     <div
                       className="spinner-border approve-spinner"
                       role="status"
                     ></div>
                   ) : (
-                    "Get Approved"
+                    'Get Approved'
                   )}
                 </button>
               </>

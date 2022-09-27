@@ -1,2 +1,1 @@
-export interface HomeAuction{
-}
+export interface HomeAuction {}

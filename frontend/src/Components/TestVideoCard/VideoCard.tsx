@@ -1,13 +1,13 @@
-import React, { useRef, FC } from "react";
-import { useHistory } from "react-router";
-import { Card } from "react-bootstrap";
-import HeartIcon from "../../assets/images/unlike-icon.svg";
-import { AiFillHeart } from "react-icons/ai";
-import "./VideoCard.scss";
-import useVideoPlayer from "./Components/UseVideoPlayer";
-import { ENV } from "../../config/config";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import { VideoCardInterface } from "../../interfaces/components";
+import React, { useRef, FC } from 'react';
+import { useHistory } from 'react-router';
+import { Card } from 'react-bootstrap';
+import HeartIcon from '../../assets/images/unlike-icon.svg';
+import { AiFillHeart } from 'react-icons/ai';
+import './VideoCard.scss';
+import useVideoPlayer from './Components/UseVideoPlayer';
+import { ENV } from '../../config/config';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import { VideoCardInterface } from '../../interfaces/components';
 
 const VideoCard: FC<VideoCardInterface> = ({
   CardImg,
@@ -34,7 +34,9 @@ const VideoCard: FC<VideoCardInterface> = ({
 
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
-      let result = likedNfts.find((item: { nftId: any }) => item.nftId == id);
+      const result = likedNfts.find(
+        (item: { nftId: any }) => item.nftId === id
+      );
       if (result) {
         return true;
       } else {
@@ -47,9 +49,9 @@ const VideoCard: FC<VideoCardInterface> = ({
 
   const checkIfAuctionStartedorEnded = (startDate: Date, endDate: Date) => {
     if (startDate !== null || endDate !== null) {
-      let currentDate = new Date();
-      let auctionStartDate = new Date(startDate);
-      let auctionEndDate = new Date(endDate);
+      const currentDate = new Date();
+      const auctionStartDate = new Date(startDate);
+      const auctionEndDate = new Date(endDate);
 
       if (
         auctionStartDate.setHours(0, 0, 0, 0) <=
@@ -91,7 +93,7 @@ const VideoCard: FC<VideoCardInterface> = ({
       <Card.Body className="d-flex flex-column">
         <div className="listing-card-title-container d-flex align-items-center justify-content-between">
           <Card.Title onClick={() => history.push(`/nftdetail/${id}`)}>
-            {name ? name : "item name"}
+            {name ? name : 'item name'}
           </Card.Title>
           {!userProfile && (
             <div className="options-icon like-icon text-white">
@@ -100,10 +102,10 @@ const VideoCard: FC<VideoCardInterface> = ({
                   <AiFillHeart
                     className="heart-fill-icon "
                     onClick={() => {
-                      handleLikesTogleApi(id, "dislike", likesCount);
+                      handleLikesTogleApi(id, 'dislike', likesCount);
                       setToggle(!toggle);
                     }}
-                  />{" "}
+                  />{' '}
                   <p> {likesCount ? likesCount : 0} </p>
                 </div>
               ) : (
@@ -112,7 +114,7 @@ const VideoCard: FC<VideoCardInterface> = ({
                     src={HeartIcon}
                     alt="OptionsIcon"
                     onClick={() => {
-                      handleLikesTogleApi(id, "like", likesCount);
+                      handleLikesTogleApi(id, 'like', likesCount);
                       setToggle(!toggle);
                     }}
                   />
@@ -154,13 +156,13 @@ const VideoCard: FC<VideoCardInterface> = ({
           onClick={() => history.push(`/nftdetail/${id}`)}
         >
           <p>
-            {ownerId === ENV.getUserKeys("_id")._id ||
+            {ownerId === ENV.getUserKeys('_id')._id ||
             !sellingMethod ||
             !checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate)
-              ? "View"
+              ? 'View'
               : sellingMethod === 2
-              ? "Place Bid"
-              : "Buy Now"}
+              ? 'Place Bid'
+              : 'Buy Now'}
           </p>
         </button>
       </Card.Body>

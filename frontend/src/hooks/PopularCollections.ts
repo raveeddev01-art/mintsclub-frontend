@@ -1,16 +1,16 @@
-import { useContext } from "react";
-import { handleRequest } from "../utils/functions";
-import { useQuery } from "react-query";
-import { ENV } from "../config/config";
-import axios from "axios";
-import errorHandler from "../context/errorHandler/ErrorHandlerContext";
+import { useContext } from 'react';
+import { handleRequest } from '../utils/functions';
+import { useQuery } from 'react-query';
+import { ENV } from '../config/config';
+import axios from 'axios';
+import errorHandler from '../context/errorHandler/ErrorHandlerContext';
 
 export const useGetCategories = (onError: any, onSuccess: any) => {
   const { setError } = useContext(errorHandler);
 
   return useQuery(
-    ["getCategories"],
-    () => handleRequest("get", "category/list"),
+    ['getCategories'],
+    () => handleRequest('get', 'category/list'),
     {
       onSuccess,
       onError: (error: any) => {
@@ -38,7 +38,7 @@ export const useGetPopularCollections = (
   };
 
   return useQuery(
-    ["popularCollections", categoryId],
+    ['popularCollections', categoryId],
     () => getPopularCollections(),
     {
       staleTime: 5000000,

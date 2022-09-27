@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { BreadcrumbInt } from "../../interfaces/components";
-import "./Breadcrumb.scss";
+import React, { FC } from 'react';
+import { BreadcrumbInt } from '../../interfaces/components';
+import './Breadcrumb.scss';
 
 const Breadcrumb: FC<BreadcrumbInt> = ({
   title1,
@@ -17,17 +17,17 @@ const Breadcrumb: FC<BreadcrumbInt> = ({
               {title1 ? (
                 <p onClick={() => title1Handler && title1Handler()}>{title1}</p>
               ) : (
-                ""
+                ''
               )}
               {title2 ? (
                 <p>
-                  <span className="px-1"> {">"} </span>
+                  <span className="px-1"> {'>'} </span>
                   {title2}
                 </p>
               ) : (
-                ""
+                ''
               )}
-              {title3 ? <p>{title3}</p> : ""}
+              {title3 ? <p>{title3}</p> : ''}
             </div>
           </div>
         </div>
