@@ -124,7 +124,6 @@ const Listing = (props) => {
 
   const handlePagination = () => {
     window.scroll(0, 200);
-
     if (!UserProfile) {
       setInitial(false);
       setFilterationLoader(true);
