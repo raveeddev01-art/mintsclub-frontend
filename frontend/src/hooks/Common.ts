@@ -1,13 +1,13 @@
-import { useContext } from "react";
-import { useMutation, useQuery } from "react-query";
-import { handleRequest } from "../utils/functions";
-import errorHandler from "../context/errorHandler/ErrorHandlerContext";
+import { useContext } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { handleRequest } from '../utils/functions';
+import errorHandler from '../context/errorHandler/ErrorHandlerContext';
 
 export const useInsertData = (url: any, onSuccess: any, onError?: any) => {
   const { setError } = useContext(errorHandler);
   // console.log("inserting data")
   return useMutation(
-    (paylaod: any) => handleRequest("post", url, paylaod ? paylaod : null),
+    (paylaod: any) => handleRequest('post', url, paylaod ? paylaod : null),
     {
       onSuccess,
       onError: (error: any) => {
@@ -19,7 +19,7 @@ export const useInsertData = (url: any, onSuccess: any, onError?: any) => {
 
 export const useEditData = (url: any, onSuccess?: any, onError?: any) => {
   const { setError } = useContext(errorHandler);
-  return useMutation((paylaod: any) => handleRequest("put", url, paylaod), {
+  return useMutation((paylaod: any) => handleRequest('put', url, paylaod), {
     onSuccess,
     onError: (error: any) => {
       setError(error);
@@ -37,7 +37,7 @@ export const useGetData = (
 ) => {
   const { setError } = useContext(errorHandler);
   //   console.log(qs,"qs")
-  return useQuery([key, qs && qs], () => handleRequest("get", url, null, qs), {
+  return useQuery([key, qs && qs], () => handleRequest('get', url, null, qs), {
     enabled,
     onSuccess,
     onError: (error: any) => {

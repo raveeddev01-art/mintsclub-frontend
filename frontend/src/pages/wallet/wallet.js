@@ -1,39 +1,40 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import validator from "validator";
-import { connect } from "react-redux";
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import validator from 'validator';
+import { connect } from 'react-redux';
 import {
   signRequest,
   connectWithMetamask,
   getChainId,
   switchNetworkToChainId,
-} from "../../utils/web3";
-import { beforeWallet, setWalletAddress } from "./wallet.action";
-import { toast } from "react-toastify";
+  getWalletAddress,
+  validateNetwork,
+} from '../../utils/web3';
+import { beforeWallet, setWalletAddress } from './wallet.action';
+import { toast } from 'react-toastify';
 import {
   beforeCategory,
   beforeCollection,
-} from "../collections/collections.actions";
-import { login, signup } from "../../Components/User/user.action";
+} from '../collections/collections.actions';
+import { login, signup } from '../../Components/User/user.action';
 // import {setWalletAddress} from "../../redux/shared/shared/shared.action"
-import { Images } from "../../assets/assets";
-import "./wallet.scss";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerDark from "../../assets/images/loginbg.png";
-import BannerLight from "../../assets/images/loginbg-light.png";
-import darkModeContext from "../../context/darkmode/DarkModeContext";
-import { getWalletAddress, validateNetwork } from "../../utils/web3";
-import { ENV } from "../../config/config";
+import { Images } from '../../assets/assets';
+import './wallet.scss';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerDark from '../../assets/images/loginbg.png';
+import BannerLight from '../../assets/images/loginbg-light.png';
+import darkModeContext from '../../context/darkmode/DarkModeContext';
+import { ENV } from '../../config/config';
 const Wallet = (props) => {
   const history = useHistory();
   let walletAddress = false;
-  const [connectedAddress, setConnectedAddress] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [connectedAddress, setConnectedAddress] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [showSignUp, setShowSignUp] = useState(false);
   const [showSignUpComponent, setShowSignUpComponent] = useState(false);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [disabled, setDisabled] = useState(false);
   const { darkMode } = useContext(darkModeContext);
   const [loader, setLoader] = useState(false);
@@ -43,14 +44,13 @@ const Wallet = (props) => {
     if (address) {
       setConnectedAddress(address);
     }
-    window.ethereum.on("disconnect", () => setConnectedAddress(null));
+    window.ethereum.on('disconnect', () => setConnectedAddress(null));
   }, []);
-  
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window.ethereum) {
       window.open(
-        "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
+        'https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/'
       );
     } else {
       // if (await validateNetwork()) {
@@ -105,10 +105,10 @@ const Wallet = (props) => {
   }, [props.error]);
 
   useEffect(() => {
-    if (props.collection.getAuth && ENV.getUserKeys("_id")?._id) {
+    if (props.collection.getAuth && ENV.getUserKeys('_id')?._id) {
       props.beforeCollection();
-      toast.success("User logged in successfully");
-      history.push("/");
+      toast.success('User logged in successfully');
+      history.push('/');
     }
   }, [props.collection.getAuth]);
 
@@ -135,7 +135,7 @@ const Wallet = (props) => {
         };
         props.signup(payload);
       } else {
-        setErrorMessage("please enter valid email");
+        setErrorMessage('please enter valid email');
       }
     } catch (err) {
       toast.error(err.message);
@@ -149,7 +149,9 @@ const Wallet = (props) => {
         let newAcc = await switchNetworkToChainId(ENV.chainId);
         props.setWalletAddress(newAcc);
         setConnectedAddress(newAcc);
-      } catch (error) {}
+      } catch (error) {
+        // empty block statement
+      }
     }
     try {
       setDisabled(true);
@@ -197,10 +199,10 @@ const Wallet = (props) => {
   };
 
   const signInbannerData = {
-    subHeading: "Login",
-    heading: "Login Information",
+    subHeading: 'Login',
+    heading: 'Login Information',
     content:
-      "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+      'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
   };
   return (
     <section
@@ -266,7 +268,7 @@ const Wallet = (props) => {
                                   </div>
                                 </div>
                               ) : (
-                                "Sign in"
+                                'Sign in'
                               )}
                             </button>
                           </>
@@ -276,7 +278,7 @@ const Wallet = (props) => {
                           <button
                             className="btn btn-linear-gradient btn-signin w-75 mx-auto mt-3 mt-sm-4 text-white"
                             type="button"
-                            onClick={() => history.push("/signup")}
+                            onClick={() => history.push('/signup')}
                           >
                             Would you like to Signup?
                           </button>
@@ -293,8 +295,8 @@ const Wallet = (props) => {
                     <span className="new-member mt-5 d-flex justify-content-center">
                       New Member?
                       {!detectMobile() ? (
-                        <a className="register-member mx-1" href={"/signup"}>
-                          {" "}
+                        <a className="register-member mx-1" href={'/signup'}>
+                          {' '}
                           Register
                         </a>
                       ) : (
@@ -302,11 +304,11 @@ const Wallet = (props) => {
                           className="register-member mx-1"
                           onClick={() =>
                             window.open(
-                              "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/signup"
+                              'https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/signup'
                             )
                           }
                         >
-                          {" "}
+                          {' '}
                           Register
                         </a>
                       )}
@@ -405,7 +407,7 @@ const Wallet = (props) => {
                               className="form-check-label text-center text-gray"
                               htmlFor="inlineRadio1"
                             >
-                              I agree to{" "}
+                              I agree to{' '}
                               <a href="/privacy-and-terms">Privacy Policy</a>
                             </label>
                           </div>
@@ -463,19 +465,19 @@ const Wallet = (props) => {
                   <p className="metamask-title mt-2">Metamask</p>
                   <p className="metamask-desc px-sm-0 px-3">
                     A browser extension with great flexibility.
-                    <br className="d-none d-sm-block" /> The web's most popular
-                    wallet
+                    <br className="d-none d-sm-block" /> The web&apos;s most
+                    popular wallet
                   </p>
                 </div>
 
                 <span className="new-member d-flex  justify-content-center mt-5">
-                  Don't have Metamask ? Click
+                  Don&apos;t have Metamask ? Click
                   <span
                     className="register-member mx-1"
-                    onClick={() => window.open("https://metamask.io/download/")}
+                    onClick={() => window.open('https://metamask.io/download/')}
                   >
-                    {" "}
-                    Here{" "}
+                    {' '}
+                    Here{' '}
                   </span>
                   to Install.
                 </span>

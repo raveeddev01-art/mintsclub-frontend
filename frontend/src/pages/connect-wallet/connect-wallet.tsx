@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext } from "react";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import { setWalletAddress } from "../wallet/wallet.action";
-import { login } from "../../Components/User/user.action";
-import { useHistory, useLocation } from "react-router-dom";
-import "./connect-wallet.scss";
-import { connectModal } from "../../assets/assets";
+import React, { useState, useEffect, useContext } from 'react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { setWalletAddress } from '../wallet/wallet.action';
+import { login } from '../../Components/User/user.action';
+import { useHistory, useLocation } from 'react-router-dom';
+import './connect-wallet.scss';
+import { connectModal } from '../../assets/assets';
 import {
   signRequest,
   connectWithMetamask,
@@ -18,13 +18,13 @@ import {
   getWeb3,
   connectMetamask,
   handleSign,
-} from "../../utils/web3";
-import { toast } from "react-toastify";
-import { connect } from "react-redux";
-import { useGetData, useInsertData } from "../../hooks/Common";
-import Web3 from "web3";
-import { ENV } from "../../config/config";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+} from '../../utils/web3';
+import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
+import { useGetData, useInsertData } from '../../hooks/Common';
+import Web3 from 'web3';
+import { ENV } from '../../config/config';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
@@ -48,7 +48,7 @@ const ConnectWallet = (props: any) => {
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window?.ethereum) {
       window.open(
-        "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
+        'https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/'
       );
     } else {
       // if (getChainId !== ENV.chainId) {
@@ -65,30 +65,30 @@ const ConnectWallet = (props: any) => {
         try {
           connectedAddress = await connectWithMetamask();
         } catch (err: any) {
-          return "";
+          return '';
         }
       }
       login(connectedAddress);
-      console.log(connectedAddress, "connectedAddress");
+      console.log(connectedAddress, 'connectedAddress');
     }
   };
 
   const onSuccessLogin = (data: any) => {
     if (data.data.success) {
       ENV.encryptUserData(data.data.data);
-      history.push(location?.state ? location.state : "/");
+      history.push(location?.state ? location.state : '/');
     } else {
       setError(data.data.message);
     }
   };
-  const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
+  const { mutate: auth } = useInsertData('auth/login/', onSuccessLogin);
 
   const login = async (connectedAddress: any) => {
     if (connectedAddress) {
       try {
         setDisabled(true);
         await signRequest();
-        let payload = {
+        const payload = {
           address: connectedAddress,
         };
         props.setWalletAddress(connectedAddress);
@@ -144,29 +144,29 @@ const ConnectWallet = (props: any) => {
   };
 
   const { mutate: handleSignUp } = useInsertData(
-    "users/createUser",
+    'users/createUser',
     onSuccessSignUp
   );
   ///Authenticate
   const onSuccessAuthentication = (data: any) => {
     if (data.data.success) {
       ENV.encryptUserData(data.data.data);
-      history.push(location?.state ? location.state : "/");
+      history.push(location?.state ? location.state : '/');
     } else {
       setError(data.data.message);
     }
   };
   const { mutate: authenticate } = useInsertData(
-    "users/authenticate",
+    'users/authenticate',
     onSuccessAuthentication,
     (err: any) => toast.error(err?.message)
   );
 
   const walletButtons = [
     {
-      name: "MetaMask",
+      name: 'MetaMask',
       img: connectModal.metaImg,
-      type: "ethereum",
+      type: 'ethereum',
       func: () => validateUser(null),
     },
   ];
@@ -182,11 +182,12 @@ const ConnectWallet = (props: any) => {
             <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
               <Tab eventKey="ethereum" title="Ethereum">
                 <div className="tab-inner-content">
-                  {walletButtons.map((button: any) => {
+                  {walletButtons.map((button: any, index: any) => {
                     return (
                       <button
                         className="wallet-button"
                         onClick={() => button.func()}
+                        key={index}
                       >
                         <img src={button.img} alt="services" />
                         {button.name}

@@ -10,14 +10,14 @@ import {
   GET_ACTIVITIES,
   GET_ITEM_LISTING,
   BEFORE_NFTS_BY_COLLECTION,
-  CREATE_NFT_AUTH
-} from "../../redux/types";
+  CREATE_NFT_AUTH,
+} from '../../redux/types';
 
 const initialState = {
   nftsData: {},
   nftAll: {},
   nftsAuth: false,
-  createNFTauth:false,
+  createNFTauth: false,
   upsertAuth: false,
   createNFTResult: [],
   createNFTerror: false,
@@ -27,10 +27,10 @@ const initialState = {
   myLikedNftsStatus: false,
   profileNFTs: [],
   profileNFTsStatus: false,
-  itemActivities:[],
-  activitiesAuth:false,
-  itemsListing:[],
-  itemsListingAuth:false,
+  itemActivities: [],
+  activitiesAuth: false,
+  itemsListing: [],
+  itemsListingAuth: false,
 };
 
 export default function (state = initialState, action) {
@@ -47,11 +47,11 @@ export default function (state = initialState, action) {
         nftsData: action.payload,
         nftsAuth: true,
       };
-      case  CREATE_NFT_AUTH:
-        return {
-          ...state,
-          createNFTauth:true,
-        }
+    case CREATE_NFT_AUTH:
+      return {
+        ...state,
+        createNFTauth: true,
+      };
     case NFTALL:
       return {
         ...state,
@@ -74,9 +74,9 @@ export default function (state = initialState, action) {
         myLikedNftsStatus: false,
         profileNFTs: [],
         profileNFTsStatus: false,
-        activitiesAuth:false,
-        itemsListingAuth:false,
-        createNFTauth:false
+        activitiesAuth: false,
+        itemsListingAuth: false,
+        createNFTauth: false,
       };
 
     case GET_NFTS_BY_COLLECTION:
@@ -85,11 +85,11 @@ export default function (state = initialState, action) {
         nftsByCollection: action.payload,
         nftsByCollectionStatus: true,
       };
-      case BEFORE_NFTS_BY_COLLECTION:
-        return {
-          ...state,
-          nftsByCollectionStatus: false,
-        }
+    case BEFORE_NFTS_BY_COLLECTION:
+      return {
+        ...state,
+        nftsByCollectionStatus: false,
+      };
     case GET_MYLIKED_NFTS:
       return {
         ...state,
@@ -102,18 +102,18 @@ export default function (state = initialState, action) {
         profileNFTs: action.payload,
         profileNFTsStatus: true,
       };
-      case GET_ACTIVITIES:
-        return {
-          ...state,
-          itemActivities:action.payload,
-          activitiesAuth:true
-        }
-        case GET_ITEM_LISTING:
-          return {
-            ...state,
-            itemsListing:action.payload,
-            itemsListingAuth:true,
-          }
+    case GET_ACTIVITIES:
+      return {
+        ...state,
+        itemActivities: action.payload,
+        activitiesAuth: true,
+      };
+    case GET_ITEM_LISTING:
+      return {
+        ...state,
+        itemsListing: action.payload,
+        itemsListingAuth: true,
+      };
 
     default:
       return {

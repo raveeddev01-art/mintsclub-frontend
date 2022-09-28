@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ConnectModalContext from "./ConnectModalContext";
+import React, { useState } from 'react';
+import ConnectModalContext from './ConnectModalContext';
 
 const ConnectModalState = (props) => {
   const [showModal, setShowModal] = useState(false);

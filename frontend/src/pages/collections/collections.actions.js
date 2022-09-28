@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import {
   GET_ERRORS,
   BEFORE_COLLECTION,
@@ -12,9 +12,9 @@ import {
   MY_COLLECTIONS,
   GET_POPULAR_COLLECTIONS,
   BEFORE_POPULAR_COLLECTION,
-} from "../../redux/types";
-import { emptyError } from "../../redux/shared/error/error.action";
-import { ENV } from "../../config/config";
+} from '../../redux/types';
+import { emptyError } from '../../redux/shared/error/error.action';
+import { ENV } from '../../config/config';
 
 export const beforeCollection = () => {
   return {
@@ -27,17 +27,17 @@ export const getCollection = (collectionId) => (dispatch) => {
   const url = `${ENV.url}collection/get/${collectionId}`;
 
   fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
   })
     .then((res) => res.json())
@@ -77,17 +77,17 @@ export const getCollections =
     // console.log(url, "url sending=======>");
 
     fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
         Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
+        'x-auth-token': ENV.x_auth_token,
+        'Access-Control-Allow-Origin': '*',
+        'x-access-token':
+          ENV.getUserKeys('accessToken') &&
+          ENV.getUserKeys('accessToken').accessToken
+            ? ENV.getUserKeys('accessToken').accessToken
+            : '',
       },
     })
       .then((res) => res.json())
@@ -123,17 +123,17 @@ export const myCollections = (userId) => (dispatch) => {
   if (userId) url += `?userId=${userId}`;
 
   fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
   })
     .then((res) => res.json())
@@ -164,7 +164,7 @@ export const myCollections = (userId) => (dispatch) => {
     });
 };
 export const upsertCollection =
-  (apiURL, body, method = "POST") =>
+  (apiURL, body, method = 'POST') =>
   (dispatch) => {
     dispatch(emptyError());
     const url = `${ENV.url}${apiURL}`;
@@ -172,13 +172,13 @@ export const upsertCollection =
       method,
       headers: {
         Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
+        'x-auth-token': ENV.x_auth_token,
+        'Access-Control-Allow-Origin': '*',
+        'x-access-token':
+          ENV.getUserKeys('accessToken') &&
+          ENV.getUserKeys('accessToken').accessToken
+            ? ENV.getUserKeys('accessToken').accessToken
+            : '',
       },
       body,
     })
@@ -211,17 +211,17 @@ export const deleteCollection = (collectionId) => (dispatch) => {
   let url = `${ENV.url}collection/delete/${collectionId}`;
 
   fetch(url, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
   })
     .then((res) => res.json())
@@ -267,17 +267,17 @@ export const getCategories = () => (dispatch) => {
   const url = `${ENV.url}category/list`;
 
   fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
   })
     .then((res) => res.json())
@@ -295,7 +295,6 @@ export const getCategories = () => (dispatch) => {
       }
     })
     .catch((error) => {
-
       if (error.response && error.response.data) {
         const { data } = error.response;
         if (data.message) toast.error(data.message);
@@ -311,22 +310,24 @@ export const toggleLikeDislike = (body) => (dispatch) => {
   const url = `${ENV.url}collectionLikes/likeDislike`;
 
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
       Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
+      'x-auth-token': ENV.x_auth_token,
+      'Access-Control-Allow-Origin': '*',
+      'x-access-token':
+        ENV.getUserKeys('accessToken') &&
+        ENV.getUserKeys('accessToken').accessToken
+          ? ENV.getUserKeys('accessToken').accessToken
+          : '',
     },
     data,
   })
     .then((res) => res.json())
-    .then((data) => {})
+    .then((data) => {
+      // unexpected empity arow function
+    })
     .catch((error) => {
       //console.log(error, 'error likes');
     });
@@ -349,17 +350,17 @@ export const getPopularCollections =
     //console.log(url, 'url sending');
 
     fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
         Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "Access-Control-Allow-Origin": "*",
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
+        'x-auth-token': ENV.x_auth_token,
+        'Access-Control-Allow-Origin': '*',
+        'x-access-token':
+          ENV.getUserKeys('accessToken') &&
+          ENV.getUserKeys('accessToken').accessToken
+            ? ENV.getUserKeys('accessToken').accessToken
+            : '',
       },
     })
       .then((res) => res.json())

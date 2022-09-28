@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import "./SellNFT.scss";
-import { ENV } from "../../config/config";
-import "bootstrap-daterangepicker/daterangepicker.css";
-import moment from "moment";
-import { decimalNumberValidator } from "../../utils/functions";
-import { useLocation } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useState, useEffect, useContext } from 'react';
+import './SellNFT.scss';
+import { ENV } from '../../config/config';
+import 'bootstrap-daterangepicker/daterangepicker.css';
+import moment from 'moment';
+import { decimalNumberValidator } from '../../utils/functions';
+import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   openNFTForBidding,
   putonsale,
@@ -13,25 +13,25 @@ import {
   setApprovalForAll,
   validateNetwork,
   createVoucher,
-} from "../../utils/web3";
-import { toast } from "react-toastify";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import DateRangePicker from "react-bootstrap-daterangepicker";
-import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import { updateProfile } from "../../Components/User/user.action";
-import ApprovalModal from "../../Components/Modals/ApprovalModal/ApprovalModal";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import SellNFTLoader from "../../Components/ContentLoader/SellNFTLoader";
-import Audio from "../../Components/Audio/Audio";
-import { useHistory } from "react-router";
-import { sellNFTBanner } from "../../utils/exportData";
-import { useGetNFTbyId } from "../../hooks/AllNFTs";
-import { useInsertData, useEditData } from "../../hooks/Common";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+} from '../../utils/web3';
+import { toast } from 'react-toastify';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+import useVideoPlayer from '../../Components/TestVideoCard/Components/UseVideoPlayer';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import { updateProfile } from '../../Components/User/user.action';
+import ApprovalModal from '../../Components/Modals/ApprovalModal/ApprovalModal';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import SellNFTLoader from '../../Components/ContentLoader/SellNFTLoader';
+import Audio from '../../Components/Audio/Audio';
+import { useHistory } from 'react-router';
+import { sellNFTBanner } from '../../utils/exportData';
+import { useGetNFTbyId } from '../../hooks/AllNFTs';
+import { useInsertData, useEditData } from '../../hooks/Common';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
@@ -41,41 +41,41 @@ const SellNFT = (props: any) => {
   const [fixedPriceConfig, setFixedPriceConfig] = useState<any>({
     price: {
       currency: ENV.currency,
-      amount: "",
+      amount: '',
     },
   });
   const [timedAuctionConfig, setTimedAuctionConfig] = useState<any>({
     startPrice: {
       currency: ENV.currency,
-      amount: "",
+      amount: '',
     },
     duration: {
       startDate: moment(),
-      endDate: moment().add(6, "months"),
-      startTime: moment(new Date()).format("HH:mm"),
-      endTime: "23:59",
+      endDate: moment().add(6, 'months'),
+      startTime: moment(new Date()).format('HH:mm'),
+      endTime: '23:59',
     },
   });
 
-  const [nftDetail, setNftDetail] = useState<any>("");
+  const [nftDetail, setNftDetail] = useState<any>('');
   const [loader, setLoader] = useState<boolean>(true); // NFT loader
   const location: any = useLocation();
-  const [copies, setCopies] = useState<string>("");
+  const [copies, setCopies] = useState<string>('');
   const [show, setShow] = useState<boolean>(false);
-  const [approvalStatus, setApprovalStatus] = useState<string>("not-approved");
+  const [approvalStatus, setApprovalStatus] = useState<string>('not-approved');
   const [address, setAddress] = useState<string>(props.connectedAddress);
   const [copiesError, setCopiesError] = useState<boolean>(false);
   const [contentLoader, setContentLoader] = useState<boolean>(true);
   const { setError } = useContext(errorHandler);
   const history = useHistory();
-  let nftId = props.match.params.id;
+  const nftId = props.match.params.id;
 
   const videoElement = React.useRef(null);
   const { playerState, togglePlay } = useVideoPlayer(videoElement);
   //Get NFT
   const onSuccessNFT = (data: any) => {
     if (data.data.success) {
-      if (copies === "") {
+      if (copies === '') {
         setLoader(false);
         setNftDetail(data?.data?.data);
       }
@@ -86,37 +86,39 @@ const SellNFT = (props: any) => {
   const { isLoading: isLoadingNFT } = useGetNFTbyId(nftId, onSuccessNFT);
 
   //Create Activity
-  const onInsertData = () => {};
+  const onInsertData = () => {
+    // unexpected empity arrow function
+  };
   const { mutate: insertActivity } = useInsertData(
-    "activity/create",
+    'activity/create',
     onInsertData
   );
 
   const { isLoading: isInsertingAuction, mutate: insertAuction } =
-    useInsertData("auctions/create", () => {
-      toast.success("auction created successfully");
+    useInsertData('auctions/create', () => {
+      toast.success('auction created successfully');
       history.push(`/userprofile`);
     });
 
   //Edit Profile
 
   const { mutate: updateProfile } = useEditData(
-    "users/updateProfile",
+    'users/updateProfile',
     () => console.log(),
     () => console.log()
   );
 
   useEffect(() => {
-    if (address === "") {
+    if (address === '') {
       setAddress(props.connectedAddress);
     }
     if (
-      props.connectedAddress !== "" &&
-      address !== "" &&
-      ENV.getUserKeys("address")?.address?.toUpperCase() !==
+      props.connectedAddress !== '' &&
+      address !== '' &&
+      ENV.getUserKeys('address')?.address?.toUpperCase() !==
         props.connectedAddress.toUpperCase()
     ) {
-      toast.info("Please login with new connected account");
+      toast.info('Please login with new connected account');
       return history.push({
         pathname: `/connect-wallet`,
         state: `/sellnft`,
@@ -135,7 +137,7 @@ const SellNFT = (props: any) => {
       data = timedAuctionConfig;
     }
 
-    const keys = name.split(".");
+    const keys = name.split('.');
 
     if (keys && keys[2]) {
       data[keys[1]][keys[2]] = value;
@@ -158,7 +160,7 @@ const SellNFT = (props: any) => {
           `Copies should be less than or equal to ${nftDetail.copies}`
         );
       }
-      return "";
+      return '';
     }
     if (await validateNetwork()) {
       if (!nftDetail?.user?.isApproved) {
@@ -166,28 +168,28 @@ const SellNFT = (props: any) => {
         // return "";
       }
 
-      let price: any = "";
+      let price: any = '';
       let payload: object = {};
 
-      let timedConfig = { ...timedAuctionConfig };
+      const timedConfig = { ...timedAuctionConfig };
 
-      let fixedConfig = { ...fixedPriceConfig };
+      const fixedConfig = { ...fixedPriceConfig };
       const { _id, ownerId } = nftDetail;
 
-      let activityPayload = {
+      const activityPayload = {
         nftId: _id,
         ownerId,
         fromAddress: await getWalletAddress(),
-        activityType: "List",
+        activityType: 'List',
       };
 
       if (sellingMethod === 2) {
         if (Number(timedConfig.startPrice.amount) === 0) {
-          toast.error("Price should be greater then 0");
-          return "";
+          toast.error('Price should be greater then 0');
+          return '';
         }
-        let timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-        let timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+        const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+        const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
         //calculate end time
         timedConfig.duration.endDate = calclateStartOrEndTime(
           timedAuctionEndTime,
@@ -201,7 +203,7 @@ const SellNFT = (props: any) => {
         );
 
         //Deleting unused data from payload
-        let auctionConfig = timedConfig;
+        const auctionConfig = timedConfig;
         delete auctionConfig.duration.startTime;
         delete auctionConfig.duration.endTime;
         delete auctionConfig.method;
@@ -211,7 +213,7 @@ const SellNFT = (props: any) => {
         );
         payload = {
           nftId: location.state._id,
-          userId: ENV.getUserKeys("_id")._id,
+          userId: ENV.getUserKeys('_id')._id,
           sellingMethod,
           sellingConfig: JSON.stringify(auctionConfig),
           copiesForAuction: copies,
@@ -219,8 +221,8 @@ const SellNFT = (props: any) => {
       } else {
         price = Number(fixedConfig.price.amount);
         if (price === 0) {
-          toast.error("Price should be greater then 0");
-          return "";
+          toast.error('Price should be greater then 0');
+          return '';
         }
         payload = {
           nftId: location.state._id,
@@ -238,7 +240,7 @@ const SellNFT = (props: any) => {
         openForSale(activityPayload, payload, fixedConfig, price);
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
     }
   };
 
@@ -250,15 +252,15 @@ const SellNFT = (props: any) => {
     activityPayload: any,
     price: any
   ) => {
-    var formData = new FormData();
+    const formData = new FormData();
     try {
-      let auctionEndDate = timedAuctionConfig.duration.endDate;
-      let auctionStartDate = timedAuctionConfig.duration.startDate;
+      const auctionEndDate = timedAuctionConfig.duration.endDate;
+      const auctionStartDate = timedAuctionConfig.duration.startDate;
 
       const biddingTime = new Date(auctionEndDate).getTime();
       const startTime = new Date(auctionStartDate).getTime();
 
-      let result = await openNFTForBidding(
+      const result = await openNFTForBidding(
         biddingTime,
         startTime,
         nftDetail?.tokenId,
@@ -283,7 +285,7 @@ const SellNFT = (props: any) => {
     fixedConfig: any,
     price: any
   ) => {
-    var formData = new FormData();
+    const formData = new FormData();
     try {
       let res = null;
       if (nftDetail?.lazyMinted) {
@@ -317,14 +319,14 @@ const SellNFT = (props: any) => {
         insertAuction(formData);
       }
     } catch (err: any) {
-      console.log(err, "error");
+      console.log(err, 'error');
       setLoader(false);
       toast.error(err);
     }
   };
   const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
     let time = auctionConfig.toString();
-    time = time.slice(0, 15) + " " + startOrEndTime + ":00" + time.slice(24);
+    time = time.slice(0, 15) + ' ' + startOrEndTime + ':00' + time.slice(24);
     return time;
   };
   const handleDateChange = (e: any, picker: any) => {
@@ -351,25 +353,25 @@ const SellNFT = (props: any) => {
   //Approve account
 
   const approveAccount = async () => {
-    setApprovalStatus("pending");
-    var formData: any = new FormData();
-    formData.append("isApproved", true);
-    formData.append("userId", nftDetail.user._id);
+    setApprovalStatus('pending');
+    const formData: any = new FormData();
+    formData.append('isApproved', true);
+    formData.append('userId', nftDetail.user._id);
     try {
-      let accApproved = await setApprovalForAll(setApprovalStatus);
+      const accApproved = await setApprovalForAll(setApprovalStatus);
       if (accApproved) {
-        let updatedNFTDetail = { ...nftDetail };
+        const updatedNFTDetail = { ...nftDetail };
         updatedNFTDetail.user.isApproved = true;
         setNftDetail(updatedNFTDetail);
         updateProfile(formData);
         // props.updateProfile(formData);
-        setApprovalStatus("approved");
-        toast.success("Your Account is Approved!.");
-        return "";
+        setApprovalStatus('approved');
+        toast.success('Your Account is Approved!.');
+        return '';
       }
     } catch (err) {
-      setApprovalStatus("not-approved");
-      return "";
+      setApprovalStatus('not-approved');
+      return '';
     }
   };
 
@@ -390,11 +392,11 @@ const SellNFT = (props: any) => {
             <div className="col-12">
               <div className="row g-4">
                 <div className=" col-lg-6 col-xl-5">
-                  {fileType === "image" ? (
+                  {fileType === 'image' ? (
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <div
                         style={{
-                          display: `${contentLoader ? "block" : "none"}`,
+                          display: `${contentLoader ? 'block' : 'none'}`,
                         }}
                       >
                         <SellNFTLoader />
@@ -404,16 +406,16 @@ const SellNFT = (props: any) => {
                         alt="nft-image"
                         onLoad={() => setContentLoader(false)}
                         style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
+                          display: `${!contentLoader ? 'block' : 'none'}`,
                         }}
                       />
                     </div>
-                  ) : fileType === "video" ? (
+                  ) : fileType === 'video' ? (
                     <div className="card-img-top">
                       <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
                         <div
                           style={{
-                            display: `${contentLoader ? "block" : "none"}`,
+                            display: `${contentLoader ? 'block' : 'none'}`,
                           }}
                         >
                           <SellNFTLoader />
@@ -429,7 +431,7 @@ const SellNFT = (props: any) => {
                             setContentLoader(false);
                           }}
                           style={{
-                            display: `${!contentLoader ? "block" : "none"}`,
+                            display: `${!contentLoader ? 'block' : 'none'}`,
                           }}
                         />
                         <div className="controls">
@@ -448,11 +450,11 @@ const SellNFT = (props: any) => {
                         </div>
                       </div>
                     </div>
-                  ) : fileType === "audio" ? (
+                  ) : fileType === 'audio' ? (
                     <>
                       <div
                         style={{
-                          display: `${contentLoader ? "block" : "none"}`,
+                          display: `${contentLoader ? 'block' : 'none'}`,
                         }}
                       >
                         <SellNFTLoader />
@@ -461,11 +463,11 @@ const SellNFT = (props: any) => {
                         src={image}
                         onLoadCallback={async () => setContentLoader(false)}
                         loader={contentLoader}
-                        fileType={""}
+                        fileType={''}
                       />
                     </>
                   ) : (
-                    " "
+                    ' '
                   )}
                 </div>
                 <div className="col-lg-6 col-xl-7">
@@ -476,7 +478,7 @@ const SellNFT = (props: any) => {
                     <div className="nft-detail-rounded-box">
                       <p>
                         {name && name.length > 30
-                          ? name.slice(0, 30) + "..."
+                          ? name.slice(0, 30) + '...'
                           : name}
                       </p>
                     </div>
@@ -491,7 +493,7 @@ const SellNFT = (props: any) => {
                       <div className="col-6 col-sm-4 col-lg-6 col-xl-4 ">
                         <div className="nft-detail-rounded-box mb-0">
                           <p>
-                            Sold:{" "}
+                            Sold:{' '}
                             <span>{nftDetail?.copies - remainingCopies}</span>
                           </p>
                         </div>
@@ -519,28 +521,28 @@ const SellNFT = (props: any) => {
               <div className="sale-btn-container mt-5">
                 <button
                   className={` ${
-                    activeBtn === 0 ? "sell-btn-active" : "sell-btn-not-active"
+                    activeBtn === 0 ? 'sell-btn-active' : 'sell-btn-not-active'
                   }  me-3 `}
                   onClick={() => {
                     setActiveBtn(0);
                     setSellingMethod(1);
-                    setCopies("");
+                    setCopies('');
                     setCopiesError(false);
                   }}
                 >
                   Fixed Prize
                 </button>
-                {nftDetail&& !nftDetail?.lazyMinted && (
+                {nftDetail && !nftDetail?.lazyMinted && (
                   <button
                     className={` ${
                       activeBtn === 1
-                        ? "sell-btn-active"
-                        : "sell-btn-not-active"
+                        ? 'sell-btn-active'
+                        : 'sell-btn-not-active'
                     } `}
                     onClick={() => {
                       setActiveBtn(1);
                       setSellingMethod(2);
-                      setCopies("");
+                      setCopies('');
                       setCopiesError(false);
                     }}
                   >
@@ -562,12 +564,12 @@ const SellNFT = (props: any) => {
                           name="fixedPriceConfig.price.amount"
                           placeholder="Amount"
                           style={{
-                            borderRadius: "4px",
+                            borderRadius: '4px',
                           }}
                           maxLength={8}
                           onChange={(e) => {
-                            if (e.target.value == "00") {
-                              return "";
+                            if (e.target.value === '00') {
+                              return '';
                             }
                             onChange(e);
                           }}
@@ -583,7 +585,7 @@ const SellNFT = (props: any) => {
                   <div className="col-md-6">
                     <div className="sell-detail-box">
                       <h5>
-                        No of Copies:*{" "}
+                        No of Copies:*{' '}
                         {copiesError && (
                           <span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
                         )}
@@ -595,17 +597,17 @@ const SellNFT = (props: any) => {
                           name="copies"
                           placeholder="Copies"
                           style={{
-                            borderRadius: "4px",
+                            borderRadius: '4px',
                           }}
-                          min={"1"}
+                          min={'1'}
                           onChange={(e: any) => {
                             if (+e.target.value > remainingCopies) {
                               setCopiesError(true);
                               return false;
                             }
                             if (
-                              (e.target.value == 0 && copies === "") ||
-                              e.target.value.includes(".")
+                              (e.target.value === 0 && copies === '') ||
+                              e.target.value.includes('.')
                             ) {
                               return false;
                             }
@@ -665,10 +667,10 @@ const SellNFT = (props: any) => {
                           placeholder="Amount"
                           maxLength={8}
                           style={{
-                            borderRadius: "4px",
+                            borderRadius: '4px',
                           }}
                           onChange={(e: any) => {
-                            if (e.target.value === "00") {
+                            if (e.target.value === '00') {
                               return false;
                             } else {
                               onChange(e);
@@ -686,7 +688,7 @@ const SellNFT = (props: any) => {
                   <div className="col-md-6">
                     <div className="sell-detail-box">
                       <h5>
-                        No of Copies:*{" "}
+                        No of Copies:*{' '}
                         {copiesError && (
                           <span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
                         )}
@@ -699,9 +701,9 @@ const SellNFT = (props: any) => {
                           placeholder="Copies"
                           maxLength={3}
                           style={{
-                            borderRadius: "4px",
+                            borderRadius: '4px',
                           }}
-                          min={"1"}
+                          min={'1'}
                           max={`${nftDetail.copies}`}
                           onChange={(e: any) => {
                             if (+e.target.value > remainingCopies) {
@@ -709,8 +711,8 @@ const SellNFT = (props: any) => {
                               return false;
                             }
                             if (
-                              (e.target.value == 0 && copies === "") ||
-                              e.target.value.includes(".")
+                              (e.target.value === 0 && copies === '') ||
+                              e.target.value.includes('.')
                             ) {
                               return false;
                             }
@@ -746,10 +748,10 @@ const SellNFT = (props: any) => {
                           >
                             {moment(
                               timedAuctionConfig.duration.startDate
-                            ).format("MMMM D, YYYY")}{" "}
-                            -{" "}
+                            ).format('MMMM D, YYYY')}{' '}
+                            -{' '}
                             {moment(timedAuctionConfig.duration.endDate).format(
-                              "MMMM D, YYYY"
+                              'MMMM D, YYYY'
                             )}
                             &nbsp;&nbsp;&nbsp;
                             <svg

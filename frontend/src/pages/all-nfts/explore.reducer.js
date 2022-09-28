@@ -2,7 +2,7 @@ import {
   GET_COLLECTION,
   TOGGLE_LIKE_RES,
   BEFORE_TOGGLE_LIKE,
-} from "../../redux/types";
+} from '../../redux/types';
 
 const initialState = {
   collection: [],

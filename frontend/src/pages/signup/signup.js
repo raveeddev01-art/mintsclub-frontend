@@ -1,23 +1,23 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useHistory } from "react-router";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerDark from "../../assets/images/loginbg.png";
-import BannerLight from "../../assets/images/loginbg-light.png";
-import darkModeContext from "../../context/darkmode/DarkModeContext";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { connectMetamaskCopy, signRequest } from "../../utils/web3";
-import { toast } from "react-toastify";
-import { signup } from "../../Components/User/user.action";
+import React, { useEffect, useState, useContext } from 'react';
+import { useHistory } from 'react-router';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerDark from '../../assets/images/loginbg.png';
+import BannerLight from '../../assets/images/loginbg-light.png';
+import darkModeContext from '../../context/darkmode/DarkModeContext';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { connectMetamaskCopy, signRequest } from '../../utils/web3';
+import { toast } from 'react-toastify';
+import { signup } from '../../Components/User/user.action';
 
-import "./signup.scss";
+import './signup.scss';
 
 const SignUp = (props) => {
   const [checkBox, setCheckBox] = useState(false);
-  const [connectedAddress, setConnectedAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [connectedAddress, setConnectedAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [loader, setLoader] = useState(false);
   const { darkMode } = useContext(darkModeContext);
   const history = useHistory();
@@ -38,8 +38,8 @@ const SignUp = (props) => {
   }, [props.error]);
   useEffect(() => {
     if (props.userAuth) {
-      toast.success("Signed up successfully");
-      history.push("/");
+      toast.success('Signed up successfully');
+      history.push('/');
     }
   }, [props.userAuth]);
 
@@ -62,10 +62,10 @@ const SignUp = (props) => {
   };
 
   const signInbannerData = {
-    subHeading: "Sign Up",
-    heading: "Create an Account",
+    subHeading: 'Sign Up',
+    heading: 'Create an Account',
     content:
-      "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+      'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
   };
 
   return (
@@ -141,7 +141,7 @@ const SignUp = (props) => {
                         height="10"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           fill="#FFF"
                           d="M11.356.624c.034.009-.617.141-.838.368-1.93 1.93-3.692 3.823-5.546 5.712L2.794 4.961h-.001a1.223 1.223 0 0 0-.897-.26c-.321.036-.616.198-.116.45-.904.252-.997.574-.962 1.309.036-.093.342.201.451.403l3.049 2.434a1.218 1.218 0 0 0 1.626-.095C8.138 7.8 10.103 4.854 12.246 2.71A1.22 1.22 0 0 0 12.24.967c.16-.229-.555-.352-.884-.343z"
                         />
@@ -154,9 +154,9 @@ const SignUp = (props) => {
                     ></span>
                   )}
                   <p>
-                    By checking this box, I agree to MintsClub{" "}
+                    By checking this box, I agree to MintsClub{' '}
                     <Link to="/termsandconditions" target="_blank">
-                      {"Terms & Conditions"}
+                      {'Terms & Conditions'}
                     </Link>
                   </p>
                 </div>
@@ -180,7 +180,7 @@ const SignUp = (props) => {
                   </div>
                 </div>
               ) : (
-                "Sign Up"
+                'Sign Up'
               )}
             </button>
           </form>

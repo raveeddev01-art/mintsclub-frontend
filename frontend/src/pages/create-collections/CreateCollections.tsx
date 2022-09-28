@@ -1,35 +1,35 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Footer from "../../Components/Footer/Footer";
-import "./CreateCollections.scss";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import axios from 'axios';
+import Footer from '../../Components/Footer/Footer';
+import './CreateCollections.scss';
+import { connect } from 'react-redux';
 import {
   beforeCollection,
   upsertCollection,
-} from "../collections/collections.actions";
+} from '../collections/collections.actions';
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-} from "../../utils/functions";
+  handleRequest,
+} from '../../utils/functions';
 import {
   beforeCategory,
   getCategories,
-} from "../../Components/Categories/categories.action";
-import { emptyError } from "../../redux/shared/error/error.action";
-import SimpleReactValidator from "simple-react-validator";
-import { ENV } from "../../config/config";
-import $ from "jquery";
-import { toast } from "react-toastify";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import { Images } from "../../assets/assets";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
-import Select from "react-select";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import { useQuery } from "react-query";
-import { handleRequest } from "../../utils/functions";
-import { QueryClientHook } from "react-query-class-component";
+} from '../../Components/Categories/categories.action';
+import { emptyError } from '../../redux/shared/error/error.action';
+import SimpleReactValidator from 'simple-react-validator';
+import { ENV } from '../../config/config';
+import $ from 'jquery';
+import { toast } from 'react-toastify';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import { Images } from '../../assets/assets';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
+import Select from 'react-select';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import { useQuery } from 'react-query';
+import { QueryClientHook } from 'react-query-class-component';
 
 class CreateCollections extends React.Component<
   {
@@ -62,29 +62,29 @@ class CreateCollections extends React.Component<
       isSubmitted: false,
       formValid: true,
       loader: true,
-      errors: "",
+      errors: '',
       collection: {
-        userId: ENV.getUserKeys("_id")._id,
+        userId: ENV.getUserKeys('_id')._id,
         ownerAddress: this.props.connectedAddress,
-        categoryId: "",
-        logo: "",
-        featuredImg: "",
-        banner: "",
-        name: "",
-        url: "",
-        logoUrl: "",
-        bannerUrl: "",
-        featuredImgUrl: "",
-        description: "",
+        categoryId: '',
+        logo: '',
+        featuredImg: '',
+        banner: '',
+        name: '',
+        url: '',
+        logoUrl: '',
+        bannerUrl: '',
+        featuredImgUrl: '',
+        description: '',
       },
       categories: null,
-      selectedCategory: "",
-      selectedOption: "",
+      selectedCategory: '',
+      selectedOption: '',
     };
     this.validator = new SimpleReactValidator({
       autoForceUpdate: this,
       messages: {
-        required: "This field is required.", // will override all messages
+        required: 'This field is required.', // will override all messages
       },
     });
   }
@@ -97,18 +97,18 @@ class CreateCollections extends React.Component<
   componentDidUpdate(prevProps: any) {
     const { connectedAddress } = this.props;
     if (
-      prevProps.connectedAddress !== "" &&
+      prevProps.connectedAddress !== '' &&
       prevProps.connectedAddress.toUpperCase() !==
         connectedAddress.toUpperCase() &&
-      connectedAddress !== ""
+      connectedAddress !== ''
     ) {
-      toast.info("Please login with new connected account");
+      toast.info('Please login with new connected account');
       return this.props.history.push({
         pathname: `/connect-wallet`,
         state: `/createcollection`,
       });
     }
-    if (prevProps.connectedAddress === "" && connectedAddress) {
+    if (prevProps.connectedAddress === '' && connectedAddress) {
       let { collection } = this.state;
       collection = { ...collection, ownerAddress: connectedAddress };
       this.setState({
@@ -124,13 +124,13 @@ class CreateCollections extends React.Component<
 
     if (this.props.collection.upsertAuth) {
       this.props.beforeCollection();
-      this.props.history.push("/explore/exploreAll");
+      this.props.history.push('/explore/exploreAll');
     }
     if (this.props.category.getAuth) {
       const { categories } = this.props.category;
-      let updatedCategories = [];
-      for (var item of categories) {
-        let obj = {
+      const updatedCategories = [];
+      for (const item of categories) {
+        const obj = {
           value: item._id,
           label: item.name,
         };
@@ -142,32 +142,31 @@ class CreateCollections extends React.Component<
     }
   }
   formateCategories = (data: any) => {
-    if(data&&data?.length>0){
-
-      let updatedCategories = [];
-      for (var item of data) {
-        let obj = {
+    if (data && data?.length > 0) {
+      const updatedCategories = [];
+      for (const item of data) {
+        const obj = {
           value: item._id,
           label: item.name,
         };
         updatedCategories.push(obj);
       }
       return updatedCategories;
-    }else {
-      return []
+    } else {
+      return [];
     }
   };
 
   onFileChange(e: any) {
-    let file = e.target.files[0];
+    const file = e.target.files[0];
     if (file)
-      if (file.type.includes("image")) {
-        let fileSize = this.formatBytes(file.size).split(" ");
+      if (file.type.includes('image')) {
+        const fileSize = this.formatBytes(file.size).split(' ');
         if (
-          (+fileSize[0] > 100 && fileSize[1] === "MB") ||
-          fileSize[1] === "GB"
+          (+fileSize[0] > 100 && fileSize[1] === 'MB') ||
+          fileSize[1] === 'GB'
         ) {
-          return toast.error("File Max Limit Reached.");
+          return toast.error('File Max Limit Reached.');
         }
         let { collection } = this.state;
         collection = { ...collection, [e.target.name]: file };
@@ -175,26 +174,26 @@ class CreateCollections extends React.Component<
           collection[`${e.target.name}Url`] = URL.createObjectURL(
             e.target.files[0]
           );
-          $(`#collection-${e.target.name}-label`).html("File selected");
+          $(`#collection-${e.target.name}-label`).html('File selected');
         }
         this.setState({ collection });
       }
   }
   formatBytes = (bytes: number, decimals = 2) => {
-    if (bytes === 0) return "0 Bytes";
+    if (bytes === 0) return '0 Bytes';
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   };
 
   onChange(e: any) {
-    let { name, value } = e.target;
-    const userId = ENV.getUserKeys("_id")._id;
+    const { name, value } = e.target;
+    const userId = ENV.getUserKeys('_id')._id;
     let { collection } = this.state;
     collection = { ...collection, [name]: value, userId: userId };
 
@@ -203,21 +202,21 @@ class CreateCollections extends React.Component<
 
   reset = () => {
     const collection = {
-      userId: "",
-      categoryId: "",
-      logo: "",
-      featuredImg: "",
-      banner: "",
-      name: "",
-      url: "",
-      description: "",
+      userId: '',
+      categoryId: '',
+      logo: '',
+      featuredImg: '',
+      banner: '',
+      name: '',
+      url: '',
+      description: '',
     };
     this.setState({ collection, isSubmitted: false });
   };
 
   submit = (e: any) => {
     e.preventDefault();
-    const userId = ENV.getUserKeys("_id")._id;
+    const userId = ENV.getUserKeys('_id')._id;
     this.setState(
       {
         isSubmitted: true,
@@ -232,31 +231,31 @@ class CreateCollections extends React.Component<
             },
             async () => {
               const { collection } = this.state;
-              var formData: any = new FormData();
-              for (var val in collection) {
-                if (val === "logo" || val === "featuredImg") {
-                  let result: any = await this.uploadFileToIpfs(
+              const formData: any = new FormData();
+              for (const val in collection) {
+                if (val === 'logo' || val === 'featuredImg') {
+                  const result: any = await this.uploadFileToIpfs(
                     collection[val]
                   );
-                  let url: any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  const url: any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
                   formData.append(val, url);
                 }
                 if (collection[val]) {
                   formData.append(val, collection[val]);
                 }
               }
-              this.props.upsertCollection("collection/create", formData);
+              this.props.upsertCollection('collection/create', formData);
             }
           );
         } else {
           this.validator.showMessages();
           this.setState(
             {
-              errors: "Please fill all required fields in valid format.",
+              errors: 'Please fill all required fields in valid format.',
               formValid: false,
             },
             () => {
-              $("#create-collection").scrollTop(0);
+              $('#create-collection').scrollTop(0);
             }
           );
         }
@@ -264,13 +263,13 @@ class CreateCollections extends React.Component<
     );
   };
   uploadFileToIpfs = async (file: any) => {
-    var data: any = new FormData();
-    data.append("file", file);
+    const data: any = new FormData();
+    data.append('file', file);
     try {
       const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
       const response = await axios.post(url, data, {
         headers: {
-          "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
+          'Content-Type': `multipart/form-data; boundary= ${data._boundary}`,
           Authorization: `Bearer ${ENV.pinataJWT}`,
           // pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
           // pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
@@ -294,11 +293,11 @@ class CreateCollections extends React.Component<
     const { categoryId, logo, name, description, featuredImg } =
       this.state.collection;
     if (
-      description === "" ||
-      logo === "" ||
-      categoryId === "" ||
-      name === "" ||
-      featuredImg === ""
+      description === '' ||
+      logo === '' ||
+      categoryId === '' ||
+      name === '' ||
+      featuredImg === ''
     ) {
       return true;
     } else {
@@ -308,7 +307,7 @@ class CreateCollections extends React.Component<
 
   clearData = () => {
     let { collection } = this.state;
-    collection = { ...collection, featuredImg: "", featuredImgUrl: "" };
+    collection = { ...collection, featuredImg: '', featuredImgUrl: '' };
     this.setState({ collection });
   };
 
@@ -329,16 +328,16 @@ class CreateCollections extends React.Component<
       selectedOption,
     }: any = this.state;
 
-    if (!ENV.getUserKeys("_id")._id) {
-      toast.error("Please login to create Collection");
-      this.props.history.push("/");
-      return " ";
+    if (!ENV.getUserKeys('_id')._id) {
+      toast.error('Please login to create Collection');
+      this.props.history.push('/');
+      return ' ';
     } else {
       const bannerData = {
-        subHeading: "Create New",
-        heading: "Create New Collection",
+        subHeading: 'Create New',
+        heading: 'Create New Collection',
         content:
-          "Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+          'Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
       };
       //create collection max size validation
       return (
@@ -370,7 +369,7 @@ class CreateCollections extends React.Component<
                             type="file"
                             accept=".png,.jpeg,.jpg"
                             onChange={(e) => this.onFileChange(e)}
-                            style={{ display: "none" }}
+                            style={{ display: 'none' }}
                             name="logo"
                           />
                           <span className="logo-img-round">
@@ -390,7 +389,7 @@ class CreateCollections extends React.Component<
                           type="file"
                           accept=".png,.jpeg,.jpg"
                           onChange={(e) => this.onFileChange(e)}
-                          style={{ display: "none" }}
+                          style={{ display: 'none' }}
                           name="logo"
                         />
                         <img src={Images.editIconSmall} />
@@ -412,7 +411,7 @@ class CreateCollections extends React.Component<
                               id="featuredImg"
                               type="file"
                               accept=".png,.jpeg,.jpg"
-                              style={{ display: "none" }}
+                              style={{ display: 'none' }}
                               name="featuredImg"
                               onChange={(e) => this.onFileChange(e)}
                             />
@@ -434,7 +433,7 @@ class CreateCollections extends React.Component<
                           id="featuredImg"
                           type="file"
                           accept=".png,.jpeg,.jpg"
-                          style={{ display: "none" }}
+                          style={{ display: 'none' }}
                           name="featuredImg"
                           onChange={(e) => this.onFileChange(e)}
                         />
@@ -468,7 +467,7 @@ class CreateCollections extends React.Component<
                 <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
                   <label className="create-collection-label">URL:</label>
                   <span className="text-danger position-absolute top-0">
-                    {this.validator.message("url", collection.url, "url")}
+                    {this.validator.message('url', collection.url, 'url')}
                   </span>
                   <input
                     className="create-collection-input mt-2"
@@ -490,8 +489,8 @@ class CreateCollections extends React.Component<
                   <QueryClientHook
                     hook={useQuery} // react query hook
                     params={[
-                      "categories", // keyName
-                      () => handleRequest("get", "category/list"),
+                      'categories', // keyName
+                      () => handleRequest('get', 'category/list'),
                       // ...options
                     ]}
                   >

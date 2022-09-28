@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import "./termsConditions.scss";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
+import React, { useEffect } from 'react';
+import './termsConditions.scss';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
 
 const bannerData = {
-  subHeading: "Our Terms & Conditions",
-  heading: "Terms & Conditions",
+  subHeading: 'Our Terms & Conditions',
+  heading: 'Terms & Conditions',
   content:
-    "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+    'Explore on the world&apos;s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
 };
 
 const TermsConditions = () => {
@@ -38,7 +38,7 @@ const TermsConditions = () => {
                 INFORMATION AND AFFECT YOUR LEGAL RIGHTS. BY CLICKING TO ACCEPT
                 AND/OR USING OUR SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS
                 AND ALL OF THE TERMS INCORPORATED HEREIN BY REFERENCE. IF YOU DO
-                NOT AGREE TO THESE TERMS, YOU MAY NOT ACCESS OR USE THE SERVICE.{" "}
+                NOT AGREE TO THESE TERMS, YOU MAY NOT ACCESS OR USE THE SERVICE.{' '}
               </span>
             </p>
             <ol>
@@ -48,8 +48,8 @@ const TermsConditions = () => {
                 Digital Assets (Sellers) and parties looking to purchase Digital
                 Assets (Buyers). Digital Assets refers to unique non-fungible
                 tokens (NFTs) linked with certain digital media and art (“NFT
-                Media ''), implemented on the Ethereum blockchain using smart
-                contracts.
+                Media &apos;&apos;), implemented on the Ethereum blockchain
+                using smart contracts.
               </li>
               <li>
                 <span>1.2 </span>
@@ -245,10 +245,10 @@ const TermsConditions = () => {
                 <span>6.5 </span>
                 Each Seller agrees that when we receive full payment of the
                 Purchase Price from a Buyer, this will constitute payment to the
-                Seller for the NFT a’d the Buyer's payment obligation to the
-                Seller will be deemed completed at that time and the Seller will
-                have no further claims against the Buyer with respect to that
-                payment.
+                Seller for the NFT a&apos;d the Buyer&apos;s payment obligation
+                to the Seller will be deemed completed at that time and the
+                Seller will have no further claims against the Buyer with
+                respect to that payment.
               </li>
               <li>
                 <span>6.7 </span>
@@ -294,8 +294,8 @@ const TermsConditions = () => {
                 for which the owners of such sites are responsible, in
                 particular for any delays in processing payments or inability to
                 process them for technical reasons. In such cases the User shall
-                contact the applicable payment processor's site in accordance
-                with that website’s terms and conditions.
+                contact the applicable payment processor&apos;s site in
+                accordance with that website&apos;s terms and conditions.
               </li>
               <li>
                 <span>6.11 </span>
@@ -304,14 +304,14 @@ const TermsConditions = () => {
                 Platform and (ii) paying any and all sales, use, value-added and
                 other taxes, duties, and assessments (except taxes on our net
                 income) now or hereafter claimed or imposed by any governmental
-                authority (collectively, “Taxes'') associated with your use of,
-                and transactions conducted on, the NFT Platform. Neither us nor
-                our Affiliates or employees are responsible for determining the
-                taxes that may apply to your NFT transactions. Except for
-                corporate income taxes levied on us, you: (a) will pay or
-                reimburse us for all national, federal, state, local or other
-                taxes and assessments of any jurisdiction, including value added
-                taxes and taxes as required by international tax treaties,
+                authority (collectively, “Taxes&apos;&apos;) associated with
+                your use of, and transactions conducted on, the NFT Platform.
+                Neither us nor our Affiliates or employees are responsible for
+                determining the taxes that may apply to your NFT transactions.
+                Except for corporate income taxes levied on us, you: (a) will
+                pay or reimburse us for all national, federal, state, local or
+                other taxes and assessments of any jurisdiction, including value
+                added taxes and taxes as required by international tax treaties,
                 customs or other import or export taxes, and amounts levied in
                 lieu thereof based on charges set, services performed or
                 payments made hereunder, as are now or hereafter may be imposed
@@ -359,8 +359,8 @@ const TermsConditions = () => {
               </li>
               <li>
                 <span>7.3 </span>
-                Nothing in these Terms excludes User's Statutory Rights as a
-                consumer under the Regulations. Users agree that our Liability
+                Nothing in these Terms excludes User&apos;s Statutory Rights as
+                a consumer under the Regulations. Users agree that our Liability
                 for the Mints Club NFT Marketplace provided to an entity defined
                 as a consumer under the Regulations is governed solely by the
                 Regulations and these Terms.
@@ -525,7 +525,7 @@ const TermsConditions = () => {
                     person uses any part of the Mints Club NFT Marketplace: (1)
                     to break any law (including participating in money
                     laundering, terrorist financing or wash trading) or infringe
-                    any person's rights (including Intellectual Property
+                    any person&apos;s rights (including Intellectual Property
                     Rights); (2) to transmit, publish or communicate material
                     that is defamatory, offensive, abusive, indecent, menacing
                     or unwanted; (3) to develop, utilize, or disseminate any
@@ -576,13 +576,13 @@ const TermsConditions = () => {
                 Despite anything to the contrary, to the maximum extent
                 permitted by law, we, our Personnel, our contractors and
                 suppliers, will not be liable for, and Users waive and release
-                us, our Personnel, the API Provider, API Provider’s suppliers
-                and contractors and API Provider’s Personnel, from and against,
-                any Liability caused or contributed to by, arising from or
-                connected with:
+                us, our Personnel, the API Provider, API Provider&apos;s
+                suppliers and contractors and API Provider&apos;s Personnel,
+                from and against, any Liability caused or contributed to by,
+                arising from or connected with:
                 <ol>
                   <li>
-                    <span>a. </span>Users or Users Personnel's acts or
+                    <span>a. </span>Users or Users Personnel&apos;s acts or
                     omissions.
                   </li>
                   <li>
@@ -672,11 +672,12 @@ const TermsConditions = () => {
                     Loss.
                   </li>
                   <li>
-                    <span>b. </span>Each Party's liability for any Liability
-                    under these Terms will be reduced proportionately to the
-                    extent the relevant Liability was caused or contributed to
-                    by the acts or omissions of the other Party (or any of that
-                    Party's Personnel), including a failure to mitigate.
+                    <span>b. </span>Each Party&apos;s liability for any
+                    Liability under these Terms will be reduced proportionately
+                    to the extent the relevant Liability was caused or
+                    contributed to by the acts or omissions of the other Party
+                    (or any of that Party&apos;s Personnel), including a failure
+                    to mitigate.
                   </li>
                   <li>
                     <span>c. </span>Our aggregate liability for any Liability

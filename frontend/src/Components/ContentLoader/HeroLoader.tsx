@@ -1,5 +1,6 @@
-import ContentLoader, { IContentLoaderProps } from "react-content-loader";
-import "./ImageLoader.scss";
+import React from 'react';
+import ContentLoader, { IContentLoaderProps } from 'react-content-loader';
+import './ImageLoader.scss';
 const HeroLoader = (props: any) => {
   return (
     <ContentLoader
@@ -7,7 +8,7 @@ const HeroLoader = (props: any) => {
       // height={400}
       backgroundColor="#f0f0f0"
       foregroundColor="#dedede"
-      style={{ width: "100%", height: "400px" }}
+      style={{ width: '100%', height: '400px' }}
       className=""
       {...props}
     >

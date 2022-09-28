@@ -1,52 +1,52 @@
-import { useState } from "react";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
-import Banner from "../../Components/Banner/Banner";
-import UploadIcon from "../../assets/images/upload-icon.png";
-import { ReactComponent as BinIcon } from "../../assets/images/bin.svg";
-import { ReactComponent as ZipFileIcon } from "../../assets/images/zip-file.svg";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import { formatBytes } from "../../utils/functions";
-import "./createMultipleNFT.scss";
-import { Link } from "react-router-dom";
-import { uploadToS3Bucket } from "../../utils/s3Bucket";
-import { ChainsOptions, nftTypesOptions } from "../../utils/exportData";
-import { useGetData, useInsertData } from "../../hooks/Common";
-import { ENV } from "../../config/config";
-import { getWalletAddress } from "../../utils/web3";
+import React, { useState } from 'react';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
+import Banner from '../../Components/Banner/Banner';
+import UploadIcon from '../../assets/images/upload-icon.png';
+import { ReactComponent as BinIcon } from '../../assets/images/bin.svg';
+import { ReactComponent as ZipFileIcon } from '../../assets/images/zip-file.svg';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import { formatBytes } from '../../utils/functions';
+import './createMultipleNFT.scss';
+import { Link } from 'react-router-dom';
+import { uploadToS3Bucket } from '../../utils/s3Bucket';
+import { ChainsOptions, nftTypesOptions } from '../../utils/exportData';
+import { useGetData, useInsertData } from '../../hooks/Common';
+import { ENV } from '../../config/config';
+import { getWalletAddress } from '../../utils/web3';
 const options = [
-  { value: "Ethereum", label: "Ethereum" },
-  { value: "Algorand", label: "Algorand" },
-  { value: "Solana", label: "Solana" },
+  { value: 'Ethereum', label: 'Ethereum' },
+  { value: 'Algorand', label: 'Algorand' },
+  { value: 'Solana', label: 'Solana' },
 ];
 
 const bannerContent = {
-  subHeading: "Get Started",
-  heading: "Create Multiple NFT",
+  subHeading: 'Get Started',
+  heading: 'Create Multiple NFT',
   content:
-    "If you want to share your NFT with a large number of community members",
+    'If you want to share your NFT with a large number of community members',
 };
-const placeholderImg = "";
+const placeholderImg = '';
 
 function CreateMultipleNFT() {
   const [checkBox, setCheckBox] = useState<any>(false);
-  const [fileName, setFileName] = useState<string>("File Name");
+  const [fileName, setFileName] = useState<string>('File Name');
   const [uploadStatus, setUploadStatus] = useState<any>(false);
   const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [selectedCollection, setSelectedCollection] = useState<any>(null);
   const [selectedCollectionType, setSelectedCollectionType] =
     useState<any>(null);
   const [selectedChain, setSelectedChain] = useState<any>(null);
   const [collectionsOptions, setCollectionsOptions] = useState<any>([]);
   const [batchFile, setBatchFile] = useState<any>({
-    file: "",
-    chainId: "",
-    collectionId: "",
-    categoryId: "12345678",
-    nftCollectionType: "",
+    file: '',
+    chainId: '',
+    collectionId: '',
+    categoryId: '12345678',
+    nftCollectionType: '',
   });
 
   const dragOver = (e: { preventDefault: () => void }) => {
@@ -63,24 +63,24 @@ function CreateMultipleNFT() {
   const onDrop = (e: any) => {
     e.nativeEvent.preventDefault();
     if (!e) return;
-    console.log(e.dataTransfer.files[0], "e.dataTransfer.files[0]");
-    onFileChange(e, "onDrag");
+    console.log(e.dataTransfer.files[0], 'e.dataTransfer.files[0]');
+    onFileChange(e, 'onDrag');
   };
 
   //////React Query////////////
 
   const { isLoading: isFetchingCollections } = useGetData(
-    "myCollections",
-    "collection/myCollectionList",
+    'myCollections',
+    'collection/myCollectionList',
     ENV.objectToQueryString({
-      userId: ENV.getUserKeys("_id")._id,
+      userId: ENV.getUserKeys('_id')._id,
       page: 1,
       limit: 10000000,
     }),
     (res: any) => {
       if (res.data.success) {
-        console.log(res.data.data.collections, "collections");
-        let collectionsOptions = res.data.data.collections.Collections.map(
+        console.log(res.data.data.collections, 'collections');
+        const collectionsOptions = res.data.data.collections.Collections.map(
           (item: any) => {
             return {
               value: item._id,
@@ -94,9 +94,9 @@ function CreateMultipleNFT() {
     }
   );
   const { isLoading: isUploadingFiles, mutate: uploadFiles } = useInsertData(
-    "/batchUpload",
+    '/batchUpload',
     (res: any) => {
-      console.log(res, "response");
+      console.log(res, 'response');
     }
   );
   ///////React Query End ////////
@@ -110,7 +110,7 @@ function CreateMultipleNFT() {
   ) => {
     let files: any;
     let type: any;
-    if (status === "onDrag") {
+    if (status === 'onDrag') {
       files = e.dataTransfer.files[0];
       type = e.dataTransfer.files[0].type;
     } else {
@@ -118,28 +118,28 @@ function CreateMultipleNFT() {
       type = e.target.files[0].type;
     }
     if (files) {
-      if (type === "application/zip") {
-        let fileSize = formatBytes(files.size).split(" ");
+      if (type === 'application/zip') {
+        const fileSize = formatBytes(files.size).split(' ');
         if (
-          (+fileSize[0] > 300 && fileSize[1] === "MB") ||
-          fileSize[1] === "GB"
+          (+fileSize[0] > 300 && fileSize[1] === 'MB') ||
+          fileSize[1] === 'GB'
         ) {
-          return "File size limit is exceeded";
+          return 'File size limit is exceeded';
         } else {
-          return "file matched";
+          return 'file matched';
         }
       } else {
-        toast.error("File not supported!");
+        toast.error('File not supported!');
       }
     }
   };
 
   const onFileChange = (e: any, status: any) => {
-    if (handleFilesValidation(e, status) === "file matched") {
-      let file: any = "";
-      let url: any = "";
-      let fileId: any = "";
-      if (status === "onDrag") {
+    if (handleFilesValidation(e, status) === 'file matched') {
+      let file: any = '';
+      let url: any = '';
+      let fileId: any = '';
+      if (status === 'onDrag') {
         file = e.dataTransfer.files[0];
         url = URL.createObjectURL(e.dataTransfer.files[0]);
         fileId = e.dataTransfer.id;
@@ -149,37 +149,37 @@ function CreateMultipleNFT() {
         fileId = e.target.id;
       }
       if (file)
-        if (file.type.includes("zip")) {
+        if (file.type.includes('zip')) {
           setUploadStatus(true);
           setBatchFile({ ...batchFile, file: file });
           setFileName(file.name);
           setError(false);
-          setErrorMessage("");
-          toast.success("File successfully added");
+          setErrorMessage('');
+          toast.success('File successfully added');
         }
-    } else {  
+    } else {
       setError(true);
     }
   };
   const submit = async () => {
-    let uploadFile = await uploadToS3Bucket(
+    const uploadFile = await uploadToS3Bucket(
       batchFile.file,
       batchFile.file.name
     );
-    let payload = {
+    const payload = {
       key: uploadFile.key,
       fileName: batchFile.file.name.substring(
         0,
-        batchFile.file.name.indexOf(".")
+        batchFile.file.name.indexOf('.')
       ),
       collectionId: batchFile.collectionId,
       fileType: batchFile.nftCollectionType,
       chainId: batchFile.chainId,
-      status: "pending",
+      status: 'pending',
       ownerAddress: await getWalletAddress(),
-      userId: ENV.getUserKeys("_id")._id,
+      userId: ENV.getUserKeys('_id')._id,
     };
-    console.log(payload, "payload==>");
+    console.log(payload, 'payload==>');
     uploadFiles(payload);
   };
 
@@ -214,7 +214,7 @@ function CreateMultipleNFT() {
                 </div>
                 <input
                   type="file"
-                  onChange={(e) => onFileChange(e, "onChange")}
+                  onChange={(e) => onFileChange(e, 'onChange')}
                   accept=".zip"
                   name="zip"
                 />
@@ -239,7 +239,7 @@ function CreateMultipleNFT() {
                   <button
                     onClick={() => {
                       setUploadStatus(false);
-                      setBatchFile({ ...batchFile, file: "" });
+                      setBatchFile({ ...batchFile, file: '' });
                     }}
                   >
                     <BinIcon />
@@ -323,7 +323,7 @@ function CreateMultipleNFT() {
                   <li>
                     Download our sample json file to get the corrrect format of
                     metadata. This will help to prevent any issues thatmay
-                    hinder your collectionsdisplay and listing properties.{" "}
+                    hinder your collectionsdisplay and listing properties.{' '}
                   </li>
                 </ul>
                 <Link to="/files/test.json" target="_blank" download>
@@ -343,7 +343,7 @@ function CreateMultipleNFT() {
                         height="10"
                       >
                         <path
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                           fill="#182338"
                           d="M11.356.624c.034.009-.617.141-.838.368-1.93 1.93-3.692 3.823-5.546 5.712L2.794 4.961h-.001a1.223 1.223 0 0 0-.897-.26c-.321.036-.616.198-.116.45-.904.252-.997.574-.962 1.309.036-.093.342.201.451.403l3.049 2.434a1.218 1.218 0 0 0 1.626-.095C8.138 7.8 10.103 4.854 12.246 2.71A1.22 1.22 0 0 0 12.24.967c.16-.229-.555-.352-.884-.343z"
                         />

@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-
-const useVideoPlayer = (videoElement :any) => {
+const useVideoPlayer = (videoElement: any) => {
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
     progress: 0,

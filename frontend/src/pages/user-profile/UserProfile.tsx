@@ -1,42 +1,42 @@
-import React, { useState, useEffect, useContext } from "react";
-import { connect } from "react-redux";
-import "./UserProfile.scss";
-import { ENV } from "../../config/config";
+import React, { useState, useEffect, useContext } from 'react';
+import { connect } from 'react-redux';
+import './UserProfile.scss';
+import { ENV } from '../../config/config';
 import {
   getProfileNfts,
   getNFTs,
   beforeNFT,
   getMyLikedNfts,
-} from "../../Components/Nfts/nfts.action";
+} from '../../Components/Nfts/nfts.action';
 import {
   toggleLikeDislike,
   beforeTogleLikeDislike,
-} from "../all-nfts/explore.action";
-import { getUserById, beforeUser } from "../../Components/User/user.action";
-import darkModeContext from "../../context/darkmode/DarkModeContext";
-import { Images } from "../../assets/assets";
-import { validateNetwork } from "../../utils/web3";
-import { toast } from "react-toastify";
-import moment from "moment";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/profileBg.png";
-import BannerDark from "../../assets/images/bannerbg.png";
-import BannerLight from "../../assets/images/bannerbg2.png";
-import EthIcon from "../../assets/images/eth-icon.svg";
-import CopyIcon from "../../assets/images/copy-icon.svg";
-import Listing from "../../Components/Listing/Listing";
+} from '../all-nfts/explore.action';
+import { getUserById, beforeUser } from '../../Components/User/user.action';
+import darkModeContext from '../../context/darkmode/DarkModeContext';
+import { Images } from '../../assets/assets';
+import { validateNetwork } from '../../utils/web3';
+import { toast } from 'react-toastify';
+import moment from 'moment';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/profileBg.png';
+import BannerDark from '../../assets/images/bannerbg.png';
+import BannerLight from '../../assets/images/bannerbg2.png';
+import EthIcon from '../../assets/images/eth-icon.svg';
+import CopyIcon from '../../assets/images/copy-icon.svg';
+import Listing from '../../Components/Listing/Listing';
 import {
   beforeCollection,
   getCollections,
-} from "../collections/collections.actions";
-import { Link } from "react-router-dom";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import { useHistory } from "react-router";
-import { useGetMyLikedNFTs } from "../../hooks/CollectionDetails";
-import { useGetCollections, useGetNFTs } from "../../hooks/AllNFTs";
-import { useGetUserDataById } from "../../hooks/UserProfile";
-import { useInsertData } from "../../hooks/Common";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+} from '../collections/collections.actions';
+import { Link } from 'react-router-dom';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import { useHistory } from 'react-router';
+import { useGetMyLikedNFTs } from '../../hooks/CollectionDetails';
+import { useGetCollections, useGetNFTs } from '../../hooks/AllNFTs';
+import { useGetUserDataById } from '../../hooks/UserProfile';
+import { useInsertData } from '../../hooks/Common';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const UserProfile = (props: any) => {
   const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
@@ -60,14 +60,14 @@ const UserProfile = (props: any) => {
   const { darkMode } = useContext(darkModeContext);
   const { setError } = useContext(errorHandler);
   const [filter, setFilter] = useState({ page: 1, limit: 9999999 });
-  const userId = ENV.getUserKeys("_id")._id;
+  const userId = ENV.getUserKeys('_id')._id;
   const history = useHistory();
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
 
   const onSuccessNFTs = (res: any) => {
-    const { nfts } = res?.data?.data;
+    const { nfts } = res.data.data;
     const data: any = nfts;
     if (!menuFilter) {
       const Nfts = data?.filter((item: any) => item.ownerId === userId);
@@ -104,7 +104,7 @@ const UserProfile = (props: any) => {
   };
 
   const { isLoading: isLoadingUser } = useGetUserDataById(
-    ENV.getUserKeys("_id")._id,
+    ENV.getUserKeys('_id')._id,
     onSuccessUser
   );
   const onSuccessLikedNFTs = (data: any) => {
@@ -114,14 +114,14 @@ const UserProfile = (props: any) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetMyLikedNFTs(
-    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
+  const { isLoading: isLoadingMyLikedNFTs } = useGetMyLikedNFTs(
+    ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
     onSuccessLikedNFTs,
     nfts ? true : false
   );
   const onSuccessCollections = (data: any) => {
     if (data.data.success) {
-      let myCollections = data?.data?.data?.collections.filter(
+      const myCollections = data?.data?.data?.collections.filter(
         (item: any) => item.userId === userId
       );
       setCollections(myCollections);
@@ -129,7 +129,10 @@ const UserProfile = (props: any) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetCollections(onSuccessCollections, nfts ? true : false);
+  const { isLoading: isLoadingCollections } = useGetCollections(
+    onSuccessCollections,
+    nfts ? true : false
+  );
 
   const onSuccessLikeDislike = () => {
     setLikeBtnDisable(false);
@@ -137,12 +140,12 @@ const UserProfile = (props: any) => {
 
   //Like/Dislike
   const { mutate } = useInsertData(
-    "nftLikes/likeDislike",
+    'nftLikes/likeDislike',
     onSuccessLikeDislike
   );
   useEffect(() => {
     if (props.getAuth) {
-      let myCollections = props.collections.filter(
+      const myCollections = props.collections.filter(
         (item: any) => item.userId === userId
       );
       setCollections(myCollections);
@@ -151,13 +154,13 @@ const UserProfile = (props: any) => {
   }, [props.getAuth]);
 
   useEffect(() => {
-    if (accAddress === "") {
+    if (accAddress === '') {
       setAccountAddress(props.connectedAddress);
     }
     if (
-      accAddress !== "" &&
-      props.connectedAddress !== "" &&
-      ENV.getUserKeys("address")?.address?.toUpperCase() !==
+      accAddress !== '' &&
+      props.connectedAddress !== '' &&
+      ENV.getUserKeys('address')?.address?.toUpperCase() !==
         props.connectedAddress.toUpperCase()
     ) {
       // toast.info("Please login with new connected Account user");
@@ -190,41 +193,41 @@ const UserProfile = (props: any) => {
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
         setLikeBtnDisable(true);
-        let data = {
+        const data = {
           userId,
           nftId,
           count: 1,
         };
-        if (status === "dislike" && likesCount > 0) {
-          let result = likedNfts.filter((item: any) => item.nftId !== nftId);
+        if (status === 'dislike' && likesCount > 0) {
+          const result = likedNfts.filter((item: any) => item.nftId !== nftId);
           setLikedNfts(result);
-          increOrDecreLikes(nftId, "dec");
+          increOrDecreLikes(nftId, 'dec');
           mutate(data);
         }
-        if (status === "like") {
+        if (status === 'like') {
           let myLikedNfts = [];
           if (likedNfts && likedNfts.length > 0) {
             myLikedNfts = likedNfts;
           }
-          let obj = {
-            _id: "1234455",
+          const obj = {
+            _id: '1234455',
             nftId,
           };
           myLikedNfts.push(obj);
 
           setLikedNfts(myLikedNfts);
-          increOrDecreLikes(nftId, "inc");
+          increOrDecreLikes(nftId, 'inc');
           mutate(data);
         }
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
     }
   };
 
   const increOrDecreLikes = (id: string, status: string) => {
-    if (status === "dec") {
-      let newResult = nfts.map((item: any) => {
+    if (status === 'dec') {
+      const newResult = nfts.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -235,7 +238,7 @@ const UserProfile = (props: any) => {
       });
       setNFTs(newResult);
     } else {
-      let final = nfts.map((item: any) => {
+      const final = nfts.map((item: any) => {
         if (item._id !== id) {
           return item;
         } else {
@@ -247,16 +250,16 @@ const UserProfile = (props: any) => {
   };
 
   const handleNftFilter = (id: string, data = false) => {
-    let itemsToFilter = data ? data : nftsCopy;
+    const itemsToFilter = data ? data : nftsCopy;
     setInitial(false);
-    if (id === "Collected") {
+    if (id === 'Collected') {
       const Nfts = itemsToFilter.filter(
         (item: any) => item.creatorId !== userId && item.ownerId === userId
       );
       setDataLimit(10);
       setNFTPagination({ total: Nfts.length });
       setNFTs(Nfts);
-    } else if (id === "Created") {
+    } else if (id === 'Created') {
       const Nfts = itemsToFilter.filter(
         (item: any) => item.ownerId === userId && item.creatorId === userId
       );
@@ -270,10 +273,10 @@ const UserProfile = (props: any) => {
   };
 
   const handleFavFilter = (data = false) => {
-    let itemToFilter = data ? data : nftsCopy;
-    let favNfts = [];
-    for (var item of itemToFilter) {
-      let foundNft = likedNfts.find((liked: any) => liked.nftId === item._id);
+    const itemToFilter = data ? data : nftsCopy;
+    const favNfts = [];
+    for (const item of itemToFilter) {
+      const foundNft = likedNfts.find((liked: any) => liked.nftId === item._id);
       if (foundNft) {
         favNfts.push(item);
       }
@@ -293,13 +296,13 @@ const UserProfile = (props: any) => {
   };
 
   const bannerData = {
-    subHeading: "",
-    heading: "User Profile",
+    subHeading: '',
+    heading: 'User Profile',
   };
-  const menuData = ["Collected", "Created", "Favourited"];
+  const menuData = ['Collected', 'Created', 'Favourited'];
   if (
-    props.connectedAddress === "" ||
-    ENV.getUserKeys("address")?.address?.toUpperCase() ===
+    props.connectedAddress === '' ||
+    ENV.getUserKeys('address')?.address?.toUpperCase() ===
       props.connectedAddress?.toUpperCase()
   ) {
     return (
@@ -335,15 +338,15 @@ const UserProfile = (props: any) => {
                     <div className="user-owner-detail text-center text-sm-start mt-4">
                       {user && (
                         <div className="user-owner-name">
-                          <h3>{user.username ? user.username : "unnamed"}</h3>
+                          <h3>{user.username ? user.username : 'unnamed'}</h3>
                         </div>
                       )}
 
                       <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
                         {user?.address && (
                           <div className="user-address mt-2 d-flex  align-items-center ">
-                            <span className={`${copy ? "d-block" : "d-none"}`}>
-                              {isAddressCopied ? "Copied" : "Copy"}
+                            <span className={`${copy ? 'd-block' : 'd-none'}`}>
+                              {isAddressCopied ? 'Copied' : 'Copy'}
                             </span>
                             {user && (
                               <>
@@ -358,7 +361,7 @@ const UserProfile = (props: any) => {
                                 </p>
                                 <p className="acc-address d-md-none">
                                   {user.address.slice(0, 10) +
-                                    "..." +
+                                    '...' +
                                     user.address.slice(-10)}
                                 </p>
 
@@ -386,9 +389,9 @@ const UserProfile = (props: any) => {
                         <div className="mt-2 mt-sm-0">
                           {user && (
                             <p className="join-date">
-                              Joined:{" "}
+                              Joined:{' '}
                               <span>
-                                {moment(user.createdAt).format("MMMM DD YYYY")}
+                                {moment(user.createdAt).format('MMMM DD YYYY')}
                               </span>
                             </p>
                           )}
@@ -424,7 +427,7 @@ const UserProfile = (props: any) => {
       </>
     );
   } else {
-    toast.info("Please login with new connected account");
+    toast.info('Please login with new connected account');
     localStorage.clear();
     history.push({
       pathname: `/connect-wallet`,

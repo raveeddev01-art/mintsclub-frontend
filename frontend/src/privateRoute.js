@@ -1,5 +1,6 @@
-import { Route, Redirect } from "react-router-dom";
-import { ENV } from "./config/config";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { ENV } from './config/config';
 
 export const PrivateRoute = ({
   component: Component,
@@ -10,16 +11,16 @@ export const PrivateRoute = ({
   <Route
     {...rest}
     render={(props) =>
-      access||ENV.getUserKeys("_id")?._id ? (
+      (access || ENV.getUserKeys('_id')?._id ? (
         <Component {...props} />
       ) : (
         <Redirect
           to={{
             pathname: `/connect-wallet`,
-            state:path
+            state: path,
           }}
         />
-      )
+      ))
     }
   />
 );

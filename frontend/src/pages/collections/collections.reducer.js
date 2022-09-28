@@ -1,4 +1,4 @@
-/* eslint-disable import/no-anonymous-default-export */
+// /* eslint-disable import/no-anonymous-default-export */
 import {
   BEFORE_COLLECTION,
   GET_COLLECTION,
@@ -27,7 +27,7 @@ const initialState = {
   myCollectionsResult: false,
   popularCollections: null,
   beforePopularCollection: false,
-  error:null
+  error: null,
 };
 
 export default function (state = initialState, action) {
@@ -90,7 +90,7 @@ export default function (state = initialState, action) {
         deleteAuth: false,
         upsertAuth: false,
         getAuth: false,
-        myCollectionsResult:false,
+        myCollectionsResult: false,
       };
     case GET_POPULAR_COLLECTIONS:
       return {

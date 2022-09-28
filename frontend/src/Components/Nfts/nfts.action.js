@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import {
   GET_ERRORS,
   BEFORE_NFT,
@@ -13,11 +13,11 @@ import {
   GET_ITEM_LISTING,
   BEFORE_NFTS_BY_COLLECTION,
   CREATE_NFT_AUTH,
-} from "../../redux/types";
-import { ENV } from "../../config/config";
-import { emptyError } from "../../redux/shared/error/error.action";
-import { axiosPostFormData, handleRequest } from "../../utils/functions";
-import axios from "axios";
+} from '../../redux/types';
+import { ENV } from '../../config/config';
+import { emptyError } from '../../redux/shared/error/error.action';
+import { axiosPostFormData, handleRequest } from '../../utils/functions';
+import axios from 'axios';
 
 export const beforeNFT = () => {
   return {
@@ -26,12 +26,11 @@ export const beforeNFT = () => {
 };
 
 export const upsertNFT =
-  (type = "create", body, method = "POST") =>
+  (type = 'create', body, method = 'POST') =>
   async (dispatch) => {
     dispatch(emptyError());
     try {
       let result = await handleRequest(method, `/nfts/${type}`, body);
-      console.log(result, "result");
       const { data, success, message } = result.data;
       if (success) {
         toast.success(message);
@@ -54,11 +53,11 @@ export const upsertNFT =
   };
 
 export const getNFTs =
-  (qs = "") =>
+  (qs = '') =>
   async (dispatch) => {
     dispatch(emptyError());
     try {
-      let result = await handleRequest("get", "nfts/list", null, qs);
+      let result = await handleRequest('get', 'nfts/list', null, qs);
       const { data, success } = result.data;
       if (success) {
         dispatch({
@@ -86,7 +85,7 @@ export const getNFTs =
 export const getNFT = (nftId) => async (dispatch) => {
   dispatch(emptyError());
   try {
-    let result = await handleRequest("get", `nfts/get/${nftId}`);
+    let result = await handleRequest('get', `nfts/get/${nftId}`);
     const { data, success } = result.data;
     if (success) {
       dispatch({
@@ -114,7 +113,7 @@ export const getNFT = (nftId) => async (dispatch) => {
 export const createActivity = (body) => async (dispatch) => {
   dispatch(emptyError());
   try {
-    let res = await handleRequest("post", "activity/create", body);
+    let res = await handleRequest('post', 'activity/create', body);
     const { success, data } = res.data;
     if (!success) {
       dispatch({
@@ -135,7 +134,7 @@ export const getActivities =
   async (dispatch) => {
     dispatch(emptyError());
     try {
-      let result = await handleRequest("get", "activity/get", null, qs);
+      let result = await handleRequest('get', 'activity/get', null, qs);
       const { data, success } = result.data;
       if (success) {
         dispatch({
@@ -191,8 +190,8 @@ export const getNFTsByCollection = (id) => async (dispatch) => {
       collectionId: id,
     };
     let result = await handleRequest(
-      "post",
-      "nfts/getNFTsByCollection",
+      'post',
+      'nfts/getNFTsByCollection',
       payload
     );
     const { data, success } = result.data;
@@ -216,11 +215,11 @@ export const getNFTsByCollection = (id) => async (dispatch) => {
 };
 
 export const getMyLikedNfts =
-  (qs = "") =>
+  (qs = '') =>
   async (dispatch) => {
     dispatch(emptyError());
     try {
-      const res = await handleRequest("get", "nftLikes/userNftLikes", null, qs);
+      const res = await handleRequest('get', 'nftLikes/userNftLikes', null, qs);
       const { success, data } = res.data;
       if (success) {
         dispatch({
@@ -243,7 +242,7 @@ export const getMyLikedNfts =
 
 export const createNFT = async (formData) => async (dispatch) => {
   try {
-    const res = await axiosPostFormData("nfts/create", formData, true);
+    const res = await axiosPostFormData('nfts/create', formData, true);
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
@@ -254,10 +253,10 @@ export const createNFT = async (formData) => async (dispatch) => {
 
 export const addNFTRecord = (formData) => async (dispatch) => {
   try {
-    const res = await handleRequest("post", "nfts/storeNFTData", formData);
+    const res = await handleRequest('post', 'nfts/storeNFTData', formData);
     const { success } = res.data;
     if (success) {
-      toast.success("NFT created successfully");
+      toast.success('NFT created successfully');
       dispatch({
         type: CREATE_NFT_AUTH,
       });
@@ -276,12 +275,12 @@ export const addNFTRecord = (formData) => async (dispatch) => {
 };
 
 export const getProfileNfts =
-  (qs = "") =>
+  (qs = '') =>
   async (dispatch) => {
     dispatch(emptyError());
 
     try {
-      const res = await handleRequest("get", "nfts/list", null, qs);
+      const res = await handleRequest('get', 'nfts/list', null, qs);
       const { data, success } = res.data;
       if (success) {
         dispatch({

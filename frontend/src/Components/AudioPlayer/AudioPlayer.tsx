@@ -1,5 +1,6 @@
-import "./AudioPlayer.scss";
-import ReactAudioPlayer from "react-audio-player";
+import React from 'react';
+import './AudioPlayer.scss';
+import ReactAudioPlayer from 'react-audio-player';
 
 const AudioPlayer = ({ audioSrc }: any) => {
   return (

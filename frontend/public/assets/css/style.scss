@@ -18,8 +18,8 @@
 *
 ----------------------------------------------*/
 
-@import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;900&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap');
 
 /*----------------------------------------------
 
@@ -62,8 +62,8 @@
 /* #region Root */
 
 :root {
-  --primary-font: "Jost", sans-serif;
-  --secondary-font: "Poppins", sans-serif;
+  --primary-font: 'Jost', sans-serif;
+  --secondary-font: 'Poppins', sans-serif;
 
   --h1-size: 4rem;
   --h1-weight: 900;
@@ -299,7 +299,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 
@@ -554,10 +554,10 @@ input {
     border-color: var(--primary-t-color);
     color: var(--primary-t-color);
   }
-  &[type="radio"] {
+  &[type='radio'] {
     height: initial;
   }
-  &[type="submit"] {
+  &[type='submit'] {
     border: 1px solid;
     padding: 2.5px 10px;
     display: block;
@@ -571,7 +571,7 @@ input {
       border-color: var(--primary-color);
     }
   }
-  &[type="checkbox"] {
+  &[type='checkbox'] {
     width: 20px;
     height: 20px;
   }
@@ -591,7 +591,7 @@ textarea {
 select {
   appearance: none;
   text-indent: 1px;
-  text-overflow: "";
+  text-overflow: '';
   line-height: 1.2;
   border-color: var(--primary-l-color);
   color: var(--primary-t-color);
@@ -696,7 +696,7 @@ aside {
 
 .clearfix {
   display: block;
-  content: "";
+  content: '';
   clear: both;
 }
 
@@ -814,7 +814,7 @@ aside {
     text-transform: uppercase;
     &::after {
       position: absolute;
-      content: "";
+      content: '';
       height: 3px;
       width: 45px;
       background-image: linear-gradient(
@@ -976,7 +976,7 @@ aside {
       font-weight: 700;
       &::before {
         position: absolute;
-        content: "";
+        content: '';
         height: 3px;
         width: 50px;
         background-color: var(--primary-color);
@@ -1012,7 +1012,7 @@ aside {
     color: #444;
     &::before {
       position: absolute;
-      content: "";
+      content: '';
       height: calc(100% + 4px);
       width: calc(100% + 4px);
       background-image: linear-gradient(
@@ -1028,7 +1028,7 @@ aside {
     }
     &:after {
       position: absolute;
-      content: "";
+      content: '';
       height: 100%;
       width: 100%;
       top: 0;
@@ -1052,7 +1052,7 @@ aside {
     border: 2px solid #fff;
     &::after {
       position: absolute;
-      content: "";
+      content: '';
       height: calc(100% + 4px);
       width: calc(100% + 4px);
       background-image: linear-gradient(
@@ -1085,8 +1085,8 @@ aside {
     padding-right: 15px;
     &::before {
       position: absolute;
-      content: "\f061";
-      font-family: "Font Awesome 5 Free";
+      content: '\f061';
+      font-family: 'Font Awesome 5 Free';
       font-weight: 900;
       top: 50%;
       right: 0;
@@ -1096,8 +1096,8 @@ aside {
     }
     &::after {
       position: absolute;
-      content: "\f061";
-      font-family: "Font Awesome 5 Free";
+      content: '\f061';
+      font-family: 'Font Awesome 5 Free';
       font-weight: 900;
       top: 50%;
       right: -10px;
@@ -1720,7 +1720,7 @@ header {
     text-transform: uppercase;
     &::after {
       position: absolute;
-      content: "";
+      content: '';
       height: 3px;
       width: 45px;
       background-image: linear-gradient(
@@ -1855,7 +1855,7 @@ header {
             transition: all 0.2s ease 0s;
           }
           &::before {
-            content: "";
+            content: '';
             top: 0;
             width: calc(5rem - 6px);
             height: calc(5rem - 6px);
@@ -1864,7 +1864,7 @@ header {
             transform: scale(0.8);
           }
           &::after {
-            content: "";
+            content: '';
             top: 5px;
             width: calc(5rem - 16px);
             height: calc(5rem - 16px);
@@ -1934,7 +1934,7 @@ header {
       box-shadow: none;
       &::after {
         position: absolute;
-        content: "";
+        content: '';
         height: 2px;
         width: 0;
         bottom: 5px;
@@ -2025,7 +2025,7 @@ header {
         padding: 10px 0;
         &::after {
           position: absolute;
-          content: "";
+          content: '';
           height: 3px;
           width: 0;
           bottom: -2.5px;
@@ -2108,7 +2108,7 @@ header {
             transition: all 0.2s ease 0s;
           }
           &::before {
-            content: "";
+            content: '';
             top: 0;
             width: calc(5rem - 6px);
             height: calc(5rem - 6px);
@@ -2117,7 +2117,7 @@ header {
             transform: scale(0.8);
           }
           &::after {
-            content: "";
+            content: '';
             top: 5px;
             width: calc(5rem - 16px);
             height: calc(5rem - 16px);
@@ -2206,7 +2206,7 @@ header {
         padding: 10px 0;
         &::after {
           position: absolute;
-          content: "";
+          content: '';
           height: 3px;
           width: 0;
           bottom: -2.5px;
@@ -2268,7 +2268,7 @@ header {
         border: none;
         &::before {
           position: absolute;
-          content: "";
+          content: '';
           height: 3px;
           width: 50px;
           background-color: var(--primary-color);
@@ -2319,7 +2319,7 @@ header {
         height: 50px;
       }
       .custom-file-input:lang(en) ~ .custom-file-label::after {
-        content: "Upload";
+        content: 'Upload';
       }
       .form-check-input {
         width: 1em;
@@ -2328,13 +2328,13 @@ header {
         appearance: inherit;
         background-color: var(--card-bg-color);
         border: 2px solid;
-        &[type="radio"] {
+        &[type='radio'] {
           border-radius: 0.25em;
         }
         &:checked {
           background-color: var(--primary-bg-color);
           border-color: var(--primary-bg-color);
-          &[type="radio"] {
+          &[type='radio'] {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
           }
         }
@@ -2389,24 +2389,24 @@ header {
       position: relative;
       &::after {
         position: absolute;
-        content: "\f107";
+        content: '\f107';
         top: 50%;
         left: calc(100% - 34px);
         transform: translateY(-50%);
         font-size: 18px;
         font-weight: 900;
-        font-family: "Font Awesome 5 Free";
+        font-family: 'Font Awesome 5 Free';
       }
       &.collapsed {
         &::after {
           position: absolute;
-          content: "\f105";
+          content: '\f105';
           top: 50%;
           left: calc(100% - 34px);
           transform: translateY(-50%);
           font-size: 18px;
           font-weight: 900;
-          font-family: "Font Awesome 5 Free";
+          font-family: 'Font Awesome 5 Free';
         }
       }
     }
@@ -2472,7 +2472,7 @@ header {
   z-index: 0;
   &::after {
     position: absolute;
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     top: 0;
@@ -2492,7 +2492,7 @@ header {
   z-index: 0;
   &::after {
     position: absolute;
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     top: 0;
@@ -3047,7 +3047,7 @@ header {
 
   body {
     .modal-body {
-      align-items: start;
+      align-items: flex-start;
     }
   }
 

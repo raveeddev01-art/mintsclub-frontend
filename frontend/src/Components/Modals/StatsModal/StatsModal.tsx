@@ -1,29 +1,29 @@
-import { FC } from "react";
-import { Modal } from "react-bootstrap";
-import ModalClose from "../../../assets/images/modal-close.svg";
-import InputClose from "../../../assets/images/inp-close.svg";
-import "../PropertiesModal/PropertiesModal.scss";
-import "../BuyModal/BuyModal.scss";
-import { toast } from "react-toastify";
+import React, { FC } from 'react';
+import { Modal } from 'react-bootstrap';
+import ModalClose from '../../../assets/images/modal-close.svg';
+import InputClose from '../../../assets/images/inp-close.svg';
+import '../PropertiesModal/PropertiesModal.scss';
+import '../BuyModal/BuyModal.scss';
+import { toast } from 'react-toastify';
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-} from "../../../utils/functions";
-import { StatsInt } from "../../../interfaces/components";
+} from '../../../utils/functions';
+import { StatsInt } from '../../../interfaces/components';
 const StatsModal: FC<StatsInt> = (props) => {
   const { show, onHide } = props;
   const { addMoreValues, handleChange, removeFormFields, stats, onSave } =
     props;
   const handleSubmit = () => {
     if (stats && stats.length > 0) {
-      let isEmpty = stats.filter(
-        (item: any) => item.name === "" || item.value === ""
+      const isEmpty = stats.filter(
+        (item: any) => item.name === '' || item.value === ''
       );
       if (isEmpty.length > 0) {
-        toast.error("Please Fill Empty Fields ");
-        return "";
+        toast.error('Please Fill Empty Fields ');
+        return '';
       } else {
-        onSave("stats");
+        onSave('stats');
       }
     }
   };
@@ -71,7 +71,7 @@ const StatsModal: FC<StatsInt> = (props) => {
                             onKeyDown={(e) =>
                               firstInputCharacterSpace(e, item.name.length)
                             }
-                            onChange={(e) => handleChange(i, e, "stats")}
+                            onChange={(e) => handleChange(i, e, 'stats')}
                             autoComplete="off"
                           />
                         </div>
@@ -95,12 +95,12 @@ const StatsModal: FC<StatsInt> = (props) => {
                               onChange={(e) => {
                                 if (
                                   +e.target.value > 5 ||
-                                  (+e.target.value <= 0 && item.value == "") ||
-                                  e.target.value.includes(".")
+                                  (+e.target.value <= 0 && item.value === '') ||
+                                  e.target.value.includes('.')
                                 ) {
-                                  return "";
+                                  return '';
                                 }
-                                handleChange(i, e, "stats");
+                                handleChange(i, e, 'stats');
                               }}
                               autoComplete="off"
                             />
@@ -128,7 +128,7 @@ const StatsModal: FC<StatsInt> = (props) => {
                           <img
                             src={InputClose}
                             alt="closemodal"
-                            onClick={() => removeFormFields(i, "stats")}
+                            onClick={() => removeFormFields(i, 'stats')}
                           />
                         </button>
                       </div>
@@ -143,7 +143,7 @@ const StatsModal: FC<StatsInt> = (props) => {
         <div className="modal-nft-footer d-flex align-items-center">
           <button
             className="btn modal-btn-addMore mt-2"
-            onClick={() => addMoreValues("stats")}
+            onClick={() => addMoreValues('stats')}
           >
             Add more
           </button>

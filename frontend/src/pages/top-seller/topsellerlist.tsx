@@ -1,14 +1,14 @@
-import { useEffect, useState, useContext } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { ENV } from "../../config/config";
-import { getTopSellers, beforeUser } from "../../Components/User/user.action";
-import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
-import "./topseller.scss";
-import Breadcrumb from "../../Components/Breadcrumb/Breadcrumb";
-import { Images } from "../../assets/assets";
-import { useGetTopSellers } from "../../hooks/TopSellers";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import React, { useEffect, useState, useContext } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ENV } from '../../config/config';
+import { getTopSellers, beforeUser } from '../../Components/User/user.action';
+import SellerTickIcon from '../../assets/images/seller-tick-icon.svg';
+import './topseller.scss';
+import Breadcrumb from '../../Components/Breadcrumb/Breadcrumb';
+import { Images } from '../../assets/assets';
+import { useGetTopSellers } from '../../hooks/TopSellers';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const TopSellerList = (props: any) => {
   const [sellers, setSellers] = useState<any>([]);
@@ -97,7 +97,7 @@ const TopSellerList = (props: any) => {
                               <img src={SellerTickIcon} alt="tick-icon" />
                             </span>
                           ) : (
-                            ""
+                            ''
                           )}
                         </div>
 
@@ -110,7 +110,7 @@ const TopSellerList = (props: any) => {
                             {author.username}
                           </Link>
                           <span className="text-end">
-                            {" "}
+                            {' '}
                             {author.totalETH.toFixed(2)}
                           </span>
                         </div>

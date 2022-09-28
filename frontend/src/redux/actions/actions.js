@@ -1,5 +1,5 @@
-import { toast } from "react-toastify";
-import Web3 from "web3";
+import { toast } from 'react-toastify';
+import Web3 from 'web3';
 import {
   // HOME_TEST,
   CURRENT_STEP,
@@ -18,13 +18,13 @@ import {
   SET_LEVELS,
   SET_OTP_STATUS,
   SET_OTP_EMAIL,
-} from "../types/types";
-import { DARK_MODE } from "../types";
+} from '../types/types';
+import { DARK_MODE } from '../types';
 
-import { ENV } from "../../config/config";
-import { connectMetamaskCopy } from "../../utils/web3";
-import axios from "axios";
-import dotenv from "dotenv";
+import { ENV } from '../../config/config';
+import { connectMetamaskCopy } from '../../utils/web3';
+import axios from 'axios';
+import dotenv from 'dotenv';
 export const currentStepAction = () => (dispatch) => {
   // alert("called")
 
@@ -95,10 +95,10 @@ function msToTime(ms) {
   let minutes = (ms / (1000 * 60)).toFixed(1);
   let hours = (ms / (1000 * 60 * 60)).toFixed(1);
   let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-  if (seconds < 60) return seconds + " Sec";
-  else if (minutes < 60) return minutes + " Min";
-  else if (hours < 24) return hours + " Hrs";
-  else return days + " Days";
+  if (seconds < 60) return seconds + ' Sec';
+  else if (minutes < 60) return minutes + ' Min';
+  else if (hours < 24) return hours + ' Hrs';
+  else return days + ' Days';
 }
 
 export const verifyOtp = (email, otp) => (dispatch) => {
@@ -119,21 +119,21 @@ export const verifyOtp = (email, otp) => (dispatch) => {
     (res) => {
       if (res.data.email) {
         if (res.data.email !== email) {
-          toast.error("Invalid Email or OTP");
-          return " ";
+          toast.error('Invalid Email or OTP');
+          return ' ';
         }
       }
 
-      if (res.data.status == false) {
+      if (res.data.status === false) {
         toast.error(res.data.message);
-        return " ";
+        return ' ';
       }
 
       if (res.data.status === true) {
         setOtpEmail(res.data.data[0].email);
         if (res.data.diffMins < -10) {
-          toast.error("Token is  Expired ,Please resend token & try again");
-          return " ";
+          toast.error('Token is  Expired ,Please resend token & try again');
+          return ' ';
         } else {
           toast.success(res.data.message);
 
@@ -148,7 +148,7 @@ export const verifyOtp = (email, otp) => (dispatch) => {
       }
     },
     (err) => {
-      toast.error("Invalid OTP or Email");
+      toast.error('Invalid OTP or Email');
     }
   );
 };
@@ -203,7 +203,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
                 // gas: gasPrice,
               })
               .then((contractInstance) => {
-                toast.success("Contract Deployed Successfully!");
+                toast.success('Contract Deployed Successfully!');
                 dispatch({
                   type: LOADER,
                   payload: false,
@@ -225,7 +225,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
                 });
                 const contractData = {
                   contractadd: contractInstance.options.address,
-                  Network: "Etherium",
+                  Network: 'Etherium',
                   Deployed: true,
                 };
 
@@ -240,14 +240,14 @@ export const deployContract = (data, address, supply) => (dispatch) => {
                   type: LOADER,
                   payload: false,
                 });
-                toast.error("Transaction Failed please check wallet history!");
+                toast.error('Transaction Failed please check wallet history!');
               });
           } catch (err) {
             dispatch({
               type: LOADER,
               payload: false,
             });
-            toast.error("Transaction Failed please check wallet history!");
+            toast.error('Transaction Failed please check wallet history!');
           }
         } else {
           dispatch({
@@ -301,7 +301,7 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
   });
   let metaDataList = [];
   // console.log(data, "data=====>");
-  let metaData = "";
+  let metaData = '';
   if (!data.data) {
     metaData = data;
   } else {
@@ -337,12 +337,12 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
         handleEmailRequest(email);
         let count = localStorage.getItem(address);
         if (count) {
-          console.log(typeof (+count * 1), "issueee");
+          console.log(typeof (+count * 1), 'issueee');
           localStorage.setItem(address, +count * 1 + 1);
         } else {
           localStorage.setItem(address, 1);
         }
-        toast.success("Minting Successful");
+        toast.success('Minting Successful');
         dispatch({
           type: LOADER,
           payload: false,
@@ -357,19 +357,19 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
         });
       })
       .catch((err) => {
-        console.log(err, "error==>");
+        console.log(err, 'error==>');
         dispatch({
           type: LOADER,
           payload: false,
         });
-        toast.error("Transaction Failed please check wallet history!");
+        toast.error('Transaction Failed please check wallet history!');
       });
   } catch (err) {
     dispatch({
       type: LOADER,
       payload: false,
     });
-    toast.error("Transaction Failed please check wallet history!");
+    toast.error('Transaction Failed please check wallet history!');
   }
 };
 const handleEmailRequest = (email) => {
@@ -407,7 +407,7 @@ export const connectWallet = () => (dispatch) => {
         payload: address,
       })
     )
-    .catch((err) => console.log(err, "error"));
+    .catch((err) => console.log(err, 'error'));
 };
 
 export const hometest = () => (dispatch) => {

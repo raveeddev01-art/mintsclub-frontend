@@ -1,16 +1,16 @@
-import {ENV} from "../config/config"
+import { ENV } from '../config/config';
 
 export default {
   domain: {
     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
     chainId: 4,
     // Give a user friendly name to the specific contract you are signing for.
-    name: "LazyNFT-Voucher",
+    name: 'LazyNFT-Voucher',
     // If name isn't enough add verifying contract to make sure you are establishing contracts with the proper entity
     // verifyingContract: "0x043F1FD137AFdDb66b0c31fAa1D3E96f720EaE2f",
     verifyingContract: ENV.batchMintLazyContract,
     // Just let's you know the latest version. Definitely make sure the field name is correct.
-    version: "1",
+    version: '1',
   },
 
   // Defining the message signing data content.
@@ -21,11 +21,11 @@ export default {
        - This is DApp Specific
        - Be as explicit as possible when building out the message schema.
       */
-     tokenId:5,
-     amount:4,
-     minPrice:0.1,
-     uri:"https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE"
-         //   attachedMoneyInEth: 4.2,
+    tokenId: 5,
+    amount: 4,
+    minPrice: 0.1,
+    uri: 'https://gateway.pinata.cloud/ipfs/QmRPPiMFmvqvoSpq48wcL16eM3YAwc74RNMzt31RGA4QXE',
+    //   attachedMoneyInEth: 4.2,
     //   from: {
     //     name: "Cow",
     //     wallets: [
@@ -45,14 +45,14 @@ export default {
     //   ]
   },
   // Refers to the keys of the *types* object below.
-  primaryType: "NFTVoucher",
+  primaryType: 'NFTVoucher',
   types: {
     // TODO: Clarify if EIP712Domain refers to the domain the contract is hosted on
     EIP712Domain: [
-      { name: "name", type: "string" },
-      { name: "version", type: "string" },
-      { name: "chainId", type: "uint256" },
-      { name: "verifyingContract", type: "address" },
+      { name: 'name', type: 'string' },
+      { name: 'version', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' },
     ],
     // Not an EIP712Domain definition
     //   Group: [
@@ -61,10 +61,10 @@ export default {
     //   ],
     // Refer to PrimaryType
     NFTVoucher: [
-      { name: "tokenId", type: "uint256" },
-      { name: "minPrice", type: "uint256" },
-      { name: "uri", type: "string" },
-      {name:"amount",type:"uint256"}
+      { name: 'tokenId', type: 'uint256' },
+      { name: 'minPrice', type: 'uint256' },
+      { name: 'uri', type: 'string' },
+      { name: 'amount', type: 'uint256' },
     ],
     // Not an EIP712Domain definition
     //   Person: [

@@ -3382,7 +3382,7 @@ input[type="number"] {
   body .modal-body {
     -webkit-box-align: start;
     -ms-flex-align: start;
-    align-items: start;
+    align-items: flex-start;
   }
   .button-group a {
     margin-top: 0;

@@ -1,15 +1,15 @@
-import { FC } from "react";
-import { Modal } from "react-bootstrap";
-import ModalClose from "../../../assets/images/modal-close.svg";
-import InputClose from "../../../assets/images/inp-close.svg";
-import "../PropertiesModal/PropertiesModal.scss";
-import "../BuyModal/BuyModal.scss";
-import { toast } from "react-toastify";
+import React, { FC } from 'react';
+import { Modal } from 'react-bootstrap';
+import ModalClose from '../../../assets/images/modal-close.svg';
+import InputClose from '../../../assets/images/inp-close.svg';
+import '../PropertiesModal/PropertiesModal.scss';
+import '../BuyModal/BuyModal.scss';
+import { toast } from 'react-toastify';
 import {
   decimalNumberValidator,
   firstInputCharacterSpace,
-} from "../../../utils/functions";
-import { Levels } from "../../../interfaces/components";
+} from '../../../utils/functions';
+import { Levels } from '../../../interfaces/components';
 const LevelsModal: FC<Levels> = (props) => {
   const {
     show,
@@ -23,14 +23,14 @@ const LevelsModal: FC<Levels> = (props) => {
 
   const handleSubmit = () => {
     if (levels && levels.length > 0) {
-      let isEmpty = levels.filter(
-        (item: any) => item.name === "" || item.value === ""
+      const isEmpty = levels.filter(
+        (item: any) => item.name === '' || item.value === ''
       );
       if (isEmpty.length > 0) {
-        toast.error("Please Fill Empty Fields ");
-        return "";
+        toast.error('Please Fill Empty Fields ');
+        return '';
       } else {
-        onSave("levels");
+        onSave('levels');
       }
     }
   };
@@ -76,7 +76,7 @@ const LevelsModal: FC<Levels> = (props) => {
                           onKeyDown={(e) =>
                             firstInputCharacterSpace(e, item.name.length)
                           }
-                          onChange={(e) => handleChange(i, e, "levels")}
+                          onChange={(e) => handleChange(i, e, 'levels')}
                           autoComplete="off"
                         />
                       </div>
@@ -98,12 +98,12 @@ const LevelsModal: FC<Levels> = (props) => {
                             onChange={(e) => {
                               if (
                                 +e.target.value > 5 ||
-                                (+e.target.value <= 0 && item.value == "") ||
-                                e.target.value.includes(".")
+                                (+e.target.value <= 0 && item.value === '') ||
+                                e.target.value.includes('.')
                               ) {
-                                return "";
+                                return '';
                               }
-                              handleChange(i, e, "levels");
+                              handleChange(i, e, 'levels');
                             }}
                             autoComplete="off"
                           />
@@ -131,7 +131,7 @@ const LevelsModal: FC<Levels> = (props) => {
                         <img
                           src={InputClose}
                           alt="closemodal"
-                          onClick={() => removeFormFields(i, "levels")}
+                          onClick={() => removeFormFields(i, 'levels')}
                         />
                       </button>
                     </div>
@@ -145,7 +145,7 @@ const LevelsModal: FC<Levels> = (props) => {
         <div className="modal-nft-footer d-flex align-items-center">
           <button
             className="btn modal-btn-addMore mt-2"
-            onClick={() => addMoreValues("levels")}
+            onClick={() => addMoreValues('levels')}
           >
             Add more
           </button>

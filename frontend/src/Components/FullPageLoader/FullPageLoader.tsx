@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "./FullPageLoader.scss";
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import './FullPageLoader.scss';
 
 function FullPageLoader() {
   useEffect(() => {

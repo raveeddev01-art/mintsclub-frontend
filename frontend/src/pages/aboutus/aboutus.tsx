@@ -1,15 +1,15 @@
-import { useEffect } from "react";
-import "./aboutus.scss";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
-import { aboutUsBanner,services,comingSoon } from "../../utils/exportData";
+import React, { useEffect } from 'react';
+import './aboutus.scss';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
+import { aboutUsBanner, services, comingSoon } from '../../utils/exportData';
 
 const AboutUs = () => {
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
-  
+
   return (
     <>
       <Banner
@@ -54,17 +54,17 @@ const AboutUs = () => {
             <h5>A Game-changing Minting Wizard!</h5>
             <ol>
               <li>
-                {" "}
+                {' '}
                 Upload your artwork or other digital assets that you want to
                 mint.
               </li>
               <li>
-                {" "}
+                {' '}
                 Enter details about your NFT (i.e. Name, Symbol, External Link,
                 and Description, if any).
               </li>
               <li>
-                {" "}
+                {' '}
                 You are set to explore the virtual marketplace and reinvent top
                 currencies with distinctive digital goods!
               </li>

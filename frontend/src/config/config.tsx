@@ -1,7 +1,8 @@
-require("dotenv").config();
-const CryptoJS = require("crypto-js");
-const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
-const moment = require("moment");
+import React from 'react';
+require('dotenv').config();
+const CryptoJS = require('crypto-js');
+const dataEncryptionKey = 'kalsaOOLLaASASAFFSSEE';
+const moment = require('moment');
 
 export const ENV = {
   // blockchain variables
@@ -33,9 +34,9 @@ export const ENV = {
   gaTrackerId: process.env.REACT_APP_GATRACKER_ID,
   currencies: [
     {
-      name: "Ethereum",
-      symbol: "ETH",
-      icon: "/img/ethereum.svg",
+      name: 'Ethereum',
+      symbol: 'ETH',
+      icon: '/img/ethereum.svg',
     },
   ],
   serviceFee: 2.5,
@@ -43,15 +44,15 @@ export const ENV = {
   Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION}`,
   x_auth_token: process.env.REACT_APP_X_AUTH_TOKEN,
   // default images placeholders
-  globalPlaceholderImage: "/img/placeholder.png",
-  collectionFeaturedImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
-  userDefaultImg: "https://via.placeholder.com/600x600/8e8e8e/ccc.png",
-  categoryDefaultImg: "https://via.placeholder.com/600x450/8e8e8e/ccc.png",
+  globalPlaceholderImage: '/img/placeholder.png',
+  collectionFeaturedImg: 'https://via.placeholder.com/600x450/8e8e8e/ccc.png',
+  userDefaultImg: 'https://via.placeholder.com/600x600/8e8e8e/ccc.png',
+  categoryDefaultImg: 'https://via.placeholder.com/600x450/8e8e8e/ccc.png',
   //set user in local storage
   encryptUserData: function (data: any) {
-    let userData = localStorage.getItem("encuse");
+    const userData = localStorage.getItem('encuse');
     if (userData && !data.accessToken) {
-      let bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
+      const bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
       let originalData = bytes.toString(CryptoJS.enc.Utf8);
       originalData = JSON.parse(originalData);
       if (originalData && originalData.accessToken) {
@@ -59,11 +60,11 @@ export const ENV = {
       }
     }
     data = JSON.stringify(data);
-    let encryptedUser = CryptoJS.AES.encrypt(
+    const encryptedUser = CryptoJS.AES.encrypt(
       data,
       dataEncryptionKey
     ).toString();
-    localStorage.setItem("encuse", encryptedUser);
+    localStorage.setItem('encuse', encryptedUser);
     return true;
   },
 
@@ -73,16 +74,16 @@ export const ENV = {
       [key: string]: any;
     };
 
-    let userData = localStorage.getItem("encuse");
+    const userData = localStorage.getItem('encuse');
     if (userData) {
-      var bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
-      var originalData = bytes.toString(CryptoJS.enc.Utf8);
+      const bytes = CryptoJS.AES.decrypt(userData, dataEncryptionKey);
+      let originalData = bytes.toString(CryptoJS.enc.Utf8);
       originalData = JSON.parse(originalData);
       let user: User = {};
       if (keys) {
-        keys = keys.split(" ");
-        for (let key in keys) {
-          let keyV = keys[key];
+        keys = keys.split(' ');
+        for (const key in keys) {
+          const keyV = keys[key];
           user[keyV] = originalData[keyV];
         }
       } else {
@@ -97,7 +98,7 @@ export const ENV = {
   objectToQueryString: function (body: any) {
     const qs = Object.keys(body)
       .map((key) => `${key}=${body[key]}`)
-      .join("&");
+      .join('&');
     return qs;
   },
 
@@ -105,10 +106,10 @@ export const ENV = {
   isValidImageType: function (file: any) {
     if (file && file.type) {
       const acceptableTypes = [
-        "image/png",
-        "image/x-png",
-        "image/jpeg",
-        "image/jpg",
+        'image/png',
+        'image/x-png',
+        'image/jpeg',
+        'image/jpg',
       ];
       return acceptableTypes.includes(file.type.toLowerCase());
     }
@@ -243,13 +244,13 @@ export const ENV = {
 
   dateRangeInitialSettings: {
     startDate: moment(),
-    endDate: moment().add(6, "months").toDate(),
+    endDate: moment().add(6, 'months').toDate(),
     minDate: moment(),
-    maxDate: moment().add(6, "months").toDate(),
+    maxDate: moment().add(6, 'months').toDate(),
     ranges: {
-      "1 Day": [moment().toDate(), moment().add(1, "days").toDate()],
-      "3 Days": [moment().toDate(), moment().add(3, "days").toDate()],
-      "1 Week": [moment().toDate(), moment().add(6, "days").toDate()],
+      '1 Day': [moment().toDate(), moment().add(1, 'days').toDate()],
+      '3 Days': [moment().toDate(), moment().add(3, 'days').toDate()],
+      '1 Week': [moment().toDate(), moment().add(6, 'days').toDate()],
     },
   },
 
@@ -257,7 +258,7 @@ export const ENV = {
     return (
       <div
         className="countdown-container d-flex justify-content-center mx-auto mb-2"
-        style={{ width: "85%" }}
+        style={{ width: '85%' }}
       >
         <div className="countdown-wrapper m-1">
           <div className="countdown-heading">D</div>

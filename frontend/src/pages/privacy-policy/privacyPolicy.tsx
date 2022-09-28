@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import "./privacyPolicy.scss";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
-import { privacyBanner } from "../../utils/exportData";
+import React, { useEffect } from 'react';
+import './privacyPolicy.scss';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
+import { privacyBanner } from '../../utils/exportData';
 
 const PrivacyPolicy = () => {
   useEffect(() => {
@@ -57,62 +57,62 @@ const PrivacyPolicy = () => {
             <p>We may collect information about you in a range of ways.</p>
             <ul>
               <li>
-                {" "}
+                {' '}
                 Identity information, such as your first name, last name,
                 username or similar identifier, title, date of birth and gender.
               </li>
               <li>
-                {" "}
+                {' '}
                 Contact information, such as your postal address, email address
                 and telephone number.
               </li>
               <li>
-                {" "}
+                {' '}
                 Profile information, such as your, profile picture, username and
                 wallet address, interests, preferences, feedback and survey
                 responses.
               </li>
               <li>
-                {" "}
+                {' '}
                 Feedback and correspondence, such as information you provide in
                 your responses to surveys, when you participate in market
                 research activities, report a problem with Service, receive
                 customer support or otherwise correspond with us.
               </li>
               <li>
-                {" "}
+                {' '}
                 Financial information, such as your credit card or other payment
                 card details.
               </li>
               <li>
-                {" "}
+                {' '}
                 Transaction information, such details about purchases you make
                 through the Service and billing details.
               </li>
               <li>
-                {" "}
+                {' '}
                 Usage information, such as information about how you use the
                 Service and interact with us.
               </li>
               <li>
-                {" "}
+                {' '}
                 Marketing information, such as your preferences for receiving
                 marketing communications and details about how you engage with
                 them.
               </li>
               <li>
-                {" "}
+                {' '}
                 Financial information, such as bank account number and bank
                 routing number; financial assets holdings.
               </li>
               <li>
-                {" "}
+                {' '}
                 Technical information, such as your Ethereum wallet address,
                 application programming interface (API)-key and network
                 information regarding transactions. Please note that your
-                Ethereum wallet address is not collected by{" "}
-                <a href="https://metamask.io/" target="_blank">
-                  Metamask{" "}
+                Ethereum wallet address is not collected by{' '}
+                <a href="https://metamask.io/" target="_blank" rel="noreferrer">
+                  Metamask{' '}
                 </a>
                 or associated plugins and mobile applications.
               </li>
@@ -203,36 +203,36 @@ const PrivacyPolicy = () => {
               <li> To facilitate you in the creation of your account.</li>
               <li> Recognise you as a legitimate user of our platform.</li>
               <li>
-                {" "}
+                {' '}
                 Provide you with our Service, which includes helping you view,
                 explore, and create NFTs using our platform and, at your own
                 risk, connect with other users to purchase, sell NFTs on public
                 blockchains.
               </li>
               <li>
-                {" "}
+                {' '}
                 Administration of our Service and quality of experience when you
                 interact with our platform.
               </li>
               <li> Provide customer support and respond to your queries.</li>
               <li>
-                {" "}
+                {' '}
                 Show your username next to the NFTs currently or previously
                 accessible in your third-party wallet, and next to NFTs on which
                 you have interacted.
               </li>
               <li>
-                {" "}
+                {' '}
                 Send you notifications related to activity on the platform,
                 including notifications of offers on your NFTs.
               </li>
               <li>
-                {" "}
+                {' '}
                 Send you newsletters, promotional materials, and other notices
                 related to our Services.
               </li>
               <li>
-                {" "}
+                {' '}
                 To comply with applicable laws and cooperate with investigations
                 by law enforcement agencies.
               </li>
@@ -241,28 +241,28 @@ const PrivacyPolicy = () => {
           <div className="privacy-content">
             <h5>Disclosure of your Personal Data</h5>
             <h6>
-              Third Party Service Providers:{" "}
+              Third Party Service Providers:{' '}
               <span>
                 We may share your Personal Data with third party service
                 providers.
               </span>
             </h6>
             <h6>
-              Analytics:{" "}
+              Analytics:{' '}
               <span>
                 We may share your data to be used by analytic platforms or other
                 such equivalent tools which make use of statistical information.
               </span>
             </h6>
             <h6>
-              Legal Rights:{" "}
+              Legal Rights:{' '}
               <span>
                 We may also share information as required by law, regulation,
                 legal process, or governmental request.
               </span>
             </h6>
             <h6>
-              Other Disclosures:{" "}
+              Other Disclosures:{' '}
               <span>
                 We may also disclose your Personal Data: to fulfill the purpose
                 for which you provide it; for any other purpose disclosed by us
@@ -345,49 +345,49 @@ const PrivacyPolicy = () => {
               Protection Regulations (“GDPR”) and the respective California
               Consumer Privacy Act (“CCPA”).
               <br />
-              ​Collectively, depending the situation you have the following data
+              Collectively, depending the situation you have the following data
               protection rights:
             </p>
             <ul>
               <li>
-                {" "}
+                {' '}
                 The right to access, update or to delete the information we have
                 on you. Whenever made possible, you can access, update or
                 request deletion of your Personal Data.
               </li>
               <li>
-                {" "}
+                {' '}
                 The right of rectification. You have the right to have your
                 information rectified if that information is inaccurate or
                 incomplete.
               </li>
               <li>
-                {" "}
+                {' '}
                 The right of restriction. You have the right to request that we
                 restrict processing of your personal information.
               </li>
               <li>
-                {" "}
+                {' '}
                 The right to erasure or right to be forgotten. If at any time
                 you do not agree with the collection or use of your personal
                 information as mentioned in this privacy policy and you want us
                 to delete your data.
               </li>
               <li>
-                {" "}
+                {' '}
                 The right to data portability. You have the right to be given a
                 copy of the information we have on you in a structured,
                 machine-readable and commonly used format and have the right to
                 transmit that data to another controller on request.
               </li>
               <li>
-                {" "}
+                {' '}
                 The right to withdraw consent. You may withdraw your consent to
                 the processing of data or information for the purposes as
                 mentioned in this privacy policy.
               </li>
               <li>
-                {" "}
+                {' '}
                 The right to deactivate cookies. If you wish to restrict or
                 block all the cookies which are set by our websites, please use
                 the tool available on the particular website (if applicable), or
