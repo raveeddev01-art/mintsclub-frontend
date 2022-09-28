@@ -108,7 +108,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
           <div className='auction-card-avatar-container d-flex align-items-center justify-content-between'>
             <div className='auction-card-avatar d-flex align-items-center'>
               
-              
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
