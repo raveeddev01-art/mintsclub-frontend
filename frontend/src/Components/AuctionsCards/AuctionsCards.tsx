@@ -107,7 +107,8 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
           <Countdown date={auctionEndDate} renderer={countDownRenderer} />
           <div className='auction-card-avatar-container d-flex align-items-center justify-content-between'>
             <div className='auction-card-avatar d-flex align-items-center'>
-              {/* {console.log('profile', bidByProfile)} */}
+              
+              
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
