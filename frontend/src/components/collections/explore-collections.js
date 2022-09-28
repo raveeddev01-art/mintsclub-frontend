@@ -1,36 +1,27 @@
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import "./explore-collections.css";
-import CollectionsCard from "../collections-cards/CollectionsCard";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
-import {
-  beforeCollection,
-  getCollections,
-  toggleLikeDislike,
-} from "./collections.actions";
-import { Images } from "../../assets/assets";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import './explore-collections.css';
+import CollectionsCard from '../collections-cards/CollectionsCard';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
+import { beforeCollection, getCollections, toggleLikeDislike } from './collections.actions';
+import { Images } from '../../assets/assets';
 
-import FullPageLoader from "../../components/full-page-loader/full-page-loader";
-import { beforeCategory, getCategories } from "./collections.actions";
-import OwnCollectionToday from "../own-collection-today/own-collection-today";
-import Banner from "../banner/banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
+import FullPageLoader from '../../components/full-page-loader/full-page-loader';
+import { beforeCategory, getCategories } from './collections.actions';
+import OwnCollectionToday from '../own-collection-today/own-collection-today';
+import Banner from '../banner/banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
 
 const ExploreCollections = forwardRef((props, ref) => {
-  const [isActive, setIsActive] = useState("All");
+  const [isActive, setIsActive] = useState('All');
   const [collections, setCollections] = useState(null);
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
   const [collectionsLoader, setColLoader] = useState(true); // collections loader
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [limit, setLimit] = useState(12);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState();
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -50,11 +41,9 @@ const ExploreCollections = forwardRef((props, ref) => {
     if (props.collection.getAuth) {
       const { collections, pagination } = props.collection;
       setPagination(pagination);
-      const userId = ENV.getUserKeys("_id")._id;
+      const userId = ENV.getUserKeys('_id')._id;
       if (props.mycollections) {
-        let myCollections = collections.filter(
-          (item) => item.userId === userId
-        );
+        let myCollections = collections.filter((item) => item.userId === userId);
         setCollections(myCollections);
       } else {
         if (collections === null) {
@@ -82,13 +71,13 @@ const ExploreCollections = forwardRef((props, ref) => {
 
   const getCollections = (category, page, pageLimit) => {
     const filter = {
-      page,
+      page
     };
 
     if (props.userId) filter.userId = props.userId;
     if (props.popular) filter.popular = true;
     if (category) filter.myFilter = category;
-    if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
+    if (!props.all) filter.limit = pageLimit ? pageLimit : 12;
     else filter.all = true;
 
     const qs = ENV.objectToQueryString(filter);
@@ -102,25 +91,25 @@ const ExploreCollections = forwardRef((props, ref) => {
 
       getCollections(catId, page);
     },
-    colCount: collections?.length || 0,
+    colCount: collections?.length || 0
   }));
 
   const handlePagination = () => {
     window.scroll(0, 500);
     setPage(page);
-    setLimit(limit + 10);
-    getCollections(selectedCategory, page, limit + 10);
+    setLimit(limit + 12);
+    getCollections(selectedCategory, page, limit + 12);
   };
   const handleFilterCategory = (category) => {
     setLoader(true);
     setPage(1);
-    setLimit(10);
-    getCollections(category, 1, 10);
+    setLimit(12);
+    getCollections(category, 1, 12);
   };
 
   const handleImage = (item, index) => {
     if (item?.nftDetail[index]?.image) {
-      let result = item.nftDetail.filter((nft) => nft.fileType === "image");
+      let result = item.nftDetail.filter((nft) => nft.fileType === 'image');
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -132,17 +121,17 @@ const ExploreCollections = forwardRef((props, ref) => {
   };
 
   const bannerData = {
-    subHeading: "Collections",
-    heading: "Explore all",
+    subHeading: 'Collections',
+    heading: 'Explore all',
     content:
-      " Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+      ' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.'
   };
   return (
     <>
       {categoriesLoader && collectionsLoader ? (
         <FullPageLoader />
       ) : (
-        <section className="explore-collection-section padding-wrapper pt-0">
+        <section className='explore-collection-section padding-wrapper pt-0'>
           <Banner
             subHeading={bannerData.subHeading}
             heading={bannerData.heading}
@@ -150,10 +139,10 @@ const ExploreCollections = forwardRef((props, ref) => {
             bgImg={BannerBg}
             bannerImg={BannerImage}
           />
-          <div className="container">
-            <div className="row mb-5">
-              <div className="col-12 explore-collection-nav">
-                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+          <div className='container'>
+            <div className='row mb-5'>
+              <div className='col-12 explore-collection-nav'>
+                <div className='d-none d-xxl-flex justify-content-lg-end text-end align-items-center'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item, index) => {
@@ -165,30 +154,26 @@ const ExploreCollections = forwardRef((props, ref) => {
                             setSelectedCategory(item.description);
                             handleFilterCategory(item.description);
                           }}
-                          className={`${
-                            item.name === isActive ? "active-explore-nav" : ""
-                          } me-2 me-xl-3`}
+                          className={`${item.name === isActive ? 'active-explore-nav' : ''} me-2 me-xl-3`}
                         >
                           {item.name}
                         </button>
                       );
                     })}
                 </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item, index) => {
                       return (
-                        <div className="col-6 col-sm-3" key={index}>
+                        <div className='col-6 col-sm-3' key={index}>
                           <button
                             onClick={() => {
                               setIsActive(item.name);
                               setSelectedCategory(item.description);
                               handleFilterCategory(item.description);
                             }}
-                            className={
-                              isActive === item.name ? "active-explore-nav" : ""
-                            }
+                            className={isActive === item.name ? 'active-explore-nav' : ''}
                           >
                             {item.name}
                           </button>
@@ -198,17 +183,17 @@ const ExploreCollections = forwardRef((props, ref) => {
                 </div>
               </div>
             </div>
-            <div className="row g-1 align-items-center">
+            <div className='row g-1 align-items-center'>
               {loader ? (
-                <div className="d-flex align-items-center justify-content-center">
-                  <div className="spinner-border mx-auto" role="status">
-                    <span className="sr-only">Loading...</span>
+                <div className='d-flex align-items-center justify-content-center'>
+                  <div className='spinner-border mx-auto' role='status'>
+                    <span className='sr-only'>Loading...</span>
                   </div>
                 </div>
               ) : collections && collections.length > 0 ? (
                 collections.map((collection, index) => {
                   return (
-                    <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
+                    <div className='col-sm-6 col-md-4 col-xl-3' key={index}>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
                         Subimg1={handleImage(collection, 0)}
@@ -217,14 +202,8 @@ const ExploreCollections = forwardRef((props, ref) => {
                         name={collection.name}
                         id={collection._id}
                         collection={collection}
-                        userName={
-                          collection?.username[0] ? collection.username[0] : ""
-                        }
-                        NFTCount={
-                          collection.nftDetail[0].image
-                            ? collection.nftDetail?.length
-                            : 0
-                        }
+                        userName={collection?.username[0] ? collection.username[0] : ''}
+                        NFTCount={collection.nftDetail[0].image ? collection.nftDetail?.length : 0}
                         profileImage={collection?.profileImage[0]}
                         ownerAddress={collection?.ownerAddress}
                         connectedAddress={props.connectedAddress}
@@ -233,23 +212,15 @@ const ExploreCollections = forwardRef((props, ref) => {
                   );
                 })
               ) : (
-                <p className="text-center not-found-title mt-5">
-                  No Collections found
-                </p>
+                <p className='text-center not-found-title mt-5'>No Collections found</p>
               )}
-              <div className="col-12">
-                <div className="mt-5 d-flex justify-content-center align-items-center">
-                  {!empty &&
-                    collections?.length === 10 &&
-                    !loader &&
-                    pagination.totalRecords > collections.length && (
-                      <button
-                        className="btn btn-rounded-bordered px-5"
-                        onClick={() => handlePagination()}
-                      >
-                        Load more...
-                      </button>
-                    )}
+              <div className='col-12'>
+                <div className='mt-5 d-flex justify-content-center align-items-center'>
+                  {!empty && collections?.length === 12 && !loader && pagination.totalRecords > collections.length && (
+                    <button className='btn btn-rounded-bordered px-5' onClick={() => handlePagination()}>
+                      Load more...
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -266,7 +237,7 @@ const mapStateToProps = (state) => ({
   category: state.category,
   categories: state.collection,
   pagination: state.pagination,
-  connectedAddress: state.wallet.connectedAddress,
+  connectedAddress: state.wallet.connectedAddress
 });
 
 export default connect(
@@ -276,7 +247,7 @@ export default connect(
     getCollections,
     beforeCategory,
     getCategories,
-    toggleLikeDislike,
+    toggleLikeDislike
   },
   null,
   { forwardRef: true }

@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import "./allnft.css";
-import { beforeNFT, getNFTs, getMyLikedNfts } from "../../nfts/nfts.action";
-import { ENV } from "../../../config/config";
-import { getCreators, beforeUser } from "./../../user/user.action";
-import { toggleLikeDislike, beforeTogleLikeDislike } from "../explore.action";
-import {
-  beforeCollection,
-  getCollections,
-} from "../../collections/collections.actions";
-import { validateNetwork } from "../../../utils/web3";
-import { toast } from "react-toastify";
-import Listing from "../../listing/listing";
-import Banner from "../../banner/banner";
-import BannerBg from "../../../assets/images/hero-bg.png";
-import BannerImage from "../../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../own-collection-today/own-collection-today";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import './allnft.css';
+import { beforeNFT, getNFTs, getMyLikedNfts } from '../../nfts/nfts.action';
+import { ENV } from '../../../config/config';
+import { getCreators, beforeUser } from './../../user/user.action';
+import { toggleLikeDislike, beforeTogleLikeDislike } from '../explore.action';
+import { beforeCollection, getCollections } from '../../collections/collections.actions';
+import { validateNetwork } from '../../../utils/web3';
+import { toast } from 'react-toastify';
+import Listing from '../../listing/listing';
+import Banner from '../../banner/banner';
+import BannerBg from '../../../assets/images/hero-bg.png';
+import BannerImage from '../../../assets/images/bannerimg.png';
+import OwnCollectionToday from '../../own-collection-today/own-collection-today';
+import { useHistory } from 'react-router-dom';
 const bannerData = {
-  subHeading: "Explore",
-  heading: "All NFTs",
+  subHeading: 'Explore',
+  heading: 'All NFTs',
   content:
-    "Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.",
+    'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.'
 };
 
 const AllNFT = (props) => {
@@ -45,8 +42,8 @@ const AllNFT = (props) => {
     props.getCollections();
     if (props?.location?.state) {
       props.beforeNFT();
-      let searchQs = { keyword: props.location.state, page: 1, limit: 10 };
-      window.history.replaceState(null, "");
+      let searchQs = { keyword: props.location.state, page: 1, limit: 9 };
+      window.history.replaceState(null, '');
       searchQs = ENV.objectToQueryString(searchQs);
       // console.log(searchQs, "searchQs");
       setFilterationLoader(true);
@@ -55,7 +52,7 @@ const AllNFT = (props) => {
       props.beforeNFT();
       getNFTs();
     }
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    let qs = { userId: ENV.getUserKeys('_id')._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
   }, []);
@@ -94,12 +91,7 @@ const AllNFT = (props) => {
 
   //pagination
   useEffect(() => {
-    if (nftPagination)
-      setLoadMoreBtn(
-        nftPagination.total > 0 &&
-          nftPagination.total > nfts.length &&
-          nfts.length > 0
-      );
+    if (nftPagination) setLoadMoreBtn(nftPagination.total > 0 && nftPagination.total > nfts.length && nfts.length > 0);
   }, [nftPagination]);
 
   useEffect(() => {
@@ -134,7 +126,7 @@ const AllNFT = (props) => {
         latest,
         gtePrice,
         ltePrice,
-        keyword,
+        keyword
       } = filter;
       if (collectionId) nftQS.collectionId = collectionId;
       if (gtePrice) nftQS.gtePrice = gtePrice;
@@ -156,7 +148,7 @@ const AllNFT = (props) => {
       if (limit) {
         nftQS.limit = limit;
       } else {
-        nftQS.limit = 10;
+        nftQS.limit = 9;
       }
     }
     const qs = ENV.objectToQueryString(nftQS);
@@ -164,66 +156,61 @@ const AllNFT = (props) => {
     props.getNFTs(qs);
   };
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
-    if (
-      ENV.getUserKeys("address")?.address?.toUpperCase() ===
-      props.connectedAddress?.toUpperCase()
-    ) {
+    if (ENV.getUserKeys('address')?.address?.toUpperCase() === props.connectedAddress?.toUpperCase()) {
       if (await validateNetwork()) {
         if (!likeButtonDisable || likeButtonDisable === null) {
           setLikeBtnDisable(true);
-          let userId = ENV.getUserKeys("_id")._id;
+          let userId = ENV.getUserKeys('_id')._id;
 
           let body = {
             userId,
             nftId,
-            count: 1,
+            count: 1
           };
 
-          if (status === "dislike" && likesCount > 0) {
+          if (status === 'dislike' && likesCount > 0) {
             let result = likedNfts.filter((item) => item.nftId !== nftId);
 
             setLikedNfts(result);
-            increOrDecreLikes(nftId, "dec");
+            increOrDecreLikes(nftId, 'dec');
 
             props.toggleLikeDislike(body);
           }
 
-          if (status === "like") {
+          if (status === 'like') {
             let myLikedNfts = [];
             if (likedNfts && likedNfts.length > 0) {
               myLikedNfts = likedNfts;
             }
 
             let obj = {
-              _id: "1234455",
-              nftId,
+              _id: '1234455',
+              nftId
             };
 
             myLikedNfts.push(obj);
 
             setLikedNfts(myLikedNfts);
-            increOrDecreLikes(nftId, "inc");
+            increOrDecreLikes(nftId, 'inc');
             props.toggleLikeDislike(body);
           }
           // setNFTs(nfts);
         }
       } else {
-        toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
-        );
+        toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
       }
     } else {
-      if (ENV.getUserKeys("address")?.address) {
-        toast.info("Please login with new connected account");
+      if (ENV.getUserKeys('address')?.address) {
+        toast.info('Please login with new connected account');
       } else {
-        toast.info("Please login first to continue");
+        toast.info('Please login first to continue');
       }
-      history.push("/login");
+      history.push('/login');
     }
   };
 
   const increOrDecreLikes = (id, status) => {
-    if (status === "dec") {
+    if (status === 'dec') {
       let newResult = nfts.map((item) => {
         if (item._id !== id) {
           return item;
@@ -250,7 +237,7 @@ const AllNFT = (props) => {
   };
   return (
     <>
-      <section className="explore-collection-section padding-wrapper pt-0">
+      <section className='explore-collection-section padding-wrapper pt-0'>
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
@@ -272,7 +259,7 @@ const AllNFT = (props) => {
           handleLikesTogleApi={handleLikesTogleApi}
           fetchData={fetchData}
           initialKeyword={props?.location?.state}
-          path="/explore/nftdetail/"
+          path='/explore/nftdetail/'
         />
       </section>
       <OwnCollectionToday />
@@ -288,7 +275,7 @@ const mapStateToProps = (state) => ({
   collections: state.collection.collections,
   togleLikeRes: state.explore.togleLikeRes,
   connectedAddress: state.wallet.connectedAddress,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+  nftsByCollectionStatus: state.nft.nftsByCollectionStatus
 });
 
 export default connect(mapStateToProps, {
@@ -300,5 +287,5 @@ export default connect(mapStateToProps, {
   getMyLikedNfts,
   beforeCollection,
   beforeUser,
-  beforeTogleLikeDislike,
+  beforeTogleLikeDislike
 })(AllNFT);

@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from "react";
-import "./listing.css";
-import SearchIcon from "../../assets/images/search-inp.svg";
-import NftCard from "../nft-card/nft-card";
-import FullPageLoader from "../full-page-loader/full-page-loader";
-import Select from "react-select";
-import {
-  decimalNumberValidator,
-  firstInputCharacterSpace,
-} from "../../utils/functions";
+import React, { useState, useEffect } from 'react';
+import './listing.css';
+import SearchIcon from '../../assets/images/search-inp.svg';
+import NftCard from '../nft-card/nft-card';
+import FullPageLoader from '../full-page-loader/full-page-loader';
+import Select from 'react-select';
+import { decimalNumberValidator, firstInputCharacterSpace } from '../../utils/functions';
 const Listing = (props) => {
-  const [minValue, setMinValue] = useState("");
-  const [maxValue, setMaxValue] = useState("");
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
   const [statusActive, setStatusActive] = useState(null);
   const [filterActive, setFilterActive] = useState(false);
   const [initial, setInitial] = useState(true);
   const [selectedOption, setSelectedOption] = useState();
   const [collectionActive, setCollectionActive] = useState(null);
   const [isActive, setIsActive] = useState(1);
-  const [keyword, setKeyword] = useState(
-    props.initialKeyword ? props.initialKeyword : ""
-  );
+  const [keyword, setKeyword] = useState(props.initialKeyword ? props.initialKeyword : '');
   const [filter, setFilter] = useState({
     collectionId: false,
     gtePrice: false,
@@ -30,18 +25,18 @@ const Listing = (props) => {
     highToLow: false,
     newest: false,
     page: 1,
-    limit: 10,
+    limit: 9,
     buy: false,
     auction: false,
     latest: false,
-    keyword: props.initialKeyword ? props.initialKeyword : "",
+    keyword: props.initialKeyword ? props.initialKeyword : ''
   });
 
   const priceOptions = [
-    { value: "lowtohigh", label: "Low To High" },
-    { value: "hightolow", label: "High To Low" },
-    { value: "oldest", label: "Oldest" },
-    { value: "newest", label: "Recently Created" },
+    { value: 'lowtohigh', label: 'Low To High' },
+    { value: 'hightolow', label: 'High To Low' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'newest', label: 'Recently Created' }
   ];
   useEffect(() => {
     const { initialKeyword } = props;
@@ -60,7 +55,7 @@ const Listing = (props) => {
   };
   const selectCustomStyles = {};
 
-  const statusData = ["Buy Now", "On Auction", "New"];
+  const statusData = ['Buy Now', 'On Auction', 'New'];
   const handleFilters = () => {
     setFilterActive(!filterActive);
   };
@@ -84,37 +79,37 @@ const Listing = (props) => {
     setInitial(false);
 
     const { label } = e;
-    if (label === "Low To High") {
+    if (label === 'Low To High') {
       setFilter((prev) => ({
         ...prev,
         lowToHigh: true,
         highToLow: false,
         oldest: false,
-        newest: false,
+        newest: false
       }));
-    } else if (label === "High To Low") {
+    } else if (label === 'High To Low') {
       setFilter((prev) => ({
         ...prev,
         highToLow: true,
         lowToHigh: false,
         oldest: false,
-        newest: false,
+        newest: false
       }));
-    } else if (label === "Oldest") {
+    } else if (label === 'Oldest') {
       setFilter((prev) => ({
         ...prev,
         oldest: true,
         highToLow: false,
         lowToHigh: false,
-        newest: false,
+        newest: false
       }));
-    } else if (label === "Recently Created") {
+    } else if (label === 'Recently Created') {
       setFilter((prev) => ({
         ...prev,
         newest: true,
         oldest: false,
         highToLow: false,
-        lowToHigh: false,
+        lowToHigh: false
       }));
     } else {
     }
@@ -128,11 +123,11 @@ const Listing = (props) => {
   };
 
   const handlePagination = () => {
-    window.scroll(0, 500);
+    window.scroll(0, 200);
     if (!UserProfile) {
       setInitial(false);
       setFilterationLoader(true);
-      setFilter((prev) => ({ ...prev, limit: filter.limit + 10 }));
+      setFilter((prev) => ({ ...prev, limit: filter.limit + 9 }));
     } else {
       getPaginatedData();
     }
@@ -153,7 +148,7 @@ const Listing = (props) => {
   const handleSearchKeyword = (value) => {
     setInitial(false);
     setFilterationLoader(true);
-    let capitalizeValue = "";
+    let capitalizeValue = '';
     if (value) {
       capitalizeValue = capitalize(value);
     }
@@ -163,54 +158,54 @@ const Listing = (props) => {
   const handleStatusFilter = (id) => {
     setInitial(false);
     setFilterationLoader(true);
-    if (id === "Buy Now") {
+    if (id === 'Buy Now') {
       setFilter((prev) => ({
         ...prev,
         buy: true,
         auction: false,
-        newest: false,
+        newest: false
       }));
-    } else if (id === "On Auction") {
+    } else if (id === 'On Auction') {
       setFilter((prev) => ({
         ...prev,
         auction: true,
         buy: false,
-        newest: false,
+        newest: false
       }));
     } else {
       setFilter((prev) => ({
         ...prev,
         newest: true,
         buy: false,
-        auction: false,
+        auction: false
       }));
     }
   };
   const handleClearFilter = (id) => {
-    if (id === "status") {
+    if (id === 'status') {
       setFilterationLoader(true);
       setFilter((prev) => ({
         ...prev,
         buy: false,
         auction: false,
-        new: false,
+        new: false
       }));
-    } else if (id === "price") {
+    } else if (id === 'price') {
       setFilterationLoader(true);
-      setMinValue("");
-      setMaxValue("");
+      setMinValue('');
+      setMaxValue('');
       setFilter((prev) => ({ ...prev, ltePrice: false, gtePrice: false }));
-    } else if (id === "collections") {
+    } else if (id === 'collections') {
       setFilterationLoader(true);
       setFilter((prev) => ({ ...prev, collectionId: false }));
     } else {
-      setMinValue("");
-      setMaxValue("");
+      setMinValue('');
+      setMaxValue('');
       setStatusActive(null);
       setCollectionActive(null);
       setSelectedOption(null);
       setFilterActive(null);
-      setKeyword("");
+      setKeyword('');
       setFilter({
         collectionId: false,
         gtePrice: false,
@@ -224,7 +219,7 @@ const Listing = (props) => {
         limit: filter.limit,
         buy: false,
         auction: false,
-        latest: false,
+        latest: false
       });
     }
   };
@@ -249,43 +244,39 @@ const Listing = (props) => {
     fetchData,
     path,
     getPaginatedData,
-    UserProfile,
+    UserProfile
   } = props;
   return (
-    <div className="filterhoc-wrapper padding-wrapper">
-      <div className="container">
-        <div className="row justify-content-center justify-content-lg-start">
-          <div className="col-12 order-0">
-            <div
-              className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between`}
-            >
-              <div className="search-input mb-4 mb-md-0">
+    <div className='filterhoc-wrapper padding-wrapper'>
+      <div className='container'>
+        <div className='row justify-content-center justify-content-lg-start'>
+          <div className='col-12 order-0'>
+            <div className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between`}>
+              <div className='search-input mb-4 mb-md-0'>
                 <input
-                  type="text"
-                  placeholder="Search items and accounts"
-                  maxLength="50"
+                  type='text'
+                  placeholder='Search items and accounts'
+                  maxLength='50'
                   onChange={(e) => {
-                    if (keyword.trim() === "" && e.target.value.trim() === "") {
+                    if (keyword.trim() === '' && e.target.value.trim() === '') {
                       return false;
-                    } else if (e.target.value === "") {
+                    } else if (e.target.value === '') {
                       handleSearchKeyword(false);
                       setKeyword(e.target.value);
                     } else {
                       setKeyword(e.target.value);
                     }
                   }}
-                  onKeyPress={(e) =>
-                    e.key === "Enter" && handleSearchKeyword(keyword)
-                  }
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearchKeyword(keyword)}
                   value={keyword}
                 />
-                <img src={SearchIcon} alt="search-input" />
+                <img src={SearchIcon} alt='search-input' />
               </div>
-              <div className="sort-by-select mb-4 mb-md-0">
-                <p className="me-3">Sort by:</p>
+              <div className='sort-by-select mb-4 mb-md-0'>
+                <p className='me-3'>Sort by:</p>
                 <Select
-                  className="react-select-cls"
-                  classNamePrefix="react-select"
+                  className='react-select-cls'
+                  classNamePrefix='react-select'
                   styles={selectCustomStyles}
                   // defaultValue={priceOptions[3]}
                   value={selectedOption}
@@ -297,20 +288,17 @@ const Listing = (props) => {
                   options={priceOptions}
                 />
               </div>
-              <div className="mob-filters-btn d-flex d-lg-none align-items-center justify-content-center">
-                <button
-                  className={`${filterActive ? "mob-active-filter" : ""}`}
-                  onClick={handleFilters}
-                >
+              <div className='mob-filters-btn d-flex d-lg-none align-items-center justify-content-center'>
+                <button className={`${filterActive ? 'mob-active-filter' : ''}`} onClick={handleFilters}>
                   Filters
                 </button>
               </div>
             </div>
           </div>
-          <div className="col-12 my-5 order-2 order-lg-1 ">
-            <div className="hero-nav d-flex flex-column flex-sm-row align-items-center justify-content-between">
+          <div className='col-12 my-5 order-2 order-lg-1 '>
+            <div className='hero-nav d-flex flex-column flex-sm-row align-items-center justify-content-between'>
               <div>
-                {" "}
+                {' '}
                 {menuData &&
                   menuData.length > 0 &&
                   menuData.map((item, id) => {
@@ -322,32 +310,29 @@ const Listing = (props) => {
                           handleNftFilter(item);
                           setMenuFilter(item);
                         }}
-                        className={`${
-                          id === isActive ? "active-hero-nav" : ""
-                        } me-2 me-xl-3`}
+                        className={`${id === isActive ? 'active-hero-nav' : ''} me-2 me-xl-3`}
                       >
                         {item}
                       </button>
                     );
                   })}
               </div>
-              <div className="total-items mt-3 mt-sm-0">
+              <div className='total-items mt-3 mt-sm-0'>
                 <p>
-                  Total items:{" "}
-                  <span>{nftPagination?.total ? nftPagination?.total : 0}</span>
+                  Total items: <span>{nftPagination?.total ? nftPagination?.total : 0}</span>
                 </p>
               </div>
             </div>
           </div>
           <div
             className={`${
-              filterActive ? "d-block d-lg-block" : "d-none d-lg-block"
+              filterActive ? 'd-block d-lg-block' : 'd-none d-lg-block'
             } col-md-5 col-lg-4 col-xl-3 order-1 order-lg-2 mt-4 mt-lg-0`}
           >
-            <div className="filter-container mb-4">
+            <div className='filter-container mb-4'>
               <h6>Status</h6>
               <hr />
-              <div className="d-flex flex-wrap align-items-center ">
+              <div className='d-flex flex-wrap align-items-center '>
                 {statusData &&
                   statusData.map((status, id) => {
                     return (
@@ -357,22 +342,20 @@ const Listing = (props) => {
                           handleStatusFilter(status);
                           setStatusActive(status);
                         }}
-                        className={`${
-                          status === statusActive ? "active-filter-btn" : ""
-                        } filter-btn me-3`}
+                        className={`${status === statusActive ? 'active-filter-btn' : ''} filter-btn me-3`}
                       >
                         {status}
                       </button>
                     );
                   })}
               </div>
-              <div className="d-flex align-items-end justify-content-end">
+              <div className='d-flex align-items-end justify-content-end'>
                 {statusActive && (
                   <button
-                    className="filter-clear-btn"
+                    className='filter-clear-btn'
                     onClick={() => {
                       setStatusActive();
-                      handleClearFilter("status");
+                      handleClearFilter('status');
                     }}
                   >
                     Clear
@@ -380,52 +363,49 @@ const Listing = (props) => {
                 )}
               </div>
             </div>
-            <div className="filter-container mb-4">
+            <div className='filter-container mb-4'>
               <h6>Price</h6>
               <hr />
-              <div className="min-max-inp d-flex flex-column flex-sm-row align-items-center justify-content-center justify-content-sm-between mb-2">
-                <div className="d-flex flex-column flex-sm-row align-items-center justify-content-center">
+              <div className='min-max-inp d-flex flex-column flex-sm-row align-items-center justify-content-center justify-content-sm-between mb-2'>
+                <div className='d-flex flex-column flex-sm-row align-items-center justify-content-center'>
                   <input
-                    type="number"
-                    placeholder="Min"
-                    className="me-sm-2"
+                    type='number'
+                    placeholder='Min'
+                    className='me-sm-2'
                     value={minValue}
                     onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={onChangeMinPrice}
                   ></input>
                   <input
-                    type="number"
-                    placeholder="Max"
-                    className="mt-3 mt-sm-0 me-sm-2"
+                    type='number'
+                    placeholder='Max'
+                    className='mt-3 mt-sm-0 me-sm-2'
                     value={maxValue}
                     onKeyDown={(e) => decimalNumberValidator(e)}
                     onChange={onChangeMaxPrice}
                   ></input>
                 </div>
                 <button
-                  className="mt-3 mt-sm-0"
+                  className='mt-3 mt-sm-0'
                   onClick={() => applyMinMaxFilter()}
-                  disabled={disabled || minValue === "" || maxValue === ""}
+                  disabled={disabled || minValue === '' || maxValue === ''}
                 >
                   Apply
                 </button>
               </div>
-              <div className="d-flex align-items-end justify-content-end">
+              <div className='d-flex align-items-end justify-content-end'>
                 {minValue && maxValue && (
-                  <button
-                    className="filter-clear-btn"
-                    onClick={() => handleClearFilter("price")}
-                  >
+                  <button className='filter-clear-btn' onClick={() => handleClearFilter('price')}>
                     Clear
                   </button>
                 )}
               </div>
             </div>
             {isHideCollection() && (
-              <div className="filter-container hoc-collections-container mb-4">
+              <div className='filter-container hoc-collections-container mb-4'>
                 <h6>Collections</h6>
                 <hr />
-                <div className="d-flex flex-wrap align-items-center ">
+                <div className='d-flex flex-wrap align-items-center '>
                   {collections && collections.length > 0 ? (
                     collections.map((collection, id) => {
                       return (
@@ -435,25 +415,23 @@ const Listing = (props) => {
                             handleCollectionsFilter(collection._id);
                             setCollectionActive(id);
                           }}
-                          className={`${
-                            id === collectionActive ? "active-filter-btn" : ""
-                          } filter-btn me-2 me-xl-3`}
+                          className={`${id === collectionActive ? 'active-filter-btn' : ''} filter-btn me-2 me-xl-3`}
                         >
                           {collection.name}
                         </button>
                       );
                     })
                   ) : (
-                    <p className="text-center mx-auto">No Collections Found</p>
+                    <p className='text-center mx-auto'>No Collections Found</p>
                   )}
                 </div>
-                <div className="d-flex align-items-end justify-content-end">
+                <div className='d-flex align-items-end justify-content-end'>
                   {collectionActive !== null && (
                     <button
-                      className="filter-clear-btn"
+                      className='filter-clear-btn'
                       onClick={() => {
                         setCollectionActive(null);
-                        handleClearFilter("collections");
+                        handleClearFilter('collections');
                       }}
                     >
                       Clear
@@ -462,33 +440,25 @@ const Listing = (props) => {
                 </div>
               </div>
             )}
-            <div className="d-flex align-items-center justify-content-center btn-clear-all">
-              <button onClick={() => handleClearFilter()}>
-                Clear All Filters
-              </button>
+            <div className='d-flex align-items-center justify-content-center btn-clear-all'>
+              <button onClick={() => handleClearFilter()}>Clear All Filters</button>
             </div>
           </div>
-          <div className="col-lg-8 col-xl-9 order-3">
+          <div className='col-lg-8 col-xl-9 order-3'>
             {loader ? (
               <FullPageLoader />
             ) : (
-              <div className="row g-1">
+              <div className='row g-1'>
                 {filterationLoader ? (
-                  <div className="text-center">
-                    <div
-                      className="spinner-border text-secondary"
-                      role="status"
-                    >
-                      <span className="sr-only">Loading...</span>
+                  <div className='text-center'>
+                    <div className='spinner-border text-secondary' role='status'>
+                      <span className='sr-only'>Loading...</span>
                     </div>
                   </div>
                 ) : nfts && nfts.length > 0 ? (
                   nfts.map((nft, index) => {
                     return (
-                      <div
-                        key={index}
-                        className="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4"
-                      >
+                      <div key={index} className='col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4'>
                         {
                           <NftCard
                             data={nft}
@@ -503,20 +473,15 @@ const Listing = (props) => {
                     );
                   })
                 ) : (
-                  <p className="text-center mt-5 no-nft-title">No NFT Found</p>
+                  <p className='text-center mt-5 no-nft-title'>No NFT Found</p>
                 )}
-                <div className="col-12">
-                  <div className="mt-5 text-center">
-                    {nfts &&
-                      nftPagination?.total > nfts.length &&
-                      !filterationLoader && (
-                        <button
-                          className="btn btn-rounded-bordered px-5"
-                          onClick={() => handlePagination()}
-                        >
-                          Load more...
-                        </button>
-                      )}
+                <div className='col-12'>
+                  <div className='mt-5 text-center'>
+                    {nfts && nftPagination?.total > nfts.length && !filterationLoader && (
+                      <button className='btn btn-rounded-bordered px-5' onClick={() => handlePagination()}>
+                        Load more...
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

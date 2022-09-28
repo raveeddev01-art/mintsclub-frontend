@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import "./collectiondetails.css";
-import TickIcon from "../../assets/images/seller-tick-icon.svg";
-import {
-  getNFTsByCollection,
-  getNFTs,
-  beforeNFT,
-  getMyLikedNfts,
-} from "../nfts/nfts.action";
-import { connect } from "react-redux";
-import FullPageLoader from "../full-page-loader/full-page-loader";
-import { ENV } from "../../config/config";
-import {
-  toggleLikeDislike,
-  beforeTogleLikeDislike,
-} from "../explore/explore.action";
-import { validateNetwork } from "../../utils/web3";
-import Listing from "../listing/listing";
-import { toast } from "react-toastify";
-import Banner from "../banner/banner";
-import BannerBg from "../../assets/images/profileBg.png";
-import { Images } from "../../assets/assets";
-import OwnCollectionToday from "../own-collection-today/own-collection-today";
+import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import './collectiondetails.css';
+import TickIcon from '../../assets/images/seller-tick-icon.svg';
+import { getNFTsByCollection, getNFTs, beforeNFT, getMyLikedNfts } from '../nfts/nfts.action';
+import { connect } from 'react-redux';
+import FullPageLoader from '../full-page-loader/full-page-loader';
+import { ENV } from '../../config/config';
+import { toggleLikeDislike, beforeTogleLikeDislike } from '../explore/explore.action';
+import { validateNetwork } from '../../utils/web3';
+import Listing from '../listing/listing';
+import { toast } from 'react-toastify';
+import Banner from '../banner/banner';
+import BannerBg from '../../assets/images/profileBg.png';
+import { Images } from '../../assets/assets';
+import OwnCollectionToday from '../own-collection-today/own-collection-today';
 
 const CollectionDetailsPage = (props) => {
   const [loader, setLoader] = useState(true);
@@ -39,7 +31,7 @@ const CollectionDetailsPage = (props) => {
   }, []);
   useEffect(() => {
     getNFTs();
-    let qs = { userId: ENV.getUserKeys("_id")._id };
+    let qs = { userId: ENV.getUserKeys('_id')._id };
     qs = ENV.objectToQueryString(qs);
     props.getMyLikedNfts(qs);
   }, []);
@@ -90,7 +82,7 @@ const CollectionDetailsPage = (props) => {
         latest,
         gtePrice,
         ltePrice,
-        keyword,
+        keyword
       } = filter;
       nftQS.collectionId = location.state._id;
 
@@ -114,7 +106,7 @@ const CollectionDetailsPage = (props) => {
       if (limit) {
         nftQS.limit = limit;
       } else {
-        nftQS.limit = 10;
+        nftQS.limit = 9;
       }
     }
     const qs = ENV.objectToQueryString(nftQS);
@@ -123,55 +115,53 @@ const CollectionDetailsPage = (props) => {
   };
   ///////////Likes
   const handleLikesTogleApi = async (nftId, status, likesCount) => {
-    if (ENV.getUserKeys("_id")?._id) {
+    if (ENV.getUserKeys('_id')?._id) {
       if (await validateNetwork()) {
         if (!likeButtonDisable) {
           setLikeBtnDisable(true);
-          let userId = ENV.getUserKeys("_id")._id;
+          let userId = ENV.getUserKeys('_id')._id;
           let body = {
             userId,
             nftId,
-            count: 1,
+            count: 1
           };
 
-          if (status === "dislike" && likesCount > 0) {
+          if (status === 'dislike' && likesCount > 0) {
             let result = likedNfts.filter((item) => item.nftId !== nftId);
             setLikedNfts(result);
-            increOrDecreLikes(nftId, "dec");
+            increOrDecreLikes(nftId, 'dec');
             props.toggleLikeDislike(body);
           }
 
-          if (status === "like") {
+          if (status === 'like') {
             let myLikedNfts = [];
             if (likedNfts && likedNfts.length > 0) {
               myLikedNfts = likedNfts;
             }
 
             let obj = {
-              _id: "1234455",
-              nftId,
+              _id: '1234455',
+              nftId
             };
 
             myLikedNfts.push(obj);
 
             setLikedNfts(myLikedNfts);
-            increOrDecreLikes(nftId, "inc");
+            increOrDecreLikes(nftId, 'inc');
             props.toggleLikeDislike(body);
           }
           // setNFTs(nfts);
         }
       } else {
-        toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
-        );
+        toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
       }
     } else {
-      history.push("/login");
+      history.push('/login');
     }
   };
 
   const increOrDecreLikes = (id, status) => {
-    if (status === "dec") {
+    if (status === 'dec') {
       let newResult = nfts.map((item) => {
         if (item._id !== id) {
           return item;
@@ -199,41 +189,29 @@ const CollectionDetailsPage = (props) => {
   };
   const { name, logo, description, username } = location.state;
   const bannerData = {
-    subHeading: "Nfts",
-    heading: "Collections Info",
+    subHeading: 'Nfts',
+    heading: 'Collections Info'
   };
 
   return (
     <>
-      <section className="user-profile pt-0">
-        <Banner
-          subHeading={bannerData.subHeading}
-          heading={bannerData.heading}
-          bgImg={BannerBg}
-          className="mb-0"
-        />
-        <div className="collection-detail-content">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
-                  <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3 flex-fill">
-                    <img
-                      src={logo ? logo : Images.profilePlaceholder}
-                      alt="owner-avatar"
-                    />
+      <section className='user-profile pt-0'>
+        <Banner subHeading={bannerData.subHeading} heading={bannerData.heading} bgImg={BannerBg} className='mb-0' />
+        <div className='collection-detail-content'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-12'>
+                <div className='d-flex flex-column flex-md-row align-items-center align-items-sm-start'>
+                  <div className='ms-lg-5 collection-owner-avatar user-avatar-container me-3 flex-fill'>
+                    <img src={logo ? logo : Images.profilePlaceholder} alt='owner-avatar' />
                   </div>
-                  <div className="collection-owner-detail text-center text-sm-start mt-2 mt-sm-4">
-                    <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
-                      <div className="collection-owner-name">
+                  <div className='collection-owner-detail text-center text-sm-start mt-2 mt-sm-4'>
+                    <div className='d-flex flex-column flex-sm-row align-items-center justify-content-between'>
+                      <div className='collection-owner-name'>
                         <h3>
-                          {name}{" "}
+                          {name}{' '}
                           <span>
-                            <img
-                              src={TickIcon}
-                              alt="tick-icon"
-                              className="ms-2"
-                            />
+                            <img src={TickIcon} alt='tick-icon' className='ms-2' />
                           </span>
                         </h3>
                       </div>
@@ -245,13 +223,13 @@ const CollectionDetailsPage = (props) => {
                         </div>
                       )}
                     </div>
-                    <div className="collection-owner-description mt-3">
+                    <div className='collection-owner-description mt-3'>
                       <p>{description && description} </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-sm-7 col-md-6 col-lg-5"></div>
+              <div className='col-12 col-sm-7 col-md-6 col-lg-5'></div>
             </div>
           </div>
         </div>
@@ -267,7 +245,7 @@ const CollectionDetailsPage = (props) => {
           nftPagination={nftPagination}
           handleLikesTogleApi={handleLikesTogleApi}
           fetchData={fetchData}
-          path="/explore/nftdetail/"
+          path='/explore/nftdetail/'
           collectionDetail
         />
       </section>
@@ -287,7 +265,7 @@ const mapStateToProps = (state) => ({
   nftsAuth: state.nft.nftsAuth,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  togleLikeRes: state.explore.togleLikeRes,
+  togleLikeRes: state.explore.togleLikeRes
 });
 
 export default connect(mapStateToProps, {
@@ -296,5 +274,5 @@ export default connect(mapStateToProps, {
   getNFTs,
   getMyLikedNfts,
   toggleLikeDislike,
-  beforeTogleLikeDislike,
+  beforeTogleLikeDislike
 })(CollectionDetailsPage);

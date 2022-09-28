@@ -1,37 +1,32 @@
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import CollectionsCard from "../collections-cards/CollectionsCard";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import CollectionsCard from '../collections-cards/CollectionsCard';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
 import {
   beforePopularCollection,
   getPopularCollections,
   toggleLikeDislike,
   beforeCategory,
-  getCategories,
-} from "../collections/collections.actions";
-import FullPageLoader from "../full-page-loader/full-page-loader";
-import { Images } from "../../assets/assets";
-import Banner from "../banner/banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../own-collection-today/own-collection-today";
+  getCategories
+} from '../collections/collections.actions';
+import FullPageLoader from '../full-page-loader/full-page-loader';
+import { Images } from '../../assets/assets';
+import Banner from '../banner/banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
+import OwnCollectionToday from '../own-collection-today/own-collection-today';
 
 const Populars = forwardRef((props, ref) => {
   const [popular, setpopular] = useState([]);
-  const [isActive, setIsActive] = useState("All");
+  const [isActive, setIsActive] = useState('All');
   const [collections, setCollections] = useState(null);
-  const [categoryId, setCategoryId] = useState("all");
+  const [categoryId, setCategoryId] = useState('all');
   const [categoriesLoader, setCatLoader] = useState(true); // categories loader
   const [collectionsLoader, setColLoader] = useState(true); // collections loader
   const [source, setSource] = useState(1); // 1 for my collections, 2 for popular collections
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [limit, setLimit] = useState(12);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [categories, setCategories] = useState();
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -45,7 +40,7 @@ const Populars = forwardRef((props, ref) => {
 
     getPopularCollections(null, 1);
     const qs = ENV.objectToQueryString({
-      myFilter: "all",
+      myFilter: 'all'
     });
 
     props.getPopularCollections(qs);
@@ -67,9 +62,7 @@ const Populars = forwardRef((props, ref) => {
           }
           collectionListing[i].likesCount = 0;
 
-          collectionListing[i].totalNfts = element.nfts[0].image
-            ? element.nfts?.length
-            : 0;
+          collectionListing[i].totalNfts = element.nfts[0].image ? element.nfts?.length : 0;
           if (element.soldCopies.length > 0) {
             var soldCopiesSum = element.soldCopies.reduce(function (a, b) {
               return a + b;
@@ -86,11 +79,9 @@ const Populars = forwardRef((props, ref) => {
       );
 
       setPagination(pagination);
-      const userId = ENV.getUserKeys("_id")._id;
+      const userId = ENV.getUserKeys('_id')._id;
       if (props.finalCollectionListing) {
-        let finalCollectionListing = finalCollectionListing.filter(
-          (item) => item.userId === userId
-        );
+        let finalCollectionListing = finalCollectionListing.filter((item) => item.userId === userId);
         setpopular(finalCollectionListing);
       } else {
         if (finalCollectionListing === null) {
@@ -118,14 +109,14 @@ const Populars = forwardRef((props, ref) => {
 
   const getPopularCollections = (category, page, pageLimit) => {
     const filter = {
-      page,
+      page
     };
 
     if (props.userId) filter.userId = props.userId;
 
     if (props.popular) filter.popular = true;
     if (category) filter.myFilter = category;
-    if (!props.all) filter.limit = pageLimit ? pageLimit : 10;
+    if (!props.all) filter.limit = pageLimit ? pageLimit : 12;
     else filter.all = true;
 
     const qs = ENV.objectToQueryString(filter);
@@ -139,27 +130,27 @@ const Populars = forwardRef((props, ref) => {
 
       getPopularCollections(catId, page);
     },
-    colCount: collections?.length || 0,
+    colCount: collections?.length || 0
   }));
 
   const handlePagination = () => {
     window.scroll(0, 500);
     setPage(page);
-    setLimit(limit + 10);
-    getPopularCollections(selectedCategory, page, limit + 10);
+    setLimit(limit + 12);
+    getPopularCollections(selectedCategory, page, limit + 12);
   };
 
   const handleFilterCategory = (category) => {
     setCategoryId(category);
     setLoader(true);
     setPage(1);
-    setLimit(10);
-    getPopularCollections(category, 1, 10);
+    setLimit(12);
+    getPopularCollections(category, 1, 12);
   };
 
   const handleImage = (item, index) => {
     if (item?.nfts[index]?.image) {
-      let result = item.nfts.filter((nft) => nft.fileType === "image");
+      let result = item.nfts.filter((nft) => nft.fileType === 'image');
       if (result.length >= index) {
         return result[index]?.image;
       } else {
@@ -170,10 +161,10 @@ const Populars = forwardRef((props, ref) => {
     }
   };
   const bannerData = {
-    subHeading: "Collections",
-    heading: "Popular Collections",
+    subHeading: 'Collections',
+    heading: 'Popular Collections',
     content:
-      " Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.",
+      ' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.'
   };
   return (
     <>
@@ -188,17 +179,14 @@ const Populars = forwardRef((props, ref) => {
         <FullPageLoader />
       ) : (
         <>
-          {" "}
-          <section className="explore-collection-section padding-wrapper">
-            <div className="container">
-              <div className="row mb-5">
-                <div className="col-12 explore-collection-nav">
-                  <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
-                    {categoryId === "all" &&
-                    popular &&
-                    popular?.length == 0 &&
-                    !loader
-                      ? ""
+          {' '}
+          <section className='explore-collection-section padding-wrapper'>
+            <div className='container'>
+              <div className='row mb-5'>
+                <div className='col-12 explore-collection-nav'>
+                  <div className='d-none d-xxl-flex justify-content-lg-end text-end align-items-center'>
+                    {categoryId === 'all' && popular && popular?.length == 0 && !loader
+                      ? ''
                       : categories &&
                         categories.length > 0 &&
                         categories.map((item, index) => {
@@ -210,39 +198,28 @@ const Populars = forwardRef((props, ref) => {
                                 handleFilterCategory(item.description);
                               }}
                               key={index}
-                              className={`${
-                                item.name === isActive
-                                  ? "active-explore-nav"
-                                  : ""
-                              } me-2 me-xl-3`}
+                              className={`${item.name === isActive ? 'active-explore-nav' : ''} me-2 me-xl-3`}
                             >
                               {item.name}
                             </button>
                           );
                         })}
                   </div>
-                  <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
-                    {categoryId === "all" &&
-                    popular &&
-                    popular?.length == 0 &&
-                    !loader
-                      ? ""
+                  <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none'>
+                    {categoryId === 'all' && popular && popular?.length == 0 && !loader
+                      ? ''
                       : categories &&
                         categories.length > 0 &&
                         categories.map((item, index) => {
                           return (
-                            <div className="col-6 col-sm-3" key={index}>
+                            <div className='col-6 col-sm-3' key={index}>
                               <button
                                 onClick={() => {
                                   setIsActive(item.name);
                                   setSelectedCategory(item.description);
                                   handleFilterCategory(item.description);
                                 }}
-                                className={
-                                  isActive === item.name
-                                    ? "active-explore-nav"
-                                    : ""
-                                }
+                                className={isActive === item.name ? 'active-explore-nav' : ''}
                               >
                                 {item.name}
                               </button>
@@ -252,17 +229,17 @@ const Populars = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="row g-1 align-items-center">
+              <div className='row g-1 align-items-center'>
                 {loader ? (
-                  <div className="d-flex align-items-center justify-content-center">
-                    <div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
+                  <div className='d-flex align-items-center justify-content-center'>
+                    <div class='spinner-border' role='status'>
+                      <span class='sr-only'>Loading...</span>
                     </div>
                   </div>
                 ) : popular && popular.length > 0 ? (
                   popular.map((item, index) => {
                     return (
-                      <div className="col-sm-6 col-lg-4 col-xl-3" key={index}>
+                      <div className='col-sm-6 col-lg-4 col-xl-3' key={index}>
                         <CollectionsCard
                           CardImg={item.featuredImg}
                           Subimg1={handleImage(item, 0)}
@@ -281,23 +258,16 @@ const Populars = forwardRef((props, ref) => {
                     );
                   })
                 ) : (
-                  <p className="text-center  not-found-title mt-5">
-                    No Popular Collections Found
-                  </p>
+                  <p className='text-center  not-found-title mt-5'>No Popular Collections Found</p>
                 )}
 
-                <div className="col-12">
-                  <div className="mt-5 text-center">
-                    {!empty &&
-                      popular?.length === 10 &&
-                      pagination.totalRecords > popular.length && (
-                        <button
-                          className="btn btn-rounded-bordered px-5"
-                          onClick={() => handlePagination()}
-                        >
-                          Load more...
-                        </button>
-                      )}
+                <div className='col-12'>
+                  <div className='mt-5 text-center'>
+                    {!empty && popular?.length === 12 && pagination.totalRecords > popular.length && (
+                      <button className='btn btn-rounded-bordered px-5' onClick={() => handlePagination()}>
+                        Load more...
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -317,7 +287,7 @@ const mapStateToProps = (state) => ({
   pagination: state.pagination,
   popularCollections: state.collection.popularCollections,
   getPopularAuth: state.collection.getPopularAuth,
-  connectedAddress: state.wallet.connectedAddress,
+  connectedAddress: state.wallet.connectedAddress
 });
 
 export default connect(
@@ -327,7 +297,7 @@ export default connect(
     getPopularCollections,
     beforeCategory,
     getCategories,
-    toggleLikeDislike,
+    toggleLikeDislike
   },
   null,
   { forwardRef: true }
