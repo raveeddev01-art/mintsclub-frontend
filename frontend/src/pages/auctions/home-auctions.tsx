@@ -122,8 +122,8 @@ const AuctionsOne: FC<HomeAuction> = () => {
                 <span>{initData.pre_heading}</span>
                 <h3 className="mb-0">{initData.heading}</h3>
                 <p>
-                  Explore on the world&aposs best & largest NFT marketplace with
-                  our beautiful NFT products.{' '}
+                  Explore on the world&apos;s best & largest NFT marketplace
+                  with our beautiful NFT products.
                   <br className="d-none d-xxl-block" />
                   We want to be a part of your smile, success and future growth.
                 </p>
