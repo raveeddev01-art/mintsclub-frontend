@@ -75,7 +75,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                   setLoader(false);
                 }}
                 ref={videoElement}
-               
+                // onTimeUpdate={handleOnTimeUpdate}
                 style={{ display: `${!loader ? 'block' : 'none'}` }}
               />
 
