@@ -1,5 +1,6 @@
-import ContentLoader from "react-content-loader";
-import "./ImageLoader.scss";
+import React from 'react';
+import ContentLoader from 'react-content-loader';
+import './ImageLoader.scss';
 const ImageLoader = (props: any) => {
   return (
     <ContentLoader
@@ -7,7 +8,7 @@ const ImageLoader = (props: any) => {
       // height={400}
       backgroundColor="#f0f0f0"
       foregroundColor="#dedede"
-      style={{ width: "100%", height: "310px" }}
+      style={{ width: '100%', height: '310px' }}
       className=""
       {...props}
     >

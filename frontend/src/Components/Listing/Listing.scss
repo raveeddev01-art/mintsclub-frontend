@@ -49,7 +49,7 @@
       .react-select__value-container {
         max-height: 40px;
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         padding: 10px;
       }
       .react-select__input-container {
@@ -169,7 +169,7 @@
           -webkit-appearance: none;
           margin: 0;
         }
-        &[type="number"] {
+        &[type='number'] {
           -moz-appearance: textfield;
         }
         @media (max-width: 767.9px) {

@@ -720,6 +720,7 @@ const NFTDetail = (props: any) => {
           }
 
           if (newBids?.length > 0) {
+            // prettier-ignore
             const highestBidByUser = newBids.reduce((max: any, obj: any) =>
               (max.bidAmount > obj.bidAmount ? max : obj)
             );

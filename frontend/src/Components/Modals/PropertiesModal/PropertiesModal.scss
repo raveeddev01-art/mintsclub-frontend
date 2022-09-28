@@ -1,6 +1,6 @@
 .buy-modal.properties-modal .buy-modal-content .modal-body {
   margin: 0 1rem;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .buy-modal.properties-modal .modal-body .bid-inp-container {
@@ -57,7 +57,7 @@
   .modal-body
   .bid-inp-container
   .inp-container
-  input[type="number"] {
+  input[type='number'] {
   -moz-appearance: textfield;
 }
 

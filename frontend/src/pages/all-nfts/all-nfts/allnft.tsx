@@ -68,7 +68,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetMyLikedNFTs(
+  const { isLoading: isLoadingMyLikedNFTs } = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
     onSuccessLikedNFTs
   );

@@ -10,7 +10,6 @@ export default function (state = initialState, action) {
     case HOME_PAGE_DATA:
       return {
         ...state,
-        featuredItems: true,
         featuredItems: action.payload,
       };
     case BEFORE_HOME:

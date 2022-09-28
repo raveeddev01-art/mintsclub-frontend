@@ -142,7 +142,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
     }
   };
 
-  const {}: any = useGetCategories(
+  const { isLoading: isLoadingCategories }: any = useGetCategories(
     (error: any) => console.log(error),
     onSuccessCategories
   );

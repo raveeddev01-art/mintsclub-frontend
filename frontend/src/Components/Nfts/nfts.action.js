@@ -31,7 +31,6 @@ export const upsertNFT =
     dispatch(emptyError());
     try {
       let result = await handleRequest(method, `/nfts/${type}`, body);
-      console.log(result, 'result');
       const { data, success, message } = result.data;
       if (success) {
         toast.success(message);

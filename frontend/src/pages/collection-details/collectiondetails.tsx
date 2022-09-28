@@ -47,7 +47,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetMyLikedNFTs(
+  const { isLoading: isLoadingMyLikedNFTs } = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
     onSuccessLikedNFTs,
     nfts?.length > 0 ? true : false

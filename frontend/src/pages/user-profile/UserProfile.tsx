@@ -67,7 +67,7 @@ const UserProfile = (props: any) => {
   }, []);
 
   const onSuccessNFTs = (res: any) => {
-    const { nfts } = res?.data?.data;
+    const { nfts } = res.data.data;
     const data: any = nfts;
     if (!menuFilter) {
       const Nfts = data?.filter((item: any) => item.ownerId === userId);
@@ -114,7 +114,7 @@ const UserProfile = (props: any) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetMyLikedNFTs(
+  const { isLoading: isLoadingMyLikedNFTs } = useGetMyLikedNFTs(
     ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
     onSuccessLikedNFTs,
     nfts ? true : false
@@ -129,7 +129,10 @@ const UserProfile = (props: any) => {
       setError(data.data.message);
     }
   };
-  const {} = useGetCollections(onSuccessCollections, nfts ? true : false);
+  const { isLoading: isLoadingCollections } = useGetCollections(
+    onSuccessCollections,
+    nfts ? true : false
+  );
 
   const onSuccessLikeDislike = () => {
     setLikeBtnDisable(false);
