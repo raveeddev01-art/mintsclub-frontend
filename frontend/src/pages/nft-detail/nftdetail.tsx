@@ -810,9 +810,9 @@ const NFTDetail = (props: any) => {
     auctionStartDate,
     auctionEndDate,
     copiesForAuction,
+    auctionEnded,
   }: any = nftDetail?.auction || {};
   const { connectedAddress } = props;
-
   let nftInfo: any = [
     {
       title: "Contract Address",
@@ -1132,18 +1132,18 @@ const NFTDetail = (props: any) => {
                         >
                           {" "}
                           {ownerAddress?.toUpperCase() ==
-                            connectedAddress.toUpperCase() && sellingMethod == 2
+                            connectedAddress.toUpperCase() && sellingMethod == 2 && auctionEnded == false
                             ? "End Auction"
                             : ownerAddress?.toUpperCase() ==
                                 connectedAddress.toUpperCase() &&
-                              sellingMethod == 1
+                              sellingMethod == 1 && auctionEnded == false
                             ? "Resale"
                             : ownerAddress?.toUpperCase() ==
                               connectedAddress.toUpperCase()
                             ? "Sell"
-                            : sellingMethod === 2
+                            : sellingMethod === 2 && auctionEnded == false
                             ? "Place A Bid"
-                            : sellingMethod === 1
+                            : sellingMethod === 1  && auctionEnded == false
                             ? "Buy Now"
                             : ""}
                         </button>
