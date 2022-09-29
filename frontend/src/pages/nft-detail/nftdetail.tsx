@@ -839,9 +839,6 @@ const NFTDetail = (props: any) => {
   ];
 
 
-
-console.log("Auction data" , auctionEnded );
-
   return (
     <>
       <Banner
