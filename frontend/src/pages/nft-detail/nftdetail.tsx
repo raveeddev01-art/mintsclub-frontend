@@ -804,7 +804,6 @@ const NFTDetail = (props: any) => {
     description,
     currentPrice,
     ownerAddress,
-
   }: any = nftDetail;
   const {
     sellingMethod,
@@ -814,7 +813,6 @@ const NFTDetail = (props: any) => {
     auctionEnded,
   }: any = nftDetail?.auction || {};
   const { connectedAddress } = props;
-
   let nftInfo: any = [
     {
       title: "Contract Address",
@@ -837,8 +835,6 @@ const NFTDetail = (props: any) => {
       value: "Ethereum",
     },
   ];
-
-
   return (
     <>
       <Banner
