@@ -104,10 +104,12 @@ const NFTDetail = (props: any) => {
 
   useEffect(() => {
     window.scroll(0, 600);
+    refetch()
   }, []);
 
   // Get NFT
   const onSuccessGetNFT = (data: any) => {
+    console.log(data,"data==>")
     if (data.data.success) {
       const nftDetailsData = data.data.data;
       setNftDetail(nftDetailsData);
@@ -128,7 +130,7 @@ const NFTDetail = (props: any) => {
     }
   };
 
-  const { isLoading: isLoadingNFT } = useGetData(
+  const { isLoading: isLoadingNFT ,refetch} = useGetData(
     "GetNFT",
     `nfts/get/${nftId}`,
     null,
@@ -836,6 +838,7 @@ const NFTDetail = (props: any) => {
       value: "Ethereum",
     },
   ];
+  console.log(nftDetail,"nftDetail")
   return (
     <>
       <Banner
