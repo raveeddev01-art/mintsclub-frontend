@@ -10,7 +10,7 @@ import {
   BEFORE_USER,
   UPDATE_API_STATEC,
   EDIT_APPROVAL,
-  GET_APPROVALS
+  GET_APPROVALS,
 } from '../../redux/types';
 import { emptyError } from '../../redux/shared/error/error.action';
 import {
@@ -44,7 +44,6 @@ export const getUser = () => (dispatch) => {
 export const login = (payload) => (dispatch) => {
   dispatch(emptyError());
   const url = `${ENV.url}auth/login/`;
-
 
   fetch(url, {
     method: 'POST',
@@ -152,7 +151,7 @@ export const updateProfile = (body) => (dispatch) => {
         dispatch({
           type: GET_ERRORS,
           payload: data,
-        });     
+        });
       }
     })
     .catch((errors) => {
@@ -161,11 +160,9 @@ export const updateProfile = (body) => (dispatch) => {
         type: GET_ERRORS,
         payload: errors,
       });
-  
     });
 };
 export const getApprovals = () => (dispatch) => {
-
   dispatch(emptyError());
   const url = `${ENV.adminUrl}approvals/list`;
   fetch(url, {
@@ -180,20 +177,17 @@ export const getApprovals = () => (dispatch) => {
           ? ENV.getUserKeys('accessToken').accessToken
           : '',
     },
-  
   })
     .then((res) => res.json())
     .then((data) => {
-   
-      if(data.success){
+      if (data.success) {
         dispatch({
-          type:GET_APPROVALS,
-          payload:data.data
-        })
+          type: GET_APPROVALS,
+          payload: data.data,
+        });
       }
     })
     .catch((errors) => {
-   
       dispatch({
         type: GET_ERRORS,
         payload: errors,
@@ -201,7 +195,6 @@ export const getApprovals = () => (dispatch) => {
     });
 };
 export const updateApprovals = (body) => (dispatch) => {
-
   dispatch(emptyError());
   const url = `${ENV.adminUrl}approvals/edit`;
   fetch(url, {
@@ -216,22 +209,19 @@ export const updateApprovals = (body) => (dispatch) => {
           ? ENV.getUserKeys('accessToken').accessToken
           : '',
     },
-    body
-  
+    body,
   })
     .then((res) => res.json())
     .then((data) => {
-    
-      if(data.success){
-        toast.success(data.message)
+      if (data.success) {
+        toast.success(data.message);
         dispatch({
-          type:EDIT_APPROVAL,
-          payload:data.data
-        })
+          type: EDIT_APPROVAL,
+          payload: data.data,
+        });
       }
     })
     .catch((errors) => {
-   
       dispatch({
         type: GET_ERRORS,
         payload: errors,
@@ -251,7 +241,6 @@ export const getTopSellers =
     if (qs) {
       url += `?${qs}`;
     }
-   
 
     fetch(url, {
       method: 'GET',
@@ -270,7 +259,6 @@ export const getTopSellers =
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-        
           dispatch({
             type: TOP_SELLERS,
             payload: data.data,
@@ -351,7 +339,6 @@ export const getUserById = (userId) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((data) => {
-     
       if (data.success) {
         dispatch({
           type: SET_INDIVIDUAL_USER,
