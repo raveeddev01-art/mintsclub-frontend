@@ -178,7 +178,6 @@ function CreateMultipleNFT() {
       ownerAddress: await getWalletAddress(),
       userId: ENV.getUserKeys("_id")._id,
     };
-    console.log(payload, "payload==>");
     uploadFiles(payload);
   };
 

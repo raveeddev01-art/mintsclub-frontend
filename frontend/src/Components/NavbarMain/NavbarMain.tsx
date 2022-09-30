@@ -157,7 +157,7 @@ const NavbarMain = () => {
                 {/* </NavDropdown.Item> */}
                 <NavDropdown.Item>
                   <NavLink
-                    to="/login"
+                    to="/connect-wallet"
                     className={`nav-main-link main-nav-dd-items`}
                     onClick={() => clearLocalStorage()}
                   >
