@@ -6,7 +6,7 @@ import { HeroCardInt } from '../../interfaces/components';
 import './HeroCards.scss';
 
 const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
-  const { nftImage, totalBids, owner, _id, ownerAddress } = data;
+  const { nftImage, totalBids, owner, _id, ownerAddress,nftId } = data;
   const [loader, setLoader] = useState<boolean>(true);
   const history = useHistory();
   return (
@@ -35,7 +35,7 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
                 </span>
               </p>
             </div>
-            <button className='hero-btn-bid cursor-pointer' onClick={() => history.push(`/explore/nftdetail/${_id}`)}>
+            <button className='hero-btn-bid cursor-pointer' onClick={() => history.push(`/explore/nftdetail/${nftId}`)}>
               View Detail
             </button>
           </>
