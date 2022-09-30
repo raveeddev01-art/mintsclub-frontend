@@ -102,12 +102,10 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
         ) : (
           ' '
         )}
-
         <div className='auction-countdown d-flex flex-column justify-content-center align-items-center'>
           <Countdown date={auctionEndDate} renderer={countDownRenderer} />
           <div className='auction-card-avatar-container d-flex align-items-center justify-content-between'>
             <div className='auction-card-avatar d-flex align-items-center'>
-              {/* {console.log('profile', bidByProfile)} */}
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
@@ -119,7 +117,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                     />
                   );
                 })}
-
               <span className={`${Totalbids === 0 ? '' : 'ms-4'}`}>
                 {Totalbids === 0
                   ? 'No Bids Found'
