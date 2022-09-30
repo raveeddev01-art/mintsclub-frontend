@@ -18,9 +18,8 @@ const Table: React.FC<TableInterface> = ({
   status,
 }) => {
   const [info, setInfo] = useState<any>(null);
-
   useEffect(() => {
-    if (status === 'Offers') {
+    if (status === 'offer') {
       formateBidsInfo();
     } else {
       formateActivityInfo();
@@ -48,6 +47,7 @@ const Table: React.FC<TableInterface> = ({
   const formateBidsInfo = () => {
     if (data && data.length > 0) {
       let formatedData = data.map((item: any) => {
+       
         return {
           item1: item.bidAmount,
           item2: `$ ${(item.bidAmount * exchangeRate).toFixed(2)}`,
@@ -65,11 +65,13 @@ const Table: React.FC<TableInterface> = ({
           }`,
         };
       });
+      console.log(formatedData,"formatedData")
       setInfo(formatedData);
     }
   };
 
   const formateActivityInfo = () => {
+
     if (data && data.length > 0) {
       let formatedData: any = data.map((item: any) => {
         return {

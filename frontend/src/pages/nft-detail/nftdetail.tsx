@@ -840,6 +840,7 @@ const NFTDetail = (props: any) => {
       value: 'Ethereum',
     },
   ];
+  console.log(bids,"bids")
   return (
     <>
       <Banner
