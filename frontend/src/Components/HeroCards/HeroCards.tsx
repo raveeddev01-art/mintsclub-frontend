@@ -6,10 +6,9 @@ import { HeroCardInt } from '../../interfaces/components';
 import './HeroCards.scss';
 
 const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
-  const { image, totalBids, owner, _id, ownerAddress } = data;
+  const { nftImage, totalBids, owner, _id, ownerAddress } = data;
   const [loader, setLoader] = useState<boolean>(true);
   const history = useHistory();
-
   return (
     <div className='hero-new-card'>
       <div className='hero-img-container'>
@@ -17,7 +16,7 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
           <ImageLoader />
         </div>
         <img
-          src={status === 'nfts' ? data.img : image}
+          src={status === 'nfts' ? data.img : nftImage}
           onLoad={() => setLoader(false)}
           alt='heroImg'
           style={{ display: `${!loader ? 'block' : 'none'}` }}
