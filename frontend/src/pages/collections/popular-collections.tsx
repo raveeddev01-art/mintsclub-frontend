@@ -1,35 +1,35 @@
-import { useState, useEffect, useContext, FC } from "react";
-import { Link } from "react-router-dom";
-import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
-import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
-import CardSlider from "../../Components/CardSlider/CardSlider";
-import { ENV } from "../../config/config";
+import { useState, useEffect, useContext, FC } from 'react';
+import { Link } from 'react-router-dom';
+import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
+import ViewAllIcon from '../../assets/images/view-all-arrow.svg';
+import CardSlider from '../../Components/CardSlider/CardSlider';
+import { ENV } from '../../config/config';
 import {
   beforeCategory,
   getCategories,
-} from "../../Components/Categories/categories.action";
+} from '../../Components/Categories/categories.action';
 import {
   beforePopularCollection,
   getPopularCollections,
-} from "./collections.actions";
-import { connect } from "react-redux";
-import { Images } from "../../assets/assets";
-import { PopularCollectionInt } from "../../interfaces/PopularCollections/interface";
+} from './collections.actions';
+import { connect } from 'react-redux';
+import { Images } from '../../assets/assets';
+import { PopularCollectionInt } from '../../interfaces/PopularCollections/interface';
 import {
   useGetCategories,
   useGetPopularCollections,
-} from "../../hooks/PopularCollections";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+} from '../../hooks/PopularCollections';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 const initData = {
-  pre_heading: "Most Popular",
-  heading: "Popular Collections",
-  btnText: "Explore More",
+  pre_heading: 'Most Popular',
+  heading: 'Popular Collections',
+  btnText: 'Explore More',
 };
 
 const PopularCollections: FC<PopularCollectionInt> = (props) => {
   const [popular, setpopular] = useState<any>(null);
   const [categories, setCategories] = useState<any>(null);
-  const [categoryId, setCategoryId] = useState("all");
+  const [categoryId, setCategoryId] = useState('all');
   const [popularSettings, settPopularSettings] = useState<object | null>(null);
   const [isActive, setIsActive] = useState(0);
   const [filterationLoader, setFilterationLoader] = useState(true);
@@ -42,7 +42,9 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
-      let result = item.nftDetail.filter((nft: any) => nft.fileType === "image");
+      let result = item.nftDetail.filter(
+        (nft: any) => nft.fileType === 'image'
+      );
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
       } else {
@@ -149,28 +151,28 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 
   return (
     <>
-      <section className="popular-collections-area padding-wrapper">
-        <div className="container">
-          <div className="row mb-5">
-            <div className="col-12 col-md-8">
-              <div className="intro d-flex justify-content-between align-items-end m-0">
-                <div className="intro-content clr-blue">
+      <section className='popular-collections-area padding-wrapper'>
+        <div className='container'>
+          <div className='row mb-5'>
+            <div className='col-12 col-md-8'>
+              <div className='intro d-flex justify-content-between align-items-end m-0'>
+                <div className='intro-content clr-blue'>
                   <span>{initData.pre_heading}</span>
-                  <h3 className=" mb-1">{initData.heading}</h3>
+                  <h3 className=' mb-1'>{initData.heading}</h3>
                   <p>
                     Explore on the world's best & largest NFT marketplace with
-                    our beautiful NFT products.{" "}
-                    <br className="d-none d-xxl-block" /> We want to be a part
+                    our beautiful NFT products.{' '}
+                    <br className='d-none d-xxl-block' /> We want to be a part
                     of your smile, success and future growth.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="col-12 col-lg-4 mt-3 mt-lg-0">
-              {categoryId === "all" && popular && popular?.length == 0 ? (
-                ""
+            <div className='col-12 col-lg-4 mt-3 mt-lg-0'>
+              {categoryId === 'all' && popular && popular?.length == 0 ? (
+                ''
               ) : (
-                <div className="popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end">
+                <div className='popular-collections-content-right mt-lg-4 d-flex justify-content-end align-content-xxl-start text-end'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item: any, id: number) => {
@@ -179,7 +181,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
                           <button
                             key={id}
                             className={`collection-category ${
-                              id === isActive ? "home-active-category" : ""
+                              id === isActive ? 'home-active-category' : ''
                             } me-1 me-sm-3 me-lg-4`}
                             onClick={() => {
                               setIsActive(id);
@@ -191,16 +193,16 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
                         );
                       }
                     })}
-                  <div className="intro-btn">
+                  <div className='intro-btn'>
                     <Link
-                      className="btn btn-rounded-bordered btn-viewAll"
-                      to="/popular-collections"
+                      className='btn btn-rounded-bordered btn-viewAll'
+                      to='/popular-collections'
                     >
                       View All
                       <img
                         src={ViewAllIcon}
-                        alt="arrow-left"
-                        className="ms-2 d-none d-sm-none"
+                        alt='arrow-left'
+                        className='ms-2 d-none d-sm-none'
                       />
                     </Link>
                   </div>
@@ -209,9 +211,9 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
             </div>
           </div>
           {filterationLoader || isFetchingPopular ? (
-            <div className="spinner-loader-wrapper">
-              <div className="spinner-border text-secondary" role="status">
-                <span className="sr-only">Loading...</span>
+            <div className='spinner-loader-wrapper'>
+              <div className='spinner-border text-secondary' role='status'>
+                <span className='sr-only'>Loading...</span>
               </div>
             </div>
           ) : popular && popular.length && popular.length > 0 ? (
@@ -241,8 +243,8 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
               })}
             </CardSlider>
           ) : (
-            <p className="text-center not-found-title mt-5 py-5">
-              No Popular Collections Found
+            <p className='text-center not-found-title mt-5 py-5'>
+              No popular collection found
             </p>
           )}
         </div>

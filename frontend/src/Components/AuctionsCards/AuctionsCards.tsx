@@ -1,17 +1,17 @@
-import React, { useState, FC } from "react";
-import { Card } from "react-bootstrap";
-import { useHistory } from "react-router";
-import ArrowUp from "../../assets/images/arrowUp.svg";
-import Countdown from "react-countdown";
-import { ENV } from "../../config/config";
-import useVideoPlayer from "../TestVideoCard/Components/UseVideoPlayer";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import { connect } from "react-redux";
-import "./AuctionsCard.scss";
-import { Images } from "../../assets/assets";
-import ImageLoader from "../ContentLoader/ImageLoader";
-import AuctionAudio from "../AuctionAudio/AuctionAudio";
-import { AuctionCardInterface } from "../../interfaces/components";
+import React, { useState, FC } from 'react';
+import { Card } from 'react-bootstrap';
+import { useHistory } from 'react-router';
+import ArrowUp from '../../assets/images/arrowUp.svg';
+import Countdown from 'react-countdown';
+import { ENV } from '../../config/config';
+import useVideoPlayer from '../TestVideoCard/Components/UseVideoPlayer';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import { connect } from 'react-redux';
+import './AuctionsCard.scss';
+import { Images } from '../../assets/assets';
+import ImageLoader from '../ContentLoader/ImageLoader';
+import AuctionAudio from '../AuctionAudio/AuctionAudio';
+import { AuctionCardInterface } from '../../interfaces/components';
 
 const AuctionsCards: FC<AuctionCardInterface> = ({
   ownerName,
@@ -44,25 +44,25 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
-      <div className="auction-img-wrapper">
-        {fileType === "image" ? (
+      <div className='auction-img-wrapper'>
+        {fileType === 'image' ? (
           <>
-            <div style={{ display: `${loader ? "block" : "none"}` }}>
+            <div style={{ display: `${loader ? 'block' : 'none'}` }}>
               <ImageLoader />
             </div>
             <Card.Img
-              variant="top"
+              variant='top'
               onLoad={() => setLoader(false)}
               onClick={() => history.push(`explore/nftdetail/${nftId}`)}
               src={nftImage}
-              alt="AuctionTopImg"
-              style={{ display: `${!loader ? "block" : "none"}` }}
+              alt='AuctionTopImg'
+              style={{ display: `${!loader ? 'block' : 'none'}` }}
             />
           </>
-        ) : fileType === "video" ? (
-          <div className="card-img-top">
-            <div className="video-wrapper">
-              <div style={{ display: `${loader ? "block" : "none"}` }}>
+        ) : fileType === 'video' ? (
+          <div className='card-img-top'>
+            <div className='video-wrapper'>
+              <div style={{ display: `${loader ? 'block' : 'none'}` }}>
                 <ImageLoader />
               </div>
 
@@ -76,14 +76,14 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                 }}
                 ref={videoElement}
                 // onTimeUpdate={handleOnTimeUpdate}
-                style={{ display: `${!loader ? "block" : "none"}` }}
+                style={{ display: `${!loader ? 'block' : 'none'}` }}
                 onClick={() => history.push(`explore/nftdetail/${nftId}`)}
               />
 
-              <div className="controls">
-                <div className="actions">
+              <div className='controls'>
+                <div className='actions'>
                   <button
-                    className="play-pause-btn d-flex align-items-center justify-content-center"
+                    className='play-pause-btn d-flex align-items-center justify-content-center'
                     onClick={togglePlay}
                   >
                     {playerState.isPlaying ? (
@@ -96,9 +96,9 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               </div>
             </div>
           </div>
-        ) : fileType === "audio" ? (
+        ) : fileType === 'audio' ? (
           <>
-            <div style={{ display: `${loader ? "block" : "none"}` }}>
+            <div style={{ display: `${loader ? 'block' : 'none'}` }}>
               <ImageLoader />
             </div>
 
@@ -110,12 +110,12 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
             />
           </>
         ) : (
-          " "
+          ' '
         )}
-        <div className="auction-countdown d-flex flex-column justify-content-center align-items-center">
+        <div className='auction-countdown d-flex flex-column justify-content-center align-items-center'>
           <Countdown date={auctionEndDate} renderer={countDownRenderer} />
-          <div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
-            <div className="auction-card-avatar d-flex align-items-center">
+          <div className='auction-card-avatar-container d-flex align-items-center justify-content-between'>
+            <div className='auction-card-avatar d-flex align-items-center'>
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
@@ -128,19 +128,19 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                           ? Images.placeholderImg
                           : item.bidByProfile
                       }
-                      alt="Avatar"
+                      alt='Avatar'
                       key={i}
                     />
                   ) : (
-                    ""
+                    ''
                   );
                 })}
-              <span className={`${Totalbids === 0 ? "" : "ms-4"}`}>
+              <span className={`${Totalbids === 0 ? '' : 'ms-2'}`}>
                 {Totalbids === 0
-                  ? "No Bids Found"
+                  ? 'No bid found'
                   : Totalbids < 4
-                  ? Totalbids + " People Placed Bid"
-                  : Totalbids - 1 + "+ People Placed Bid"}
+                  ? Totalbids + ' people placed bid'
+                  : Totalbids - 1 + '+ people placed bid'}
               </span>
             </div>
           </div>
@@ -149,46 +149,46 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
       <Card.Body>
         <Card.Title onClick={() => history.push(`explore/nftdetail/${nftId}`)}>
           <div>
-            {nftName && nftName.length > 10
-              ? nftName.slice(0, 10) + "..."
+            {nftName && nftName.length > 15
+              ? nftName.slice(0, 15) + '...'
               : nftName}
           </div>
-          <div className="auction-owner-price d-flex align-items-center">
-            <img src={ArrowUp} alt="" className="me-1" />
+          <div className='auction-owner-price d-flex align-items-center'>
+            <img src={ArrowUp} alt='' className='me-1' />
             <span>{Totalbids > 0 ? highestBid : currentPrice}</span>
           </div>
         </Card.Title>
-        <div className="auction-card-owner-container d-flex align-items-center mb-2">
-          <div className="auction-owner-avatar">
+        <div className='auction-card-owner-container d-flex align-items-center mb-2'>
+          <div className='auction-owner-avatar'>
             <img
               src={profilePhoto ? profilePhoto : Images.placeholderImg}
-              alt="avatar"
+              alt='avatar'
             />
           </div>
-          <div className="ms-2 auction-owner-name">
+          <div className='ms-2 auction-owner-name'>
             <p>
-              {"Owned by:"}
-              <span className="text-capitalize ms-1">
+              {'Owned by:'}
+              <span className='text-capitalize ms-1'>
                 {!username
-                  ? "unnamed"
+                  ? 'unnamed'
                   : connectedAddress?.toUpperCase() ===
                     ownerAddress?.toUpperCase()
-                  ? "You"
+                  ? 'You'
                   : username && username.length > 12
-                  ? username.substring(0, 12) + "...."
+                  ? username.substring(0, 12) + '....'
                   : username}
               </span>
             </p>
           </div>
         </div>
         <button
-          className="auction-bit-btn"
+          className='auction-bit-btn'
           onClick={() => history.push(`explore/nftdetail/${nftId}`)}
         >
           {connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() ||
           !userId
-            ? "View"
-            : "Place a Bid"}
+            ? 'View'
+            : 'Place a Bid'}
         </button>
       </Card.Body>
     </Card>

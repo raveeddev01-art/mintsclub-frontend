@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-.main-nav-container .navbar-light .navbar-nav .nav-link.nav-main-link a {
+.main-nav-container .navbar-light .navbar-nav .nav-link.nav-main-link {
   text-decoration: none;
   font-weight: 700;
   font-size: 16px;
@@ -49,23 +49,29 @@
   .dropdown-menu.show
   a.dropdown-item {
   padding: 16px 5px;
-
+  font-weight: 400;
   border-bottom: 1px solid #eff3fd;
 }
-.main-nav-container
-  .navbar-nav
-  .dropdown-bg
-  .dropdown-menu.show
-  a.dropdown-item
-  a {
-  font-weight: 400;
-}
+
 .main-nav-container
   .navbar-nav
   .dropdown-bg
   .dropdown-menu.show
   a.dropdown-item:hover {
   background-color: transparent;
+}
+
+.main-nav-container
+  .navbar-nav
+  .dropdown-bg
+  .dropdown-menu.show
+  a.dropdown-item:active,
+.main-nav-container
+  .navbar-nav
+  .dropdown-bg
+  .dropdown-menu.show
+  a.dropdown-item.active {
+  background-color: transparent !important;
 }
 
 .main-nav-container
