@@ -9,7 +9,7 @@ const AuctionAudio: FC<AuctionAudioInt> = ({ src, onLoadCallback, loader , onCli
       className="w-100 h-100 auction-audio-container p-4"
       style={{ display: `${!loader ? "flex" : "none"}` }}
     >
-      <div className="w-100 audio-wrapper"  onClick={onClick}>
+      <div className="w-100 audio-wrapper" onClick={onClick}>
         <div className="auction-audio-icon">
           <AudioIcon />
         </div>

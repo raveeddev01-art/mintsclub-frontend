@@ -142,7 +142,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
           <div className='auction-owner-avatar'>
             <img src={profilePhoto ? profilePhoto : Images.placeholderImg} alt='avatar' />
           </div>
-
           <div className='ms-2 auction-owner-name'>
             <p>
               {'Owned by:'}
