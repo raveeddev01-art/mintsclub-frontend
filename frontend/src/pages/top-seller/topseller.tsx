@@ -91,7 +91,7 @@ const TopSeller = (props: any) => {
                       {/* Seller Info */}
                       <div className="seller-info ml-3 w-100">
                         <p className="seller text-capitalize mb-2">
-                          {author.username}
+                          {author.username || 'unnamed'}
                         </p>
                         <span className="text-end">
                           {" "}
