@@ -77,7 +77,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const handlePagination = () => {
     // window.scroll(0, 500);
     setPage(page);
-    setLimit(limit + 4);
+    setLimit(limit + 10);
     // window.scrollBy({ top: 2150, behavior: 'smooth' });
   };
   const handleImage = (item: any, index: number) => {
