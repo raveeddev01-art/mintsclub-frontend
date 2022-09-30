@@ -29,7 +29,7 @@ const Listing: FC<listingInt> = (props) => {
     highToLow: false,
     newest: false,
     page: 1,
-    limit: 10,
+    limit:props?.UserProfile?9999999999: 10,
     buy: false,
     auction: false,
     latest: false,
@@ -156,6 +156,7 @@ const Listing: FC<listingInt> = (props) => {
   const handleSearchKeyword = (value: any) => {
     setInitial(false);
     setFilterationLoader(true);
+    refetchNFTs()
     let capitalizeValue = "";
     if (value) {
       capitalizeValue = capitalize(value);
@@ -252,7 +253,8 @@ const Listing: FC<listingInt> = (props) => {
     path,
     getPaginatedData,
     UserProfile,
-  } = props;
+    refetchNFTs
+  }:any = props;
 
   return (
     <div className="filterhoc-wrapper padding-wrapper">
@@ -316,7 +318,7 @@ const Listing: FC<listingInt> = (props) => {
                 {" "}
                 {menuData &&
                   menuData.length > 0 &&
-                  menuData.map((item, id) => {
+                  menuData.map((item:any, id:any) => {
                     return (
                       <button
                         key={id}

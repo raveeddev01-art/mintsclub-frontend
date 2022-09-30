@@ -76,7 +76,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   //Get NFTs
 
   const onSuccessNFTs = (data: any) => {
-    if (data.data.success) {
+    if (data?.data?.success) {
       setFilterationLoader(false);
       setNFTPagination(data.data.data.pagination);
       setNFTs(data.data.data.nfts);
@@ -85,7 +85,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
     }
   };
 
-  const { isLoading: isLoadingNFTs } = useGetNFTs(filter, onSuccessNFTs);
+  const { isLoading: isLoadingNFTs,refetch:refetchNFTs } = useGetNFTs(filter, onSuccessNFTs);
 
   const onSuccessLikeDislike = () => {
     setLikeBtnDisable(false);
@@ -98,6 +98,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
   );
   const fetchData = (filterObj: object | null) => {
     setFilter(filterObj);
+    refetchNFTs()
     // getNFTs(filterObj);
   };
 
@@ -218,6 +219,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
           totalItems={nfts && nfts.length}
           filterationLoader={filterationLoader}
           setFilterationLoader={setFilterationLoader}
+          refetchNFTs={refetchNFTs}
           nfts={nfts}
           loader={isLoadingNFTs}
           likedNfts={likedNfts}

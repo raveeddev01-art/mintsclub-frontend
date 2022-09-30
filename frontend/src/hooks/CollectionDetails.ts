@@ -68,6 +68,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
     }
   }
   const qs = ENV.objectToQueryString(nftQS);
+  console.log(qs,"sending qs")
   return useQuery(
     [
       `collectionNFTs/${
@@ -75,7 +76,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
       }`,
       qs,
     ],
-    () => handleRequest("get", "nfts/list", null, qs),
+    () =>handleRequest("get", "nfts/list", null, qs),
     { onSuccess, staleTime: 0, cacheTime: 0 }
   );
 };

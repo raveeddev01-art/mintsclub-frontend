@@ -178,6 +178,7 @@ export interface listingInt {
   initialKeyword?: any;
   collectionDetail?: any;
   totalItems?: any;
+  refetchNFTs?:()=>any
 }
 
 export interface CollectionSubLoaderInt {
