@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { MdShoppingCart } from "react-icons/md";
+import { useEffect, useState } from 'react';
+import { MdShoppingCart } from 'react-icons/md';
 
-import { BiTransferAlt } from "react-icons/bi";
+import { BiTransferAlt } from 'react-icons/bi';
 
-import { BsTagFill } from "react-icons/bs";
+import { BsTagFill } from 'react-icons/bs';
 
-import { FaHandPaper } from "react-icons/fa";
+import { FaHandPaper } from 'react-icons/fa';
 
-import ReactTimeAgo from "react-time-ago";
+import ReactTimeAgo from 'react-time-ago';
 
-import { TableInterface } from "../../interfaces/components";
+import { TableInterface } from '../../interfaces/components';
 const Table: React.FC<TableInterface> = ({
   titles,
   data,
@@ -20,7 +20,7 @@ const Table: React.FC<TableInterface> = ({
   const [info, setInfo] = useState<any>(null);
 
   useEffect(() => {
-    if (status === "Offers") {
+    if (status === 'Offers') {
       formateBidsInfo();
     } else {
       formateActivityInfo();
@@ -34,11 +34,11 @@ const Table: React.FC<TableInterface> = ({
   };
 
   const handleAcitivityIcon = (type: string) => {
-    if (type === "Mint") {
+    if (type === 'Mint') {
       return <MdShoppingCart />;
-    } else if (type === "List") {
+    } else if (type === 'List') {
       return <BsTagFill />;
-    } else if (type === "Bid") {
+    } else if (type === 'Bid') {
       return <FaHandPaper />;
     } else {
       return <BiTransferAlt />;
@@ -57,11 +57,11 @@ const Table: React.FC<TableInterface> = ({
             ) %
               item.bidAmount >
             lowestNftPrice
-              ? "above"
-              : "below"
+              ? 'above'
+              : 'below'
           }`,
           item4: `${
-            item.fromAddress.slice(0, 4) + "..." + item.fromAddress.slice(-4)
+            item.fromAddress.slice(0, 4) + '...' + item.fromAddress.slice(-4)
           }`,
         };
       });
@@ -74,27 +74,27 @@ const Table: React.FC<TableInterface> = ({
       let formatedData: any = data.map((item: any) => {
         return {
           item1: (
-            <div className="d-flex align-items-center">
+            <div className='d-flex align-items-center'>
               {handleAcitivityIcon(item.activityType)}
-              <p className="ps-1"> {item.activityType} </p>
+              <p className='ps-1'> {item.activityType} </p>
             </div>
           ),
           item2: item.price,
           item3: `${
             item.fromAddress
               ? item.fromAddress.slice(0, 4) +
-                "..." +
+                '...' +
                 item.fromAddress.slice(-6)
-              : "null address"
+              : 'Null address'
           }`,
           item4: `${
             item.toAddress
-              ? item.toAddress.slice(0, 4) + "..." + item.toAddress.slice(-4)
-              : ""
+              ? item.toAddress.slice(0, 4) + '...' + item.toAddress.slice(-4)
+              : ''
           }`,
           item5: (
             <div>
-              <ReactTimeAgo date={item.createdAt} locale="en-US" />
+              <ReactTimeAgo date={item.createdAt} locale='en-US' />
             </div>
           ),
         };
@@ -103,14 +103,14 @@ const Table: React.FC<TableInterface> = ({
     }
   };
   return (
-    <div className="table-container">
-      <table className="table table-borderless">
+    <div className='table-container'>
+      <table className='table table-borderless'>
         {data && data.length > 0 && (
           <thead>
             <tr>
               {titles.map((item: any, index: any) => {
                 return (
-                  <th scope="col" key={index}>
+                  <th scope='col' key={index}>
                     {item}
                   </th>
                 );
@@ -124,7 +124,7 @@ const Table: React.FC<TableInterface> = ({
               {info.map((val: any, index: any) => {
                 return (
                   <tr key={index}>
-                    <th scope="row">{val.item1}</th>
+                    <th scope='row'>{val.item1}</th>
                     <td>{val.item2}</td>
                     <td>{val.item3}</td>
                     <td>{val.item4}</td>
@@ -134,8 +134,8 @@ const Table: React.FC<TableInterface> = ({
               })}
             </>
           ) : (
-            <p className="text-center d-flex justify-content-center align-items-center">
-              {` No ${status} Found`}
+            <p className='text-center d-flex justify-content-center align-items-center'>
+              {` No ${status} found`}
             </p>
           )}
         </tbody>

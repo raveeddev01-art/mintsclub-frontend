@@ -1,34 +1,34 @@
-import { useState, useEffect, useContext, FC } from "react";
-import "./explore-collections.scss";
-import CollectionsCard from "../../Components/CollectionsCards/CollectionsCard";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
+import { useState, useEffect, useContext, FC } from 'react';
+import './explore-collections.scss';
+import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
 import {
   beforeCollection,
   getCollections,
   toggleLikeDislike,
   beforeCategory,
   getCategories,
-} from "../collections/collections.actions";
-import { Images } from "../../assets/assets";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
-import { exploreCollectionBanner } from "../../utils/exportData";
-import { ExploreCollectionInt } from "../../interfaces/ExploreCollections/interface";
-import { useGetCollections } from "../../hooks/AllNFTs";
-import { useGetCategories } from "../../hooks/PopularCollections";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+} from '../collections/collections.actions';
+import { Images } from '../../assets/assets';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
+import { exploreCollectionBanner } from '../../utils/exportData';
+import { ExploreCollectionInt } from '../../interfaces/ExploreCollections/interface';
+import { useGetCollections } from '../../hooks/AllNFTs';
+import { useGetCategories } from '../../hooks/PopularCollections';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
-  const [isActive, setIsActive] = useState("All");
+  const [isActive, setIsActive] = useState('All');
   const [collections, setCollections] = useState<any[] | null>(null);
   // const [categoriesLoader, setCatLoader] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState<any[] | null>(null);
   const [empty, setEmpty] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -50,8 +50,8 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
       if (collections.length > 0) {
         setEmpty(false);
       }
-      console.log(data, "data==>");
-      console.log(collections, "collecitons==>");
+      console.log(data, 'data==>');
+      console.log(collections, 'collecitons==>');
       setCollections(collections);
       setPagination(pagination);
     } else {
@@ -155,7 +155,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
       let result = item.nftDetail.filter(
-        (nft: any) => nft.fileType === "image"
+        (nft: any) => nft.fileType === 'image'
       );
       if (result.length >= index && result.length !== 0) {
         return result[index]?.image;
@@ -172,7 +172,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
       {isCategoryLoading && isLoadinCollections ? (
         <FullPageLoader />
       ) : (
-        <section className="explore-collection-section padding-wrapper pt-0">
+        <section className='explore-collection-section padding-wrapper pt-0'>
           <Banner
             subHeading={exploreCollectionBanner.subHeading}
             heading={exploreCollectionBanner.heading}
@@ -180,10 +180,10 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
             bgImg={BannerBg}
             bannerImg={BannerImage}
           />
-          <div className="container">
-            <div className="row mb-5">
-              <div className="col-12 explore-collection-nav">
-                <div className="d-none d-xxl-flex justify-content-lg-end text-end align-items-center">
+          <div className='container'>
+            <div className='row mb-5'>
+              <div className='col-12 explore-collection-nav'>
+                <div className='d-none d-xxl-flex justify-content-lg-end text-end align-items-center'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item: any, index: number) => {
@@ -196,7 +196,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                             handleFilterCategory(item.description);
                           }}
                           className={`${
-                            item.name === isActive ? "active-explore-nav" : ""
+                            item.name === isActive ? 'active-explore-nav' : ''
                           } me-2 me-xl-3`}
                         >
                           {item.name}
@@ -204,12 +204,12 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                       );
                     })}
                 </div>
-                <div className="row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none">
+                <div className='row justify-content-center justify-content-sm-start align-items-center text-center d-xxl-none'>
                   {categories &&
                     categories.length > 0 &&
                     categories.map((item: any, index: any) => {
                       return (
-                        <div className="col-6 col-sm-3" key={index}>
+                        <div className='col-6 col-sm-3' key={index}>
                           <button
                             onClick={() => {
                               setIsActive(item.name);
@@ -217,7 +217,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                               handleFilterCategory(item.description);
                             }}
                             className={
-                              isActive === item.name ? "active-explore-nav" : ""
+                              isActive === item.name ? 'active-explore-nav' : ''
                             }
                           >
                             {item.name}
@@ -228,15 +228,15 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row g-1 align-items-center justify-content-center">
+            <div className='row g-1 align-items-center'>
               {isLoadinCollections ? (
-                <div className="spinner-border" role="status">
-                  <span className="sr-only">Loading...</span>
+                <div className='spinner-border' role='status'>
+                  <span className='sr-only'>Loading...</span>
                 </div>
               ) : collections && collections.length > 0 ? (
                 collections.map((collection: any, index: number) => {
                   return (
-                    <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
+                    <div className='col-sm-6 col-md-4 col-xl-3' key={index}>
                       <CollectionsCard
                         CardImg={collection.featuredImg}
                         Subimg1={handleImage(collection, 0)}
@@ -246,7 +246,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                         id={collection._id}
                         collection={collection}
                         userName={
-                          collection?.username[0] ? collection.username[0] : ""
+                          collection?.username[0] ? collection.username[0] : ''
                         }
                         NFTCount={
                           collection.nftDetail[0].image
@@ -261,18 +261,18 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                   );
                 })
               ) : (
-                <p className="text-center not-found-title mt-5">
-                  No Collections found
+                <p className='text-center not-found-title mt-5'>
+                  No collection found
                 </p>
               )}
-              <div className="col-12">
-                <div className="mt-5 d-flex justify-content-center align-items-center">
+              <div className='col-12'>
+                <div className='mt-5 d-flex justify-content-center align-items-center'>
                   {!empty &&
                     collections?.length === 10 &&
                     !isLoadinCollections &&
                     pagination.totalRecords > collections.length && (
                       <button
-                        className="btn btn-rounded-bordered px-5"
+                        className='btn btn-rounded-bordered px-5'
                         onClick={() => handlePagination()}
                       >
                         Load more...

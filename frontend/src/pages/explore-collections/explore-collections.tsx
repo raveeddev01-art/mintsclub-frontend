@@ -152,10 +152,12 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                 </div>
               </div>
             </div>
-            <div className='row g-1 align-items-center justify-content-center'>
+            <div className='row g-1 align-items-center'>
               {isLoadinCollections ? (
-                <div className='spinner-border' role='status'>
-                  <span className='sr-only'>Loading...</span>
+                <div className='d-flex justify-content-center'>
+                  <div className='spinner-border' role='status'>
+                    <span className='sr-only'>Loading...</span>
+                  </div>
                 </div>
               ) : collections && collections.length > 0 ? (
                 collections.map((collection: any, index: number) => {
@@ -184,7 +186,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                 })
               ) : (
                 <p className='text-center not-found-title mt-5'>
-                  No Collections found
+                  No collection found
                 </p>
               )}
               <div className='col-12'>
