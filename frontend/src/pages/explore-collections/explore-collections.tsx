@@ -75,9 +75,10 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   );
 
   const handlePagination = () => {
-    window.scroll(0, 500);
+    // window.scroll(0, 500);
     setPage(page);
-    setLimit(limit + 10);
+    setLimit(limit + 4);
+    // window.scrollBy({ top: 2150, behavior: 'smooth' });
   };
   const handleImage = (item: any, index: number) => {
     if (item?.nftDetail[index]?.image) {
@@ -159,6 +160,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
                 </div>
               ) : collections && collections.length > 0 ? (
                 collections.map((collection: any, index: number) => {
+                  console.log(collection);
                   return (
                     <div className="col-sm-6 col-md-4 col-xl-3" key={index}>
                       <CollectionsCard
@@ -190,7 +192,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
               <div className="col-12">
                 <div className="mt-5 d-flex justify-content-center align-items-center">
                   {!empty &&
-                    collections?.length === 10 &&
+                    collections?.length &&
                     !isLoadinCollections &&
                     pagination.totalRecords > collections.length && (
                       <button
