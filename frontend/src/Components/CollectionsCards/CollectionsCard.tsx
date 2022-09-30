@@ -62,7 +62,6 @@ const CollectionsCard: FC<CollectionCardInt> = ({
               />
             </div>
           </div>
-
           <Card.Body>
             <Card.Title>
               <div>
