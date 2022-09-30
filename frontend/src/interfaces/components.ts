@@ -122,6 +122,7 @@ export interface StatsInt {
 export interface AuctionAudioInt {
   src: string;
   onLoadCallback: () => any;
+  onClick: () => any;
   loader: boolean;
 }
 

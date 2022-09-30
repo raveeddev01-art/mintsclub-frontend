@@ -53,7 +53,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
             <Card.Img
               variant='top'
               onLoad={() => setLoader(false)}
-              onClick={() => history.push(`explore/nftdetail/${_id}`)}
+              onClick={() => history.push(`explore/nftdetail/${nftId}`)}
               src={nftImage}
               alt='AuctionTopImg'
               style={{ display: `${!loader ? 'block' : 'none'}` }}
@@ -77,6 +77,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                 ref={videoElement}
                 // onTimeUpdate={handleOnTimeUpdate}
                 style={{ display: `${!loader ? 'block' : 'none'}` }}
+                onClick={() => history.push(`explore/nftdetail/${nftId}`)}
               />
 
               <div className='controls'>
@@ -97,7 +98,8 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               <ImageLoader />
             </div>
 
-            <AuctionAudio src={nftImage} onLoadCallback={() => setLoader(false)} loader={loader} />
+            <AuctionAudio src={nftImage} onLoadCallback={() => setLoader(false)} loader={loader} onClick={() => history.push(`explore/nftdetail/${nftId}`)}
+            />
           </>
         ) : (
           ' '
@@ -129,7 +131,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
         </div>
       </div>
       <Card.Body>
-        <Card.Title onClick={() => history.push(`explore/nftdetail/${_id}`)}>
+        <Card.Title onClick={() => history.push(`explore/nftdetail/${nftId}`)}>
           <div>{nftName && nftName.length > 10 ? nftName.slice(0, 10) + '...' : nftName}</div>
           <div className='auction-owner-price d-flex align-items-center'>
             <img src={ArrowUp} alt='' className='me-1' />
@@ -140,7 +142,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
           <div className='auction-owner-avatar'>
             <img src={profilePhoto ? profilePhoto : Images.placeholderImg} alt='avatar' />
           </div>
-
           <div className='ms-2 auction-owner-name'>
             <p>
               {'Owned by:'}
