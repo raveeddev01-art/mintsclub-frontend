@@ -15,7 +15,7 @@ const Listing: FC<listingInt> = (props) => {
   const [initial, setInitial] = useState<any>(true);
   const [selectedOption, setSelectedOption] = useState<any>();
   const [collectionActive, setCollectionActive] = useState<any>(null);
-  const [isActive, setIsActive] = useState<any>(1);
+  const [isActive, setIsActive] = useState<any>(null);
   const [keyword, setKeyword] = useState<any>(
     props.initialKeyword ? props.initialKeyword : ""
   );

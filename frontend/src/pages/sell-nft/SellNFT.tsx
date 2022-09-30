@@ -162,8 +162,8 @@ const SellNFT = (props: any) => {
     }
     if (await validateNetwork()) {
       if (!nftDetail?.user?.isApproved) {
-        // setShow(true);
-        // return "";
+        setShow(true);
+        return "";
       }
 
       let price: any = "";

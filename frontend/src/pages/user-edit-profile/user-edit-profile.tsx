@@ -37,7 +37,8 @@ const EditProfile = (props: any) => {
 
   const history = useHistory();
   useEffect(() => {
-    props.getUserById(ENV.getUserKeys('_id')._id);
+    // props.getUserById(ENV.getUserKeys('_id')._id);
+    refetch()
   }, []);
   useEffect(() => {
     if (props.error !== null) {
@@ -50,7 +51,7 @@ const EditProfile = (props: any) => {
     if (data.data.success) {
       const { address, email, bio, twitterLink, username, profileImage, bannerImage, instaLink, webLink } =
         data.data.data;
-      props.beforeUser();
+      // props.beforeUser();
       setLoader(false);
       setAddress(address ? address : '');
       setEmail(email ? email : '');
@@ -68,7 +69,7 @@ const EditProfile = (props: any) => {
     }
   };
 
-  const { isLoading: isLoadingUser } = useGetUserDataById(ENV.getUserKeys('_id')._id, onSuccessUser);
+  const { isLoading: isLoadingUser,refetch } = useGetUserDataById(ENV.getUserKeys('_id')._id, onSuccessUser);
   const onSuccessUpdate = () => {
     toast.success('Profile updated successfully');
     history.push('/userprofile');
@@ -78,7 +79,7 @@ const EditProfile = (props: any) => {
   const onFileChange = (e: any) => {
     let file = e.target.files[0];
     let fileURL = '';
-    let sizeBeforeCompress = formatBytes(file.size);
+    // let sizeBeforeCompress = formatBytes(file.size);
     if (file) {
       if (file.type.includes('image')) {
         fileURL = URL.createObjectURL(file);
@@ -88,19 +89,19 @@ const EditProfile = (props: any) => {
         return toast.error('Invalid File');
       }
       setImageUrl(fileURL);
-      // setImage(file);
+      setImage(file);
 
-      new Compressor(file, {
-        quality: 0.2,
-        success(result) {
-          setImage(result);
+      // new Compressor(file, {
+      //   quality: 0.2,
+      //   success(result) {
+      //     setImage(result);
 
-          let sizeAfterCompress = formatBytes(result.size);
-        },
-        error(err) {
-          console.log(err.message);
-        }
-      });
+      //     let sizeAfterCompress = formatBytes(result.size);
+      //   },
+      //   error(err) {
+      //     console.log(err.message);
+      //   }
+      // });
     }
   };
   const formatBytes = (bytes: number, decimals = 2) => {
@@ -120,7 +121,6 @@ const EditProfile = (props: any) => {
     setErrors('');
     setLoader(true);
     // let signature = await signRequest();
-    setLoader(true);
 
     var formData = new FormData();
     formData.append('userId', ENV.getUserKeys('_id')._id);
@@ -129,6 +129,8 @@ const EditProfile = (props: any) => {
 
       let url = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append('profileImage', url);
+    }else {
+      formData.append('profileImage', imageUrl);
     }
     if (banner) {
       formData.append('bannerImage', banner);
@@ -176,7 +178,7 @@ const EditProfile = (props: any) => {
           bg={true}
           // className="mb-0"
         />
-        {isLoadingUser || (isUpdatingData && <FullPageLoader />)}
+        {(isLoadingUser ||loader|| isUpdatingData )&& <FullPageLoader />}
         <div className='collection-detail-content'>
           <div className='container'>
             <form onSubmit={submit}>
@@ -216,17 +218,16 @@ const EditProfile = (props: any) => {
                         <img src={Images.editIconSmall} />
                       </label>
                     </div>
-                    <p className='feature-img-title mt-3 mx-2'>Profile Image*</p>
+                    <p className='feature-img-title mt-3 mx-2'>Profile Image</p>
                   </div>
                 </div>
                 <div className='col-lg-4 col-md-6 col-sm-12'>
-                  <label className='create-collection-label'>Username:*</label>
+                  <label className='create-collection-label'>Username</label>
                   <input
                     className='create-collection-input mt-2'
                     id='name'
                     type='text'
                     name='name'
-                    required
                     onChange={(e) => {
                       if (e.target.value.trim() === '' && username === '') {
                         return false;
@@ -243,7 +244,7 @@ const EditProfile = (props: any) => {
                 </div>
 
                 <div className='col-lg-4 col-md-6 mt-3 mt-md-0'>
-                  <label className='create-collection-label'>Email Address:*</label>
+                  <label className='create-collection-label'>Email Address</label>
 
                   <input
                     className='create-collection-input mt-2'
@@ -251,7 +252,6 @@ const EditProfile = (props: any) => {
                     type='text'
                     name='url'
                     placeholder='Email Address'
-                    required
                     onChange={(e) => {
                       if (e.target.value.trim() === '' && email === '') {
                         return '';
