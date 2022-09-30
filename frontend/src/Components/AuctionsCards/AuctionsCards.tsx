@@ -109,12 +109,15 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
+
+                  
                   return (
-                    <img
-                      src={item.bidByProfile === null ? Images.placeholderImg : !item.bidByProfile ? Images.placeholderImg : item.bidByProfile}
-                      alt='Avatar'
-                      key={i}
-                    />
+                 Totalbids !== 0 ? <img
+                 src={item.bidByProfile === null ? Images.placeholderImg : !item.bidByProfile ? Images.placeholderImg : item.bidByProfile}
+
+                 alt='Avatar'
+                 key={i}
+               /> : ''
                   );
                 })}
               <span className={`${Totalbids === 0 ? '' : 'ms-4'}`}>
