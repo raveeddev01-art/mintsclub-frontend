@@ -104,12 +104,12 @@ const NFTDetail = (props: any) => {
 
   useEffect(() => {
     window.scroll(0, 600);
-    refetch()
+    refetch();
   }, []);
 
   // Get NFT
   const onSuccessGetNFT = (data: any) => {
-    console.log(data,"data==>")
+    console.log(data, "data==>");
     if (data.data.success) {
       const nftDetailsData = data.data.data;
       setNftDetail(nftDetailsData);
@@ -124,13 +124,13 @@ const NFTDetail = (props: any) => {
           setBeforeGetBids(true);
         }
       }
-      setNextBidFivePercHigh( data.data.data)
+      setNextBidFivePercHigh(data.data.data);
     } else {
       setError(data.data.message);
     }
   };
 
-  const { isLoading: isLoadingNFT ,refetch} = useGetData(
+  const { isLoading: isLoadingNFT, refetch } = useGetData(
     "GetNFT",
     `nfts/get/${nftId}`,
     null,
@@ -221,9 +221,11 @@ const NFTDetail = (props: any) => {
       setDisabled(false);
       setTransactionSuccess(true);
       props.getNFT(nftId);
-      let qs: any = { userId: ENV.getUserKeys("_id")._id };
-      qs = ENV.objectToQueryString(qs);
-      props.getMyLikedNfts(qs);
+      if (ENV.getUserKeys("_id")?._id) {
+        let qs: any = { userId: ENV.getUserKeys("_id")._id };
+        qs = ENV.objectToQueryString(qs);
+        props.getMyLikedNfts(qs);
+      }
       validateIfLiked();
       // props.getBids();
       props.beforeOffer();
@@ -231,6 +233,7 @@ const NFTDetail = (props: any) => {
       history.push("/userprofile");
     }
   }, [props.buyAuth]);
+  
 
   useEffect(() => {
     if (props.createAuthOffer) {
@@ -288,7 +291,7 @@ const NFTDetail = (props: any) => {
   //   }
   // }, [props.nftsAuth]);
 
-  const setNextBidFivePercHigh = (data:any) => {
+  const setNextBidFivePercHigh = (data: any) => {
     let fivePerc: any = "";
     const { highestBid } = data.auction || {};
     const { currentPrice, collectionId } = data;
@@ -1135,18 +1138,21 @@ const NFTDetail = (props: any) => {
                         >
                           {" "}
                           {ownerAddress?.toUpperCase() ==
-                            connectedAddress.toUpperCase() && sellingMethod == 2 && auctionEnded == false
+                            connectedAddress.toUpperCase() &&
+                          sellingMethod == 2 &&
+                          auctionEnded == false
                             ? "End Auction"
                             : ownerAddress?.toUpperCase() ==
                                 connectedAddress.toUpperCase() &&
-                              sellingMethod == 1 && auctionEnded == false
+                              sellingMethod == 1 &&
+                              auctionEnded == false
                             ? "Resale"
                             : ownerAddress?.toUpperCase() ==
                               connectedAddress.toUpperCase()
                             ? "Sell"
                             : sellingMethod === 2 && auctionEnded == false
                             ? "Place A Bid"
-                            : sellingMethod === 1  && auctionEnded == false
+                            : sellingMethod === 1 && auctionEnded == false
                             ? "Buy Now"
                             : ""}
                         </button>
