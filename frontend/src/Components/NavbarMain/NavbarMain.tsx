@@ -34,7 +34,7 @@ const NavbarMain = () => {
     if (ENV?.getUserKeys("_id")?._id) {
       localStorage.clear();
       localStorage.setItem("theme", darkMode ? "dark" : "light");
-      history.push("/login");
+      history.push("/connect-wallet");
     }
   };
 
@@ -157,7 +157,7 @@ const NavbarMain = () => {
                 {/* </NavDropdown.Item> */}
                 <NavDropdown.Item>
                   <NavLink
-                    to="/login"
+                    to="/connect-wallet"
                     className={`nav-main-link main-nav-dd-items`}
                     onClick={() => clearLocalStorage()}
                   >

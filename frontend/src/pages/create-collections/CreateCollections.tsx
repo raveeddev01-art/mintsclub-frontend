@@ -238,7 +238,7 @@ class CreateCollections extends React.Component<
                   let result: any = await this.uploadFileToIpfs(
                     collection[val]
                   );
-                  let url: any = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+                  let url: any = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
                   formData.append(val, url);
                 }
                 if (collection[val]) {

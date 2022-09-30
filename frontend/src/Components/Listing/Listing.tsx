@@ -474,11 +474,11 @@ const Listing: FC<listingInt> = (props) => {
             </div>
           </div>
           <div className="col-lg-8 col-xl-9 order-3">
-            {loader ? (
+            {/* {loader ? (
               <FullPageLoader />
-            ) : (
+            ) : ( */}
               <div className="row g-1">
-                {filterationLoader ? (
+                {filterationLoader||loader ? (
                   <div className="text-center">
                     <div
                       className="spinner-border text-secondary"
@@ -525,7 +525,8 @@ const Listing: FC<listingInt> = (props) => {
                   </div>
                 </div>
               </div>
-            )}
+            {/* ) */}
+            {/* } */}
           </div>
         </div>
       </div>

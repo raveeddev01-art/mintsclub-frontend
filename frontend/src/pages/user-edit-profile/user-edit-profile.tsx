@@ -127,7 +127,7 @@ const EditProfile = (props: any) => {
     if (image?.name) {
       let result: any = await uploadFileToIpfs(image);
 
-      let url = `https://gateway.pinata.cloud/ipfs/${result.data.IpfsHash}`;
+      let url = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
       formData.append('profileImage', url);
     }
     if (banner) {

@@ -433,7 +433,7 @@ class CreateNFT extends React.Component<
     let data: any = new FormData();
     data.append("file", file);
     const fileData: any = await this.uploadFileToIpfs(data);
-    const fileUrl: any = `https://gateway.pinata.cloud/ipfs/${fileData.data.IpfsHash}`;
+    const fileUrl: any = `https://mintsclub.mypinata.cloud/ipfs/${fileData.data.IpfsHash}`;
     const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
     const metaData: any = await this.uploadJsonToIpfs(fileOutputData, fileUrl);
     this.mintNFT(metaData.dataInput, metaData.image);
@@ -485,7 +485,7 @@ class CreateNFT extends React.Component<
       });
       dataInput.ipfsJsonData = data;
       dataInput.metaDataUrl =
-        "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash;
+        "https://mintsclub.mypinata.cloud/ipfs/" + response.data.IpfsHash;
       return { dataInput, image };
     } catch (err: any) {
       toast.error(err);
