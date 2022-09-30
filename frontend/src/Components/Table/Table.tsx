@@ -63,6 +63,11 @@ const Table: React.FC<TableInterface> = ({
           item4: `${
             item.fromAddress.slice(0, 4) + '...' + item.fromAddress.slice(-4)
           }`,
+          item5: (
+            <div>
+              <ReactTimeAgo date={item.createdAt} locale='en-US' />
+            </div>
+          ),
         };
       });
       console.log(formatedData,"formatedData")
