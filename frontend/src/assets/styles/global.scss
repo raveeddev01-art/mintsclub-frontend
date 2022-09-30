@@ -455,19 +455,23 @@ img {
 }
 
 ::-webkit-input-placeholder {
-  color: var(--primary-p-color) !important;
+  color: var(--text-body-two) !important;
+  opacity: 0.6;
 }
 
 :-ms-input-placeholder {
-  color: var(--primary-p-color) !important;
+  color: var(--text-body-two) !important;
+  opacity: 0.6;
 }
 
 ::-ms-input-placeholder {
-  color: var(--primary-p-color) !important;
+  color: var(--text-body-two) !important;
+  opacity: 0.6;
 }
 
 ::placeholder {
-  color: var(--primary-p-color) !important;
+  color: var(--text-body-two) !important;
+  opacity: 0.6;
 }
 
 table {
