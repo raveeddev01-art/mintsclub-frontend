@@ -24,8 +24,6 @@ const CollectionsCard: FC<CollectionCardInt> = ({
   const [loader, setLoader] = useState<any>(true);
   const history = useHistory();
 
-
-
   return (
     <Card
       className="collection-cards-container m-1 mx-auto mx-sm-1"
@@ -64,7 +62,6 @@ const CollectionsCard: FC<CollectionCardInt> = ({
               />
             </div>
           </div>
-
           <Card.Body>
             <Card.Title>
               <div>

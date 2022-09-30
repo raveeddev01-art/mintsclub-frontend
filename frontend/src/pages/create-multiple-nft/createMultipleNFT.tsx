@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg2.png";
 import Banner from "../../Components/Banner/Banner";
@@ -45,6 +45,9 @@ function CreateMultipleNFT() {
     nftCollectionType: "",
   });
 
+useEffect(()=>{
+  refetch()
+},[])
   const dragOver = (e: { preventDefault: () => void }) => {
     e.preventDefault();
   };
@@ -65,7 +68,7 @@ function CreateMultipleNFT() {
 
   //////React Query////////////
 
-  const { isLoading: isFetchingCollections } = useGetData(
+  const { isLoading: isFetchingCollections,refetch } = useGetData(
     "myCollections",
     "collection/myCollectionList",
     ENV.objectToQueryString({

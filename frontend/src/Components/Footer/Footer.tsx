@@ -75,11 +75,11 @@ const Footer: FC<footerInt> = (props) => {
                 <h4 className="footer-title">{"Join MintsClub"}</h4>
                 <ul>
                   <li>
-                    <Link to="/login">Sign In</Link>
+                    <Link to="/connect-wallet">Sign In</Link>
                   </li>
 
                   <li>
-                    <Link to="/Signup">Sign Up</Link>
+                    <Link to="/connect-wallet">Sign Up</Link>
                   </li>
                 </ul>
               </div>
@@ -88,8 +88,8 @@ const Footer: FC<footerInt> = (props) => {
               <div className="footer-items">
                 <h4 className="footer-title">{"Quick Links"}</h4>
                 <ul>
-                  {location.pathname !== "/login" &&
-                    location.pathname !== "/Signup" && (
+                  {location.pathname !== "/connect-wallet" &&
+                    location.pathname !== "/connect-wallet" && (
                       <>
                         <li>
                           <Link to="/auctions">Live Auction</Link>

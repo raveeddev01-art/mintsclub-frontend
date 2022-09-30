@@ -10,6 +10,11 @@ export const useGetUserDataById = (userId: any, onSuccess: any) => {
     () => handleRequest("get", `users/${userId}`),
     {
       onSuccess,
+      refetchOnWindowFocus:false,
+      // retryOnMount:false,
+      // refetchOnMount:false,
+      staleTime:0,
+      cacheTime:0,
       onError: (error: any) => {
         setError(error);
       },

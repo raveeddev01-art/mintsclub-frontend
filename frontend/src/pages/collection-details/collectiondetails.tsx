@@ -25,7 +25,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
   const [likedNfts, setLikedNfts] = useState<Array<any> | null>(null);
   const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
-  const [nftPagination, setNFTPagination] = useState<object | null>(null);
+  const [nftPagination, setNFTPagination] = useState<any>(null);
   const [disabled, setDisabled] = useState(false);
   const { darkMode } = useContext(darkModeContext);
   const location: any = useLocation();
@@ -184,7 +184,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
               <p>Floor Price</p>
             </div>
             <div className='info-card'>
-              <h3>11</h3>
+              <h3>{nftPagination?.total ? nftPagination?.total : 0}</h3>
               <p>Items</p>
             </div>
             <div className='info-card'>

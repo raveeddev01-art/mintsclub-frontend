@@ -104,10 +104,12 @@ const NFTDetail = (props: any) => {
 
   useEffect(() => {
     window.scroll(0, 600);
+    refetch();
   }, []);
 
   // Get NFT
   const onSuccessGetNFT = (data: any) => {
+    console.log(data, 'data==>');
     if (data.data.success) {
       const nftDetailsData = data.data.data;
       setNftDetail(nftDetailsData);
@@ -128,7 +130,7 @@ const NFTDetail = (props: any) => {
     }
   };
 
-  const { isLoading: isLoadingNFT } = useGetData(
+  const { isLoading: isLoadingNFT, refetch } = useGetData(
     'GetNFT',
     `nfts/get/${nftId}`,
     null,
@@ -219,9 +221,11 @@ const NFTDetail = (props: any) => {
       setDisabled(false);
       setTransactionSuccess(true);
       props.getNFT(nftId);
-      let qs: any = { userId: ENV.getUserKeys('_id')._id };
-      qs = ENV.objectToQueryString(qs);
-      props.getMyLikedNfts(qs);
+      if (ENV.getUserKeys('_id')?._id) {
+        let qs: any = { userId: ENV.getUserKeys('_id')._id };
+        qs = ENV.objectToQueryString(qs);
+        props.getMyLikedNfts(qs);
+      }
       validateIfLiked();
       // props.getBids();
       props.beforeOffer();
@@ -1255,6 +1259,7 @@ const NFTDetail = (props: any) => {
                         'USD Price',
                         'Floor Difference',
                         'From',
+                        '',
                       ]}
                       exchangeRate={exchangeRate}
                       lowestNftPrice={lowestNftPrice}

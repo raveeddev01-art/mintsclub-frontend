@@ -53,7 +53,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
             <Card.Img
               variant='top'
               onLoad={() => setLoader(false)}
-              onClick={() => history.push(`explore/nftdetail/${_id}`)}
+              onClick={() => history.push(`explore/nftdetail/${nftId}`)}
               src={nftImage}
               alt='AuctionTopImg'
               style={{ display: `${!loader ? 'block' : 'none'}` }}
@@ -77,6 +77,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                 ref={videoElement}
                 // onTimeUpdate={handleOnTimeUpdate}
                 style={{ display: `${!loader ? 'block' : 'none'}` }}
+                onClick={() => history.push(`explore/nftdetail/${nftId}`)}
               />
 
               <div className='controls'>
@@ -105,6 +106,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               src={nftImage}
               onLoadCallback={() => setLoader(false)}
               loader={loader}
+              onClick={() => history.push(`explore/nftdetail/${nftId}`)}
             />
           </>
         ) : (
@@ -117,7 +119,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               {bidsProfile &&
                 bidsProfile.length > 0 &&
                 bidsProfile.map((item: any, i: any) => {
-                  return (
+                  return Totalbids !== 0 ? (
                     <img
                       src={
                         item.bidByProfile === null
@@ -129,6 +131,8 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
                       alt='Avatar'
                       key={i}
                     />
+                  ) : (
+                    ''
                   );
                 })}
               <span className={`${Totalbids === 0 ? '' : 'ms-2'}`}>
@@ -143,7 +147,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
         </div>
       </div>
       <Card.Body>
-        <Card.Title onClick={() => history.push(`explore/nftdetail/${_id}`)}>
+        <Card.Title onClick={() => history.push(`explore/nftdetail/${nftId}`)}>
           <div>
             {nftName && nftName.length > 15
               ? nftName.slice(0, 15) + '...'
@@ -161,7 +165,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               alt='avatar'
             />
           </div>
-
           <div className='ms-2 auction-owner-name'>
             <p>
               {'Owned by:'}
