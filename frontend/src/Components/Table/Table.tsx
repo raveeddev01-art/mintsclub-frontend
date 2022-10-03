@@ -70,7 +70,6 @@ const Table: React.FC<TableInterface> = ({
           ),
         };
       });
-      console.log(formatedData,"formatedData")
       setInfo(formatedData);
     }
   };

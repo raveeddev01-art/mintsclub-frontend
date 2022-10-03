@@ -109,7 +109,6 @@ const NFTDetail = (props: any) => {
 
   // Get NFT
   const onSuccessGetNFT = (data: any) => {
-    console.log(data, 'data==>');
     if (data.data.success) {
       const nftDetailsData = data.data.data;
       setNftDetail(nftDetailsData);
@@ -840,7 +839,6 @@ const NFTDetail = (props: any) => {
       value: 'Ethereum',
     },
   ];
-  console.log(bids,"bids")
   return (
     <>
       <Banner

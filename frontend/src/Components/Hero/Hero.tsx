@@ -39,7 +39,6 @@ const Hero: FC<HeroInt> = (props) => {
   useEffect(() => {
     if (props.auction.auctionsAuth) {
       const { auctions } = props.auction;
-      console.log(auctions,"auctions")
       let updatedAuctions = [];
       if (auctions && auctions.length > 1) {
         setStatus("auctions");
@@ -51,13 +50,11 @@ const Hero: FC<HeroInt> = (props) => {
         }
         setData(updatedAuctions);
       } else {
-        console.log("else==>")
         setStatus("nfts");
         setData(WordsFamousNfts);
       }
     }
   }, [props.auction.auctionsAuth]);
-  console.log(data, "data==>");
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
