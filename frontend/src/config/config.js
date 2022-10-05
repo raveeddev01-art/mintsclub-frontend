@@ -2,7 +2,6 @@ require("dotenv").config();
 const CryptoJS = require("crypto-js");
 const dataEncryptionKey = "kalsaOOLLaASASAFFSSEE";
 const moment = require("moment");
-
 export const ENV = {
   // blockchain variables
   mintsClubContractAddress: process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS,
@@ -13,7 +12,7 @@ export const ENV = {
   url: process.env.REACT_APP_BASE_URL,
   adminUrl: process.env.REACT_APP_ADMIN_BASE_URL,
   // url:"https://v2-mintsclubapi.invo.zone/v1/front/",
-  chainId:4,
+  chainId:process.env.REACT_APP_CHAINID,
   assetUrl: process.env.REACT_APP_BASE_URL,
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,

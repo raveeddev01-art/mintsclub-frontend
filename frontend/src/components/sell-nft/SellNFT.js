@@ -333,6 +333,7 @@ const SellNFT = (props) => {
             location.state.nftToken,
             copies
           );
+        
           if (result) {
             activityPayload.price = price;
             payload.sellId = Number(result);
@@ -366,7 +367,7 @@ const SellNFT = (props) => {
         }
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
     }
   };
   //match if nft liked

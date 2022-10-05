@@ -199,7 +199,7 @@ const UserProfile = (props) => {
         }
       }
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
     }
   };
 

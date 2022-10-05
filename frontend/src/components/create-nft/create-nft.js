@@ -300,7 +300,7 @@ class CreateNFT extends Component {
         }
       );
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkeby Network");
+      toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
     }
   };
   mintNFT = async (metaData, image) => {

@@ -153,7 +153,7 @@ const CollectionDetailsPage = (props) => {
           // setNFTs(nfts);
         }
       } else {
-        toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+        toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
       }
     } else {
       history.push('/login');
