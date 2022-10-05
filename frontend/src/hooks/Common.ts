@@ -5,7 +5,6 @@ import errorHandler from "../context/errorHandler/ErrorHandlerContext";
 
 export const useInsertData = (url: any, onSuccess: any, onError?: any) => {
   const { setError } = useContext(errorHandler);
-  // console.log("inserting data")
   return useMutation(
     (paylaod: any) => handleRequest("post", url, paylaod ? paylaod : null),
     {

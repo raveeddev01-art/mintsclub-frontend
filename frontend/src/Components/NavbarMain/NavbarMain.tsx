@@ -8,7 +8,6 @@ import { ENV } from '../../config/config';
 import './NavbarMain.scss';
 import { connect } from 'react-redux';
 import DarkModeButton from '../DarkModeButton/DarkModeButton';
-import { beforeCollection } from '../../pages/collections/collections.actions';
 import { headerImages } from '../../assets/assets';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 
@@ -222,4 +221,4 @@ const NavbarMain = () => {
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps, { beforeCollection })(NavbarMain);
+export default connect(mapStateToProps, {  })(NavbarMain);

@@ -3,13 +3,6 @@ import './explore-collections.scss';
 import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
 import { connect } from 'react-redux';
 import { ENV } from '../../config/config';
-import {
-  beforeCollection,
-  getCollections,
-  toggleLikeDislike,
-  beforeCategory,
-  getCategories,
-} from '../collections/collections.actions';
 import { Images } from '../../assets/assets';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
@@ -213,18 +206,9 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  collection: state.collection,
-  error: state.error,
-  category: state.category,
-  categories: state.collection,
-  pagination: state.pagination,
   connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
-  beforeCollection,
-  getCollections,
-  beforeCategory,
-  getCategories,
-  toggleLikeDislike,
+
 })(ExploreCollections);

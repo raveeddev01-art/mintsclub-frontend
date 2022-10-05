@@ -1,5 +1,5 @@
 import { SET_WALLET, GET_WALLET, BEFORE_WALLET } from '../../redux/types';
-import { emptyError } from '../../redux/shared/error/error.action';
+// import { emptyError } from '../../redux/shared/error/error.action';
 
 export const beforeWallet = () => {
     return {
@@ -9,7 +9,7 @@ export const beforeWallet = () => {
 
 // method to set wallet address
 export const setWalletAddress = (address) => dispatch => {
-    dispatch(emptyError())
+    // dispatch(emptyError())
     // alert("setting address")
     dispatch({
         type: SET_WALLET,

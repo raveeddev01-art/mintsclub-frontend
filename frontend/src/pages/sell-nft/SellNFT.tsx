@@ -19,7 +19,6 @@ import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import useVideoPlayer from '../../Components/TestVideoCard/Components/UseVideoPlayer';
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
-import { updateProfile } from '../../Components/User/user.action';
 import ApprovalModal from '../../Components/Modals/ApprovalModal/ApprovalModal';
 import Banner from '../../Components/Banner/Banner';
 import BannerBg from '../../assets/images/hero-bg.png';
@@ -362,7 +361,6 @@ const SellNFT = (props: any) => {
         updatedNFTDetail.user.isApproved = true;
         setNftDetail(updatedNFTDetail);
         updateProfile(formData);
-        // props.updateProfile(formData);
         setApprovalStatus('approved');
         toast.success('Your Account is Approved!.');
         return '';
@@ -845,5 +843,4 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-  updateProfile,
 })(SellNFT);

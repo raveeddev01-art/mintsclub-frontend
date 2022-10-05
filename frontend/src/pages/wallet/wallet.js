@@ -25,6 +25,7 @@ import BannerLight from "../../assets/images/loginbg-light.png";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { getWalletAddress, validateNetwork } from "../../utils/web3";
 import { ENV } from "../../config/config";
+
 const Wallet = (props) => {
   const history = useHistory();
   let walletAddress = false;

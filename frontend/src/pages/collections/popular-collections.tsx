@@ -4,14 +4,14 @@ import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
 import ViewAllIcon from '../../assets/images/view-all-arrow.svg';
 import CardSlider from '../../Components/CardSlider/CardSlider';
 import { ENV } from '../../config/config';
-import {
-  beforeCategory,
-  getCategories,
-} from '../../Components/Categories/categories.action';
-import {
-  beforePopularCollection,
-  getPopularCollections,
-} from './collections.actions';
+// import {
+//   beforeCategory,
+//   getCategories,
+// } from '../../Components/Categories/categories.action';
+// import {
+//   beforePopularCollection,
+//   getPopularCollections,
+// } from './collections.actions';
 import { connect } from 'react-redux';
 import { Images } from '../../assets/assets';
 import { PopularCollectionInt } from '../../interfaces/PopularCollections/interface';
@@ -253,16 +253,10 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  error: state.error,
-  category: state.category,
-  popularCollections: state.collection.popularCollections,
-  getPopularAuth: state.collection.getPopularAuth,
+
   connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
-  beforePopularCollection,
-  beforeCategory,
-  getCategories,
-  getPopularCollections,
+
 })(PopularCollections);

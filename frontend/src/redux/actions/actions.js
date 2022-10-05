@@ -415,7 +415,7 @@ export const hometest = () => (dispatch) => {
   // type:HOME_TEST,
   // payload: data
   // })
-  // dispatch(emptyError());
+  //// dispatch(emptyError());
   // const url = `${ENV.url}/nfts/${type}`;
   // fetch(url, {
   // method,

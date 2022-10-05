@@ -12,11 +12,8 @@ import {
   EDIT_APPROVAL,
   GET_APPROVALS
 } from '../../redux/types';
-import { emptyError } from '../../redux/shared/error/error.action';
-import {
-  getCollections,
-  setAuthState,
-} from '../../pages/collections/collections.actions';
+// import { emptyError } from '../../redux/shared/error/error.action';
+
 
 export const beforeUser = () => {
   return {
@@ -26,7 +23,7 @@ export const beforeUser = () => {
 
 // method to set user data
 export const setUser = (user) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   dispatch({
     type: SET_USER,
     payload: user,
@@ -42,7 +39,7 @@ export const getUser = () => (dispatch) => {
 
 // method to login using wallet address and sign
 export const login = (payload) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.url}auth/login/`;
 
 
@@ -61,7 +58,7 @@ export const login = (payload) => (dispatch) => {
       if (data.success) {
         ENV.encryptUserData(data.data);
         const userId = data.data._id;
-        dispatch(getCollections());
+        // dispatch(getCollections());
         dispatch({
           type: SET_USER,
           payload: data.data,
@@ -83,7 +80,7 @@ export const login = (payload) => (dispatch) => {
 
 // method to signup using wallet address, sign, and payload
 export const signup = (payload) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.url}auth/register/`;
 
   fetch(url, {
@@ -100,7 +97,7 @@ export const signup = (payload) => (dispatch) => {
     .then((data) => {
       if (data.status) {
         ENV.encryptUserData(data.data);
-        dispatch(getCollections());
+        // dispatch(getCollections());
         dispatch({
           type: SET_USER,
           payload: data.data,
@@ -123,7 +120,7 @@ export const signup = (payload) => (dispatch) => {
 
 // method to update user's profile, update user's payload
 export const updateProfile = (body) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.url}users/updateProfile`;
 
   fetch(url, {
@@ -166,7 +163,7 @@ export const updateProfile = (body) => (dispatch) => {
 };
 export const getApprovals = () => (dispatch) => {
 
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.adminUrl}approvals/list`;
   fetch(url, {
     method: 'GET',
@@ -202,7 +199,7 @@ export const getApprovals = () => (dispatch) => {
 };
 export const updateApprovals = (body) => (dispatch) => {
 
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.adminUrl}approvals/edit`;
   fetch(url, {
     method: 'PUT',
@@ -243,7 +240,7 @@ export const updateApprovals = (body) => (dispatch) => {
 export const getTopSellers =
   (qs = null) =>
   (dispatch) => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     //console.log('query string', qs);
 
     let url = `${ENV.url}users/top-sellers`;
@@ -292,7 +289,7 @@ export const getTopSellers =
 
 // method to get authors' details
 export const getCreators = (body) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.url}users/creators`;
   // const url = `http://3.142.91.8/v1/front/users/creators`;
 
@@ -334,7 +331,7 @@ export const getCreators = (body) => (dispatch) => {
 
 // method to get authors' details
 export const getUserById = (userId) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   const url = `${ENV.url}users/${userId}`;
   fetch(url, {
     method: 'GET',
@@ -374,7 +371,7 @@ export const getUserById = (userId) => (dispatch) => {
 
 // method to get authors' details
 export const setIndividualUserData = (user) => (dispatch) => {
-  dispatch(emptyError());
+ // dispatch(emptyError());
   dispatch({
     type: SET_INDIVIDUAL_USER,
     payload: user,
@@ -387,6 +384,6 @@ export const logoutUser = () => (dispatch) => {
     userAuth: false,
     userData: null,
   });
-  dispatch(setAuthState());
+  // dispatch(setAuthState());
   localStorage.removeItem('encuse');
 };
