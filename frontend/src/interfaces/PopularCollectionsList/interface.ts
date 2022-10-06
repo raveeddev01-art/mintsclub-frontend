@@ -1,4 +1,4 @@
 export interface PopularCollectionlistInt {
-    finalCollectionListing:any,
-    connectedAddress:string,
+	finalCollectionListing: any;
+	connectedAddress: string;
 }

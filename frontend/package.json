@@ -35,6 +35,8 @@
     "crypto-js": "^4.1.1",
     "demos-react-captcha": "^1.0.11",
     "dotenv": "^10.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "ethereumjs-testrpc": "^6.0.3",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
@@ -47,6 +49,7 @@
     "os": "^0.1.2",
     "os-browserify": "^0.3.0",
     "path": "^0.12.7",
+    "prettier": "^2.7.1",
     "react": "^17.0.2",
     "react-app-rewired": "^2.2.1",
     "react-audio-player": "^0.17.0",
@@ -130,10 +133,21 @@
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",
+    "@types/crypto-js": "^4.1.1",
     "@types/jquery": "^3.5.14",
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.10",
-    "react-error-overlay": "6.0.9"
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "eslint": "^8.23.1",
+    "eslint-config-node": "^4.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.31.8",
+    "react-error-overlay": "6.0.9",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier": "2.7.1"
+
   }
 }
