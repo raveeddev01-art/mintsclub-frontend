@@ -11,6 +11,7 @@ import {
   COLLECTION_CATEGORES,
   GET_POPULAR_COLLECTIONS,
   BEFORE_POPULAR_COLLECTION,
+  COLLECTION_DEPLOY_ABI
 } from '../../redux/types';
 
 const initialState = {
@@ -27,7 +28,7 @@ const initialState = {
   myCollectionsResult: false,
   popularCollections: null,
   beforePopularCollection: false,
-  error:null
+  error: null
 };
 
 export default function (state = initialState, action) {
@@ -36,50 +37,50 @@ export default function (state = initialState, action) {
       return {
         ...state,
         collection: action.payload.collection,
-        getAuth: true,
+        getAuth: true
       };
     case ALL_COLLECTIONS:
       return {
         ...state,
         collection: action.payload.allCollections,
-        getAuth: true,
+        getAuth: true
       };
     case SET_AUTH_STATE:
       return {
         ...state,
-        getAuth: false,
+        getAuth: false
       };
 
     case UPSERT_COLLECTION:
       return {
         ...state,
         collection: action.payload,
-        upsertAuth: true,
+        upsertAuth: true
       };
     case DELETE_COLLECTION:
       return {
         ...state,
         collection: action.payload,
-        deleteAuth: true,
+        deleteAuth: true
       };
     case GET_COLLECTIONS:
       return {
         ...state,
         collections: action.payload.collections,
         pagination: action.payload.pagination,
-        getAuth: true,
+        getAuth: true
       };
     case MY_COLLECTIONS:
       return {
         ...state,
         myCollections: action.payload,
-        myCollectionsResult: true,
+        myCollectionsResult: true
       };
     case COLLECTION_CATEGORES:
       return {
         ...state,
         categories: action.payload,
-        collectionFlag: true,
+        collectionFlag: true
       };
     case BEFORE_COLLECTION:
       return {
@@ -90,22 +91,28 @@ export default function (state = initialState, action) {
         deleteAuth: false,
         upsertAuth: false,
         getAuth: false,
-        myCollectionsResult:false,
+        myCollectionsResult: false
       };
     case GET_POPULAR_COLLECTIONS:
       return {
         ...state,
         popularCollections: action.payload,
-        getPopularAuth: true,
+        getPopularAuth: true
       };
     case BEFORE_POPULAR_COLLECTION:
       return {
         ...state,
-        getPopularAuth: false,
+        getPopularAuth: false
+      };
+    case COLLECTION_DEPLOY_ABI:
+      return {
+        ...state,
+        deploydata: action.payload,
+        deployFlag: true
       };
     default:
       return {
-        ...state,
+        ...state
       };
   }
 }

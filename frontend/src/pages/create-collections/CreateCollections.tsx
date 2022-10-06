@@ -3,7 +3,7 @@ import axios from 'axios';
 import Footer from '../../Components/Footer/Footer';
 import './CreateCollections.scss';
 import { connect } from 'react-redux';
-import { beforeCollection, upsertCollection } from '../collections/collections.actions';
+import { beforeCollection, upsertCollection, deployContract } from '../collections/collections.actions';
 import { decimalNumberValidator, firstInputCharacterSpace } from '../../utils/functions';
 import { beforeCategory, getCategories } from '../../Components/Categories/categories.action';
 import { emptyError } from '../../redux/shared/error/error.action';
@@ -76,6 +76,7 @@ class CreateCollections extends React.Component<
     category: any;
     beforeCategory: () => any;
     upsertCollection: (url: string, data: any) => any;
+    deployContract: () => any;
   },
   {
     isSubmitted?: boolean;
@@ -191,7 +192,6 @@ class CreateCollections extends React.Component<
       return [];
     }
   };
-
   onFileChange(e: any) {
     let file = e.target.files[0];
     if (file)
@@ -273,6 +273,10 @@ class CreateCollections extends React.Component<
                   formData.append(val, collection[val]);
                 }
               }
+              if (collection?.deploy) {
+                this.props.deployContract();
+              }
+              // setTimeout(() => this.props.upsertCollection('collection/create', formData), 30000);
               this.props.upsertCollection('collection/create', formData);
             }
           );
@@ -576,5 +580,6 @@ export default connect(mapStateToProps, {
   upsertCollection,
   emptyError,
   beforeCategory,
-  getCategories
+  getCategories,
+  deployContract
 })(CreateCollections);
