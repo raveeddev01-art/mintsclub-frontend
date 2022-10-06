@@ -361,7 +361,7 @@ const NFTDetail = (props: any) => {
         }
       } else {
         toast.error(
-          'Please Connect Your Metamask With Ethereum Rinkby Network'
+          'Please Connect Your Metamask With Ethereum Goerli Network'
         );
       }
     } else {
@@ -407,7 +407,7 @@ const NFTDetail = (props: any) => {
         }
       }
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
     }
   };
 
@@ -478,7 +478,7 @@ const NFTDetail = (props: any) => {
         makeOffer();
       }
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
     }
   };
   const placeBid = async () => {
@@ -505,7 +505,7 @@ const NFTDetail = (props: any) => {
         toast.error(err);
       }
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
     }
   };
 
@@ -587,7 +587,7 @@ const NFTDetail = (props: any) => {
         }
       } else {
         toast.error(
-          'Please Connect Your Metamask With Ethereum Rinkby Network'
+          'Please Connect Your Metamask With Ethereum Goerli Network'
         );
       }
     } else {
@@ -924,7 +924,7 @@ const NFTDetail = (props: any) => {
                       onClick={() => {
                         item.title === 'Contract Address' &&
                           window.open(
-                            'https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43',
+                            'https://goerli.etherscan.io/address/0xcfea0ebadda7c7b2989f3a0423ce95683b969dc3',
                             '_blank'
                           );
                       }}

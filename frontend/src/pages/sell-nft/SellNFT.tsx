@@ -237,7 +237,7 @@ const SellNFT = (props: any) => {
         openForSale(activityPayload, payload, fixedConfig, price);
       }
     } else {
-      toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+      toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
     }
   };
 

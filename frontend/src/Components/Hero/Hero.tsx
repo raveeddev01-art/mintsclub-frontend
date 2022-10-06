@@ -33,7 +33,7 @@ const Hero: FC<HeroInt> = (props) => {
     const qs = ENV.objectToQueryString({
       myFilter: "all",
     });
-    props.getLiveAuctions(qs);
+    // props.getLiveAuctions(qs);
   }, []);
 
   useEffect(() => {

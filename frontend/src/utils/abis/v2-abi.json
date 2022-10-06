@@ -53,6 +53,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "uint256",
+        "name": "_auctionid",
+        "type": "uint256"
+      }
+    ],
+    "name": "AuctionStart",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "bidder",
         "type": "address"
@@ -72,14 +85,8 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "indexed": false,
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "_fixeditemid",
         "type": "uint256"
       }
     ],
@@ -199,9 +206,7 @@
     "type": "event"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "Id", "type": "uint256" }],
     "name": "BuyFixedPriceNFT",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "payable",
@@ -211,12 +216,15 @@
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "Fixedprices",
     "outputs": [
+      { "internalType": "uint256", "name": "fixedid", "type": "uint256" },
       { "internalType": "uint256", "name": "price", "type": "uint256" },
       { "internalType": "address", "name": "owner", "type": "address" },
       { "internalType": "uint256", "name": "paid", "type": "uint256" },
       { "internalType": "address", "name": "newowner", "type": "address" },
       { "internalType": "bool", "name": "forsale", "type": "bool" },
-      { "internalType": "uint256", "name": "totalcopies", "type": "uint256" }
+      { "internalType": "uint256", "name": "totalcopies", "type": "uint256" },
+      { "internalType": "uint256", "name": "tokenid", "type": "uint256" },
+      { "internalType": "bool", "name": "isSold", "type": "bool" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -236,48 +244,22 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "Id", "type": "uint256" }],
     "name": "auctionEnd",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "auctionEndTime",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "auctionStartTime",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenid", "type": "uint256" }
-    ],
-    "name": "auctiondata",
-    "outputs": [
-      { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "bool", "name": "", "type": "bool" },
-      { "internalType": "uint256", "name": "", "type": "uint256" },
-      { "internalType": "address", "name": "", "type": "address" },
-      { "internalType": "bool", "name": "", "type": "bool" },
-      { "internalType": "uint256", "name": "", "type": "uint256" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "auctions",
     "outputs": [
+      { "internalType": "uint256", "name": "auctionid", "type": "uint256" },
+      {
+        "internalType": "address payable",
+        "name": "beneficiary",
+        "type": "address"
+      },
       { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
       { "internalType": "bool", "name": "OpenForBidding", "type": "bool" },
       {
@@ -295,8 +277,17 @@
         "name": "numberofcopies",
         "type": "uint256"
       },
-      { "internalType": "bool", "name": "amountStatus", "type": "bool" },
-      { "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "auctionStartTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "auctionEndTime",
+        "type": "uint256"
+      },
+      { "internalType": "bool", "name": "isSold", "type": "bool" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -333,9 +324,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "Id", "type": "uint256" }],
     "name": "bid",
     "outputs": [],
     "stateMutability": "payable",
@@ -364,9 +353,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "Id", "type": "uint256" }],
     "name": "claimNft",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "nonpayable",
@@ -465,7 +452,7 @@
       { "internalType": "uint256", "name": "_price", "type": "uint256" }
     ],
     "name": "putonsale",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -537,12 +524,12 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_biddingendtime",
+        "name": "_biddingStartTime",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_biddingStartTime",
+        "name": "_biddingendtime",
         "type": "uint256"
       },
       {
@@ -558,7 +545,7 @@
       }
     ],
     "name": "startAuction",
-    "outputs": [],
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "nonpayable",
     "type": "function"
   },

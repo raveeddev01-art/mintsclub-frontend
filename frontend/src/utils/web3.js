@@ -31,7 +31,7 @@ const getContractMethods = async () => {
 const getNetworkName = (chainId) => {
   let networks = {
     1: "Ethereum Mainnet",
-    4: "Ethereum Rinkby",
+    4: "Ethereum Rinkeyby",
     3: "Ethereum Ropsten",
     42: "Ethereum Kovan",
     5: "Ethereum Goerli",
@@ -57,7 +57,7 @@ export const getChainId = async () => {
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
-  if (prevNetwork === "Ethereum Rinkby") {
+  if (prevNetwork === "Ethereum Goerli") {
     return true;
   } else {
     return false;
@@ -110,7 +110,7 @@ export const openNFTForBidding = async (
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
       .send({ from: connectedAddress });
     let web3 = await getWeb3();
-    let sellId = await web3.utils.hexToNumber(result.events[0].raw.data);
+    let sellId = await web3.utils.hexToNumber(result.events.AuctionStart.raw.data);
     if (sellId) {
       return sellId;
     }
@@ -161,7 +161,7 @@ export const putonsale = async (tokenId, amount, price) => {
         from: connectedAddress,
         gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
-    let sellId = await web3.utils.hexToNumber(result.events[0].raw.data);
+      let sellId = await web3.utils.hexToNumber(result.events.OfferSale.raw.data);
     if (sellId) {
       return sellId;
     }

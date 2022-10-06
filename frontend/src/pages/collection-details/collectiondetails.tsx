@@ -122,7 +122,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
         }
       } else {
         toast.error(
-          'Please Connect Your Metamask With Ethereum Rinkby Network'
+          'Please Connect Your Metamask With Ethereum Goerli Network'
         );
       }
     } else {

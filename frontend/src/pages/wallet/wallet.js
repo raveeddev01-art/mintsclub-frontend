@@ -75,7 +75,7 @@ const Wallet = (props) => {
       setConnectedAddress(connectedAddress);
       // } else {
       //   toast.error(
-      //     "Please Connect Your Metamask With Ethereum Rinkby Network"
+      //     "Please Connect Your Metamask With Ethereum Goerli Network"
       //   );
       // }
     }
@@ -168,7 +168,7 @@ const Wallet = (props) => {
       toast.error(err.message);
     }
     // } else {
-    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    //   toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
     // }
   };
 

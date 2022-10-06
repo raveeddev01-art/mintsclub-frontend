@@ -418,7 +418,7 @@ class CreateNFT extends React.Component<
         }
       );
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkeby Network");
+      toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
     }
   };
 
