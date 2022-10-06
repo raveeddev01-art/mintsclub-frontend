@@ -33,7 +33,7 @@ const Hero: FC<HeroInt> = (props) => {
     const qs = ENV.objectToQueryString({
       myFilter: "all",
     });
-    // props.getLiveAuctions(qs);
+    props.getLiveAuctions(qs);
   }, []);
 
   useEffect(() => {
@@ -55,6 +55,7 @@ const Hero: FC<HeroInt> = (props) => {
       }
     }
   }, [props.auction.auctionsAuth]);
+  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
