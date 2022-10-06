@@ -41,33 +41,6 @@ const { isLoading: isLoadingCategories } = GetLiveAuctions(onSuccessHero);
     setAddress();
   }, []);
 
-  // useEffect(() => {    
-  //   props.beforeAuction();
-  //   const qs = ENV.objectToQueryString({
-  //     myFilter: "all",
-  //   });
-  //   props.getLiveAuctions(qs);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (props.auction.auctionsAuth) {
-  //     const { auctions } = props.auction;
-  //     let updatedAuctions = [];
-  //     if (auctions && auctions.length > 1) {
-  //       setStatus("auctions");
-  //       updatedAuctions = auctions.filter(
-  //         (item: any) => item.fileType === "image"
-  //       );
-  //       if (updatedAuctions?.length > 6) {
-  //         updatedAuctions = updatedAuctions.slice(0, 6);
-  //       }
-  //       setData(updatedAuctions);
-  //     } else {
-  //       setStatus("nfts");
-  //       setData(WordsFamousNfts);
-  //     }
-  //   }
-  // }, [props.auction.auctionsAuth]);
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -120,11 +93,4 @@ const { isLoading: isLoadingCategories } = GetLiveAuctions(onSuccessHero);
   );
 };
 
-// const mapStateToProps = (state: any) => ({
-//   auction: state.auction,
-//   nft: state.nft,
-// });
-// export default connect(mapStateToProps, {
-//   GetLiveAuctions,
-// })(Hero);
 export default Hero
