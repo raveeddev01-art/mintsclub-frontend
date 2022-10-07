@@ -1,4 +1,6 @@
 import { useState, useEffect, useContext } from "react";
+import MyAlgoConnect from "@randlabs/myalgo-connect";
+
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
@@ -25,6 +27,11 @@ import { useGetData, useInsertData } from "../../hooks/Common";
 import Web3 from "web3";
 import { ENV } from "../../config/config";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
+
+
+
+
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
@@ -44,6 +51,26 @@ const ConnectWallet = (props: any) => {
     };
     getAddress();
   }, []);
+
+
+
+  const settings = {
+    shouldSelectOneAccount: false,
+    openManager: false,
+  };
+
+const connectAlgoWallet = async () => {
+  try {
+    const accounts = await myAlgoConnect.connect(settings);
+    const address = accounts.map((account) => account.address);
+    const name = accounts.map((account) => account.name);
+    console.log(address + " " + name);
+    setConnectedAddres(address);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window?.ethereum) {
@@ -162,15 +189,21 @@ const ConnectWallet = (props: any) => {
     (err: any) => toast.error(err?.message)
   );
 
+
+
+
+
+  // Metamask Button
   const walletButtons = [
     {
       name: "MetaMask",
       img: connectModal.metaImg,
       type: "ethereum",
       func: () => validateUser(null),
-    },
+    }
   ];
 
+  // Algorand Button
   const algoButtons = [
     {
       name: "Algorand",
@@ -206,14 +239,13 @@ const ConnectWallet = (props: any) => {
                 </div>
               </Tab>
 
-
               <Tab eventKey="algorand" title="Algorand">
                 <div className="tab-inner-content">
                   {algoButtons.map((button: any) => {
                     return (
                       <button
                         className="wallet-button"
-                        onClick={() => button.func()}
+                        onClick={connectAlgoWallet}
                       >
   
                         {button.name}
