@@ -11,11 +11,7 @@ import { ENV } from "../../config/config";
 import $ from "jquery";
 import SimpleReactValidator from "simple-react-validator";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import {
-  getCurrentAddress,
-  mintNFt,
-  validateNetwork,
-} from "../../utils/web3";
+import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
 import PropertiesModal from "../../Components/Modals/PropertiesModal/PropertiesModal";
@@ -37,7 +33,7 @@ import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
-import { handleRequest } from "../../utils/functions";
+import { handleRequest, compressImage } from "../../utils/functions";
 
 const placeholderImg = "";
 
@@ -214,7 +210,6 @@ class CreateNFT extends React.Component<
         ? this.myRef?.current?.play()
         : this.myRef?.current?.pause();
     }
-
   };
   getMyCollections = async () => {
     const res = await handleRequest(
@@ -224,7 +219,8 @@ class CreateNFT extends React.Component<
     const { Collections: collections } = res.data.data.collections;
     if (!collections.length) {
       toast.info("Please create a collection first");
-      return this.props.history.push("/createcollection");
+      // return this.props.history.push("/createcollection");
+      this.setState({ loader: false });
     } else {
       let updatedCollections = [];
       for (var item of collections) {
@@ -310,7 +306,6 @@ class CreateNFT extends React.Component<
   insertNFT = async (data: any) => {
     try {
       const res: any = await handleRequest("post", "nfts/storeNFTData", data);
-      console.log(res, "res====>");
       const { success } = res.data;
       if (success) {
         toast.success("NFT created successfully");
@@ -385,6 +380,7 @@ class CreateNFT extends React.Component<
       } else {
         nftInfo.fileType = "image";
       }
+
       this.setState(
         {
           isSubmitted: true,
@@ -469,11 +465,22 @@ class CreateNFT extends React.Component<
 
   pinFileToIPFS = async (file: any, nftInfo: any) => {
     let fileUrl: any = "";
+    let compressedFileUrl: any = "";
     if (file.name) {
-      let data: any = new FormData();
-      data.append("file", file);
-      const fileData: any = await this.uploadFileToIpfs(data);
-      fileUrl = `https://mintsclub.mypinata.cloud/ipfs/${fileData.data.IpfsHash}`;
+      let originalFile: any = new FormData();
+      let compressedFile: any = new FormData();
+      console.log(compressedFile,"compressedFile")
+      let thumbnail = await compressImage(file);
+      originalFile.append("file", file);
+      compressedFile.append("file", thumbnail);
+      console.log(formatBytes(thumbnail.size).split(" "),"compressed file size");
+      const orignalIpfsFile: any = await this.uploadFileToIpfs(originalFile);
+      const compressedIpfsFile: any = await this.uploadFileToIpfs(
+        compressedFile
+      );
+
+      fileUrl = `https://mintsclub.mypinata.cloud/ipfs/${orignalIpfsFile.data.IpfsHash}`;
+      compressedFileUrl = `https://mintsclub.mypinata.cloud/ipfs/${compressedIpfsFile.data.IpfsHash}`;
       // const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
     } else {
       fileUrl = file;
@@ -481,12 +488,16 @@ class CreateNFT extends React.Component<
     const metaData: any = await this.uploadJsonToIpfs(fileUrl);
     if (this.props.match.params.nftId) {
       return this.editNFT(
-        nftInfo,
+        { ...nftInfo, compressedFile: compressedFileUrl },
         metaData.dataInput.metaDataUrl,
         metaData.image
       );
     }
-    this.mintNFT(nftInfo, metaData.dataInput, metaData.image);
+    this.mintNFT(
+      { ...nftInfo, compressedFile: compressedFileUrl },
+      metaData.dataInput,
+      metaData.image
+    );
   };
 
   uploadFileToIpfs = async (formData: any) => {
@@ -543,7 +554,7 @@ class CreateNFT extends React.Component<
     );
   };
 
-  onFileChange = (e: any, status: any) => {
+  onFileChange = async (e: any, status: any) => {
     if (this.handleFilesValidation(e, status) === "file matched") {
       let file: any = "";
       let url: any = "";
@@ -1349,12 +1360,8 @@ class CreateNFT extends React.Component<
   }
 }
 
-const mapStateToProps = (state: {
-  wallet: { connectedAddress: any };
-}) => ({
+const mapStateToProps = (state: { wallet: { connectedAddress: any } }) => ({
   connectedAddress: state.wallet.connectedAddress,
 });
 
-export default connect(mapStateToProps, {
-
-})(CreateNFT);
+export default connect(mapStateToProps, {})(CreateNFT);

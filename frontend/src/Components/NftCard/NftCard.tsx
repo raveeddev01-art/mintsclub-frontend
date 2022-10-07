@@ -29,6 +29,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
     copies,
     remainingCopies,
     ownerAddress,
+    compressedFile
   } = props.data;
 
   const { username, profileImage, profilePhoto }: any = props?.owner || {};
@@ -62,7 +63,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
               variant='top'
               onLoad={() => setLoader(false)}
               onClick={() => history.push(`${props.path}${_id}`)}
-              src={image}
+              src={compressedFile?compressedFile:image}
               alt='AuctionTopImg'
               style={{ display: `${!loader ? 'block' : 'none'}` }}
             />
@@ -75,7 +76,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
               </div>
               <video
                 id='video1'
-                src={image}
+                src={compressedFile?compressedFile:image}
                 ref={videoElement}
                 onEnded={() => {
                   togglePlay();
