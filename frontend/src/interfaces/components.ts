@@ -17,6 +17,7 @@ export interface BannerInterface {
   bgImg?: string;
   bannerImg?: string;
   bg?: boolean;
+  btns?: boolean;
 }
 export interface TableInterface {
   titles: any[];
@@ -151,8 +152,7 @@ export interface HeroCardInt {
   connectedAddress: string;
   status: string;
 }
-export interface footerInt {
-}
+export interface footerInt {}
 
 export interface listingInt {
   collections?: any[];
@@ -174,7 +174,7 @@ export interface listingInt {
   initialKeyword?: any;
   collectionDetail?: any;
   totalItems?: any;
-  refetchNFTs?:()=>any
+  refetchNFTs?: () => any;
 }
 
 export interface CollectionSubLoaderInt {

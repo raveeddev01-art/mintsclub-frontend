@@ -1,6 +1,7 @@
-import { FC } from "react";
-import { BannerInterface } from "../../interfaces/components";
-import "./Banner.scss";
+import { FC } from 'react';
+import { BannerInterface } from '../../interfaces/components';
+import { editImage } from '../../assets/assets';
+import './Banner.scss';
 
 const Banner: FC<BannerInterface> = ({
   subHeading,
@@ -10,12 +11,13 @@ const Banner: FC<BannerInterface> = ({
   bgImg,
   bannerImg,
   bg,
+  btns,
 }) => {
   return (
     <>
       <div
         className="banner-wrapper padding-wrapper"
-        style={{ backgroundImage: `url(${bg ? bgImg : ""})` }}
+        style={{ backgroundImage: `url(${bg ? bgImg : ''})` }}
       >
         <div className="container">
           <div className="row align-items-center">
@@ -30,6 +32,18 @@ const Banner: FC<BannerInterface> = ({
                     </p>
                   )}
                   {content && <p className="">{content}</p>}
+                  {btns && (
+                    <div className="edit-buttons">
+                      <button className="delete">
+                        <img src={editImage.deleteIcon} className="me-2" />
+                        Delete
+                      </button>
+                      <button className="edit">
+                        <img src={editImage.editIcon} className="me-2" />
+                        Edit
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
