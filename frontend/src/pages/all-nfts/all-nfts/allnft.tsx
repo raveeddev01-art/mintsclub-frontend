@@ -1,18 +1,7 @@
 import { useState, useEffect, useContext, FC } from "react";
 import { connect } from "react-redux";
 import "./allnft.scss";
-import {
-  beforeNFT,
-  getNFTs,
-  getMyLikedNfts,
-} from "../../../Components/Nfts/nfts.action";
 import { ENV } from "../../../config/config";
-import { getCreators, beforeUser } from "../../../Components/User/user.action";
-import { toggleLikeDislike, beforeTogleLikeDislike } from "../explore.action";
-import {
-  beforeCollection,
-  getCollections,
-} from "../../collections/collections.actions";
 import { validateNetwork } from "../../../utils/web3";
 import { toast } from "react-toastify";
 import Listing from "../../../Components/Listing/Listing";
@@ -165,7 +154,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
         }
       } else {
         toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
+          "Please Connect Your Metamask With Ethereum Goerli Network"
         );
       }
     } else {
@@ -239,13 +228,5 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-  beforeNFT,
-  getNFTs,
-  getCreators,
-  toggleLikeDislike,
-  getCollections,
-  getMyLikedNfts,
-  beforeCollection,
-  beforeUser,
-  beforeTogleLikeDislike,
+
 })(AllNFT);

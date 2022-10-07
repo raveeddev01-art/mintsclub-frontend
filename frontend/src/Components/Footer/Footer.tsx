@@ -1,44 +1,31 @@
-import { useEffect, useState, FC } from "react";
+import { useState, FC } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFooter, beforeFooter, subscribeUser } from "./footer.action";
 import { firstInputCharacterSpace } from "../../utils/functions";
 import EmailIcon from "../../assets/images/mailbox-icon.svg";
 import { useLocation } from "react-router-dom";
 import "./Footer.scss";
 import { toast } from "react-toastify";
-import { emptyError } from "../../redux/shared/error/error.action";
 import { footerInt } from "../../interfaces/components";
+import { useInsertData } from "../../hooks/Common";
 
-const Footer: FC<footerInt> = (props) => {
+const Footer: FC<footerInt> = () => {
   const [email, setEmail] = useState<any>("");
-  const [loader, setLoader] = useState<any>(false);
 
-  useEffect(() => {
-    if (props.subscribeAuth && props.error === null) {
-      setLoader(false);
+  const { isLoading, mutate: subscribeUser } = useInsertData(
+    "users/subscribe",
+    (res: any) => {
+      console.log(res, "res");
       toast.success("Subscribed successfully");
-      props.beforeFooter();
     }
-  }, [props.subscribeAuth]);
-
-  useEffect(() => {
-    if (props.error !== null) {
-      toast.error(props.error.message);
-      setLoader(false);
-
-      props.emptyError();
-    }
-  }, [props.error]);
+  );
 
   const subscribe = () => {
     if (email.trim() === "") {
       return toast.error("Please enter an email to subscribe");
     }
     if (validateEmail(email)) {
-      props.beforeFooter();
-      setLoader(true);
-      props.subscribeUser(email);
+      subscribeUser({ email });
     } else {
       toast.error("Please enter a valid email address");
     }
@@ -131,10 +118,10 @@ const Footer: FC<footerInt> = (props) => {
                       type="submit"
                       className="input-group-text"
                       id="basic-addon1"
-                      disabled={loader}
+                      disabled={isLoading}
                       onClick={() => subscribe()}
                     >
-                      {loader ? (
+                      {isLoading ? (
                         <div
                           className="spinner-border footer-loader"
                           role="status"
@@ -192,13 +179,7 @@ const Footer: FC<footerInt> = (props) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  error: state.error,
-  settings: state.settings,
-  subscribeAuth: state.footer.subscribeAuth,
+
 });
 
-export default connect(mapStateToProps, {
-  subscribeUser,
-  emptyError,
-  beforeFooter,
-})(Footer);
+export default connect(mapStateToProps, {})(Footer);

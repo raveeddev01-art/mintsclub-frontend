@@ -55,6 +55,7 @@ const Hero: FC<HeroInt> = (props) => {
       }
     }
   }, [props.auction.auctionsAuth]);
+  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">

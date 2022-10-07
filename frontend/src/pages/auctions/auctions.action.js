@@ -1,6 +1,6 @@
 import { GET_ERRORS, BEFORE_AUCTION, GET_AUCTIONS } from '../../redux/types';
 import { ENV } from '../../config/config';
-import { emptyError } from '../../redux/shared/error/error.action'
+// import { emptyError } from '../../redux/shared/error/error.action'
 
 export const beforeAuction = () => {
     return {
@@ -9,7 +9,7 @@ export const beforeAuction = () => {
 }
 
 export const getLiveAuctions = (qs = null) => dispatch => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     let url = `${ENV.url}auctions/live`;
    
     if (qs)

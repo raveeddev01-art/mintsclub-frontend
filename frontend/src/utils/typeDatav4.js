@@ -3,7 +3,7 @@ import {ENV} from "../config/config"
 export default {
   domain: {
     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
-    chainId: 4,
+    chainId: 5,
     // Give a user friendly name to the specific contract you are signing for.
     name: "LazyNFT-Voucher",
     // If name isn't enough add verifying contract to make sure you are establishing contracts with the proper entity

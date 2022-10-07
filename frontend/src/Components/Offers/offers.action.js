@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { GET_ERRORS, BEFORE_OFFER, GET_OFFERS, DELETE_OFFER, CREATE_OFFER, ACCEPT_OFFER,BUY_NOW } from '../../redux/types';
-import { emptyError } from '../../redux/shared/error/error.action';
+// import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from '../../config/config';
 export const beforeOffer = () => {
     return {
@@ -9,7 +9,7 @@ export const beforeOffer = () => {
 };
 
 export const makeOffer = (body) => dispatch => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     const url = `${ENV.url}/offer/create`;
 
     fetch(url, {
@@ -51,7 +51,7 @@ export const makeOffer = (body) => dispatch => {
 };
 
 export const getOffers = (qs = '') => dispatch => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     let url = `${ENV.url}offer/list`;
     if (qs)
         url += `?${qs}`
@@ -94,7 +94,7 @@ export const getOffers = (qs = '') => dispatch => {
 };
 
 export const deleteOffer = (offerId) => dispatch => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     let url = `${ENV.url}offer/delete/${offerId}`;
 
     fetch(url, {
@@ -134,7 +134,7 @@ export const deleteOffer = (offerId) => dispatch => {
 };
 
 export const acceptOffer = (body) => dispatch => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     const url = `${ENV.url}offer/accept`;
 
     fetch(url, {
@@ -176,7 +176,7 @@ export const acceptOffer = (body) => dispatch => {
     })
 };
 export const buyNow = (body) => dispatch => {
-    dispatch(emptyError());
+   // dispatch(emptyError());
     const url = `${ENV.url}auctions/buyNft`;
     fetch(url, {
         method: 'POST',

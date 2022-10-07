@@ -3,8 +3,7 @@ import './user-edit-profile.scss';
 /////////
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateProfile, setIndividualUserData, getUserById, beforeUser } from '../../Components/User/user.action';
-import { emptyError } from '../../redux/shared/error/error.action';
+
 import { ENV } from '../../config/config';
 import { Images } from '../../assets/assets';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +12,6 @@ import Banner from '../../Components/Banner/Banner';
 import BannerBg from '../../assets/images/profileBg.png';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
-import Compressor from 'compressorjs';
 import { useEditData } from '../../hooks/Common';
 import { useGetUserDataById } from '../../hooks/UserProfile';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
@@ -37,7 +35,6 @@ const EditProfile = (props: any) => {
 
   const history = useHistory();
   useEffect(() => {
-    // props.getUserById(ENV.getUserKeys('_id')._id);
     refetch()
   }, []);
   useEffect(() => {
@@ -79,7 +76,6 @@ const EditProfile = (props: any) => {
   const onFileChange = (e: any) => {
     let file = e.target.files[0];
     let fileURL = '';
-    // let sizeBeforeCompress = formatBytes(file.size);
     if (file) {
       if (file.type.includes('image')) {
         fileURL = URL.createObjectURL(file);
@@ -91,17 +87,7 @@ const EditProfile = (props: any) => {
       setImageUrl(fileURL);
       setImage(file);
 
-      // new Compressor(file, {
-      //   quality: 0.2,
-      //   success(result) {
-      //     setImage(result);
-
-      //     let sizeAfterCompress = formatBytes(result.size);
-      //   },
-      //   error(err) {
-      //     console.log(err.message);
-      //   }
-      // });
+ 
     }
   };
   const formatBytes = (bytes: number, decimals = 2) => {
@@ -381,15 +367,8 @@ const EditProfile = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  wallet: state.wallet,
-  user: state.user,
-  error: state.error
 });
 
 export default connect(mapStateToProps, {
-  updateProfile,
-  setIndividualUserData,
-  beforeUser,
-  getUserById,
-  emptyError
+
 })(EditProfile);

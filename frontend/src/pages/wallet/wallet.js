@@ -25,6 +25,7 @@ import BannerLight from "../../assets/images/loginbg-light.png";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { getWalletAddress, validateNetwork } from "../../utils/web3";
 import { ENV } from "../../config/config";
+
 const Wallet = (props) => {
   const history = useHistory();
   let walletAddress = false;
@@ -74,7 +75,7 @@ const Wallet = (props) => {
       setConnectedAddress(connectedAddress);
       // } else {
       //   toast.error(
-      //     "Please Connect Your Metamask With Ethereum Rinkby Network"
+      //     "Please Connect Your Metamask With Ethereum Goerli Network"
       //   );
       // }
     }
@@ -167,7 +168,7 @@ const Wallet = (props) => {
       toast.error(err.message);
     }
     // } else {
-    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    //   toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
     // }
   };
 

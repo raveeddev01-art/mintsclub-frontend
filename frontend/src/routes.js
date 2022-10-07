@@ -5,12 +5,12 @@ const layout3 = lazy(() => import('./layouts/layout3/layout3'));
 const layout4 = lazy(() => import('./layouts/layout4/layout4'));
 const Home = lazy(() => import('./pages/home/home'));
 const CreateNFT = lazy(() => import('./pages/create-nft/create-nft'));
+const EditNFT = lazy(() => import('./pages/create-nft/create-nft'));
+
 const ChooseType = lazy(() => import('./pages/choose-type/chooseType'));
 const CreateMultipleNFT = lazy(() =>
   import('./pages/create-multiple-nft/createMultipleNFT')
 );
-const Wallet = lazy(() => import('./pages/wallet/wallet'));
-const Signup = lazy(() => import('./pages/signup/signup'));
 const SellNFT = lazy(() => import('./pages/sell-nft/SellNFT'));
 const NotFound = lazy(() => import('./pages/not-found/not-found'));
 const NFTDetail = lazy(() => import('./pages/nft-detail/nftdetail'));
@@ -109,6 +109,14 @@ const routes = [
     component: ChooseType,
   },
   {
+    path:'/asset/edit/:nftId',
+    access: false,
+    exact: true,
+    title: 'Create',
+    layout: layout,
+    component:EditNFT
+  },
+  {
     path: '/create/single',
     access: false,
     exact: true,
@@ -140,6 +148,14 @@ const routes = [
     title: 'Create Collection',
     layout: layout,
     component: CreateCollections,
+  },
+  {
+    path:'/collection/edit/:id',
+    access: false,
+    exact: true,
+    title: 'Create',
+    layout: layout,
+    component:CreateCollections
   },
 
   {
@@ -198,22 +214,7 @@ const routes = [
     layout: layout,
     component: EditProfile,
   },
-  {
-    path: '/login',
-    access: true,
-    exact: true,
-    title: 'login',
-    layout: layout,
-    component: Wallet,
-  },
-  {
-    path: '/signup',
-    access: true,
-    exact: true,
-    title: 'Signup',
-    layout: layout,
-    component: Signup,
-  },
+
   {
     path: '/aboutus',
     access: true,

@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import axios from 'axios';
-import Footer from '../../Components/Footer/Footer';
 import './CreateCollections.scss';
 import { connect } from 'react-redux';
-import { beforeCollection, upsertCollection, deployContract } from '../collections/collections.actions';
 import { decimalNumberValidator, firstInputCharacterSpace } from '../../utils/functions';
-import { beforeCategory, getCategories } from '../../Components/Categories/categories.action';
-import { emptyError } from '../../redux/shared/error/error.action';
 import SimpleReactValidator from 'simple-react-validator';
 import { ENV } from '../../config/config';
 import $ from 'jquery';
@@ -23,7 +19,7 @@ import { handleRequest } from '../../utils/functions';
 import { QueryClientHook } from 'react-query-class-component';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
-
+import { deployCollectionContract } from '../../utils/web3';
 const MintSwitch = styled(Switch)(({ theme }: any) => ({
   width: 28,
   height: 16,
@@ -64,19 +60,11 @@ const MintSwitch = styled(Switch)(({ theme }: any) => ({
     boxSizing: 'border-box'
   }
 }));
-class CreateCollections extends React.Component<
+class CreateCollections extends Component<
   {
     connectedAddress: string;
-    getCategories: () => any;
     history: any;
-    error: any;
-    emptyError: () => any;
-    collection: any;
-    beforeCollection: () => any;
-    category: any;
-    beforeCategory: () => any;
-    upsertCollection: (url: string, data: any) => any;
-    deployContract: () => any;
+    match: any;
   },
   {
     isSubmitted?: boolean;
@@ -88,6 +76,8 @@ class CreateCollections extends React.Component<
     selectedCategory?: string;
     selectedOption?: any;
     deploy?: boolean;
+    abi?: any;
+    contractAddress?: string;
   }
 > {
   validator: SimpleReactValidator;
@@ -127,8 +117,11 @@ class CreateCollections extends React.Component<
   }
   componentDidMount() {
     window.scroll(0, 0);
-    this.props.getCategories();
-    // this.props.getUser()
+    // this.props.getCategories();
+    this.getCategories();
+    if (this.props.match.params.id) {
+      this.getCollectionInfo();
+    }
   }
 
   componentDidUpdate(prevProps: any) {
@@ -151,32 +144,104 @@ class CreateCollections extends React.Component<
         collection
       });
     }
-    if (this.props.error !== null && prevProps.error === null) {
-      toast.error(this.props.error.message);
-      this.setState({ loader: false }, () => {
-        this.props.emptyError();
-      });
-    }
-
-    if (this.props.collection.upsertAuth) {
-      this.props.beforeCollection();
-      this.props.history.push('/explore/exploreAll');
-    }
-    if (this.props.category.getAuth) {
-      const { categories } = this.props.category;
-      let updatedCategories = [];
-      for (var item of categories) {
-        let obj = {
-          value: item._id,
-          label: item.name
-        };
-        updatedCategories.push(obj);
-      }
-      this.setState({ categories: updatedCategories, loader: false }, () => {
-        this.props.beforeCategory();
-      });
-    }
   }
+  getCategories = async () => {
+    try {
+      const res = await handleRequest('get', 'category/list');
+      const { success, categories, message } = res.data;
+      if (success) {
+        let updatedCategories = [];
+        for (var item of categories) {
+          let obj = {
+            value: item._id,
+            label: item.name
+          };
+          updatedCategories.push(obj);
+        }
+        this.setState({ categories: updatedCategories, loader: false }, () => {});
+      } else {
+        toast.error(message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
+  insertCollection = async (data: any) => {
+    try {
+      console.log('sending data', data);
+      const res: any = await handleRequest('post', 'collection/create', data);
+      if (res.data.success) {
+        toast.success(res.data.message);
+        this.props.history.push('/explore/exploreAll');
+      } else {
+        toast.error(res.data.message);
+        this.setState({ loader: false });
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+      this.setState({ loader: false });
+    }
+  };
+
+  getCollectionInfo = async () => {
+    try {
+      let res = await handleRequest('get', `collection/get/${this.props.match.params.id}`);
+      if (res.data.success) {
+        const { _id, name } = res.data.collection.categoryId;
+        const { name: collectionName, description, url, logo, featuredImg } = res.data.collection;
+        let { collection } = this.state;
+        collection = {
+          ...collection,
+          name: collectionName,
+          description,
+          logoUrl: logo,
+          logo,
+          featuredImgUrl: featuredImg,
+          featuredImg,
+          categoryId: _id
+        };
+        if (url) {
+          collection.url = url;
+        }
+        this.setState({
+          selectedOption: { value: _id._id, label: name },
+          collection
+        });
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+      this.setState({ loader: false });
+    }
+  };
+  editCollectionInfo = async (data: any) => {
+    let res = await handleRequest('put', `collection/edit`, data);
+  };
+  deleteCollection = async () => {
+    let res = await handleRequest('delete', `collection/delete/${this.props.match.params.id}`);
+  };
+  deployCollection = async () => {
+    try {
+      const res = await handleRequest('post', 'collection/deploy');
+      const { success, data, message } = res.data;
+      if (success) {
+        console.log('data', data);
+        const abi = data?.abi;
+        const bytecode = data?.bytecode;
+        const resp = await deployCollectionContract(abi, bytecode);
+        console.log('resp', resp);
+        const contractAddress = resp?.contractadd;
+        const res = { ...data, contractAddress };
+        return res;
+      } else {
+        toast.error(message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
+
   formateCategories = (data: any) => {
     if (data && data?.length > 0) {
       let updatedCategories = [];
@@ -265,19 +330,32 @@ class CreateCollections extends React.Component<
               var formData: any = new FormData();
               for (var val in collection) {
                 if (val === 'logo' || val === 'featuredImg') {
-                  let result: any = await this.uploadFileToIpfs(collection[val]);
-                  let url: any = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
-                  formData.append(val, url);
-                }
-                if (collection[val]) {
+                  if (collection['logo']?.name && collection['featuredImg']?.name) {
+                    let result: any = await this.uploadFileToIpfs(collection[val]);
+                    let url: any = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
+                    formData.append(val, url);
+                  } else {
+                    formData.append(val, collection[val]);
+                  }
+                } else {
                   formData.append(val, collection[val]);
                 }
+                if (collection[val]) {
+                }
+              }
+              formData.append('_id', `${this.props.match.params.id}`);
+
+              if (this.props.match.params.id) {
+                return await this.editCollectionInfo(formData);
               }
               if (collection?.deploy) {
-                this.props.deployContract();
+                const response = await this.deployCollection();
+                formData.append('abi', response?.abi);
+                formData.append('contractAddress', `${response?.contractAddress}`);
+                setTimeout(() => this.insertCollection(formData), 5000);
+              } else {
+                this.insertCollection(formData);
               }
-              // setTimeout(() => this.props.upsertCollection('collection/create', formData), 30000);
-              this.props.upsertCollection('collection/create', formData);
             }
           );
         } else {
@@ -344,13 +422,6 @@ class CreateCollections extends React.Component<
     this.setState({ collection });
   };
 
-  /////////UseQuery Actions////////////////
-
-  //  onSuccessGetCategories=(data:any)=>{
-
-  //    useGetCategories((error:any)=>console.log(error),(data:any)=>console.log(data))
-  // }
-
   render() {
     const { collection, errors, loader, isSubmitted, categories, selectedOption }: any = this.state;
 
@@ -383,7 +454,7 @@ class CreateCollections extends React.Component<
                 <div className='upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0'>
                   <div className='logo-wrapper'>
                     <div className='logo-image'>
-                      {collection && collection.logo ? (
+                      {collection && collection.logoUrl ? (
                         <img className='uploaded-logo-img' src={collection.logoUrl} />
                       ) : (
                         <label>
@@ -420,7 +491,7 @@ class CreateCollections extends React.Component<
                   <div className='feature-wrapper pt-md-0 pt-5'>
                     <div className='feature-image'>
                       <span className='feature-img-round'>
-                        {collection && collection.featuredImg ? (
+                        {collection && collection.featuredImgUrl ? (
                           <img className='uploaded-feature-img' src={collection.featuredImgUrl} />
                         ) : (
                           <label className='upload-icon'>
@@ -568,18 +639,7 @@ class CreateCollections extends React.Component<
 }
 
 const mapStateToProps = (state: any) => ({
-  collection: state.collection,
-  // user: state.user,
-  error: state.error,
-  category: state.category,
   connectedAddress: state.wallet.connectedAddress
 });
 
-export default connect(mapStateToProps, {
-  beforeCollection,
-  upsertCollection,
-  emptyError,
-  beforeCategory,
-  getCategories,
-  deployContract
-})(CreateCollections);
+export default connect(mapStateToProps, {})(CreateCollections);

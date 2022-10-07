@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import  { useState, useContext } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getTopSellers, beforeUser } from "../../Components/User/user.action";
 import ViewAllIcon from "../../assets/images/view-all-arrow.svg";
 import SellerTickIcon from "../../assets/images/seller-tick-icon.svg";
 import "./topseller.scss";
@@ -116,6 +115,6 @@ const mapStateToProps = (state: any) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { beforeUser, getTopSellers })(
+export default connect(mapStateToProps, {  })(
   TopSeller
 );

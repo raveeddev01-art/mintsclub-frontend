@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { GET_ERRORS, BEFORE_BID, GET_BIDS, DELETE_BID, CREATE_BID, ACCEPT_BID,GETBIDS_BY_NFT } from '../../redux/types';
-import { emptyError } from '../../redux/shared/error/error.action';
+// import { emptyError } from '../../redux/shared/error/error.action';
 import { ENV } from '../../config/config';
 export const beforeBid = () => {
     return {
@@ -86,7 +86,7 @@ export const getBidSByNftId=(qs='')=>dispatch=>{
 }
 
 export const getBids = (qs = '') => dispatch => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     let url = `${ENV.url}bid/list`;
     if (qs)
         url += `?${qs}`
@@ -128,7 +128,7 @@ export const getBids = (qs = '') => dispatch => {
 };
 
 export const deleteBid = (bidId) => dispatch => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     let url = `${ENV.url}bid/delete/${bidId}`;
 
     fetch(url, {
@@ -170,7 +170,7 @@ export const deleteBid = (bidId) => dispatch => {
 };
 
 export const acceptBid = (body,tokenId) => dispatch => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
    
     const url = `${ENV.url}bid/accept`;
     fetch(url, {

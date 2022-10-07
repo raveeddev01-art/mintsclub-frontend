@@ -2,7 +2,6 @@ import { useState, useEffect, FC, useContext } from 'react';
 import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
 import { connect } from 'react-redux';
 import { ENV } from '../../config/config';
-import { toggleLikeDislike } from '../collections/collections.actions';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import { Images } from '../../assets/assets';
 import Banner from '../../Components/Banner/Banner';
@@ -299,14 +298,12 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  error: state.error,
   connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(
   mapStateToProps,
   {
-    toggleLikeDislike,
   },
   null,
   { forwardRef: true }

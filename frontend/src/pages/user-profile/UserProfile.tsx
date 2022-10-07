@@ -3,32 +3,21 @@ import { connect } from "react-redux";
 import "./UserProfile.scss";
 import { ENV } from "../../config/config";
 import {
-  getProfileNfts,
   getNFTs,
-  beforeNFT,
-  getMyLikedNfts,
 } from "../../Components/Nfts/nfts.action";
-import {
-  toggleLikeDislike,
-  beforeTogleLikeDislike,
-} from "../all-nfts/explore.action";
-import { getUserById, beforeUser } from "../../Components/User/user.action";
+
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
 import { validateNetwork } from "../../utils/web3";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/profileBg.png";
 import BannerDark from "../../assets/images/bannerbg.png";
 import BannerLight from "../../assets/images/bannerbg2.png";
 import EthIcon from "../../assets/images/eth-icon.svg";
 import CopyIcon from "../../assets/images/copy-icon.svg";
 import Listing from "../../Components/Listing/Listing";
-import {
-  beforeCollection,
-  getCollections,
-} from "../collections/collections.actions";
+
 import { Link } from "react-router-dom";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { useHistory } from "react-router";
@@ -140,15 +129,6 @@ const UserProfile = (props: any) => {
     "nftLikes/likeDislike",
     onSuccessLikeDislike
   );
-  useEffect(() => {
-    if (props.getAuth) {
-      let myCollections = props.collections.filter(
-        (item: any) => item.userId === userId
-      );
-      setCollections(myCollections);
-      props.beforeCollection();
-    }
-  }, [props.getAuth]);
 
   useEffect(() => {
     if (accAddress === "") {
@@ -218,7 +198,7 @@ const UserProfile = (props: any) => {
         }
       }
     } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+      toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
     }
   };
 
@@ -435,28 +415,11 @@ const UserProfile = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  profileNFTs: state.nft.profileNFTs,
-  profileNFTsStatus: state.nft.profileNFTsStatus,
   myLikedNfts: state.nft.myLikedNfts,
   myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  individualUser: state.user.individualUser,
-  individualUserAuth: state.user.individualUserAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-  collections: state.collection.collections,
-  getAuth: state.collection.getAuth,
-  nft: state.nft,
   connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
-  getProfileNfts,
-  getNFTs,
-  beforeNFT,
-  toggleLikeDislike,
-  getMyLikedNfts,
-  getUserById,
-  beforeUser,
-  beforeTogleLikeDislike,
-  getCollections,
-  beforeCollection,
+  getNFTs
 })(UserProfile);

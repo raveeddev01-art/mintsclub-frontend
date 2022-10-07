@@ -15,7 +15,7 @@ import {
   CREATE_NFT_AUTH,
 } from "../../redux/types";
 import { ENV } from "../../config/config";
-import { emptyError } from "../../redux/shared/error/error.action";
+// import { emptyError } from "../../redux/shared/error/error.action";
 import { axiosPostFormData, handleRequest } from "../../utils/functions";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ export const beforeNFT = () => {
 export const upsertNFT =
   (type = "create", body, method = "POST") =>
   async (dispatch) => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     try {
       let result = await handleRequest(method, `/nfts/${type}`, body);
       console.log(result, "result");
@@ -56,7 +56,7 @@ export const upsertNFT =
 export const getNFTs =
   (qs = "") =>
   async (dispatch) => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     try {
       let result = await handleRequest("get", "nfts/list", null, qs);
       const { data, success } = result.data;
@@ -84,7 +84,7 @@ export const getNFTs =
   };
 
 export const getNFT = (nftId) => async (dispatch) => {
-  dispatch(emptyError());
+  //// dispatch(emptyError());
   try {
     let result = await handleRequest("get", `nfts/get/${nftId}`);
     const { data, success } = result.data;
@@ -112,7 +112,7 @@ export const getNFT = (nftId) => async (dispatch) => {
 };
 
 export const createActivity = (body) => async (dispatch) => {
-  dispatch(emptyError());
+  //// dispatch(emptyError());
   try {
     let res = await handleRequest("post", "activity/create", body);
     const { success, data } = res.data;
@@ -133,7 +133,7 @@ export const createActivity = (body) => async (dispatch) => {
 export const getActivities =
   (qs = null) =>
   async (dispatch) => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     try {
       let result = await handleRequest("get", "activity/get", null, qs);
       const { data, success } = result.data;
@@ -158,7 +158,7 @@ export const getActivities =
 export const getItemsListing =
   (qs = null) =>
   (dispatch) => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     let url = `${ENV.url}itemsListing/list`;
     if (qs) {
       url += `?${qs}`;
@@ -185,7 +185,7 @@ export const beforeNFTByCollection = () => (dispatch) => {
 };
 
 export const getNFTsByCollection = (id) => async (dispatch) => {
-  dispatch(emptyError());
+  //// dispatch(emptyError());
   try {
     let payload = {
       collectionId: id,
@@ -218,7 +218,7 @@ export const getNFTsByCollection = (id) => async (dispatch) => {
 export const getMyLikedNfts =
   (qs = "") =>
   async (dispatch) => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
     try {
       const res = await handleRequest("get", "nftLikes/userNftLikes", null, qs);
       const { success, data } = res.data;
@@ -278,7 +278,7 @@ export const addNFTRecord = (formData) => async (dispatch) => {
 export const getProfileNfts =
   (qs = "") =>
   async (dispatch) => {
-    dispatch(emptyError());
+    //// dispatch(emptyError());
 
     try {
       const res = await handleRequest("get", "nfts/list", null, qs);

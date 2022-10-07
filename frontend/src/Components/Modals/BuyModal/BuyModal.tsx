@@ -342,7 +342,7 @@ const BuyModal: FC<Buy> = (props) => {
             className="status-address"
             onClick={() =>
               window.open(
-                `https://rinkeby.etherscan.io/tx/${transactionHash}`,
+                `https://goerli.etherscan.io/tx/${transactionHash}`,
                 "_blank"
               )
             }

@@ -152,11 +152,6 @@ export interface HeroCardInt {
   status: string;
 }
 export interface footerInt {
-  subscribeAuth: boolean;
-  error: any;
-  emptyError: () => any;
-  beforeFooter: () => any;
-  subscribeUser: (email: any) => any;
 }
 
 export interface listingInt {

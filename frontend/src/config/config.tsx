@@ -14,7 +14,7 @@ export const ENV = {
   url: process.env.REACT_APP_BASE_URL,
   adminUrl: process.env.REACT_APP_ADMIN_BASE_URL,
   // url:"https://v2-mintsclubapi.invo.zone/v1/front/",
-  chainId: 4,
+  chainId: process.env.REACT_APP_CHAINID,
   assetUrl: process.env.REACT_APP_BASE_URL,
   currency: process.env.REACT_APP_CURRENCY,
   appName: process.env.REACT_APP_NAME,

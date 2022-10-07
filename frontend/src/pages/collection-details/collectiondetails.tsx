@@ -8,9 +8,7 @@ import { validateNetwork } from '../../utils/web3';
 import Listing from '../../Components/Listing/Listing';
 import { toast } from 'react-toastify';
 import Banner from '../../Components/Banner/Banner';
-import BannerBg from '../../assets/images/profileBg.png';
 import BannerDark from '../../assets/images/bannerbg.png';
-import { ReactComponent as PolygonIcon } from '../../assets/images/poligon.svg';
 import BannerLight from '../../assets/images/bannerbg2.png';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Images, blockchainIcons } from '../../assets/assets';
@@ -124,7 +122,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
         }
       } else {
         toast.error(
-          'Please Connect Your Metamask With Ethereum Rinkby Network'
+          'Please Connect Your Metamask With Ethereum Goerli Network'
         );
       }
     } else {
@@ -264,8 +262,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   );
 };
 const mapStateToProps = (state: any) => ({
-  nft: state.nft,
-  user: state.user,
 });
 
 export default connect(mapStateToProps, {})(CollectionDetailsPage);
