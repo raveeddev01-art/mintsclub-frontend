@@ -444,7 +444,7 @@ class CreateNFT extends React.Component<
       let collectioncontractAddress;
       if (!this.state.isFreeMint) { 
         const res = await handleRequest("get",
-        `collection/getCollectonAbi/${this.state.selectedCollection.value}`);
+        `collection/get/${this.state.selectedCollection.value}`);
         if (res.data.collection.deploy === true) {
            collectionContractAbi = JSON.stringify(res.data.collection.abi);  
            collectioncontractAddress = res.data.collection.contractAddress;  
