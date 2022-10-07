@@ -15,6 +15,8 @@ import {
   getCurrentAddress,
   mintNFt,
   validateNetwork,
+  getCollectionContractMethods
+
 } from "../../utils/web3";
 import "./createNft.scss";
 import AddIcon from "../../assets/images/add-icon.svg";
@@ -38,6 +40,9 @@ import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 import { handleRequest } from "../../utils/functions";
+
+import abi from "../../utils/abis/v2-abi.json";
+const mintsClubContractAddress = ENV.mintsClubContractAddress;
 
 const placeholderImg = "";
 
@@ -114,6 +119,8 @@ class CreateNFT extends React.Component<
     isFreeMint: any;
     playerState: any;
     nftInfo: any;
+    deploy :boolean;
+
   }
 > {
   validator: SimpleReactValidator;
@@ -123,6 +130,7 @@ class CreateNFT extends React.Component<
     this.myRef = React.createRef();
     this.state = {
       isSubmitted: false,
+      deploy : false,
       formValid: true,
       loader: true,
       errors: "",
@@ -231,7 +239,7 @@ class CreateNFT extends React.Component<
         let obj = {
           value: item._id,
           label: item.name,
-          categoryId: item.categoryId,
+          categorydeployId: item.categoryId,
         };
         updatedCollections.push(obj);
       }
@@ -326,6 +334,8 @@ class CreateNFT extends React.Component<
     }
   };
 
+
+
   togglePlay = () => {
     let test = { ...this.state.playerState };
     test = { ...test, isPlaying: !test.isPlaying };
@@ -400,7 +410,7 @@ class CreateNFT extends React.Component<
                 loader: true,
               },
               async () => {
-                this.pinFileToIPFS(nft.image, nftInfo);
+                 this.pinFileToIPFS(nft.image, nftInfo);
               }
             );
           } else {
@@ -428,11 +438,26 @@ class CreateNFT extends React.Component<
     data.metaData = metaData.metaDataUrl;
     data.remainingCopies = data.copies;
     data.activeAuction = null;
-
     try {
       let paylaod = {};
-      if (!this.state.isFreeMint) {
-        let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+      let collectionContractAbi;
+      let collectioncontractAddress;
+      if (!this.state.isFreeMint) { 
+        const res = await handleRequest("get",
+        `collection/getCollectonAbi/${this.state.selectedCollection.value}`);
+        if (res.data.collection.deploy === true) {
+           collectionContractAbi = JSON.stringify(res.data.collection.abi);  
+           collectioncontractAddress = res.data.collection.contractAddress;  
+          console.log(await getCollectionContractMethods(collectionContractAbi,
+            collectioncontractAddress));
+        }
+        else{
+          collectionContractAbi = abi;
+          collectioncontractAddress = mintsClubContractAddress;
+          console.log(await getCollectionContractMethods(collectionContractAbi,collectioncontractAddress));
+        }
+        let  createNftResult = await mintNFt(metaData, this.state.nft.copies,
+          collectionContractAbi,collectioncontractAddress);
         if (createNftResult.events.TransferSingle.returnValues.id) {
           paylaod = {
             nftToken: createNftResult.events.TransferSingle.returnValues.id,
@@ -453,6 +478,7 @@ class CreateNFT extends React.Component<
       }
       this.insertNFT(paylaod);
     } catch (err: any) {
+      console.log(err);
       toast.error(err);
       this.setState({ loader: false });
     }
@@ -811,6 +837,7 @@ class CreateNFT extends React.Component<
       errorMessage,
       audioUrl,
       selectedCollection,
+     
     } = this.state;
     const { connectedAddress } = this.props;
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
@@ -1283,7 +1310,7 @@ class CreateNFT extends React.Component<
                 <div className="create-collection-btn-container">
                   <button
                     className="btn create-collection-btn btn-linear-gradient mt-5"
-                    disabled={this.handleBtnDisable()}
+                    // disabled={this.handleBtnDisable()}
                     onClick={(e) => this.submit(e)}
                   >
                     Create NFT
