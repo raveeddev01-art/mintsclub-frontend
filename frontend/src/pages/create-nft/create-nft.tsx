@@ -469,7 +469,6 @@ class CreateNFT extends React.Component<
     if (file.name) {
       let originalFile: any = new FormData();
       let compressedFile: any = new FormData();
-      console.log(compressedFile,"compressedFile")
       let thumbnail = await compressImage(file);
       originalFile.append("file", file);
       compressedFile.append("file", thumbnail);
@@ -811,6 +810,7 @@ class CreateNFT extends React.Component<
       return false;
     }
   };
+
   render() {
     const {
       nft,

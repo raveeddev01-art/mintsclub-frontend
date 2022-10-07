@@ -46,7 +46,6 @@ const NFTCard: FC<NFTCardInt> = (props) => {
       return false;
     }
   };
-
   return (
     <Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
       <div className='nft-img-wrapper'>
