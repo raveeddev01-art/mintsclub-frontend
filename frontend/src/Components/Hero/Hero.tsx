@@ -6,19 +6,30 @@ import Play from "../../assets/images/play.svg";
 import CardSlider from "../CardSlider/CardSlider";
 import HeroCards from "../HeroCards/HeroCards";
 import { ENV } from "../../config/config";
-import {
-  beforeAuction,
-  getLiveAuctions,
-} from "../../pages/auctions/auctions.action";
+import { useGetData } from "../../hooks/Common";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
+import qs from "qs";
 
 const Hero: FC<HeroInt> = (props) => {
   const [connectedAddress, setConnectedAddress] = useState<any>("");
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;
+
+// react query code here
+const onSuccessHero = (data: any) => {
+  console.log('data',data);
+  
+  if (data.data.success) {
+    setData(data.data.data.auctions);
+  } else {
+    // setError(data.data.message);
+  }
+};
+const { isLoading: isLoadingCategories } = useGetData('LiveAuctions' ,"auctions/live", null, qs,onSuccessHero);
+
 
   useEffect(() => {
     const setAddress = async () => {
@@ -28,34 +39,6 @@ const Hero: FC<HeroInt> = (props) => {
     setAddress();
   }, []);
 
-  useEffect(() => {
-    props.beforeAuction();
-    const qs = ENV.objectToQueryString({
-      myFilter: "all",
-    });
-    props.getLiveAuctions(qs);
-  }, []);
-
-  useEffect(() => {
-    if (props.auction.auctionsAuth) {
-      const { auctions } = props.auction;
-      let updatedAuctions = [];
-      if (auctions && auctions.length > 1) {
-        setStatus("auctions");
-        updatedAuctions = auctions.filter(
-          (item: any) => item.fileType === "image"
-        );
-        if (updatedAuctions?.length > 6) {
-          updatedAuctions = updatedAuctions.slice(0, 6);
-        }
-        setData(updatedAuctions);
-      } else {
-        setStatus("nfts");
-        setData(WordsFamousNfts);
-      }
-    }
-  }, [props.auction.auctionsAuth]);
-  
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -108,11 +91,4 @@ const Hero: FC<HeroInt> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  auction: state.auction,
-  nft: state.nft,
-});
-export default connect(mapStateToProps, {
-  beforeAuction,
-  getLiveAuctions,
-})(Hero);
+export default Hero
