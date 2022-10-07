@@ -31,6 +31,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
     nftImage,
     auctionEndDate,
     nftName,
+    compressedFile,
     _id,
     nftId,
     highestBid,
@@ -41,7 +42,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
     username,
     profilePhoto,
   } = item;
-
   return (
     <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
       <div className='auction-img-wrapper'>
@@ -54,7 +54,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
               variant='top'
               onLoad={() => setLoader(false)}
               onClick={() => history.push(`explore/nftdetail/${nftId}`)}
-              src={nftImage}
+              src={compressedFile?compressedFile:nftImage}
               alt='AuctionTopImg'
               style={{ display: `${!loader ? 'block' : 'none'}` }}
             />

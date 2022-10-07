@@ -1,43 +1,52 @@
-import { useEffect, useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { connectMetamaskCopy } from "../../utils/web3";
 import "./Hero.scss";
 import Play from "../../assets/images/play.svg";
 import CardSlider from "../CardSlider/CardSlider";
 import HeroCards from "../HeroCards/HeroCards";
 import { ENV } from "../../config/config";
 import { useGetData } from "../../hooks/Common";
-import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
-import qs from "qs";
 
-const Hero: FC<HeroInt> = (props) => {
-  const [connectedAddress, setConnectedAddress] = useState<any>("");
+const Hero: FC<HeroInt> = () => {
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;
-
-// react query code here
-const onSuccessHero = (data: any) => {
-  console.log('data',data);
-  
-  if (data.data.success) {
-    setData(data.data.data.auctions);
-  } else {
-    // setError(data.data.message);
-  }
-};
-const { isLoading: isLoadingCategories } = useGetData('LiveAuctions' ,"auctions/live", null, qs,onSuccessHero);
-
-
   useEffect(() => {
-    const setAddress = async () => {
-      let connectedAddress = await connectMetamaskCopy();
-      setConnectedAddress(connectedAddress);
-    };
-    setAddress();
+    refetch();
   }, []);
+  // react query code here
+  const onSuccessHero = (data: any) => {
+    if (data.data.success) {
+      const { auctions } = data.data.data;
+      let updatedAuctions = [];
+      if (auctions && auctions.length > 1) {
+        setStatus("auctions");
+        updatedAuctions = auctions.filter(
+          (item: any) => item.fileType === "image"
+        );
+        if (updatedAuctions?.length > 6) {
+          updatedAuctions = updatedAuctions.slice(0, 6);
+        }
+        setData(updatedAuctions);
+      } else {
+        setStatus("nfts");
+        setData(WordsFamousNfts);
+      }
+    } else {
+      // setError(data.data.message);
+    }
+  };
+
+  const { refetch } = useGetData(
+    "heroAuctions",
+    "auctions/live",
+    ENV.objectToQueryString({
+      myFilter: "all",
+    }),
+    onSuccessHero
+  );
 
   return (
     <section className="hero-section padding-wrapper">
@@ -57,7 +66,7 @@ const { isLoading: isLoadingCategories } = useGetData('LiveAuctions' ,"auctions/
             <div className="button-group mt-lg-5 d-flex">
               <Link
                 className="btn btn-linear-gradient btn-hero-create me-sm-4"
-                to={connectedAddress ? "/create" : "/login"}
+                to={"/create"}
               >
                 Create
               </Link>
@@ -91,4 +100,4 @@ const { isLoading: isLoadingCategories } = useGetData('LiveAuctions' ,"auctions/
   );
 };
 
-export default Hero
+export default Hero;
