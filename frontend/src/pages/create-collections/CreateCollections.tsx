@@ -1,4 +1,4 @@
-import {Component} from "react";
+import { Component } from 'react';
 import axios from 'axios';
 import './CreateCollections.scss';
 import { connect } from 'react-redux';
@@ -19,7 +19,7 @@ import { handleRequest } from '../../utils/functions';
 import { QueryClientHook } from 'react-query-class-component';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
-
+import { deployCollectionContract } from '../../utils/web3';
 const MintSwitch = styled(Switch)(({ theme }: any) => ({
   width: 28,
   height: 16,
@@ -76,6 +76,8 @@ class CreateCollections extends Component<
     selectedCategory?: string;
     selectedOption?: any;
     deploy?: boolean;
+    abi?: any;
+    contractAddress?: string;
   }
 > {
   validator: SimpleReactValidator;
@@ -145,21 +147,18 @@ class CreateCollections extends Component<
   }
   getCategories = async () => {
     try {
-      const res = await handleRequest("get", "category/list");
+      const res = await handleRequest('get', 'category/list');
       const { success, categories, message } = res.data;
       if (success) {
         let updatedCategories = [];
         for (var item of categories) {
           let obj = {
             value: item._id,
-            label: item.name,
+            label: item.name
           };
           updatedCategories.push(obj);
         }
-        this.setState(
-          { categories: updatedCategories, loader: false },
-          () => {}
-        );
+        this.setState({ categories: updatedCategories, loader: false }, () => {});
       } else {
         toast.error(message);
       }
@@ -169,10 +168,11 @@ class CreateCollections extends Component<
   };
   insertCollection = async (data: any) => {
     try {
-      const res: any = await handleRequest("post", "collection/create", data);
+      console.log('sending data', data);
+      const res: any = await handleRequest('post', 'collection/create', data);
       if (res.data.success) {
         toast.success(res.data.message);
-        this.props.history.push("/explore/exploreAll");
+        this.props.history.push('/explore/exploreAll');
       } else {
         toast.error(res.data.message);
         this.setState({ loader: false });
@@ -185,19 +185,10 @@ class CreateCollections extends Component<
 
   getCollectionInfo = async () => {
     try {
-      let res = await handleRequest(
-        "get",
-        `collection/get/${this.props.match.params.id}`
-      );
+      let res = await handleRequest('get', `collection/get/${this.props.match.params.id}`);
       if (res.data.success) {
         const { _id, name } = res.data.collection.categoryId;
-        const {
-          name: collectionName,
-          description,
-          url,
-          logo,
-          featuredImg,
-        } = res.data.collection;
+        const { name: collectionName, description, url, logo, featuredImg } = res.data.collection;
         let { collection } = this.state;
         collection = {
           ...collection,
@@ -207,14 +198,14 @@ class CreateCollections extends Component<
           logo,
           featuredImgUrl: featuredImg,
           featuredImg,
-          categoryId: _id,
+          categoryId: _id
         };
         if (url) {
           collection.url = url;
         }
         this.setState({
           selectedOption: { value: _id._id, label: name },
-          collection,
+          collection
         });
       } else {
         toast.error(res.data.message);
@@ -225,14 +216,32 @@ class CreateCollections extends Component<
     }
   };
   editCollectionInfo = async (data: any) => {
-    let res = await handleRequest("put", `collection/edit`, data);
+    let res = await handleRequest('put', `collection/edit`, data);
   };
   deleteCollection = async () => {
-    let res = await handleRequest(
-      "delete",
-      `collection/delete/${this.props.match.params.id}`
-    );
+    let res = await handleRequest('delete', `collection/delete/${this.props.match.params.id}`);
   };
+  deployCollection = async () => {
+    try {
+      const res = await handleRequest('post', 'collection/deploy');
+      const { success, data, message } = res.data;
+      if (success) {
+        console.log('data', data);
+        const abi = data?.abi;
+        const bytecode = data?.bytecode;
+        const resp = await deployCollectionContract(abi, bytecode);
+        console.log('resp', resp);
+        const contractAddress = resp?.contractadd;
+        const res = { ...data, contractAddress };
+        return res;
+      } else {
+        toast.error(message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
+
   formateCategories = (data: any) => {
     if (data && data?.length > 0) {
       let updatedCategories = [];
@@ -248,7 +257,6 @@ class CreateCollections extends Component<
       return [];
     }
   };
-
   onFileChange(e: any) {
     let file = e.target.files[0];
     if (file)
@@ -321,14 +329,9 @@ class CreateCollections extends Component<
               const { collection } = this.state;
               var formData: any = new FormData();
               for (var val in collection) {
-                if (val === "logo" || val === "featuredImg") {
-                  if (
-                    collection["logo"]?.name &&
-                    collection["featuredImg"]?.name
-                  ) {
-                    let result: any = await this.uploadFileToIpfs(
-                      collection[val]
-                    );
+                if (val === 'logo' || val === 'featuredImg') {
+                  if (collection['logo']?.name && collection['featuredImg']?.name) {
+                    let result: any = await this.uploadFileToIpfs(collection[val]);
                     let url: any = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
                     formData.append(val, url);
                   } else {
@@ -340,12 +343,19 @@ class CreateCollections extends Component<
                 if (collection[val]) {
                 }
               }
-              formData.append("_id", `${this.props.match.params.id}`);
+              formData.append('_id', `${this.props.match.params.id}`);
 
               if (this.props.match.params.id) {
                 return await this.editCollectionInfo(formData);
               }
-              this.insertCollection(formData);
+              if (collection?.deploy) {
+                const response = await this.deployCollection();
+                formData.append('abi', response?.abi);
+                formData.append('contractAddress', `${response?.contractAddress}`);
+                setTimeout(() => this.insertCollection(formData), 5000);
+              } else {
+                this.insertCollection(formData);
+              }
             }
           );
         } else {
@@ -439,16 +449,13 @@ class CreateCollections extends Component<
               bannerImg={BannerImage}
               bg={true}
             />
-            <div className="container">
-              <div className="row">
-                <div className="upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0">
-                  <div className="logo-wrapper">
-                    <div className="logo-image">
+            <div className='container'>
+              <div className='row'>
+                <div className='upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0'>
+                  <div className='logo-wrapper'>
+                    <div className='logo-image'>
                       {collection && collection.logoUrl ? (
-                        <img
-                          className="uploaded-logo-img"
-                          src={collection.logoUrl}
-                        />
+                        <img className='uploaded-logo-img' src={collection.logoUrl} />
                       ) : (
                         <label>
                           <input
@@ -481,14 +488,11 @@ class CreateCollections extends Component<
                     </div>
                     <p className='feature-img-title mt-3 mx-2'>Logo Image*</p>
                   </div>
-                  <div className="feature-wrapper pt-md-0 pt-5">
-                    <div className="feature-image">
-                      <span className="feature-img-round">
+                  <div className='feature-wrapper pt-md-0 pt-5'>
+                    <div className='feature-image'>
+                      <span className='feature-img-round'>
                         {collection && collection.featuredImgUrl ? (
-                          <img
-                            className="uploaded-feature-img"
-                            src={collection.featuredImgUrl}
-                          />
+                          <img className='uploaded-feature-img' src={collection.featuredImgUrl} />
                         ) : (
                           <label className='upload-icon'>
                             <input
@@ -635,7 +639,7 @@ class CreateCollections extends Component<
 }
 
 const mapStateToProps = (state: any) => ({
-  connectedAddress: state.wallet.connectedAddress,
+  connectedAddress: state.wallet.connectedAddress
 });
 
 export default connect(mapStateToProps, {})(CreateCollections);
