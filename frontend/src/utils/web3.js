@@ -65,12 +65,8 @@ export const getChainId = async () => {
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
-<<<<<<< HEAD
-  if (prevNetwork === "Ethereum Goerli") {
-=======
   // if (prevNetwork === "Ethereum Rinkby") {
     if(prevNetwork === "Ethereum Goerli"){
->>>>>>> collecton contract interaction
     return true;
   } else {
     return false;
@@ -109,9 +105,6 @@ export const mintNFt = async (metaData, amount , contractAbi , contractaddress) 
     throw new Error(err);
   }
 };
-
-
-
 
 
 export const openNFTForBidding = async (

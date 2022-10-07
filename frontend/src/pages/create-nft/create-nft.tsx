@@ -410,13 +410,7 @@ class CreateNFT extends React.Component<
                 loader: true,
               },
               async () => {
-
-
-                // this.getCollectionabi();
-
                  this.pinFileToIPFS(nft.image, nftInfo);
-               
-                
               }
             );
           } else {
