@@ -439,7 +439,6 @@ class CreateNFT extends React.Component<
   };
 
   mintNFT = async (nftInfo: any, metaData: any, image: any) => {
-
     let data: any = { ...nftInfo };
     data.image = image;
     data.metaData = metaData.metaDataUrl;
@@ -463,7 +462,6 @@ class CreateNFT extends React.Component<
           collectioncontractAddress = mintsClubContractAddress;
           console.log(await getCollectionContractMethods(collectionContractAbi,collectioncontractAddress));
         }
-
         let  createNftResult = await mintNFt(metaData, this.state.nft.copies,
           collectionContractAbi,collectioncontractAddress);
         if (createNftResult.events.TransferSingle.returnValues.id) {
