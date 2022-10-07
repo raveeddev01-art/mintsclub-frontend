@@ -79,7 +79,7 @@ export const handleRequest = async (method, endpoint, data=null, qs) => {
       "x-auth-token": ENV.x_auth_token,
       "x-access-token":
         ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessTokenhandleRequest
+        ENV.getUserKeys("accessToken").accessToken
           ? ENV.getUserKeys("accessToken").accessToken
           : "",
     };

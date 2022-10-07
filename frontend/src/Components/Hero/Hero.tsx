@@ -6,13 +6,11 @@ import Play from "../../assets/images/play.svg";
 import CardSlider from "../CardSlider/CardSlider";
 import HeroCards from "../HeroCards/HeroCards";
 import { ENV } from "../../config/config";
-// import {
-//   beforeAuction,
-//   getLiveAuctions,
-// } from "../../pages/auctions/auctions.action";
+import { useGetData } from "../../hooks/Common";
 import { connect } from "react-redux";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
+import qs from "qs";
 
 const Hero: FC<HeroInt> = (props) => {
   const [connectedAddress, setConnectedAddress] = useState<any>("");
@@ -30,7 +28,7 @@ const onSuccessHero = (data: any) => {
     // setError(data.data.message);
   }
 };
-const { isLoading: isLoadingCategories } = GetLiveAuctions(onSuccessHero);
+const { isLoading: isLoadingCategories } = useGetData('LiveAuctions' ,"auctions/live", null, qs,onSuccessHero);
 
 
   useEffect(() => {
