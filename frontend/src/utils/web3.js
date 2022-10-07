@@ -23,11 +23,19 @@ export const getWeb3 = async () => {
   return instance;
 };
 
-const getContractMethods = async () => {
+ const getContractMethods = async () => {
   let web3 = await getWeb3();
-  const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
+  const contractM = new web3.eth.Contract(abi,mintsClubContractAddress);
   return contractM;
 };
+
+export const getCollectionContractMethods = async (contractAbi,contractaddress) => {
+  let web3 = await getWeb3();
+  const contractM = new web3.eth.Contract(contractAbi, contractaddress);
+  return contractM;
+};
+
+
 const getNetworkName = (chainId) => {
   let networks = {
     1: "Ethereum Mainnet",
@@ -57,7 +65,12 @@ export const getChainId = async () => {
 export const validateNetwork = async () => {
   let prevNetwork = await getNetworkNameByChainId();
 
+<<<<<<< HEAD
   if (prevNetwork === "Ethereum Goerli") {
+=======
+  // if (prevNetwork === "Ethereum Rinkby") {
+    if(prevNetwork === "Ethereum Goerli"){
+>>>>>>> collecton contract interaction
     return true;
   } else {
     return false;
@@ -72,7 +85,7 @@ export const getBalance = async () => {
   return ethBalance;
 };
 
-export const mintNFt = async (metaData, amount) => {
+export const mintNFt = async (metaData, amount , contractAbi , contractaddress) => {
   let web3 = await getWeb3();
 
   if (!web3) {
@@ -84,7 +97,8 @@ export const mintNFt = async (metaData, amount) => {
 
   try {
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    // const contractM = await getContractMethods();
+    const contractM = await getCollectionContractMethods(contractAbi,contractaddress);
     let result = await contractM.methods
       .mint(connectedAddress, nftAmount, metaData)
       .send({ from: connectedAddress });
@@ -96,15 +110,21 @@ export const mintNFt = async (metaData, amount) => {
   }
 };
 
+
+
+
+
 export const openNFTForBidding = async (
   biddingTime,
   startTime,
   tokenId,
-  copies
+  copies,
+  abi,
+  contractaddress
 ) => {
   try {
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractaddress);
     let id = Number(tokenId);
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
@@ -119,10 +139,10 @@ export const openNFTForBidding = async (
   }
 };
 
-export const placeABid = async (amount, tokenId) => {
+export const placeABid = async (amount, tokenId, abi,contractaddress ) => {
   try {
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractaddress);
     const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
     // let bidAmount = Number(amount) * 1000000000000000000;
     let id = Number(tokenId);
