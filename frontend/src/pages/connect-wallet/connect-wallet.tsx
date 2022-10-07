@@ -170,6 +170,16 @@ const ConnectWallet = (props: any) => {
       func: () => validateUser(null),
     },
   ];
+
+  const algoButtons = [
+    {
+      name: "Algorand",
+      img: "connectModal.metaImg",
+      type: "algorand",
+      func: () => validateUser(null),
+    },
+  ];
+
   return (
     <>
       <Container>
@@ -195,6 +205,24 @@ const ConnectWallet = (props: any) => {
                   })}
                 </div>
               </Tab>
+
+
+              <Tab eventKey="algorand" title="Algorand">
+                <div className="tab-inner-content">
+                  {algoButtons.map((button: any) => {
+                    return (
+                      <button
+                        className="wallet-button"
+                        onClick={() => button.func()}
+                      >
+  
+                        {button.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Tab>
+
               <Tab eventKey="polygon" title="Polygon">
                 2
               </Tab>
