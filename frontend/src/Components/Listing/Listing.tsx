@@ -265,43 +265,29 @@ const Listing: FC<listingInt> = (props) => {
             <div
               className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between`}
             >
-              <div className="d-flex align-items-center flex-lg-row flex-column">
-                <div className="search-input mb-4 mb-lg-0">
-                  <input
-                    type="text"
-                    placeholder="Search items and accounts"
-                    maxLength={50}
-                    onChange={(e: any) => {
-                      if (
-                        keyword.trim() === '' &&
-                        e.target.value.trim() === ''
-                      ) {
-                        return false;
-                      } else if (e.target.value === '') {
-                        handleSearchKeyword(false);
-                        setKeyword(e.target.value);
-                      } else {
-                        setKeyword(e.target.value);
-                      }
-                    }}
-                    onKeyPress={(e: any) =>
-                      e.key === 'Enter' && handleSearchKeyword(keyword)
+              <div className="search-input mb-4 mb-lg-0">
+                <input
+                  type="text"
+                  placeholder="Search items and accounts"
+                  maxLength={50}
+                  onChange={(e: any) => {
+                    if (keyword.trim() === '' && e.target.value.trim() === '') {
+                      return false;
+                    } else if (e.target.value === '') {
+                      handleSearchKeyword(false);
+                      setKeyword(e.target.value);
+                    } else {
+                      setKeyword(e.target.value);
                     }
-                    value={keyword}
-                  />
-                  <SearchIcon />
-                </div>
-                {/* <div className="edit-buttons ms-4 mb-lg-0 mb-4">
-                  <button className="delete">
-                    <img src={editImage.deleteIcon} className="me-2" />
-                    Delete
-                  </button>
-                  <button className="edit">
-                    <img src={editImage.editIcon} className="me-2" />
-                    Edit
-                  </button>
-                </div> */}
+                  }}
+                  onKeyPress={(e: any) =>
+                    e.key === 'Enter' && handleSearchKeyword(keyword)
+                  }
+                  value={keyword}
+                />
+                <SearchIcon />
               </div>
+
               <div className="sort-by-select mb-4 mb-md-0">
                 <p className="me-3">Sort by:</p>
                 <Select

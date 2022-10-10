@@ -3,7 +3,6 @@ import { BannerInterface } from '../../interfaces/components';
 import { editImage } from '../../assets/assets';
 import './Banner.scss';
 
-
 const Banner: FC<BannerInterface> = ({
   subHeading,
   heading,
@@ -14,7 +13,7 @@ const Banner: FC<BannerInterface> = ({
   bg,
   btns,
   onEdit,
-  onDelete
+  onDelete,
 }) => {
   return (
     <>
@@ -36,12 +35,12 @@ const Banner: FC<BannerInterface> = ({
                   )}
                   {content && <p className="">{content}</p>}
                   {btns && (
-                    <div className="edit-buttons">
-                      <button className="delete" onClick={()=>onDelete?.()}>
-                        <img src={editImage.deleteIcon}  className="me-2" />
+                    <div className="edit-buttons mt-3">
+                      <button className="delete" onClick={() => onDelete?.()}>
+                        <img src={editImage.deleteIcon} className="me-2" />
                         Delete
                       </button>
-                      <button className="edit" onClick={()=>onEdit?.()} >
+                      <button className="edit" onClick={() => onEdit?.()}>
                         <img src={editImage.editIcon} className="me-2" />
                         Edit
                       </button>

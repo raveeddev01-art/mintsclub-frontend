@@ -243,7 +243,7 @@ class CreateCollections extends Component<
       } else {
         toast.error(res.data.message);
       }
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
@@ -259,7 +259,7 @@ class CreateCollections extends Component<
       } else {
         toast.error(res.data.message);
       }
-    } catch (err:any) {
+    } catch (err: any) {
       toast.error(err.message);
     }
   };
@@ -636,7 +636,7 @@ class CreateCollections extends Component<
                   />
                 </div>
 
-                <div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+                <div className="col-lg-4 col-md-6 mt-3 mt-md-0 position-relative">
                   <label className="create-collection-label">URL:</label>
                   <span className="text-danger position-absolute top-0">
                     {this.validator.message("url", collection.url, "url")}
