@@ -235,13 +235,33 @@ class CreateCollections extends Component<
     }
   };
   editCollectionInfo = async (data: any) => {
-    let res = await handleRequest("put", `collection/edit`, data);
+    try {
+      let res = await handleRequest("put", `collection/edit`, data);
+      if (res.data.success) {
+        toast.success("collection updated successfully");
+        this.props.history.push("/my-collection");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err:any) {
+      toast.error(err.message);
+    }
   };
   deleteCollection = async () => {
-    let res = await handleRequest(
-      "delete",
-      `collection/delete/${this.props.match.params.id}`
-    );
+    try {
+      let res = await handleRequest(
+        "delete",
+        `collection/delete/${this.props.match.params.id}`
+      );
+      if (res.data.success) {
+        toast.success("collection deleted successfully");
+        this.props.history.push("/my-collection");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err:any) {
+      toast.error(err.message);
+    }
   };
   deployCollection = async () => {
     try {
