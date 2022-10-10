@@ -38,7 +38,7 @@ import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 import { handleRequest } from "../../utils/functions";
-
+import {createNFT} from "../../utils/algorand"
 const placeholderImg = "";
 
 const MintSwitch = styled(Switch)(({ theme }) => ({
@@ -433,6 +433,13 @@ class CreateNFT extends React.Component<
       let paylaod = {};
       if (!this.state.isFreeMint) {
         let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+        // const { name, copies } = this.state.nft;
+        // let tokenId = await createNFT({
+        //   assetName: name,
+        //   total: copies,
+        //   metaData,
+        // });
+        // console.log(tokenId,"tokenId in create nft")
         if (createNftResult.events.TransferSingle.returnValues.id) {
           paylaod = {
             nftToken: createNftResult.events.TransferSingle.returnValues.id,
