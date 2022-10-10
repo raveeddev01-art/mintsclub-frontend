@@ -165,7 +165,7 @@ export const formatBytes = (bytes, decimals = 2) => {
 };
 
 
-export const compressImage=(file)=>{
+export const compressImage=(file,convertSize)=>{
   return  new Promise((resolve)=>{
     new Compressor(file,{
       quality:0.8,

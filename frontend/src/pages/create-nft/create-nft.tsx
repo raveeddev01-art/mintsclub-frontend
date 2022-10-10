@@ -461,6 +461,10 @@ class CreateNFT extends React.Component<
       payload.image = image;
     }
     let res = await handleRequest("put", "nfts/updateNft", payload);
+    console.log(res,"res")
+    if(res.data.success){
+      this.props.history.push("/userprofile")
+    }
   };
 
   pinFileToIPFS = async (file: any, nftInfo: any) => {
@@ -472,12 +476,14 @@ class CreateNFT extends React.Component<
       let thumbnail = await compressImage(file);
       originalFile.append("file", file);
       compressedFile.append("file", thumbnail);
-      console.log(formatBytes(thumbnail.size).split(" "),"compressed file size");
+      console.log(
+        formatBytes(thumbnail.size).split(" "),
+        "compressed file size"
+      );
       const orignalIpfsFile: any = await this.uploadFileToIpfs(originalFile);
       const compressedIpfsFile: any = await this.uploadFileToIpfs(
         compressedFile
       );
-
       fileUrl = `https://mintsclub.mypinata.cloud/ipfs/${orignalIpfsFile.data.IpfsHash}`;
       compressedFileUrl = `https://mintsclub.mypinata.cloud/ipfs/${compressedIpfsFile.data.IpfsHash}`;
       // const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
@@ -1275,21 +1281,23 @@ class CreateNFT extends React.Component<
                     )}
                   </div>
                 </div>
-                <div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-                  <div>
-                    <label className="create-collection-label ms-0">
-                      Free minting
-                    </label>
-                    <p>Buyer will pay gas fess for minting</p>
+                {!this.props.match.params.nftId && (
+                  <div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+                    <div>
+                      <label className="create-collection-label ms-0">
+                        Free minting
+                      </label>
+                      <p>Buyer will pay gas fess for minting</p>
+                    </div>
+                    <MintSwitch
+                      checked={this.state.isFreeMint}
+                      onChange={() => {
+                        this.setState({ isFreeMint: !this.state.isFreeMint });
+                      }}
+                      inputProps={{ "aria-label": "mint" }}
+                    />
                   </div>
-                  <MintSwitch
-                    checked={this.state.isFreeMint}
-                    onChange={() => {
-                      this.setState({ isFreeMint: !this.state.isFreeMint });
-                    }}
-                    inputProps={{ "aria-label": "mint" }}
-                  />
-                </div>
+                )}
 
                 <div className="create-collection-btn-container">
                   <button
@@ -1297,7 +1305,7 @@ class CreateNFT extends React.Component<
                     disabled={this.handleBtnDisable()}
                     onClick={(e) => this.submit(e)}
                   >
-                    Create NFT
+                  { !this.props.match.params.nftId?"Create NFT":"Save Changes"}
                   </button>
                 </div>
               </div>

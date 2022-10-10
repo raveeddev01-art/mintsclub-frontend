@@ -291,7 +291,7 @@ const Listing: FC<listingInt> = (props) => {
                   />
                   <SearchIcon />
                 </div>
-                <div className="edit-buttons ms-4 mb-lg-0 mb-4">
+                {/* <div className="edit-buttons ms-4 mb-lg-0 mb-4">
                   <button className="delete">
                     <img src={editImage.deleteIcon} className="me-2" />
                     Delete
@@ -300,7 +300,7 @@ const Listing: FC<listingInt> = (props) => {
                     <img src={editImage.editIcon} className="me-2" />
                     Edit
                   </button>
-                </div>
+                </div> */}
               </div>
               <div className="sort-by-select mb-4 mb-md-0">
                 <p className="me-3">Sort by:</p>

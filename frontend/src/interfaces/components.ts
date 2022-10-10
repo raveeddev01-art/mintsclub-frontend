@@ -18,7 +18,10 @@ export interface BannerInterface {
   bannerImg?: string;
   bg?: boolean;
   btns?: boolean;
+  onEdit?:()=>void;
+  onDelete?:()=>void;
 }
+
 export interface TableInterface {
   titles: any[];
   data: any[];
