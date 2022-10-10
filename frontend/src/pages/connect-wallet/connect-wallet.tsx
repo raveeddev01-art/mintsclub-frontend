@@ -44,15 +44,13 @@ const ConnectWallet = (props: any) => {
       toast.error(props.error.message);
     }
   }, [props.error]);
-  useEffect(() => {
-    const getAddress = async () => {
-      const address = await connectMetamask();
-      setConnectedAddres(address);
-    };
-    getAddress();
-  }, []);
-
-
+  // useEffect(() => {
+  //   const getAddress = async () => {
+  //     const address = await connectMetamask();
+  //     setConnectedAddres(address);
+  //   };
+  //   getAddress();
+  // }, []);
 
   const settings = {
     shouldSelectOneAccount: false,
@@ -65,12 +63,21 @@ const connectAlgoWallet = async () => {
     const address = accounts.map((account) => account.address);
     const name = accounts.map((account) => account.name);
     console.log(address + " " + name);
+
+
     setConnectedAddres(address);
+
+
+    console.log("connectedAddress",connectedAddress)
+   
+    validateUser({ blockchainType: "algorand" });
+
+
+
   } catch (err) {
     console.error(err);
   }
 };
-
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window?.ethereum) {
@@ -190,9 +197,6 @@ const connectAlgoWallet = async () => {
   );
 
 
-
-
-
   // Metamask Button
   const walletButtons = [
     {
@@ -200,7 +204,7 @@ const connectAlgoWallet = async () => {
       img: connectModal.metaImg,
       type: "ethereum",
       func: () => validateUser(null),
-    }
+    },
   ];
 
   // Algorand Button
@@ -209,9 +213,15 @@ const connectAlgoWallet = async () => {
       name: "Algorand",
       img: "connectModal.metaImg",
       type: "algorand",
-      func: () => validateUser(null),
+      func: async() =>  {
+
+      validateUser({ blockchainType: "algorand" })
+      
+    
+    }
     },
   ];
+
 
   return (
     <>
@@ -221,6 +231,7 @@ const connectAlgoWallet = async () => {
           <p className="modal-description">
             Select what network and wallet you want to connect
           </p>
+          
           <div className="model-tabs">
             <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
               <Tab eventKey="ethereum" title="Ethereum">
