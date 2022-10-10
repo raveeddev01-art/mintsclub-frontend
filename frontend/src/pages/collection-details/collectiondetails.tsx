@@ -177,6 +177,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     }
   };
   const isOwner = () => {
+    console.log(props?.connectedAddress, location?.state)
     return (
       props?.connectedAddress?.toUpperCase() ===
       location?.state?.ownerAddress?.toUpperCase()
@@ -192,6 +193,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     subHeading: "Explore",
     heading: name,
   };
+  console.log(isOwner(),"isOwner()")
 
   return (
     <>
@@ -203,7 +205,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
           bgImg={darkMode ? BannerDark : BannerLight}
           createdby={username?.[0] && username?.[0]}
           bg={false}
-          btns={isOwner() ? true : false}
+          btns={isOwner()}
           onDelete={() => handleDeleteCollection()}
           onEdit={() => {
             if (isOwnerLoggedIn()) {
