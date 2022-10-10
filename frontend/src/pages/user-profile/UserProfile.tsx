@@ -2,9 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import "./UserProfile.scss";
 import { ENV } from "../../config/config";
-import {
-  getNFTs,
-} from "../../Components/Nfts/nfts.action";
+import { getNFTs } from "../../Components/Nfts/nfts.action";
 
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
@@ -277,6 +275,7 @@ const UserProfile = (props: any) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
+
   if (
     props.connectedAddress === "" ||
     ENV.getUserKeys("address")?.address?.toUpperCase() ===
@@ -421,5 +420,5 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-  getNFTs
+  getNFTs,
 })(UserProfile);

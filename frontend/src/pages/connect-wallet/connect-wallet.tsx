@@ -1,6 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import MyAlgoConnect from "@randlabs/myalgo-connect";
-
+import { useState, useEffect, useContext, useMemo } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
@@ -8,11 +6,9 @@ import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
 import { useHistory, useLocation } from "react-router-dom";
-import {connectWallet} from "../../utils/algorand"
+import { connectWallet } from "../../utils/algorand";
 import { useMutation, useQuery } from "react-query";
 import { handleRequest } from "../../utils/functions";
-
-
 
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
@@ -33,83 +29,79 @@ import { useGetData, useInsertData } from "../../hooks/Common";
 import Web3 from "web3";
 import { ENV } from "../../config/config";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
-const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
-
-
+import {
+  ConnectionProvider,
+  useWallet,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import {
+  WalletDisconnectButton,
+  WalletModalProvider,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+import { clusterApiUrl } from "@solana/web3.js";
+import {
+  PhantomWalletAdapter,
+  PhantomWalletName,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+import reactSelect from "react-select";
+import { WalletName } from "@solana/wallet-adapter-base";
+import { LargeNumberLike } from "crypto";
+require("@solana/wallet-adapter-react-ui/styles.css");
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const history = useHistory();
   const location: any = useLocation();
   const [connectedAddress, setConnectedAddres] = useState<any>(null);
+
   const { setError } = useContext(errorHandler);
+
+  const wallet = useWallet();
+
   useEffect(() => {
     if (props.error) {
       toast.error(props.error.message);
     }
   }, [props.error]);
   // useEffect(() => {
-  //   const getAddress = async () => {
-  //     const address = await connectMetamask();
-  //     setConnectedAddres(address);
-  //   };
-  //   getAddress();
+  //   if (!wallet.connected) {
+  //     const getAddress = async () => {
+  //       const address = await connectMetamask();
+  //       setConnectedAddres(address);
+  //     };
+  //     getAddress();
+  //   }
   // }, []);
 
-  const settings = {
-    shouldSelectOneAccount: false,
-    openManager: false,
-  };
-
-const connectAlgoWallet = async () => {
-   const addr  = await connectWallet()
-   console.log("addr",addr?.[0])
-   props.setWalletAddress(addr?.[0]);
-   
-   let payload = {
-    address: addr?.[0],
-    blockchainType: "algorand"
-  };
-
-  algoLogin(payload)
-  authAlgo({address: addr?.[0]})
-
-};
-
-const onSuccessAlog = (res:any)=>{
-  if(res){
-    console.log(res)
-  }
-}
-const {mutate: algoLogin} = useInsertData( `users/validate/${connectedAddress}`, onSuccessAlog);
-
-  const connectMetamaskCall = async () => {
-    if (detectMobile() && !window?.ethereum) {
-      window.open(
-        "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
-      );
-    } else {
-      // if (getChainId !== ENV.chainId) {
-      //   try {
-      //     await switchNetworkToChainId(ENV.chainId);
-      //   } catch (error:any) {
-      //     return toast.error(error.message);
-      //   }
-      // }
-      let connectedAddress: any = false;
-      if (detectMobile()) {
-        connectedAddress = await getWalletAddress();
-      } else {
-        try {
-          connectedAddress = await connectWithMetamask();
-        } catch (err: any) {
-          return "";
-        }
-      }
-      login(connectedAddress);
-      console.log(connectedAddress, "connectedAddress");
-    }
-  };
+  // const connectMetamaskCall = async () => {
+  //   if (detectMobile() && !window?.ethereum) {
+  //     window.open(
+  //       "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
+  //     );
+  //   } else {
+  //     // if (getChainId !== ENV.chainId) {
+  //     //   try {
+  //     //     await switchNetworkToChainId(ENV.chainId);
+  //     //   } catch (error:any) {
+  //     //     return toast.error(error.message);
+  //     //   }
+  //     // }
+  //     let connectedAddress: any = false;
+  //     if (detectMobile()) {
+  //       connectedAddress = await getWalletAddress();
+  //     } else {
+  //       try {
+  //         connectedAddress = await connectWithMetamask();
+  //       } catch (err: any) {
+  //         return "";
+  //       }
+  //     }
+  //     login(connectedAddress);
+  //     console.log(connectedAddress, "connectedAddress");
+  //   }
+  // };
 
   const onSuccessLogin = (data: any) => {
     if (data.data.success) {
@@ -120,28 +112,27 @@ const {mutate: algoLogin} = useInsertData( `users/validate/${connectedAddress}`,
     }
   };
 
-
   const { mutate: authAlgo } = useInsertData("auth/login/", onSuccessLogin);
 
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
-  const login = async (connectedAddress: any) => {
-    if (connectedAddress) {
-      try {
-        setDisabled(true);
-        await signRequest();
-        let payload = {
-          address: connectedAddress,
-        };
-        props.setWalletAddress(connectedAddress);
-        auth(payload);
-      } catch (err: any) {
-        setDisabled(false);
-        toast.error(err.message);
-      }
-    }
-    //
-  };
+  // const login = async (connectedAddress: any) => {
+  //   if (connectedAddress) {
+  //     try {
+  //       setDisabled(true);
+  //       await signRequest();
+  //       let payload = {
+  //         address: connectedAddress,
+  //       };
+  //       props.setWalletAddress(connectedAddress);
+  //       auth(payload);
+  //     } catch (err: any) {
+  //       setDisabled(false);
+  //       toast.error(err.message);
+  //     }
+  //   }
+  //   //
+  // };
   const detectMobile = () => {
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -154,21 +145,50 @@ const {mutate: algoLogin} = useInsertData( `users/validate/${connectedAddress}`,
     }
   };
 
+  const signMessageFromUserForSolana = async (nounce: number) => {
+    try {
+      if (wallet.connected) {
+        const data = new TextEncoder().encode(
+          `I am signing my one-time nonce: ${nounce}`
+        );
+        const signature: any =
+          wallet.signMessage && (await wallet.signMessage(data));
+
+        const signatureBase64 = Buffer.from(signature).toString("base64");
+        return { publicAddress: connectedAddress, signature: signatureBase64 };
+      }
+    } catch (err) {
+      console.log(
+        "🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err",
+        err
+      );
+    }
+  };
   /////////////////////////////////////
 
   ///Validate
   const onSuccessValidateUser = async (data: any) => {
-    if (data.data.success) {
-      const publicAddress: any = await connectMetamask();
-      if (data?.data?.users?.length > 0) {
-        const res = await handleSign(data?.data?.users[0].nounce);
-        authenticate(res);
-      } else {
-        handleSignUp({ address: publicAddress });
+    const response = data.data;
+
+    if (response.success) {
+      if (response.blockchainType !== "solana") {
+        if (response?.users?.length > 0) {
+          const res = await handleSign(response?.users[0].nounce);
+          authenticate({ ...res, blockchainType: "ethereum" });
+          return;
+        }
       }
-    } else {
-      setError(data.data.message);
+      if (response?.users?.length > 0) {
+        const res = await signMessageFromUserForSolana(
+          response?.users[0].nounce
+        );
+        authenticate({ ...res, blockchainType: "solana" });
+        return;
+      }
+      handleSignUp({ address: connectedAddress });
     }
+
+    return setError(response.message);
   };
   const { mutate: validateUser } = useInsertData(
     `users/validate/${connectedAddress}`,
@@ -204,90 +224,107 @@ const {mutate: algoLogin} = useInsertData( `users/validate/${connectedAddress}`,
     (err: any) => toast.error(err?.message)
   );
 
-
-  // Metamask Button
-  const walletButtons = [
+  const CHAINS = [
     {
-      name: "MetaMask",
-      img: connectModal.metaImg,
-      type: "ethereum",
-      func: () => validateUser(null),
+      title: "Ethereum",
+      key: "ethereum",
+      wallets: [
+        {
+          name: "Metamask Ethereum",
+          icon: connectModal.metaImg,
+          functionality: async () => {
+            await wallet.disconnect();
+
+            // await connectWithMetamask();
+            const publicAddress: any = await connectMetamask();
+            setConnectedAddres(publicAddress);
+            validateUser({ blockchainType: "ethereum" });
+          },
+        },
+      ],
+    },
+    {
+      title: "Polygon",
+      key: "polygon",
+      wallets: [
+        {
+          name: "Metamask Polygon",
+          icon: connectModal.metaImg,
+          functionality: () => {},
+        },
+      ],
+    },
+    {
+      title: "BSC",
+      key: "binance",
+      wallets: [
+        {
+          name: "Metamask BSC",
+          icon: connectModal.metaImg,
+          functionality: () => {},
+        },
+      ],
+    },
+    {
+      title: "Solana",
+      key: "solana",
+      wallets: [
+        {
+          name: "Solana",
+          icon: connectModal.phantomImg,
+          functionality: async () => {
+            await wallet.disconnect();
+            wallet.select("Phantom" as WalletName);
+          },
+        },
+      ],
     },
   ];
 
-  // Algorand Button
-  const algoButtons = [
-    {
-      name: "Algorand",
-      img: "connectModal.metaImg",
-      type: "algorand",
-      func: async() =>  {
-      validateUser({ blockchainType: "algorand" })
+  useEffect(() => {
+    if (wallet.publicKey && wallet.connected) {
+      setConnectedAddres(wallet.publicKey?.toBase58());
+      if (connectedAddress) {
+        validateUser({ blockchainType: "solana" });
+      }
+      return;
     }
-    },
-  ];
-
+  }, [wallet.connected, wallet.publicKey]);
 
   return (
-    <>
-      <Container>
-        <div className="connect-wallet-container">
-          <h3 className="modal-title">Connect Your Wallet</h3>
-          <p className="modal-description">
-            Select what network and wallet you want to connect
-          </p>
-          
-          <div className="model-tabs">
-            <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
-              <Tab eventKey="ethereum" title="Ethereum">
-                <div className="tab-inner-content">
-                  {walletButtons.map((button: any) => {
-                    return (
-                      <button
-                        className="wallet-button"
-                        onClick={() => button.func()}
-                      >
-                        <img src={button.img} alt="services" />
-                        {button.name}
-                      </button>
-                    );
-                  })}
-                </div>
+    <Container>
+      <div className="connect-wallet-container">
+        <h3 className="modal-title">Connect Your Wallet</h3>
+        <p className="modal-description">
+          Select what network and wallet you want to connect
+        </p>
+        <div className="model-tabs">
+          <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
+            {CHAINS.map((chain) => (
+              <Tab eventKey={chain.key} title={chain.title}>
+                {chain.wallets?.map((wallet) => (
+                  <div className="tab-inner-content">
+                    <button
+                      className="wallet-button"
+                      onClick={wallet.functionality}
+                    >
+                      <img src={wallet.icon} alt="wallet-icon" />
+                      {wallet.name}
+                    </button>
+                  </div>
+                ))}
               </Tab>
-
-              <Tab eventKey="algorand" title="Algorand">
-                <div className="tab-inner-content">
-                  {algoButtons.map((button: any) => {
-                    return (
-                      <button
-                        className="wallet-button"
-                        onClick={connectAlgoWallet}
-                      >
-  
-                        {button.name}
-                      </button>
-                    );
-                  })}
-                </div>
-              </Tab>
-
-              <Tab eventKey="polygon" title="Polygon">
-                2
-              </Tab>
-              <Tab eventKey="cardano" title="Cardano">
-                3
-              </Tab>
-              <Tab eventKey="bsc" title="BSC">
-                3
-              </Tab>
-            </Tabs>
-            {walletButtons && walletButtons.length > 6 && (
-              <button className="show-more-btn">Show More</button>
-            )}
-          </div>
+            ))}
+          </Tabs>
+          {CHAINS && CHAINS.length > 6 && (
+            <button className="show-more-btn">Show More</button>
+          )}
         </div>
-      </Container>
-    </>
+      </div>
+
+      {/* <WalletDisconnectButton /> */}
+      {/* Your app's components go here, nested within the context providers. */}
+    </Container>
   );
 };
 
