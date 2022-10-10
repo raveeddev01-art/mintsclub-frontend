@@ -30,7 +30,6 @@ const App = React.memo((props) => {
   useGaTracker();
   const tawkToPropertyId = ENV.tawkToPropertyId;
   const tawkToKey = ENV.tawkToKey;
-  const wallet = useWallet();
 
   useEffect(async () => {
     tawkTo(tawkToPropertyId, tawkToKey);
@@ -69,9 +68,8 @@ const App = React.memo((props) => {
   // );
   //   return () => {};
   // }, []);
-
+  
   const setWallet = (address) => {
-    console.log("🚀 ~ file: App.js ~ line 73 ~ setWal ~ address", address);
     props.beforeWallet();
     props.setWalletAddress(address);
   };

@@ -13,9 +13,9 @@ function Home() {
   return (
     <>
       <Hero getLiveAuctions={function (qs: any) {
-        throw new Error("Function not implemented.");
+        // throw new Error("Function not implemented.");
       } } beforeAuction={function () {
-        throw new Error("Function not implemented.");
+        // throw new Error("Function not implemented.");
       } } auction={undefined} />
       <Auctions />
       <TopSeller viewAll={"View All"} />

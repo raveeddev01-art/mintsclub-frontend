@@ -8,7 +8,6 @@ import { ENV } from "../../config/config";
 import { useGetData } from "../../hooks/Common";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
-import qs from "qs";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { connectMetamaskCopy } from "../../utils/web3";
 
@@ -74,25 +73,7 @@ const Hero: FC<HeroInt> = (props) => {
     props.getLiveAuctions(qs);
   }, []);
 
-  useEffect(() => {
-    if (props.auction.auctionsAuth) {
-      const { auctions } = props.auction;
-      let updatedAuctions = [];
-      if (auctions && auctions.length > 1) {
-        setStatus("auctions");
-        updatedAuctions = auctions.filter(
-          (item: any) => item.fileType === "image"
-        );
-        if (updatedAuctions?.length > 6) {
-          updatedAuctions = updatedAuctions.slice(0, 6);
-        }
-        setData(updatedAuctions);
-      } else {
-        setStatus("nfts");
-        setData(WordsFamousNfts);
-      }
-    }
-  }, [props.auction.auctionsAuth]);
+ 
 
   return (
     <section className="hero-section padding-wrapper">

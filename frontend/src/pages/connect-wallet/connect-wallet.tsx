@@ -171,19 +171,31 @@ const ConnectWallet = (props: any) => {
     const response = data.data;
 
     if (response.success) {
-      if (response.blockchainType !== "solana") {
+      if (response.blockchainType === "ethereum") {
         if (response?.users?.length > 0) {
           const res = await handleSign(response?.users[0].nounce);
           authenticate({ ...res, blockchainType: "ethereum" });
           return;
         }
       }
-      if (response?.users?.length > 0) {
-        const res = await signMessageFromUserForSolana(
-          response?.users[0].nounce
-        );
-        authenticate({ ...res, blockchainType: "solana" });
-        return;
+
+      if (response.blockchainType === "solana") {
+        if (response?.users?.length > 0) {
+          const res = await signMessageFromUserForSolana(
+            response?.users[0].nounce
+          );
+          authenticate({ ...res, blockchainType: "solana" });
+          return;
+        }
+      }
+
+      if (response.blockchainType === "algorand") {
+        if (response?.users?.length > 0) {
+          ENV.encryptUserData(data.data.data);
+          history.push(location?.state ? location.state : "/");
+          return;
+        }
+        // TODO: Implementation algorand
       }
       handleSignUp({ address: connectedAddress });
     }
@@ -279,16 +291,32 @@ const ConnectWallet = (props: any) => {
         },
       ],
     },
+
+    {
+      title: "Algorand",
+      key: "algorand",
+      wallets: [
+        {
+          name: "Algorand",
+          icon: connectModal.phantomImg,
+          functionality: async () => {
+            validateUser({ blockchainType: "algorand" });
+          },
+        },
+      ],
+    },
   ];
 
   useEffect(() => {
     if (wallet.publicKey && wallet.connected) {
+      props.setWalletAddress(wallet.publicKey?.toBase58());
       setConnectedAddres(wallet.publicKey?.toBase58());
       if (connectedAddress) {
         validateUser({ blockchainType: "solana" });
       }
       return;
     }
+    //  props.setWalletAddress(wallet.publicKey?.toBase58());
   }, [wallet.connected, wallet.publicKey]);
 
   return (
