@@ -1,44 +1,25 @@
-import { useEffect, useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { connectMetamaskCopy } from "../../utils/web3";
 import "./Hero.scss";
 import Play from "../../assets/images/play.svg";
 import CardSlider from "../CardSlider/CardSlider";
 import HeroCards from "../HeroCards/HeroCards";
 import { ENV } from "../../config/config";
-import {
-  beforeAuction,
-  getLiveAuctions,
-} from "../../pages/auctions/auctions.action";
-import { connect } from "react-redux";
+import { useGetData } from "../../hooks/Common";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
 
-const Hero: FC<HeroInt> = (props) => {
-  const [connectedAddress, setConnectedAddress] = useState<any>("");
+const Hero: FC<HeroInt> = () => {
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;
-
   useEffect(() => {
-    const setAddress = async () => {
-      let connectedAddress = await connectMetamaskCopy();
-      setConnectedAddress(connectedAddress);
-    };
-    setAddress();
+    refetch();
   }, []);
-
-  useEffect(() => {
-    props.beforeAuction();
-    const qs = ENV.objectToQueryString({
-      myFilter: "all",
-    });
-    props.getLiveAuctions(qs);
-  }, []);
-
-  useEffect(() => {
-    if (props.auction.auctionsAuth) {
-      const { auctions } = props.auction;
+  // react query code here
+  const onSuccessHero = (data: any) => {
+    if (data.data.success) {
+      const { auctions } = data.data.data;
       let updatedAuctions = [];
       if (auctions && auctions.length > 1) {
         setStatus("auctions");
@@ -53,9 +34,20 @@ const Hero: FC<HeroInt> = (props) => {
         setStatus("nfts");
         setData(WordsFamousNfts);
       }
+    } else {
+      // setError(data.data.message);
     }
-  }, [props.auction.auctionsAuth]);
-  
+  };
+
+  const { refetch } = useGetData(
+    "heroAuctions",
+    "auctions/live",
+    ENV.objectToQueryString({
+      myFilter: "all",
+    }),
+    onSuccessHero
+  );
+
   return (
     <section className="hero-section padding-wrapper">
       <div className="container">
@@ -74,7 +66,7 @@ const Hero: FC<HeroInt> = (props) => {
             <div className="button-group mt-lg-5 d-flex">
               <Link
                 className="btn btn-linear-gradient btn-hero-create me-sm-4"
-                to={connectedAddress ? "/create" : "/login"}
+                to={"/create"}
               >
                 Create
               </Link>
@@ -108,11 +100,4 @@ const Hero: FC<HeroInt> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  auction: state.auction,
-  nft: state.nft,
-});
-export default connect(mapStateToProps, {
-  beforeAuction,
-  getLiveAuctions,
-})(Hero);
+export default Hero;

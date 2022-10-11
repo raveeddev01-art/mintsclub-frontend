@@ -10,4 +10,6 @@ export interface CollectionDetailInt {
     togleLikeRes:boolean,
     beforeNFT:()=>void,
     getNFTs:(qs:any)=>void,
+    match?:any,
+    connectedAddress:string,
 }

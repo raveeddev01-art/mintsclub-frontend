@@ -1,22 +1,22 @@
-import { useState, useEffect, useContext, FC } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import './collectiondetails.scss';
-import TickIcon from '../../assets/images/seller-tick-icon.svg';
-import { connect } from 'react-redux';
-import { ENV } from '../../config/config';
-import { validateNetwork } from '../../utils/web3';
-import Listing from '../../Components/Listing/Listing';
-import { toast } from 'react-toastify';
-import Banner from '../../Components/Banner/Banner';
-import BannerDark from '../../assets/images/bannerbg.png';
-import BannerLight from '../../assets/images/bannerbg2.png';
-import darkModeContext from '../../context/darkmode/DarkModeContext';
-import { Images, blockchainIcons } from '../../assets/assets';
-import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
-import { CollectionDetailInt } from '../../interfaces/CollectionDetail/interface';
-import { useGetMyLikedNFTs, useGetNFTs } from '../../hooks/CollectionDetails';
-import { useInsertData } from '../../hooks/Common';
-import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import { useState, useEffect, useContext, FC } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import "./collectiondetails.scss";
+import TickIcon from "../../assets/images/seller-tick-icon.svg";
+import { connect } from "react-redux";
+import { ENV } from "../../config/config";
+import { validateNetwork } from "../../utils/web3";
+import Listing from "../../Components/Listing/Listing";
+import { toast } from "react-toastify";
+import Banner from "../../Components/Banner/Banner";
+import BannerDark from "../../assets/images/bannerbg.png";
+import BannerLight from "../../assets/images/bannerbg2.png";
+import darkModeContext from "../../context/darkmode/DarkModeContext";
+import { Images, blockchainIcons } from "../../assets/assets";
+import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface";
+import { useGetMyLikedNFTs, useGetNFTs } from "../../hooks/CollectionDetails";
+import { useInsertData, useDeleteData } from "../../hooks/Common";
+import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nfts, setNfts] = useState<any>(null);
@@ -46,7 +46,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     }
   };
   const {} = useGetMyLikedNFTs(
-    ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
+    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
     onSuccessLikedNFTs,
     nfts?.length > 0 ? true : false
   );
@@ -71,7 +71,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 
   //Like/Dislike
   const { mutate } = useInsertData(
-    'nftLikes/likeDislike',
+    "nftLikes/likeDislike",
     onSuccessLikeDislike
   );
 
@@ -81,57 +81,57 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     status: string,
     likesCount: number
   ) => {
-    if (ENV.getUserKeys('_id')?._id) {
+    if (ENV.getUserKeys("_id")?._id) {
       if (await validateNetwork()) {
         if (!likeButtonDisable) {
           setLikeBtnDisable(true);
-          let userId = ENV.getUserKeys('_id')._id;
+          let userId = ENV.getUserKeys("_id")._id;
           let body = {
             userId,
             nftId,
             count: 1,
           };
 
-          if (status === 'dislike' && likesCount > 0) {
+          if (status === "dislike" && likesCount > 0) {
             let result = likedNfts?.filter((item) => item.nftId !== nftId);
             if (result) {
               setLikedNfts(result);
             }
-            increOrDecreLikes(nftId, 'dec');
+            increOrDecreLikes(nftId, "dec");
             mutate(body);
           }
 
-          if (status === 'like') {
+          if (status === "like") {
             let myLikedNfts = [];
             if (likedNfts && likedNfts.length > 0) {
               myLikedNfts = likedNfts;
             }
 
             let obj = {
-              _id: '1234455',
+              _id: "1234455",
               nftId,
             };
 
             myLikedNfts.push(obj);
 
             setLikedNfts(myLikedNfts);
-            increOrDecreLikes(nftId, 'inc');
+            increOrDecreLikes(nftId, "inc");
             mutate(body);
           }
           // setNFTs(nfts);
         }
       } else {
         toast.error(
-          'Please Connect Your Metamask With Ethereum Goerli Network'
+          "Please Connect Your Metamask With Ethereum Goerli Network"
         );
       }
     } else {
-      history.push('/login');
+      history.push("/login");
     }
   };
 
   const increOrDecreLikes = (id: string, status: string) => {
-    if (status === 'dec') {
+    if (status === "dec") {
       let newResult = nfts?.map((item: any) => {
         if (item._id !== id) {
           return item;
@@ -157,16 +157,47 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const fetchData = (filterObj: object) => {
     setFilter(filterObj);
   };
+  const { mutate: deleteCollection } = useDeleteData(
+    `collection/delete/${props.match.params.id}`,
+    (res: any) => {
+      if (res.data.success) {
+        toast.success("Collection Deleted successfully");
+        history.push("/my-collection");
+      }
+    }
+  );
+  const handleDeleteCollection = () => {
+    if (isOwner()) {
+      if (isOwnerLoggedIn()) {
+        toast.info("Please sign in to delete NFT");
+        return history.push("/connect-wallet");
+      } else {
+        deleteCollection(null);
+      }
+    }
+  };
+  const isOwner = () => {
+    console.log(props?.connectedAddress, location?.state)
+    return (
+      props?.connectedAddress?.toUpperCase() ===
+      location?.state?.ownerAddress?.toUpperCase()
+    );
+  };
+  const isOwnerLoggedIn = () => {
+    let userId = ENV.getUserKeys("_id")._id;
+    return !userId || userId !== location.state.userId;
+  };
   const { name, logo, description, username }: any = location.state;
 
   const bannerData = {
-    subHeading: 'Explore',
+    subHeading: "Explore",
     heading: name,
   };
+  console.log(isOwner(),"isOwner()")
 
   return (
     <>
-      <section className='user-profile pt-0 collection'>
+      <section className="user-profile pt-0 collection">
         <Banner
           subHeading={bannerData.subHeading}
           heading={bannerData.heading}
@@ -174,52 +205,61 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
           bgImg={darkMode ? BannerDark : BannerLight}
           createdby={username?.[0] && username?.[0]}
           bg={false}
+          btns={isOwner()}
+          onDelete={() => handleDeleteCollection()}
+          onEdit={() => {
+            if (isOwnerLoggedIn()) {
+              toast.info("Please sign in to edit NFT");
+              return history.push("/connect-wallet");
+            }
+            history.push(`/collection/edit/${props.match.params.id}`);
+          }}
         />
-        <div className='container'>
-          <div className='collection-detail-cards'>
-            <div className='info-card'>
+        <div className="container">
+          <div className="collection-detail-cards">
+            <div className="info-card">
               <h3>0</h3>
               <p>Floor Price</p>
             </div>
-            <div className='info-card'>
+            <div className="info-card">
               <h3>{nftPagination?.total ? nftPagination?.total : 0}</h3>
               <p>Items</p>
             </div>
-            <div className='info-card'>
+            <div className="info-card">
               <h3>0</h3>
               <p>Total Volume</p>
             </div>
-            <div className='info-card'>
+            <div className="info-card">
               <h3>0</h3>
               <p>Avg Sale Price</p>
             </div>
-            <div className='info-card'>
+            <div className="info-card">
               <img src={blockchainIcons.ethereumIcon} />
               <p>Ethereum</p>
             </div>
           </div>
         </div>
-        <div className='collection-detail-content d-none'>
-          <div className='container'>
-            <div className='row'>
-              <div className='col-12'>
-                <div className='d-flex flex-column flex-md-row align-items-center align-items-sm-start'>
-                  <div className='ms-lg-5 collection-owner-avatar user-avatar-container me-3 flex-fill'>
+        <div className="collection-detail-content d-none">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
+                  <div className="ms-lg-5 collection-owner-avatar user-avatar-container me-3 flex-fill">
                     <img
                       src={logo ? logo : Images.profilePlaceholder}
-                      alt='owner-avatar'
+                      alt="owner-avatar"
                     />
                   </div>
-                  <div className='collection-owner-detail text-center text-sm-start mt-2 mt-sm-4'>
-                    <div className='d-flex flex-column flex-sm-row align-items-center justify-content-between'>
-                      <div className='collection-owner-name'>
+                  <div className="collection-owner-detail text-center text-sm-start mt-2 mt-sm-4">
+                    <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+                      <div className="collection-owner-name">
                         <h3>
-                          {name}{' '}
+                          {name}{" "}
                           <span>
                             <img
                               src={TickIcon}
-                              alt='tick-icon'
-                              className='ms-2'
+                              alt="tick-icon"
+                              className="ms-2"
                             />
                           </span>
                         </h3>
@@ -232,13 +272,13 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
                         </div>
                       )}
                     </div>
-                    <div className='collection-owner-description mt-3'>
+                    <div className="collection-owner-description mt-3">
                       <p>{description && description} </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='col-12 col-sm-7 col-md-6 col-lg-5'></div>
+              <div className="col-12 col-sm-7 col-md-6 col-lg-5"></div>
             </div>
           </div>
         </div>
@@ -253,7 +293,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
           nftPagination={nftPagination}
           handleLikesTogleApi={handleLikesTogleApi}
           fetchData={fetchData}
-          path='/explore/nftdetail/'
+          path="/explore/nftdetail/"
           collectionDetail
         />
       </section>
@@ -262,6 +302,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   );
 };
 const mapStateToProps = (state: any) => ({
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {})(CollectionDetailsPage);

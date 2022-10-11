@@ -15,6 +15,19 @@ export const useInsertData = (url: any, onSuccess: any, onError?: any) => {
     }
   );
 };
+export const useDeleteData = (url: any, onSuccess: any, onError?: any) => {
+  const { setError } = useContext(errorHandler);
+  return useMutation(
+    (paylaod?: any) => handleRequest("delete", url, paylaod ? paylaod : null),
+    {
+      onSuccess,
+      onError: (error: any) => {
+        setError(error);
+      },
+    }
+  );
+};
+
 
 export const useEditData = (url: any, onSuccess?: any, onError?: any) => {
   const { setError } = useContext(errorHandler);

@@ -21,7 +21,7 @@ import Twitter from './images/edit-twitter.svg';
 import Insta from './images/edit-insta.svg';
 import Website from './images/edit-website.svg';
 import profilePlaceholder from './images/profilePlaceholder.svg';
-import imagePlaceholder from './images/imagePlaceholder.png';
+import imagePlaceholder from './images/placeholder.svg';
 import placeBid from './images/placeBid.png';
 import community from './images/community.png';
 import ownCollection from './images/ownCollection.png';
@@ -69,6 +69,9 @@ import phantomImg from './images/walletModal/phantomimg.png';
 import wcImg from './images/walletModal/walletconnect.png';
 
 import ethereumIcon from './images/ethereum2.svg';
+import editIcon from './images/edit.svg';
+import deleteIcon from './images/dele.svg';
+import mintingIcon from './images/minting.svg';
 
 // Header images
 import logoDark from './images/dark-theme-logo.svg';
@@ -163,4 +166,7 @@ export const headerImages = {
 
 export const blockchainIcons = {
   ethereumIcon,
+  mintingIcon,
 };
+
+export const editImage = { editIcon, deleteIcon };

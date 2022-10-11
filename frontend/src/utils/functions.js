@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ENV } from "../config/config";
-
+import Compressor from 'compressorjs';
 import { toast } from "react-toastify";
 
 let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -151,163 +151,7 @@ export const firstInputCharacterSpace = (evt, value) => {
   let e = evt || window.event;
   if (value === 0 && e.which === 32) e.preventDefault();
 };
-export const setFixedPriceNftTOken = (body) => {
-  let url = `${ENV.url}nftFixedTokens/getFixedtokens`;
-  // let url = `http://3.142.91.8/v1/front/auctions/live`;
 
-  // console.log(url,"url==>123")
-
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body: body,
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      // console.log(data,"created nft token")
-      if (data.success) {
-      } else {
-      }
-    })
-    .catch((errors) => {
-      console.log(errors, "error");
-    });
-};
-
-export const changeOwnerShip = (nftOwnerId, currentUserId) => {
-  // alert("changing ownership")
-  let url = `${ENV.url}nfts/editNft`;
-  // console.log('fetch url', url)
-  let body = {
-    nftOwnerId,
-    currentUserId,
-  };
-  fetch(url, {
-    method: "PATCH",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body: JSON.stringify(body),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.status === "success") {
-        toast.success("Successfully bought nft");
-        window.location.href = "/explore-all";
-      }
-      // console.log(data,"response from the change ownershiop")
-    })
-    .catch((errors) => {
-      console.log("error", errors);
-    });
-};
-export const acceptBit = (tokenId, body) => {
-  const url = `${ENV.url}bid/accept`;
-
-  fetch(url, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body: JSON.stringify(body),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        // acceptNftOffer(tokenId,body);
-
-        toast.success(data.message);
-        window.location.href = "/explore-all";
-        // dispatch({
-        //     type: ACCEPT_BID,
-        //     payload: data
-        // })
-      } else {
-        toast.error(data.message);
-      }
-    })
-    .catch((error) => {
-      if (error.response && error.response.data) {
-        const { data } = error.response;
-        if (data.message) toast.error(data.message);
-      }
-    });
-};
-
-export const placeBidApi = (body) => {
-  const url = `${ENV.url}bid/create`;
-
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "Access-Control-Allow-Origin": "*",
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    },
-    body: JSON.stringify(body),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        //    placeBidNft(body,tokenId,price,toAddress,fromAddress)
-
-        toast.success(data.message);
-        window.location.href = "/explore-all";
-        // dispatch({
-        //     type: CREATE_BID,
-        //     payload: data
-        // })
-      } else {
-        toast.error(data.message);
-        // dispatch({
-        //     type: GET_ERRORS,
-        //     payload: data
-        // })
-      }
-    })
-    .catch((error) => {
-      if (error.response && error.response.data) {
-        const { data } = error.response;
-        if (data.message) toast.error(data.message);
-      }
-      // dispatch({
-      //     type: GET_ERRORS,
-      //     payload: error
-      // })
-    });
-};
 export const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
 
@@ -319,3 +163,21 @@ export const formatBytes = (bytes, decimals = 2) => {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 };
+
+
+export const compressImage=(file,convertSize)=>{
+  return  new Promise((resolve)=>{
+    new Compressor(file,{
+      quality:0.8,
+      convertSize:1000000,
+      success: (result)=>{
+        resolve(result)
+       
+      },
+      error(err) {
+        resolve(err)
+      },
+    })
+  })
+ 
+}

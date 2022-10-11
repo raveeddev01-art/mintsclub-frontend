@@ -7,18 +7,18 @@ import { useQuery } from 'react-query';
 
 export const useGetMyLikedNFTs = (qs: any, onSuccess: any, enabled?: any) => {
   const { setError } = useContext(errorHandler);
-
-  return useQuery(
-    ['myLikedNFTs'],
-    () => handleRequest('get', 'nftLikes/userNftLikes', null, qs),
-    {
-      onSuccess,
-      staleTime: 0,
-      onError: (error: any) => {
-        setError(error);
-      },
-      enabled,
-    }
+  return useQuery(['myLikedNFTs'], () =>
+    ENV.getUserKeys('_id')?._id !== undefined
+      ? (handleRequest('get', 'nftLikes/userNftLikes', null, qs),
+        {
+          onSuccess,
+          staleTime: 0,
+          onError: (error: any) => {
+            setError(error);
+          },
+          enabled
+        })
+      : null
   );
 };
 
@@ -41,7 +41,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
       latest,
       gtePrice,
       ltePrice,
-      keyword,
+      keyword
     } = filter;
     if (location?.state?._id) nftQS.collectionId = location.state._id;
     if (collectionId) nftQS.collectionId = collectionId;
@@ -69,12 +69,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
   }
   const qs = ENV.objectToQueryString(nftQS);
   return useQuery(
-    [
-      `collectionNFTs/${
-        location?.state?._id ? location?.state?._id : 'AllNFTs'
-      }`,
-      qs,
-    ],
+    [`collectionNFTs/${location?.state?._id ? location?.state?._id : 'AllNFTs'}`, qs],
     () => handleRequest('get', 'nfts/list', null, qs),
     { onSuccess, staleTime: 0, cacheTime: 0 }
   );

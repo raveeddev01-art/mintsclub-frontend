@@ -6,6 +6,33 @@
   margin-bottom: 17px;
   background-color: var(--ts-card-bg);
 }
+.new-nft-detail .minting-title {
+  display: flex;
+  align-items: center;
+  background: var(--nft-inner-detail-bg);
+  border-radius: 20px;
+  position: absolute;
+  top: 17px;
+  left: 27px;
+
+  .imgdiv {
+    background: var(--nft-inner-detail-bg);
+    box-shadow: 1px 0px 3px rgba(133, 133, 133, 0.4);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+  }
+  p {
+    margin: 0 20px 0 10px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--text-body);
+  }
+}
 
 .new-nft-detail .detail-box h6 {
   font-weight: 700;
