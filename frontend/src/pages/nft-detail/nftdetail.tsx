@@ -65,7 +65,10 @@ import Audio from "../../Components/Audio/Audio";
 import { getBannerData, nftBanner } from "../../utils/exportData";
 import Table from "../../Components/Table/Table";
 import { useGetData, useDeleteData } from "../../hooks/Common";
-
+import MetaData from "../../Components/MetaData/MetaData";
+import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
+import FileDetail from "../../Components/FileDetail/FileDetail";
+import MoreNFTs from "./components/MoreNFTs/MoreNFTs"
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [toggle, setToggle] = React.useState<boolean>(true);
@@ -247,47 +250,6 @@ const NFTDetail = (props: any) => {
       props.beforeNFT();
     }
   }, [props.myLikedNftsStatus]);
-
-  // useEffect(() => {
-  //   if (props.getAuthOffer) {
-  //     setOffers(props.offers);
-  //   }
-  // }, [props.getAuthOffer]);
-
-  // useEffect(() => {
-  //   if (props.getAuth) {
-  //     setBids(props.bids);
-  //   }
-  // }, [props.getAuth]);
-
-  // useEffect(() => {
-  //   if (props.nftsAuth) {
-  //     setNftDetail(props.nftDetail);
-  //     setLoader(false);
-  //     props.beforeNFT();
-
-  //     //get activities
-  //     let activityQs: any = { nftId: props.nftDetail._id };
-  //     activityQs = ENV.objectToQueryString(activityQs);
-  //     props.getActivities(activityQs);
-
-  //     //get offers
-  //     if (props.nftDetail?.auction?.sellingMethod) {
-  //       if (props.nftDetail?.auction?.sellingMethod === 1) {
-  //         let qs: any = { nftId: props.nftDetail._id };
-  //         qs = ENV.objectToQueryString(qs);
-  //         props.getOffers(qs);
-  //       } else {
-  //         let qs: any = { nftId: props.nftDetail._id };
-  //         qs = ENV.objectToQueryString(qs);
-  //         props.getBids(qs);
-  //       }
-  //     }
-
-  //     // Set Next bid to 5%
-  //     setNextBidFivePercHigh();
-  //   }
-  // }, [props.nftsAuth]);
 
   const setNextBidFivePercHigh = (data: any) => {
     let fivePerc: any = "";
@@ -844,6 +806,7 @@ const NFTDetail = (props: any) => {
     copiesForAuction,
     auctionEnded,
   }: any = nftDetail?.auction || {};
+
   const { connectedAddress } = props;
   let nftInfo: any = [
     {
@@ -890,93 +853,12 @@ const NFTDetail = (props: any) => {
       <div className="new-nft-detail padding-wrapper">
         <div className="container">
           <div className="row">
-            <div className="col-lg-4 col-xl-3 order-1 order-lg-0 d-none d-lg-block">
-              {/* <button onClick={() => BuyLazyNft()}>buyNOw</button> */}
-              <div className="detail-box">
-                <h6>Properties</h6>
-                <hr />
-                {properties && properties.length > 0 ? (
-                  properties.map((detail: any, i: any) => {
-                    return (
-                      <div
-                        className="detail-rounded-type d-flex align-items-center"
-                        key={i}
-                      >
-                        <div className="detail-rounded-name">
-                          <p>{detail.name}:</p>
-                        </div>
-                        <div className="detail-content">
-                          <p>{detail.type}</p>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <p className="text-center npf-text">No Properties Found</p>
-                )}
-              </div>
-              <div className="detail-box">
-                <h6>Stats</h6>
-                <hr />
-                <div>
-                  {stats && stats?.length > 0 ? (
-                    stats.map((item: any) => {
-                      return <StatsInfo name={item.name} value={item.value} />;
-                    })
-                  ) : (
-                    <p className="text-center npf-text">No Stats Found</p>
-                  )}
-                </div>
-              </div>
-              <div className="detail-box">
-                <h6>Levels</h6>
-                <hr />
-                <div>
-                  {levels && levels.length > 0 ? (
-                    levels.map((item: any) => {
-                      return (
-                        <LevelsInfo
-                          name={item.name}
-                          value={item.value}
-                          i={undefined}
-                        />
-                      );
-                    })
-                  ) : (
-                    <p className=" text-center npf-text">No Levels Found</p>
-                  )}
-                </div>
-              </div>
-              <div className="detail-box">
-                <h6>Details</h6>
-                <hr />
-                {nftInfo.map((item: any) => {
-                  return (
-                    <div
-                      className={`detail-rounded-type d-flex align-items-center ${
-                        item.title === "Contract Address"
-                          ? "text-highlighted"
-                          : ""
-                      }`}
-                      onClick={() => {
-                        item.title === "Contract Address" &&
-                          window.open(
-                            "https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43",
-                            "_blank"
-                          );
-                      }}
-                    >
-                      <div className={`detail-rounded-name `}>
-                        <p>{item.title}:</p>
-                      </div>
-                      <div className={`detail-content`}>
-                        <p> {item.value}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <MetaData
+              properties={properties}
+              stats={stats}
+              levels={levels}
+              nftInfo={nftInfo}
+            />
 
             <div className="col-lg-8 col-xl-9 order-0 order-lg-1">
               <div className="row g-4 g-lg-5 g-xl-4">
@@ -1065,226 +947,37 @@ const NFTDetail = (props: any) => {
                     ""
                   )}
                 </div>
-                <div className="col-xl-6">
-                  <div className="nft-img-detail">
-                    <h5>NFT Details:</h5>
-                  </div>
-                  <div className="nft-img-detail-box">
-                    <div className="nft-detail-rounded-box">
-                      <p>
-                        {name && name.length > 30
-                          ? name.slice(0, 30) + "..."
-                          : name}
-                      </p>
-                    </div>
-                    <div className="row g-2 g-sm-4">
-                      <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-                        <div className="nft-detail-rounded-box">
-                          <p>
-                            Total Copies: <span>{copies}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-                        <div className="nft-detail-rounded-box">
-                          <p>
-                            Sold: <span>{copies - remainingCopies}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-                        <div className="nft-detail-rounded-box">
-                          <p>
-                            Remaining: <span>{remainingCopies}</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="nft-detail-price d-flex align-items-center  mb-3">
-                      <div className="d-flex align-items-center me-2">
-                        <img src={Images.onsale} className="me-3" />
-                        <h2>{currentPrice}</h2>
-                      </div>
-                      <div className="price-in-dollar">
-                        <p> ($ {(currentPrice * exchangeRate).toFixed(2)})</p>
-                      </div>
-                    </div>
-                    <div className="nft-detail-rounded-box on-sale">
-                      <p>
-                        Copies On Sale:{" "}
-                        <span> {copiesForAuction ? copiesForAuction : 0}</span>
-                      </p>
-                    </div>
-                    <div className="nft-detail-date d-flex align-items-center">
-                      <p>
-                        {sellingMethod && sellingMethod === 2 && (
-                          <>
-                            {auctionEndDate &&
-                              checkIfAuctionStartedorEnded(
-                                auctionStartDate,
-                                auctionEndDate
-                              ) && (
-                                <>
-                                  <img
-                                    src={Images.ClockIcon}
-                                    alt="clock-icon"
-                                    className="me-1"
-                                  />
-                                  <span>
-                                    {checkIfAuctionIsStarted(
-                                      auctionStartDate,
-                                      auctionEndDate
-                                    )}{" "}
-                                    {/* {auctionEndTimeConversion(
-                                      new Date(auctionEndDate)
-                                    )}{" "} */}
-                                  </span>
-                                </>
-                              )}
-                          </>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="nft-detail-owner d-flex align-items-center">
-                    <img
-                      src={
-                        user?.profileImage
-                          ? user?.profileImage
-                          : Images.placeholderImg
-                      }
-                      alt="avatar"
-                      className="me-2"
-                    />
-                    <p>
-                      Owned by:
-                      <span className="text-capitalize ms-1">
-                        {" "}
-                        {ownerAddress?.toUpperCase() ===
-                        connectedAddress?.toUpperCase()
-                          ? "You"
-                          : user?.username
-                          ? user.username
-                          : "unnamed"}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="nft-detail-btn">
-                    {checkIfAuctionStartedorEnded(
-                      auctionStartDate,
-                      auctionEndDate
-                    ) &&
-                      !claimNFT && (
-                        <button
-                          // disabled={disabled}
-                          onClick={() => handleRouting()}
-                        >
-                          {" "}
-                          {ownerAddress?.toUpperCase() ==
-                            connectedAddress.toUpperCase() &&
-                          sellingMethod == 2 &&
-                          auctionEnded == false
-                            ? "End Auction"
-                            : ownerAddress?.toUpperCase() ==
-                                connectedAddress.toUpperCase() &&
-                              sellingMethod == 1 &&
-                              auctionEnded == false
-                            ? "Resale"
-                            : ownerAddress?.toUpperCase() ==
-                              connectedAddress.toUpperCase()
-                            ? "Sell"
-                            : sellingMethod === 2 && auctionEnded == false
-                            ? "Place A Bid"
-                            : sellingMethod === 1 && auctionEnded == false
-                            ? "Buy Now"
-                            : ""}
-                        </button>
-                      )}
+          
+                <FileDetail
+                  info={ {
+                    name,
+                    copies,
+                    remainingCopies,
+                    currentPrice,
+                    copiesForAuction,
+                    sellingMethod,
+                    exchangeRate,
+                    auctionEndDate,
+                    auctionStartDate,
+                    checkIfAuctionIsStarted,
+                    checkIfAuctionStartedorEnded,
+                    user,
+                    ownerAddress,
+                    handleRouting,
+                    claimNFT,
+                    connectedAddress,
+                    auctionEnded,
+                    EndAuction,
+                    Images
+                  }}
+                />
+                <MetaDataSmall
+                  properties={properties}
+                  stats={stats}
+                  levels={levels}
+                  nftInfo={nftInfo}
+                />
 
-                    {claimNFT && (
-                      <button onClick={() => EndAuction()}>
-                        {"Claim NFT"}
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <div className="col-12 d-block d-lg-none">
-                  <div className="detail-box">
-                    <h6>Properties</h6>
-                    <hr />
-                    {properties && properties.length > 0 ? (
-                      properties.map((detail: any, key: any) => {
-                        return (
-                          <div
-                            className="detail-rounded-type d-flex align-items-center"
-                            key={key}
-                          >
-                            <div className="detail-rounded-name">
-                              <p>{detail.name}:</p>
-                            </div>
-                            <div className="detail-content">
-                              <p>{detail.type}</p>
-                            </div>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <p className="text-center">No Properties Foud</p>
-                    )}
-                  </div>
-                  <div className="detail-box">
-                    <h6>Stats</h6>
-                    <hr />
-                    {stats && stats?.length > 0 ? (
-                      stats.map((item: any) => {
-                        return (
-                          <StatsInfo name={item.name} value={item.value} />
-                        );
-                      })
-                    ) : (
-                      <p className="text-center">No Stats Foud</p>
-                    )}
-                  </div>
-
-                  <div className="detail-box">
-                    <h6>Levels</h6>
-                    <hr />
-                    <div>
-                      {levels && levels.length > 0 ? (
-                        levels.map((item: any, i: any) => {
-                          return (
-                            <LevelsInfo
-                              name={item.name}
-                              value={item.value}
-                              i={i}
-                            />
-                          );
-                        })
-                      ) : (
-                        <p className="text-center">No Levels Foud</p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="detail-box">
-                    <h6>Details</h6>
-                    <hr />
-                    {nftInfo.map((detail: any, i: any) => {
-                      return (
-                        <div
-                          className="detail-rounded-type d-flex align-items-center"
-                          key={i}
-                        >
-                          <div className="detail-rounded-name">
-                            <p>{detail.title}:</p>
-                          </div>
-                          <div className="detail-content">
-                            <p>{detail.value}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
                 <div className="col-12 mt-lg-5">
                   <div className="detail-bg-box">
                     <h5>Description:</h5>
@@ -1330,37 +1023,7 @@ const NFTDetail = (props: any) => {
                 </div>
               </div>
             </div>
-            <div className="col-12 order-2 mt-5">
-              <div className="detail-more-collection">
-                <h6>More from this collection</h6>
-              </div>
-              <div className="row align-items-center g-3">
-                {nfts && nfts.length > 0 ? (
-                  nfts.map((nft: any, id: any) => {
-                    if (id <= 3) {
-                      return (
-                        <div
-                          className="col-10 col-sm-6 col-md-4 col-lg-3 px-1"
-                          key={id}
-                        >
-                          {
-                            <NftCard
-                              data={nft}
-                              handleLikesTogleApi={handleLikesTogleApi}
-                              likedNfts={likedNfts}
-                              owner={nft?.owner[0]}
-                              path="/explore/nftdetail/"
-                            />
-                          }
-                        </div>
-                      );
-                    }
-                  })
-                ) : (
-                  <p className="text-center mt-4 text">No NFTs Found</p>
-                )}
-              </div>
-            </div>
+            <MoreNFTs info={{nfts,handleLikesTogleApi,likedNfts}}/>
           </div>
         </div>
       </div>

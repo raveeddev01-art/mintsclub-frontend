@@ -34,9 +34,8 @@ import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 import { handleRequest, compressImage } from "../../utils/functions";
-
+import {createNFT} from "../../utils/algorand"
 const placeholderImg = "";
-
 const MintSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
   height: 16,
