@@ -8,6 +8,12 @@ import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
 import { useHistory, useLocation } from "react-router-dom";
+import {connectWallet} from "../../utils/algorand"
+import { useMutation, useQuery } from "react-query";
+import { handleRequest } from "../../utils/functions";
+
+
+
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
 import {
@@ -28,8 +34,6 @@ import Web3 from "web3";
 import { ENV } from "../../config/config";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
-
-
 
 
 
@@ -58,26 +62,26 @@ const ConnectWallet = (props: any) => {
   };
 
 const connectAlgoWallet = async () => {
-  try {
-    const accounts = await myAlgoConnect.connect(settings);
-    const address = accounts.map((account) => account.address);
-    const name = accounts.map((account) => account.name);
-    console.log(address + " " + name);
-
-
-    setConnectedAddres(address);
-
-
-    console.log("connectedAddress",connectedAddress)
+   const addr  = await connectWallet()
+   console.log("addr",addr?.[0])
+   props.setWalletAddress(addr?.[0]);
    
-    validateUser({ blockchainType: "algorand" });
+   let payload = {
+    address: addr?.[0],
+    blockchainType: "algorand"
+  };
 
+  algoLogin(payload)
+  authAlgo({address: addr?.[0]})
 
-
-  } catch (err) {
-    console.error(err);
-  }
 };
+
+const onSuccessAlog = (res:any)=>{
+  if(res){
+    console.log(res)
+  }
+}
+const {mutate: algoLogin} = useInsertData( `users/validate/${connectedAddress}`, onSuccessAlog);
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window?.ethereum) {
@@ -115,6 +119,10 @@ const connectAlgoWallet = async () => {
       setError(data.data.message);
     }
   };
+
+
+  const { mutate: authAlgo } = useInsertData("auth/login/", onSuccessLogin);
+
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
   const login = async (connectedAddress: any) => {
@@ -214,10 +222,7 @@ const connectAlgoWallet = async () => {
       img: "connectModal.metaImg",
       type: "algorand",
       func: async() =>  {
-
       validateUser({ blockchainType: "algorand" })
-      
-    
     }
     },
   ];
