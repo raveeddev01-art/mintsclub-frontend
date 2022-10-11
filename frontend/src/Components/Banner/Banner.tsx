@@ -35,14 +35,14 @@ const Banner: FC<BannerInterface> = ({
                   )}
                   {content && <p className="">{content}</p>}
                   {btns && (
-                    <div className="edit-buttons mt-3">
+                    <div className="edit-buttons">
                       <button className="delete" onClick={() => onDelete?.()}>
-                        <img src={editImage.deleteIcon} className="me-2" />
-                        Delete
+                        <img src={editImage.deleteIcon} alt="/" />
+                        <span>Delete</span>
                       </button>
                       <button className="edit" onClick={() => onEdit?.()}>
-                        <img src={editImage.editIcon} className="me-2" />
-                        Edit
+                        <img src={editImage.editIcon} alt="/" />
+                        <span>Edit</span>
                       </button>
                     </div>
                   )}
