@@ -178,7 +178,6 @@ class CreateCollections extends Component<
   };
   insertCollection = async (data: any) => {
     try {
-      console.log("sending data", data);
       const res: any = await handleRequest("post", "collection/create", data);
       if (res.data.success) {
         toast.success(res.data.message);
@@ -268,11 +267,9 @@ class CreateCollections extends Component<
       const res = await handleRequest("post", "collection/deploy");
       const { success, data, message } = res.data;
       if (success) {
-        console.log("data", data);
         const abi = data?.abi;
         const bytecode = data?.bytecode;
         const resp = await deployCollectionContract(abi, bytecode);
-        console.log("resp", resp);
         const contractAddress = resp?.contractadd;
         const res = { ...data, contractAddress };
         return res;
@@ -407,12 +404,10 @@ class CreateCollections extends Component<
               }
               if (collection?.deploy) {
                 const response = await this.deployCollection();
-                formData.append("abi", response?.abi);
-                formData.append(
-                  "contractAddress",
-                  `${response?.contractAddress}`
-                );
-                setTimeout(() => this.insertCollection(formData), 5000);
+                formData.append("abi", JSON.stringify(response?.abi));
+                formData.append("contractAddress", response?.contractAddress);
+                // setTimeout(() => this.insertCollection(formData), 5000);
+                this.insertCollection(formData);
               } else {
                 this.insertCollection(formData);
               }
