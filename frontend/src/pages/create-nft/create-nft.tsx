@@ -389,7 +389,6 @@ class CreateNFT extends React.Component<
         },
         () => {
           const { formValid } = this.state;
-          console.log(formValid, "formValid");
           if (formValid) {
             this.setState(
               {
@@ -461,7 +460,6 @@ class CreateNFT extends React.Component<
       payload.image = image;
     }
     let res = await handleRequest("put", "nfts/updateNft", payload);
-    console.log(res,"res")
     if(res.data.success){
       this.props.history.push("/userprofile")
     }
