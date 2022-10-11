@@ -192,6 +192,7 @@ class CreateNFT extends React.Component<
 
   componentDidUpdate = async (prevProps: any, prevState: any) => {
     const { connectedAddress } = this.props;
+   
     if (
       prevProps.connectedAddress !== "" &&
       prevProps.connectedAddress.toUpperCase() !==
@@ -364,8 +365,10 @@ class CreateNFT extends React.Component<
   }
   submit = async (e: any) => {
     e.preventDefault();
-    if (await validateNetwork()) {
+    // if (await validateNetwork()) {
       const { nft, videoURL, audioUrl } = this.state;
+
+      console.log(this.props.connectedAddress);
 
       let nftInfo: any = { ...nft };
       nftInfo.properties = JSON.stringify(nftInfo.properties);
@@ -412,12 +415,13 @@ class CreateNFT extends React.Component<
           }
         }
       );
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
-    }
+    // } else {
+    //   toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
+    // }
   };
 
   mintNFT = async (nftInfo: any, metaData: any, image: any) => {
+    
     let data: any = { ...nftInfo };
     data.image = image;
     data.metaData = metaData.metaDataUrl;
@@ -425,12 +429,24 @@ class CreateNFT extends React.Component<
     data.activeAuction = null;
 
     try {
+
       let paylaod = {};
       if (!this.state.isFreeMint) {
-        let createNftResult = await mintNFt(metaData, this.state.nft.copies);
-        if (createNftResult.events.TransferSingle.returnValues.id) {
+     //   let createNftResult = await mintNFt(metaData, this.state.nft.copies);
+
+
+        const { name, copies } = this.state.nft;
+        let tokenId = await createNFT({
+          assetName: name,
+          total: copies,
+          metaData,
+          
+        });
+        console.log(tokenId,"tokenId in create nft")
+
+        if (tokenId) {
           paylaod = {
-            nftToken: createNftResult.events.TransferSingle.returnValues.id,
+            nftToken: tokenId,
             data,
             image,
             lazyMinted: false,
@@ -452,6 +468,7 @@ class CreateNFT extends React.Component<
       this.setState({ loader: false });
     }
   };
+
   editNFT = async (data: any, metaData: any = null, image: any = null) => {
     let payload = { ...data };
     payload.nftId = `${this.props.match.params.nftId}`;
@@ -622,7 +639,7 @@ class CreateNFT extends React.Component<
             audioUrl: url,
           });
         } else {
-          $(`#nft-${fileId}`).attr("src", placeholderImg);
+          $(`#nft-${fileId}`).attr("src", placeholderImg); 
           file = {};
         }
     } else {
@@ -828,6 +845,7 @@ class CreateNFT extends React.Component<
       selectedCollection,
     } = this.state;
     const { connectedAddress } = this.props;
+    console.log(this.props)
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
@@ -1356,6 +1374,7 @@ class CreateNFT extends React.Component<
         </>
       );
     } else {
+      console.log("breaking here")
       toast.info("Please login with new connected account");
       this.props.history.push({
         pathname: `/connect-wallet`,

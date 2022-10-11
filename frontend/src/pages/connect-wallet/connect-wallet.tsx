@@ -1,4 +1,6 @@
 import { useState, useEffect, useContext } from "react";
+import MyAlgoConnect from "@randlabs/myalgo-connect";
+
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
@@ -6,6 +8,12 @@ import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
 import { useHistory, useLocation } from "react-router-dom";
+import {connectWallet} from "../../utils/algorand"
+import { useMutation, useQuery } from "react-query";
+import { handleRequest } from "../../utils/functions";
+
+
+
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
 import {
@@ -25,6 +33,9 @@ import { useGetData, useInsertData } from "../../hooks/Common";
 import Web3 from "web3";
 import { ENV } from "../../config/config";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
+
+
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
@@ -37,13 +48,40 @@ const ConnectWallet = (props: any) => {
       toast.error(props.error.message);
     }
   }, [props.error]);
-  useEffect(() => {
-    const getAddress = async () => {
-      const address = await connectMetamask();
-      setConnectedAddres(address);
-    };
-    getAddress();
-  }, []);
+  // useEffect(() => {
+  //   const getAddress = async () => {
+  //     const address = await connectMetamask();
+  //     setConnectedAddres(address);
+  //   };
+  //   getAddress();
+  // }, []);
+
+  const settings = {
+    shouldSelectOneAccount: false,
+    openManager: false,
+  };
+
+const connectAlgoWallet = async () => {
+   const addr  = await connectWallet()
+   console.log("addr",addr?.[0])
+   props.setWalletAddress(addr?.[0]);
+   
+   let payload = {
+    address: addr?.[0],
+    blockchainType: "algorand"
+  };
+
+  algoLogin(payload)
+  authAlgo({address: addr?.[0]})
+
+};
+
+const onSuccessAlog = (res:any)=>{
+  if(res){
+    console.log(res)
+  }
+}
+const {mutate: algoLogin} = useInsertData( `users/validate/${connectedAddress}`, onSuccessAlog);
 
   const connectMetamaskCall = async () => {
     if (detectMobile() && !window?.ethereum) {
@@ -81,6 +119,10 @@ const ConnectWallet = (props: any) => {
       setError(data.data.message);
     }
   };
+
+
+  const { mutate: authAlgo } = useInsertData("auth/login/", onSuccessLogin);
+
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
   const login = async (connectedAddress: any) => {
@@ -162,6 +204,8 @@ const ConnectWallet = (props: any) => {
     (err: any) => toast.error(err?.message)
   );
 
+
+  // Metamask Button
   const walletButtons = [
     {
       name: "MetaMask",
@@ -170,6 +214,20 @@ const ConnectWallet = (props: any) => {
       func: () => validateUser(null),
     },
   ];
+
+  // Algorand Button
+  const algoButtons = [
+    {
+      name: "Algorand",
+      img: "connectModal.metaImg",
+      type: "algorand",
+      func: async() =>  {
+      validateUser({ blockchainType: "algorand" })
+    }
+    },
+  ];
+
+
   return (
     <>
       <Container>
@@ -178,6 +236,7 @@ const ConnectWallet = (props: any) => {
           <p className="modal-description">
             Select what network and wallet you want to connect
           </p>
+          
           <div className="model-tabs">
             <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
               <Tab eventKey="ethereum" title="Ethereum">
@@ -195,6 +254,23 @@ const ConnectWallet = (props: any) => {
                   })}
                 </div>
               </Tab>
+
+              <Tab eventKey="algorand" title="Algorand">
+                <div className="tab-inner-content">
+                  {algoButtons.map((button: any) => {
+                    return (
+                      <button
+                        className="wallet-button"
+                        onClick={connectAlgoWallet}
+                      >
+  
+                        {button.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Tab>
+
               <Tab eventKey="polygon" title="Polygon">
                 2
               </Tab>

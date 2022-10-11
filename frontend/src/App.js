@@ -20,39 +20,39 @@ const App = React.memo((props) => {
     tawkTo(tawkToPropertyId, tawkToKey);
   }, [ENV]);
 
-  useEffect(() => {
-    if (!window.ethereum) {
-      return;
-    }
-    const accountWasChanged = (accounts) => {
-      setWallet(accounts[0]);
-    };
+  // useEffect(() => {
+  //   if (!window.ethereum) {
+  //     return;
+  //   }
+  //   const accountWasChanged = (accounts) => {
+  //     setWallet(accounts[0]);
+  //   };
 
-    const getAndSetAccount = async () => {
-      const changedAccounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      if (changedAccounts.length === 0) {
-        toast.error("you are not connected with metamask");
-      }
-      setWallet(changedAccounts[0]);
-    };
-    window.ethereum.on("accountsChanged", accountWasChanged);
-    window.ethereum.on("connect", getAndSetAccount);
-    // window.ethereum.on("disconnect", ()=>alert("account cleared"));
-    window.ethereum.request({ method: "eth_requestAccounts" }).then(
-      (accounts) => {
-        setWallet(accounts[0]);
-      },
-      (error) => {}
-    );
-    return () => {};
-  }, []);
+  //   const getAndSetAccount = async () => {
+  //     const changedAccounts = await window.ethereum.request({
+  //       method: "eth_requestAccounts",
+  //     });
+  //     if (changedAccounts.length === 0) {
+  //       toast.error("you are not connected with metamask");
+  //     }
+  //     setWallet(changedAccounts[0]);
+  //   };
+  //   window.ethereum.on("accountsChanged", accountWasChanged);
+  //   window.ethereum.on("connect", getAndSetAccount);
+  //   // window.ethereum.on("disconnect", ()=>alert("account cleared"));
+  //   window.ethereum.request({ method: "eth_requestAccounts" }).then(
+  //     (accounts) => {
+  //       setWallet(accounts[0]);
+  //     },
+  //     (error) => {}
+  //   );
+  //   return () => {};
+  // }, []);
 
-  const setWallet = (address) => {
-    props.beforeWallet();
-    props.setWalletAddress(address);
-  };
+  // const setWallet = (address) => {
+  //   props.beforeWallet();
+  //   props.setWalletAddress(address);
+  // };
 
   return (
     <React.Fragment>

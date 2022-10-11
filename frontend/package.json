@@ -105,7 +105,7 @@
     "webpack": "^5.74.0"
   },
   "scripts": {
-    "start": "react-app-rewired start --openssl-legacy-provider",
+    "start": "react-app-rewired start",
     "build": "react-app-rewired  build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
