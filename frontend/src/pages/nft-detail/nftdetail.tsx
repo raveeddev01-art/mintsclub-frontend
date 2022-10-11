@@ -64,7 +64,7 @@ import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
 import Audio from "../../Components/Audio/Audio";
 import { getBannerData, nftBanner } from "../../utils/exportData";
 import Table from "../../Components/Table/Table";
-import { useGetData, useDeleteData } from "../../hooks/Common";
+import { useGetData, useDeleteData, useInsertData  } from "../../hooks/Common";
 import MetaData from "../../Components/MetaData/MetaData";
 import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
 import FileDetail from "../../Components/FileDetail/FileDetail";
@@ -338,6 +338,13 @@ const NFTDetail = (props: any) => {
       });
     }
   };
+  const success = () => {
+
+    setLikeBtnDisable(false);
+    console.log("sucees");
+  };
+
+  const { mutate:toggleLikeDislike} = useInsertData("nftLikes/likeDislike", success);
 
   const handleLikesTogleApi = async (nftId: string, status: string) => {
     if (await validateNetwork()) {
@@ -358,14 +365,25 @@ const NFTDetail = (props: any) => {
           nft.likesCount = nft.likesCount - 1;
 
           setNftDetail(nft);
-          props.toggleLikeDislike(data);
+          // props.toggleLikeDislike(data);
+       
+          toggleLikeDislike(data);
+          console.log('if working')
+          
         } else {
           let nft = nftDetail;
           nft.likesCount = nft.likesCount + 1;
 
           setNftDetail(nft);
 
-          props.toggleLikeDislike(data);
+          // props.toggleLikeDislike(data);
+          toggleLikeDislike(data);
+          console.log('else working')
+
+          
+
+
+
         }
       }
     } else {
@@ -421,7 +439,7 @@ const NFTDetail = (props: any) => {
   useEffect(() => {
     if (props.togleLikeRes) {
       setLikeBtnDisable(false);
-      props.beforeTogleLikeDislike();
+      // props.beforeTogleLikeDislike();
     }
   }, [props.togleLikeRes]);
 
