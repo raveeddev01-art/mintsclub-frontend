@@ -360,7 +360,7 @@ const NFTDetail = (props: any) => {
           count: 1,
         };
 
-        if (status === "dislike" && nftDetail.likesCount > 0) {
+        if (status === "dislike" && likesCount > 0) {
           // let nft = nftDetail;
           // nft.likesCount = nft.likesCount - 1;
           // console.log('if nft detail' ,nftDetail.likesCount);
