@@ -287,7 +287,10 @@ export const getMetamaskConnectedAddress = async () => {
 //   }
 // }
 
-export const getCurrentAddress = async () => {
+export const getCurrentAddress = async (wallet) => {
+  if (wallet?.connected) {
+    return wallet.publicKey.toBase58();
+  }
   let web3 = await getWeb3();
   let accounts = await web3.eth.getAccounts();
   let address = accounts[0];

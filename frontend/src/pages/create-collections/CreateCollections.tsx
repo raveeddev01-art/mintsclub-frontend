@@ -68,6 +68,7 @@ const MintSwitch = styled(Switch)(({ theme }: any) => ({
 }));
 class CreateCollections extends Component<
   {
+    blockchainType: string;
     connectedAddress: string;
     history: any;
     match: any;
@@ -84,6 +85,7 @@ class CreateCollections extends Component<
     deploy?: boolean;
     abi?: any;
     contractAddress?: string;
+    blockchainType?: string;
   }
 > {
   validator: SimpleReactValidator;
@@ -371,6 +373,8 @@ class CreateCollections extends Component<
             },
             async () => {
               const { collection } = this.state;
+              collection["blockchainType"] = this.props.blockchainType;
+              console.log("collection", collection);
               var formData: any = new FormData();
               for (var val in collection) {
                 if (val === "logo" || val === "featuredImg") {
@@ -398,17 +402,32 @@ class CreateCollections extends Component<
                 }
               }
               formData.append("_id", `${this.props.match.params.id}`);
-
+              // formData.append(
+              //   "blockchainType",
+              //   `${this.props.blockchainType}}`
+              // );
               if (this.props.match.params.id) {
                 return await this.editCollectionInfo(formData);
               }
               if (collection?.deploy) {
                 const response = await this.deployCollection();
-                formData.append("abi", JSON.stringify(response?.abi));
-                formData.append("contractAddress", response?.contractAddress);
-                // setTimeout(() => this.insertCollection(formData), 5000);
-                this.insertCollection(formData);
+                formData.append("abi", response?.abi);
+                formData.append(
+                  "contractAddress",
+                  `${response?.contractAddress}`
+                );
+                console.log(
+                  "🚀 ~ file: CreateCollections.tsx ~ line 423 ~ formData before time",
+                  formData
+                );
+
+                setTimeout(() => this.insertCollection(formData), 5000);
               } else {
+                console.log(
+                  "🚀 ~ file: CreateCollections.tsx ~ line 427 ~ formData",
+                  formData
+                );
+
                 this.insertCollection(formData);
               }
             }
@@ -735,8 +754,12 @@ class CreateCollections extends Component<
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  connectedAddress: state.wallet.connectedAddress,
-});
+const mapStateToProps = (state: any) => (
+  console.log("State", state),
+  {
+    connectedAddress: state.wallet.connectedAddress,
+    blockchainType: state.wallet.blockchainType,
+  }
+);
 
 export default connect(mapStateToProps, {})(CreateCollections);

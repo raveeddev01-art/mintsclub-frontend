@@ -34,7 +34,9 @@ import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
 import { handleRequest, compressImage } from "../../utils/functions";
-import {createNFT} from "../../utils/algorand"
+import { mintSingleNft } from "../../utils/solana/helper";
+import CreateNft from "./components/createNft";
+
 const placeholderImg = "";
 const MintSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -85,6 +87,7 @@ class CreateNFT extends React.Component<
     history: any;
     match: any;
     connectedAddress: string;
+    blockchainType: string;
   },
   {
     isSubmitted: boolean;
@@ -113,6 +116,7 @@ class CreateNFT extends React.Component<
 > {
   validator: SimpleReactValidator;
   myRef: any;
+  wallet: any;
   constructor(props: any) {
     super(props);
     this.myRef = React.createRef();
@@ -191,7 +195,7 @@ class CreateNFT extends React.Component<
 
   componentDidUpdate = async (prevProps: any, prevState: any) => {
     const { connectedAddress } = this.props;
-   
+
     if (
       prevProps.connectedAddress !== "" &&
       prevProps.connectedAddress.toUpperCase() !==
@@ -362,210 +366,6 @@ class CreateNFT extends React.Component<
   capitalize(word: any) {
     return word[0].toUpperCase() + word.slice(1).toLowerCase();
   }
-  submit = async (e: any) => {
-    e.preventDefault();
-    // if (await validateNetwork()) {
-      const { nft, videoURL, audioUrl } = this.state;
-
-      console.log(this.props.connectedAddress);
-
-      let nftInfo: any = { ...nft };
-      nftInfo.properties = JSON.stringify(nftInfo.properties);
-      nftInfo.levels = JSON.stringify(nftInfo.levels);
-      nftInfo.stats = JSON.stringify(nftInfo.stats);
-      nftInfo.name = this.capitalize(nftInfo.name);
-
-      if (videoURL) {
-        nftInfo.fileType = "video";
-      } else if (audioUrl !== "") {
-        nftInfo.fileType = "audio";
-      } else {
-        nftInfo.fileType = "image";
-      }
-
-      this.setState(
-        {
-          isSubmitted: true,
-          formValid:
-            this.validator.allValid() && nft.collectionId ? true : false,
-        },
-        () => {
-          const { formValid } = this.state;
-          if (formValid) {
-            this.setState(
-              {
-                loader: true,
-              },
-              async () => {
-                this.pinFileToIPFS(nft.image, nftInfo);
-              }
-            );
-          } else {
-            this.validator.showMessages();
-            this.setState(
-              {
-                errors: "Please fill all required fields in valid format.",
-                formValid: false,
-              },
-              () => {
-                $("#create-nft").scrollTop(0);
-              }
-            );
-          }
-        }
-      );
-    // } else {
-    //   toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
-    // }
-  };
-
-  mintNFT = async (nftInfo: any, metaData: any, image: any) => {
-    
-    let data: any = { ...nftInfo };
-    data.image = image;
-    data.metaData = metaData.metaDataUrl;
-    data.remainingCopies = data.copies;
-    data.activeAuction = null;
-
-    try {
-
-      let paylaod = {};
-      if (!this.state.isFreeMint) {
-     //   let createNftResult = await mintNFt(metaData, this.state.nft.copies);
-
-
-        const { name, copies } = this.state.nft;
-        let tokenId = await createNFT({
-          assetName: name,
-          total: copies,
-          metaData,
-          
-        });
-        console.log(tokenId,"tokenId in create nft")
-
-        if (tokenId) {
-          paylaod = {
-            nftToken: tokenId,
-            data,
-            image,
-            lazyMinted: false,
-          };
-        }
-      } else {
-        paylaod = {
-          nftToken: (Math.floor(Math.random() * 10000) + 10000)
-            .toString()
-            .substring(1),
-          data,
-          image,
-          lazyMinted: this.state.isFreeMint,
-        };
-      }
-      this.insertNFT(paylaod);
-    } catch (err: any) {
-      toast.error(err);
-      this.setState({ loader: false });
-    }
-  };
-
-  editNFT = async (data: any, metaData: any = null, image: any = null) => {
-    let payload = { ...data };
-    payload.nftId = `${this.props.match.params.nftId}`;
-    if (metaData) {
-      payload.metaData = metaData;
-      payload.image = image;
-    }
-    let res = await handleRequest("put", "nfts/updateNft", payload);
-    if(res.data.success){
-      this.props.history.push("/userprofile")
-    }
-  };
-
-  pinFileToIPFS = async (file: any, nftInfo: any) => {
-    let fileUrl: any = "";
-    let compressedFileUrl: any = "";
-    if (file.name) {
-      let originalFile: any = new FormData();
-      let compressedFile: any = new FormData();
-      let thumbnail = await compressImage(file);
-      originalFile.append("file", file);
-      compressedFile.append("file", thumbnail);
-      console.log(
-        formatBytes(thumbnail.size).split(" "),
-        "compressed file size"
-      );
-      const orignalIpfsFile: any = await this.uploadFileToIpfs(originalFile);
-      const compressedIpfsFile: any = await this.uploadFileToIpfs(
-        compressedFile
-      );
-      fileUrl = `https://mintsclub.mypinata.cloud/ipfs/${orignalIpfsFile.data.IpfsHash}`;
-      compressedFileUrl = `https://mintsclub.mypinata.cloud/ipfs/${compressedIpfsFile.data.IpfsHash}`;
-      // const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
-    } else {
-      fileUrl = file;
-    }
-    const metaData: any = await this.uploadJsonToIpfs(fileUrl);
-    if (this.props.match.params.nftId) {
-      return this.editNFT(
-        { ...nftInfo, compressedFile: compressedFileUrl },
-        metaData.dataInput.metaDataUrl,
-        metaData.image
-      );
-    }
-    this.mintNFT(
-      { ...nftInfo, compressedFile: compressedFileUrl },
-      metaData.dataInput,
-      metaData.image
-    );
-  };
-
-  uploadFileToIpfs = async (formData: any) => {
-    try {
-      const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-      const response = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": `multipart/form-data; boundary= ${formData._boundary}`,
-          Authorization: `Bearer ${ENV.pinataJWT}`,
-        },
-      });
-      return response;
-    } catch (err: any) {
-      toast.error(err);
-      this.setState({ loader: false });
-    }
-  };
-  uploadJsonToIpfs = async (fileUrl: any) => {
-    let dataInput: any = {};
-    const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-    let properties = {
-      properties: this.state.nft.properties,
-      levels: this.state.nft.levels,
-      stats: this.state.nft.stats,
-    };
-    const data = {
-      name: this.state.nft.name,
-      symbol: "Gamo",
-      sellerFeeBasisPoints: 0,
-      image: fileUrl,
-      description: this.state.nft.description,
-      properties: properties,
-    };
-    try {
-      const response = await axios.post(url, data, {
-        headers: {
-          Authorization: `Bearer ${ENV.pinataJWT}`,
-        },
-      });
-      dataInput.ipfsJsonData = data;
-      dataInput.metaDataUrl =
-        "https://mintsclub.mypinata.cloud/ipfs/" + response.data.IpfsHash;
-      dataInput.fileUrl = fileUrl;
-      return { dataInput, image: fileUrl };
-    } catch (err: any) {
-      toast.error(err);
-      this.setState({ loader: false });
-    }
-  };
   deleteNFT = async () => {
     let res = await handleRequest(
       "delete",
@@ -638,7 +438,7 @@ class CreateNFT extends React.Component<
             audioUrl: url,
           });
         } else {
-          $(`#nft-${fileId}`).attr("src", placeholderImg); 
+          $(`#nft-${fileId}`).attr("src", placeholderImg);
           file = {};
         }
     } else {
@@ -844,7 +644,7 @@ class CreateNFT extends React.Component<
       selectedCollection,
     } = this.state;
     const { connectedAddress } = this.props;
-    console.log(this.props)
+    console.log(this.props);
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
@@ -1313,16 +1113,15 @@ class CreateNFT extends React.Component<
                     />
                   </div>
                 )}
-
-                <div className="create-collection-btn-container">
-                  <button
-                    className="btn create-collection-btn btn-linear-gradient mt-5"
-                    disabled={this.handleBtnDisable()}
-                    onClick={(e) => this.submit(e)}
-                  >
-                  { !this.props.match.params.nftId?"Create NFT":"Save Changes"}
-                  </button>
-                </div>
+                <CreateNft
+                  props={this.props}
+                  state={this.state}
+                  setState={this.setState}
+                  toast={toast}
+                  validator={this.validator}
+                  capitalize={this.capitalize}
+                  handleBtnDisable={this.handleBtnDisable}
+                />
               </div>
               {/* </form> */}
             </div>
@@ -1373,7 +1172,7 @@ class CreateNFT extends React.Component<
         </>
       );
     } else {
-      console.log("breaking here")
+      console.log("breaking here");
       toast.info("Please login with new connected account");
       this.props.history.push({
         pathname: `/connect-wallet`,
@@ -1384,8 +1183,14 @@ class CreateNFT extends React.Component<
   }
 }
 
-const mapStateToProps = (state: { wallet: { connectedAddress: any } }) => ({
-  connectedAddress: state.wallet.connectedAddress,
-});
+const mapStateToProps = (state: {
+  wallet: { connectedAddress: any; blockchainType: string };
+}) => (
+  console.log("state", state),
+  {
+    connectedAddress: state.wallet.connectedAddress,
+    blockchainType: state.wallet.blockchainType,
+  }
+);
 
 export default connect(mapStateToProps, {})(CreateNFT);

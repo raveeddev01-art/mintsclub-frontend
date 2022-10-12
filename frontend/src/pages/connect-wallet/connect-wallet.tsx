@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { setWalletAddress } from "../wallet/wallet.action";
+import { setWalletAddress, setBlockchainType } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
 import { useHistory, useLocation } from "react-router-dom";
 import { connectWallet } from "../../utils/algorand";
@@ -116,23 +116,6 @@ const ConnectWallet = (props: any) => {
 
   const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
-  // const login = async (connectedAddress: any) => {
-  //   if (connectedAddress) {
-  //     try {
-  //       setDisabled(true);
-  //       await signRequest();
-  //       let payload = {
-  //         address: connectedAddress,
-  //       };
-  //       props.setWalletAddress(connectedAddress);
-  //       auth(payload);
-  //     } catch (err: any) {
-  //       setDisabled(false);
-  //       toast.error(err.message);
-  //     }
-  //   }
-  //   //
-  // };
   const detectMobile = () => {
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -169,17 +152,20 @@ const ConnectWallet = (props: any) => {
   ///Validate
   const onSuccessValidateUser = async (data: any) => {
     const response = data.data;
-
+    let selectedBlockchainType = undefined;
     if (response.success) {
       if (response.blockchainType === "ethereum") {
+        selectedBlockchainType = "ethereum";
         if (response?.users?.length > 0) {
           const res = await handleSign(response?.users[0].nounce);
+
           authenticate({ ...res, blockchainType: "ethereum" });
           return;
         }
       }
 
       if (response.blockchainType === "solana") {
+        selectedBlockchainType = "solana";
         if (response?.users?.length > 0) {
           const res = await signMessageFromUserForSolana(
             response?.users[0].nounce
@@ -190,6 +176,7 @@ const ConnectWallet = (props: any) => {
       }
 
       if (response.blockchainType === "algorand") {
+        selectedBlockchainType = "algorand";
         if (response?.users?.length > 0) {
           ENV.encryptUserData(data.data.data);
           history.push(location?.state ? location.state : "/");
@@ -197,7 +184,12 @@ const ConnectWallet = (props: any) => {
         }
         // TODO: Implementation algorand
       }
-      handleSignUp({ address: connectedAddress });
+
+      console.log("This is Running", selectedBlockchainType);
+      handleSignUp({
+        address: connectedAddress,
+        blockchainType: selectedBlockchainType,
+      });
     }
 
     return setError(response.message);
@@ -247,9 +239,12 @@ const ConnectWallet = (props: any) => {
           functionality: async () => {
             await wallet.disconnect();
 
-            // await connectWithMetamask();
+            props.setBlockchainType("ethereum");
+
             const publicAddress: any = await connectMetamask();
             setConnectedAddres(publicAddress);
+            props.setWalletAddress(publicAddress);
+
             validateUser({ blockchainType: "ethereum" });
           },
         },
@@ -273,7 +268,10 @@ const ConnectWallet = (props: any) => {
         {
           name: "Metamask BSC",
           icon: connectModal.metaImg,
-          functionality: () => {},
+          functionality: () => {
+            // connectMetamask({ncaknsklad})
+            // validateUser({ blockchainType: "binance" });
+          },
         },
       ],
     },
@@ -285,8 +283,13 @@ const ConnectWallet = (props: any) => {
           name: "Solana",
           icon: connectModal.phantomImg,
           functionality: async () => {
-            await wallet.disconnect();
+            // await wallet.disconnect();
             wallet.select("Phantom" as WalletName);
+            props.setWalletAddress(wallet.publicKey?.toBase58());
+            setConnectedAddres(wallet.publicKey?.toBase58());
+            if (connectedAddress) {
+              validateUser({ blockchainType: "solana" });
+            }
           },
         },
       ],
@@ -307,17 +310,23 @@ const ConnectWallet = (props: any) => {
     },
   ];
 
-  useEffect(() => {
-    if (wallet.publicKey && wallet.connected) {
-      props.setWalletAddress(wallet.publicKey?.toBase58());
-      setConnectedAddres(wallet.publicKey?.toBase58());
-      if (connectedAddress) {
-        validateUser({ blockchainType: "solana" });
-      }
-      return;
-    }
-    //  props.setWalletAddress(wallet.publicKey?.toBase58());
-  }, [wallet.connected, wallet.publicKey]);
+  // useEffect(() => {
+  //   if (wallet.publicKey && wallet.connected) {
+  //     console.log("wallet Connected");
+  //     props.setBlockchainType("solana");
+  //     props.setWalletAddress(wallet.publicKey?.toBase58());
+  //     setConnectedAddres(wallet.publicKey?.toBase58());
+  //     if (connectedAddress) {
+  //       validateUser({ blockchainType: "solana" });
+  //     }
+  //     return;
+  //   }
+  //   //  props.setWalletAddress(wallet.publicKey?.toBase58());
+  // }, [wallet.connected, wallet.publicKey]);
+
+  // useEffect(() => {
+  //   props.setWalletAddress(connectedAddress);
+  // }, [connectedAddress]);
 
   return (
     <Container>
@@ -361,6 +370,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
+  setBlockchainType,
   setWalletAddress,
   login,
 })(ConnectWallet);

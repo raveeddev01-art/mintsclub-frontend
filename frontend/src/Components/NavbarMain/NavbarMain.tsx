@@ -33,7 +33,10 @@ const NavbarMain = () => {
   };
   const clearLocalStorage = async () => {
     if (ENV?.getUserKeys("_id")?._id) {
-      await wallet.disconnect();
+      if (wallet.connected) {
+        console.log("Wallet.Connected", wallet.connected);
+        await wallet.disconnect();
+      }
       localStorage.clear();
       localStorage.setItem("theme", darkMode ? "dark" : "light");
       history.push("/connect-wallet");
