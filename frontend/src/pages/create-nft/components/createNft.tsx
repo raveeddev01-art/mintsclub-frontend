@@ -61,7 +61,7 @@ const CreateNft = ({
           if (createNftResult.events.TransferSingle.returnValues.id) {
             paylaod = {
               nftToken: createNftResult.events.TransferSingle.returnValues.id,
-              data: { ...data, blockChainType: blockChainType },
+              data: { ...data, blockchainType: blockChainType },
               image,
               lazyMinted: false,
             };
