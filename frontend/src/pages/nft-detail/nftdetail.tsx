@@ -65,7 +65,10 @@ import { useGetData, useDeleteData } from "../../hooks/Common";
 import MetaData from "../../Components/MetaData/MetaData";
 import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
 import FileDetail from "../../Components/FileDetail/FileDetail";
-import MoreNFTs from "./components/MoreNFTs/MoreNFTs"
+import MoreNFTs from "./components/MoreNFTs/MoreNFTs";
+import Offers from "./components/Offers";
+import Activities from "./components/Activities";
+import FileViewer from "./components/FileViewer";
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [toggle, setToggle] = React.useState<boolean>(true);
@@ -530,7 +533,7 @@ const NFTDetail = (props: any) => {
               let payload = {
                 userId,
                 nftId,
-                ownerAddress:props.connectedAddress,
+                ownerAddress: props.connectedAddress,
               };
               props.beforeOffer();
               props.buyNow(payload);
@@ -579,7 +582,7 @@ const NFTDetail = (props: any) => {
       let payload = {
         userId,
         nftId,
-        ownerAddress:props.connectedAddress,
+        ownerAddress: props.connectedAddress,
       };
       createActivity("Transfer", false, props.connectedAddress);
       props.beforeOffer();
@@ -607,8 +610,7 @@ const NFTDetail = (props: any) => {
     let activityPayload = {
       nftId: _id,
       ownerId,
-      fromAddress:
-        type === "Transfer" ? ownerAddress :props.connectedAddress,
+      fromAddress: type === "Transfer" ? ownerAddress : props.connectedAddress,
       activityType: type,
       toAddress,
       price: price,
@@ -855,94 +857,21 @@ const NFTDetail = (props: any) => {
 
             <div className="col-lg-8 col-xl-9 order-0 order-lg-1">
               <div className="row g-4 g-lg-5 g-xl-4">
-                <div className="col-xl-6 position-relative">
-                  {nftDetail?.lazyMinted && (
-                    <div className="minting-title">
-                      <div className="imgdiv">
-                        <img src={blockchainIcons.mintingIcon} alt="/" />
-                      </div>
-                      <p>Lazy Minted</p>
-                    </div>
-                  )}
-                  {fileType === "image" ? (
-                    <div className="nft-img-container mx-auto mx-lg-0">
-                      <div
-                        style={{
-                          display: `${contentLoader ? "block" : "none"}`,
-                        }}
-                      >
-                        <NFTDetailLoader />
-                      </div>
-                      <img
-                        src={image}
-                        alt="nft-image"
-                        onLoad={() => setContentLoader(false)}
-                        style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
-                        }}
-                      />
-                    </div>
-                  ) : fileType === "video" ? (
-                    <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
-                      <div
-                        style={{
-                          display: `${contentLoader ? "block" : "none"}`,
-                        }}
-                      >
-                        <NFTDetailLoader />
-                      </div>
-                      <video
-                        src={image}
-                        ref={videoElement}
-                        onEnded={() => {
-                          togglePlay();
-                        }}
-                        onCanPlay={() => {
-                          setContentLoader(false);
-                        }}
-                        // onTimeUpdate={handleOnTimeUpdate}
-                        style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
-                        }}
-                      />
-                      <div className="controls">
-                        <div className="actions">
-                          <button
-                            className="play-pause-btn d-flex align-items-center justify-content-center"
-                            onClick={togglePlay}
-                          >
-                            {playerState.isPlaying ? (
-                              <BsFillPauseFill />
-                            ) : (
-                              <BsFillPlayFill />
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : fileType === "audio" ? (
-                    <>
-                      <div
-                        style={{
-                          display: `${contentLoader ? "block" : "none"}`,
-                        }}
-                      >
-                        <NFTDetailLoader />
-                      </div>
-                      <Audio
-                        src={image}
-                        onLoadCallback={async () => setContentLoader(false)}
-                        loader={contentLoader}
-                        fileType={""}
-                      />
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-          
+                <FileViewer
+                  data={{
+                    nftDetail,
+                    blockchainIcons,
+                    fileType,
+                    contentLoader,
+                    image,
+                    setContentLoader,
+                    videoElement,
+                    togglePlay,
+                    playerState,
+                  }}
+                />
                 <FileDetail
-                  info={ {
+                  info={{
                     name,
                     copies,
                     remainingCopies,
@@ -961,7 +890,7 @@ const NFTDetail = (props: any) => {
                     connectedAddress,
                     auctionEnded,
                     EndAuction,
-                    Images
+                    Images,
                   }}
                 />
                 <MetaDataSmall
@@ -978,45 +907,13 @@ const NFTDetail = (props: any) => {
                     <p>{description}</p>
                   </div>
                 </div>
-                <div className="col-12">
-                  <div className="detail-bg-box">
-                    <h5>Offers:</h5>
-                    <hr />
-                    <Table
-                      data={bids}
-                      titles={[
-                        "Price",
-                        "USD Price",
-                        "Floor Difference",
-                        "From",
-                        "",
-                      ]}
-                      exchangeRate={exchangeRate}
-                      lowestNftPrice={lowestNftPrice}
-                      status="offer"
-                      show={sellingMethod === 2}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  <div className="detail-bg-box">
-                    <h5>Activity:</h5>
-                    <hr />
-                    {activities && activities.length > 0 && (
-                      <Table
-                        data={activities}
-                        titles={["Event", "Price", "From", "To", "Date"]}
-                        status="Activities"
-                        lowestNftPrice={0}
-                        exchangeRate={0}
-                      />
-                    )}
-                  </div>
-                </div>
+                <Offers
+                  data={{ bids, exchangeRate, lowestNftPrice, sellingMethod }}
+                />
+                <Activities activities={activities} />
               </div>
             </div>
-            <MoreNFTs info={{nfts,handleLikesTogleApi,likedNfts}}/>
+            <MoreNFTs info={{ nfts, handleLikesTogleApi, likedNfts }} />
           </div>
         </div>
       </div>
