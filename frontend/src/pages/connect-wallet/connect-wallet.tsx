@@ -1,28 +1,14 @@
 import { useState, useEffect, useContext, useMemo } from "react";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { setWalletAddress, setBlockchainType } from "../wallet/wallet.action";
 import { login } from "../../Components/User/user.action";
 import { useHistory, useLocation } from "react-router-dom";
-import { connectWallet } from "../../utils/algorand";
-import { useMutation, useQuery } from "react-query";
-import { handleRequest } from "../../utils/functions";
 
 import "./connect-wallet.scss";
 import { connectModal } from "../../assets/assets";
-import {
-  signRequest,
-  connectWithMetamask,
-  getChainId,
-  switchNetworkToChainId,
-  getWalletAddress,
-  validateNetwork,
-  getWeb3,
-  connectMetamask,
-  handleSign,
-} from "../../utils/web3";
+import { connectMetamask, handleSign } from "../../utils/web3";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { useGetData, useInsertData } from "../../hooks/Common";
@@ -48,7 +34,7 @@ import {
 import reactSelect from "react-select";
 import { WalletName } from "@solana/wallet-adapter-base";
 import { LargeNumberLike } from "crypto";
-require("@solana/wallet-adapter-react-ui/styles.css");
+// require("@solana/wallet-adapter-react-ui/styles.css");
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
@@ -283,13 +269,8 @@ const ConnectWallet = (props: any) => {
           name: "Solana",
           icon: connectModal.phantomImg,
           functionality: async () => {
-            // await wallet.disconnect();
+            await wallet.disconnect();
             wallet.select("Phantom" as WalletName);
-            props.setWalletAddress(wallet.publicKey?.toBase58());
-            setConnectedAddres(wallet.publicKey?.toBase58());
-            if (connectedAddress) {
-              validateUser({ blockchainType: "solana" });
-            }
           },
         },
       ],
@@ -310,23 +291,18 @@ const ConnectWallet = (props: any) => {
     },
   ];
 
-  // useEffect(() => {
-  //   if (wallet.publicKey && wallet.connected) {
-  //     console.log("wallet Connected");
-  //     props.setBlockchainType("solana");
-  //     props.setWalletAddress(wallet.publicKey?.toBase58());
-  //     setConnectedAddres(wallet.publicKey?.toBase58());
-  //     if (connectedAddress) {
-  //       validateUser({ blockchainType: "solana" });
-  //     }
-  //     return;
-  //   }
-  //   //  props.setWalletAddress(wallet.publicKey?.toBase58());
-  // }, [wallet.connected, wallet.publicKey]);
-
-  // useEffect(() => {
-  //   props.setWalletAddress(connectedAddress);
-  // }, [connectedAddress]);
+  useEffect(() => {
+    if (wallet.publicKey && wallet.connected) {
+      console.log("wallet Connected");
+      props.setBlockchainType("solana");
+      props.setWalletAddress(wallet.publicKey?.toBase58());
+      setConnectedAddres(wallet.publicKey?.toBase58());
+      if (connectedAddress) {
+        validateUser({ blockchainType: "solana" });
+      }
+      return;
+    }
+  }, [wallet.connected, wallet.publicKey]);
 
   return (
     <Container>
