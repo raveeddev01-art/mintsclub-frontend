@@ -8,13 +8,30 @@ import { ENV } from "../../config/config";
 import { useGetData } from "../../hooks/Common";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { connectMetamaskCopy } from "../../utils/web3";
 
-const Hero: FC<HeroInt> = () => {
+const Hero: FC<HeroInt> = (props) => {
+  const [connectedAddress, setConnectedAddress] = useState<any>("");
+
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
   const heroSettings = ENV.heroSettings;
+
+  // react query code here
+
+  const wallet = useWallet();
+  const setAddress = async () => {
+    if (wallet.connected) {
+      setConnectedAddress(wallet.publicKey?.toBase58());
+      return;
+    }
+    let connectedAddress = await connectMetamaskCopy();
+    setConnectedAddress(connectedAddress);
+    return;
+  };
   useEffect(() => {
-    refetch();
+    setAddress();
   }, []);
   // react query code here
   const onSuccessHero = (data: any) => {
@@ -47,6 +64,16 @@ const Hero: FC<HeroInt> = () => {
     }),
     onSuccessHero
   );
+
+  useEffect(() => {
+    props.beforeAuction();
+    const qs = ENV.objectToQueryString({
+      myFilter: "all",
+    });
+    props.getLiveAuctions(qs);
+  }, []);
+
+ 
 
   return (
     <section className="hero-section padding-wrapper">

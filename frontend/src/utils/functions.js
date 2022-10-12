@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ENV } from "../config/config";
-import Compressor from 'compressorjs';
+import Compressor from "compressorjs";
 import { toast } from "react-toastify";
 
 let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -69,9 +69,10 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
   });
 };
 
-export const handleRequest = async (method, endpoint, data=null, qs) => {
+export const handleRequest = async (method, endpoint, data = null, qs) => {
   let url = ENV.url + endpoint;
   if (qs) url += `?${qs}`;
+
   return new Promise((resolve, reject) => {
     let headers = {
       // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
@@ -86,18 +87,16 @@ export const handleRequest = async (method, endpoint, data=null, qs) => {
     axios({
       method,
       url,
-      ...data&&{ data},
+      ...(data && { data }),
       headers,
-    })
-      .then(
-        (res) => {
-
-          resolve(res);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
+    }).then(
+      (res) => {
+        resolve(res);
+      },
+      (error) => {
+        reject(error);
+      }
+    );
   });
 };
 
@@ -164,20 +163,17 @@ export const formatBytes = (bytes, decimals = 2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 };
 
-
-export const compressImage=(file,convertSize)=>{
-  return  new Promise((resolve)=>{
-    new Compressor(file,{
-      quality:0.8,
-      convertSize:1000000,
-      success: (result)=>{
-        resolve(result)
-       
+export const compressImage = (file, convertSize) => {
+  return new Promise((resolve) => {
+    new Compressor(file, {
+      quality: 0.8,
+      convertSize: 1000000,
+      success: (result) => {
+        resolve(result);
       },
       error(err) {
-        resolve(err)
+        resolve(err);
       },
-    })
-  })
- 
-}
+    });
+  });
+};

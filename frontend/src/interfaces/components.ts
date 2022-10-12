@@ -18,8 +18,8 @@ export interface BannerInterface {
   bannerImg?: string;
   bg?: boolean;
   btns?: boolean;
-  onEdit?:()=>void;
-  onDelete?:()=>void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export interface TableInterface {
@@ -237,4 +237,14 @@ export interface ConnectWallModal {
 export interface SideNftListInterface {
   showSideList: boolean;
   setShowSideList: (e: any) => any;
+}
+
+export interface CreateNftInterface {
+  props: any;
+  state: any;
+  toast: any;
+  validator: any;
+  capitalize: any;
+  setState: any;
+  handleBtnDisable: any;
 }

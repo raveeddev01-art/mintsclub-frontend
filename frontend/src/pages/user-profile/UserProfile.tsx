@@ -2,9 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import "./UserProfile.scss";
 import { ENV } from "../../config/config";
-import {
-  getNFTs,
-} from "../../Components/Nfts/nfts.action";
+import { getNFTs } from "../../Components/Nfts/nfts.action";
 
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { Images } from "../../assets/assets";
@@ -17,7 +15,6 @@ import BannerLight from "../../assets/images/bannerbg2.png";
 import EthIcon from "../../assets/images/eth-icon.svg";
 import CopyIcon from "../../assets/images/copy-icon.svg";
 import Listing from "../../Components/Listing/Listing";
-
 import { Link } from "react-router-dom";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import { useHistory } from "react-router";
@@ -26,8 +23,8 @@ import { useGetCollections, useGetNFTs } from "../../hooks/AllNFTs";
 import { useGetUserDataById } from "../../hooks/UserProfile";
 import { useInsertData } from "../../hooks/Common";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
-
 const UserProfile = (props: any) => {
+ 
   const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
   const [nfts, setNFTs] = useState<any>([]); // NFTs for explore section
   const [nftsCopy, setNFTsCopy] = useState<any>([]);
@@ -277,6 +274,7 @@ const UserProfile = (props: any) => {
     heading: "User Profile",
   };
   const menuData = ["Collected", "Created", "Favourited"];
+
   if (
     props.connectedAddress === "" ||
     ENV.getUserKeys("address")?.address?.toUpperCase() ===
@@ -421,5 +419,5 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-  getNFTs
+  getNFTs,
 })(UserProfile);
