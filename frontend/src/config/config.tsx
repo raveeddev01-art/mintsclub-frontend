@@ -6,8 +6,9 @@ const moment = require("moment");
 export const ENV = {
   // blockchain variables
   mintsClubContractAddress: process.env.REACT_APP_MintsClub_CONTRACT_ADDRESS,
-  web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
-  ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
+  polygonContract: process.env.REACT_APP_MintsClub_POLYGON_CONTRACT_ADDRESS,
+  bscContract: process.env.REACT_APP_MintsClub_BSC_CONTRACT_ADDRESS,
+
   pinataJWT: process.env.REACT_APP_PINATA_JWT,
   batchMintLazyContract: process.env.REACT_APP_BATCHMINT_LAZY_CONTRACT,
   // process variables

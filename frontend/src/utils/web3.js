@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { toast } from "react-toastify";
 import { ENV } from "./../config/config";
-import abi from "./abis/v2-abi.json";
+import abi from "./abis/ethereum/abi.json";
 import typedDataV4 from "./typeDatav4";
 import voucherAbi from "./abis/voucher-abi.json";
 import batchMintAbi from "./abis/batchMint-abi.json";
