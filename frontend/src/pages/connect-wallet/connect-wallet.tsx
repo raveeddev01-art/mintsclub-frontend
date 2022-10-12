@@ -34,6 +34,8 @@ import {
 import reactSelect from "react-select";
 import { WalletName } from "@solana/wallet-adapter-base";
 import { LargeNumberLike } from "crypto";
+import { connectWallet } from "../../utils/algorand";
+
 // require("@solana/wallet-adapter-react-ui/styles.css");
 
 const ConnectWallet = (props: any) => {
@@ -41,6 +43,8 @@ const ConnectWallet = (props: any) => {
   const history = useHistory();
   const location: any = useLocation();
   const [connectedAddress, setConnectedAddres] = useState<any>(null);
+
+  console.log("connectedAddress", connectedAddress);
 
   const { setError } = useContext(errorHandler);
 
@@ -51,17 +55,7 @@ const ConnectWallet = (props: any) => {
       toast.error(props.error.message);
     }
   }, [props.error]);
-  // useEffect(() => {
-  //   if (!wallet.connected) {
-  //     const getAddress = async () => {
-  //       const address = await connectMetamask();
-  //       setConnectedAddres(address);
-  //     };
-  //     getAddress();
-  //   }
-  // }, []);
 
-  // const connectMetamaskCall = async () => {
   //   if (detectMobile() && !window?.ethereum) {
   //     window.open(
   //       "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
@@ -164,17 +158,16 @@ const ConnectWallet = (props: any) => {
       if (response.blockchainType === "algorand") {
         selectedBlockchainType = "algorand";
         if (response?.users?.length > 0) {
-          ENV.encryptUserData(data.data.data);
-          history.push(location?.state ? location.state : "/");
+          authenticate({ publicAddress: props.connectedAddress, blockchainType: "algorand" });
           return;
         }
         // TODO: Implementation algorand
       }
 
-      console.log("This is Running", selectedBlockchainType);
+      console.log("This is Running", props.blockchainType);
       handleSignUp({
         address: connectedAddress,
-        blockchainType: selectedBlockchainType,
+        blockchainType: props.blockchainType,
       });
     }
 
@@ -201,7 +194,9 @@ const ConnectWallet = (props: any) => {
   );
   ///Authenticate
   const onSuccessAuthentication = (data: any) => {
+    console.log(data)
     if (data.data.success) {
+    
       ENV.encryptUserData(data.data.data);
       history.push(location?.state ? location.state : "/");
     } else {
@@ -213,6 +208,23 @@ const ConnectWallet = (props: any) => {
     onSuccessAuthentication,
     (err: any) => toast.error(err?.message)
   );
+
+
+  // CONNECT ALGO WALLET 
+  const connectAlgoWallet = async () => {
+    const addr  = await connectWallet()
+    console.log(addr?.[0]);
+    setConnectedAddres(addr?.[0])
+    props.setWalletAddress(addr?.[0]);
+    props.setBlockchainType("algorand");
+
+  return addr?.[0];
+  //  algoLogin(payload)
+
+  // authAlgo({address: addr?.[0]})
+ 
+ };
+
 
   const CHAINS = [
     {
@@ -284,7 +296,10 @@ const ConnectWallet = (props: any) => {
           name: "Algorand",
           icon: connectModal.phantomImg,
           functionality: async () => {
-            validateUser({ blockchainType: "algorand" });
+         const res = await connectAlgoWallet();
+         if(res){
+          validateUser({blockchainType: "algorand"})
+         }
           },
         },
       ],
@@ -343,6 +358,8 @@ const ConnectWallet = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
   error: state.error,
+  blockchainType: state.wallet.blockchainType,
+  connectedAddress: state.wallet.connectedAddress
 });
 
 export default connect(mapStateToProps, {
