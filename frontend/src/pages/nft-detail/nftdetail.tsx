@@ -346,7 +346,7 @@ const NFTDetail = (props: any) => {
 
   const { mutate:toggleLikeDislike} = useInsertData("nftLikes/likeDislike", success);
 
-  const handleLikesTogleApi = async (nftId: string, status: string) => {
+  const handleLikesTogleApi = async (nftId: string, status: string ,likesCount: number ) => {
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
         setLikeBtnDisable(true);
@@ -361,30 +361,40 @@ const NFTDetail = (props: any) => {
         };
 
         if (status === "dislike" && nftDetail.likesCount > 0) {
-          let nft = nftDetail;
-          nft.likesCount = nft.likesCount - 1;
+          // let nft = nftDetail;
+          // nft.likesCount = nft.likesCount - 1;
+          // console.log('if nft detail' ,nftDetail.likesCount);
+          // setNftDetail(nft);
 
-          setNftDetail(nft);
-          // props.toggleLikeDislike(data);
-       
-          toggleLikeDislike(data);
-          console.log('if working')
+          let result = likedNfts.filter((item: any) => item.nftId !== nftId);
+          setLikedNfts(result);
+          increOrDecreLikes(nftId ,'dislike')
           
+          // props.toggleLikeDislike(data);
+          toggleLikeDislike(data);
+
         } else {
-          let nft = nftDetail;
-          nft.likesCount = nft.likesCount + 1;
+          // let nft = nftDetail;
+          // nft.likesCount = nft.likesCount + 1;
+          // console.log('else nft detail' ,nftDetail.likesCount);
+          // setNftDetail(nft);
+          // setNftDetail(nft);
 
-          setNftDetail(nft);
+          let myLikedNfts: any = [];
+            if (likedNfts && likedNfts.length > 0) {
+              myLikedNfts = likedNfts;
+            }
+            let obj = {
+              _id: "1234455",
+              nftId,
+            };
 
+            myLikedNfts.push(obj);
+          setLikedNfts(myLikedNfts);
+          increOrDecreLikes(nftId ,'like')
           // props.toggleLikeDislike(data);
           toggleLikeDislike(data);
-          console.log('else working')
-
-          
-
-
-
-        }
+                }
       }
     } else {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
@@ -848,6 +858,29 @@ const NFTDetail = (props: any) => {
       value: "Ethereum",
     },
   ];
+  const increOrDecreLikes = (id: string, status: string) => {
+    if (status === "dislike") {
+      let newResult = nfts.map((item: any) => {
+        if (item._id !== id) {
+          return item;
+        } else {
+          if (item?.likeCount > 0) {
+            return { ...item, likeCount: item.likeCount - 1 };
+          }
+        }
+      });
+      setNFTs(newResult);
+    } else {
+      let final = nfts.map((item: any) => {
+        if (item._id !== id) {
+          return item;
+        } else {
+          return { ...item, likeCount: item.likeCount + 1 };
+        }
+      });
+      setNFTs(final);
+    }
+  };
   return (
     <>
       <Banner
