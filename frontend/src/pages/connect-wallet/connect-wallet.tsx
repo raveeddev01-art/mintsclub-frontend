@@ -43,9 +43,6 @@ const ConnectWallet = (props: any) => {
   const history = useHistory();
   const location: any = useLocation();
   const [connectedAddress, setConnectedAddres] = useState<any>(null);
-
-  console.log("connectedAddress", connectedAddress);
-
   const { setError } = useContext(errorHandler);
 
   const wallet = useWallet();
@@ -82,19 +79,6 @@ const ConnectWallet = (props: any) => {
   //     console.log(connectedAddress, "connectedAddress");
   //   }
   // };
-
-  const onSuccessLogin = (data: any) => {
-    if (data.data.success) {
-      ENV.encryptUserData(data.data.data);
-      history.push(location?.state ? location.state : "/");
-    } else {
-      setError(data.data.message);
-    }
-  };
-
-  const { mutate: authAlgo } = useInsertData("auth/login/", onSuccessLogin);
-
-  const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
   const detectMobile = () => {
     if (
@@ -158,13 +142,15 @@ const ConnectWallet = (props: any) => {
       if (response.blockchainType === "algorand") {
         selectedBlockchainType = "algorand";
         if (response?.users?.length > 0) {
-          authenticate({ publicAddress: props.connectedAddress, blockchainType: "algorand" });
+          authenticate({
+            publicAddress: props.connectedAddress,
+            blockchainType: "algorand",
+          });
           return;
         }
         // TODO: Implementation algorand
       }
 
-      console.log("This is Running", props.blockchainType);
       handleSignUp({
         address: connectedAddress,
         blockchainType: props.blockchainType,
@@ -194,10 +180,9 @@ const ConnectWallet = (props: any) => {
   );
   ///Authenticate
   const onSuccessAuthentication = (data: any) => {
-    console.log(data)
+    console.log(data);
     if (data.data.success) {
-    
-      ENV.encryptUserData(data.data.data);
+      ENV.encryptUserData({...data.data.data,blockchainType:props?.blockchainType});
       history.push(location?.state ? location.state : "/");
     } else {
       setError(data.data.message);
@@ -209,22 +194,16 @@ const ConnectWallet = (props: any) => {
     (err: any) => toast.error(err?.message)
   );
 
-
-  // CONNECT ALGO WALLET 
+  // CONNECT ALGO WALLET
   const connectAlgoWallet = async () => {
-    const addr  = await connectWallet()
+    const addr = await connectWallet();
     console.log(addr?.[0]);
-    setConnectedAddres(addr?.[0])
+    setConnectedAddres(addr?.[0]);
     props.setWalletAddress(addr?.[0]);
     props.setBlockchainType("algorand");
 
-  return addr?.[0];
-  //  algoLogin(payload)
-
-  // authAlgo({address: addr?.[0]})
- 
- };
-
+    return addr?.[0];
+  };
 
   const CHAINS = [
     {
@@ -296,10 +275,10 @@ const ConnectWallet = (props: any) => {
           name: "Algorand",
           icon: connectModal.phantomImg,
           functionality: async () => {
-         const res = await connectAlgoWallet();
-         if(res){
-          validateUser({blockchainType: "algorand"})
-         }
+            const res = await connectAlgoWallet();
+            if (res) {
+              validateUser({ blockchainType: "algorand" });
+            }
           },
         },
       ],
@@ -308,7 +287,6 @@ const ConnectWallet = (props: any) => {
 
   useEffect(() => {
     if (wallet.publicKey && wallet.connected) {
-      console.log("wallet Connected");
       props.setBlockchainType("solana");
       props.setWalletAddress(wallet.publicKey?.toBase58());
       setConnectedAddres(wallet.publicKey?.toBase58());
@@ -330,8 +308,8 @@ const ConnectWallet = (props: any) => {
           <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
             {CHAINS.map((chain) => (
               <Tab eventKey={chain.key} title={chain.title}>
-                {chain.wallets?.map((wallet) => (
-                  <div className="tab-inner-content">
+                {chain.wallets?.map((wallet:any) => (
+                  <div key={wallet.name} className="tab-inner-content">
                     <button
                       className="wallet-button"
                       onClick={wallet.functionality}
@@ -359,7 +337,7 @@ const ConnectWallet = (props: any) => {
 const mapStateToProps = (state: any) => ({
   error: state.error,
   blockchainType: state.wallet.blockchainType,
-  connectedAddress: state.wallet.connectedAddress
+  connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {

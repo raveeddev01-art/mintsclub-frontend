@@ -223,8 +223,7 @@ class CreateNFT extends React.Component<
     const { Collections: collections } = res.data.data.collections;
     if (!collections.length) {
       toast.info("Please create a collection first");
-      // return this.props.history.push("/createcollection");
-      this.setState({ loader: false });
+      return this.props.history.push("/createcollection");
     } else {
       let updatedCollections = [];
       for (var item of collections) {
@@ -644,7 +643,6 @@ class CreateNFT extends React.Component<
       selectedCollection,
     } = this.state;
     const { connectedAddress } = this.props;
-    console.log(this.props);
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
@@ -1121,13 +1119,13 @@ class CreateNFT extends React.Component<
                   validator={this.validator}
                   capitalize={this.capitalize}
                   handleBtnDisable={this.handleBtnDisable}
+                  blockChainType={ENV.getUserKeys("blockchainType")?.blockchainType}
                 />
               </div>
               {/* </form> */}
             </div>
           </section>
 
-          {/* <button onClick={() => this.deleteNFT()}>Delete</button> */}
           <PropertiesModal
             show={this.state.propertiesmodalShow}
             addMoreValues={this.addMoreValues}
@@ -1172,7 +1170,6 @@ class CreateNFT extends React.Component<
         </>
       );
     } else {
-      console.log("breaking here");
       toast.info("Please login with new connected account");
       this.props.history.push({
         pathname: `/connect-wallet`,
@@ -1186,7 +1183,6 @@ class CreateNFT extends React.Component<
 const mapStateToProps = (state: {
   wallet: { connectedAddress: any; blockchainType: string };
 }) => (
-  console.log("state", state),
   {
     connectedAddress: state.wallet.connectedAddress,
     blockchainType: state.wallet.blockchainType,

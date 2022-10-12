@@ -19,12 +19,12 @@ const CreateNft = ({
   validator,
   capitalize,
   setState,
+  blockChainType,
   handleBtnDisable,
 }: CreateNftInterface) => {
   const wallet = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
 
-  console.log("props", props, state);
 
   const insertNFT = async (data: any) => {
     try {
@@ -52,22 +52,22 @@ const CreateNft = ({
     data.activeAuction = null;
 
     try {
-      console.log("chain= block", props.blockchainType);
+      console.log("chain= block", blockChainType);
       let paylaod = {};
 
       if (!state.isFreeMint) {
-        if (props.blockchainType === "ethereum") {
+        if (blockChainType === "ethereum") {
           let createNftResult = await mintNFt(metaData, state.nft.copies);
           if (createNftResult.events.TransferSingle.returnValues.id) {
             paylaod = {
               nftToken: createNftResult.events.TransferSingle.returnValues.id,
-              data: { ...data, blockchainType: props.blockchainType },
+              data: { ...data, blockChainType: blockChainType },
               image,
               lazyMinted: false,
             };
           }
         }
-        if (props.blockchainType === "solana") {
+        if (props.blockChainType === "solana") {
           console.log("Solana Implementation for Minting NFT");
           const response = await mintSingleNft(
             wallet,
@@ -84,7 +84,7 @@ const CreateNft = ({
               nftToken: -1,
               data: {
                 ...data,
-                blockchainType: props.blockchainType,
+                blockchainType: blockChainType,
                 mint: response?.mintAddress.toBase58(),
                 txnHash: response?.response.signature,
               },
@@ -94,7 +94,7 @@ const CreateNft = ({
           }
         }
 
-        if (props.blockchainType === "algorand") {
+        if (blockChainType === "algorand") {
           console.log("Algorand Implementation for Minting NFT");
 
 
@@ -111,7 +111,7 @@ const CreateNft = ({
         if (tokenId) {
           paylaod = {
             nftToken: tokenId,
-            data: { ...data, blockchainType: props.blockchainType },
+            data: { ...data, blockchainType:blockChainType },
             image,
             lazyMinted: false,
           };
@@ -123,7 +123,7 @@ const CreateNft = ({
           nftToken: (Math.floor(Math.random() * 10000) + 10000)
             .toString()
             .substring(1),
-          data: { ...data, blockchainType: props.blockchainType },
+          data: { ...data, blockchainType: blockChainType },
           image,
           lazyMinted: state.isFreeMint,
         };

@@ -247,4 +247,5 @@ export interface CreateNftInterface {
   capitalize: any;
   setState: any;
   handleBtnDisable: any;
+  blockChainType:string,
 }

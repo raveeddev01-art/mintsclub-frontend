@@ -176,7 +176,7 @@ const SellNFT = (props: any) => {
       let activityPayload = {
         nftId: _id,
         ownerId,
-        fromAddress: await getWalletAddress(),
+        fromAddress: props.connectedAddress,
         activityType: 'List',
       };
 
@@ -830,7 +830,7 @@ const SellNFT = (props: any) => {
           approveAccount={approveAccount}
           approvalStatus={approvalStatus}
           onHide={async () => setShow(false)}
-          address={address}
+          address={props.connectedAddress}
         />
       </section>
       <OwnCollectionToday />

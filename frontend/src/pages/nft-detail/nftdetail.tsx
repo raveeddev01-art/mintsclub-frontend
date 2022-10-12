@@ -51,15 +51,12 @@ import BuyModal from "../../Components/Modals/BuyModal/BuyModal";
 import BidModal from "../../Components/Modals/BidModal/BidModal";
 import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import StatsInfo from "../create-nft/components/statsinfo";
-import LevelsInfo from "../create-nft/components/levelsinfo";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 import { Images, blockchainIcons } from "../../assets/assets";
-import NftCard from "../../Components/NftCard/NftCard";
 import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
 import Audio from "../../Components/Audio/Audio";
 import { getBannerData, nftBanner } from "../../utils/exportData";
@@ -74,10 +71,8 @@ const NFTDetail = (props: any) => {
   const [toggle, setToggle] = React.useState<boolean>(true);
   const [likedNfts, setLikedNfts] = useState<any>();
   const [nftDetail, setNftDetail] = useState<any>("");
-  const [listedItem, setListedItem] = useState<any>([]);
   const [nfts, setNFTs] = useState<any>([]);
   const [activities, setActivities] = useState<any>([]);
-  // const [itemsListing, setItemsListing] = useState([]);
   const [loader, setLoader] = useState<boolean>(true);
   const [price, setPrice] = useState<number>(0);
   const [bids, setBids] = useState<any>(null);
@@ -456,7 +451,7 @@ const NFTDetail = (props: any) => {
             bidBy: ENV.getUserKeys("_id")._id,
             isAccepted: false,
             toAddress: nftDetail.ownerAddress,
-            fromAddress: await connectMetamask(),
+            fromAddress: props.connectedAddress,
           };
           props.beforeBid();
           props.placeBid(payload);
@@ -478,7 +473,7 @@ const NFTDetail = (props: any) => {
       if (result) {
         const payload = {
           toAddress: nftDetail.ownerAddress,
-          fromAddress: await connectMetamask(),
+          fromAddress: props.connectedAddress,
           offerBy: ENV.getUserKeys("_id")._id,
           ownerId: nftDetail.ownerId,
           nftId: nftDetail._id,
@@ -532,15 +527,14 @@ const NFTDetail = (props: any) => {
               setTransactionHash
             );
             if (result) {
-              let ownerAddress = await getWalletAddress();
               let payload = {
                 userId,
                 nftId,
-                ownerAddress,
+                ownerAddress:props.connectedAddress,
               };
               props.beforeOffer();
               props.buyNow(payload);
-              createActivity("Transfer", false, ownerAddress);
+              createActivity("Transfer", false, props.connectedAddress);
             }
           } catch (err: any) {
             setDisabled(false);
@@ -582,13 +576,12 @@ const NFTDetail = (props: any) => {
         setTransactionHash,
         setConfirmed
       );
-      let ownerAddress = await getWalletAddress();
       let payload = {
         userId,
         nftId,
-        ownerAddress,
+        ownerAddress:props.connectedAddress,
       };
-      createActivity("Transfer", false, ownerAddress);
+      createActivity("Transfer", false, props.connectedAddress);
       props.beforeOffer();
       props.buyNow(payload);
     } catch (err: any) {
@@ -615,7 +608,7 @@ const NFTDetail = (props: any) => {
       nftId: _id,
       ownerId,
       fromAddress:
-        type === "Transfer" ? ownerAddress : await getWalletAddress(),
+        type === "Transfer" ? ownerAddress :props.connectedAddress,
       activityType: type,
       toAddress,
       price: price,
