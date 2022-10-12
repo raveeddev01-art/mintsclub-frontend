@@ -1118,6 +1118,7 @@ class CreateNFT extends React.Component<
                   toast={toast}
                   validator={this.validator}
                   capitalize={this.capitalize}
+                  nftPreviousData={this.state.nftInfo}
                   handleBtnDisable={this.handleBtnDisable}
                   blockChainType={ENV.getUserKeys("blockchainType")?.blockchainType}
                 />

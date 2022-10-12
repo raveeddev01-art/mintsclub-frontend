@@ -248,4 +248,5 @@ export interface CreateNftInterface {
   setState: any;
   handleBtnDisable: any;
   blockChainType:string,
+  nftPreviousData:any
 }

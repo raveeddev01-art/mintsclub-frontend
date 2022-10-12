@@ -6,7 +6,7 @@ import {
   handleRequest,
 } from "../../../utils/functions";
 import {createNFT} from "../../../utils/algorand"
-import { mintNFt, validateNetwork } from "../../../utils/web3";
+import { mintNFt, validateNetwork,editNFTUri } from "../../../utils/web3";
 import axios from "axios";
 import { ENV } from "../../../config/config";
 import { mintSingleNft } from "../../../utils/solana/helper";
@@ -20,6 +20,7 @@ const CreateNft = ({
   capitalize,
   setState,
   blockChainType,
+  nftPreviousData,
   handleBtnDisable,
 }: CreateNftInterface) => {
   const wallet = useWallet();
@@ -185,10 +186,15 @@ const CreateNft = ({
       payload.metaData = metaData;
       payload.image = image;
     }
-    let res = await handleRequest("put", "nfts/updateNft", payload);
-    console.log(res, "res");
-    if (res.data.success) {
-      props.history.push("/userprofile");
+    try{
+      await editNFTUri(nftPreviousData?.tokenId,metaData)
+      let res = await handleRequest("put", "nfts/updateNft", payload);
+      console.log(res, "res");
+      if (res.data.success) {
+        props.history.push("/userprofile");
+      }
+    }catch(err){
+
     }
   };
 

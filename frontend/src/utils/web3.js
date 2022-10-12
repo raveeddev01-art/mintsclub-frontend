@@ -5,7 +5,7 @@ import abi from "./abis/ethereum/abi.json";
 import typedDataV4 from "./typeDatav4";
 import voucherAbi from "./abis/voucher-abi.json";
 import batchMintAbi from "./abis/batchMint-abi.json";
-const mintsClubContractAddress = ENV.mintsClubContractAddress;
+const goerliMintingContract = ENV.goerliMintingContract;
 
 let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 
@@ -23,9 +23,10 @@ export const getWeb3 = async () => {
   return instance;
 };
 
-const getContractMethods = async () => {
+const getContractMethods = async (abiJson,contract) => {
+  console.log(contract,"contract")
   let web3 = await getWeb3();
-  const contractM = new web3.eth.Contract(abi, mintsClubContractAddress);
+  const contractM = new web3.eth.Contract(abiJson, contract);
   return contractM;
 };
 const getNetworkName = (chainId) => {
@@ -84,14 +85,34 @@ export const mintNFt = async (metaData, amount) => {
 
   try {
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,goerliMintingContract);
     let result = await contractM.methods
       .mint(connectedAddress, nftAmount, metaData)
       .send({ from: connectedAddress });
 
     return result;
   } catch (err) {
+    console.log(err,"error in mintNFT")
     toast.error(err.message);
+    throw new Error(err);
+  }
+};
+export const editNFTUri = async (tokenId, metaData) => {
+  try{
+    let web3 = await getWeb3();
+    if (!web3) {
+      toast.error("No web3 instance found");
+      return false;
+    }  
+    const contractM = await getContractMethods();
+    let connectedAddress = await connectMetamask();
+    let result = await contractM.methods
+      .EditNFTUri(+tokenId, metaData )
+      .send({ from: connectedAddress });
+      console.log(result,"result")
+      return result
+  }catch(err){
+    console.log(err,"error while updating token uri")
     throw new Error(err);
   }
 };

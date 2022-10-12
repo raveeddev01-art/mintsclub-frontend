@@ -177,7 +177,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     }
   };
   const isOwner = () => {
-    console.log(props?.connectedAddress, location?.state)
     return (
       props?.connectedAddress?.toUpperCase() ===
       location?.state?.ownerAddress?.toUpperCase()
@@ -193,7 +192,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     subHeading: "Explore",
     heading: name,
   };
-  console.log(isOwner(),"isOwner()")
 
   return (
     <>
