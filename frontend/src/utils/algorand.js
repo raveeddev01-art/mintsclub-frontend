@@ -80,8 +80,8 @@ const keypress = async () => {
 
 const DISPENSERACCOUNT =
   "HZ57J3K46JIJXILONBBZOHX6BKPXEM2VVXNRFSUED6DKFD5ZD24PMJ3MVA";
-async function createAsset(algodClient, connectedAddress, inputFields) {
-  const { assetName, total, metaData } = inputFields;
+async function createAsset(algodClient, inputFields) {
+  const { assetName, total, metaData, connectedAddress } = inputFields;
   console.log(connectedAddress, total, typeof total, "connectedAddress===>");
   const params = await algodClient.getTransactionParams().do();
   const defaultFrozen = true;
@@ -322,12 +322,12 @@ async function createNFT(inputFields) {
     // const algodPort = 443;
 
     // let algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
-    let connectedAddress = await connectWallet();
+    // let connectedAddress = await connectWallet();
 
     // CREATE ASSET
     const { assetID } = await createAsset(
       algodClient,
-      connectedAddress[0],
+      // connectedAddress[0],
       inputFields
     );
     console.log(assetID, "assetId========>");
