@@ -361,25 +361,15 @@ const NFTDetail = (props: any) => {
         };
 
         if (status === "dislike" && likesCount > 0) {
-          // let nft = nftDetail;
-          // nft.likesCount = nft.likesCount - 1;
-          // console.log('if nft detail' ,nftDetail.likesCount);
-          // setNftDetail(nft);
 
           let result = likedNfts.filter((item: any) => item.nftId !== nftId);
           setLikedNfts(result);
           increOrDecreLikes(nftId ,'dislike')
           
-          // props.toggleLikeDislike(data);
           toggleLikeDislike(data);
 
         } else {
-          // let nft = nftDetail;
-          // nft.likesCount = nft.likesCount + 1;
-          // console.log('else nft detail' ,nftDetail.likesCount);
-          // setNftDetail(nft);
-          // setNftDetail(nft);
-
+        
           let myLikedNfts: any = [];
             if (likedNfts && likedNfts.length > 0) {
               myLikedNfts = likedNfts;
@@ -392,7 +382,6 @@ const NFTDetail = (props: any) => {
             myLikedNfts.push(obj);
           setLikedNfts(myLikedNfts);
           increOrDecreLikes(nftId ,'like')
-          // props.toggleLikeDislike(data);
           toggleLikeDislike(data);
                 }
       }
