@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo,useContext } from "react";
+import React, { Suspense, useEffect, useMemo } from "react";
 import routes from "./routes";
 import { PrivateRoute } from "./privateRoute";
 import { Switch } from "react-router-dom";
@@ -20,7 +20,7 @@ import {
 } from "@solana/wallet-adapter-wallets";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
-const App = React.memo(() => {
+const App = React.memo((props) => {
   const network = "devnet";
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
@@ -31,6 +31,10 @@ const App = React.memo(() => {
 
   useEffect(async () => {
     tawkTo(tawkToPropertyId, tawkToKey);
+    if(ENV.getUserKeys("address")?.address){
+      props.beforeWallet()
+      props.setWalletAddress(ENV.getUserKeys("address")?.address)
+    }
   }, [ENV]);
   
   return (
