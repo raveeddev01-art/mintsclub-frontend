@@ -2,7 +2,7 @@ import StatsInfo from "../statsinfo";
 
 
 const AddStats=({data}:any)=>{
-    const {setState,AddIcon,nft}=data
+    const {showModal,AddIcon,nft}=data
     return (
         <div className="col-12 col-lg-6 mt-3 ">
         <label className="create-collection-label">Stats:</label>
@@ -13,7 +13,7 @@ const AddStats=({data}:any)=>{
           <div className="properties-btn">
             <button
               onClick={() => {
-                setState({
+                showModal({
                   statsmodalShow: true,
                 });
               }}

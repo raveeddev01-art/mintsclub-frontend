@@ -1,7 +1,8 @@
 import LevelsInfo from "../levelsinfo";
 
 const AddLevels=({data}:any)=>{
-    const {setState,AddIcon,nft}=data
+    const {showModal,AddIcon,nft}=data
+    console.log(data,"data")
     return (
         <div className="col-12 col-lg-6 mt-3 mt-lg-5">
         <label className="create-collection-label">Levels:</label>
@@ -12,9 +13,7 @@ const AddLevels=({data}:any)=>{
           <div className="properties-btn">
             <button
               onClick={() => {
-                setState({
-                  levelsmodalShow: true,
-                });
+                showModal();
               }}
             >
               <img src={AddIcon} alt="add" />

@@ -806,21 +806,21 @@ class CreateNFT extends React.Component<
 
                 <AddProperties
                   data={{
-                    setState: this.setState,
+                    showModal: ()=>this.setState({propertiesmodalShow:true}),
                     AddIcon,
                     nft: this.state.nft,
                   }}
                 />
                 <AddLevels
                   data={{
-                    setState: this.setState,
+                    showModal: ()=>this.setState({levelsmodalShow:true}),
                     AddIcon,
                     nft: this.state.nft,
                   }}
                 />
                 <AddStats
                   data={{
-                    setState: this.setState,
+                    showModal: ()=>this.setState({statsmodalShow:true}),
                     AddIcon,
                     nft: this.state.nft,
                   }}

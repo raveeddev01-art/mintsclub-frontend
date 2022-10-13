@@ -541,7 +541,7 @@ class CreateCollections extends Component<
             />
             <div className="container">
               <div className="row">
-                <UploadFiles data={{collection,onFileChange:this.onFileChange,Images}}/>
+                <UploadFiles data={{collection,onFileChange:(e:any)=>this.onFileChange(e),Images}}/>
 
                 <div className="col-lg-4 col-md-6 col-sm-12">
                   <label className="create-collection-label">Name:*</label>

@@ -1,7 +1,7 @@
 import PropertiesInfo from "../propertiesinfo";
 
 const AddProperties=({data}:any)=>{
-    const {setState,AddIcon,nft}=data
+    const {showModal,AddIcon,nft}=data
 
     return (
 
@@ -14,9 +14,7 @@ const AddProperties=({data}:any)=>{
           <div className="properties-btn">
             <button
               onClick={() => {
-                setState({
-                  propertiesmodalShow: true,
-                });
+                showModal()
               }}
             >
               <img src={AddIcon} alt="add" />
