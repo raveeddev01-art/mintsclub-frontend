@@ -8,7 +8,7 @@ const bannerData = {
 	subHeading: 'Get in touch',
 	heading: 'Contact Us',
 	content:
-		'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
+		'Explore on the world`s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
 };
 const ContactUs = () => {
 	useEffect(() => {

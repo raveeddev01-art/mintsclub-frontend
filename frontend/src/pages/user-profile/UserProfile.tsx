@@ -1,58 +1,59 @@
-import React, { useState, useEffect, useContext } from "react";
-import { connect } from "react-redux";
-import "./UserProfile.scss";
-import { ENV } from "../../config/config";
-import { getNFTs } from "../../Components/Nfts/nfts.action";
+/* eslint-disable no-empty-pattern */
+import React, { useState, useEffect, useContext } from 'react';
+import { connect } from 'react-redux';
+import './UserProfile.scss';
+import { ENV } from '../../config/config';
+import { getNFTs } from '../../Components/Nfts/nfts.action';
 
-import darkModeContext from "../../context/darkmode/DarkModeContext";
-import { Images } from "../../assets/assets";
-import { validateNetwork } from "../../utils/web3";
-import { toast } from "react-toastify";
-import moment from "moment";
-import Banner from "../../Components/Banner/Banner";
-import BannerDark from "../../assets/images/bannerbg.png";
-import BannerLight from "../../assets/images/bannerbg2.png";
-import EthIcon from "../../assets/images/eth-icon.svg";
-import CopyIcon from "../../assets/images/copy-icon.svg";
-import Listing from "../../Components/Listing/Listing";
-import { Link } from "react-router-dom";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import { useHistory } from "react-router";
-import { useGetMyLikedNFTs } from "../../hooks/CollectionDetails";
-import { useGetCollections, useGetNFTs } from "../../hooks/AllNFTs";
-import { useGetUserDataById } from "../../hooks/UserProfile";
-import { useInsertData } from "../../hooks/Common";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import darkModeContext from '../../context/darkmode/DarkModeContext';
+import { Images } from '../../assets/assets';
+import { validateNetwork } from '../../utils/web3';
+import { toast } from 'react-toastify';
+import moment from 'moment';
+import Banner from '../../Components/Banner/Banner';
+import BannerDark from '../../assets/images/bannerbg.png';
+import BannerLight from '../../assets/images/bannerbg2.png';
+import EthIcon from '../../assets/images/eth-icon.svg';
+import CopyIcon from '../../assets/images/copy-icon.svg';
+import Listing from '../../Components/Listing/Listing';
+import { Link } from 'react-router-dom';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import { useHistory } from 'react-router';
+import { useGetMyLikedNFTs } from '../../hooks/CollectionDetails';
+import { useGetCollections, useGetNFTs } from '../../hooks/AllNFTs';
+import { useGetUserDataById } from '../../hooks/UserProfile';
+import { useInsertData } from '../../hooks/Common';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 const UserProfile = (props: any) => {
- 
-  const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
-  const [nfts, setNFTs] = useState<any>([]); // NFTs for explore section
-  const [nftsCopy, setNFTsCopy] = useState<any>([]);
-  const [loader, setLoader] = useState<boolean>(true);
-  const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
-  const [user, setUser] = useState<any>(null);
-  const [likedNfts, setLikedNfts] = useState<any>();
-  const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
-  const [initial, setInitial] = useState<boolean>(true);
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const [copy, setCopy] = useState<boolean>(false);
-  const [collections, setCollections] = useState<any>(null);
-  const [nftPagination, setNFTPagination] = useState<any>(null);
-  const [dataLimit, setDataLimit] = useState<number>(10);
-  const [menuFilter, setMenuFilter] = useState<any>(false);
-  const [accAddress, setAccountAddress] = useState<string>(
-    props.connectedAddress
-  );
-  const { darkMode } = useContext(darkModeContext);
-  const { setError } = useContext(errorHandler);
-  const [filter, setFilter] = useState({ page: 1, limit: 9999999 });
-  const userId = ENV.getUserKeys("_id")._id;
-  const history = useHistory();
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, []);
+	const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
+	const [nfts, setNFTs] = useState<any>([]); // NFTs for explore section
+	const [nftsCopy, setNFTsCopy] = useState<any>([]);
+	const [loader, setLoader] = useState<boolean>(true);
+	const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
+	const [user, setUser] = useState<any>(null);
+	const [likedNfts, setLikedNfts] = useState<any>();
+	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
+	const [initial, setInitial] = useState<boolean>(true);
+	const [disabled, setDisabled] = useState<boolean>(false);
+	const [copy, setCopy] = useState<boolean>(false);
+	const [collections, setCollections] = useState<any>(null);
+	const [nftPagination, setNFTPagination] = useState<any>(null);
+	const [dataLimit, setDataLimit] = useState<number>(10);
+	const [menuFilter, setMenuFilter] = useState<any>(false);
+	const [accAddress, setAccountAddress] = useState<string>(
+		props.connectedAddress
+	);
+	const { darkMode } = useContext(darkModeContext);
+	const { setError } = useContext(errorHandler);
+	const [filter, setFilter] = useState({ page: 1, limit: 9999999 });
+	const userId = ENV.getUserKeys('_id')._id;
+	const history = useHistory();
+	useEffect(() => {
+		window.scroll(0, 0);
+	}, []);
 
 	const onSuccessNFTs = (res: any) => {
+		// eslint-disable-next-line no-unsafe-optional-chaining
 		const { nfts } = res?.data?.data;
 		const data: any = nfts;
 		if (!menuFilter) {
@@ -269,53 +270,53 @@ const UserProfile = (props: any) => {
 		setDataLimit((prev) => prev + 10);
 	};
 
-  const bannerData = {
-    subHeading: "",
-    heading: "User Profile",
-  };
-  const menuData = ["Collected", "Created", "Favourited"];
+	const bannerData = {
+		subHeading: '',
+		heading: 'User Profile',
+	};
+	const menuData = ['Collected', 'Created', 'Favourited'];
 
-  if (
-    props.connectedAddress === "" ||
-    ENV.getUserKeys("address")?.address?.toUpperCase() ===
-      props.connectedAddress?.toUpperCase()
-  ) {
-    return (
-      <>
-        <section className="user-profile pt-0">
-          <Banner
-            subHeading={bannerData.subHeading}
-            heading={bannerData.heading}
-            bgImg={darkMode ? BannerDark : BannerLight}
-            bg={true}
-            // className="mb-0"
-          />
-          <div className="user-detail-content">
-            <div className="container">
-              <div className="row">
-                <div className="col-12">
-                  <div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
-                    <div className="user-avatar-edit">
-                      <div className="ms-lg-5 user-owner-avatar user-avatar-container me-3">
-                        <img
-                          src={
-                            user?.profileImage
-                              ? user.profileImage
-                              : Images.placeholderImg
-                          }
-                          alt="owner-avatar"
-                        />
-                      </div>
-                      <Link to="/editprofile" className="user-edit-icon">
-                        <img src={Images.editIconSmall} />
-                      </Link>
-                    </div>
-                    <div className="user-owner-detail text-center text-sm-start mt-4">
-                      {user && (
-                        <div className="user-owner-name">
-                          <h3>{user.username ? user.username : "unnamed"}</h3>
-                        </div>
-                      )}
+	if (
+		props.connectedAddress === '' ||
+		ENV.getUserKeys('address')?.address?.toUpperCase() ===
+			props.connectedAddress?.toUpperCase()
+	) {
+		return (
+			<>
+				<section className="user-profile pt-0">
+					<Banner
+						subHeading={bannerData.subHeading}
+						heading={bannerData.heading}
+						bgImg={darkMode ? BannerDark : BannerLight}
+						bg={true}
+						// className="mb-0"
+					/>
+					<div className="user-detail-content">
+						<div className="container">
+							<div className="row">
+								<div className="col-12">
+									<div className="d-flex flex-column flex-md-row align-items-center align-items-sm-start">
+										<div className="user-avatar-edit">
+											<div className="ms-lg-5 user-owner-avatar user-avatar-container me-3">
+												<img
+													src={
+														user?.profileImage
+															? user.profileImage
+															: Images.placeholderImg
+													}
+													alt="owner-avatar"
+												/>
+											</div>
+											<Link to="/editprofile" className="user-edit-icon">
+												<img src={Images.editIconSmall} />
+											</Link>
+										</div>
+										<div className="user-owner-detail text-center text-sm-start mt-4">
+											{user && (
+												<div className="user-owner-name">
+													<h3>{user.username ? user.username : 'unnamed'}</h3>
+												</div>
+											)}
 
 											<div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
 												{user?.address && (
@@ -419,5 +420,5 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-  getNFTs,
+	getNFTs,
 })(UserProfile);

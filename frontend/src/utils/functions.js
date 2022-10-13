@@ -1,7 +1,7 @@
-import axios from "axios";
-import { ENV } from "../config/config";
-import Compressor from "compressorjs";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { ENV } from '../config/config';
+import Compressor from 'compressorjs';
+import { toast } from 'react-toastify';
 
 let baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -70,34 +70,34 @@ export const axiosPostFormData = (url, body, isMultipart = false) => {
 };
 
 export const handleRequest = async (method, endpoint, data = null, qs) => {
-  let url = ENV.url + endpoint;
-  if (qs) url += `?${qs}`;
+	let url = ENV.url + endpoint;
+	if (qs) url += `?${qs}`;
 
-  return new Promise((resolve, reject) => {
-    let headers = {
-      // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    };
-    axios({
-      method,
-      url,
-      ...(data && { data }),
-      headers,
-    }).then(
-      (res) => {
-        resolve(res);
-      },
-      (error) => {
-        reject(error);
-      }
-    );
-  });
+	return new Promise((resolve, reject) => {
+		let headers = {
+			// 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
+			Authorization: ENV.Authorization,
+			'x-auth-token': ENV.x_auth_token,
+			'x-access-token':
+				ENV.getUserKeys('accessToken') &&
+				ENV.getUserKeys('accessToken').accessToken
+					? ENV.getUserKeys('accessToken').accessToken
+					: '',
+		};
+		axios({
+			method,
+			url,
+			...(data && { data }),
+			headers,
+		}).then(
+			(res) => {
+				resolve(res);
+			},
+			(error) => {
+				reject(error);
+			}
+		);
+	});
 };
 
 export const decimalNumberValidator = (evt) => {
@@ -160,20 +160,20 @@ export const formatBytes = (bytes, decimals = 2) => {
 
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
 export const compressImage = (file, convertSize) => {
-  return new Promise((resolve) => {
-    new Compressor(file, {
-      quality: 0.8,
-      convertSize: 1000000,
-      success: (result) => {
-        resolve(result);
-      },
-      error(err) {
-        resolve(err);
-      },
-    });
-  });
+	return new Promise((resolve) => {
+		new Compressor(file, {
+			quality: 0.8,
+			convertSize: 1000000,
+			success: (result) => {
+				resolve(result);
+			},
+			error(err) {
+				resolve(err);
+			},
+		});
+	});
 };

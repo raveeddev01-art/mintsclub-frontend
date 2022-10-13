@@ -19,7 +19,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const [isActive, setIsActive] = useState('All');
 	const [collections, setCollections] = useState<any[] | null>(null);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(10);
+	const [limit, setLimit] = useState(12);
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [categories, setCategories] = useState<any[] | null>(null);
 	const [empty, setEmpty] = useState(false);
@@ -70,7 +70,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const handlePagination = () => {
 		// window.scroll(0, 500);
 		setPage(page);
-		setLimit(limit + 10);
+		setLimit(limit + 12);
 	};
 	const handleImage = (item: any, index: number) => {
 		if (item?.nftDetail[index]?.image) {

@@ -22,49 +22,49 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 	key,
 	connectedAddress,
 }) => {
-  const { countDownRenderer } = ENV;
-  const history = useHistory();
-  const videoElement = React.useRef(null);
-  const { playerState, togglePlay } = useVideoPlayer(videoElement);
-  const [loader, setLoader] = useState<any>(true);
-  const {
-    nftImage,
-    auctionEndDate,
-    nftName,
-    compressedFile,
-    _id,
-    nftId,
-    highestBid,
-    Totalbids,
-    currentPrice,
-    fileType,
-    ownerAddress,
-    username,
-    profilePhoto,
-  } = item;
-  return (
-    <Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
-      <div className='auction-img-wrapper'>
-        {fileType === 'image' ? (
-          <>
-            <div style={{ display: `${loader ? 'block' : 'none'}` }}>
-              <ImageLoader />
-            </div>
-            <Card.Img
-              variant='top'
-              onLoad={() => setLoader(false)}
-              onClick={() => history.push(`explore/nftdetail/${nftId}`)}
-              src={compressedFile?compressedFile:nftImage}
-              alt='AuctionTopImg'
-              style={{ display: `${!loader ? 'block' : 'none'}` }}
-            />
-          </>
-        ) : fileType === 'video' ? (
-          <div className='card-img-top'>
-            <div className='video-wrapper'>
-              <div style={{ display: `${loader ? 'block' : 'none'}` }}>
-                <ImageLoader />
-              </div>
+	const { countDownRenderer } = ENV;
+	const history = useHistory();
+	const videoElement = React.useRef(null);
+	const { playerState, togglePlay } = useVideoPlayer(videoElement);
+	const [loader, setLoader] = useState<any>(true);
+	const {
+		nftImage,
+		auctionEndDate,
+		nftName,
+		compressedFile,
+		_id,
+		nftId,
+		highestBid,
+		Totalbids,
+		currentPrice,
+		fileType,
+		ownerAddress,
+		username,
+		profilePhoto,
+	} = item;
+	return (
+		<Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
+			<div className="auction-img-wrapper">
+				{fileType === 'image' ? (
+					<>
+						<div style={{ display: `${loader ? 'block' : 'none'}` }}>
+							<ImageLoader />
+						</div>
+						<Card.Img
+							variant="top"
+							onLoad={() => setLoader(false)}
+							onClick={() => history.push(`explore/nftdetail/${nftId}`)}
+							src={compressedFile ? compressedFile : nftImage}
+							alt="AuctionTopImg"
+							style={{ display: `${!loader ? 'block' : 'none'}` }}
+						/>
+					</>
+				) : fileType === 'video' ? (
+					<div className="card-img-top">
+						<div className="video-wrapper">
+							<div style={{ display: `${loader ? 'block' : 'none'}` }}>
+								<ImageLoader />
+							</div>
 
 							<video
 								src={nftImage}

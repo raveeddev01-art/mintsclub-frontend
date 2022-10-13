@@ -12,16 +12,16 @@ export interface AuctionCardInterface {
 	index?: number;
 }
 export interface BannerInterface {
-  subHeading?: string;
-  heading?: string;
-  content?: string;
-  createdby?: string;
-  bgImg?: string;
-  bannerImg?: string;
-  bg?: boolean;
-  btns?: boolean;
-  onEdit?: () => void;
-  onDelete?: () => void;
+	subHeading?: string;
+	heading?: string;
+	content?: string;
+	createdby?: string;
+	bgImg?: string;
+	bannerImg?: string;
+	bg?: boolean;
+	btns?: boolean;
+	onEdit?: () => void;
+	onDelete?: () => void;
 }
 
 export interface TableInterface {
@@ -153,33 +153,33 @@ export interface HeroInt {
 	auction: any;
 }
 export interface HeroCardInt {
-  data: any;
-  connectedAddress: string;
-  status: string;
+	data: any;
+	connectedAddress: string;
+	status: string;
 }
 export interface footerInt {}
 
 export interface listingInt {
-  collections?: any[];
-  disabled?: boolean;
-  menuData?: any[] | undefined;
-  handleNftFilter?: (item?: any) => any | undefined;
-  setMenuFilter?: (item: any) => any | undefined;
-  filterationLoader: boolean;
-  setFilterationLoader: (item: any) => any;
-  nfts: any[];
-  loader: boolean;
-  likedNfts: any[] | null;
-  nftPagination: any;
-  handleLikesTogleApi: (_id: string, status: string, likeCount: any) => any;
-  fetchData: (filter: any) => any;
-  path: string;
-  getPaginatedData?: () => any;
-  UserProfile?: any | undefined;
-  initialKeyword?: any;
-  collectionDetail?: any;
-  totalItems?: any;
-  refetchNFTs?: () => any;
+	collections?: any[];
+	disabled?: boolean;
+	menuData?: any[] | undefined;
+	handleNftFilter?: (item?: any) => any | undefined;
+	setMenuFilter?: (item: any) => any | undefined;
+	filterationLoader: boolean;
+	setFilterationLoader: (item: any) => any;
+	nfts: any[];
+	loader: boolean;
+	likedNfts: any[] | null;
+	nftPagination: any;
+	handleLikesTogleApi: (_id: string, status: string, likeCount: any) => any;
+	fetchData: (filter: any) => any;
+	path: string;
+	getPaginatedData?: () => any;
+	UserProfile?: any | undefined;
+	initialKeyword?: any;
+	collectionDetail?: any;
+	totalItems?: any;
+	refetchNFTs?: () => any;
 }
 
 export interface CollectionSubLoaderInt {
@@ -242,20 +242,20 @@ export interface SideNftListInterface {
 }
 
 export interface CreateNftInterface {
-  props: any;
-  state: any;
-  toast: any;
-  validator: any;
-  capitalize: any;
-  setState: any;
-  handleBtnDisable: any;
-  blockChainType: string;
+	props: any;
+	state: any;
+	toast: any;
+	validator: any;
+	capitalize: any;
+	setState: any;
+	handleBtnDisable: any;
+	blockChainType: string;
 }
 
 export interface CHAINS_INTERFACE {
-  ethereum: string;
-  solana: string;
-  polygon: string;
-  binance: string;
-  algorand: string;
+	ethereum: string;
+	solana: string;
+	polygon: string;
+	binance: string;
+	algorand: string;
 }

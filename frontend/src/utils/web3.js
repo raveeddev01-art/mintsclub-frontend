@@ -102,23 +102,23 @@ export const openNFTForBidding = async (
 	tokenId,
 	copies
 ) => {
-  try {
-    let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
-    let id = Number(tokenId);
-    const result = await contractM.methods
-      .startAuction(biddingTime, startTime, connectedAddress, id, copies)
-      .send({ from: connectedAddress });
-    let web3 = await getWeb3();
-    let sellId = await web3.utils.hexToNumber(
-      result.events.AuctionStart.raw.data
-    );
-    if (sellId) {
-      return sellId;
-    }
-  } catch (err) {
-    throw new Error(err);
-  }
+	try {
+		let connectedAddress = await connectMetamask();
+		const contractM = await getContractMethods();
+		let id = Number(tokenId);
+		const result = await contractM.methods
+			.startAuction(biddingTime, startTime, connectedAddress, id, copies)
+			.send({ from: connectedAddress });
+		let web3 = await getWeb3();
+		let sellId = await web3.utils.hexToNumber(
+			result.events.AuctionStart.raw.data
+		);
+		if (sellId) {
+			return sellId;
+		}
+	} catch (err) {
+		throw new Error(err);
+	}
 };
 
 export const placeABid = async (amount, tokenId) => {
@@ -150,27 +150,27 @@ export const placeABid = async (amount, tokenId) => {
 };
 
 export const putonsale = async (tokenId, amount, price) => {
-  try {
-    /* global BigInt */
-    let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
-    let weiAmount = BigInt(Web3.utils.toWei(price, "ether"));
-    let web3 = await getWeb3();
-    let id = Number(tokenId);
-    const result = await contractM.methods
-      .putonsale(id, amount, weiAmount)
-      .send({
-        from: connectedAddress,
-        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-      });
-    let sellId = await web3.utils.hexToNumber(result.events.OfferSale.raw.data);
-    if (sellId) {
-      return sellId;
-    }
-  } catch (err) {
-    // console.log(err, "error");
-    throw new Error(err);
-  }
+	try {
+		// /* global BigInt */
+		let connectedAddress = await connectMetamask();
+		const contractM = await getContractMethods();
+		let weiAmount = BigInt(Web3.utils.toWei(price, 'ether'));
+		let web3 = await getWeb3();
+		let id = Number(tokenId);
+		const result = await contractM.methods
+			.putonsale(id, amount, weiAmount)
+			.send({
+				from: connectedAddress,
+				gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+			});
+		let sellId = await web3.utils.hexToNumber(result.events.OfferSale.raw.data);
+		if (sellId) {
+			return sellId;
+		}
+	} catch (err) {
+		// console.log(err, "error");
+		throw new Error(err);
+	}
 };
 
 export const BuyFixedPriceNFT = async (
@@ -290,13 +290,13 @@ export const getMetamaskConnectedAddress = async () => {
 // }
 
 export const getCurrentAddress = async (wallet) => {
-  if (wallet?.connected) {
-    return wallet.publicKey.toBase58();
-  }
-  let web3 = await getWeb3();
-  let accounts = await web3.eth.getAccounts();
-  let address = accounts[0];
-  return address;
+	if (wallet?.connected) {
+		return wallet.publicKey.toBase58();
+	}
+	let web3 = await getWeb3();
+	let accounts = await web3.eth.getAccounts();
+	let address = accounts[0];
+	return address;
 };
 
 export const handleSign = async (nounce) => {
@@ -322,28 +322,28 @@ export const createVoucher = async (tokenId, amount, uri, price) => {
 	data.message.uri = uri;
 	data.message.minPrice = price;
 
-  const publicAddress = await connectMetamask();
-  return new Promise((resolve, reject) => {
-    const web3 = new Web3(Web3.givenProvider);
-    try {
-      web3.currentProvider.sendAsync(
-        {
-          method: "eth_signTypedData_v4",
-          params: [publicAddress, JSON.stringify(data)],
-          from: publicAddress,
-        },
-        function (err, result) {
-          if (err) {
-            resolve({ success: false, data: err });
-          }
-          console.log(result.result, "result");
-          resolve({ success: true, data: result.result });
-        }
-      );
-    } catch (err) {
-      resolve({ success: false, data: err });
-    }
-  });
+	const publicAddress = await connectMetamask();
+	return new Promise((resolve, reject) => {
+		const web3 = new Web3(Web3.givenProvider);
+		try {
+			web3.currentProvider.sendAsync(
+				{
+					method: 'eth_signTypedData_v4',
+					params: [publicAddress, JSON.stringify(data)],
+					from: publicAddress,
+				},
+				function (err, result) {
+					if (err) {
+						resolve({ success: false, data: err });
+					}
+					console.log(result.result, 'result');
+					resolve({ success: true, data: result.result });
+				}
+			);
+		} catch (err) {
+			resolve({ success: false, data: err });
+		}
+	});
 };
 
 export const redeemVoucher = async (
@@ -427,19 +427,20 @@ export const getWalletAddress = async () => {
 	return accounts[0];
 };
 export const connectMetamask = async () => {
-  if (window.ethereum) {
-    let web3 = await getWeb3();
-    let accounts = await web3.eth.getAccounts();
-    if (accounts?.length === 0) {
-      await connectMetamask();
-    }
-    let chainId = await web3.eth.getChainId();
-    if (chainId !== requiredChainId) {
-    }
-    return accounts[0];
-  } else {
-    toast.error("Please install metamask to connect to the Marketplace");
-  }
+	if (window.ethereum) {
+		let web3 = await getWeb3();
+		let accounts = await web3.eth.getAccounts();
+		if (accounts?.length === 0) {
+			await connectMetamask();
+		}
+		let chainId = await web3.eth.getChainId();
+		if (chainId !== requiredChainId) {
+			// empty block statement
+		}
+		return accounts[0];
+	} else {
+		toast.error('Please install metamask to connect to the Marketplace');
+	}
 };
 export const connectWithMetamask = async () => {
 	try {
@@ -509,40 +510,41 @@ const handleSignMessage = (address) => {
 };
 
 export const deployCollectionContract = (abi, bytecode) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const web3 = new Web3(Web3.givenProvider);
-      const address = await connectMetamask();
-      let contract = await new web3.eth.Contract(abi, null, {
-        data: bytecode,
-        from: address,
-      });
-      contract
-        .deploy({
-          data: bytecode,
-          arguments: ["test"],
-        })
-        .send({
-          from: address,
-        })
-        .then((contractInstance) => {
-          toast.success("Contract Deployed Successfully!");
-          const contractData = {
-            contractadd: contractInstance.options.address,
-            Network: "Ethereum",
-            Deployed: true,
-          };
-          return resolve(contractData);
-        })
-        .catch((err) => {
-          console.log("error", err);
-          toast.error("Transaction Failed please check wallet history!");
-          return reject(err);
-        });
-    } catch (err) {
-      console.log("error", err);
-      toast.error("Transaction Failed please check wallet history!");
-      return reject(err);
-    }
-  });
+	// eslint-disable-next-line no-async-promise-executor
+	return new Promise(async (resolve, reject) => {
+		try {
+			const web3 = new Web3(Web3.givenProvider);
+			const address = await connectMetamask();
+			let contract = await new web3.eth.Contract(abi, null, {
+				data: bytecode,
+				from: address,
+			});
+			contract
+				.deploy({
+					data: bytecode,
+					arguments: ['test'],
+				})
+				.send({
+					from: address,
+				})
+				.then((contractInstance) => {
+					toast.success('Contract Deployed Successfully!');
+					const contractData = {
+						contractadd: contractInstance.options.address,
+						Network: 'Ethereum',
+						Deployed: true,
+					};
+					return resolve(contractData);
+				})
+				.catch((err) => {
+					console.log('error', err);
+					toast.error('Transaction Failed please check wallet history!');
+					return reject(err);
+				});
+		} catch (err) {
+			console.log('error', err);
+			toast.error('Transaction Failed please check wallet history!');
+			return reject(err);
+		}
+	});
 };

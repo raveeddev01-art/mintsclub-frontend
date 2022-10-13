@@ -30,7 +30,7 @@ const Listing: FC<listingInt> = (props) => {
 		highToLow: false,
 		newest: false,
 		page: 1,
-		limit: props?.UserProfile ? 9999999999 : 10,
+		limit: props?.UserProfile ? 9999999999 : 9,
 		buy: false,
 		auction: false,
 		latest: false,
@@ -133,7 +133,7 @@ const Listing: FC<listingInt> = (props) => {
 		if (!UserProfile) {
 			setInitial(false);
 			setFilterationLoader(false);
-			setFilter((prev: any) => ({ ...prev, limit: filter.limit + 10 }));
+			setFilter((prev: any) => ({ ...prev, limit: filter.limit + 9 }));
 		} else {
 			getPaginatedData?.();
 		}
