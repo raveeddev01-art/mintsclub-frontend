@@ -70,7 +70,7 @@ const CreateNft = ({
         }
         if (props.blockChainType === "solana") {
           console.log("Solana Implementation for Minting NFT");
-          const response = await mintSingleNft(
+          const response:any = await mintSingleNft(
             wallet,
             data.metaData,
             data.name,
