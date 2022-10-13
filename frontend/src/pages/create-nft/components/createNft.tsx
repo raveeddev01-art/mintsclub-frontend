@@ -6,7 +6,6 @@ import {
   formatBytes,
   handleRequest,
 } from "../../../utils/functions";
-import {createNFT} from "../../../utils/algorand"
 import { mintNFt, validateNetwork } from "../../../utils/web3";
 import axios from "axios";
 import { ENV } from "../../../config/config";
@@ -24,8 +23,6 @@ const CreateNft = ({
 }: CreateNftInterface) => {
   const wallet = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
-
-  console.log("props", props, state);
 
   const insertNFT = async (data: any) => {
     try {
@@ -56,7 +53,6 @@ const CreateNft = ({
     data.activeAuction = null;
 
     try {
-      console.log("chain= block", props.blockchainType);
       let paylaod = {};
 
       if (!state.isFreeMint) {
@@ -240,7 +236,7 @@ const CreateNft = ({
         metaData.image
       );
     }
-    await mintNFT(
+    mintNFT(
       { ...nftInfo, compressedFile: compressedFileUrl },
       metaData.dataInput,
       metaData.image

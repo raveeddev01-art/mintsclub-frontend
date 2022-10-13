@@ -128,10 +128,10 @@ const Listing: FC<listingInt> = (props) => {
   };
 
   const handlePagination = () => {
-    window.scroll(0, 500);
+    // window.scroll(0, 500);
     if (!UserProfile) {
       setInitial(false);
-      setFilterationLoader(true);
+      // setFilterationLoader(true);
       setFilter((prev: any) => ({ ...prev, limit: filter.limit + 10 }));
     } else {
       getPaginatedData?.();
@@ -256,7 +256,6 @@ const Listing: FC<listingInt> = (props) => {
     UserProfile,
     refetchNFTs,
   }: any = props;
-
   return (
     <div className="filterhoc-wrapper padding-wrapper">
       <div className="container">
@@ -482,7 +481,7 @@ const Listing: FC<listingInt> = (props) => {
               <FullPageLoader />
             ) : ( */}
             <div className="row g-1">
-              {filterationLoader || loader ? (
+              {filterationLoader  ? (
                 <div className="text-center">
                   <div className="spinner-border text-secondary" role="status">
                     <span className="sr-only">Loading...</span>

@@ -11,6 +11,7 @@ import DarkModeButton from "../DarkModeButton/DarkModeButton";
 import { headerImages } from "../../assets/assets";
 import darkModeContext from "../../context/darkmode/DarkModeContext";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { ListenMetaMaskAccs } from "../../utils/helpers/ethereum";
 
 const NavbarMain = () => {
   const [searchactive, setSearchActive] = useState<any>(false);
@@ -18,6 +19,9 @@ const NavbarMain = () => {
   const history = useHistory();
   const { darkMode, setDarkMode } = useContext(darkModeContext);
   const wallet = useWallet();
+  
+  //Listen Metamask listeners
+  ListenMetaMaskAccs();
 
   const handleChange = (e: any) => {
     setSearchValue(e.target.value);

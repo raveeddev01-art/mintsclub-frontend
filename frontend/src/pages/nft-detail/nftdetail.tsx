@@ -51,15 +51,12 @@ import BuyModal from "../../Components/Modals/BuyModal/BuyModal";
 import BidModal from "../../Components/Modals/BidModal/BidModal";
 import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import StatsInfo from "../create-nft/components/statsinfo";
-import LevelsInfo from "../create-nft/components/levelsinfo";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
 import { Images, blockchainIcons } from "../../assets/assets";
-import NftCard from "../../Components/NftCard/NftCard";
 import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
 import Audio from "../../Components/Audio/Audio";
 import { getBannerData, nftBanner } from "../../utils/exportData";
@@ -68,16 +65,19 @@ import { useGetData, useDeleteData } from "../../hooks/Common";
 import MetaData from "../../Components/MetaData/MetaData";
 import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
 import FileDetail from "../../Components/FileDetail/FileDetail";
-import MoreNFTs from "./components/MoreNFTs/MoreNFTs"
+import MoreNFTs from "./components/MoreNFTs/MoreNFTs";
+import Offers from "./components/Offers";
+import Activities from "./components/Activities";
+import FileViewer from "./components/FileViewer";
+import { CHAIN_LOGOS, CHAIN_TITLE } from "../../utils/helpers/helpers";
+import { CHAINS_INTERFACE } from "../../interfaces/components";
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [toggle, setToggle] = React.useState<boolean>(true);
   const [likedNfts, setLikedNfts] = useState<any>();
   const [nftDetail, setNftDetail] = useState<any>("");
-  const [listedItem, setListedItem] = useState<any>([]);
   const [nfts, setNFTs] = useState<any>([]);
   const [activities, setActivities] = useState<any>([]);
-  // const [itemsListing, setItemsListing] = useState([]);
   const [loader, setLoader] = useState<boolean>(true);
   const [price, setPrice] = useState<number>(0);
   const [bids, setBids] = useState<any>(null);
@@ -456,7 +456,7 @@ const NFTDetail = (props: any) => {
             bidBy: ENV.getUserKeys("_id")._id,
             isAccepted: false,
             toAddress: nftDetail.ownerAddress,
-            fromAddress: await connectMetamask(),
+            fromAddress: props.connectedAddress,
           };
           props.beforeBid();
           props.placeBid(payload);
@@ -478,7 +478,7 @@ const NFTDetail = (props: any) => {
       if (result) {
         const payload = {
           toAddress: nftDetail.ownerAddress,
-          fromAddress: await connectMetamask(),
+          fromAddress: props.connectedAddress,
           offerBy: ENV.getUserKeys("_id")._id,
           ownerId: nftDetail.ownerId,
           nftId: nftDetail._id,
@@ -532,15 +532,14 @@ const NFTDetail = (props: any) => {
               setTransactionHash
             );
             if (result) {
-              let ownerAddress = await getWalletAddress();
               let payload = {
                 userId,
                 nftId,
-                ownerAddress,
+                ownerAddress: props.connectedAddress,
               };
               props.beforeOffer();
               props.buyNow(payload);
-              createActivity("Transfer", false, ownerAddress);
+              createActivity("Transfer", false, props.connectedAddress);
             }
           } catch (err: any) {
             setDisabled(false);
@@ -582,13 +581,12 @@ const NFTDetail = (props: any) => {
         setTransactionHash,
         setConfirmed
       );
-      let ownerAddress = await getWalletAddress();
       let payload = {
         userId,
         nftId,
-        ownerAddress,
+        ownerAddress: props.connectedAddress,
       };
-      createActivity("Transfer", false, ownerAddress);
+      createActivity("Transfer", false, props.connectedAddress);
       props.beforeOffer();
       props.buyNow(payload);
     } catch (err: any) {
@@ -614,8 +612,7 @@ const NFTDetail = (props: any) => {
     let activityPayload = {
       nftId: _id,
       ownerId,
-      fromAddress:
-        type === "Transfer" ? ownerAddress : await getWalletAddress(),
+      fromAddress: type === "Transfer" ? ownerAddress : props.connectedAddress,
       activityType: type,
       toAddress,
       price: price,
@@ -795,9 +792,11 @@ const NFTDetail = (props: any) => {
     user,
     ownerId,
     tokenId,
+    mint,
     description,
     currentPrice,
     ownerAddress,
+    blockchainType,
   }: any = nftDetail;
   const {
     sellingMethod,
@@ -812,14 +811,16 @@ const NFTDetail = (props: any) => {
     {
       title: "Contract Address",
       value:
-        ENV?.mintsClubContractAddress &&
-        ENV.mintsClubContractAddress.slice(0, 6) +
-          "...." +
-          ENV.mintsClubContractAddress.slice(-6),
+        blockchainType === "solana"
+          ? ""
+          : ENV?.mintsClubContractAddress &&
+            ENV.mintsClubContractAddress.slice(0, 6) +
+              "...." +
+              ENV.mintsClubContractAddress.slice(-6),
     },
     {
-      title: "Token ID",
-      value: tokenId,
+      title: blockchainType === "solana" ? "Mint" : "Token ID",
+      value: blockchainType === "solana" ? mint : tokenId,
     },
     {
       title: "Token Standard",
@@ -827,7 +828,9 @@ const NFTDetail = (props: any) => {
     },
     {
       title: "Blockchain",
-      value: "Ethereum",
+      value:
+        CHAIN_TITLE[blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE] ||
+        "Ethereum",
     },
   ];
   return (
@@ -862,94 +865,21 @@ const NFTDetail = (props: any) => {
 
             <div className="col-lg-8 col-xl-9 order-0 order-lg-1">
               <div className="row g-4 g-lg-5 g-xl-4">
-                <div className="col-xl-6 position-relative">
-                  {nftDetail?.lazyMinted && (
-                    <div className="minting-title">
-                      <div className="imgdiv">
-                        <img src={blockchainIcons.mintingIcon} alt="/" />
-                      </div>
-                      <p>Lazy Minted</p>
-                    </div>
-                  )}
-                  {fileType === "image" ? (
-                    <div className="nft-img-container mx-auto mx-lg-0">
-                      <div
-                        style={{
-                          display: `${contentLoader ? "block" : "none"}`,
-                        }}
-                      >
-                        <NFTDetailLoader />
-                      </div>
-                      <img
-                        src={image}
-                        alt="nft-image"
-                        onLoad={() => setContentLoader(false)}
-                        style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
-                        }}
-                      />
-                    </div>
-                  ) : fileType === "video" ? (
-                    <div className="nft-img-container nft-video-container mx-auto mx-lg-0">
-                      <div
-                        style={{
-                          display: `${contentLoader ? "block" : "none"}`,
-                        }}
-                      >
-                        <NFTDetailLoader />
-                      </div>
-                      <video
-                        src={image}
-                        ref={videoElement}
-                        onEnded={() => {
-                          togglePlay();
-                        }}
-                        onCanPlay={() => {
-                          setContentLoader(false);
-                        }}
-                        // onTimeUpdate={handleOnTimeUpdate}
-                        style={{
-                          display: `${!contentLoader ? "block" : "none"}`,
-                        }}
-                      />
-                      <div className="controls">
-                        <div className="actions">
-                          <button
-                            className="play-pause-btn d-flex align-items-center justify-content-center"
-                            onClick={togglePlay}
-                          >
-                            {playerState.isPlaying ? (
-                              <BsFillPauseFill />
-                            ) : (
-                              <BsFillPlayFill />
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : fileType === "audio" ? (
-                    <>
-                      <div
-                        style={{
-                          display: `${contentLoader ? "block" : "none"}`,
-                        }}
-                      >
-                        <NFTDetailLoader />
-                      </div>
-                      <Audio
-                        src={image}
-                        onLoadCallback={async () => setContentLoader(false)}
-                        loader={contentLoader}
-                        fileType={""}
-                      />
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-          
+                <FileViewer
+                  data={{
+                    nftDetail,
+                    blockchainIcons,
+                    fileType,
+                    contentLoader,
+                    image,
+                    setContentLoader,
+                    videoElement,
+                    togglePlay,
+                    playerState,
+                  }}
+                />
                 <FileDetail
-                  info={ {
+                  info={{
                     name,
                     copies,
                     remainingCopies,
@@ -968,7 +898,7 @@ const NFTDetail = (props: any) => {
                     connectedAddress,
                     auctionEnded,
                     EndAuction,
-                    Images
+                    Images,
                   }}
                 />
                 <MetaDataSmall
@@ -985,45 +915,13 @@ const NFTDetail = (props: any) => {
                     <p>{description}</p>
                   </div>
                 </div>
-                <div className="col-12">
-                  <div className="detail-bg-box">
-                    <h5>Offers:</h5>
-                    <hr />
-                    <Table
-                      data={bids}
-                      titles={[
-                        "Price",
-                        "USD Price",
-                        "Floor Difference",
-                        "From",
-                        "",
-                      ]}
-                      exchangeRate={exchangeRate}
-                      lowestNftPrice={lowestNftPrice}
-                      status="offer"
-                      show={sellingMethod === 2}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  <div className="detail-bg-box">
-                    <h5>Activity:</h5>
-                    <hr />
-                    {activities && activities.length > 0 && (
-                      <Table
-                        data={activities}
-                        titles={["Event", "Price", "From", "To", "Date"]}
-                        status="Activities"
-                        lowestNftPrice={0}
-                        exchangeRate={0}
-                      />
-                    )}
-                  </div>
-                </div>
+                <Offers
+                  data={{ bids, exchangeRate, lowestNftPrice, sellingMethod }}
+                />
+                <Activities activities={activities} />
               </div>
             </div>
-            <MoreNFTs info={{nfts,handleLikesTogleApi,likedNfts}}/>
+            <MoreNFTs info={{ nfts, handleLikesTogleApi, likedNfts }} />
           </div>
         </div>
       </div>
