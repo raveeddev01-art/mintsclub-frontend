@@ -8,11 +8,9 @@ import { ENV } from "../../config/config";
 import { useGetData } from "../../hooks/Common";
 import { WordsFamousNfts } from "../../utils/exportData";
 import { HeroInt } from "../../interfaces/components";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { connectMetamaskCopy } from "../../utils/web3";
+import { connect } from "react-redux";
 
 const Hero: FC<HeroInt> = (props) => {
-  const [connectedAddress, setConnectedAddress] = useState<any>("");
 
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<any>(null);
@@ -20,19 +18,6 @@ const Hero: FC<HeroInt> = (props) => {
 
   // react query code here
 
-  const wallet = useWallet();
-  const setAddress = async () => {
-    if (wallet.connected) {
-      setConnectedAddress(wallet.publicKey?.toBase58());
-      return;
-    }
-    let connectedAddress = await connectMetamaskCopy();
-    setConnectedAddress(connectedAddress);
-    return;
-  };
-  useEffect(() => {
-    setAddress();
-  }, []);
   // react query code here
   const onSuccessHero = (data: any) => {
     if (data.data.success) {
@@ -66,11 +51,7 @@ const Hero: FC<HeroInt> = (props) => {
   );
 
   useEffect(() => {
-    props.beforeAuction();
-    const qs = ENV.objectToQueryString({
-      myFilter: "all",
-    });
-    props.getLiveAuctions(qs);
+    refetch()
   }, []);
 
  
@@ -126,5 +107,13 @@ const Hero: FC<HeroInt> = (props) => {
     </section>
   );
 };
+const mapStateToProps = (state: any) => ({
 
-export default Hero;
+  connectedAddress: state.wallet.connectedAddress,
+});
+
+export default connect(mapStateToProps, {
+
+})(Hero);
+
+

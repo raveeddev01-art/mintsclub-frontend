@@ -36,7 +36,10 @@ import axios from "axios";
 import { handleRequest, compressImage } from "../../utils/functions";
 import { mintSingleNft } from "../../utils/solana/helper";
 import CreateNft from "./components/createNft";
-
+import UploadFile from "./components/UploadFile/UploadFile";
+import AddLevels from "./components/AddLevels/AddLevels";
+import AddProperties from "./components/AddProperties/AddProperties";
+import AddStats from "./components/AddStats/AddStats";
 const placeholderImg = "";
 const MintSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -223,8 +226,7 @@ class CreateNFT extends React.Component<
     const { Collections: collections } = res.data.data.collections;
     if (!collections.length) {
       toast.info("Please create a collection first");
-      // return this.props.history.push("/createcollection");
-      this.setState({ loader: false });
+      return this.props.history.push("/createcollection");
     } else {
       let updatedCollections = [];
       for (var item of collections) {
@@ -644,7 +646,6 @@ class CreateNFT extends React.Component<
       selectedCollection,
     } = this.state;
     const { connectedAddress } = this.props;
-    console.log(this.props);
     const { onDrop, dragOver, dragEnter, dragLeave } = this;
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
@@ -663,231 +664,28 @@ class CreateNFT extends React.Component<
               bg={true}
             />
             <div className="container">
-              {/* <form> */}
-              {/* <button onClick={()=>createVoucher()}>create Voucher</button>
-              <button onClick={()=>redeemVoucher()}>redeem Voucher</button> */}
-
               {loader && <FullPageLoader />}
 
               <div className="row">
-                <div className="col-12">
-                  <div
-                    className="upload-nft-container mb-4 mb-lg-5 mx-auto mx-md-0"
-                    onDrop={(e) => onDrop(e)}
-                    onDragOver={(e) => dragOver(e)}
-                    onDragEnter={(e) => dragEnter(e)}
-                    onDragLeave={(e) => dragLeave(e)}
-                  >
-                    {imageURL ? (
-                      <label className="w-100">
-                        <div className="uploaded-img-container px-sm-0 px-2 mx-auto">
-                          <label>
-                            <input
-                              type="file"
-                              style={{ display: "none" }}
-                              onChange={(e) => this.onFileChange(e, "onChange")}
-                              accept=".mp4, .png,.jpeg"
-                              name="image"
-                            />
-                          </label>
-                          <img className="uploaded-img" src={imageURL} />
-                          <div className="upload-icon-container uploaded-img-content text-center">
-                            <img
-                              src={UploadWhiteIcon}
-                              alt="upload"
-                              className="mb-1 mt-4"
-                            />
-                            <h6 className="mb-1 text-white">
-                              Drag and drop your files
-                            </h6>
-                            <p className="mb-1 text-white">
-                              PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
-                            </p>
-                            <div className="mx-3 my-1">
-                              <span className="text-white">|</span>
-                              <h6 className="text-white">OR</h6>
-                              <span className="text-white">|</span>
-                            </div>
-                            <span className="btn uploaded-img-browse upload-nft-btn ">
-                              Browse File
-                            </span>
-                            <span className="text-danger text-center mt-3">
-                              {this.validator.message(
-                                "image",
-                                nft.image,
-                                "required"
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      </label>
-                    ) : videoURL ? (
-                      <>
-                        <div className="uploaded-img-container">
-                          <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
-                            <video
-                              src={videoURL}
-                              ref={this.myRef}
-                              // onTimeUpdate={handleOnTimeUpdate}
-                            />
-                            <div className="controls">
-                              <div className="actions">
-                                <button
-                                  className="play-pause-btn d-flex align-items-center justify-content-center"
-                                  onClick={() => this.togglePlay()}
-                                >
-                                  {this.state.playerState.isPlaying ? (
-                                    <BsFillPauseFill />
-                                  ) : (
-                                    <BsFillPlayFill />
-                                  )}
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-
-                          <label className="video-upload-label">
-                            <div className="uploaded-video-container mx-auto">
-                              <label>
-                                <input
-                                  type="file"
-                                  style={{ display: "none" }}
-                                  onChange={(e) =>
-                                    this.onFileChange(e, "onChange")
-                                  }
-                                  accept=".mp4, .png,.jpeg,.mp3"
-                                  name="image"
-                                />
-                              </label>
-
-                              <div className="upload-icon-container uploaded-video-content text-center">
-                                <img
-                                  src={UploadWhiteIcon}
-                                  alt="upload"
-                                  className="mb-1 mt-4"
-                                />
-                                <h6 className="mb-1 text-white">
-                                  Drag and drop your files
-                                </h6>
-                                <p className="mb-1 text-white">
-                                  PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
-                                </p>
-                                <div className="mx-3 my-1">
-                                  <span className="text-white">|</span>
-                                  <h6 className="text-white">OR</h6>
-                                  <span className="text-white">|</span>
-                                </div>
-                                <span className="btn uploaded-img-browse upload-nft-btn ">
-                                  Browse File
-                                </span>
-                              </div>
-                              <span className="text-danger text-center mt-3">
-                                {this.validator.message(
-                                  "image",
-                                  nft.image,
-                                  "required"
-                                )}
-                              </span>
-                            </div>
-                          </label>
-                        </div>
-                      </>
-                    ) : audioUrl ? (
-                      <>
-                        <div className="uploaded-img-container">
-                          <div className="create-nft-video-container px-sm-0 px-2 mx-auto">
-                            {/* <Waveform url={audioUrl} auction={false} /> */}
-                            <Audio
-                              src={audioUrl}
-                              onLoadCallback={function (): {} {
-                                throw new Error("Function not implemented.");
-                              }}
-                              loader={false}
-                              fileType={""}
-                            />
-                          </div>
-                          <label className="video-upload-label">
-                            <div className="uploaded-video-container mx-auto">
-                              <label>
-                                <input
-                                  type="file"
-                                  style={{ display: "none" }}
-                                  onChange={(e) =>
-                                    this.onFileChange(e, "onChange")
-                                  }
-                                  accept=".mp4, .png,.jpeg,.mp3"
-                                  name="image"
-                                />
-                              </label>
-
-                              <div className="upload-icon-container uploaded-video-content text-center">
-                                <img
-                                  src={UploadWhiteIcon}
-                                  alt="upload"
-                                  className="mb-1 mt-4"
-                                />
-                                <h6 className="mb-1 text-white">
-                                  Drag and drop your files
-                                </h6>
-                                <p className="mb-1 text-white">
-                                  PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
-                                </p>
-                                <div className="mx-3 my-1">
-                                  <span className="text-white">|</span>
-                                  <h6 className="text-white">OR</h6>
-                                  <span className="text-white">|</span>
-                                </div>
-                                <span className="btn uploaded-img-browse upload-nft-btn ">
-                                  Browse File
-                                </span>
-                              </div>
-                              <span className="text-danger text-center mt-3">
-                                {this.validator.message(
-                                  "image",
-                                  nft.image,
-                                  "required"
-                                )}
-                              </span>
-                            </div>
-                          </label>
-                        </div>
-                      </>
-                    ) : (
-                      <label className="w-100">
-                        <div className="upload-icon-container text-center ">
-                          <img src={UploadIcon} alt="upload" className="mb-2" />
-                          <h6 className="mb-2">Drag and drop your files</h6>
-                          <p className="mb-2">
-                            PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
-                          </p>
-                          <div className="">
-                            <span>|</span>
-                            <h6>OR</h6>
-                            <span>|</span>
-                          </div>
-
-                          <input
-                            type="file"
-                            style={{ display: "none" }}
-                            onChange={(e) => this.onFileChange(e, "onChange")}
-                            accept=".mp4, .png,.jpeg,.mp3"
-                            name="image"
-                          />
-                          <span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
-                            Browse File
-                          </span>
-                          <span className="text-danger text-center mb-3">
-                            {this.validator.message(
-                              "image",
-                              nft.image,
-                              "required"
-                            )}
-                          </span>
-                        </div>
-                      </label>
-                    )}
-                  </div>
-                </div>
+                <UploadFile
+                  data={{
+                    onDrop,
+                    dragOver,
+                    dragEnter,
+                    dragLeave,
+                    imageURL,
+                    onFileChange: this.onFileChange,
+                    UploadWhiteIcon,
+                    validator: this.validator,
+                    videoURL,
+                    myRef: this.myRef,
+                    nft,
+                    playerState: this.state.playerState,
+                    togglePlay: this.togglePlay,
+                    audioUrl,
+                    UploadIcon,
+                  }}
+                />
                 <div className="col-lg-4 col-md-6 col-sm-12">
                   <label className="create-collection-label d-flex">
                     Title:*{" "}
@@ -1005,97 +803,28 @@ class CreateNFT extends React.Component<
                     value={nft.description}
                   ></textarea>
                 </div>
-                <div className="col-12 col-lg-6 mt-3 mt-lg-5">
-                  <label className="create-collection-label">Properties:</label>
-                  <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
-                    <div className="properties-content">
-                      <p>Add Properties</p>
-                    </div>
-                    <div className="properties-btn">
-                      <button
-                        onClick={() => {
-                          this.setState({
-                            propertiesmodalShow: true,
-                          });
-                        }}
-                      >
-                        <img src={AddIcon} alt="add" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="nft-properties-container mx-2 mt-3">
-                    <div className="row g-2">
-                      {this.state.nft.properties.map(
-                        (item: { name: any; type: any }) => {
-                          return (
-                            <div className="col-md-6">
-                              <PropertiesInfo
-                                name={item.name}
-                                type={item.type}
-                              />
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 mt-3 mt-lg-5">
-                  <label className="create-collection-label">Levels:</label>
-                  <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
-                    <div className="properties-content">
-                      <p>Add Levels</p>
-                    </div>
-                    <div className="properties-btn">
-                      <button
-                        onClick={() => {
-                          this.setState({
-                            levelsmodalShow: true,
-                          });
-                        }}
-                      >
-                        <img src={AddIcon} alt="add" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="nft-level-container mx-3 mt-3 ">
-                    {this.state.nft.levels.map(
-                      (item: { name: any; value: any }) => {
-                        return (
-                          <LevelsInfo name={item.name} value={item.value} />
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 mt-3 ">
-                  <label className="create-collection-label">Stats:</label>
-                  <div className="create-collection-input mt-2 d-flex align-items-center justify-content-between">
-                    <div className="properties-content">
-                      <p>Add Stats</p>
-                    </div>
-                    <div className="properties-btn">
-                      <button
-                        onClick={() => {
-                          this.setState({
-                            statsmodalShow: true,
-                          });
-                        }}
-                      >
-                        <img src={AddIcon} alt="add" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="nft-stat-container mx-2 mt-3">
-                    {this.state.nft.stats.map(
-                      (item: { name: any; value: any }) => {
-                        return (
-                          <StatsInfo name={item.name} value={item.value} />
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
+
+                <AddProperties
+                  data={{
+                    showModal: ()=>this.setState({propertiesmodalShow:true}),
+                    AddIcon,
+                    nft: this.state.nft,
+                  }}
+                />
+                <AddLevels
+                  data={{
+                    showModal: ()=>this.setState({levelsmodalShow:true}),
+                    AddIcon,
+                    nft: this.state.nft,
+                  }}
+                />
+                <AddStats
+                  data={{
+                    showModal: ()=>this.setState({statsmodalShow:true}),
+                    AddIcon,
+                    nft: this.state.nft,
+                  }}
+                />
                 {!this.props.match.params.nftId && (
                   <div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
                     <div>
@@ -1121,13 +850,15 @@ class CreateNFT extends React.Component<
                   validator={this.validator}
                   capitalize={this.capitalize}
                   handleBtnDisable={this.handleBtnDisable}
+                  blockChainType={
+                    ENV.getUserKeys("blockchainType")?.blockchainType
+                  }
                 />
               </div>
               {/* </form> */}
             </div>
           </section>
 
-          {/* <button onClick={() => this.deleteNFT()}>Delete</button> */}
           <PropertiesModal
             show={this.state.propertiesmodalShow}
             addMoreValues={this.addMoreValues}
@@ -1172,7 +903,6 @@ class CreateNFT extends React.Component<
         </>
       );
     } else {
-      console.log("breaking here");
       toast.info("Please login with new connected account");
       this.props.history.push({
         pathname: `/connect-wallet`,
@@ -1185,12 +915,9 @@ class CreateNFT extends React.Component<
 
 const mapStateToProps = (state: {
   wallet: { connectedAddress: any; blockchainType: string };
-}) => (
-  console.log("state", state),
-  {
-    connectedAddress: state.wallet.connectedAddress,
-    blockchainType: state.wallet.blockchainType,
-  }
-);
+}) => ({
+  connectedAddress: state.wallet.connectedAddress,
+  blockchainType: state.wallet.blockchainType,
+});
 
 export default connect(mapStateToProps, {})(CreateNFT);

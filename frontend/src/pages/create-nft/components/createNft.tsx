@@ -5,7 +5,6 @@ import {
   formatBytes,
   handleRequest,
 } from "../../../utils/functions";
-import {createNFT} from "../../../utils/algorand"
 import { mintNFt, validateNetwork } from "../../../utils/web3";
 import axios from "axios";
 import { ENV } from "../../../config/config";
@@ -23,8 +22,6 @@ const CreateNft = ({
 }: CreateNftInterface) => {
   const wallet = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
-
-  console.log("props", props, state);
 
   const insertNFT = async (data: any) => {
     try {
@@ -52,7 +49,6 @@ const CreateNft = ({
     data.activeAuction = null;
 
     try {
-      console.log("chain= block", props.blockchainType);
       let paylaod = {};
 
       if (!state.isFreeMint) {
@@ -92,31 +88,6 @@ const CreateNft = ({
               lazyMinted: false,
             };
           }
-        }
-
-        if (props.blockchainType === "algorand") {
-          console.log("Algorand Implementation for Minting NFT");
-
-
-          const { name, copies } = state.nft;
-        let tokenId = await createNFT({
-          assetName: name,
-          total: copies,
-          metaData,
-          connectedAddress: props.connectedAddress
-          
-        });
-        console.log(tokenId,"tokenId in create nft")
-
-        if (tokenId) {
-          paylaod = {
-            nftToken: tokenId,
-            data: { ...data, blockchainType: props.blockchainType },
-            image,
-            lazyMinted: false,
-          };
-        }
-        
         }
       } else {
         paylaod = {
@@ -236,7 +207,7 @@ const CreateNft = ({
         metaData.image
       );
     }
-    await mintNFT(
+    mintNFT(
       { ...nftInfo, compressedFile: compressedFileUrl },
       metaData.dataInput,
       metaData.image

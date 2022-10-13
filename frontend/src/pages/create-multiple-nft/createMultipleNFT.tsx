@@ -15,8 +15,8 @@ import { uploadToS3Bucket } from "../../utils/s3Bucket";
 import { ChainsOptions, nftTypesOptions } from "../../utils/exportData";
 import { useGetData, useInsertData } from "../../hooks/Common";
 import { ENV } from "../../config/config";
-import { getWalletAddress } from "../../utils/web3";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
+import { connect } from "react-redux";
 
 const bannerContent = {
   subHeading: "Get Started",
@@ -25,7 +25,7 @@ const bannerContent = {
     "If you want to share your NFT with a large number of community members",
 };
 
-function CreateMultipleNFT() {
+function CreateMultipleNFT(props:any) {
   const [checkBox, setCheckBox] = useState<any>(false);
   const [fileName, setFileName] = useState<string>("File Name");
   const [uploadStatus, setUploadStatus] = useState<any>(false);
@@ -178,7 +178,7 @@ useEffect(()=>{
       chainId: batchFile.chainId,
       categoryId: batchFile.categoryId,
       status: "pending",
-      ownerAddress: await getWalletAddress(),
+      ownerAddress: props?.connectedAddress,
       userId: ENV.getUserKeys("_id")._id,
     };
     uploadFiles(payload);
@@ -381,6 +381,12 @@ useEffect(()=>{
       </div>
     </>
   );
-}
+}const mapStateToProps = (state: any) => ({
 
-export default CreateMultipleNFT;
+  connectedAddress: state.wallet.connectedAddress,
+});
+
+export default connect(mapStateToProps, {
+
+})(CreateMultipleNFT);
+
