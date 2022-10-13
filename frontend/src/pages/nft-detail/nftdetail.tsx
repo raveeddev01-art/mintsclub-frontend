@@ -65,7 +65,9 @@ import { useGetData, useDeleteData } from "../../hooks/Common";
 import MetaData from "../../Components/MetaData/MetaData";
 import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
 import FileDetail from "../../Components/FileDetail/FileDetail";
-import MoreNFTs from "./components/MoreNFTs/MoreNFTs"
+import MoreNFTs from "./components/MoreNFTs/MoreNFTs";
+import { CHAIN_LOGOS, CHAIN_TITLE } from "../../utils/helpers/helpers";
+import { CHAINS_INTERFACE } from "../../interfaces/components";
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [toggle, setToggle] = React.useState<boolean>(true);
@@ -530,7 +532,7 @@ const NFTDetail = (props: any) => {
               let payload = {
                 userId,
                 nftId,
-                ownerAddress:props.connectedAddress,
+                ownerAddress: props.connectedAddress,
               };
               props.beforeOffer();
               props.buyNow(payload);
@@ -579,7 +581,7 @@ const NFTDetail = (props: any) => {
       let payload = {
         userId,
         nftId,
-        ownerAddress:props.connectedAddress,
+        ownerAddress: props.connectedAddress,
       };
       createActivity("Transfer", false, props.connectedAddress);
       props.beforeOffer();
@@ -607,8 +609,7 @@ const NFTDetail = (props: any) => {
     let activityPayload = {
       nftId: _id,
       ownerId,
-      fromAddress:
-        type === "Transfer" ? ownerAddress :props.connectedAddress,
+      fromAddress: type === "Transfer" ? ownerAddress : props.connectedAddress,
       activityType: type,
       toAddress,
       price: price,
@@ -788,9 +789,11 @@ const NFTDetail = (props: any) => {
     user,
     ownerId,
     tokenId,
+    mint,
     description,
     currentPrice,
     ownerAddress,
+    blockchainType,
   }: any = nftDetail;
   const {
     sellingMethod,
@@ -805,14 +808,16 @@ const NFTDetail = (props: any) => {
     {
       title: "Contract Address",
       value:
-        ENV?.mintsClubContractAddress &&
-        ENV.mintsClubContractAddress.slice(0, 6) +
-          "...." +
-          ENV.mintsClubContractAddress.slice(-6),
+        blockchainType === "solana"
+          ? ""
+          : ENV?.mintsClubContractAddress &&
+            ENV.mintsClubContractAddress.slice(0, 6) +
+              "...." +
+              ENV.mintsClubContractAddress.slice(-6),
     },
     {
-      title: "Token ID",
-      value: tokenId,
+      title: blockchainType === "solana" ? "Mint" : "Token ID",
+      value: blockchainType === "solana" ? mint : tokenId,
     },
     {
       title: "Token Standard",
@@ -820,7 +825,9 @@ const NFTDetail = (props: any) => {
     },
     {
       title: "Blockchain",
-      value: "Ethereum",
+      value:
+        CHAIN_TITLE[blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE] ||
+        "Ethereum",
     },
   ];
   return (
@@ -856,14 +863,35 @@ const NFTDetail = (props: any) => {
             <div className="col-lg-8 col-xl-9 order-0 order-lg-1">
               <div className="row g-4 g-lg-5 g-xl-4">
                 <div className="col-xl-6 position-relative">
-                  {nftDetail?.lazyMinted && (
-                    <div className="minting-title">
+                  <div className="minting-title">
+                    {nftDetail?.lazyMinted && (
                       <div className="imgdiv">
-                        <img src={blockchainIcons.mintingIcon} alt="/" />
+                        <img
+                          src={blockchainIcons.mintingIcon}
+                          alt="/"
+                          className="chainLogo"
+                        />
+                        <p>Lazy Minted</p>
                       </div>
-                      <p>Lazy Minted</p>
+                    )}
+                    <div className="imgdiv">
+                      <img
+                        src={
+                          CHAIN_LOGOS[
+                            blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+                          ]
+                        }
+                        className="chainLogo"
+                      />
                     </div>
-                  )}
+                    <p>
+                      {
+                        CHAIN_TITLE[
+                          blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+                        ]
+                      }
+                    </p>
+                  </div>
                   {fileType === "image" ? (
                     <div className="nft-img-container mx-auto mx-lg-0">
                       <div
@@ -940,9 +968,9 @@ const NFTDetail = (props: any) => {
                     ""
                   )}
                 </div>
-          
+
                 <FileDetail
-                  info={ {
+                  info={{
                     name,
                     copies,
                     remainingCopies,
@@ -961,7 +989,7 @@ const NFTDetail = (props: any) => {
                     connectedAddress,
                     auctionEnded,
                     EndAuction,
-                    Images
+                    Images,
                   }}
                 />
                 <MetaDataSmall
@@ -1016,7 +1044,7 @@ const NFTDetail = (props: any) => {
                 </div>
               </div>
             </div>
-            <MoreNFTs info={{nfts,handleLikesTogleApi,likedNfts}}/>
+            <MoreNFTs info={{ nfts, handleLikesTogleApi, likedNfts }} />
           </div>
         </div>
       </div>

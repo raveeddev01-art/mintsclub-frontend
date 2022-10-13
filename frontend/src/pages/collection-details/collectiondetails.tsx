@@ -17,6 +17,8 @@ import { CollectionDetailInt } from "../../interfaces/CollectionDetail/interface
 import { useGetMyLikedNFTs, useGetNFTs } from "../../hooks/CollectionDetails";
 import { useInsertData, useDeleteData } from "../../hooks/Common";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import { CHAIN_LOGOS, CHAIN_TITLE } from "../../utils/helpers/helpers";
+import { CHAINS_INTERFACE } from "../../interfaces/components";
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
   const [nfts, setNfts] = useState<any>(null);
@@ -177,7 +179,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     }
   };
   const isOwner = () => {
-    console.log(props?.connectedAddress, location?.state)
     return (
       props?.connectedAddress?.toUpperCase() ===
       location?.state?.ownerAddress?.toUpperCase()
@@ -187,13 +188,13 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     let userId = ENV.getUserKeys("_id")._id;
     return !userId || userId !== location.state.userId;
   };
-  const { name, logo, description, username }: any = location.state;
+  const { name, logo, description, username, blockchainType }: any =
+    location.state;
 
   const bannerData = {
     subHeading: "Explore",
     heading: name,
   };
-  console.log(isOwner(),"isOwner()")
 
   return (
     <>
@@ -234,8 +235,20 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
               <p>Avg Sale Price</p>
             </div>
             <div className="info-card">
-              <img src={blockchainIcons.ethereumIcon} />
-              <p>Ethereum</p>
+              <img
+                src={
+                  CHAIN_LOGOS[
+                    blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+                  ]
+                }
+              />
+              <p>
+                {
+                  CHAIN_TITLE[
+                    blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+                  ]
+                }
+              </p>
             </div>
           </div>
         </div>

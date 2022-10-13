@@ -182,7 +182,10 @@ const ConnectWallet = (props: any) => {
   const onSuccessAuthentication = (data: any) => {
     console.log(data);
     if (data.data.success) {
-      ENV.encryptUserData({...data.data.data,blockchainType:props?.blockchainType});
+      ENV.encryptUserData({
+        ...data.data.data,
+        blockchainType: props?.blockchainType,
+      });
       history.push(location?.state ? location.state : "/");
     } else {
       setError(data.data.message);
@@ -257,7 +260,7 @@ const ConnectWallet = (props: any) => {
       key: "solana",
       wallets: [
         {
-          name: "Solana",
+          name: "Phantom Solana",
           icon: connectModal.phantomImg,
           functionality: async () => {
             await wallet.disconnect();
@@ -273,7 +276,7 @@ const ConnectWallet = (props: any) => {
       wallets: [
         {
           name: "Algorand",
-          icon: connectModal.phantomImg,
+          icon: connectModal.algoran,
           functionality: async () => {
             const res = await connectAlgoWallet();
             if (res) {
@@ -308,7 +311,7 @@ const ConnectWallet = (props: any) => {
           <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
             {CHAINS.map((chain) => (
               <Tab eventKey={chain.key} title={chain.title}>
-                {chain.wallets?.map((wallet:any) => (
+                {chain.wallets?.map((wallet: any) => (
                   <div key={wallet.name} className="tab-inner-content">
                     <button
                       className="wallet-button"
