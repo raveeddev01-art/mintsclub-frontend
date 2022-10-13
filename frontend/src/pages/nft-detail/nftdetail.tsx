@@ -61,7 +61,7 @@ import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
 import Audio from "../../Components/Audio/Audio";
 import { getBannerData, nftBanner } from "../../utils/exportData";
 import Table from "../../Components/Table/Table";
-import { useGetData, useDeleteData } from "../../hooks/Common";
+import { useGetData, useDeleteData, useInsertData  } from "../../hooks/Common";
 import MetaData from "../../Components/MetaData/MetaData";
 import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
 import FileDetail from "../../Components/FileDetail/FileDetail";
@@ -338,8 +338,15 @@ const NFTDetail = (props: any) => {
       });
     }
   };
+  const success = () => {
 
-  const handleLikesTogleApi = async (nftId: string, status: string) => {
+    setLikeBtnDisable(false);
+    console.log("sucees");
+  };
+
+  const { mutate:toggleLikeDislike} = useInsertData("nftLikes/likeDislike", success);
+
+  const handleLikesTogleApi = async (nftId: string, status: string ,likesCount: number ) => {
     if (await validateNetwork()) {
       if (!likeButtonDisable) {
         setLikeBtnDisable(true);
@@ -353,20 +360,30 @@ const NFTDetail = (props: any) => {
           count: 1,
         };
 
-        if (status === "dislike" && nftDetail.likesCount > 0) {
-          let nft = nftDetail;
-          nft.likesCount = nft.likesCount - 1;
+        if (status === "dislike" && likesCount > 0) {
 
-          setNftDetail(nft);
-          props.toggleLikeDislike(data);
+          let result = likedNfts.filter((item: any) => item.nftId !== nftId);
+          setLikedNfts(result);
+          increOrDecreLikes(nftId ,'dislike')
+          
+          toggleLikeDislike(data);
+
         } else {
-          let nft = nftDetail;
-          nft.likesCount = nft.likesCount + 1;
+        
+          let myLikedNfts: any = [];
+            if (likedNfts && likedNfts.length > 0) {
+              myLikedNfts = likedNfts;
+            }
+            let obj = {
+              _id: "1234455",
+              nftId,
+            };
 
-          setNftDetail(nft);
-
-          props.toggleLikeDislike(data);
-        }
+            myLikedNfts.push(obj);
+          setLikedNfts(myLikedNfts);
+          increOrDecreLikes(nftId ,'like')
+          toggleLikeDislike(data);
+                }
       }
     } else {
       toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
@@ -421,7 +438,7 @@ const NFTDetail = (props: any) => {
   useEffect(() => {
     if (props.togleLikeRes) {
       setLikeBtnDisable(false);
-      props.beforeTogleLikeDislike();
+      // props.beforeTogleLikeDislike();
     }
   }, [props.togleLikeRes]);
 
@@ -833,6 +850,29 @@ const NFTDetail = (props: any) => {
         "Ethereum",
     },
   ];
+  const increOrDecreLikes = (id: string, status: string) => {
+    if (status === "dislike") {
+      let newResult = nfts.map((item: any) => {
+        if (item._id !== id) {
+          return item;
+        } else {
+          if (item?.likeCount > 0) {
+            return { ...item, likeCount: item.likeCount - 1 };
+          }
+        }
+      });
+      setNFTs(newResult);
+    } else {
+      let final = nfts.map((item: any) => {
+        if (item._id !== id) {
+          return item;
+        } else {
+          return { ...item, likeCount: item.likeCount + 1 };
+        }
+      });
+      setNFTs(final);
+    }
+  };
   return (
     <>
       <Banner
