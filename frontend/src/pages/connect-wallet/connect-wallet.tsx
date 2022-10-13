@@ -35,6 +35,7 @@ import reactSelect from "react-select";
 import { WalletName } from "@solana/wallet-adapter-base";
 import { LargeNumberLike } from "crypto";
 import { connectWallet } from "../../utils/algorand";
+import { signMessageFromUserForSolana } from "../../utils/solana/helper";
 
 // require("@solana/wallet-adapter-react-ui/styles.css");
 
@@ -92,27 +93,6 @@ const ConnectWallet = (props: any) => {
     }
   };
 
-  const signMessageFromUserForSolana = async (nounce: number) => {
-    try {
-      if (wallet.connected) {
-        const data = new TextEncoder().encode(
-          `I am signing my one-time nonce: ${nounce}`
-        );
-        const signature: any =
-          wallet.signMessage && (await wallet.signMessage(data));
-
-        const signatureBase64 = Buffer.from(signature).toString("base64");
-        return { publicAddress: connectedAddress, signature: signatureBase64 };
-      }
-    } catch (err) {
-      console.log(
-        "🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err",
-        err
-      );
-    }
-  };
-  /////////////////////////////////////
-
   ///Validate
   const onSuccessValidateUser = async (data: any) => {
     const response = data.data;
@@ -132,7 +112,9 @@ const ConnectWallet = (props: any) => {
         selectedBlockchainType = "solana";
         if (response?.users?.length > 0) {
           const res = await signMessageFromUserForSolana(
-            response?.users[0].nounce
+            wallet,
+            response?.users[0].nounce,
+            connectedAddress
           );
           authenticate({ ...res, blockchainType: "solana" });
           return;
@@ -263,7 +245,6 @@ const ConnectWallet = (props: any) => {
           name: "Phantom Solana",
           icon: connectModal.phantomImg,
           functionality: async () => {
-            await wallet.disconnect();
             wallet.select("Phantom" as WalletName);
           },
         },
@@ -288,14 +269,18 @@ const ConnectWallet = (props: any) => {
     },
   ];
 
+  const solanaUserLogin = async () => {
+    props.setBlockchainType("solana");
+    props.setWalletAddress(wallet.publicKey?.toBase58());
+    setConnectedAddres(wallet.publicKey?.toBase58());
+    if (connectedAddress) {
+      validateUser({ blockchainType: "solana" });
+    }
+  };
+
   useEffect(() => {
     if (wallet.publicKey && wallet.connected) {
-      props.setBlockchainType("solana");
-      props.setWalletAddress(wallet.publicKey?.toBase58());
-      setConnectedAddres(wallet.publicKey?.toBase58());
-      if (connectedAddress) {
-        validateUser({ blockchainType: "solana" });
-      }
+      solanaUserLogin();
       return;
     }
   }, [wallet.connected, wallet.publicKey]);
