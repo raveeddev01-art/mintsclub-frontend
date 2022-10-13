@@ -146,7 +146,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 							</div>
 						</div>
 						<div className="row g-1 align-items-center">
-							{isLoadinCollections ? (
+							{isLoadinCollections && isCategoryLoading ? (
 								<div className="d-flex justify-content-center">
 									<div className="spinner-border" role="status">
 										<span className="sr-only">Loading...</span>
@@ -185,8 +185,8 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 							<div className="col-12">
 								<div className="mt-5 d-flex justify-content-center align-items-center">
 									{!empty &&
-										collections?.length === 10 &&
-										!isLoadinCollections &&
+										collections?.length &&
+										// !isLoadinCollections &&
 										pagination.totalRecords > collections.length && (
 											<button
 												className="btn btn-rounded-bordered px-5"
