@@ -28,4 +28,28 @@ const mintSingleNft = async (
   }
 };
 
-export { mintSingleNft };
+const signMessageFromUserForSolana = async (
+  wallet: any,
+  nounce: number,
+  connectedAddress: string
+) => {
+  try {
+    if (wallet.connected) {
+      const data = new TextEncoder().encode(
+        `I am signing my one-time nonce: ${nounce}`
+      );
+      const signature: any =
+        wallet.signMessage && (await wallet.signMessage(data));
+
+      const signatureBase64 = Buffer.from(signature).toString("base64");
+      return { publicAddress: connectedAddress, signature: signatureBase64 };
+    }
+  } catch (err) {
+    console.log(
+      "🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err",
+      err
+    );
+  }
+};
+
+export { mintSingleNft, signMessageFromUserForSolana };
