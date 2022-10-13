@@ -1,5 +1,6 @@
 import { constants } from "http2";
 import { CreateNftInterface } from "../../../interfaces/components";
+import {createApp} from "../../../utils/algorand"
 import {
   compressImage,
   formatBytes,
@@ -43,6 +44,9 @@ const CreateNft = ({
       toast.error(err.message);
     }
   };
+  const createApplication = ()=>{
+    createApp(34, props.connectedAddress);
+  }
   const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
     let data: any = { ...nftInfo };
     console.log("🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data", data);
@@ -116,7 +120,7 @@ const CreateNft = ({
             lazyMinted: false,
           };
         }
-        
+
         }
       } else {
         paylaod = {
@@ -301,6 +305,14 @@ const CreateNft = ({
       >
         {getButtonText()}
       </button>
+      <button>
+        Put On Sale
+      </button>
+
+      <button onClick={createApplication}>
+        Create Application
+      </button>
+
     </div>
   );
 };
