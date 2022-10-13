@@ -5,7 +5,6 @@ import {
   formatBytes,
   handleRequest,
 } from "../../../utils/functions";
-import {createNFT} from "../../../utils/algorand"
 import { mintNFt, validateNetwork } from "../../../utils/web3";
 import axios from "axios";
 import { ENV } from "../../../config/config";
@@ -19,12 +18,10 @@ const CreateNft = ({
   validator,
   capitalize,
   setState,
-  blockChainType,
   handleBtnDisable,
 }: CreateNftInterface) => {
   const wallet = useWallet();
   const [loading, setLoading] = useState<boolean>(false);
-
 
   const insertNFT = async (data: any) => {
     try {
@@ -52,22 +49,21 @@ const CreateNft = ({
     data.activeAuction = null;
 
     try {
-      console.log("chain= block", blockChainType);
       let paylaod = {};
 
       if (!state.isFreeMint) {
-        if (blockChainType === "ethereum") {
+        if (props.blockchainType === "ethereum") {
           let createNftResult = await mintNFt(metaData, state.nft.copies);
           if (createNftResult.events.TransferSingle.returnValues.id) {
             paylaod = {
               nftToken: createNftResult.events.TransferSingle.returnValues.id,
-              data: { ...data, blockchainType: blockChainType },
+              data: { ...data, blockchainType: props.blockchainType },
               image,
               lazyMinted: false,
             };
           }
         }
-        if (props.blockChainType === "solana") {
+        if (props.blockchainType === "solana") {
           console.log("Solana Implementation for Minting NFT");
           const response = await mintSingleNft(
             wallet,
@@ -84,7 +80,7 @@ const CreateNft = ({
               nftToken: -1,
               data: {
                 ...data,
-                blockchainType: blockChainType,
+                blockchainType: props.blockchainType,
                 mint: response?.mintAddress.toBase58(),
                 txnHash: response?.response.signature,
               },
@@ -93,37 +89,12 @@ const CreateNft = ({
             };
           }
         }
-
-        if (blockChainType === "algorand") {
-          console.log("Algorand Implementation for Minting NFT");
-
-
-          const { name, copies } = state.nft;
-        let tokenId = await createNFT({
-          assetName: name,
-          total: copies,
-          metaData,
-          connectedAddress: props.connectedAddress
-          
-        });
-        console.log(tokenId,"tokenId in create nft")
-
-        if (tokenId) {
-          paylaod = {
-            nftToken: tokenId,
-            data: { ...data, blockchainType:blockChainType },
-            image,
-            lazyMinted: false,
-          };
-        }
-        
-        }
       } else {
         paylaod = {
           nftToken: (Math.floor(Math.random() * 10000) + 10000)
             .toString()
             .substring(1),
-          data: { ...data, blockchainType: blockChainType },
+          data: { ...data, blockchainType: props.blockchainType },
           image,
           lazyMinted: state.isFreeMint,
         };
@@ -236,7 +207,7 @@ const CreateNft = ({
         metaData.image
       );
     }
-    await mintNFT(
+    mintNFT(
       { ...nftInfo, compressedFile: compressedFileUrl },
       metaData.dataInput,
       metaData.image

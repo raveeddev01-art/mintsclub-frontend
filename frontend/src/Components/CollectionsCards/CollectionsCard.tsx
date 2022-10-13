@@ -37,17 +37,21 @@ const CollectionsCard: FC<CollectionCardInt> = ({
       <div className="row">
         <div className="col-12">
           <div className="row g-3">
-
             <div className="col-4 collection-subImg1">
-                  <SubImgLoader image={Subimg1 ? Subimg1 : Images.imagePlaceholder} />
-                </div>
-                <div className="col-4 collection-subImg1">
-                  <SubImgLoader image={Subimg2 ? Subimg2 : Images.imagePlaceholder} />
-                </div>  <div className="col-4 collection-subImg1">
-                  <SubImgLoader image={Subimg3 ? Subimg3 : Images.imagePlaceholder} />
-                </div>
-            
-
+              <SubImgLoader
+                image={Subimg1 ? Subimg1 : Images.imagePlaceholder}
+              />
+            </div>
+            <div className="col-4 collection-subImg1">
+              <SubImgLoader
+                image={Subimg2 ? Subimg2 : Images.imagePlaceholder}
+              />
+            </div>{" "}
+            <div className="col-4 collection-subImg1">
+              <SubImgLoader
+                image={Subimg3 ? Subimg3 : Images.imagePlaceholder}
+              />
+            </div>
             <div style={{ display: `${loader ? "block" : "none"}` }}>
               <ImageLoader />
             </div>
@@ -68,7 +72,9 @@ const CollectionsCard: FC<CollectionCardInt> = ({
                 {name && name.length > 22 ? name.slice(0, 22) + "..." : name}
               </div>
               <div className="collection-items d-flex align-items-center">
-                <span>{NFTCount} {NFTCount>1 ? 'items' : 'item'}</span>
+                <span>
+                  {NFTCount} {NFTCount > 1 ? "items" : "item"}
+                </span>
               </div>
             </Card.Title>
             <div className="d-flex align-items-center justify-content-between collection-card-footer">
@@ -82,11 +88,11 @@ const CollectionsCard: FC<CollectionCardInt> = ({
                   Owned by:{" "}
                   <span className="text-capitalize ms-1">
                     {ownerAddress?.toUpperCase() ===
-                      connectedAddress?.toUpperCase()
+                    connectedAddress?.toUpperCase()
                       ? "You"
                       : userName
-                        ? userName
-                        : "unnamed"}
+                      ? userName
+                      : "unnamed"}
                   </span>
                 </p>
               </div>
