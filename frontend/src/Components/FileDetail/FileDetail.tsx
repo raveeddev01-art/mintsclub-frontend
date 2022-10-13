@@ -1,4 +1,4 @@
-const FileDetail = ({info}:any) => {
+const FileDetail = ({ info }: any) => {
   const {
     name,
     copies,
@@ -18,8 +18,8 @@ const FileDetail = ({info}:any) => {
     connectedAddress,
     auctionEnded,
     EndAuction,
-    Images
-  }:any=info
+    Images,
+  }: any = info;
   return (
     <div className="col-xl-6">
       <div className="nft-img-detail">
@@ -107,7 +107,6 @@ const FileDetail = ({info}:any) => {
         <p>
           Owned by:
           <span className="text-capitalize ms-1">
-            {" "}
             {ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase()
               ? "You"
               : user?.username

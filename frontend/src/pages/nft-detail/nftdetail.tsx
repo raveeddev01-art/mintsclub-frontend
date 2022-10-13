@@ -964,29 +964,32 @@ const NFTDetail = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  activities: state.nft.itemActivities,
-  activitiesAuth: state.nft.activitiesAuth,
-  itemsListing: state.nft.itemsListing,
-  itemsListingAuth: state.nft.itemsListingAuth,
-  createAuth: state.bid.createAuth,
-  createAuthOffer: state.offer.createAuth,
-  buyAuth: state.offer.buyAuth,
-  getAuth: state.bid.getAuth,
-  getAuthOffer: state.offer.getAuth,
-  offers: state.offer.offers,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-  connectedAddress: state.wallet.connectedAddress,
-});
+const mapStateToProps = (state: any) => (
+  console.log("state", state),
+  {
+    nftDetail: state.nft.nftsData,
+    nftsAuth: state.nft.nftsAuth,
+    nftsByCollection: state.nft.nftsByCollection,
+    nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+    myLikedNfts: state.nft.myLikedNfts,
+    myLikedNftsStatus: state.nft.myLikedNftsStatus,
+    activities: state.nft.itemActivities,
+    activitiesAuth: state.nft.activitiesAuth,
+    itemsListing: state.nft.itemsListing,
+    itemsListingAuth: state.nft.itemsListingAuth,
+    createAuth: state.bid.createAuth,
+    createAuthOffer: state.offer.createAuth,
+    buyAuth: state.offer.buyAuth,
+    getAuth: state.bid.getAuth,
+    getAuthOffer: state.offer.getAuth,
+    offers: state.offer.offers,
+    bids: state.bid.bids,
+    bidsByNft: state.bid.bidsByNft,
+    bidsByNftAuth: state.bid.bidsBYNftAuth,
+    togleLikeRes: state.explore.togleLikeRes,
+    connectedAddress: state.wallet.connectedAddress,
+  }
+);
 
 export default connect(mapStateToProps, {
   getNFT,

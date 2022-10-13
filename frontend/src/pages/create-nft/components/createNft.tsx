@@ -11,6 +11,7 @@ import { ENV } from "../../../config/config";
 import { mintSingleNft } from "../../../utils/solana/helper";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
+
 const CreateNft = ({
   props,
   state,
@@ -64,6 +65,13 @@ const CreateNft = ({
           }
         }
         if (props.blockchainType === "solana") {
+          // const metaplex = getMetaplex();
+          // console.log(
+          //   "🚀 ~ file: createNft.tsx ~ line 69 ~ mintNFT ~ metaplex",
+          //   metaplex
+          // );
+          // metaplex.use(walletAdapterIdentity(wallet));
+          // const
           console.log("Solana Implementation for Minting NFT");
           const response = await mintSingleNft(
             wallet,
@@ -83,6 +91,7 @@ const CreateNft = ({
                 blockchainType: props.blockchainType,
                 mint: response?.mintAddress.toBase58(),
                 txnHash: response?.response.signature,
+                ownerAddress: wallet?.publicKey?.toBase58(),
               },
               image,
               lazyMinted: false,

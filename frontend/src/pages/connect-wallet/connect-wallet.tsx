@@ -11,33 +11,13 @@ import { connectModal } from "../../assets/assets";
 import { connectMetamask, handleSign } from "../../utils/web3";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
-import { useGetData, useInsertData } from "../../hooks/Common";
-import Web3 from "web3";
+import { useInsertData } from "../../hooks/Common";
 import { ENV } from "../../config/config";
 import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
-import {
-  ConnectionProvider,
-  useWallet,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
-import {
-  WalletDisconnectButton,
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
-import {
-  PhantomWalletAdapter,
-  PhantomWalletName,
-  SolflareWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
-import reactSelect from "react-select";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletName } from "@solana/wallet-adapter-base";
-import { LargeNumberLike } from "crypto";
 import { connectWallet } from "../../utils/algorand";
 import { signMessageFromUserForSolana } from "../../utils/solana/helper";
-
-// require("@solana/wallet-adapter-react-ui/styles.css");
 
 const ConnectWallet = (props: any) => {
   const [disabled, setDisabled] = useState(false);
@@ -245,6 +225,7 @@ const ConnectWallet = (props: any) => {
           name: "Phantom Solana",
           icon: connectModal.phantomImg,
           functionality: async () => {
+            await wallet.disconnect();
             wallet.select("Phantom" as WalletName);
           },
         },

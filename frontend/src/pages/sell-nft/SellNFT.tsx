@@ -15,12 +15,16 @@ import {
 } from "../../utils/web3";
 import { toast } from "react-toastify";
 import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
+import DateRangePicker from "react-bootstrap-daterangepicker";
 import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import ApprovalModal from "../../Components/Modals/ApprovalModal/ApprovalModal";
 import Banner from "../../Components/Banner/Banner";
 import BannerBg from "../../assets/images/hero-bg.png";
 import BannerImage from "../../assets/images/bannerimg.png";
 import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
+import SellNFTLoader from "../../Components/ContentLoader/SellNFTLoader";
+import Audio from "../../Components/Audio/Audio";
 import { useHistory } from "react-router";
 import { sellNFTBanner } from "../../utils/exportData";
 import { useGetNFTbyId } from "../../hooks/AllNFTs";
@@ -31,8 +35,16 @@ import NFTDetail from "./components/NFTDetail";
 import FixedPriceListing from "./components/FixedPriceListing";
 import AuctionListing from "./components/AuctionListing";
 import Buttons from "./components/Buttons";
+import { CHAIN_CURRENCY } from "../../utils/helpers/helpers";
+import { CHAINS_INTERFACE } from "../../interfaces/components";
+import { listFixedPriceNft } from "../../utils/solana/helper";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { getMetaplex } from "../../utils/solana/config";
+import { walletAdapterIdentity } from "@metaplex-foundation/js";
+
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
+  const wallet = useWallet();
   const [activeBtn, setActiveBtn] = useState<any>(0);
   const [sellingMethod, setSellingMethod] = useState<number>(1); // 1 = Fixed Price, 2 = Timed Auction
   const [fixedPriceConfig, setFixedPriceConfig] = useState<any>({
@@ -157,7 +169,7 @@ const SellNFT = (props: any) => {
       }
       return "";
     }
-    if (await validateNetwork()) {
+    if (await validateNetwork(nftDetail?.blockchainType)) {
       if (!nftDetail?.user?.isApproved) {
         setShow(true);
         return "";
@@ -169,7 +181,7 @@ const SellNFT = (props: any) => {
       let timedConfig = { ...timedAuctionConfig };
 
       let fixedConfig = { ...fixedPriceConfig };
-      const { _id, ownerId } = nftDetail;
+      const { _id, ownerId, blockchainType } = nftDetail;
 
       let activityPayload = {
         nftId: _id,
@@ -232,7 +244,13 @@ const SellNFT = (props: any) => {
       if (sellingMethod === 2) {
         openBidding(timedAuctionConfig, payload, activityPayload, price);
       } else {
-        openForSale(activityPayload, payload, fixedConfig, price);
+        openForSale(
+          activityPayload,
+          payload,
+          fixedConfig,
+          price,
+          blockchainType
+        );
       }
     } else {
       toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
@@ -278,7 +296,8 @@ const SellNFT = (props: any) => {
     activityPayload: any,
     payload: any,
     fixedConfig: any,
-    price: any
+    price: any,
+    blockchainType: string
   ) => {
     var formData = new FormData();
     try {
@@ -296,6 +315,14 @@ const SellNFT = (props: any) => {
           return false;
         }
       } else {
+        if (blockchainType === "solana") {
+          console.log("Solana Implementation...");
+          const metaplex = getMetaplex();
+          metaplex.use(walletAdapterIdentity(wallet));
+
+          res = await listFixedPriceNft(wallet, nftDetail.mint, price);
+        }
+
         res = await putonsale(
           nftDetail.tokenId,
           copies,
@@ -305,7 +332,14 @@ const SellNFT = (props: any) => {
 
       if (res) {
         activityPayload.price = price;
-        payload.sellId = Number(nftDetail.lazyMinted ? nftDetail.tokenId : res);
+        payload.blockchainType = blockchainType;
+        if (blockchainType === "solana") {
+          payload.tradeStateAddress = res;
+        } else {
+          payload.sellId = Number(
+            nftDetail.lazyMinted ? nftDetail.tokenId : res
+          );
+        }
         if (nftDetail.lazyMinted) {
           payload.signature = res.data;
         }
@@ -317,6 +351,8 @@ const SellNFT = (props: any) => {
       console.log(err, "error");
       setLoader(false);
       toast.error(err);
+    } finally {
+      setLoader(false);
     }
   };
   const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
@@ -369,7 +405,14 @@ const SellNFT = (props: any) => {
     }
   };
 
-  const { image, name, description, remainingCopies, fileType } = nftDetail;
+  const {
+    image,
+    name,
+    description,
+    remainingCopies,
+    fileType,
+    blockchainType,
+  } = nftDetail;
   return (
     <>
       <Banner

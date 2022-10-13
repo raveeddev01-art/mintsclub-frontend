@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@metaplex-foundation/js": "^0.17.0",
+    "@metaplex-foundation/js": "^0.15.0",
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.3",
     "@randlabs/myalgo-connect": "^1.2.0",

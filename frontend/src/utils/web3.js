@@ -54,7 +54,10 @@ export const getChainId = async () => {
     return chainId;
   }
 };
-export const validateNetwork = async () => {
+export const validateNetwork = async (blockchainType = "ethereum") => {
+  if (blockchainType === "solana") {
+    return true;
+  }
   let prevNetwork = await getNetworkNameByChainId();
 
   if (prevNetwork === "Ethereum Goerli") {
