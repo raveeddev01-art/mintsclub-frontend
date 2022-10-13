@@ -102,53 +102,53 @@ export const Images = {
 };
 
 export const aboutusImages = {
-  consultancy,
-  development,
-  marketplace,
-  dapp,
-  defi,
-  crypto,
-  binance,
-  cardano,
-  solana,
-  algoran,
+	consultancy,
+	development,
+	marketplace,
+	dapp,
+	defi,
+	crypto,
+	binance,
+	cardano,
+	solana,
+	algoran,
 };
 
 export const CollectionImages = {
-  mainImg1,
-  mainImg2,
-  mainImg3,
-  subImg1,
-  subImg2,
-  subImg3,
-  subImg4,
-  subImg5,
-  subImg6,
+	mainImg1,
+	mainImg2,
+	mainImg3,
+	subImg1,
+	subImg2,
+	subImg3,
+	subImg4,
+	subImg5,
+	subImg6,
 };
 
 export const ListingImg = {
-  listingImg1,
-  listingImg2,
-  listingImg3,
-  listingImg4,
+	listingImg1,
+	listingImg2,
+	listingImg3,
+	listingImg4,
 };
 
 export const editImages = {
-  EditAvatar,
-  EditBanner,
-  Twitter,
-  Insta,
-  Website,
+	EditAvatar,
+	EditBanner,
+	Twitter,
+	Insta,
+	Website,
 };
 
 export const famousNFTs = {
-  nft1,
-  nft2,
-  nft3,
-  nft4,
-  nft5,
-  nft6,
-  nft7,
+	nft1,
+	nft2,
+	nft3,
+	nft4,
+	nft5,
+	nft6,
+	nft7,
 };
 
 export const connectModal = {
@@ -161,7 +161,7 @@ export const connectModal = {
 };
 
 export const headerImages = {
-  logoDark,
+	logoDark,
 };
 
 export const blockchainIcons = {

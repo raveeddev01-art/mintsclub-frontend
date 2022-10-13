@@ -34,20 +34,20 @@ const NFTCard: FC<NFTCardInt> = (props) => {
     blockchainType,
   } = props.data;
 
-  const { username, profileImage, profilePhoto }: any = props?.owner || {};
-  const { likedNfts } = props;
-  const validateIfLiked = (likedNfts1: any, id: string) => {
-    if (likedNfts && likedNfts?.length > 0) {
-      let result = likedNfts.find((item) => item.nftId == id);
-      if (result) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  };
+	const { username, profileImage, profilePhoto }: any = props?.owner || {};
+	const { likedNfts } = props;
+	const validateIfLiked = (likedNfts1: any, id: string) => {
+		if (likedNfts && likedNfts?.length > 0) {
+			const result = likedNfts.find((item) => item.nftId === id);
+			if (result) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	};
 
   return (
     <Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
@@ -225,7 +225,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  connectedAddress: state.wallet.connectedAddress,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {})(NFTCard);

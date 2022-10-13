@@ -23,7 +23,7 @@ export const useGetMyLikedNFTs = (qs: any, onSuccess: any, enabled?: any) => {
 };
 
 export const useGetNFTs = (filter: any, onSuccess: any) => {
-  const location: any = useLocation();
+	const location: any = useLocation();
 
   let nftQS: any = {};
   if (filter) {

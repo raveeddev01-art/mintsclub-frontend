@@ -328,7 +328,7 @@ class CreateCollections extends Component<
     const dm = decimals < 0 ? 0 : decimals;
     const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+		const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
@@ -339,8 +339,8 @@ class CreateCollections extends Component<
     let { collection } = this.state;
     collection = { ...collection, [name]: value, userId: userId };
 
-    this.setState({ collection });
-  }
+		this.setState({ collection });
+	}
 
   reset = () => {
     const collection = {
@@ -476,11 +476,11 @@ class CreateCollections extends Component<
     });
   };
 
-  handleDeployChange = (selectedOption: any) => {
-    let { collection } = this.state;
-    collection = { ...collection, deploy: selectedOption.target.checked };
-    this.setState({ collection });
-  };
+	handleDeployChange = (selectedOption: any) => {
+		let { collection } = this.state;
+		collection = { ...collection, deploy: selectedOption.target.checked };
+		this.setState({ collection });
+	};
 
   handleValidation = () => {
     const { categoryId, logo, name, description, featuredImg, deploy } =
@@ -658,11 +658,11 @@ class CreateCollections extends Component<
             </div>
           </section>
 
-          <OwnCollectionToday />
-        </>
-      );
-    }
-  }
+					<OwnCollectionToday />
+				</>
+			);
+		}
+	}
 }
 
 const mapStateToProps = (state: any) => (

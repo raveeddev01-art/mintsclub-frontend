@@ -950,63 +950,63 @@ const NFTDetail = (props: any) => {
         fileType={fileType}
       />
 
-      <BidModal
-        show={bidModalShow}
-        calculatePricePercantage={calculatePricePercantage}
-        handleModalSubmit={handleModalSubmit}
-        onChange={onChange}
-        decimalNumberValidator={decimalNumberValidator}
-        balance={balance}
-        price={price}
-        onHide={async () => setBidModalShow(false)}
-      />
-    </>
-  );
+			<BidModal
+				show={bidModalShow}
+				calculatePricePercantage={calculatePricePercantage}
+				handleModalSubmit={handleModalSubmit}
+				onChange={onChange}
+				decimalNumberValidator={decimalNumberValidator}
+				balance={balance}
+				price={price}
+				onHide={async () => setBidModalShow(false)}
+			/>
+		</>
+	);
 };
 
 const mapStateToProps = (state: any) => ({
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  activities: state.nft.itemActivities,
-  activitiesAuth: state.nft.activitiesAuth,
-  itemsListing: state.nft.itemsListing,
-  itemsListingAuth: state.nft.itemsListingAuth,
-  createAuth: state.bid.createAuth,
-  createAuthOffer: state.offer.createAuth,
-  buyAuth: state.offer.buyAuth,
-  getAuth: state.bid.getAuth,
-  getAuthOffer: state.offer.getAuth,
-  offers: state.offer.offers,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-  connectedAddress: state.wallet.connectedAddress,
+	nftDetail: state.nft.nftsData,
+	nftsAuth: state.nft.nftsAuth,
+	nftsByCollection: state.nft.nftsByCollection,
+	nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+	myLikedNfts: state.nft.myLikedNfts,
+	myLikedNftsStatus: state.nft.myLikedNftsStatus,
+	activities: state.nft.itemActivities,
+	activitiesAuth: state.nft.activitiesAuth,
+	itemsListing: state.nft.itemsListing,
+	itemsListingAuth: state.nft.itemsListingAuth,
+	createAuth: state.bid.createAuth,
+	createAuthOffer: state.offer.createAuth,
+	buyAuth: state.offer.buyAuth,
+	getAuth: state.bid.getAuth,
+	getAuthOffer: state.offer.getAuth,
+	offers: state.offer.offers,
+	bids: state.bid.bids,
+	bidsByNft: state.bid.bidsByNft,
+	bidsByNftAuth: state.bid.bidsBYNftAuth,
+	togleLikeRes: state.explore.togleLikeRes,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
-  getNFT,
-  beforeNFT,
-  getNFTsByCollection,
-  toggleLikeDislike,
-  getMyLikedNfts,
-  placeBid,
-  getBids,
-  getBidSByNftId,
-  beforeBid,
-  deleteBid,
-  beforeTogleLikeDislike,
-  makeOffer,
-  beforeOffer,
-  getOffers,
-  deleteOffer,
-  buyNow,
-  createActivity,
-  getActivities,
-  getItemsListing,
-  beforeNFTByCollection,
+	getNFT,
+	beforeNFT,
+	getNFTsByCollection,
+	toggleLikeDislike,
+	getMyLikedNfts,
+	placeBid,
+	getBids,
+	getBidSByNftId,
+	beforeBid,
+	deleteBid,
+	beforeTogleLikeDislike,
+	makeOffer,
+	beforeOffer,
+	getOffers,
+	deleteOffer,
+	buyNow,
+	createActivity,
+	getActivities,
+	getItemsListing,
+	beforeNFTByCollection,
 })(NFTDetail);

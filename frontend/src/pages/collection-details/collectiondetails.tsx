@@ -21,23 +21,23 @@ import { CHAIN_LOGOS, CHAIN_TITLE } from "../../utils/helpers/helpers";
 import { CHAINS_INTERFACE } from "../../interfaces/components";
 
 const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
-  const [nfts, setNfts] = useState<any>(null);
-  const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
-  const [likedNfts, setLikedNfts] = useState<Array<any> | null>(null);
-  const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
-  const [nftPagination, setNFTPagination] = useState<any>(null);
-  const [disabled, setDisabled] = useState(false);
-  const { darkMode } = useContext(darkModeContext);
-  const location: any = useLocation();
-  const [filter, setFilter] = useState<any>({
-    collectionId: location.state.id,
-  });
-  const { setError } = useContext(errorHandler);
-  const history = useHistory();
+	const [nfts, setNfts] = useState<any>(null);
+	const [filterationLoader, setFilterationLoader] = useState<boolean>(true);
+	const [likedNfts, setLikedNfts] = useState<Array<any> | null>(null);
+	const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
+	const [nftPagination, setNFTPagination] = useState<any>(null);
+	const [disabled, setDisabled] = useState(false);
+	const { darkMode } = useContext(darkModeContext);
+	const location: any = useLocation();
+	const [filter, setFilter] = useState<any>({
+		collectionId: location.state.id,
+	});
+	const { setError } = useContext(errorHandler);
+	const history = useHistory();
 
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, []);
+	useEffect(() => {
+		window.scroll(0, 0);
+	}, []);
 
   ////Get My liked NFTs
   const onSuccessLikedNFTs = (data: any) => {
@@ -53,23 +53,23 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
     nfts?.length > 0 ? true : false
   );
 
-  //Get NFTs
+	//Get NFTs
 
-  const onSuccessNFTs = (data: any) => {
-    if (data.data.success) {
-      setFilterationLoader(false);
-      setNFTPagination(data.data.data.pagination);
-      setNfts(data.data.data.nfts);
-    } else {
-      setError(data.data.message);
-    }
-  };
+	const onSuccessNFTs = (data: any) => {
+		if (data.data.success) {
+			setFilterationLoader(false);
+			setNFTPagination(data.data.data.pagination);
+			setNfts(data.data.data.nfts);
+		} else {
+			setError(data.data.message);
+		}
+	};
 
-  const { isLoading: isLoadingNFTs } = useGetNFTs(filter, onSuccessNFTs);
+	const { isLoading: isLoadingNFTs } = useGetNFTs(filter, onSuccessNFTs);
 
-  const onSuccessLikeDislike = () => {
-    setLikeBtnDisable(false);
-  };
+	const onSuccessLikeDislike = () => {
+		setLikeBtnDisable(false);
+	};
 
   //Like/Dislike
   const { mutate } = useInsertData(
@@ -114,7 +114,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
               nftId,
             };
 
-            myLikedNfts.push(obj);
+						myLikedNfts.push(obj);
 
             setLikedNfts(myLikedNfts);
             increOrDecreLikes(nftId, "inc");

@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "./FullPageLoader.scss";
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import './FullPageLoader.scss';
 
 function FullPageLoader() {
-  useEffect(() => {
-    AOS.init();
-  }, []);
+	useEffect(() => {
+		AOS.init();
+	}, []);
 
-  return (
-    <React.Fragment>
-      <div className="fullpage-loader-holder">
-        <div className="fullpage-loader">
-          <div className="circle"></div>
-          <div className="circle"></div>
-          <div className="circle"></div>
-          <div className="shadow"></div>
-          <div className="shadow"></div>
-          <div className="shadow"></div>
-        </div>
-      </div>
-    </React.Fragment>
-  );
+	return (
+		<React.Fragment>
+			<div className="fullpage-loader-holder">
+				<div className="fullpage-loader">
+					<div className="circle"></div>
+					<div className="circle"></div>
+					<div className="circle"></div>
+					<div className="shadow"></div>
+					<div className="shadow"></div>
+					<div className="shadow"></div>
+				</div>
+			</div>
+		</React.Fragment>
+	);
 }
 
 export default FullPageLoader;

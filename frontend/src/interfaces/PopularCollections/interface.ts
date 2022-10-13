@@ -1,3 +1,3 @@
 export interface PopularCollectionInt {
-    connectedAddress:string,
+	connectedAddress: string;
 }

@@ -9,7 +9,7 @@ const EditNFT = lazy(() => import('./pages/create-nft/create-nft'));
 
 const ChooseType = lazy(() => import('./pages/choose-type/chooseType'));
 const CreateMultipleNFT = lazy(() =>
-  import('./pages/create-multiple-nft/createMultipleNFT')
+	import('./pages/create-multiple-nft/createMultipleNFT')
 );
 const SellNFT = lazy(() => import('./pages/sell-nft/SellNFT'));
 const NotFound = lazy(() => import('./pages/not-found/not-found'));
@@ -21,240 +21,240 @@ const AllNFT = lazy(() => import('./pages/all-nfts/all-nfts/allnft'));
 const AboutUs = lazy(() => import('./pages/aboutus/aboutus'));
 const Faqs = lazy(() => import('./pages/faqs/faqs'));
 const CreateCollections = lazy(() =>
-  import('./pages/create-collections/CreateCollections')
+	import('./pages/create-collections/CreateCollections')
 );
 const PrivacyPolicy = lazy(() =>
-  import('./pages/privacy-policy/privacyPolicy')
+	import('./pages/privacy-policy/privacyPolicy')
 );
 const TermsConditions = lazy(() =>
-  import('./pages/terms-conditions/termsConditions')
+	import('./pages/terms-conditions/termsConditions')
 );
 const ConnectWallet = lazy(() =>
-  import('./pages/connect-wallet/connect-wallet')
+	import('./pages/connect-wallet/connect-wallet')
 );
 const Populars = lazy(() =>
-  import('./pages/popular-collections-list/popular-collections-list')
+	import('./pages/popular-collections-list/popular-collections-list')
 );
 const ExploreCollections = lazy(() =>
-  import('./pages/explore-collections/explore-collections')
+	import('./pages/explore-collections/explore-collections')
 );
 const CollectionDetailsPage = lazy(() =>
-  import('./pages/collection-details/collectiondetails')
+	import('./pages/collection-details/collectiondetails')
 );
 const EditProfile = lazy(() =>
-  import('./pages/user-edit-profile/user-edit-profile')
+	import('./pages/user-edit-profile/user-edit-profile')
 );
 const MyCollection = lazy(() =>
-  import('./pages/my-collections/my-collections')
+	import('./pages/my-collections/my-collections')
 );
 
 // routes
 const routes = [
-  {
-    path: '/',
-    access: true,
-    exact: true,
-    title: 'Home',
-    layout: homelayout,
-    component: Home,
-  },
-  {
-    path: '/connect-wallet',
-    access: true,
-    exact: true,
-    title: 'ConnectWallet',
-    layout: layout,
-    component: ConnectWallet,
-  },
-  {
-    path: '/auctions',
-    access: true,
-    exact: true,
-    title: 'Live Auctions',
-    layout: layout,
-    component: AuctionsList,
-  },
+	{
+		path: '/',
+		access: true,
+		exact: true,
+		title: 'Home',
+		layout: homelayout,
+		component: Home,
+	},
+	{
+		path: '/connect-wallet',
+		access: true,
+		exact: true,
+		title: 'ConnectWallet',
+		layout: layout,
+		component: ConnectWallet,
+	},
+	{
+		path: '/auctions',
+		access: true,
+		exact: true,
+		title: 'Live Auctions',
+		layout: layout,
+		component: AuctionsList,
+	},
 
-  {
-    path: '/sell-item/:id?',
-    access: false,
-    exact: true,
-    title: 'Sell Item',
-    layout: layout,
-    component: SellNFT,
-  },
+	{
+		path: '/sell-item/:id?',
+		access: false,
+		exact: true,
+		title: 'Sell Item',
+		layout: layout,
+		component: SellNFT,
+	},
 
-  {
-    path: '/popular-collections',
-    access: true,
-    exact: true,
-    title: 'Popular Collections',
-    layout: layout,
-    component: Populars,
-  },
-  {
-    path: '/top-sellers-list',
-    access: true,
-    exact: true,
-    title: 'Popular Collections',
-    layout: layout,
-    component: TopSellerList,
-  },
-  {
-    path: '/create',
-    access: false,
-    exact: true,
-    title: 'Create',
-    layout: layout,
-    component: ChooseType,
-  },
-  {
-    path:'/asset/edit/:nftId',
-    access: false,
-    exact: true,
-    title: 'Create',
-    layout: layout,
-    component:EditNFT
-  },
-  {
-    path: '/create/single',
-    access: false,
-    exact: true,
-    title: 'Choose Type',
-    layout: layout,
-    component: CreateNFT,
-  },
-  {
-    path: '/create/multiple',
-    access: false,
-    exact: true,
-    title: 'Create Multiple NFT',
-    layout: layout,
-    component: CreateMultipleNFT,
-  },
-  {
-    path: '/explore/nftdetail/:id',
-    access: true,
-    exact: true,
-    title: 'Detail',
-    layout: layout,
-    component: NFTDetail,
-  },
+	{
+		path: '/popular-collections',
+		access: true,
+		exact: true,
+		title: 'Popular Collections',
+		layout: layout,
+		component: Populars,
+	},
+	{
+		path: '/top-sellers-list',
+		access: true,
+		exact: true,
+		title: 'Popular Collections',
+		layout: layout,
+		component: TopSellerList,
+	},
+	{
+		path: '/create',
+		access: false,
+		exact: true,
+		title: 'Create',
+		layout: layout,
+		component: ChooseType,
+	},
+	{
+		path: '/asset/edit/:nftId',
+		access: false,
+		exact: true,
+		title: 'Create',
+		layout: layout,
+		component: EditNFT,
+	},
+	{
+		path: '/create/single',
+		access: false,
+		exact: true,
+		title: 'Choose Type',
+		layout: layout,
+		component: CreateNFT,
+	},
+	{
+		path: '/create/multiple',
+		access: false,
+		exact: true,
+		title: 'Create Multiple NFT',
+		layout: layout,
+		component: CreateMultipleNFT,
+	},
+	{
+		path: '/explore/nftdetail/:id',
+		access: true,
+		exact: true,
+		title: 'Detail',
+		layout: layout,
+		component: NFTDetail,
+	},
 
-  {
-    path: '/createcollection',
-    access: false,
-    exact: false,
-    title: 'Create Collection',
-    layout: layout,
-    component: CreateCollections,
-  },
-  {
-    path:'/collection/edit/:id',
-    access: false,
-    exact: true,
-    title: 'Create',
-    layout: layout,
-    component:CreateCollections
-  },
+	{
+		path: '/createcollection',
+		access: false,
+		exact: false,
+		title: 'Create Collection',
+		layout: layout,
+		component: CreateCollections,
+	},
+	{
+		path: '/collection/edit/:id',
+		access: false,
+		exact: true,
+		title: 'Create',
+		layout: layout,
+		component: CreateCollections,
+	},
 
-  {
-    path: '/explore/exploreAll',
-    access: true,
-    exact: true,
-    title: 'Explore All',
-    layout: layout,
-    component: ExploreCollections,
-  },
-  {
-    path: '/explore/allNFT',
-    access: true,
-    exact: true,
-    title: 'All NFTs',
-    layout: layout,
-    component: AllNFT,
-  },
-  {
-    path: '/sellnft',
-    access: false,
-    exact: true,
-    title: 'Sell NFT',
-    layout: layout,
-    component: SellNFT,
-  },
-  {
-    path: '/collection/detailPage/:id',
-    access: true,
-    exact: true,
-    title: 'Collection Detail Page',
-    layout: layout,
-    component: CollectionDetailsPage,
-  },
-  {
-    path: '/my-collection',
-    access: false,
-    exact: true,
-    title: 'My Collection',
-    layout: layout,
-    component: MyCollection,
-  },
-  {
-    path: '/userprofile',
-    access: false,
-    exact: true,
-    title: 'User Profile',
-    layout: layout,
-    component: UserProfile,
-  },
-  {
-    path: '/editprofile',
-    access: false,
-    exact: true,
-    title: 'Edit Profile',
-    layout: layout,
-    component: EditProfile,
-  },
+	{
+		path: '/explore/exploreAll',
+		access: true,
+		exact: true,
+		title: 'Explore All',
+		layout: layout,
+		component: ExploreCollections,
+	},
+	{
+		path: '/explore/allNFT',
+		access: true,
+		exact: true,
+		title: 'All NFTs',
+		layout: layout,
+		component: AllNFT,
+	},
+	{
+		path: '/sellnft',
+		access: false,
+		exact: true,
+		title: 'Sell NFT',
+		layout: layout,
+		component: SellNFT,
+	},
+	{
+		path: '/collection/detailPage/:id',
+		access: true,
+		exact: true,
+		title: 'Collection Detail Page',
+		layout: layout,
+		component: CollectionDetailsPage,
+	},
+	{
+		path: '/my-collection',
+		access: false,
+		exact: true,
+		title: 'My Collection',
+		layout: layout,
+		component: MyCollection,
+	},
+	{
+		path: '/userprofile',
+		access: false,
+		exact: true,
+		title: 'User Profile',
+		layout: layout,
+		component: UserProfile,
+	},
+	{
+		path: '/editprofile',
+		access: false,
+		exact: true,
+		title: 'Edit Profile',
+		layout: layout,
+		component: EditProfile,
+	},
 
-  {
-    path: '/aboutus',
-    access: true,
-    exact: true,
-    title: 'AboutUs',
-    layout: layout,
-    component: AboutUs,
-  },
-  {
-    path: '/faqs',
-    access: true,
-    exact: true,
-    title: 'Faqs',
-    layout: layout,
-    component: Faqs,
-  },
-  {
-    path: '/privacypolicy',
-    access: true,
-    exact: true,
-    title: 'PrivacyPolicy',
-    layout: layout,
-    component: PrivacyPolicy,
-  },
-  {
-    path: '/termsandconditions',
-    access: true,
-    exact: true,
-    title: 'Terms&Conditions',
-    layout: layout,
-    component: TermsConditions,
-  },
-  {
-    path: '/*',
-    access: true,
-    exact: true,
-    name: 'Not Found',
-    layout: layout3,
-    component: NotFound,
-  },
+	{
+		path: '/aboutus',
+		access: true,
+		exact: true,
+		title: 'AboutUs',
+		layout: layout,
+		component: AboutUs,
+	},
+	{
+		path: '/faqs',
+		access: true,
+		exact: true,
+		title: 'Faqs',
+		layout: layout,
+		component: Faqs,
+	},
+	{
+		path: '/privacypolicy',
+		access: true,
+		exact: true,
+		title: 'PrivacyPolicy',
+		layout: layout,
+		component: PrivacyPolicy,
+	},
+	{
+		path: '/termsandconditions',
+		access: true,
+		exact: true,
+		title: 'Terms&Conditions',
+		layout: layout,
+		component: TermsConditions,
+	},
+	{
+		path: '/*',
+		access: true,
+		exact: true,
+		name: 'Not Found',
+		layout: layout3,
+		component: NotFound,
+	},
 ];
 
 export default routes;

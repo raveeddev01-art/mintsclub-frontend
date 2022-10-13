@@ -69,6 +69,6 @@ const App = React.memo(() => {
 const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, {
-  setWalletAddress,
-  beforeWallet,
+	setWalletAddress,
+	beforeWallet,
 })(App);

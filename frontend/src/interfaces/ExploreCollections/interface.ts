@@ -1,3 +1,3 @@
 export interface ExploreCollectionInt {
-    connectedAddress:string,
+	connectedAddress: string;
 }

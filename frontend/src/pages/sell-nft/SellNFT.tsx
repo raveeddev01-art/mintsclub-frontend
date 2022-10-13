@@ -95,7 +95,7 @@ const SellNFT = (props: any) => {
       history.push(`/userprofile`);
     });
 
-  //Edit Profile
+	//Edit Profile
 
   const { mutate: updateProfile } = useEditData(
     "users/updateProfile",
@@ -121,22 +121,22 @@ const SellNFT = (props: any) => {
     }
   }, [props.connectedAddress]);
 
-  const onChange = (e: any) => {
-    const { name, value } = e.target;
+	const onChange = (e: any) => {
+		const { name, value } = e.target;
 
-    let data = null;
+		let data = null;
 
-    if (sellingMethod === 1) {
-      data = fixedPriceConfig;
-    } else {
-      data = timedAuctionConfig;
-    }
+		if (sellingMethod === 1) {
+			data = fixedPriceConfig;
+		} else {
+			data = timedAuctionConfig;
+		}
 
     const keys = name.split(".");
 
-    if (keys && keys[2]) {
-      data[keys[1]][keys[2]] = value;
-    } else if (keys && keys[1]) data[keys[1]] = value;
+		if (keys && keys[2]) {
+			data[keys[1]][keys[2]] = value;
+		} else if (keys && keys[1]) data[keys[1]] = value;
 
     if (sellingMethod === 1) {
       setFixedPriceConfig({ ...data });
@@ -166,10 +166,10 @@ const SellNFT = (props: any) => {
       let price: any = "";
       let payload: object = {};
 
-      let timedConfig = { ...timedAuctionConfig };
+			const timedConfig = { ...timedAuctionConfig };
 
-      let fixedConfig = { ...fixedPriceConfig };
-      const { _id, ownerId } = nftDetail;
+			const fixedConfig = { ...fixedPriceConfig };
+			const { _id, ownerId } = nftDetail;
 
       let activityPayload = {
         nftId: _id,
@@ -191,11 +191,11 @@ const SellNFT = (props: any) => {
           timedConfig.duration.endTime
         );
 
-        //calculate start time
-        timedConfig.duration.startDate = calclateStartOrEndTime(
-          timedAuctionStartTime,
-          timedConfig.duration.startTime
-        );
+				//calculate start time
+				timedConfig.duration.startDate = calclateStartOrEndTime(
+					timedAuctionStartTime,
+					timedConfig.duration.startTime
+				);
 
         //Deleting unused data from payload
         let auctionConfig = timedConfig;
@@ -227,7 +227,7 @@ const SellNFT = (props: any) => {
         };
       }
 
-      setLoader(true);
+			setLoader(true);
 
       if (sellingMethod === 2) {
         openBidding(timedAuctionConfig, payload, activityPayload, price);
@@ -239,69 +239,69 @@ const SellNFT = (props: any) => {
     }
   };
 
-  //Open for Bidding/Auction
+	//Open for Bidding/Auction
 
-  const openBidding = async (
-    timedAuctionConfig: any,
-    payload: any,
-    activityPayload: any,
-    price: any
-  ) => {
-    var formData = new FormData();
-    try {
-      let auctionEndDate = timedAuctionConfig.duration.endDate;
-      let auctionStartDate = timedAuctionConfig.duration.startDate;
+	const openBidding = async (
+		timedAuctionConfig: any,
+		payload: any,
+		activityPayload: any,
+		price: any
+	) => {
+		const formData = new FormData();
+		try {
+			const auctionEndDate = timedAuctionConfig.duration.endDate;
+			const auctionStartDate = timedAuctionConfig.duration.startDate;
 
-      const biddingTime = new Date(auctionEndDate).getTime();
-      const startTime = new Date(auctionStartDate).getTime();
+			const biddingTime = new Date(auctionEndDate).getTime();
+			const startTime = new Date(auctionStartDate).getTime();
 
-      let result = await openNFTForBidding(
-        biddingTime,
-        startTime,
-        nftDetail?.tokenId,
-        copies
-      );
-      if (result) {
-        activityPayload.price = price;
-        payload.sellId = Number(result);
-        for (const key in payload) formData.append(key, payload[key]);
-        insertActivity(activityPayload);
-        insertAuction(payload);
-      }
-    } catch (err: any) {
-      setLoader(false);
-      toast.error(err);
-    }
-  };
-  //Open for fixed price
-  const openForSale = async (
-    activityPayload: any,
-    payload: any,
-    fixedConfig: any,
-    price: any
-  ) => {
-    var formData = new FormData();
-    try {
-      let res = null;
-      if (nftDetail?.lazyMinted) {
-        res = await createVoucher(
-          nftDetail.tokenId,
-          copies,
-          nftDetail.metaData,
-          price
-        );
-        if (!res.success) {
-          setLoader(false);
-          toast.error(res.data.message);
-          return false;
-        }
-      } else {
-        res = await putonsale(
-          nftDetail.tokenId,
-          copies,
-          fixedConfig.price.amount
-        );
-      }
+			const result = await openNFTForBidding(
+				biddingTime,
+				startTime,
+				nftDetail?.tokenId,
+				copies
+			);
+			if (result) {
+				activityPayload.price = price;
+				payload.sellId = Number(result);
+				for (const key in payload) formData.append(key, payload[key]);
+				insertActivity(activityPayload);
+				insertAuction(payload);
+			}
+		} catch (err: any) {
+			setLoader(false);
+			toast.error(err);
+		}
+	};
+	//Open for fixed price
+	const openForSale = async (
+		activityPayload: any,
+		payload: any,
+		fixedConfig: any,
+		price: any
+	) => {
+		const formData = new FormData();
+		try {
+			let res = null;
+			if (nftDetail?.lazyMinted) {
+				res = await createVoucher(
+					nftDetail.tokenId,
+					copies,
+					nftDetail.metaData,
+					price
+				);
+				if (!res.success) {
+					setLoader(false);
+					toast.error(res.data.message);
+					return false;
+				}
+			} else {
+				res = await putonsale(
+					nftDetail.tokenId,
+					copies,
+					fixedConfig.price.amount
+				);
+			}
 
       if (res) {
         activityPayload.price = price;
@@ -328,24 +328,24 @@ const SellNFT = (props: any) => {
     const { name } = e.target;
     const { startDate, endDate } = picker;
 
-    // set start date
-    onChange({
-      target: {
-        name: `${name}.startDate`,
-        value: startDate,
-      },
-    });
+		// set start date
+		onChange({
+			target: {
+				name: `${name}.startDate`,
+				value: startDate,
+			},
+		});
 
-    // set end date
-    onChange({
-      target: {
-        name: `${name}.endDate`,
-        value: endDate,
-      },
-    });
-  };
+		// set end date
+		onChange({
+			target: {
+				name: `${name}.endDate`,
+				value: endDate,
+			},
+		});
+	};
 
-  //Approve account
+	//Approve account
 
   const approveAccount = async () => {
     setApprovalStatus("pending");
@@ -459,7 +459,7 @@ const SellNFT = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  connectedAddress: state.wallet.connectedAddress,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {})(SellNFT);

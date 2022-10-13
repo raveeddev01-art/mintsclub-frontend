@@ -1,6 +1,5 @@
 import { SET_NFT_TOKEN } from '../../redux/types';
 
-
-export const setNftToken=()=>(dispatch)=>{
-    
-}
+export const setNftToken = () => (dispatch) => {
+	// empty arrow function
+};

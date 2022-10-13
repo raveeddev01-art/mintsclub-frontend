@@ -110,10 +110,11 @@ const Hero: FC<HeroInt> = (props) => {
 const mapStateToProps = (state: any) => ({
 
   connectedAddress: state.wallet.connectedAddress,
+	auction: state.auction,
+	nft: state.nft,
 });
 
 export default connect(mapStateToProps, {
-
 })(Hero);
 
 

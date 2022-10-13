@@ -19,10 +19,10 @@ import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
 import { connect } from "react-redux";
 
 const bannerContent = {
-  subHeading: "Get Started",
-  heading: "Create Multiple NFT",
-  content:
-    "If you want to share your NFT with a large number of community members",
+	subHeading: 'Get Started',
+	heading: 'Create Multiple NFT',
+	content:
+		'If you want to share your NFT with a large number of community members',
 };
 
 function CreateMultipleNFT(props:any) {
@@ -45,94 +45,92 @@ function CreateMultipleNFT(props:any) {
     nftCollectionType: "",
   });
 
-useEffect(()=>{
-  refetch()
-},[])
-  const dragOver = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-  };
+	useEffect(() => {
+		refetch();
+	}, []);
+	const dragOver = (e: { preventDefault: () => void }) => {
+		e.preventDefault();
+	};
 
-  const dragEnter = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-  };
+	const dragEnter = (e: { preventDefault: () => void }) => {
+		e.preventDefault();
+	};
 
-  const dragLeave = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-  };
-  const onDrop = (e: any) => {
-    e.nativeEvent.preventDefault();
-    if (!e) return;
-    console.log(e.dataTransfer.files[0], "e.dataTransfer.files[0]");
-    onFileChange(e, "onDrag");
-  };
+	const dragLeave = (e: { preventDefault: () => void }) => {
+		e.preventDefault();
+	};
+	const onDrop = (e: any) => {
+		e.nativeEvent.preventDefault();
+		if (!e) return;
+		console.log(e.dataTransfer.files[0], 'e.dataTransfer.files[0]');
+		onFileChange(e, 'onDrag');
+	};
 
-  //////React Query////////////
+	//////React Query////////////
 
-  const { isLoading: isFetchingCollections,refetch } = useGetData(
-    "myCollections",
-    "collection/myCollectionList",
-    ENV.objectToQueryString({
-      userId: ENV.getUserKeys("_id")._id,
-      page: 1,
-      limit: 10000000,
-    }),
-    (res: any) => {
-      if (res.data.success) {
-        console.log(res.data.data.collections, "collections");
-        let collectionsOptions = res.data.data.collections.Collections.map(
-          (item: any) => {
-            return {
-              value: item._id,
-              label: item.name,
-              categoryId: item.categoryId,
-            };
-          }
-        );
-        setCollectionsOptions(collectionsOptions);
-      }
-    }
-  );
-  const { isLoading: isUploadingFiles, mutate: uploadFiles } = useInsertData(
-    "/batchUpload",
-    (res: any) => {
-      setLoader(false);
-      toast.success("your NFTs are added to the queue");
-      console.log(res, "response");
-    }
-  );
-  ///////React Query End ////////
+	const { isLoading: isFetchingCollections, refetch } = useGetData(
+		'myCollections',
+		'collection/myCollectionList',
+		ENV.objectToQueryString({
+			userId: ENV.getUserKeys('_id')._id,
+			page: 1,
+			limit: 10000000,
+		}),
+		(res: any) => {
+			if (res.data.success) {
+				console.log(res.data.data.collections, 'collections');
+				const collectionsOptions = res.data.data.collections.Collections.map(
+					(item: any) => {
+						return {
+							value: item._id,
+							label: item.name,
+							categoryId: item.categoryId,
+						};
+					}
+				);
+				setCollectionsOptions(collectionsOptions);
+			}
+		}
+	);
+	const { isLoading: isUploadingFiles, mutate: uploadFiles } = useInsertData(
+		'/batchUpload',
+		(res: any) => {
+			setLoader(false);
+			toast.success('your NFTs are added to the queue');
+			console.log(res, 'response');
+		}
+	);
+	///////React Query End ////////
 
-  const handleFilesValidation = (
-    e: {
-      dataTransfer: { files: { type: string }[] };
-      target: { files: { type: string }[] };
-    },
-    status: string
-  ) => {
-    let files: any;
-    let type: any;
-    if (status === "onDrag") {
-      files = e.dataTransfer.files[0];
-      type = e.dataTransfer.files[0].type;
-    } else {
-      files = e.target.files[0];
-      type = e.target.files[0].type;
-    }
-    if (files) {
-      if (type === "application/zip") {
-        let fileSize = formatBytes(files.size).split(" ");
-        if (
-          (+fileSize[0] > 1 && fileSize[1] === "GB")
-        ) {
-          toast("File size limit is exceeded");
-        } else {
-          return "file matched";
-        }
-      } else {
-        toast.error("File not supported!");
-      }
-    }
-  };
+	const handleFilesValidation = (
+		e: {
+			dataTransfer: { files: { type: string }[] };
+			target: { files: { type: string }[] };
+		},
+		status: string
+	) => {
+		let files: any;
+		let type: any;
+		if (status === 'onDrag') {
+			files = e.dataTransfer.files[0];
+			type = e.dataTransfer.files[0].type;
+		} else {
+			files = e.target.files[0];
+			type = e.target.files[0].type;
+		}
+		if (files) {
+			if (type === 'application/zip') {
+				const fileSize = formatBytes(files.size).split(' ');
+				if (+fileSize[0] > 1 && fileSize[1] === 'GB') {
+					toast('File size limit is exceeded');
+				} else {
+					return 'file matched';
+				}
+			} else {
+				toast.error('File not supported!');
+			}
+		}
+	};
 
   const onFileChange = (e: any, status: any) => {
     if (handleFilesValidation(e, status) === "file matched") {

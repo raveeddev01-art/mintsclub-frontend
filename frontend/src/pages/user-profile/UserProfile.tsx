@@ -52,222 +52,222 @@ const UserProfile = (props: any) => {
     window.scroll(0, 0);
   }, []);
 
-  const onSuccessNFTs = (res: any) => {
-    const { nfts } = res?.data?.data;
-    const data: any = nfts;
-    if (!menuFilter) {
-      const Nfts = data?.filter((item: any) => item.ownerId === userId);
-      if (Nfts?.length > 0) {
-        setDisabled(false);
-      } else {
-        if (initial) {
-          setDisabled(true);
-        }
-      }
-      setNFTs(Nfts);
-      setNFTPagination({ total: Nfts?.length });
-    } else {
-      setNFTPagination(data.length);
-      handleNftFilter(menuFilter, data);
-    }
-    setInitial(false);
-    setNFTsCopy(data);
-    setLoader(false);
-    setFilterationLoader(false);
-  };
-  const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
-    filter,
-    onSuccessNFTs,
-    9999999
-  );
+	const onSuccessNFTs = (res: any) => {
+		const { nfts } = res?.data?.data;
+		const data: any = nfts;
+		if (!menuFilter) {
+			const Nfts = data?.filter((item: any) => item.ownerId === userId);
+			if (Nfts?.length > 0) {
+				setDisabled(false);
+			} else {
+				if (initial) {
+					setDisabled(true);
+				}
+			}
+			setNFTs(Nfts);
+			setNFTPagination({ total: Nfts?.length });
+		} else {
+			setNFTPagination(data.length);
+			handleNftFilter(menuFilter, data);
+		}
+		setInitial(false);
+		setNFTsCopy(data);
+		setLoader(false);
+		setFilterationLoader(false);
+	};
+	const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
+		filter,
+		onSuccessNFTs,
+		9999999
+	);
 
-  const onSuccessUser = (data: any) => {
-    if (data.data.success) {
-      setUser(data.data.data);
-    } else {
-      setError(data.data.message);
-    }
-  };
+	const onSuccessUser = (data: any) => {
+		if (data.data.success) {
+			setUser(data.data.data);
+		} else {
+			setError(data.data.message);
+		}
+	};
 
-  const { isLoading: isLoadingUser } = useGetUserDataById(
-    ENV.getUserKeys("_id")._id,
-    onSuccessUser
-  );
-  const onSuccessLikedNFTs = (data: any) => {
-    if (data.data.success) {
-      setLikedNfts(data.data.data);
-    } else {
-      setError(data.data.message);
-    }
-  };
-  const {} = useGetMyLikedNFTs(
-    ENV.objectToQueryString({ userId: ENV.getUserKeys("_id")._id }),
-    onSuccessLikedNFTs,
-    nfts ? true : false
-  );
-  const onSuccessCollections = (data: any) => {
-    if (data.data.success) {
-      let myCollections = data?.data?.data?.collections.filter(
-        (item: any) => item.userId === userId
-      );
-      setCollections(myCollections);
-    } else {
-      setError(data.data.message);
-    }
-  };
-  const {} = useGetCollections(onSuccessCollections, nfts ? true : false);
+	const { isLoading: isLoadingUser } = useGetUserDataById(
+		ENV.getUserKeys('_id')._id,
+		onSuccessUser
+	);
+	const onSuccessLikedNFTs = (data: any) => {
+		if (data.data.success) {
+			setLikedNfts(data.data.data);
+		} else {
+			setError(data.data.message);
+		}
+	};
+	const {} = useGetMyLikedNFTs(
+		ENV.objectToQueryString({ userId: ENV.getUserKeys('_id')._id }),
+		onSuccessLikedNFTs,
+		nfts ? true : false
+	);
+	const onSuccessCollections = (data: any) => {
+		if (data.data.success) {
+			const myCollections = data?.data?.data?.collections.filter(
+				(item: any) => item.userId === userId
+			);
+			setCollections(myCollections);
+		} else {
+			setError(data.data.message);
+		}
+	};
+	const {} = useGetCollections(onSuccessCollections, nfts ? true : false);
 
-  const onSuccessLikeDislike = () => {
-    setLikeBtnDisable(false);
-  };
+	const onSuccessLikeDislike = () => {
+		setLikeBtnDisable(false);
+	};
 
-  //Like/Dislike
-  const { mutate } = useInsertData(
-    "nftLikes/likeDislike",
-    onSuccessLikeDislike
-  );
+	//Like/Dislike
+	const { mutate } = useInsertData(
+		'nftLikes/likeDislike',
+		onSuccessLikeDislike
+	);
 
-  useEffect(() => {
-    if (accAddress === "") {
-      setAccountAddress(props.connectedAddress);
-    }
-    if (
-      accAddress !== "" &&
-      props.connectedAddress !== "" &&
-      ENV.getUserKeys("address")?.address?.toUpperCase() !==
-        props.connectedAddress.toUpperCase()
-    ) {
-      // toast.info("Please login with new connected Account user");
-      localStorage.clear();
-      history.push({
-        pathname: `/connect-wallet`,
-        state: `/userprofile`,
-      });
-    }
-  }, [props.connectedAddress]);
+	useEffect(() => {
+		if (accAddress === '') {
+			setAccountAddress(props.connectedAddress);
+		}
+		if (
+			accAddress !== '' &&
+			props.connectedAddress !== '' &&
+			ENV.getUserKeys('address')?.address?.toUpperCase() !==
+				props.connectedAddress.toUpperCase()
+		) {
+			// toast.info("Please login with new connected Account user");
+			localStorage.clear();
+			history.push({
+				pathname: `/connect-wallet`,
+				state: `/userprofile`,
+			});
+		}
+	}, [props.connectedAddress]);
 
-  useEffect(() => {
-    if (props.myLikedNftsStatus) {
-      setLikedNfts(props.myLikedNfts);
-    }
-  }, [props.myLikedNftsStatus]);
+	useEffect(() => {
+		if (props.myLikedNftsStatus) {
+			setLikedNfts(props.myLikedNfts);
+		}
+	}, [props.myLikedNftsStatus]);
 
-  const ChangeTooltip = () =>
-    setTimeout(() => {
-      setAddressCopied(false);
-    }, 3000);
+	const ChangeTooltip = () =>
+		setTimeout(() => {
+			setAddressCopied(false);
+		}, 3000);
 
-  const handleLikesTogleApi = async (
-    nftId: string,
+	const handleLikesTogleApi = async (
+		nftId: string,
 
-    status: string,
+		status: string,
 
-    likesCount: number
-  ) => {
-    if (await validateNetwork()) {
-      if (!likeButtonDisable) {
-        setLikeBtnDisable(true);
-        let data = {
-          userId,
-          nftId,
-          count: 1,
-        };
-        if (status === "dislike" && likesCount > 0) {
-          let result = likedNfts.filter((item: any) => item.nftId !== nftId);
-          setLikedNfts(result);
-          increOrDecreLikes(nftId, "dec");
-          mutate(data);
-        }
-        if (status === "like") {
-          let myLikedNfts = [];
-          if (likedNfts && likedNfts.length > 0) {
-            myLikedNfts = likedNfts;
-          }
-          let obj = {
-            _id: "1234455",
-            nftId,
-          };
-          myLikedNfts.push(obj);
+		likesCount: number
+	) => {
+		if (await validateNetwork()) {
+			if (!likeButtonDisable) {
+				setLikeBtnDisable(true);
+				const data = {
+					userId,
+					nftId,
+					count: 1,
+				};
+				if (status === 'dislike' && likesCount > 0) {
+					const result = likedNfts.filter((item: any) => item.nftId !== nftId);
+					setLikedNfts(result);
+					increOrDecreLikes(nftId, 'dec');
+					mutate(data);
+				}
+				if (status === 'like') {
+					let myLikedNfts = [];
+					if (likedNfts && likedNfts.length > 0) {
+						myLikedNfts = likedNfts;
+					}
+					const obj = {
+						_id: '1234455',
+						nftId,
+					};
+					myLikedNfts.push(obj);
 
-          setLikedNfts(myLikedNfts);
-          increOrDecreLikes(nftId, "inc");
-          mutate(data);
-        }
-      }
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Goerli Network");
-    }
-  };
+					setLikedNfts(myLikedNfts);
+					increOrDecreLikes(nftId, 'inc');
+					mutate(data);
+				}
+			}
+		} else {
+			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+		}
+	};
 
-  const increOrDecreLikes = (id: string, status: string) => {
-    if (status === "dec") {
-      let newResult = nfts.map((item: any) => {
-        if (item._id !== id) {
-          return item;
-        } else {
-          if (item?.likeCount > 0) {
-            return { ...item, likeCount: item.likeCount - 1 };
-          }
-        }
-      });
-      setNFTs(newResult);
-    } else {
-      let final = nfts.map((item: any) => {
-        if (item._id !== id) {
-          return item;
-        } else {
-          return { ...item, likeCount: item.likeCount + 1 };
-        }
-      });
-      setNFTs(final);
-    }
-  };
+	const increOrDecreLikes = (id: string, status: string) => {
+		if (status === 'dec') {
+			const newResult = nfts.map((item: any) => {
+				if (item._id !== id) {
+					return item;
+				} else {
+					if (item?.likeCount > 0) {
+						return { ...item, likeCount: item.likeCount - 1 };
+					}
+				}
+			});
+			setNFTs(newResult);
+		} else {
+			const final = nfts.map((item: any) => {
+				if (item._id !== id) {
+					return item;
+				} else {
+					return { ...item, likeCount: item.likeCount + 1 };
+				}
+			});
+			setNFTs(final);
+		}
+	};
 
-  const handleNftFilter = (id: string, data = false) => {
-    let itemsToFilter = data ? data : nftsCopy;
-    setInitial(false);
-    if (id === "Collected") {
-      const Nfts = itemsToFilter.filter(
-        (item: any) => item.creatorId !== userId && item.ownerId === userId
-      );
-      setDataLimit(10);
-      setNFTPagination({ total: Nfts.length });
-      setNFTs(Nfts);
-    } else if (id === "Created") {
-      const Nfts = itemsToFilter.filter(
-        (item: any) => item.ownerId === userId && item.creatorId === userId
-      );
+	const handleNftFilter = (id: string, data = false) => {
+		const itemsToFilter = data ? data : nftsCopy;
+		setInitial(false);
+		if (id === 'Collected') {
+			const Nfts = itemsToFilter.filter(
+				(item: any) => item.creatorId !== userId && item.ownerId === userId
+			);
+			setDataLimit(10);
+			setNFTPagination({ total: Nfts.length });
+			setNFTs(Nfts);
+		} else if (id === 'Created') {
+			const Nfts = itemsToFilter.filter(
+				(item: any) => item.ownerId === userId && item.creatorId === userId
+			);
 
-      setDataLimit(10);
-      setNFTPagination({ total: Nfts.length });
-      setNFTs(Nfts);
-    } else {
-      handleFavFilter(itemsToFilter);
-    }
-  };
+			setDataLimit(10);
+			setNFTPagination({ total: Nfts.length });
+			setNFTs(Nfts);
+		} else {
+			handleFavFilter(itemsToFilter);
+		}
+	};
 
-  const handleFavFilter = (data = false) => {
-    let itemToFilter = data ? data : nftsCopy;
-    let favNfts = [];
-    for (var item of itemToFilter) {
-      let foundNft = likedNfts.find((liked: any) => liked.nftId === item._id);
-      if (foundNft) {
-        favNfts.push(item);
-      }
-    }
-    setDataLimit(10);
-    setNFTPagination({ total: favNfts.length });
-    setNFTs(favNfts);
-  };
+	const handleFavFilter = (data = false) => {
+		const itemToFilter = data ? data : nftsCopy;
+		const favNfts = [];
+		for (const item of itemToFilter) {
+			const foundNft = likedNfts.find((liked: any) => liked.nftId === item._id);
+			if (foundNft) {
+				favNfts.push(item);
+			}
+		}
+		setDataLimit(10);
+		setNFTPagination({ total: favNfts.length });
+		setNFTs(favNfts);
+	};
 
-  const fetchData = (filterObj: any) => {
-    setFilter(filterObj);
-    getNFTs(filterObj);
-    refetch();
-  };
-  const getPaginatedData = () => {
-    setDataLimit((prev) => prev + 10);
-  };
+	const fetchData = (filterObj: any) => {
+		setFilter(filterObj);
+		getNFTs(filterObj);
+		refetch();
+	};
+	const getPaginatedData = () => {
+		setDataLimit((prev) => prev + 10);
+	};
 
   const bannerData = {
     subHeading: "",
@@ -317,105 +317,105 @@ const UserProfile = (props: any) => {
                         </div>
                       )}
 
-                      <div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
-                        {user?.address && (
-                          <div className="user-address mt-2 d-flex  align-items-center ">
-                            <span className={`${copy ? "d-block" : "d-none"}`}>
-                              {isAddressCopied ? "Copied" : "Copy"}
-                            </span>
-                            {user && (
-                              <>
-                                <img
-                                  src={EthIcon}
-                                  alt="eth-icon"
-                                  className="me-1"
-                                />
+											<div className="d-flex flex-column flex-sm-row align-items-center justify-content-between">
+												{user?.address && (
+													<div className="user-address mt-2 d-flex  align-items-center ">
+														<span className={`${copy ? 'd-block' : 'd-none'}`}>
+															{isAddressCopied ? 'Copied' : 'Copy'}
+														</span>
+														{user && (
+															<>
+																<img
+																	src={EthIcon}
+																	alt="eth-icon"
+																	className="me-1"
+																/>
 
-                                <p className="acc-adress d-none d-md-block">
-                                  {user.address}
-                                </p>
-                                <p className="acc-address d-md-none">
-                                  {user.address.slice(0, 10) +
-                                    "..." +
-                                    user.address.slice(-10)}
-                                </p>
+																<p className="acc-adress d-none d-md-block">
+																	{user.address}
+																</p>
+																<p className="acc-address d-md-none">
+																	{user.address.slice(0, 10) +
+																		'...' +
+																		user.address.slice(-10)}
+																</p>
 
-                                <img
-                                  onMouseLeave={() => {
-                                    setCopy(false);
-                                  }}
-                                  onMouseOver={() => {
-                                    setCopy(true);
-                                  }}
-                                  onClick={() => {
-                                    navigator.clipboard.writeText(user.address);
-                                    setAddressCopied(true);
-                                    ChangeTooltip();
-                                  }}
-                                  src={CopyIcon}
-                                  alt="copy-icon"
-                                  className="user-address-copy ms-4"
-                                />
-                              </>
-                            )}
-                          </div>
-                        )}
+																<img
+																	onMouseLeave={() => {
+																		setCopy(false);
+																	}}
+																	onMouseOver={() => {
+																		setCopy(true);
+																	}}
+																	onClick={() => {
+																		navigator.clipboard.writeText(user.address);
+																		setAddressCopied(true);
+																		ChangeTooltip();
+																	}}
+																	src={CopyIcon}
+																	alt="copy-icon"
+																	className="user-address-copy ms-4"
+																/>
+															</>
+														)}
+													</div>
+												)}
 
-                        <div className="mt-2 mt-sm-0">
-                          {user && (
-                            <p className="join-date">
-                              Joined:{" "}
-                              <span>
-                                {moment(user.createdAt).format("MMMM DD YYYY")}
-                              </span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <Listing
-            collections={collections}
-            disabled={disabled}
-            totalItems={nfts && nfts.length}
-            filterationLoader={filterationLoader}
-            setFilterationLoader={setFilterationLoader}
-            nfts={nfts?.slice(0, dataLimit)}
-            loader={isLoadingNFTs}
-            likedNfts={likedNfts}
-            handleLikesTogleApi={handleLikesTogleApi}
-            handleNftFilter={handleNftFilter}
-            nftPagination={nftPagination}
-            fetchData={fetchData}
-            setMenuFilter={setMenuFilter}
-            menuData={menuData}
-            path="/explore/nftdetail/"
-            getPaginatedData={getPaginatedData}
-            UserProfile
-          />
-        </section>
-        <OwnCollectionToday />
-      </>
-    );
-  } else {
-    toast.info("Please login with new connected account");
-    localStorage.clear();
-    history.push({
-      pathname: `/connect-wallet`,
-      state: `/userprofile`,
-    });
-    return <React.Fragment> </React.Fragment>;
-  }
+												<div className="mt-2 mt-sm-0">
+													{user && (
+														<p className="join-date">
+															Joined:{' '}
+															<span>
+																{moment(user.createdAt).format('MMMM DD YYYY')}
+															</span>
+														</p>
+													)}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<Listing
+						collections={collections}
+						disabled={disabled}
+						totalItems={nfts && nfts.length}
+						filterationLoader={filterationLoader}
+						setFilterationLoader={setFilterationLoader}
+						nfts={nfts?.slice(0, dataLimit)}
+						loader={isLoadingNFTs}
+						likedNfts={likedNfts}
+						handleLikesTogleApi={handleLikesTogleApi}
+						handleNftFilter={handleNftFilter}
+						nftPagination={nftPagination}
+						fetchData={fetchData}
+						setMenuFilter={setMenuFilter}
+						menuData={menuData}
+						path="/explore/nftdetail/"
+						getPaginatedData={getPaginatedData}
+						UserProfile
+					/>
+				</section>
+				<OwnCollectionToday />
+			</>
+		);
+	} else {
+		toast.info('Please login with new connected account');
+		localStorage.clear();
+		history.push({
+			pathname: `/connect-wallet`,
+			state: `/userprofile`,
+		});
+		return <React.Fragment> </React.Fragment>;
+	}
 };
 
 const mapStateToProps = (state: any) => ({
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  connectedAddress: state.wallet.connectedAddress,
+	myLikedNfts: state.nft.myLikedNfts,
+	myLikedNftsStatus: state.nft.myLikedNftsStatus,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {

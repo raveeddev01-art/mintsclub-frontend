@@ -1,28 +1,28 @@
-import { useState, FC } from "react";
-import { useHistory } from "react-router";
-import { Card } from "react-bootstrap";
-import { Images } from "../../assets/assets";
-import ImageLoader from "../ContentLoader/ImageLoader";
-import SubImgLoader from "../ContentLoader/CollectionSubLoader";
-import { CollectionCardInt } from "../../interfaces/components";
-import "./CollectionsCard.scss";
+import React, { useState, FC } from 'react';
+import { useHistory } from 'react-router';
+import { Card } from 'react-bootstrap';
+import { Images } from '../../assets/assets';
+import ImageLoader from '../ContentLoader/ImageLoader';
+import SubImgLoader from '../ContentLoader/CollectionSubLoader';
+import { CollectionCardInt } from '../../interfaces/components';
+import './CollectionsCard.scss';
 
 const CollectionsCard: FC<CollectionCardInt> = ({
-  CardImg,
-  Subimg1,
-  Subimg2,
-  Subimg3,
-  name,
-  id,
-  collection,
-  userName,
-  NFTCount,
-  profileImage,
-  ownerAddress,
-  connectedAddress,
+	CardImg,
+	Subimg1,
+	Subimg2,
+	Subimg3,
+	name,
+	id,
+	collection,
+	userName,
+	NFTCount,
+	profileImage,
+	ownerAddress,
+	connectedAddress,
 }) => {
-  const [loader, setLoader] = useState<any>(true);
-  const history = useHistory();
+	const [loader, setLoader] = useState<any>(true);
+	const history = useHistory();
 
   return (
     <Card

@@ -33,7 +33,7 @@ import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 import { createNFTbanner } from "../../utils/exportData";
 import axios from "axios";
-import { handleRequest, compressImage } from "../../utils/functions";
+import { handleRequest } from "../../utils/functions";
 import { mintSingleNft } from "../../utils/solana/helper";
 import CreateNft from "./components/createNft";
 import UploadFile from "./components/UploadFile/UploadFile";

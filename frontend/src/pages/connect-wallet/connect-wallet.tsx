@@ -146,15 +146,15 @@ const ConnectWallet = (props: any) => {
     onSuccessValidateUser
   );
 
-  ///Sign up
-  const onSuccessSignUp = async (data: any) => {
-    if (data.data.success) {
-      const res = await handleSign(data?.data?.data?.nounce);
-      authenticate(res);
-    } else {
-      setError(data.data.message);
-    }
-  };
+	///Sign up
+	const onSuccessSignUp = async (data: any) => {
+		if (data.data.success) {
+			const res = await handleSign(data?.data?.data?.nounce);
+			authenticate(res);
+		} else {
+			setError(data.data.message);
+		}
+	};
 
   const { mutate: handleSignUp } = useInsertData(
     "users/createUser",

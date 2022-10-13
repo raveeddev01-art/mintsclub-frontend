@@ -64,22 +64,22 @@ const NavbarMain = () => {
   const defaultDark =
     storedTheme === "dark" || (storedTheme === null && prefersDark);
 
-  const toggleTheme = (e: any) => {
-    if (e.target.checked) {
-      setDark();
-      setDarkMode(true);
-    } else {
-      setLight();
-      setDarkMode(false);
-    }
-  };
+	const toggleTheme = (e: any) => {
+		if (e.target.checked) {
+			setDark();
+			setDarkMode(true);
+		} else {
+			setLight();
+			setDarkMode(false);
+		}
+	};
 
-  useEffect(() => {
-    if (defaultDark) {
-      setDark();
-      setDarkMode(true);
-    }
-  }, []);
+	useEffect(() => {
+		if (defaultDark) {
+			setDark();
+			setDarkMode(true);
+		}
+	}, []);
 
   return (
     <div className="main-nav-section">
@@ -222,11 +222,11 @@ const NavbarMain = () => {
                 {ENV.getUserKeys("_id")._id ? "Logout" : "Login"}
               </div>
             </Link> */}
-          </div>
-        </Navbar>
-      </Container>
-    </div>
-  );
+					</div>
+				</Navbar>
+			</Container>
+		</div>
+	);
 };
 
 const mapStateToProps = () => ({});
