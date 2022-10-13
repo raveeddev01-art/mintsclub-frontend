@@ -2,6 +2,7 @@ import Web3 from "web3";
 import { toast } from "react-toastify";
 import { ENV } from "./../config/config";
 import abi from "./abis/ethereum/abi.json";
+import marketPlaceContract from "./abis/ethereum/marketPlace.json";
 import typedDataV4 from "./typeDatav4";
 import voucherAbi from "./abis/voucher-abi.json";
 import batchMintAbi from "./abis/batchMint-abi.json";
@@ -173,21 +174,30 @@ export const placeABid = async (amount, tokenId) => {
 export const putonsale = async (tokenId, amount, price) => {
   try {
     /* global BigInt */
+    let contractAddress=null
+    let abi=null
+    if(ENV.getUserKeys("blockchainType")?.blockchainType==="ethereum"){
+       contractAddress=ENV.goerliMarketPlaceContract
+       abi=marketPlaceContract
+    }
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
-    let weiAmount = BigInt(Web3.utils.toWei(price, "ether"));
+    console.log({abi,contractAddress})
+    const contractM = await getContractMethods(abi,contractAddress);
+    let weiAmount = BigInt(Web3.utils.toWei(`${price}`, "ether"));
     let web3 = await getWeb3();
     let id = Number(tokenId);
+    console.log({id, amount, weiAmount,connectedAddress,connectedAddress,goerliMintingContract})
     const result = await contractM.methods
-      .putonsale(id, amount, weiAmount)
+      .listItemForFixedPrice(id, +amount, weiAmount,150,goerliMintingContract,connectedAddress)
       .send({
         from: connectedAddress,
-        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+        // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
-    let sellId = await web3.utils.hexToNumber(result.events.OfferSale.raw.data);
-    if (sellId) {
-      return sellId;
-    }
+      console.log(result,"result==>")
+    // let sellId = await web3.utils.hexToNumber(result.events.OfferSale.raw.data);
+    // if (sellId) {
+    //   return sellId;
+    // }
   } catch (err) {
     // console.log(err, "error");
     throw new Error(err);
