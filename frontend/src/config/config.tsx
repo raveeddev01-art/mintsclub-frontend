@@ -8,7 +8,10 @@ export const ENV = {
   goerliMintingContract: process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS,
   polygonMintingContract: process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS,
   bscMintingContract: process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS,
+
   goerliMarketPlaceContract:process.env.REACT_APP_MintsClub_MARKETPLACE_CONTRACT_ADDRESS,
+  polygonMarketPlaceContract:process.env.REACT_APP_MintsClub_POLYGON_MARKETPLACE_CONTRACT_ADDRESS,
+  bscMarketPlaceContract:process.env.REACT_APP_MintsClub_BSC_MARKETPLACE_CONTRACT_ADDRESS,
   
   pinataJWT: process.env.REACT_APP_PINATA_JWT,
   batchMintLazyContract: process.env.REACT_APP_BATCHMINT_LAZY_CONTRACT,

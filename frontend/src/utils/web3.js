@@ -1,8 +1,15 @@
 import Web3 from "web3";
 import { toast } from "react-toastify";
 import { ENV } from "./../config/config";
-import abi from "./abis/ethereum/abi.json";
-import marketPlaceContract from "./abis/ethereum/marketPlace.json";
+import ethMintAbi from "./abis/ethereum/mint.json";
+import ethMarketPlaceContract from "./abis/ethereum/marketPlace.json";
+
+import polygonMintAbi from "./abis/polygon/mint.json";
+import polygonMarketPlaceContract from "./abis/polygon/marketPlace.json";
+
+import binanceMintAbi from "./abis/binance/mint.json";
+import binanceMarketPlaceContract from "./abis/binance/marketPlace.json";
+
 import typedDataV4 from "./typeDatav4";
 import voucherAbi from "./abis/voucher-abi.json";
 import batchMintAbi from "./abis/batchMint-abi.json";
@@ -24,8 +31,8 @@ export const getWeb3 = async () => {
   return instance;
 };
 
-const getContractMethods = async (abiJson,contract) => {
-  console.log(contract,"contract")
+const getContractMethods = async (abiJson, contract) => {
+  console.log(contract, "contract");
   let web3 = await getWeb3();
   const contractM = new web3.eth.Contract(abiJson, contract);
   return contractM;
@@ -83,37 +90,51 @@ export const mintNFt = async (metaData, amount) => {
   }
 
   const nftAmount = Number(amount);
-
+  let abi = null;
+  let contractAddress = null;
+  let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+  if (blockchainType === "ethereum") {
+    contractAddress = ENV.goerliMintingContract;
+    abi = ethMintAbi;
+  } else if (blockchainType === "polygon") {
+    contractAddress = ENV.polygonMintingContract;
+    abi = polygonMintAbi;
+  } else if (blockchainType === "bsc") {
+    contractAddress = ENV.bscMintingContract;
+    abi = binanceMintAbi;
+  } else {
+    return toast.error("wrong network");
+  }
   try {
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods(abi,goerliMintingContract);
+    const contractM = await getContractMethods(ethMintAbi, goerliMintingContract);
     let result = await contractM.methods
       .mint(connectedAddress, nftAmount, metaData)
       .send({ from: connectedAddress });
-
+console.log(result,"result==>")
     return result;
   } catch (err) {
-    console.log(err,"error in mintNFT")
+    console.log(err, "error in mintNFT");
     toast.error(err.message);
     throw new Error(err);
   }
 };
 export const editNFTUri = async (tokenId, metaData) => {
-  try{
+  try {
     let web3 = await getWeb3();
     if (!web3) {
       toast.error("No web3 instance found");
       return false;
-    }  
+    }
     const contractM = await getContractMethods();
     let connectedAddress = await connectMetamask();
     let result = await contractM.methods
-      .EditNFTUri(+tokenId, metaData )
+      .EditNFTUri(+tokenId, metaData)
       .send({ from: connectedAddress });
-      console.log(result,"result")
-      return result
-  }catch(err){
-    console.log(err,"error while updating token uri")
+    console.log(result, "result");
+    return result;
+  } catch (err) {
+    console.log(err, "error while updating token uri");
     throw new Error(err);
   }
 };
@@ -125,8 +146,23 @@ export const openNFTForBidding = async (
   copies
 ) => {
   try {
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMarketPlaceContract;
+      abi = ethMarketPlaceContract;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMarketPlaceContract;
+      abi = polygonMarketPlaceContract;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMarketPlaceContract;
+      abi = binanceMarketPlaceContract;
+    } else {
+      return toast.error("wrong network");
+    }
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractAddress);
     let id = Number(tokenId);
     const result = await contractM.methods
       .startAuction(biddingTime, startTime, connectedAddress, id, copies)
@@ -145,7 +181,22 @@ export const openNFTForBidding = async (
 
 export const placeABid = async (amount, tokenId) => {
   try {
-    let connectedAddress = await connectMetamask();
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMarketPlaceContract;
+      abi = ethMarketPlaceContract;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMarketPlaceContract;
+      abi = polygonMarketPlaceContract;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMarketPlaceContract;
+      abi = binanceMarketPlaceContract;
+    } else {
+      return toast.error("wrong network");
+    }
+    let connectedAddress = await connectMetamask(abi,contractAddress);
     const contractM = await getContractMethods();
     const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
     // let bidAmount = Number(amount) * 1000000000000000000;
@@ -174,26 +225,49 @@ export const placeABid = async (amount, tokenId) => {
 export const putonsale = async (tokenId, amount, price) => {
   try {
     /* global BigInt */
-    let contractAddress=null
-    let abi=null
-    if(ENV.getUserKeys("blockchainType")?.blockchainType==="ethereum"){
-       contractAddress=ENV.goerliMarketPlaceContract
-       abi=marketPlaceContract
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMarketPlaceContract;
+      abi = ethMarketPlaceContract;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMarketPlaceContract;
+      abi = polygonMarketPlaceContract;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMarketPlaceContract;
+      abi = binanceMarketPlaceContract;
+    } else {
+      return toast.error("wrong network");
     }
     let connectedAddress = await connectMetamask();
-    console.log({abi,contractAddress})
-    const contractM = await getContractMethods(abi,contractAddress);
+    console.log({ abi, contractAddress });
+    const contractM = await getContractMethods(abi, contractAddress);
     let weiAmount = BigInt(Web3.utils.toWei(`${price}`, "ether"));
     let web3 = await getWeb3();
     let id = Number(tokenId);
-    console.log({id, amount, weiAmount,connectedAddress,connectedAddress,goerliMintingContract})
+    console.log({
+      id,
+      amount,
+      weiAmount,
+      connectedAddress,
+      connectedAddress,
+      goerliMintingContract,
+    });
     const result = await contractM.methods
-      .listItemForFixedPrice(id, +amount, weiAmount,150,goerliMintingContract,connectedAddress)
+      .listItemForFixedPrice(
+        id,
+        +amount,
+        weiAmount,
+        150,
+        goerliMintingContract,
+        connectedAddress
+      )
       .send({
         from: connectedAddress,
         // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
-      console.log(result,"result==>")
+    console.log(result, "result==>");
     // let sellId = await web3.utils.hexToNumber(result.events.OfferSale.raw.data);
     // if (sellId) {
     //   return sellId;
@@ -213,8 +287,23 @@ export const BuyFixedPriceNFT = async (
   setConfirmed("pending");
   try {
     /* global BigInt */
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMarketPlaceContract;
+      abi = ethMarketPlaceContract;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMarketPlaceContract;
+      abi = polygonMarketPlaceContract;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMarketPlaceContract;
+      abi = binanceMarketPlaceContract;
+    } else {
+      return toast.error("wrong network");
+    }
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractAddress);
 
     const weiAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
 
@@ -238,10 +327,25 @@ export const BuyFixedPriceNFT = async (
 };
 export const setApprovalForAll = async (setApprovalStatus) => {
   try {
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMintingContract;
+      abi = ethMintAbi;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMintingContract;
+      abi = polygonMintAbi;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMintingContract;
+      abi = binanceMintAbi;
+    } else {
+      return toast.error("wrong network");
+    }
     let connectedAddress = await connectMetamask();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractAddress);
     const result = await contractM.methods
-      .setApprovalForAll(ENV.mintsClubContractAddress, true)
+      .setApprovalForAll(contractAddress, true)
       .send({
         from: connectedAddress,
       })
@@ -260,9 +364,24 @@ export const setApprovalForAll = async (setApprovalStatus) => {
 
 export const claimNFTfromContract = async (tokenId) => {
   try {
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMarketPlaceContract;
+      abi = ethMarketPlaceContract;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMarketPlaceContract;
+      abi = polygonMarketPlaceContract;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMarketPlaceContract;
+      abi = binanceMarketPlaceContract;
+    } else {
+      return toast.error("wrong network");
+    }
     let web3 = await getWeb3();
     let connectedAddress = await getMetamaskConnectedAddress();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractAddress);
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
       gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
@@ -277,9 +396,24 @@ export const claimNFTfromContract = async (tokenId) => {
 };
 export const endAuctionFromContract = async (tokenId) => {
   try {
+    let abi = null;
+    let contractAddress = null;
+    let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
+    if (blockchainType === "ethereum") {
+      contractAddress = ENV.goerliMarketPlaceContract;
+      abi = ethMarketPlaceContract;
+    } else if (blockchainType === "polygon") {
+      contractAddress = ENV.polygonMarketPlaceContract;
+      abi = polygonMarketPlaceContract;
+    } else if (blockchainType === "bsc") {
+      contractAddress = ENV.bscMarketPlaceContract;
+      abi = binanceMarketPlaceContract;
+    } else {
+      return toast.error("wrong network");
+    }
     let web3 = await getWeb3();
     let connectedAddress = await getMetamaskConnectedAddress();
-    const contractM = await getContractMethods();
+    const contractM = await getContractMethods(abi,contractAddress);
     const result = contractM.methods.auctionEnd(tokenId).send({
       from: connectedAddress,
       gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
@@ -493,7 +627,7 @@ export const switchNetworkToChainId = async (id) => {
       let web3 = await getWeb3();
       await web3.currentProvider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: Web3.utils.toHex(4) }],
+        params: [{ chainId: Web3.utils.toHex(id) }],
       });
       let accounts = await web3.eth.getAccounts();
       return accounts[0];

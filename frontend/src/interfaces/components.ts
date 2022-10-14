@@ -247,6 +247,13 @@ export interface CreateNftInterface {
   capitalize: any;
   setState: any;
   handleBtnDisable: any;
-  blockChainType:string,
-  nftPreviousData:any
+  blockChainType?:string,
+  nftPreviousData?:any
+}
+export interface CHAINS_INTERFACE {
+  ethereum: string;
+  solana: string;
+  polygon: string;
+  binance: string;
+  algorand: string;
 }
