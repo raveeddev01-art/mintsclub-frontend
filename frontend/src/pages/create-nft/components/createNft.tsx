@@ -61,10 +61,10 @@ const CreateNft = ({
           blockChainType === "polygon" ||
           blockChainType === "bsc"
         ) {
-          let createNftResult = await mintNFt(metaData, state.nft.copies);
-          if (createNftResult.events.TransferSingle.returnValues.id) {
+          let mintId = await mintNFt(metaData, state.nft.copies);
+          if (mintId) {
             paylaod = {
-              nftToken: createNftResult.events.TransferSingle.returnValues.id,
+              nftToken:mintId,
               data: { ...data, blockchainType: blockChainType },
               image,
               lazyMinted: false,

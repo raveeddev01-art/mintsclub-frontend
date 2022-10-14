@@ -159,7 +159,7 @@ const SellNFT = (props: any) => {
 			}
 			return '';
 		}
-		if (await validateNetwork()) {
+		// if (await validateNetwork()) {
 			if (!nftDetail?.user?.isApproved) {
 				setShow(true);
 				return '';
@@ -236,9 +236,9 @@ const SellNFT = (props: any) => {
 			} else {
 				openForSale(activityPayload, payload, fixedConfig, price);
 			}
-		} else {
-			toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
-		}
+		// } else {
+		// 	toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
+		// }
 	};
 
 	//Open for Bidding/Auction

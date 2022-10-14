@@ -304,7 +304,7 @@ const NFTDetail = (props: any) => {
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
     ) {
-      if (await validateNetwork()) {
+      // if (await validateNetwork()) {
         if (
           currentAddress === ownerAddress.toUpperCase() &&
           nftDetail?.auction?.sellingMethod === 2
@@ -321,11 +321,11 @@ const NFTDetail = (props: any) => {
           setModalShow(true);
         } else {
         }
-      } else {
-        toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
-        );
-      }
+      // } else {
+      //   toast.error(
+      //     "Please Connect Your Metamask With Ethereum Rinkby Network"
+      //   );
+      // }
     } else {
       if (ENV.getUserKeys("address")?.address) {
         toast.info("Please login with new connected account");
@@ -431,7 +431,7 @@ const NFTDetail = (props: any) => {
     setPrice(result);
   };
   const handleModalSubmit = async () => {
-    if (await validateNetwork()) {
+    // if (await validateNetwork()) {
       setLoader(true);
 
       if (nftDetail?.auction?.sellingMethod === 2) {
@@ -439,12 +439,12 @@ const NFTDetail = (props: any) => {
       } else {
         makeOffer();
       }
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-    }
+    // } else {
+    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    // }
   };
   const placeBid = async () => {
-    if (await validateNetwork()) {
+    // if (await validateNetwork()) {
       try {
         let result = await placeABid(price, nftDetail?.auction?.sellId);
         if (result) {
@@ -466,9 +466,9 @@ const NFTDetail = (props: any) => {
         setLoader(false);
         toast.error(err);
       }
-    } else {
-      toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-    }
+    // } else {
+    //   toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
+    // }
   };
 
   const makeOffer = async () => {
@@ -519,7 +519,7 @@ const NFTDetail = (props: any) => {
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
     ) {
-      if (await validateNetwork()) {
+      // if (await validateNetwork()) {
         setDisabled(true);
         if (nftDetail.lazyMinted) {
           BuyLazyNft();
@@ -550,11 +550,11 @@ const NFTDetail = (props: any) => {
             toast.error(err);
           }
         }
-      } else {
-        toast.error(
-          "Please Connect Your Metamask With Ethereum Rinkby Network"
-        );
-      }
+      // } else {
+      //   toast.error(
+      //     "Please Connect Your Metamask With Ethereum Rinkby Network"
+      //   );
+      // }
     } else {
       if (ENV.getUserKeys("address")?.address) {
         toast.info("Please login with new connected account");
