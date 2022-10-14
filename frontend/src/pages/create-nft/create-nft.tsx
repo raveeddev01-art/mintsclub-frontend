@@ -1,121 +1,122 @@
-import React from "react";
-import { connect } from "react-redux";
+/* eslint-disable no-unsafe-optional-chaining */
+import React from 'react';
+import { connect } from 'react-redux';
 import {
-  decimalNumberValidator,
-  firstInputCharacterSpace,
-  formatBytes,
-} from "../../utils/functions";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { ENV } from "../../config/config";
-import $ from "jquery";
-import SimpleReactValidator from "simple-react-validator";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import { getCurrentAddress, mintNFt, validateNetwork } from "../../utils/web3";
-import "./createNft.scss";
-import AddIcon from "../../assets/images/add-icon.svg";
-import PropertiesModal from "../../Components/Modals/PropertiesModal/PropertiesModal";
-import LevelsModal from "../../Components/Modals/LevelsModal/LevelsModal";
-import StatsModal from "../../Components/Modals/StatsModal/StatsModal";
-import StatsInfo from "./components/statsinfo";
-import LevelsInfo from "./components/levelsinfo";
-import PropertiesInfo from "./components/propertiesinfo";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg2.png";
-import Select from "react-select";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import UploadIcon from "../../assets/images/upload-icon.png";
-import UploadWhiteIcon from "../../assets/images/uploadWhiteIcon.png";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import Audio from "../../Components/Audio/Audio";
-import { styled } from "@mui/material/styles";
-import Switch, { SwitchProps } from "@mui/material/Switch";
-import { createNFTbanner } from "../../utils/exportData";
-import axios from "axios";
-import { handleRequest, compressImage } from "../../utils/functions";
-import { mintSingleNft } from "../../utils/solana/helper";
-import CreateNft from "./components/createNft";
-import UploadFile from "./components/UploadFile/UploadFile";
-import AddLevels from "./components/AddLevels/AddLevels";
-import AddProperties from "./components/AddProperties/AddProperties";
-import AddStats from "./components/AddStats/AddStats";
-const placeholderImg = "";
+	decimalNumberValidator,
+	firstInputCharacterSpace,
+	formatBytes,
+	handleRequest,
+} from '../../utils/functions';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ENV } from '../../config/config';
+import $ from 'jquery';
+import SimpleReactValidator from 'simple-react-validator';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import { getCurrentAddress, mintNFt, validateNetwork } from '../../utils/web3';
+import './createNft.scss';
+import AddIcon from '../../assets/images/add-icon.svg';
+import PropertiesModal from '../../Components/Modals/PropertiesModal/PropertiesModal';
+import LevelsModal from '../../Components/Modals/LevelsModal/LevelsModal';
+import StatsModal from '../../Components/Modals/StatsModal/StatsModal';
+import StatsInfo from './components/statsinfo';
+import LevelsInfo from './components/levelsinfo';
+import PropertiesInfo from './components/propertiesinfo';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg2.png';
+import Select from 'react-select';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import UploadIcon from '../../assets/images/upload-icon.png';
+import UploadWhiteIcon from '../../assets/images/uploadWhiteIcon.png';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import Audio from '../../Components/Audio/Audio';
+import { styled } from '@mui/material/styles';
+import Switch, { SwitchProps } from '@mui/material/Switch';
+import { createNFTbanner } from '../../utils/exportData';
+import axios from 'axios';
+import { mintSingleNft } from '../../utils/solana/helper';
+import CreateNft from './components/createNft';
+import UploadFile from './components/UploadFile/UploadFile';
+import AddLevels from './components/AddLevels/AddLevels';
+import AddProperties from './components/AddProperties/AddProperties';
+import AddStats from './components/AddStats/AddStats';
+const placeholderImg = '';
 const MintSwitch = styled(Switch)(({ theme }) => ({
-  width: 28,
-  height: 16,
-  padding: 0,
-  display: "flex",
-  "&:active": {
-    "& .MuiSwitch-thumb": {
-      width: 15,
-    },
-    "& .MuiSwitch-switchBase.Mui-checked": {
-      transform: "translateX(9px)",
-    },
-  },
-  "& .MuiSwitch-switchBase": {
-    padding: 2,
-    "&.Mui-checked": {
-      transform: "translateX(12px)",
-      color: "#fff",
-      "& + .MuiSwitch-track": {
-        opacity: 1,
-        backgroundColor: theme.palette.mode === "dark" ? "#387fff" : "#387fff",
-      },
-    },
-  },
-  "& .MuiSwitch-thumb": {
-    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    transition: theme.transitions.create(["width"], {
-      duration: 200,
-    }),
-  },
-  "& .MuiSwitch-track": {
-    borderRadius: 16 / 2,
-    opacity: 1,
-    backgroundColor:
-      theme.palette.mode === "dark"
-        ? "rgba(255,255,255,.35)"
-        : "rgba(0,0,0,.25)",
-    boxSizing: "border-box",
-  },
+	width: 28,
+	height: 16,
+	padding: 0,
+	display: 'flex',
+	'&:active': {
+		'& .MuiSwitch-thumb': {
+			width: 15,
+		},
+		'& .MuiSwitch-switchBase.Mui-checked': {
+			transform: 'translateX(9px)',
+		},
+	},
+	'& .MuiSwitch-switchBase': {
+		padding: 2,
+		'&.Mui-checked': {
+			transform: 'translateX(12px)',
+			color: '#fff',
+			'& + .MuiSwitch-track': {
+				opacity: 1,
+				backgroundColor: theme.palette.mode === 'dark' ? '#387fff' : '#387fff',
+			},
+		},
+	},
+	'& .MuiSwitch-thumb': {
+		boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+		width: 12,
+		height: 12,
+		borderRadius: 6,
+		transition: theme.transitions.create(['width'], {
+			duration: 200,
+		}),
+	},
+	'& .MuiSwitch-track': {
+		borderRadius: 16 / 2,
+		opacity: 1,
+		backgroundColor:
+			theme.palette.mode === 'dark'
+				? 'rgba(255,255,255,.35)'
+				: 'rgba(0,0,0,.25)',
+		boxSizing: 'border-box',
+	},
 }));
 
 class CreateNFT extends React.Component<
-  {
-    history: any;
-    match: any;
-    connectedAddress: string;
-    blockchainType: string;
-  },
-  {
-    isSubmitted: boolean;
-    formValid: boolean;
-    loader: boolean;
-    errors: any;
-    nft: any;
-    properties: any;
-    levels: any;
-    stats: any;
-    imageURL: string;
-    videoURL: string;
-    collections: any;
-    allcollections: any;
-    error: boolean;
-    errorMessage: string;
-    audioUrl: string;
-    propertiesmodalShow: boolean;
-    levelsmodalShow: boolean;
-    statsmodalShow: boolean;
-    selectedCollection: any;
-    isFreeMint: any;
-    playerState: any;
-    nftInfo: any;
-  }
+	{
+		history: any;
+		match: any;
+		connectedAddress: string;
+		blockchainType: string;
+	},
+	{
+		isSubmitted: boolean;
+		formValid: boolean;
+		loader: boolean;
+		errors: any;
+		nft: any;
+		properties: any;
+		levels: any;
+		stats: any;
+		imageURL: string;
+		videoURL: string;
+		collections: any;
+		allcollections: any;
+		error: boolean;
+		errorMessage: string;
+		audioUrl: string;
+		propertiesmodalShow: boolean;
+		levelsmodalShow: boolean;
+		statsmodalShow: boolean;
+		selectedCollection: any;
+		isFreeMint: any;
+		playerState: any;
+		nftInfo: any;
+	}
 > {
   validator: SimpleReactValidator;
   myRef: any;
@@ -921,10 +922,10 @@ class CreateNFT extends React.Component<
 }
 
 const mapStateToProps = (state: {
-  wallet: { connectedAddress: any; blockchainType: string };
+	wallet: { connectedAddress: any; blockchainType: string };
 }) => ({
-  connectedAddress: state.wallet.connectedAddress,
-  blockchainType: state.wallet.blockchainType,
+	connectedAddress: state.wallet.connectedAddress,
+	blockchainType: state.wallet.blockchainType,
 });
 
 export default connect(mapStateToProps, {})(CreateNFT);

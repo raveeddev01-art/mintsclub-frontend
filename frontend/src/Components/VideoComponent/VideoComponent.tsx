@@ -1,19 +1,20 @@
-import "./VideoComponent.scss";
+import React from 'react';
+import './VideoComponent.scss';
 
 const VideoComponent = ({ videoUrl, videoStyles, videoWidth }: any) => {
-  return (
-    <>
-      {videoUrl && (
-        <video
-          className={`mt-2 ${videoStyles ? "" : "video-view"}`}
-          style={{ ...videoStyles }}
-          width={videoWidth ? videoWidth : "400"}
-          src={videoUrl}
-          controls
-        ></video>
-      )}
-    </>
-  );
+	return (
+		<>
+			{videoUrl && (
+				<video
+					className={`mt-2 ${videoStyles ? '' : 'video-view'}`}
+					style={{ ...videoStyles }}
+					width={videoWidth ? videoWidth : '400'}
+					src={videoUrl}
+					controls
+				></video>
+			)}
+		</>
+	);
 };
 
 export default VideoComponent;

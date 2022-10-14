@@ -1,76 +1,76 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import "./nftdetail.scss";
+import React, { useEffect, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import './nftdetail.scss';
 import {
-  getNFT,
-  getNFTsByCollection,
-  getMyLikedNfts,
-  beforeNFT,
-  createActivity,
-  getActivities,
-  getItemsListing,
-  beforeNFTByCollection,
-} from "../../Components/Nfts/nfts.action.js";
-import FullPageLoader from "../../Components/FullPageLoader/FullPageLoader";
-import { connect } from "react-redux";
-import { ENV } from "../../config/config";
-import { decimalNumberValidator } from "../../utils/functions";
+	getNFT,
+	getNFTsByCollection,
+	getMyLikedNfts,
+	beforeNFT,
+	createActivity,
+	getActivities,
+	getItemsListing,
+	beforeNFTByCollection,
+} from '../../Components/Nfts/nfts.action.js';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
+import { connect } from 'react-redux';
+import { ENV } from '../../config/config';
+import { decimalNumberValidator } from '../../utils/functions';
 import {
-  toggleLikeDislike,
-  beforeTogleLikeDislike,
-} from "../all-nfts/explore.action";
-import moment from "moment";
-import axios from "axios";
+	toggleLikeDislike,
+	beforeTogleLikeDislike,
+} from '../all-nfts/explore.action';
+import moment from 'moment';
+import axios from 'axios';
 import {
-  placeABid,
-  connectMetamask,
-  BuyFixedPriceNFT,
-  getWalletAddress,
-  getBalance,
-  validateNetwork,
-  claimNFTfromContract,
-  endAuctionFromContract,
-  redeemVoucher,
-} from "../../utils/web3";
+	placeABid,
+	connectMetamask,
+	BuyFixedPriceNFT,
+	getWalletAddress,
+	getBalance,
+	validateNetwork,
+	claimNFTfromContract,
+	endAuctionFromContract,
+	redeemVoucher,
+} from '../../utils/web3';
 import {
-  placeBid,
-  getBids,
-  getBidSByNftId,
-  beforeBid,
-  deleteBid,
-} from "../../Components/Bids/bids.action";
+	placeBid,
+	getBids,
+	getBidSByNftId,
+	beforeBid,
+	deleteBid,
+} from '../../Components/Bids/bids.action';
 import {
-  makeOffer,
-  getOffers,
-  beforeOffer,
-  deleteOffer,
-  buyNow,
-} from "../../Components/Offers/offers.action";
-import { toast } from "react-toastify";
-import BuyModal from "../../Components/Modals/BuyModal/BuyModal";
-import BidModal from "../../Components/Modals/BidModal/BidModal";
-import useVideoPlayer from "../../Components/TestVideoCard/Components/UseVideoPlayer";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import Banner from "../../Components/Banner/Banner";
-import BannerBg from "../../assets/images/hero-bg.png";
-import BannerImage from "../../assets/images/bannerimg.png";
-import OwnCollectionToday from "../../Components/OwnCollectionToday/OwnCollectionToday";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
-import { Images, blockchainIcons } from "../../assets/assets";
-import NFTDetailLoader from "../../Components/ContentLoader/NftDetailLoader";
-import Audio from "../../Components/Audio/Audio";
-import { getBannerData, nftBanner } from "../../utils/exportData";
-import Table from "../../Components/Table/Table";
-import { useGetData, useDeleteData } from "../../hooks/Common";
-import MetaData from "../../Components/MetaData/MetaData";
-import MetaDataSmall from "../../Components/MetaData/MetaDataSmall";
-import FileDetail from "../../Components/FileDetail/FileDetail";
-import MoreNFTs from "./components/MoreNFTs/MoreNFTs";
-import Offers from "./components/Offers";
-import Activities from "./components/Activities";
-import FileViewer from "./components/FileViewer";
-import { CHAIN_LOGOS, CHAIN_TITLE } from "../../utils/helpers/helpers";
-import { CHAINS_INTERFACE } from "../../interfaces/components";
+	makeOffer,
+	getOffers,
+	beforeOffer,
+	deleteOffer,
+	buyNow,
+} from '../../Components/Offers/offers.action';
+import { toast } from 'react-toastify';
+import BuyModal from '../../Components/Modals/BuyModal/BuyModal';
+import BidModal from '../../Components/Modals/BidModal/BidModal';
+import useVideoPlayer from '../../Components/TestVideoCard/Components/UseVideoPlayer';
+import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import Banner from '../../Components/Banner/Banner';
+import BannerBg from '../../assets/images/hero-bg.png';
+import BannerImage from '../../assets/images/bannerimg.png';
+import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import { Images, blockchainIcons } from '../../assets/assets';
+import NFTDetailLoader from '../../Components/ContentLoader/NftDetailLoader';
+import Audio from '../../Components/Audio/Audio';
+import { getBannerData, nftBanner } from '../../utils/exportData';
+import Table from '../../Components/Table/Table';
+import { useGetData, useDeleteData } from '../../hooks/Common';
+import MetaData from '../../Components/MetaData/MetaData';
+import MetaDataSmall from '../../Components/MetaData/MetaDataSmall';
+import FileDetail from '../../Components/FileDetail/FileDetail';
+import MoreNFTs from './components/MoreNFTs/MoreNFTs';
+import Offers from './components/Offers';
+import Activities from './components/Activities';
+import FileViewer from './components/FileViewer';
+import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
+import { CHAINS_INTERFACE } from '../../interfaces/components';
 const NFTDetail = (props: any) => {
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [toggle, setToggle] = React.useState<boolean>(true);
@@ -512,6 +512,9 @@ const NFTDetail = (props: any) => {
   };
 
   const BuyNow = async () => {
+    console.log( ENV.getUserKeys("address")?.address," address")
+    console.log(connectedAddress,"connectedAddress")
+ 
     if (
       ENV.getUserKeys("address")?.address?.toUpperCase() ===
       connectedAddress?.toUpperCase()
@@ -542,6 +545,7 @@ const NFTDetail = (props: any) => {
               createActivity("Transfer", false, props.connectedAddress);
             }
           } catch (err: any) {
+            console.log(err,"err")
             setDisabled(false);
             toast.error(err);
           }
@@ -963,48 +967,48 @@ const NFTDetail = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  nftDetail: state.nft.nftsData,
-  nftsAuth: state.nft.nftsAuth,
-  nftsByCollection: state.nft.nftsByCollection,
-  nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
-  myLikedNfts: state.nft.myLikedNfts,
-  myLikedNftsStatus: state.nft.myLikedNftsStatus,
-  activities: state.nft.itemActivities,
-  activitiesAuth: state.nft.activitiesAuth,
-  itemsListing: state.nft.itemsListing,
-  itemsListingAuth: state.nft.itemsListingAuth,
-  createAuth: state.bid.createAuth,
-  createAuthOffer: state.offer.createAuth,
-  buyAuth: state.offer.buyAuth,
-  getAuth: state.bid.getAuth,
-  getAuthOffer: state.offer.getAuth,
-  offers: state.offer.offers,
-  bids: state.bid.bids,
-  bidsByNft: state.bid.bidsByNft,
-  bidsByNftAuth: state.bid.bidsBYNftAuth,
-  togleLikeRes: state.explore.togleLikeRes,
-  connectedAddress: state.wallet.connectedAddress,
+	nftDetail: state.nft.nftsData,
+	nftsAuth: state.nft.nftsAuth,
+	nftsByCollection: state.nft.nftsByCollection,
+	nftsByCollectionStatus: state.nft.nftsByCollectionStatus,
+	myLikedNfts: state.nft.myLikedNfts,
+	myLikedNftsStatus: state.nft.myLikedNftsStatus,
+	activities: state.nft.itemActivities,
+	activitiesAuth: state.nft.activitiesAuth,
+	itemsListing: state.nft.itemsListing,
+	itemsListingAuth: state.nft.itemsListingAuth,
+	createAuth: state.bid.createAuth,
+	createAuthOffer: state.offer.createAuth,
+	buyAuth: state.offer.buyAuth,
+	getAuth: state.bid.getAuth,
+	getAuthOffer: state.offer.getAuth,
+	offers: state.offer.offers,
+	bids: state.bid.bids,
+	bidsByNft: state.bid.bidsByNft,
+	bidsByNftAuth: state.bid.bidsBYNftAuth,
+	togleLikeRes: state.explore.togleLikeRes,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
-  getNFT,
-  beforeNFT,
-  getNFTsByCollection,
-  toggleLikeDislike,
-  getMyLikedNfts,
-  placeBid,
-  getBids,
-  getBidSByNftId,
-  beforeBid,
-  deleteBid,
-  beforeTogleLikeDislike,
-  makeOffer,
-  beforeOffer,
-  getOffers,
-  deleteOffer,
-  buyNow,
-  createActivity,
-  getActivities,
-  getItemsListing,
-  beforeNFTByCollection,
+	getNFT,
+	beforeNFT,
+	getNFTsByCollection,
+	toggleLikeDislike,
+	getMyLikedNfts,
+	placeBid,
+	getBids,
+	getBidSByNftId,
+	beforeBid,
+	deleteBid,
+	beforeTogleLikeDislike,
+	makeOffer,
+	beforeOffer,
+	getOffers,
+	deleteOffer,
+	buyNow,
+	createActivity,
+	getActivities,
+	getItemsListing,
+	beforeNFTByCollection,
 })(NFTDetail);

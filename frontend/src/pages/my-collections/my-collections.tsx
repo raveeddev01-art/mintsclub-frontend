@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, FC } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
 import './my-collections.scss';
 import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
 import { connect } from 'react-redux';
@@ -16,139 +16,136 @@ import { useGetMyCollections } from '../../hooks/AllNFTs';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const MyCollections: FC<ExploreCollectionInt> = (props) => {
-  const [collections, setCollections] = useState<any[] | null>(null);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [empty, setEmpty] = useState(false);
-  const [pagination, setPagination] = useState<any>(null);
-  const { setError } = useContext(errorHandler);
-  const userId = ENV.getUserKeys('_id')._id;
+	const [collections, setCollections] = useState<any[] | null>(null);
+	const [page, setPage] = useState(1);
+	const [limit, setLimit] = useState(10);
+	const [empty, setEmpty] = useState(false);
+	const [pagination, setPagination] = useState<any>(null);
+	const { setError } = useContext(errorHandler);
+	const userId = ENV.getUserKeys('_id')._id;
 
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, []);
+	useEffect(() => {
+		window.scroll(0, 0);
+	}, []);
 
-  const onSuccessCollections = (data: any) => {
-    if (data.data.success) {
-      const { collections, pagination } = data.data.data;
-      if (collections.length > 0) {
-        setEmpty(false);
-      }
-      setCollections(collections.Collections);
-      setPagination(pagination);
-    } else {
-      setError(data.data.message);
-    }
-  };
-  const { isLoading: isLoadinCollections } = useGetMyCollections(
-    onSuccessCollections,
-    true,
-    ENV.objectToQueryString({
-      page: page,
-      limit: limit,
-      userId: userId,
-    })
-  );
+	const onSuccessCollections = (data: any) => {
+		if (data.data.success) {
+			const { collections, pagination } = data.data.data;
+			if (collections.length > 0) {
+				setEmpty(false);
+			}
+			setCollections(collections.Collections);
+			setPagination(pagination);
+		} else {
+			setError(data.data.message);
+		}
+	};
+	const { isLoading: isLoadinCollections } = useGetMyCollections(
+		onSuccessCollections,
+		true,
+		ENV.objectToQueryString({
+			page: page,
+			limit: limit,
+			userId: userId,
+		})
+	);
 
-  const handlePagination = () => {
-    window.scroll(0, 500);
-    setPage(page);
-    setLimit(limit + 10);
-  };
-  const handleImage = (item: any, index: number) => {
-    if (item?.nftDetail[index]?.image) {
-      let result = item.nftDetail.filter(
-        (nft: any) => nft.fileType === 'image'
-      );
-      if (result.length >= index && result.length !== 0) {
-        return result[index]?.image;
-      } else {
-        return Images.imagePlaceholder;
-      }
-    } else {
-      return Images.imagePlaceholder;
-    }
-  };
-  return (
-    <>
-      {isLoadinCollections ? (
-        <FullPageLoader />
-      ) : (
-        <section className='explore-collection-section padding-wrapper pt-0'>
-          <Banner
-            subHeading={myCollectionBanner.subHeading}
-            heading={myCollectionBanner.heading}
-            content={myCollectionBanner.content}
-            bgImg={BannerBg}
-            bg={true}
-            bannerImg={BannerImage}
-          />
-          <div className='container mt-5'>
-            <div className='row g-1 align-items-center'>
-              {isLoadinCollections ? (
-                <div className='d-flex justify-content-center'>
-                  <div className='spinner-border' role='status'>
-                    <span className='sr-only'>Loading...</span>
-                  </div>
-                </div>
-              ) : collections && collections.length > 0 ? (
-                collections.map((collection: any, index: number) => {
-                  return (
-                    <div className='col-sm-6 col-md-4 col-xl-3' key={index}>
-                      <CollectionsCard
-                        CardImg={collection.featuredImg}
-                        Subimg1={handleImage(collection, 0)}
-                        Subimg2={handleImage(collection, 1)}
-                        Subimg3={handleImage(collection, 2)}
-                        name={collection.name}
-                        id={collection._id}
-                        collection={collection}
-                        userName={
-                          collection?.username[0] ? collection.username[0] : ''
-                        }
-                        NFTCount={
-                          collection.TotalNfts ? collection.TotalNfts : 0
-                        }
-                        profileImage={collection?.profileImage[0]}
-                        ownerAddress={collection?.ownerAddress}
-                        connectedAddress={props.connectedAddress}
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <p className='text-center not-found-title mt-5'>
-                  No collection found
-                </p>
-              )}
-              <div className='col-12'>
-                <div className='mt-5 d-flex justify-content-center align-items-center'>
-                  {!empty &&
-                    collections?.length === 10 &&
-                    !isLoadinCollections &&
-                    pagination.totalRecords > collections.length && (
-                      <button
-                        className='btn btn-rounded-bordered px-5'
-                        onClick={() => handlePagination()}
-                      >
-                        Load more...
-                      </button>
-                    )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <OwnCollectionToday />
-        </section>
-      )}
-    </>
-  );
+	const handlePagination = () => {
+		// window.scroll(0, 500);
+		setPage(page);
+		setLimit(limit + 10);
+	};
+	const handleImage = (item: any, index: number) => {
+		if (item?.nftDetail[index]?.image) {
+			const result = item.nftDetail.filter(
+				(nft: any) => nft.fileType === 'image'
+			);
+			if (result.length >= index && result.length !== 0) {
+				return result[index]?.image;
+			} else {
+				return Images.imagePlaceholder;
+			}
+		} else {
+			return Images.imagePlaceholder;
+		}
+	};
+	return (
+		<>
+			{isLoadinCollections ? (
+				<FullPageLoader />
+			) : (
+				<section className="explore-collection-section padding-wrapper pt-0">
+					<Banner
+						subHeading={myCollectionBanner.subHeading}
+						heading={myCollectionBanner.heading}
+						content={myCollectionBanner.content}
+						bgImg={BannerBg}
+						bg={true}
+						bannerImg={BannerImage}
+					/>
+					<div className="container mt-5">
+						<div className="row g-1 align-items-center">
+							{isLoadinCollections ? (
+								<div className="d-flex justify-content-center">
+									<div className="spinner-border" role="status">
+										<span className="sr-only">Loading...</span>
+									</div>
+								</div>
+							) : collections && collections.length > 0 ? (
+								collections.map((collection: any, index: number) => {
+									return (
+										<div className="col-sm-6 col-md-4 col-xl-3" key={index}>
+											<CollectionsCard
+												CardImg={collection.featuredImg}
+												Subimg1={handleImage(collection, 0)}
+												Subimg2={handleImage(collection, 1)}
+												Subimg3={handleImage(collection, 2)}
+												name={collection.name}
+												id={collection._id}
+												collection={collection}
+												userName={
+													collection?.username[0] ? collection.username[0] : ''
+												}
+												NFTCount={
+													collection.TotalNfts ? collection.TotalNfts : 0
+												}
+												profileImage={collection?.profileImage[0]}
+												ownerAddress={collection?.ownerAddress}
+												connectedAddress={props.connectedAddress}
+											/>
+										</div>
+									);
+								})
+							) : (
+								<p className="text-center not-found-title mt-5">
+									No collection found
+								</p>
+							)}
+							<div className="col-12">
+								<div className="mt-5 d-flex justify-content-center align-items-center">
+									{!empty &&
+										collections?.length === 10 &&
+										!isLoadinCollections &&
+										pagination.totalRecords > collections.length && (
+											<button
+												className="btn btn-rounded-bordered px-5"
+												onClick={() => handlePagination()}
+											>
+												Load more...
+											</button>
+										)}
+								</div>
+							</div>
+						</div>
+					</div>
+					<OwnCollectionToday />
+				</section>
+			)}
+		</>
+	);
 };
 const mapStateToProps = (state: any) => ({
-
-  connectedAddress: state.wallet.connectedAddress,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
-export default connect(mapStateToProps, {
- 
-})(MyCollections);
+export default connect(mapStateToProps, {})(MyCollections);

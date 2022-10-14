@@ -1,179 +1,179 @@
-import axios from "axios";
-import { ENV } from "../config/config";
-import Compressor from "compressorjs";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { ENV } from '../config/config';
+import Compressor from 'compressorjs';
+import { toast } from 'react-toastify';
 
 let baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const axiosSyncPost = (url, data, isMultipart = false) => {
-  return new Promise((resolve, reject) => {
-    const params = new URLSearchParams();
-    let keys = Object.keys(data);
-    for (let x = 0; x < keys.length; x++) {
-      params.append(keys[x], data[keys[x]]);
-    }
+	return new Promise((resolve, reject) => {
+		const params = new URLSearchParams();
+		let keys = Object.keys(data);
+		for (let x = 0; x < keys.length; x++) {
+			params.append(keys[x], data[keys[x]]);
+		}
 
-    const config = {
-      headers: {
-        "Content-Type": isMultipart
-          ? "multipart/form-data"
-          : "application/x-www-form-urlencoded",
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-    };
+		const config = {
+			headers: {
+				'Content-Type': isMultipart
+					? 'multipart/form-data'
+					: 'application/x-www-form-urlencoded',
+				Authorization: ENV.Authorization,
+				'x-auth-token': ENV.x_auth_token,
+				'x-access-token':
+					ENV.getUserKeys('accessToken') &&
+					ENV.getUserKeys('accessToken').accessToken
+						? ENV.getUserKeys('accessToken').accessToken
+						: '',
+			},
+		};
 
-    url = baseUrl + url;
+		url = baseUrl + url;
 
-    axios.post(url, params, config).then(
-      (res) => {
-        resolve(res.data);
-      },
-      (error) => {
-        resolve(error);
-      }
-    );
-  });
+		axios.post(url, params, config).then(
+			(res) => {
+				resolve(res.data);
+			},
+			(error) => {
+				resolve(error);
+			}
+		);
+	});
 };
 
 export const axiosPostFormData = (url, body, isMultipart = false) => {
-  return new Promise((resolve, reject) => {
-    const config = {
-      headers: {
-        // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
-        Authorization: ENV.Authorization,
-        "x-auth-token": ENV.x_auth_token,
-        "x-access-token":
-          ENV.getUserKeys("accessToken") &&
-          ENV.getUserKeys("accessToken").accessToken
-            ? ENV.getUserKeys("accessToken").accessToken
-            : "",
-      },
-    };
+	return new Promise((resolve, reject) => {
+		const config = {
+			headers: {
+				// 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
+				Authorization: ENV.Authorization,
+				'x-auth-token': ENV.x_auth_token,
+				'x-access-token':
+					ENV.getUserKeys('accessToken') &&
+					ENV.getUserKeys('accessToken').accessToken
+						? ENV.getUserKeys('accessToken').accessToken
+						: '',
+			},
+		};
 
-    // url = testingURl + url;
+		// url = testingURl + url;
 
-    axios.post(ENV.url + url, body, config).then(
-      (res) => {
-        resolve(res.data);
-      },
-      (error) => {
-        resolve(error);
-      }
-    );
-  });
+		axios.post(ENV.url + url, body, config).then(
+			(res) => {
+				resolve(res.data);
+			},
+			(error) => {
+				resolve(error);
+			}
+		);
+	});
 };
 
 export const handleRequest = async (method, endpoint, data = null, qs) => {
-  let url = ENV.url + endpoint;
-  if (qs) url += `?${qs}`;
+	let url = ENV.url + endpoint;
+	if (qs) url += `?${qs}`;
 
-  return new Promise((resolve, reject) => {
-    let headers = {
-      // 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
-      Authorization: ENV.Authorization,
-      "x-auth-token": ENV.x_auth_token,
-      "x-access-token":
-        ENV.getUserKeys("accessToken") &&
-        ENV.getUserKeys("accessToken").accessToken
-          ? ENV.getUserKeys("accessToken").accessToken
-          : "",
-    };
-    axios({
-      method,
-      url,
-      ...(data && { data }),
-      headers,
-    }).then(
-      (res) => {
-        resolve(res);
-      },
-      (error) => {
-        reject(error);
-      }
-    );
-  });
+	return new Promise((resolve, reject) => {
+		let headers = {
+			// 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
+			Authorization: ENV.Authorization,
+			'x-auth-token': ENV.x_auth_token,
+			'x-access-token':
+				ENV.getUserKeys('accessToken') &&
+				ENV.getUserKeys('accessToken').accessToken
+					? ENV.getUserKeys('accessToken').accessToken
+					: '',
+		};
+		axios({
+			method,
+			url,
+			...(data && { data }),
+			headers,
+		}).then(
+			(res) => {
+				resolve(res);
+			},
+			(error) => {
+				reject(error);
+			}
+		);
+	});
 };
 
 export const decimalNumberValidator = (evt) => {
-  let e = evt || window.event;
+	let e = evt || window.event;
 
-  // Allow: backspace, delete, tab, escape, enter and .
-  const specialKeys = [46, 8, 9, 27, 13, 110];
+	// Allow: backspace, delete, tab, escape, enter and .
+	const specialKeys = [46, 8, 9, 27, 13, 110];
 
-  // Allow: Ctrl+A,Ctrl+C,Ctrl+V, Command+A
-  if (
-    specialKeys.includes(e.keyCode) ||
-    // Allow: Ctrl+A,Ctrl+C,Ctrl+Z,Ctrl+X Command+A
-    ((e.keyCode === 65 ||
-      e.keyCode === 67 ||
-      e.keyCode === 90 ||
-      e.keyCode === 88) &&
-      (e.ctrlKey === true || e.metaKey === true)) ||
-    // Allow: home, end, left, right, down, up
-    (e.keyCode >= 35 && e.keyCode <= 40)
-  ) {
-    // let it happen, don't do anything
-    return;
-  }
+	// Allow: Ctrl+A,Ctrl+C,Ctrl+V, Command+A
+	if (
+		specialKeys.includes(e.keyCode) ||
+		// Allow: Ctrl+A,Ctrl+C,Ctrl+Z,Ctrl+X Command+A
+		((e.keyCode === 65 ||
+			e.keyCode === 67 ||
+			e.keyCode === 90 ||
+			e.keyCode === 88) &&
+			(e.ctrlKey === true || e.metaKey === true)) ||
+		// Allow: home, end, left, right, down, up
+		(e.keyCode >= 35 && e.keyCode <= 40)
+	) {
+		// let it happen, don't do anything
+		return;
+	}
 
-  let key = e.keyCode || e.which;
-  if (
-    !e.shiftKey &&
-    !e.altKey &&
-    !e.ctrlKey &&
-    (key === 190 ||
-      key === 110 ||
-      (key >= 48 && key <= 57) ||
-      (key >= 96 && key <= 105) ||
-      key === 8 ||
-      key === 9 ||
-      key === 13 ||
-      key === 35 ||
-      key === 36 ||
-      key === 37 ||
-      key === 39 ||
-      key === 46 ||
-      key === 45)
-  ) {
-  } else {
-    e.returnValue = false;
-    if (e.preventDefault) e.preventDefault();
-  }
+	let key = e.keyCode || e.which;
+	if (
+		!e.shiftKey &&
+		!e.altKey &&
+		!e.ctrlKey &&
+		(key === 190 ||
+			key === 110 ||
+			(key >= 48 && key <= 57) ||
+			(key >= 96 && key <= 105) ||
+			key === 8 ||
+			key === 9 ||
+			key === 13 ||
+			key === 35 ||
+			key === 36 ||
+			key === 37 ||
+			key === 39 ||
+			key === 46 ||
+			key === 45)
+	) {
+		// empty block statement
+	} else {
+		e.returnValue = false;
+		if (e.preventDefault) e.preventDefault();
+	}
 };
 export const firstInputCharacterSpace = (evt, value) => {
-  let e = evt || window.event;
-  if (value === 0 && e.which === 32) e.preventDefault();
+	let e = evt || window.event;
+	if (value === 0 && e.which === 32) e.preventDefault();
 };
-
 export const formatBytes = (bytes, decimals = 2) => {
-  if (bytes === 0) return "0 Bytes";
+	if (bytes === 0) return '0 Bytes';
 
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+	const k = 1024;
+	const dm = decimals < 0 ? 0 : decimals;
+	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
 export const compressImage = (file, convertSize) => {
-  return new Promise((resolve) => {
-    new Compressor(file, {
-      quality: 0.8,
-      convertSize: 1000000,
-      success: (result) => {
-        resolve(result);
-      },
-      error(err) {
-        resolve(err);
-      },
-    });
-  });
+	return new Promise((resolve) => {
+		new Compressor(file, {
+			quality: 0.8,
+			convertSize: 1000000,
+			success: (result) => {
+				resolve(result);
+			},
+			error(err) {
+				resolve(err);
+			},
+		});
+	});
 };
