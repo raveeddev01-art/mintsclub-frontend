@@ -140,12 +140,14 @@ export const editNFTUri = async (tokenId, metaData) => {
 };
 
 export const openNFTForBidding = async (
-	biddingTime,
-	startTime,
+	biddingStartTime,
+	biddingEndTime,
 	tokenId,
-	copies
+	copies,
+  initialPrice
 ) => {
   try {
+    /* global BigInt */
     let abi = null;
     let contractAddress = null;
     let blockchainType = ENV.getUserKeys("blockchainType")?.blockchainType;
@@ -161,20 +163,30 @@ export const openNFTForBidding = async (
     } else {
       return toast.error("wrong network");
     }
+    let web3 = await getWeb3();
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods(abi,contractAddress);
     let id = Number(tokenId);
+    const intPrice = Number(web3.utils.toWei(`${initialPrice}`, "ether"));
+    // const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
+    console.log({intPrice,biddingStartTime,biddingEndTime,fee:150,id,copies,goerliMintingContract,connectedAddress})
     const result = await contractM.methods
-      .startAuction(biddingTime, startTime, connectedAddress, id, copies)
+      .listItemForAuction(web3.utils.toBN(intPrice),biddingStartTime,biddingEndTime, 150,id,+copies,goerliMintingContract,connectedAddress)
       .send({ from: connectedAddress });
-    let web3 = await getWeb3();
-    let sellId = await web3.utils.hexToNumber(
-      result.events.AuctionStart.raw.data
+      console.log(result,"result of listitem for auction")
+    // let sellId = await web3.utils.hexToNumber(
+    //   result.events.AuctionStart.returnValues._auctionid
+    // );
+
+        let sellId = await Number(
+      result.events.AuctionStart.returnValues._auctionid
     );
+    console.log(sellId,"sellId")
     if (sellId) {
       return sellId;
     }
   } catch (err) {
+    console.log(err,"error")
     throw new Error(err);
   }
 };
@@ -206,7 +218,7 @@ export const placeABid = async (amount, tokenId) => {
     const result = await contractM.methods.bid(id).send({
       from: connectedAddress,
       value: bidAmount,
-      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+      // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
     });
 
     if (result) {

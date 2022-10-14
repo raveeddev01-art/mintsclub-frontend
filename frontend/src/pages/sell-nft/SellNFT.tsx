@@ -253,15 +253,18 @@ const SellNFT = (props: any) => {
 		try {
 			const auctionEndDate = timedAuctionConfig.duration.endDate;
 			const auctionStartDate = timedAuctionConfig.duration.startDate;
+			Math.floor( new Date(auctionEndDate).getTime()/1000.0)
+			Math.floor( new Date(auctionStartDate).getTime()/1000.0)
 
-			const biddingTime = new Date(auctionEndDate).getTime();
-			const startTime = new Date(auctionStartDate).getTime();
+			const biddingTime = Math.floor( new Date(auctionEndDate).getTime()/1000.0)
+			const startTime = 	Math.floor( new Date(auctionStartDate).getTime()/1000.0)
 
 			const result = await openNFTForBidding(
-				biddingTime,
 				startTime,
+				biddingTime,
 				nftDetail?.tokenId,
-				copies
+				copies,
+				+price
 			);
 			if (result) {
 				activityPayload.price = price;
@@ -271,6 +274,7 @@ const SellNFT = (props: any) => {
 				insertAuction(payload);
 			}
 		} catch (err: any) {
+			console.log(err,"error while lisitng on auction")
 			setLoader(false);
 			toast.error(err);
 		}
