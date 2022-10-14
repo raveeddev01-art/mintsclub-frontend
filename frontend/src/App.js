@@ -25,10 +25,6 @@ const App = React.memo((props) => {
 
 	useGaTracker();
 
-	useEffect(async () => {
-		tawkTo(ENV.tawkToPropertyId, ENV.tawkToKey);
-	}, [ENV]);
-
   useEffect(async () => {
     tawkTo(ENV.tawkToPropertyId, ENV.tawkToKey);
     if(ENV.getUserKeys("address")?.address){
