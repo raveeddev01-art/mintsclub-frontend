@@ -188,14 +188,14 @@ class CreateNFT extends React.Component<
 			});
 		}
 
-		const ownerAddress = await getCurrentAddress();
+    // let ownerAddress = await getCurrentAddress(this.wallet);
 
-		let { nft } = this.state;
-		nft = { ...nft, ownerAddress: ownerAddress };
-		this.setState({
-			nft,
-		});
-	};
+    let { nft } = this.state;
+    nft = { ...nft, ownerAddress: this.props.connectedAddress };
+    this.setState({
+      nft,
+    });
+  };
 
 	componentDidUpdate = async (prevProps: any, prevState: any) => {
 		const { connectedAddress } = this.props;

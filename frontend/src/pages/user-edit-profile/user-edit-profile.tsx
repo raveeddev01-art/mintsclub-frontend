@@ -388,6 +388,6 @@ const EditProfile = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => ({});
+const mapStateToProps = (state: any) => (console.log(state), {});
 
 export default connect(mapStateToProps, {})(EditProfile);

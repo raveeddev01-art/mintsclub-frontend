@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import './SellNFT.scss';
-import { ENV } from '../../config/config';
-import 'bootstrap-daterangepicker/daterangepicker.css';
-import moment from 'moment';
-import { decimalNumberValidator } from '../../utils/functions';
-import { useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { useState, useEffect, useContext } from "react";
+import "./SellNFT.scss";
+import { ENV } from "../../config/config";
+import "bootstrap-daterangepicker/daterangepicker.css";
+import moment from "moment";
+import { decimalNumberValidator } from "../../utils/functions";
+import { useLocation } from "react-router-dom";
+import { connect } from "react-redux";
 import {
 	openNFTForBidding,
 	putonsale,
@@ -31,8 +31,11 @@ import NFTDetail from './components/NFTDetail';
 import FixedPriceListing from './components/FixedPriceListing';
 import AuctionListing from './components/AuctionListing';
 import Buttons from './components/Buttons';
+import { listItemForFixedPriceSolana } from "../../utils/solana/helper";
+import { useWallet } from "@solana/wallet-adapter-react";
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
+  const wallet = useWallet()
 	const [activeBtn, setActiveBtn] = useState<any>(0);
 	const [sellingMethod, setSellingMethod] = useState<number>(1); // 1 = Fixed Price, 2 = Timed Auction
 	const [fixedPriceConfig, setFixedPriceConfig] = useState<any>({
@@ -257,78 +260,100 @@ const SellNFT = (props: any) => {
 			const biddingTime = new Date(auctionEndDate).getTime();
 			const startTime = new Date(auctionStartDate).getTime();
 
-			const result = await openNFTForBidding(
-				biddingTime,
-				startTime,
-				nftDetail?.tokenId,
-				copies
-			);
-			if (result) {
-				activityPayload.price = price;
-				payload.sellId = Number(result);
-				for (const key in payload) formData.append(key, payload[key]);
-				insertActivity(activityPayload);
-				insertAuction(payload);
-			}
-		} catch (err: any) {
-			setLoader(false);
-			toast.error(err);
-		}
-	};
-	//Open for fixed price
-	const openForSale = async (
-		activityPayload: any,
-		payload: any,
-		fixedConfig: any,
-		price: any
-	) => {
-		const formData = new FormData();
-		try {
-			let res = null;
-			if (nftDetail?.lazyMinted) {
-				res = await createVoucher(
-					nftDetail.tokenId,
-					copies,
-					nftDetail.metaData,
-					price
-				);
-				if (!res.success) {
-					setLoader(false);
-					toast.error(res.data.message);
-					return false;
-				}
-			} else {
-				res = await putonsale(
-					nftDetail.tokenId,
-					copies,
-					fixedConfig.price.amount
-				);
-			}
+      let result = await openNFTForBidding(
+        biddingTime,
+        startTime,
+        nftDetail?.tokenId,
+        copies
+      );
+      if (result) {
+        activityPayload.price = price;
+        payload.sellId = Number(result);
+        for (const key in payload) formData.append(key, payload[key]);
+        insertActivity(activityPayload);
+        insertAuction(payload);
+      }
+    } catch (err: any) {
+      setLoader(false);
+      toast.error(err);
+    }
+  };
+  //Open for fixed price
+  const openForSale = async (
+    activityPayload: any,
+    payload: any,
+    fixedConfig: any,
+    price: any
+  ) => {
+    var formData = new FormData();
+    try {
+      let res = null;
+      if (nftDetail?.lazyMinted) {
+        res = await createVoucher(
+          nftDetail.tokenId,
+          copies,
+          nftDetail.metaData,
+          price
+        );
+        if (!res.success) {
+          setLoader(false);
+          toast.error(res.data.message);
+          return false;
+        }
+      } else {
+        console.log(
+          "props.blockChainType?.toLowerCase()",
+          props.blockchainType?.toLowerCase()
+        );
+        if (props.blockchainType?.toLowerCase() == "solana") {
+          res = await listItemForFixedPriceSolana(
+            wallet,
+            price,
+            nftDetail.mint
+          );
+        }
+        if (props.blockchainType?.toLowerCase() === "ethereum") {
+          res = await putonsale(
+            nftDetail.tokenId,
+            copies,
+            fixedConfig.price.amount
+          );
+        }
+      }
 
-			if (res) {
-				activityPayload.price = price;
-				payload.sellId = Number(nftDetail.lazyMinted ? nftDetail.tokenId : res);
-				if (nftDetail.lazyMinted) {
-					payload.signature = res.data;
-				}
-				for (const key in payload) formData.append(key, payload[key]);
-				insertActivity(activityPayload);
-				insertAuction(formData);
-			}
-		} catch (err: any) {
-			console.log(err, 'error');
-			setLoader(false);
-			toast.error(err);
-		}
-	};
-	const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
-		let time = auctionConfig.toString();
-		time = time.slice(0, 15) + ' ' + startOrEndTime + ':00' + time.slice(24);
-		return time;
-	};
-	const handleDateChange = (e: any, picker: any) => {
-		const { name } = e.target;
-		const { startDate, endDate } = picker;
+      if (res) {
+        activityPayload.price = price;
+        payload.blockchainType = props.blockchainType.toLowerCase();
+        if (props.blockchainType?.toLowerCase() === "solana") {
+          payload.sellerTradeState = res;
+        } else {
+          payload.sellId = Number(
+            nftDetail.lazyMinted ? nftDetail.tokenId : res
+          );
+        }
+        if (nftDetail.lazyMinted) {
+          payload.signature = res.data;
+        }
+        for (const key in payload) formData.append(key, payload[key]);
+        insertActivity(activityPayload);
+        insertAuction(formData);
+      }
+    } catch (err: any) {
+      console.log(err, "error");
+      setLoader(false);
+      toast.error(err);
+    } finally {
+      setLoader(false);
+    }
+  };
+  const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
+    let time = auctionConfig.toString();
+    time = time.slice(0, 15) + " " + startOrEndTime + ":00" + time.slice(24);
+    return time;
+  };
+  const handleDateChange = (e: any, picker: any) => {
+    const { name } = e.target;
+    const { startDate, endDate } = picker;
 
 		// set start date
 		onChange({

@@ -1,5 +1,5 @@
-import { getMetaplex } from './config';
-import { walletAdapterIdentity } from '@metaplex-foundation/js';
+import { getMetaplex } from "./config";
+import { PublicKey, sol, walletAdapterIdentity } from "@metaplex-foundation/js";
 
 const mintSingleNft = async (
 	wallet: any,
@@ -7,8 +7,9 @@ const mintSingleNft = async (
 	name: string,
 	sellerFeeBasisPoints = 200
 ) => {
-	try {
-		const metaplex = getMetaplex();
+  try {
+    const metaplex = getMetaplex();
+    console.log("🚀 ~ file: helper.ts ~ line 12 ~ metaplex", metaplex);
 
 		metaplex.use(walletAdapterIdentity(wallet));
 		const mintNftResponse: any = await metaplex.nfts().create({
@@ -52,4 +53,44 @@ const signMessageFromUserForSolana = async (
 	}
 };
 
-export { mintSingleNft, signMessageFromUserForSolana };
+const listItemForFixedPriceSolana = async (
+  wallet: any,
+  price: number,
+  mintAddress: string
+) => {
+  const metaplex = getMetaplex();
+  metaplex.use(walletAdapterIdentity(wallet));
+
+  const auctionHouse = await metaplex.auctionHouse().findByAddress({
+    address: new PublicKey("HGLp7o4LTbKCsrLPRLogfwmLVFN7LzpuCgpgJ3W6sNVP"),
+  });
+
+  console.log(
+    "🚀 ~ file: Listing.tsx ~ line 44 ~ listNft ~ auctionHouse",
+    auctionHouse
+  );
+
+  console.log(auctionHouse.feeAccountAddress.toString(), "fee account");
+
+  const { listing, sellerTradeState, receipt } = await metaplex
+    .auctionHouse()
+    .list({
+      auctionHouse,
+      price: sol(price),
+      mintAccount: new PublicKey(mintAddress),
+    });
+
+  console.log(
+    " listing, sellerTradeState, receipt",
+    listing,
+    sellerTradeState,
+    receipt
+  );
+  return sellerTradeState.toBase58();
+};
+
+export {
+  mintSingleNft,
+  signMessageFromUserForSolana,
+  listItemForFixedPriceSolana,
+};
