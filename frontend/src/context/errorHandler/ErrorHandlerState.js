@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import ErrorHandlerContext from "./ErrorHandlerContext";
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import ErrorHandlerContext from './ErrorHandlerContext';
 
 export default function ErrorHandlerState({ children }) {
-  const [error, setError] = useState(null);
+	const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-      setError(null);
-    }
-  }, [error]);
-  return (
-    <ErrorHandlerContext.Provider value={{ setError, error }}>
-      {children}
-    </ErrorHandlerContext.Provider>
-  );
+	useEffect(() => {
+		if (error) {
+			toast.error(error.message);
+			setError(null);
+		}
+	}, [error]);
+	return (
+		<ErrorHandlerContext.Provider value={{ setError, error }}>
+			{children}
+		</ErrorHandlerContext.Provider>
+	);
 }

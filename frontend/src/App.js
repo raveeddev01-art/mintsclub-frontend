@@ -10,27 +10,27 @@ import useGaTracker from "./gaTracker/gaTracket";
 import { connect } from "react-redux";
 import { beforeWallet, setWalletAddress } from "./pages/wallet/wallet.action";
 import {
-  ConnectionProvider,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
-import {
-  PhantomWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
-require("@solana/wallet-adapter-react-ui/styles.css");
+	ConnectionProvider,
+	WalletProvider,
+} from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+require('@solana/wallet-adapter-react-ui/styles.css');
 
 const App = React.memo((props) => {
-  const network = "devnet";
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+	const network = 'devnet';
+	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+	const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
 
-  useGaTracker();
-  const tawkToPropertyId = ENV.tawkToPropertyId;
-  const tawkToKey = ENV.tawkToKey;
+	useGaTracker();
+
+	useEffect(async () => {
+		tawkTo(ENV.tawkToPropertyId, ENV.tawkToKey);
+	}, [ENV]);
 
   useEffect(async () => {
-    tawkTo(tawkToPropertyId, tawkToKey);
+    tawkTo(ENV.tawkToPropertyId, ENV.tawkToKey);
     if(ENV.getUserKeys("address")?.address){
       props.beforeWallet()
       props.setWalletAddress(ENV.getUserKeys("address")?.address)
@@ -73,6 +73,6 @@ const App = React.memo((props) => {
 const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, {
-  setWalletAddress,
-  beforeWallet,
+	setWalletAddress,
+	beforeWallet,
 })(App);

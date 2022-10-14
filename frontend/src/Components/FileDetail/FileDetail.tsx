@@ -1,153 +1,155 @@
-const FileDetail = ({info}:any) => {
-  const {
-    name,
-    copies,
-    remainingCopies,
-    currentPrice,
-    copiesForAuction,
-    sellingMethod,
-    exchangeRate,
-    auctionEndDate,
-    auctionStartDate,
-    checkIfAuctionIsStarted,
-    checkIfAuctionStartedorEnded,
-    user,
-    ownerAddress,
-    handleRouting,
-    claimNFT,
-    connectedAddress,
-    auctionEnded,
-    EndAuction,
-    Images
-  }:any=info
-  return (
-    <div className="col-xl-6">
-      <div className="nft-img-detail">
-        <h5>NFT Details:</h5>
-      </div>
-      <div className="nft-img-detail-box">
-        <div className="nft-detail-rounded-box">
-          <p>{name && name.length > 30 ? name.slice(0, 30) + "..." : name}</p>
-        </div>
-        <div className="row g-2 g-sm-4">
-          <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-            <div className="nft-detail-rounded-box">
-              <p>
-                Total Copies: <span>{copies}</span>
-              </p>
-            </div>
-          </div>
-          <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-            <div className="nft-detail-rounded-box">
-              <p>
-                Sold: <span>{copies - remainingCopies}</span>
-              </p>
-            </div>
-          </div>
-          <div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
-            <div className="nft-detail-rounded-box">
-              <p>
-                Remaining: <span>{remainingCopies}</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="nft-detail-price d-flex align-items-center  mb-3">
-          <div className="d-flex align-items-center me-2">
-            <img src={Images.onsale} className="me-3" />
-            <h2>{currentPrice}</h2>
-          </div>
-          <div className="price-in-dollar">
-            <p> ($ {(currentPrice * exchangeRate).toFixed(2)})</p>
-          </div>
-        </div>
-        <div className="nft-detail-rounded-box on-sale">
-          <p>
-            Copies On Sale:{" "}
-            <span> {copiesForAuction ? copiesForAuction : 0}</span>
-          </p>
-        </div>
-        <div className="nft-detail-date d-flex align-items-center">
-          <p>
-            {sellingMethod && sellingMethod === 2 && (
-              <>
-                {auctionEndDate &&
-                  checkIfAuctionStartedorEnded(
-                    auctionStartDate,
-                    auctionEndDate
-                  ) && (
-                    <>
-                      <img
-                        src={Images.ClockIcon}
-                        alt="clock-icon"
-                        className="me-1"
-                      />
-                      <span>
-                        {checkIfAuctionIsStarted(
-                          auctionStartDate,
-                          auctionEndDate
-                        )}{" "}
-                        {/* {auctionEndTimeConversion(
+import React from 'react';
+
+const FileDetail = ({ info }: any) => {
+	const {
+		name,
+		copies,
+		remainingCopies,
+		currentPrice,
+		copiesForAuction,
+		sellingMethod,
+		exchangeRate,
+		auctionEndDate,
+		auctionStartDate,
+		checkIfAuctionIsStarted,
+		checkIfAuctionStartedorEnded,
+		user,
+		ownerAddress,
+		handleRouting,
+		claimNFT,
+		connectedAddress,
+		auctionEnded,
+		EndAuction,
+		Images,
+	}: any = info;
+	return (
+		<div className="col-xl-6">
+			<div className="nft-img-detail">
+				<h5>NFT Details:</h5>
+			</div>
+			<div className="nft-img-detail-box">
+				<div className="nft-detail-rounded-box">
+					<p>{name && name.length > 30 ? name.slice(0, 30) + '...' : name}</p>
+				</div>
+				<div className="row g-2 g-sm-4">
+					<div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
+						<div className="nft-detail-rounded-box">
+							<p>
+								Total Copies: <span>{copies}</span>
+							</p>
+						</div>
+					</div>
+					<div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
+						<div className="nft-detail-rounded-box">
+							<p>
+								Sold: <span>{copies - remainingCopies}</span>
+							</p>
+						</div>
+					</div>
+					<div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
+						<div className="nft-detail-rounded-box">
+							<p>
+								Remaining: <span>{remainingCopies}</span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div className="nft-detail-price d-flex align-items-center  mb-3">
+					<div className="d-flex align-items-center me-2">
+						<img src={Images.onsale} className="me-3" />
+						<h2>{currentPrice}</h2>
+					</div>
+					<div className="price-in-dollar">
+						<p> ($ {(currentPrice * exchangeRate).toFixed(2)})</p>
+					</div>
+				</div>
+				<div className="nft-detail-rounded-box on-sale">
+					<p>
+						Copies On Sale:{' '}
+						<span> {copiesForAuction ? copiesForAuction : 0}</span>
+					</p>
+				</div>
+				<div className="nft-detail-date d-flex align-items-center">
+					<p>
+						{sellingMethod && sellingMethod === 2 && (
+							<>
+								{auctionEndDate &&
+									checkIfAuctionStartedorEnded(
+										auctionStartDate,
+										auctionEndDate
+									) && (
+										<>
+											<img
+												src={Images.ClockIcon}
+												alt="clock-icon"
+												className="me-1"
+											/>
+											<span>
+												{checkIfAuctionIsStarted(
+													auctionStartDate,
+													auctionEndDate
+												)}{' '}
+												{/* {auctionEndTimeConversion(
                             new Date(auctionEndDate)
                           )}{" "} */}
-                      </span>
-                    </>
-                  )}
-              </>
-            )}
-          </p>
-        </div>
-      </div>
-      <div className="nft-detail-owner d-flex align-items-center">
-        <img
-          src={user?.profileImage ? user?.profileImage : Images.placeholderImg}
-          alt="avatar"
-          className="me-2"
-        />
-        <p>
-          Owned by:
-          <span className="text-capitalize ms-1">
-            {" "}
-            {ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase()
-              ? "You"
-              : user?.username
-              ? user.username
-              : "unnamed"}
-          </span>
-        </p>
-      </div>
-      <div className="nft-detail-btn">
-        {checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate) &&
-          !claimNFT && (
-            <button
-              // disabled={disabled}
-              onClick={() => handleRouting()}
-            >
-              {" "}
-              {ownerAddress?.toUpperCase() == connectedAddress.toUpperCase() &&
-              sellingMethod == 2 &&
-              auctionEnded == false
-                ? "End Auction"
-                : ownerAddress?.toUpperCase() ==
-                    connectedAddress.toUpperCase() &&
-                  sellingMethod == 1 &&
-                  auctionEnded == false
-                ? "Resale"
-                : ownerAddress?.toUpperCase() == connectedAddress.toUpperCase()
-                ? "Sell"
-                : sellingMethod === 2 && auctionEnded == false
-                ? "Place A Bid"
-                : sellingMethod === 1 && auctionEnded == false
-                ? "Buy Now"
-                : ""}
-            </button>
-          )}
+											</span>
+										</>
+									)}
+							</>
+						)}
+					</p>
+				</div>
+			</div>
+			<div className="nft-detail-owner d-flex align-items-center">
+				<img
+					src={user?.profileImage ? user?.profileImage : Images.placeholderImg}
+					alt="avatar"
+					className="me-2"
+				/>
+				<p>
+					Owned by:
+					<span className="text-capitalize ms-1">
+						{' '}
+						{ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase()
+							? 'You'
+							: user?.username
+							? user.username
+							: 'unnamed'}
+					</span>
+				</p>
+			</div>
+			<div className="nft-detail-btn">
+				{checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate) &&
+					!claimNFT && (
+						<button
+							// disabled={disabled}
+							onClick={() => handleRouting()}
+						>
+							{' '}
+							{ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
+							sellingMethod === 2 &&
+							auctionEnded === false
+								? 'End Auction'
+								: ownerAddress?.toUpperCase() ===
+										connectedAddress.toUpperCase() &&
+								  sellingMethod === 1 &&
+								  auctionEnded === false
+								? 'Resale'
+								: ownerAddress?.toUpperCase() === connectedAddress.toUpperCase()
+								? 'Sell'
+								: sellingMethod === 2 && auctionEnded === false
+								? 'Place A Bid'
+								: sellingMethod === 1 && auctionEnded === false
+								? 'Buy Now'
+								: ''}
+						</button>
+					)}
 
-        {claimNFT && (
-          <button onClick={() => EndAuction()}>{"Claim NFT"}</button>
-        )}
-      </div>
-    </div>
-  );
+				{claimNFT && (
+					<button onClick={() => EndAuction()}>{'Claim NFT'}</button>
+				)}
+			</div>
+		</div>
+	);
 };
 export default FileDetail;
