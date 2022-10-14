@@ -123,6 +123,8 @@ export const openNFTForBidding = async (
 
 export const placeABid = async (amount, tokenId) => {
 	try {
+    /* global BigInt */
+
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods();
 		const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, 'ether')));
