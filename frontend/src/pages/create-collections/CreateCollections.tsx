@@ -413,7 +413,7 @@ class CreateCollections extends Component<
 							}
 							if (collection?.deploy) {
 								const response = await this.deployCollection();
-								formData.append('abi', response?.abi);
+                formData.append("abi", JSON.stringify(response?.abi));
 								formData.append(
 									'contractAddress',
 									`${response?.contractAddress}`

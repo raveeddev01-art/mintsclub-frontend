@@ -61,15 +61,28 @@ const CreateNft = ({
 					blockChainType === 'polygon' ||
 					blockChainType === 'bsc'
 				) {
-					const mintId = await mintNFt(metaData, state.nft.copies);
-					if (mintId) {
-						paylaod = {
-							nftToken: mintId,
-							data: { ...data, blockchainType: blockChainType },
-							image,
-							lazyMinted: false,
-						};
-					}
+					let collectioncontractAddress;
+          			
+					  let mintId = undefined;
+					  const res = await handleRequest("get",
+					  `collection/get/${state.selectedCollection.value}`);
+						if(res.data.collection.deploy === true){
+						// collection contract and abi will be passed here
+							collectioncontractAddress = res.data.collection.contractAddress;  
+							mintId = await mintNFt(metaData, state.nft.copies,collectioncontractAddress);
+						}
+						else{
+							mintId = await mintNFt(metaData, state.nft.copies);
+						}
+						
+						if (mintId) {
+							paylaod = {
+								nftToken: mintId,
+								data: { ...data, blockchainType: blockChainType },
+								image,
+								lazyMinted: false,
+							};
+						}
 				}
 
 				if (props.blockchainType === 'algorand') {

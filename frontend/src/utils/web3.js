@@ -3,13 +3,10 @@ import { toast } from 'react-toastify';
 import { ENV } from './../config/config';
 import ethMintAbi from './abis/ethereum/mint.json';
 import ethMarketPlaceContract from './abis/ethereum/marketPlace.json';
-
 import polygonMintAbi from './abis/polygon/mint.json';
 import polygonMarketPlaceContract from './abis/polygon/marketPlace.json';
-
 import binanceMintAbi from './abis/binance/mint.json';
 import binanceMarketPlaceContract from './abis/binance/marketPlace.json';
-
 import typedDataV4 from './typeDatav4';
 import voucherAbi from './abis/voucher-abi.json';
 import batchMintAbi from './abis/batchMint-abi.json';
@@ -83,14 +80,12 @@ export const getBalance = async () => {
 	return ethBalance;
 };
 
-export const mintNFt = async (metaData, amount) => {
+export const mintNFt = async (metaData, amount, collectionAddress=undefined) => {
 	let web3 = await getWeb3();
-
 	if (!web3) {
 		toast.error('No web3 instance found');
 		return false;
 	}
-
 	const nftAmount = Number(amount);
 	let abi = null;
 	let contractAddress = null;
@@ -111,7 +106,13 @@ export const mintNFt = async (metaData, amount) => {
 
 	try {
 		let connectedAddress = await connectMetamask();
-		const contractM = await getContractMethods(abi, contractAddress);
+    let contractM = undefined;
+    if(collectionAddress){
+      contractM = await getContractMethods(abi, collectionAddress);
+    }
+    else{
+        contractM = await getContractMethods(abi, contractAddress);
+    }
 		let result = await contractM.methods
 			.mint(connectedAddress, nftAmount, metaData)
 			.send({ from: connectedAddress });
@@ -134,6 +135,8 @@ export const mintNFt = async (metaData, amount) => {
 		throw new Error(err);
 	}
 };
+
+
 export const editNFTUri = async (tokenId, metaData) => {
 	try {
 		let web3 = await getWeb3();
