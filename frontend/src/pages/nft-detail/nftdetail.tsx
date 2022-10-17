@@ -885,10 +885,10 @@ const NFTDetail = (props: any) => {
 			value:
 				blockchainType === 'solana'
 					? ''
-					: ENV?.mintsClubContractAddress &&
-					  ENV.mintsClubContractAddress.slice(0, 6) +
+					: ENV?.goerliMintingContract &&
+					  ENV.goerliMintingContract.slice(0, 6) +
 							'....' +
-							ENV.mintsClubContractAddress.slice(-6),
+							ENV.goerliMintingContract.slice(-6),
 		},
 		{
 			title: blockchainType === 'solana' ? 'Mint' : 'Token ID',
