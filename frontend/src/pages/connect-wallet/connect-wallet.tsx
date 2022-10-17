@@ -35,6 +35,7 @@ import reactSelect from "react-select";
 import { WalletName } from "@solana/wallet-adapter-base";
 import { LargeNumberLike } from "crypto";
 import { connectWallet } from "../../utils/algorand";
+import {signMessageFromUserForAlgorand} from "../../utils/algorand";
 
 // require("@solana/wallet-adapter-react-ui/styles.css");
 
@@ -134,6 +135,7 @@ const ConnectWallet = (props: any) => {
     const response = data.data;
     let selectedBlockchainType = undefined;
     if (response.success) {
+
       if (response.blockchainType === "ethereum") {
         selectedBlockchainType = "ethereum";
         if (response?.users?.length > 0) {
@@ -158,13 +160,15 @@ const ConnectWallet = (props: any) => {
       if (response.blockchainType === "algorand") {
         selectedBlockchainType = "algorand";
         if (response?.users?.length > 0) {
-          authenticate({ publicAddress: props.connectedAddress, blockchainType: "algorand" });
-          return;
+
+          const res = await signMessageFromUserForAlgorand(
+            response?.users[0].nounce, props.connectedAddress
+          );
+            authenticate({...res , blockchainType: "algorand" });
+            return; 
         }
-        // TODO: Implementation algorand
       }
 
-      console.log("This is Running", props.blockchainType);
       handleSignUp({
         address: connectedAddress,
         blockchainType: props.blockchainType,
@@ -194,7 +198,7 @@ const ConnectWallet = (props: any) => {
   );
   ///Authenticate
   const onSuccessAuthentication = (data: any) => {
-    console.log(data)
+    console.log("data on success authentication",data)
     if (data.data.success) {
     
       ENV.encryptUserData(data.data.data);
@@ -219,10 +223,6 @@ const ConnectWallet = (props: any) => {
     props.setBlockchainType("algorand");
 
   return addr?.[0];
-  //  algoLogin(payload)
-
-  // authAlgo({address: addr?.[0]})
- 
  };
 
 
@@ -298,6 +298,7 @@ const ConnectWallet = (props: any) => {
           functionality: async () => {
          const res = await connectAlgoWallet();
          if(res){
+
           validateUser({blockchainType: "algorand"})
          }
           },

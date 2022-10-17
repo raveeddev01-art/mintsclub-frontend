@@ -44,9 +44,15 @@ const CreateNft = ({
       toast.error(err.message);
     }
   };
+
+
+  // temporarily here
   const createApplication = ()=>{
     createApp(34, props.connectedAddress);
   }
+
+
+  
   const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
     let data: any = { ...nftInfo };
     console.log("🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data", data);
@@ -312,7 +318,6 @@ const CreateNft = ({
       <button onClick={createApplication}>
         Create Application
       </button>
-
     </div>
   );
 };

@@ -7,6 +7,7 @@ const crypto = require("crypto-browserify");
 const algosdk = require("algosdk");
 const enc = new TextEncoder();
 const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
+const nobleEd25519 = require("@noble/ed25519");
 
 const settings = {
   shouldSelectOneAccount: false,
@@ -361,6 +362,12 @@ const compileProgram = async (client, programSource) => {
   return compiledBytes;
 };
 
+async function signMessageFromUserForAlgorand(nounce, accountaddress) {
+  const data = enc.encode(`I am signing my one-time nonce: ${nounce}`);
+  const sig = await myAlgoConnect.signBytes(data, accountaddress);
+  return { publicAddress: accountaddress, signature: sig };
+}
+
 async function createApp(nft_ID, accountaddress) {
   var approvalProg = "";
   var clearProg = "";
@@ -472,4 +479,4 @@ async function createApp(nft_ID, accountaddress) {
 //   console.log("setsale ", setsale);
 // }
 
-export { createApp, CheckBalance, createNFT };
+export { signMessageFromUserForAlgorand, createApp, CheckBalance, createNFT };
