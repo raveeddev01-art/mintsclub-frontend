@@ -244,21 +244,9 @@ function CreateMultipleNFT(props: any) {
                     <h6>OR</h6>
                     <span>|</span>
                   </div>
-                  <input
-                    type='file'
-                    onChange={(e) => onFileChange(e, 'onChange')}
-                    accept='.zip'
-                    name='zip'
-                    // onBlur={() => simpleValidator.current.showMessageFor('zip')}
-                  />
+                  <input type='file' onChange={(e) => onFileChange(e, 'onChange')} accept='.zip' name='zip' />
                   <span className='btn btn-linear-gradient upload-nft-btn text-white mt-3'>Browse File</span>
-                  <span className='text-danger text-center mb-3'>
-                    {/* {this.validator.message("image", nft.image, "required")} */}
-                    {/* {validator.message('image', fileName, 'required')} */}
-                    {/* {validator.message('fileName', fileName, 'required')} */}
-                    {/* {simpleValidator.current.message('zip', fileName, 'required')} */}
-                    {/* {validator.message('zip', fileName, 'required')} */}
-                  </span>
+                  <span className='text-danger text-center mb-3'>{validator.message('zip', fileName, 'required')}</span>
                 </div>
                 {uploadStatus && (
                   <div className='upload-file-wapper'>
