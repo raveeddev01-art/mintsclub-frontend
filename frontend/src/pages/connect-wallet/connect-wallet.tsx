@@ -1,31 +1,31 @@
-import { useState, useEffect, useContext, useMemo } from "react";
-import Container from "react-bootstrap/Container";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import { setWalletAddress, setBlockchainType } from "../wallet/wallet.action";
-import { login } from "../../Components/User/user.action";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useContext, useMemo } from 'react';
+import Container from 'react-bootstrap/Container';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import { setWalletAddress, setBlockchainType } from '../wallet/wallet.action';
+import { login } from '../../Components/User/user.action';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import "./connect-wallet.scss";
-import { connectModal } from "../../assets/assets";
-import { connectMetamask, handleSign } from "../../utils/web3";
-import { toast } from "react-toastify";
-import { connect } from "react-redux";
-import { useGetData, useInsertData } from "../../hooks/Common";
-import Web3 from "web3";
-import { ENV } from "../../config/config";
-import errorHandler from "../../context/errorHandler/ErrorHandlerContext";
+import './connect-wallet.scss';
+import { connectModal } from '../../assets/assets';
+import { connectMetamask, handleSign } from '../../utils/web3';
+import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
+import { useGetData, useInsertData } from '../../hooks/Common';
+import Web3 from 'web3';
+import { ENV } from '../../config/config';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import {
-  ConnectionProvider,
-  useWallet,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
+	ConnectionProvider,
+	useWallet,
+	WalletProvider,
+} from '@solana/wallet-adapter-react';
 import {
-  WalletDisconnectButton,
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
+	WalletDisconnectButton,
+	WalletModalProvider,
+	WalletMultiButton,
+} from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
 import {
   PhantomWalletAdapter,
   PhantomWalletName,
@@ -358,13 +358,13 @@ const ConnectWallet = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-  error: state.error,
-  blockchainType: state.wallet.blockchainType,
-  connectedAddress: state.wallet.connectedAddress
+	error: state.error,
+	blockchainType: state.wallet.blockchainType,
+	connectedAddress: state.wallet.connectedAddress,
 });
 
 export default connect(mapStateToProps, {
-  setBlockchainType,
-  setWalletAddress,
-  login,
+	setBlockchainType,
+	setWalletAddress,
+	login,
 })(ConnectWallet);
