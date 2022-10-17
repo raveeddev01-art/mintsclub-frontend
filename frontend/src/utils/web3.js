@@ -123,7 +123,8 @@ export const openNFTForBidding = async (
 
 export const placeABid = async (amount, tokenId) => {
 	try {
-    /* global BigInt */
+		// eslint-disable-next-line no-redeclare
+		/* global BigInt */
 
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods();
