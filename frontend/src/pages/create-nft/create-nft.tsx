@@ -849,7 +849,7 @@ class CreateNFT extends React.Component<
 								<CreateNft
 									props={this.props}
 									state={this.state}
-									setState={this.setState}
+									setLoader={(status: any) => this.setState({ loader: status })}
 									toast={toast}
 									validator={this.validator}
 									capitalize={this.capitalize}

@@ -279,7 +279,8 @@ const SellNFT = (props: any) => {
 				biddingTime,
 				startTime,
 				nftDetail?.tokenId,
-				copies
+				copies,
+				price
 			);
 			if (result) {
 				activityPayload.price = price;

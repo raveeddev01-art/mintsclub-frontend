@@ -107,7 +107,7 @@ export const mintNFt = async (metaData, amount) => {
 	} else {
 		return toast.error('wrong network');
 	}
-	console.log({ abi, contractAddress });
+	console.log({ abi, contractAddress, nftAmount, metaData });
 
 	try {
 		let connectedAddress = await connectMetamask();
@@ -161,6 +161,13 @@ export const openNFTForBidding = async (
 	copies,
 	initialPrice
 ) => {
+	console.log({
+		biddingStartTime,
+		biddingEndTime,
+		tokenId,
+		copies,
+		initialPrice,
+	});
 	try {
 		let abi = null;
 		let contractAddress = null;
@@ -186,6 +193,8 @@ export const openNFTForBidding = async (
 		const contractM = await getContractMethods(abi, contractAddress);
 		let id = Number(tokenId);
 		const intPrice = Number(web3.utils.toWei(`${initialPrice}`, 'ether'));
+
+		console.log(intPrice, 'intPrice');
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
 		console.log({
 			intPrice,
