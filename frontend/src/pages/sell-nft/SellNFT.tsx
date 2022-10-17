@@ -272,15 +272,18 @@ const SellNFT = (props: any) => {
 			const auctionEndDate = timedAuctionConfig.duration.endDate;
 			const auctionStartDate = timedAuctionConfig.duration.startDate;
 
-			const biddingTime = new Date(auctionEndDate).getTime();
-			const startTime = new Date(auctionStartDate).getTime();
-
+			const biddingTime = Math.floor(
+				new Date(auctionEndDate).getTime() / 1000.0
+			);
+			const startTime = Math.floor(
+				new Date(auctionStartDate).getTime() / 1000.0
+			);
 			const result = await openNFTForBidding(
 				biddingTime,
 				startTime,
 				nftDetail?.tokenId,
 				copies,
-				price
+				+price
 			);
 			if (result) {
 				activityPayload.price = price;
