@@ -1,6 +1,8 @@
 import moment from 'moment';
 import React from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
+import { CHAINS_INTERFACE } from '../../../interfaces/components';
+import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 
 const AuctionListing = ({ data }: any) => {
 	const {
@@ -45,7 +47,13 @@ const AuctionListing = ({ data }: any) => {
 								required
 								autoComplete="off"
 							/>
-							<div className="inp-tag">ETH</div>
+							<div className="inp-tag">
+								{
+									CHAIN_CURRENCY[
+										nftDetail?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+									]
+								}
+							</div>
 						</div>
 					</div>
 				</div>

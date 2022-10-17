@@ -12,11 +12,13 @@ import { ReactComponent as InstaIcon } from '../../../assets/images/insta-blue.s
 import { ReactComponent as VideoIcon } from '../../../assets/images/buy-video-icon.svg';
 import { ReactComponent as AudioIcon } from '../../../assets/images/audio-icon.svg';
 import ModalSmiley from '../../../assets/images/model-smiley.svg';
-import { Buy } from '../../../interfaces/components';
+import { Buy, CHAINS_INTERFACE } from '../../../interfaces/components';
+import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 const BuyModal: FC<Buy> = (props) => {
 	const [purchase, setPurchase] = useState<any>(true);
 	const [checkBox, setCheckBox] = useState<any>(false);
 	const {
+		blockchainType,
 		name,
 		image,
 		price,
@@ -107,7 +109,14 @@ const BuyModal: FC<Buy> = (props) => {
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
 										<p>
-											{price} <span>ETH</span>
+											{price}{' '}
+											<span>
+												{
+													CHAIN_CURRENCY[
+														blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+													]
+												}
+											</span>
 										</p>
 									</div>
 								</div>
@@ -136,7 +145,14 @@ const BuyModal: FC<Buy> = (props) => {
 					<div className="col-8">
 						<div className="modal-nft-detail text-end">
 							<h6>
-								{price} <span>ETH</span>
+								{price}{' '}
+								<span>
+									{
+										CHAIN_CURRENCY[
+											blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+										]
+									}
+								</span>
 							</h6>
 							<span>${(price * exchangeRate).toFixed(2)}</span>
 						</div>
@@ -268,7 +284,7 @@ const BuyModal: FC<Buy> = (props) => {
 										<span>
 											{name && name.length > 10
 												? name.slice(0, 10) + '...'
-												: name}{' '}
+												: name}
 											# {tokenId}
 										</span>
 									</div>
@@ -276,7 +292,14 @@ const BuyModal: FC<Buy> = (props) => {
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
 										<p>
-											{price} <span>ETH</span>
+											{price}{' '}
+											<span>
+												{
+													CHAIN_CURRENCY[
+														blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+													]
+												}
+											</span>
 										</p>
 									</div>
 								</div>
@@ -305,7 +328,14 @@ const BuyModal: FC<Buy> = (props) => {
 					<div className="col-8">
 						<div className="modal-nft-detail text-end">
 							<h6>
-								{price} <span>ETH</span>
+								{price}{' '}
+								<span>
+									{
+										CHAIN_CURRENCY[
+											blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+										]
+									}
+								</span>
 							</h6>
 							<span>${(price * exchangeRate).toFixed(2)}</span>
 						</div>

@@ -71,7 +71,13 @@ import Activities from './components/Activities';
 import FileViewer from './components/FileViewer';
 import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
+import {
+	buyNowFixedPriceAuction,
+	cancelItemFromListing,
+} from '../../utils/solana/helper';
+import { useWallet } from '@solana/wallet-adapter-react';
 const NFTDetail = (props: any) => {
+	const wallet = useWallet();
 	const [exchangeRate, setExchangeRate] = useState<number>(0);
 	const [toggle, setToggle] = React.useState<boolean>(true);
 	const [likedNfts, setLikedNfts] = useState<any>();
@@ -304,40 +310,44 @@ const NFTDetail = (props: any) => {
 			ENV.getUserKeys('address')?.address?.toUpperCase() ===
 			connectedAddress?.toUpperCase()
 		) {
-			if (await validateNetwork()) {
-				if (
-					currentAddress === ownerAddress.toUpperCase() &&
-					nftDetail?.auction?.sellingMethod === 2
-				) {
-					EndAuction();
-				} else if (currentAddress === ownerAddress.toUpperCase()) {
-					history.push({
-						pathname: `/sell-item/${nftDetail._id}`,
-						state: nftDetail,
-					});
-				} else if (nftDetail?.auction?.sellingMethod === 2) {
-					setBidModalShow(true);
-				} else if (nftDetail?.auction?.sellingMethod === 1) {
-					setModalShow(true);
-				} else {
-					// empty
-				}
-			} else {
-				toast.error(
-					'Please Connect Your Metamask With Ethereum Rinkby Network'
-				);
+			// if (await validateNetwork()) {
+			if (
+				currentAddress === ownerAddress.toUpperCase() &&
+				nftDetail?.auction?.sellingMethod === 2
+			) {
+				EndAuction();
+				return;
+			}
+			if (currentAddress === ownerAddress.toUpperCase()) {
+				history.push({
+					pathname: `/sell-item/${nftDetail._id}`,
+					state: nftDetail,
+				});
+				return;
+			}
+			if (nftDetail?.auction?.sellingMethod === 2) {
+				setBidModalShow(true);
+				return;
+			}
+			if (nftDetail?.auction?.sellingMethod === 1) {
+				setModalShow(true);
+				return;
 			}
 		} else {
-			if (ENV.getUserKeys('address')?.address) {
-				toast.info('Please login with new connected account');
-			} else {
-				toast.info('Please login first to continue');
-			}
-			history.push({
-				pathname: `/connect-wallet`,
-				state: `/nftdetail/${props.match.params.id}`,
-			});
+			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+			return;
 		}
+		// } else {
+		if (ENV.getUserKeys('address')?.address) {
+			toast.info('Please login with new connected account');
+		} else {
+			toast.info('Please login first to continue');
+		}
+		history.push({
+			pathname: `/connect-wallet`,
+			state: `/nftdetail/${props.match.params.id}`,
+		});
+		// }
 	};
 
 	const handleLikesTogleApi = async (nftId: string, status: string) => {
@@ -515,26 +525,31 @@ const NFTDetail = (props: any) => {
 	};
 
 	const BuyNow = async () => {
-		if (
-			ENV.getUserKeys('address')?.address?.toUpperCase() ===
-			connectedAddress?.toUpperCase()
-		) {
-			if (await validateNetwork()) {
+		try {
+			if (
+				ENV.getUserKeys('address')?.address?.toUpperCase() ===
+				connectedAddress?.toUpperCase()
+			) {
+				// if (await validateNetwork()) {
 				setDisabled(true);
 				if (nftDetail.lazyMinted) {
 					BuyLazyNft();
 				} else {
-					try {
-						const currentPrice = nftDetail.currentPrice;
-						const nftToken = nftDetail?.auction?.sellId;
+					// try {
 
-						const result = await BuyFixedPriceNFT(
-							currentPrice,
-							nftToken,
-							setConfirmed,
-							setTransactionHash
+					if (blockchainType === 'solana') {
+						const { mint } = nftDetail;
+						const { sellerTradeState, sellingConfig } = nftDetail.auction;
+						console.log('Solana Implementation for Buy Now');
+						const buyFixedPriceResponse = await buyNowFixedPriceAuction(
+							wallet,
+							mint,
+							sellerTradeState,
+							sellingConfig?.price?.amount
 						);
-						if (result) {
+
+						console.log('buyFixedPrice', buyFixedPriceResponse);
+						if (buyFixedPriceResponse) {
 							const payload = {
 								userId,
 								nftId,
@@ -543,18 +558,47 @@ const NFTDetail = (props: any) => {
 							props.beforeOffer();
 							props.buyNow(payload);
 							createActivity('Transfer', false, props.connectedAddress);
+							return;
 						}
-					} catch (err: any) {
-						setDisabled(false);
-						toast.error(err);
+
+						// TODO: Show pop-up with errors
+
+						return;
 					}
+
+					const currentPrice = nftDetail.currentPrice;
+					const nftToken = nftDetail?.auction?.sellId;
+
+					const result = await BuyFixedPriceNFT(
+						currentPrice,
+						nftToken,
+						setConfirmed,
+						setTransactionHash
+					);
+					if (result) {
+						const payload = {
+							userId,
+							nftId,
+							ownerAddress: props.connectedAddress,
+						};
+						props.beforeOffer();
+						props.buyNow(payload);
+						createActivity('Transfer', false, props.connectedAddress);
+					}
+
+					// TODO: Show Error for Ethereum Chain
+					return;
+					// } catch (err: any) {
+					// 	setDisabled(false);
+					// 	toast.error(err);
+					// }
 				}
-			} else {
-				toast.error(
-					'Please Connect Your Metamask With Ethereum Rinkby Network'
-				);
+				// } else {
+				// 	toast.error(
+				// 		'Please Connect Your Metamask With Ethereum Rinkby Network'
+				// 	);
+				// }
 			}
-		} else {
 			if (ENV.getUserKeys('address')?.address) {
 				toast.info('Please login with new connected account');
 			} else {
@@ -564,6 +608,11 @@ const NFTDetail = (props: any) => {
 				pathname: `/connect-wallet`,
 				state: `/nftdetail/${props.match.params.id}`,
 			});
+		} catch (err: any) {
+			toast.error(err);
+			console.log('🚀 ~ file: nftdetail.tsx ~ line 570 ~ BuyNow ~ err', err);
+		} finally {
+			setDisabled(false);
 		}
 	};
 
@@ -698,10 +747,24 @@ const NFTDetail = (props: any) => {
 	};
 
 	const EndAuction = async () => {
-		const { ownerId } = nftDetail;
-		const { sellingMethod, sellId } = nftDetail?.auction || {};
 		try {
 			setLoader(true);
+			const { ownerId } = nftDetail;
+			const { sellingMethod, sellId } = nftDetail?.auction || {};
+			if (blockchainType?.toLowerCase() === 'solana') {
+				const { sellerTradeState } = nftDetail.auction || {};
+				if (sellerTradeState) {
+					const response: any = await cancelItemFromListing(
+						wallet,
+						sellerTradeState
+					);
+					if (response) {
+						EndAuctionFromBackend();
+					}
+				}
+				return;
+			}
+
 			if (userId === ownerId && sellingMethod === 2) {
 				const result = await endAuctionFromContract(sellId);
 				if (result) {
@@ -715,6 +778,7 @@ const NFTDetail = (props: any) => {
 			}
 		} catch (err: any) {
 			toast.error(err.message);
+		} finally {
 			setLoader(false);
 		}
 	};
@@ -951,6 +1015,7 @@ const NFTDetail = (props: any) => {
 				disabled={disabled}
 				balance={balance}
 				fileType={fileType}
+				blockchainType={blockchainType}
 			/>
 
 			<BidModal
