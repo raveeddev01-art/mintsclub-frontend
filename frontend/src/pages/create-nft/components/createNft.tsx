@@ -56,10 +56,10 @@ const CreateNft = ({
 
 			if (!state.isFreeMint) {
 				if (props.blockchainType === 'ethereum') {
-					let createNftResult = await mintNFt(metaData, state.nft.copies);
-					if (createNftResult.events.TransferSingle.returnValues.id) {
+					const mintId = await mintNFt(metaData, state.nft.copies);
+					if (mintId) {
 						paylaod = {
-							nftToken: createNftResult.events.TransferSingle.returnValues.id,
+							nftToken: mintId,
 							data: { ...data, blockchainType: props.blockchainType },
 							image,
 							lazyMinted: false,

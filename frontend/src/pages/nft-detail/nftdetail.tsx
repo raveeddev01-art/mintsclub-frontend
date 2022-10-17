@@ -333,6 +333,11 @@ const NFTDetail = (props: any) => {
 				setModalShow(true);
 				return;
 			}
+			// } else {
+			// 	toast.error(
+			// 		'Please Connect Your Metamask With Ethereum Rinkby Network'
+			// 	);
+			// }
 		} else {
 			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
 			return;
@@ -351,37 +356,37 @@ const NFTDetail = (props: any) => {
 	};
 
 	const handleLikesTogleApi = async (nftId: string, status: string) => {
-		if (await validateNetwork()) {
-			if (!likeButtonDisable) {
-				setLikeBtnDisable(true);
-				setToggle(!toggle);
+		// if (await validateNetwork()) {
+		if (!likeButtonDisable) {
+			setLikeBtnDisable(true);
+			setToggle(!toggle);
 
-				const userId = ENV.getUserKeys('_id')._id;
+			const userId = ENV.getUserKeys('_id')._id;
 
-				const data = {
-					userId,
-					nftId,
-					count: 1,
-				};
+			const data = {
+				userId,
+				nftId,
+				count: 1,
+			};
 
-				if (status === 'dislike' && nftDetail.likesCount > 0) {
-					const nft = nftDetail;
-					nft.likesCount = nft.likesCount - 1;
+			if (status === 'dislike' && nftDetail.likesCount > 0) {
+				const nft = nftDetail;
+				nft.likesCount = nft.likesCount - 1;
 
-					setNftDetail(nft);
-					props.toggleLikeDislike(data);
-				} else {
-					const nft = nftDetail;
-					nft.likesCount = nft.likesCount + 1;
+				setNftDetail(nft);
+				props.toggleLikeDislike(data);
+			} else {
+				const nft = nftDetail;
+				nft.likesCount = nft.likesCount + 1;
 
-					setNftDetail(nft);
+				setNftDetail(nft);
 
-					props.toggleLikeDislike(data);
-				}
+				props.toggleLikeDislike(data);
 			}
-		} else {
-			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
 		}
+		// } else {
+		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+		// }
 	};
 
 	//match if nft liked
@@ -442,44 +447,44 @@ const NFTDetail = (props: any) => {
 		setPrice(result);
 	};
 	const handleModalSubmit = async () => {
-		if (await validateNetwork()) {
-			setLoader(true);
+		// if (await validateNetwork()) {
+		setLoader(true);
 
-			if (nftDetail?.auction?.sellingMethod === 2) {
-				placeBid();
-			} else {
-				makeOffer();
-			}
+		if (nftDetail?.auction?.sellingMethod === 2) {
+			placeBid();
 		} else {
-			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+			makeOffer();
 		}
+		// } else {
+		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+		// }
 	};
 	const placeBid = async () => {
-		if (await validateNetwork()) {
-			try {
-				const result = await placeABid(price, nftDetail?.auction?.sellId);
-				if (result) {
-					const payload = {
-						ownerId: nftDetail.ownerId,
-						auctionId: nftDetail?.auction?._id,
-						bidAmount: price,
-						nftId: nftDetail._id,
-						bidBy: ENV.getUserKeys('_id')._id,
-						isAccepted: false,
-						toAddress: nftDetail.ownerAddress,
-						fromAddress: props.connectedAddress,
-					};
-					props.beforeBid();
-					props.placeBid(payload);
-					createActivity('Bid', price);
-				}
-			} catch (err: any) {
-				setLoader(false);
-				toast.error(err);
+		// if (await validateNetwork()) {
+		try {
+			const result = await placeABid(price, nftDetail?.auction?.sellId);
+			if (result) {
+				const payload = {
+					ownerId: nftDetail.ownerId,
+					auctionId: nftDetail?.auction?._id,
+					bidAmount: price,
+					nftId: nftDetail._id,
+					bidBy: ENV.getUserKeys('_id')._id,
+					isAccepted: false,
+					toAddress: nftDetail.ownerAddress,
+					fromAddress: props.connectedAddress,
+				};
+				props.beforeBid();
+				props.placeBid(payload);
+				createActivity('Bid', price);
 			}
-		} else {
-			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+		} catch (err: any) {
+			setLoader(false);
+			toast.error(err);
 		}
+		// } else {
+		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
+		// }
 	};
 
 	const makeOffer = async () => {
