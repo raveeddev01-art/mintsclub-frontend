@@ -96,7 +96,7 @@ function CreateMultipleNFT(props: any) {
     }
   );
   const { isLoading: isUploadingFiles, mutate: uploadFiles } = useInsertData('batchUpload', (res: any) => {
-    if (res?.data?.success === false) {
+    if(res?.data?.success === false) {
       toast.error(res?.data?.message);
       setLoader(false);
     } else {
