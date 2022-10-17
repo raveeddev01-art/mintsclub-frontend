@@ -56,7 +56,11 @@ const CreateNft = ({
 			let paylaod = {};
 			console.log(blockChainType, 'blockchainType');
 			if (!state.isFreeMint) {
-				if (blockChainType === 'ethereum' || blockChainType === 'polygon') {
+				if (
+					blockChainType === 'ethereum' ||
+					blockChainType === 'polygon' ||
+					blockChainType === 'bsc'
+				) {
 					const mintId = await mintNFt(metaData, state.nft.copies);
 					if (mintId) {
 						paylaod = {

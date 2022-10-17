@@ -126,7 +126,7 @@ export const mintNFt = async (metaData, amount) => {
 			);
 			return Number(result.events.URI.returnValues['id']);
 		} else if (blockchainType === 'bsc') {
-			return result.events.URI.returnvalues.id;
+			return Number(result.events.URI.returnValues['id']);
 		}
 	} catch (err) {
 		console.log(err, 'error in mintNFT');
@@ -328,9 +328,7 @@ export const putonsale = async (tokenId, amount, price) => {
 		// let sellId = await web3.utils.hexToNumber(result.events.OfferSale.returnValues._fixeditemid);
 		let sellId = Number(result.events.OfferSale.returnValues._fixeditemid);
 		console.log({ sellId, whole: result.events.OfferSale }, 'sellId');
-		if (sellId) {
-			return sellId;
-		}
+		return sellId;
 	} catch (err) {
 		// console.log(err, "error");
 		throw new Error(err);

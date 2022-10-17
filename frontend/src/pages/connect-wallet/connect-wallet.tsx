@@ -8,7 +8,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import './connect-wallet.scss';
 import { connectModal } from '../../assets/assets';
-import { connectMetamask, handleSign } from '../../utils/web3';
+import {
+	connectMetamask,
+	handleSign,
+	getChainId,
+	switchNetworkToChainId,
+} from '../../utils/web3';
+
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import { useInsertData } from '../../hooks/Common';
@@ -119,12 +125,16 @@ const ConnectWallet = (props: any) => {
 		const response = data.data;
 		let selectedBlockchainType = undefined;
 		if (response.success) {
-			if (response.blockchainType === 'ethereum') {
+			if (
+				response.blockchainType === 'ethereum' ||
+				response.blockchainType === 'polygon' ||
+				response.blockchainType === 'bsc'
+			) {
 				selectedBlockchainType = 'ethereum';
 				if (response?.users?.length > 0) {
 					const res = await handleSign(response?.users[0].nounce);
 
-					authenticate({ ...res, blockchainType: 'ethereum' });
+					authenticate({ ...res, blockchainType: response.blockchainType });
 					return;
 				}
 			}
@@ -198,14 +208,25 @@ const ConnectWallet = (props: any) => {
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
 		const addr = await connectWallet();
-		console.log("connected addr in alog wallet",addr?.[0]);
+		console.log('connected addr in alog wallet', addr?.[0]);
 		setConnectedAddres(addr?.[0]);
 		props.setWalletAddress(addr?.[0]);
 		props.setBlockchainType('algorand');
 
-    
-
 		return addr?.[0];
+	};
+	const ethereumFunc = async (status: any, chainId: any) => {
+		const currentChainId = await getChainId();
+		console.log({ currentChainId, chainId });
+		if (chainId !== currentChainId) {
+			await switchNetworkToChainId(chainId);
+		}
+		await wallet.disconnect();
+		props.setBlockchainType(status);
+		const publicAddress: any = await connectMetamask();
+		setConnectedAddres(publicAddress);
+		props.setWalletAddress(publicAddress);
+		validateUser({ blockchainType: status });
 	};
 
 	const CHAINS = [
@@ -217,15 +238,7 @@ const ConnectWallet = (props: any) => {
 					name: 'Metamask Ethereum',
 					icon: connectModal.metaImg,
 					functionality: async () => {
-						await wallet.disconnect();
-
-						props.setBlockchainType('ethereum');
-
-						const publicAddress: any = await connectMetamask();
-						setConnectedAddres(publicAddress);
-						props.setWalletAddress(publicAddress);
-
-						validateUser({ blockchainType: 'ethereum' });
+						await ethereumFunc('ethereum', 5);
 					},
 				},
 			],
@@ -237,8 +250,9 @@ const ConnectWallet = (props: any) => {
 				{
 					name: 'Metamask Polygon',
 					icon: connectModal.metaImg,
-					functionality: () => {
-						return '';
+					// eslint-disable-next-line @typescript-eslint/no-empty-function
+					functionality: async () => {
+						await ethereumFunc('polygon', 80001);
 					},
 				},
 			],
@@ -250,10 +264,8 @@ const ConnectWallet = (props: any) => {
 				{
 					name: 'Metamask BSC',
 					icon: connectModal.metaImg,
-					functionality: () => {
-						return '';
-						// connectMetamask({ncaknsklad})
-						// validateUser({ blockchainType: "binance" });
+					functionality: async () => {
+						await ethereumFunc('bsc', 97);
 					},
 				},
 			],

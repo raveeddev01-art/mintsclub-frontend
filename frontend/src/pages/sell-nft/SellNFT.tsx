@@ -279,8 +279,8 @@ const SellNFT = (props: any) => {
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
 			const result = await openNFTForBidding(
-				biddingTime,
 				startTime,
+				biddingTime,
 				nftDetail?.tokenId,
 				copies,
 				+price
