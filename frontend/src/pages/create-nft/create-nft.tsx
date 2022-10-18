@@ -831,19 +831,19 @@ class CreateNFT extends React.Component<
 								/>
 								{!this.props.match.params.nftId && (
 									<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-										<div>
+										{this.props.blockchainType !== "algorand" && <> <div>
 											<label className="create-collection-label ms-0">
 												Free minting
 											</label>
 											<p>Buyer will pay gas fess for minting</p>
-										</div>
-										<MintSwitch
+										</div> <MintSwitch
 											checked={this.state.isFreeMint}
 											onChange={() => {
 												this.setState({ isFreeMint: !this.state.isFreeMint });
 											}}
 											inputProps={{ 'aria-label': 'mint' }}
-										/>
+										/></> }
+										
 									</div>
 								)}
 								<CreateNft

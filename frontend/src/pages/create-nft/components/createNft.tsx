@@ -11,6 +11,8 @@ import { ENV } from '../../../config/config';
 import { mintSingleNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
+import {createNFT} from "../../../utils/algorand"
+
 const CreateNft = ({
 	props,
 	state,
@@ -42,7 +44,8 @@ const CreateNft = ({
 	};
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
 		let data: any = { ...nftInfo };
-		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data', data);
+		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data123', data);
+		console.log("props.blockchainType", props.blockchainType)
 		data.image = image;
 		data.metaData = metaData.metaDataUrl;
 		data.remainingCopies = data.copies;
@@ -63,6 +66,29 @@ const CreateNft = ({
 						};
 					}
 				}
+			
+				if(props.blockchainType === 'algorand'){
+					console.log('Algorand Implementation for Minting NFT');
+					const { name, copies } = state.nft;
+					let tokenId = await createNFT({
+						assetName: name,
+						total: copies,
+						metaData,
+						connectedAddress: props.connectedAddress
+						
+					  });
+					  console.log("Algorand Token ID",tokenId)
+					  
+					  if (tokenId) {
+						paylaod = {
+						  nftToken: tokenId,
+						  data: { ...data, blockchainType: props.blockchainType },
+						  image,
+						  lazyMinted: false,
+						};
+					  }			  
+				}
+
 				if (props.blockchainType === 'solana') {
 					console.log('Solana Implementation for Minting NFT');
 					const response = await mintSingleNft(
@@ -89,6 +115,7 @@ const CreateNft = ({
 						};
 					}
 				}
+
 			} else {
 				paylaod = {
 					nftToken: (Math.floor(Math.random() * 10000) + 10000)

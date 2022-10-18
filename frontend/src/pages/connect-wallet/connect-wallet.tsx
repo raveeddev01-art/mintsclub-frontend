@@ -71,7 +71,7 @@ const ConnectWallet = (props: any) => {
 	const onSuccessLogin = (data: any) => {
 		if (data.data.success) {
 			ENV.encryptUserData(data.data.data);
-			history.push(location?.state ? location.state : '/');
+			history.push(location?.state ? location.state : '/create');
 		} else {
 			setError(data.data.message);
 		}
@@ -147,6 +147,7 @@ const ConnectWallet = (props: any) => {
 						response?.users[0].nounce,
 						props.connectedAddress
 					);
+
 					authenticate({ ...res, blockchainType: 'algorand' });
 					return;
 				}
@@ -181,7 +182,6 @@ const ConnectWallet = (props: any) => {
 	);
 	///Authenticate
 	const onSuccessAuthentication = (data: any) => {
-		console.log('data on success authentication', data);
 		if (data.data.success) {
 			ENV.encryptUserData(data.data.data);
 			history.push(location?.state ? location.state : '/');
@@ -198,10 +198,12 @@ const ConnectWallet = (props: any) => {
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
 		const addr = await connectWallet();
-		console.log(addr?.[0]);
+		console.log("connected addr in alog wallet",addr?.[0]);
 		setConnectedAddres(addr?.[0]);
 		props.setWalletAddress(addr?.[0]);
 		props.setBlockchainType('algorand');
+
+    
 
 		return addr?.[0];
 	};
@@ -277,7 +279,7 @@ const ConnectWallet = (props: any) => {
 			wallets: [
 				{
 					name: 'Algorand',
-					icon: connectModal.phantomImg,
+					icon: connectModal.algorandImg,
 					functionality: async () => {
 						const res = await connectAlgoWallet();
 						if (res) {
