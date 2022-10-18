@@ -1,5 +1,6 @@
-import { constants } from 'http2';
-import { CreateNftInterface } from '../../../interfaces/components';
+import { constants } from "http2";
+import { CreateNftInterface } from "../../../interfaces/components";
+import {createApp} from "../../../utils/algorand"
 import {
 	compressImage,
 	formatBytes,
@@ -48,8 +49,25 @@ const CreateNft = ({
 		data.remainingCopies = data.copies;
 		data.activeAuction = null;
 
-		try {
-			let paylaod = {};
+      toast.error(err.message);
+    }
+  };
+
+
+  // temporarily here
+  const createApplication = ()=>{
+    createApp(34, props.connectedAddress);
+  }
+
+
+  
+  const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
+    let data: any = { ...nftInfo };
+    console.log("🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data", data);
+    data.image = image;
+    data.metaData = metaData.metaDataUrl;
+    data.remainingCopies = data.copies;
+    data.activeAuction = null;
 
 			if (!state.isFreeMint) {
 				if (props.blockchainType === 'ethereum') {
@@ -217,7 +235,32 @@ const CreateNft = ({
 		try {
 			setLoading(true);
 
-			const { nft, videoURL, audioUrl } = state;
+        if (tokenId) {
+          paylaod = {
+            nftToken: tokenId,
+            data: { ...data, blockchainType: props.blockchainType },
+            image,
+            lazyMinted: false,
+          };
+        }
+
+        }
+      } else {
+        paylaod = {
+          nftToken: (Math.floor(Math.random() * 10000) + 10000)
+            .toString()
+            .substring(1),
+          data: { ...data, blockchainType: props.blockchainType },
+          image,
+          lazyMinted: state.isFreeMint,
+        };
+      }
+      await insertNFT(paylaod);
+    } catch (err: any) {
+      toast.error(err);
+      setState({ loader: false });
+    }
+  };
 
 			const nftInfo: any = { ...nft };
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
@@ -263,17 +306,68 @@ const CreateNft = ({
 		return 'Save Changes';
 	};
 
-	return (
-		<div className="create-collection-btn-container">
-			<button
-				className="btn create-collection-btn btn-linear-gradient mt-5"
-				disabled={loading}
-				onClick={(e) => handleSubmit(e)}
-			>
-				{getButtonText()}
-			</button>
-		</div>
-	);
+      let nftInfo: any = { ...nft };
+      nftInfo.properties = JSON.stringify(nftInfo.properties);
+      nftInfo.levels = JSON.stringify(nftInfo.levels);
+      nftInfo.stats = JSON.stringify(nftInfo.stats);
+      nftInfo.name = capitalize(nftInfo.name);
+
+      if (videoURL) {
+        nftInfo.fileType = "video";
+      } else if (audioUrl !== "") {
+        nftInfo.fileType = "audio";
+      } else {
+        nftInfo.fileType = "image";
+      }
+
+      if (validator.allValid() && nft.collectionId) {
+        const { formValid } = state;
+
+        if (formValid) {
+          await pinFileToIPFS(nft.image, nftInfo);
+        } else {
+          state.formValid = false;
+          validator.showMessages();
+          toast.error("Please fill all required fields in valid format.");
+        }
+      }
+    } catch (err) {
+      console.log(
+        "🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err",
+        err
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getButtonText = () => {
+    if (!props.match.params.nftId) {
+      if (loading) return "Creating Nft...";
+      return "Create NFT";
+    }
+    if (loading) return "Saving Changes...";
+    return "Save Changes";
+  };
+
+  return (
+    <div className="create-collection-btn-container">
+      <button
+        className="btn create-collection-btn btn-linear-gradient mt-5"
+        disabled={loading}
+        onClick={(e) => handleSubmit(e)}
+      >
+        {getButtonText()}
+      </button>
+      <button>
+        Put On Sale
+      </button>
+
+      <button onClick={createApplication}>
+        Create Application
+      </button>
+    </div>
+  );
 };
 
 export default CreateNft;

@@ -27,299 +27,334 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import {
-	PhantomWalletAdapter,
-	PhantomWalletName,
-	SolflareWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
-import reactSelect from 'react-select';
-import { WalletName } from '@solana/wallet-adapter-base';
-import { LargeNumberLike } from 'crypto';
-import { connectWallet } from '../../utils/algorand';
-import { signMessageFromUserForSolana } from '../../utils/solana/helper';
+  PhantomWalletAdapter,
+  PhantomWalletName,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+import reactSelect from "react-select";
+import { WalletName } from "@solana/wallet-adapter-base";
+import { LargeNumberLike } from "crypto";
+import { connectWallet } from "../../utils/algorand";
+import {signMessageFromUserForAlgorand} from "../../utils/algorand";
 
 // require("@solana/wallet-adapter-react-ui/styles.css");
 
 const ConnectWallet = (props: any) => {
-	const [disabled, setDisabled] = useState(false);
-	const history = useHistory();
-	const location: any = useLocation();
-	const [connectedAddress, setConnectedAddres] = useState<any>(null);
-	const { setError } = useContext(errorHandler);
+  const [disabled, setDisabled] = useState(false);
+  const history = useHistory();
+  const location: any = useLocation();
+  const [connectedAddress, setConnectedAddres] = useState<any>(null);
 
-	const wallet = useWallet();
+  console.log("connectedAddress", connectedAddress);
 
-	useEffect(() => {
-		if (props.error) {
-			toast.error(props.error.message);
-		}
-	}, [props.error]);
+  const { setError } = useContext(errorHandler);
 
-	//   if (detectMobile() && !window?.ethereum) {
-	//     window.open(
-	//       "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
-	//     );
-	//   } else {
-	//     // if (getChainId !== ENV.chainId) {
-	//     //   try {
-	//     //     await switchNetworkToChainId(ENV.chainId);
-	//     //   } catch (error:any) {
-	//     //     return toast.error(error.message);
-	//     //   }
-	//     // }
-	//     let connectedAddress: any = false;
-	//     if (detectMobile()) {
-	//       connectedAddress = await getWalletAddress();
-	//     } else {
-	//       try {
-	//         connectedAddress = await connectWithMetamask();
-	//       } catch (err: any) {
-	//         return "";
-	//       }
-	//     }
-	//     login(connectedAddress);
-	//     console.log(connectedAddress, "connectedAddress");
-	//   }
-	// };
+  const wallet = useWallet();
 
-	const detectMobile = () => {
-		if (
-			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-				navigator.userAgent
-			)
-		) {
-			return true;
-		} else {
-			return false;
-		}
-	};
+  useEffect(() => {
+    if (props.error) {
+      toast.error(props.error.message);
+    }
+  }, [props.error]);
 
-	///Validate
-	const onSuccessValidateUser = async (data: any) => {
-		const response = data.data;
-		let selectedBlockchainType = undefined;
-		if (response.success) {
-			if (response.blockchainType === 'ethereum') {
-				selectedBlockchainType = 'ethereum';
-				if (response?.users?.length > 0) {
-					const res = await handleSign(response?.users[0].nounce);
+  //   if (detectMobile() && !window?.ethereum) {
+  //     window.open(
+  //       "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
+  //     );
+  //   } else {
+  //     // if (getChainId !== ENV.chainId) {
+  //     //   try {
+  //     //     await switchNetworkToChainId(ENV.chainId);
+  //     //   } catch (error:any) {
+  //     //     return toast.error(error.message);
+  //     //   }
+  //     // }
+  //     let connectedAddress: any = false;
+  //     if (detectMobile()) {
+  //       connectedAddress = await getWalletAddress();
+  //     } else {
+  //       try {
+  //         connectedAddress = await connectWithMetamask();
+  //       } catch (err: any) {
+  //         return "";
+  //       }
+  //     }
+  //     login(connectedAddress);
+  //     console.log(connectedAddress, "connectedAddress");
+  //   }
+  // };
 
-					authenticate({ ...res, blockchainType: 'ethereum' });
-					return;
-				}
-			}
+  const onSuccessLogin = (data: any) => {
+    if (data.data.success) {
+      ENV.encryptUserData(data.data.data);
+      history.push(location?.state ? location.state : "/");
+    } else {
+      setError(data.data.message);
+    }
+  };
 
-			if (response.blockchainType === 'solana') {
-				selectedBlockchainType = 'solana';
-				if (response?.users?.length > 0) {
-					const res = await signMessageFromUserForSolana(
-						wallet,
-						response?.users[0].nounce,
-						connectedAddress
-					);
-					authenticate({ ...res, blockchainType: 'solana' });
-					return;
-				}
-			}
+  const { mutate: authAlgo } = useInsertData("auth/login/", onSuccessLogin);
 
-			if (response.blockchainType === 'algorand') {
-				selectedBlockchainType = 'algorand';
-				if (response?.users?.length > 0) {
-					authenticate({
-						publicAddress: props.connectedAddress,
-						blockchainType: 'algorand',
-					});
-					return;
-				}
-				// TODO: Implementation algorand
-			}
+  const { mutate: auth } = useInsertData("auth/login/", onSuccessLogin);
 
-			handleSignUp({
-				address: connectedAddress,
-				blockchainType: props.blockchainType,
-			});
-		}
+  const detectMobile = () => {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
-		return setError(response.message);
-	};
-	const { mutate: validateUser } = useInsertData(
-		`users/validate/${connectedAddress}`,
-		onSuccessValidateUser
-	);
+  const signMessageFromUserForSolana = async (nounce: number) => {
+    try {
+      if (wallet.connected) {
+        const data = new TextEncoder().encode(
+          `I am signing my one-time nonce: ${nounce}`
+        );
+        const signature: any =
+          wallet.signMessage && (await wallet.signMessage(data));
 
-	///Sign up
-	const onSuccessSignUp = async (data: any) => {
-		if (data.data.success) {
-			const res = await handleSign(data?.data?.data?.nounce);
-			authenticate(res);
-		} else {
-			setError(data.data.message);
-		}
-	};
+        const signatureBase64 = Buffer.from(signature).toString("base64");
+        return { publicAddress: connectedAddress, signature: signatureBase64 };
+      }
+    } catch (err) {
+      console.log(
+        "🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err",
+        err
+      );
+    }
+  };
+  /////////////////////////////////////
 
-	const { mutate: handleSignUp } = useInsertData(
-		'users/createUser',
-		onSuccessSignUp
-	);
-	///Authenticate
-	const onSuccessAuthentication = (data: any) => {
-		console.log(data);
-		if (data.data.success) {
-			ENV.encryptUserData({
-				...data.data.data,
-				blockchainType: props?.blockchainType,
-			});
-			history.push(location?.state ? location.state : '/');
-		} else {
-			setError(data.data.message);
-		}
-	};
-	const { mutate: authenticate } = useInsertData(
-		'users/authenticate',
-		onSuccessAuthentication,
-		(err: any) => toast.error(err?.message)
-	);
+  ///Validate
+  const onSuccessValidateUser = async (data: any) => {
+    const response = data.data;
+    let selectedBlockchainType = undefined;
+    if (response.success) {
 
-	// CONNECT ALGO WALLET
-	const connectAlgoWallet = async () => {
-		const addr = await connectWallet();
-		console.log(addr?.[0]);
-		setConnectedAddres(addr?.[0]);
-		props.setWalletAddress(addr?.[0]);
-		props.setBlockchainType('algorand');
+      if (response.blockchainType === "ethereum") {
+        selectedBlockchainType = "ethereum";
+        if (response?.users?.length > 0) {
+          const res = await handleSign(response?.users[0].nounce);
 
-		return addr?.[0];
-	};
+          authenticate({ ...res, blockchainType: "ethereum" });
+          return;
+        }
+      }
 
-	const CHAINS = [
-		{
-			title: 'Ethereum',
-			key: 'ethereum',
-			wallets: [
-				{
-					name: 'Metamask Ethereum',
-					icon: connectModal.metaImg,
-					functionality: async () => {
-						await wallet.disconnect();
+      if (response.blockchainType === "solana") {
+        selectedBlockchainType = "solana";
+        if (response?.users?.length > 0) {
+          const res = await signMessageFromUserForSolana(
+            response?.users[0].nounce
+          );
+          authenticate({ ...res, blockchainType: "solana" });
+          return;
+        }
+      }
 
-						props.setBlockchainType('ethereum');
+      if (response.blockchainType === "algorand") {
+        selectedBlockchainType = "algorand";
+        if (response?.users?.length > 0) {
 
-						const publicAddress: any = await connectMetamask();
-						setConnectedAddres(publicAddress);
-						props.setWalletAddress(publicAddress);
+          const res = await signMessageFromUserForAlgorand(
+            response?.users[0].nounce, props.connectedAddress
+          );
+            authenticate({...res , blockchainType: "algorand" });
+            return; 
+        }
+      }
 
-						validateUser({ blockchainType: 'ethereum' });
-					},
-				},
-			],
-		},
-		{
-			title: 'Polygon',
-			key: 'polygon',
-			wallets: [
-				{
-					name: 'Metamask Polygon',
-					icon: connectModal.metaImg,
-					// eslint-disable-next-line @typescript-eslint/no-empty-function
-					functionality: () => {},
-				},
-			],
-		},
-		{
-			title: 'BSC',
-			key: 'binance',
-			wallets: [
-				{
-					name: 'Metamask BSC',
-					icon: connectModal.metaImg,
-					functionality: () => {
-						// connectMetamask({ncaknsklad})
-						// validateUser({ blockchainType: "binance" });
-					},
-				},
-			],
-		},
-		{
-			title: 'Solana',
-			key: 'solana',
-			wallets: [
-				{
-					name: 'Phantom Solana',
-					icon: connectModal.phantomImg,
-					functionality: async () => {
-						wallet.select('Phantom' as WalletName);
-					},
-				},
-			],
-		},
+      handleSignUp({
+        address: connectedAddress,
+        blockchainType: props.blockchainType,
+      });
+    }
 
-		{
-			title: 'Algorand',
-			key: 'algorand',
-			wallets: [
-				{
-					name: 'Algorand',
-					icon: connectModal.algoran,
-					functionality: async () => {
-						const res = await connectAlgoWallet();
-						if (res) {
-							validateUser({ blockchainType: 'algorand' });
-						}
-					},
-				},
-			],
-		},
-	];
+    return setError(response.message);
+  };
+  const { mutate: validateUser } = useInsertData(
+    `users/validate/${connectedAddress}`,
+    onSuccessValidateUser
+  );
 
-	const solanaUserLogin = async () => {
-		props.setBlockchainType('solana');
-		props.setWalletAddress(wallet.publicKey?.toBase58());
-		setConnectedAddres(wallet.publicKey?.toBase58());
-		if (connectedAddress) {
-			validateUser({ blockchainType: 'solana' });
-		}
-	};
+  ///Sign up
+  const onSuccessSignUp = async (data: any) => {
+    if (data.data.success) {
+      const res = await handleSign(data?.data?.data?.nounce);
+      authenticate(res);
+    } else {
+      setError(data.data.message);
+    }
+  };
 
-	useEffect(() => {
-		if (wallet.publicKey && wallet.connected) {
-			solanaUserLogin();
-		}
-	}, [wallet.connected, wallet.publicKey]);
+  const { mutate: handleSignUp } = useInsertData(
+    "users/createUser",
+    onSuccessSignUp
+  );
+  ///Authenticate
+  const onSuccessAuthentication = (data: any) => {
+    console.log("data on success authentication",data)
+    if (data.data.success) {
+    
+      ENV.encryptUserData(data.data.data);
+      history.push(location?.state ? location.state : "/");
+    } else {
+      setError(data.data.message);
+    }
+  };
+  const { mutate: authenticate } = useInsertData(
+    "users/authenticate",
+    onSuccessAuthentication,
+    (err: any) => toast.error(err?.message)
+  );
 
-	return (
-		<Container>
-			<div className="connect-wallet-container">
-				<h3 className="modal-title">Connect Your Wallet</h3>
-				<p className="modal-description">
-					Select what network and wallet you want to connect
-				</p>
-				<div className="model-tabs">
-					<Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
-						{CHAINS.map((chain, index) => (
-							<Tab key={index} eventKey={chain.key} title={chain.title}>
-								{chain.wallets?.map((wallet: any) => (
-									<div key={wallet.name} className="tab-inner-content">
-										<button
-											className="wallet-button"
-											onClick={wallet.functionality}
-										>
-											<img src={wallet.icon} alt="wallet-icon" />
-											{wallet.name}
-										</button>
-									</div>
-								))}
-							</Tab>
-						))}
-					</Tabs>
-					{CHAINS && CHAINS.length > 6 && (
-						<button className="show-more-btn">Show More</button>
-					)}
-				</div>
-			</div>
 
-			{/* <WalletDisconnectButton /> */}
-			{/* Your app's components go here, nested within the context providers. */}
-		</Container>
-	);
+  // CONNECT ALGO WALLET 
+  const connectAlgoWallet = async () => {
+    const addr  = await connectWallet()
+    console.log(addr?.[0]);
+    setConnectedAddres(addr?.[0])
+    props.setWalletAddress(addr?.[0]);
+    props.setBlockchainType("algorand");
+
+  return addr?.[0];
+ };
+
+
+  const CHAINS = [
+    {
+      title: "Ethereum",
+      key: "ethereum",
+      wallets: [
+        {
+          name: "Metamask Ethereum",
+          icon: connectModal.metaImg,
+          functionality: async () => {
+            await wallet.disconnect();
+
+            props.setBlockchainType("ethereum");
+
+            const publicAddress: any = await connectMetamask();
+            setConnectedAddres(publicAddress);
+            props.setWalletAddress(publicAddress);
+
+            validateUser({ blockchainType: "ethereum" });
+          },
+        },
+      ],
+    },
+    {
+      title: "Polygon",
+      key: "polygon",
+      wallets: [
+        {
+          name: "Metamask Polygon",
+          icon: connectModal.metaImg,
+          functionality: () => {},
+        },
+      ],
+    },
+    {
+      title: "BSC",
+      key: "binance",
+      wallets: [
+        {
+          name: "Metamask BSC",
+          icon: connectModal.metaImg,
+          functionality: () => {
+            // connectMetamask({ncaknsklad})
+            // validateUser({ blockchainType: "binance" });
+          },
+        },
+      ],
+    },
+    {
+      title: "Solana",
+      key: "solana",
+      wallets: [
+        {
+          name: "Solana",
+          icon: connectModal.phantomImg,
+          functionality: async () => {
+            await wallet.disconnect();
+            wallet.select("Phantom" as WalletName);
+          },
+        },
+      ],
+    },
+
+    {
+      title: "Algorand",
+      key: "algorand",
+      wallets: [
+        {
+          name: "Algorand",
+          icon: connectModal.phantomImg,
+          functionality: async () => {
+         const res = await connectAlgoWallet();
+         if(res){
+
+          validateUser({blockchainType: "algorand"})
+         }
+          },
+        },
+      ],
+    },
+  ];
+
+  useEffect(() => {
+    if (wallet.publicKey && wallet.connected) {
+      console.log("wallet Connected");
+      props.setBlockchainType("solana");
+      props.setWalletAddress(wallet.publicKey?.toBase58());
+      setConnectedAddres(wallet.publicKey?.toBase58());
+      if (connectedAddress) {
+        validateUser({ blockchainType: "solana" });
+      }
+      return;
+    }
+  }, [wallet.connected, wallet.publicKey]);
+
+  return (
+    <Container>
+      <div className="connect-wallet-container">
+        <h3 className="modal-title">Connect Your Wallet</h3>
+        <p className="modal-description">
+          Select what network and wallet you want to connect
+        </p>
+        <div className="model-tabs">
+          <Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
+            {CHAINS.map((chain) => (
+              <Tab eventKey={chain.key} title={chain.title}>
+                {chain.wallets?.map((wallet) => (
+                  <div className="tab-inner-content">
+                    <button
+                      className="wallet-button"
+                      onClick={wallet.functionality}
+                    >
+                      <img src={wallet.icon} alt="wallet-icon" />
+                      {wallet.name}
+                    </button>
+                  </div>
+                ))}
+              </Tab>
+            ))}
+          </Tabs>
+          {CHAINS && CHAINS.length > 6 && (
+            <button className="show-more-btn">Show More</button>
+          )}
+        </div>
+      </div>
+
+      {/* <WalletDisconnectButton /> */}
+      {/* Your app's components go here, nested within the context providers. */}
+    </Container>
+  );
 };
 
 const mapStateToProps = (state: any) => ({
