@@ -114,6 +114,7 @@
     "webpack": "^5.74.0"
   },
   "scripts": {
+<<<<<<< Updated upstream
     "start": "react-app-rewired start",
     "build": "react-app-rewired  build",
     "test": "react-app-rewired test",
@@ -121,6 +122,12 @@
     "lint": "eslint .",
 "lint:fix": "eslint --fix",
 "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+=======
+    "start": "react-scripts start",
+    "build": "react-scripts  build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+>>>>>>> Stashed changes
   },
   "eslintConfig": {
     "extends": [
