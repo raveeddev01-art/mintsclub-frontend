@@ -1,6 +1,5 @@
-import { constants } from "http2";
-import { CreateNftInterface } from "../../../interfaces/components";
-import {createApp} from "../../../utils/algorand"
+import { constants } from 'http2';
+import { CreateNftInterface } from '../../../interfaces/components';
 import {
 	compressImage,
 	formatBytes,
@@ -11,7 +10,7 @@ import axios from 'axios';
 import { ENV } from '../../../config/config';
 import { mintSingleNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 const CreateNft = ({
 	props,
 	state,
@@ -42,36 +41,19 @@ const CreateNft = ({
 		}
 	};
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
-		const data: any = { ...nftInfo };
+		let data: any = { ...nftInfo };
 		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data', data);
 		data.image = image;
 		data.metaData = metaData.metaDataUrl;
 		data.remainingCopies = data.copies;
 		data.activeAuction = null;
 
-      toast.error(err.message);
-    }
-  };
-
-
-  // temporarily here
-  const createApplication = ()=>{
-    createApp(34, props.connectedAddress);
-  }
-
-
-  
-  const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
-    let data: any = { ...nftInfo };
-    console.log("🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data", data);
-    data.image = image;
-    data.metaData = metaData.metaDataUrl;
-    data.remainingCopies = data.copies;
-    data.activeAuction = null;
+		try {
+			let paylaod = {};
 
 			if (!state.isFreeMint) {
 				if (props.blockchainType === 'ethereum') {
-					const createNftResult = await mintNFt(metaData, state.nft.copies);
+					let createNftResult = await mintNFt(metaData, state.nft.copies);
 					if (createNftResult.events.TransferSingle.returnValues.id) {
 						paylaod = {
 							nftToken: createNftResult.events.TransferSingle.returnValues.id,
@@ -83,7 +65,7 @@ const CreateNft = ({
 				}
 				if (props.blockchainType === 'solana') {
 					console.log('Solana Implementation for Minting NFT');
-					const response: any = await mintSingleNft(
+					const response = await mintSingleNft(
 						wallet,
 						data.metaData,
 						data.name,
@@ -125,14 +107,14 @@ const CreateNft = ({
 	};
 
 	const uploadJsonToIpfs = async (fileUrl: any) => {
-		const dataInput: any = {};
+		let dataInput: any = {};
 		const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-		const properties = {
+		let properties = {
 			properties: state.nft.properties,
 			levels: state.nft.levels,
 			stats: state.nft.stats,
 		};
-		const data = {
+		let data = {
 			name: state.nft.name,
 			symbol: 'Gamo',
 			sellerFeeBasisPoints: 0,
@@ -168,13 +150,13 @@ const CreateNft = ({
 		metaData: any = null,
 		image: any = null
 	) => {
-		const payload = { ...data };
+		let payload = { ...data };
 		payload.nftId = `${props.match.params.nftId}`;
 		if (metaData) {
 			payload.metaData = metaData;
 			payload.image = image;
 		}
-		const res = await handleRequest('put', 'nfts/updateNft', payload);
+		let res = await handleRequest('put', 'nfts/updateNft', payload);
 		console.log(res, 'res');
 		if (res.data.success) {
 			props.history.push('/userprofile');
@@ -200,9 +182,9 @@ const CreateNft = ({
 		let fileUrl: any = '';
 		let compressedFileUrl: any = '';
 		if (file.name) {
-			const originalFile: any = new FormData();
-			const compressedFile: any = new FormData();
-			const thumbnail = await compressImage(file);
+			let originalFile: any = new FormData();
+			let compressedFile: any = new FormData();
+			let thumbnail = await compressImage(file);
 			originalFile.append('file', file);
 			compressedFile.append('file', thumbnail);
 			console.log(
@@ -235,34 +217,9 @@ const CreateNft = ({
 		try {
 			setLoading(true);
 
-        if (tokenId) {
-          paylaod = {
-            nftToken: tokenId,
-            data: { ...data, blockchainType: props.blockchainType },
-            image,
-            lazyMinted: false,
-          };
-        }
+			const { nft, videoURL, audioUrl } = state;
 
-        }
-      } else {
-        paylaod = {
-          nftToken: (Math.floor(Math.random() * 10000) + 10000)
-            .toString()
-            .substring(1),
-          data: { ...data, blockchainType: props.blockchainType },
-          image,
-          lazyMinted: state.isFreeMint,
-        };
-      }
-      await insertNFT(paylaod);
-    } catch (err: any) {
-      toast.error(err);
-      setState({ loader: false });
-    }
-  };
-
-			const nftInfo: any = { ...nft };
+			let nftInfo: any = { ...nft };
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
 			nftInfo.stats = JSON.stringify(nftInfo.stats);
@@ -306,68 +263,17 @@ const CreateNft = ({
 		return 'Save Changes';
 	};
 
-      let nftInfo: any = { ...nft };
-      nftInfo.properties = JSON.stringify(nftInfo.properties);
-      nftInfo.levels = JSON.stringify(nftInfo.levels);
-      nftInfo.stats = JSON.stringify(nftInfo.stats);
-      nftInfo.name = capitalize(nftInfo.name);
-
-      if (videoURL) {
-        nftInfo.fileType = "video";
-      } else if (audioUrl !== "") {
-        nftInfo.fileType = "audio";
-      } else {
-        nftInfo.fileType = "image";
-      }
-
-      if (validator.allValid() && nft.collectionId) {
-        const { formValid } = state;
-
-        if (formValid) {
-          await pinFileToIPFS(nft.image, nftInfo);
-        } else {
-          state.formValid = false;
-          validator.showMessages();
-          toast.error("Please fill all required fields in valid format.");
-        }
-      }
-    } catch (err) {
-      console.log(
-        "🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err",
-        err
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getButtonText = () => {
-    if (!props.match.params.nftId) {
-      if (loading) return "Creating Nft...";
-      return "Create NFT";
-    }
-    if (loading) return "Saving Changes...";
-    return "Save Changes";
-  };
-
-  return (
-    <div className="create-collection-btn-container">
-      <button
-        className="btn create-collection-btn btn-linear-gradient mt-5"
-        disabled={loading}
-        onClick={(e) => handleSubmit(e)}
-      >
-        {getButtonText()}
-      </button>
-      <button>
-        Put On Sale
-      </button>
-
-      <button onClick={createApplication}>
-        Create Application
-      </button>
-    </div>
-  );
+	return (
+		<div className="create-collection-btn-container">
+			<button
+				className="btn create-collection-btn btn-linear-gradient mt-5"
+				disabled={loading}
+				onClick={(e) => handleSubmit(e)}
+			>
+				{getButtonText()}
+			</button>
+		</div>
+	);
 };
 
 export default CreateNft;
