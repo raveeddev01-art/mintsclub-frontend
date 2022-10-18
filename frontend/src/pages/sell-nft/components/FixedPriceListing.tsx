@@ -1,4 +1,6 @@
 import React from 'react';
+import { CHAINS_INTERFACE } from '../../../interfaces/components';
+import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 
 const FixedPriceListing = ({ data }: any) => {
 	const {
@@ -7,6 +9,7 @@ const FixedPriceListing = ({ data }: any) => {
 		decimalNumberValidator,
 		fixedPriceConfig,
 		copiesError,
+		nftDetail,
 		remainingCopies,
 		setCopiesError,
 		copies,
@@ -39,7 +42,13 @@ const FixedPriceListing = ({ data }: any) => {
 								required
 								autoComplete="off"
 							/>
-							<div className="inp-tag">ETH</div>
+							<div className="inp-tag">
+								{
+									CHAIN_CURRENCY[
+										nftDetail?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+									]
+								}
+							</div>
 						</div>
 					</div>
 				</div>

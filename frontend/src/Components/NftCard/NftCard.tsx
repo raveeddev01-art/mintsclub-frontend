@@ -11,7 +11,11 @@ import { Images, blockchainIcons } from '../../assets/assets';
 import ImageLoader from '../ContentLoader/ImageLoader';
 import Audio from '../Audio/Audio';
 import { CHAINS_INTERFACE, NFTCardInt } from '../../interfaces/components';
-import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
+import {
+	CHAIN_CURRENCY,
+	CHAIN_LOGOS,
+	CHAIN_TITLE,
+} from '../../utils/helpers/helpers';
 
 const NFTCard: FC<NFTCardInt> = (props) => {
 	const history = useHistory();
@@ -207,7 +211,14 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								</span>
 								<span className="nft-price mt-1">
 									<img className="me-2" src={Images.nftPriceTag} />
-									<a className="price ms-1">{currentPrice} ETH</a>
+									<a className="price ms-1">
+										{currentPrice}{' '}
+										{
+											CHAIN_CURRENCY[
+												blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+											]
+										}
+									</a>
 								</span>
 							</p>
 						</div>

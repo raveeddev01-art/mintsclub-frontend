@@ -72,6 +72,7 @@ export interface BidModalInt {
 	show: boolean;
 }
 export interface Buy {
+	blockchainType: string;
 	name: string;
 	image: string;
 	price: any;

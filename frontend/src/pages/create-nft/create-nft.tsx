@@ -188,10 +188,10 @@ class CreateNFT extends React.Component<
 			});
 		}
 
-		const ownerAddress = await getCurrentAddress();
+		// let ownerAddress = await getCurrentAddress(this.wallet);
 
 		let { nft } = this.state;
-		nft = { ...nft, ownerAddress: ownerAddress };
+		nft = { ...nft, ownerAddress: this.props.connectedAddress };
 		this.setState({
 			nft,
 		});
@@ -855,7 +855,8 @@ class CreateNFT extends React.Component<
 									capitalize={this.capitalize}
 									handleBtnDisable={this.handleBtnDisable}
 									blockChainType={
-										ENV.getUserKeys('blockchainType')?.blockchainType
+										// ENV.getUserKeys('blockchainType')?.blockchainType ||
+										this.props.blockchainType
 									}
 								/>
 							</div>
