@@ -52,6 +52,7 @@ const TopSeller = (props: any) => {
 					</div>
 				</div>
 				<div className="row g-3 items">
+					{/* {console.log(sellers, 'these are the top sellers')} */}
 					{isLoading ? (
 						<div className="top-seller spinner-loader-wrapper">
 							<div className="spinner-border text-secondary" role="status">
@@ -60,47 +61,49 @@ const TopSeller = (props: any) => {
 						</div>
 					) : sellers && sellers.length ? (
 						sellers.map((author: any, idx: any) => {
-							return (
-								<div
-									key={`ts_${idx}`}
-									className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
-								>
-									{/* Single Seller */}
-									<div className="card top-seller-card">
-										<div className="single-seller d-flex align-items-center">
-											<div className="seller-avatar-container">
-												<img
-													className="avatar-md rounded-circle"
-													src={
-														!author.profileImage
-															? Images.placeholderImg
-															: author.profileImage
-													}
-													alt="AvatarImg"
-												/>
-												{author.profileImage ? (
-													<span className="seller-avatar-active">
-														<img src={SellerTickIcon} alt="tick-icon" />
+							// console.log(author.totalETH);
+							if (author.totalETH >= 0.01) {
+								return (
+									<div
+										key={`ts_${idx}`}
+										className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
+									>
+										{/* Single Seller */}
+										<div className="card top-seller-card">
+											<div className="single-seller d-flex align-items-center">
+												<div className="seller-avatar-container">
+													<img
+														className="avatar-md rounded-circle"
+														src={
+															!author.profileImage
+																? Images.placeholderImg
+																: author.profileImage
+														}
+														alt="AvatarImg"
+													/>
+													{author.profileImage ? (
+														<span className="seller-avatar-active">
+															<img src={SellerTickIcon} alt="tick-icon" />
+														</span>
+													) : (
+														''
+													)}
+												</div>
+												{/* Seller Info */}
+												<div className="seller-info ml-3 w-100">
+													<p className="seller text-capitalize mb-2">
+														{author.username || 'unnamed'}
+													</p>
+													<span className="text-end">
+														{' '}
+														{author?.totalETH?.toFixed(2)}
 													</span>
-												) : (
-													''
-												)}
-											</div>
-
-											{/* Seller Info */}
-											<div className="seller-info ml-3 w-100">
-												<p className="seller text-capitalize mb-2">
-													{author.username || 'unnamed'}
-												</p>
-												<span className="text-end">
-													{' '}
-													{author?.totalETH?.toFixed(2)}
-												</span>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							);
+								);
+							}
 						})
 					) : (
 						<p className="text-center not-found">No Top Sellers Found</p>
