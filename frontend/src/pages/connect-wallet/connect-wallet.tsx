@@ -169,7 +169,7 @@ const ConnectWallet = (props: any) => {
 	const onSuccessSignUp = async (data: any) => {
 		if (data.data.success) {
 			const res = await handleSign(data?.data?.data?.nounce);
-			authenticate(res);
+			authenticate({ ...res, blockchainType: props.blockchainType });
 		} else {
 			setError(data.data.message);
 		}
