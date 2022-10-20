@@ -55,16 +55,33 @@ const CreateNft = ({
 			let paylaod = {};
 
 			if (!state.isFreeMint) {
-				if (props.blockchainType === 'ethereum') {
-					let createNftResult = await mintNFt(metaData, state.nft.copies);
-					if (createNftResult.events.TransferSingle.returnValues.id) {
-						paylaod = {
-							nftToken: createNftResult.events.TransferSingle.returnValues.id,
-							data: { ...data, blockchainType: props.blockchainType },
-							image,
-							lazyMinted: false,
-						};
-					}
+				if (
+					props.blockchainType === 'ethereum' ||
+					props.blockchainType === 'polygon' ||
+					props.blockchainType === 'bsc'
+				) {
+					let collectioncontractAddress;
+          			
+					  let mintId = undefined;
+					  const res = await handleRequest("get",
+					  `collection/get/${state.selectedCollection.value}`);
+						if(res.data.collection.deploy === true){
+						// collection contract and abi will be passed here
+							collectioncontractAddress = res.data.collection.contractAddress;  
+							mintId = await mintNFt(metaData, state.nft.copies,collectioncontractAddress);
+						}
+						else{
+							mintId = await mintNFt(metaData, state.nft.copies);
+						}
+						
+						if (mintId) {
+							paylaod = {
+								nftToken: mintId,
+								data: { ...data, blockchainType: props.blockchainType },
+								image,
+								lazyMinted: false,
+							};
+						}
 				}
 			
 				if(props.blockchainType === 'algorand'){
@@ -264,6 +281,7 @@ const CreateNft = ({
 				const { formValid } = state;
 
 				if (formValid) {
+					
 					await pinFileToIPFS(nft.image, nftInfo);
 				} else {
 					state.formValid = false;
