@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 import useVideoPlayer from "../TestVideoCard/Components/UseVideoPlayer";
@@ -12,6 +12,8 @@ import ImageLoader from "../ContentLoader/ImageLoader";
 import Audio from "../Audio/Audio";
 import { CHAINS_INTERFACE, NFTCardInt } from "../../interfaces/components";
 import { CHAIN_LOGOS, CHAIN_TITLE } from "../../utils/helpers/helpers";
+import { useGetData, useInsertData } from "../../hooks/Common";
+import { ENV } from "../../config/config";
 
 const NFTCard: FC<NFTCardInt> = (props) => {
   const history = useHistory();
@@ -36,6 +38,9 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 
   const { username, profileImage, profilePhoto }: any = props?.owner || {};
   const { likedNfts } = props;
+  const [ntfLikes, SetNftLikes] = useState(likeCount);
+  const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
+
   const validateIfLiked = (likedNfts1: any, id: string) => {
     if (likedNfts && likedNfts?.length > 0) {
       let result = likedNfts.find((item) => item.nftId == id);
@@ -49,6 +54,37 @@ const NFTCard: FC<NFTCardInt> = (props) => {
     }
   };
 
+  //React Query to post likedislike
+  const success = () => {
+    setLikeBtnDisable(false);
+    refetch();
+
+    console.log("sucees");
+  };
+
+  const { mutate: toggleLikeDislike } = useInsertData(
+    "nftLikes/likeDislike",
+    success
+  );
+
+//React Query to get likedislike
+
+  const onSuccess = (data: any) => {
+    SetNftLikes(data?.data?.data.length);
+  };
+
+  const { refetch } = useGetData(
+    "nftLike",
+    "nftLikes/getNftLikes",
+    ENV.objectToQueryString({
+      nftId: props.data._id,
+    }),
+    onSuccess
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [props?.data?._id]);
   return (
     <Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
       <div className="nft-img-wrapper">
@@ -146,13 +182,16 @@ const NFTCard: FC<NFTCardInt> = (props) => {
             {name && name.length > 25 ? name.slice(0, 25) + "..." : name}
           </div>
           <div className="nft-owner-price d-flex align-items-center">
-            <span className="me-2">{likeCount ? likeCount : 0}</span>
+            <span className="me-2">{ntfLikes ? ntfLikes : 0}</span>
             {!validateIfLiked(likedNfts, _id) ? (
               <img
                 src={Images.whiteEmptyHeart}
                 alt=""
                 onClick={() => {
-                  props.handleLikesTogleApi(_id, "like", likeCount);
+                  toggleLikeDislike({
+                    nftId: props.data._id,
+                    userId: ENV.getUserKeys("_id")._id,
+                  });
                 }}
               />
             ) : (
@@ -160,7 +199,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
                 src={Images.whiteFillHeart}
                 alt=""
                 onClick={() => {
-                  props.handleLikesTogleApi(_id, "dislike", likeCount);
+                  toggleLikeDislike({
+                    nftId: props.data._id,
+                    userId: ENV.getUserKeys("_id")._id,
+                  });
                 }}
               />
             )}
