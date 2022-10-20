@@ -3,7 +3,7 @@ import './SellNFT.scss';
 import { ENV } from '../../config/config';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import moment from 'moment';
-import { decimalNumberValidator } from '../../utils/functions';
+import { decimalNumberValidator,handleRequest } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -67,6 +67,9 @@ const SellNFT = (props: any) => {
 	const [show, setShow] = useState<boolean>(false);
 	const [approvalStatus, setApprovalStatus] = useState<string>('not-approved');
 	const [address, setAddress] = useState<string>(props.connectedAddress);
+	const [collectionAddress, setcollectionAddress] = useState<string>('');
+	const [collectionId, setcollectionId] = useState<string>('');
+
 	const [copiesError, setCopiesError] = useState<boolean>(false);
 	const [contentLoader, setContentLoader] = useState<boolean>(true);
 	const { setError } = useContext(errorHandler);
@@ -81,6 +84,8 @@ const SellNFT = (props: any) => {
 			if (copies === '') {
 				setLoader(false);
 				setNftDetail(data?.data?.data);
+				
+				
 			}
 		} else {
 			setError(data.data.message);
@@ -112,6 +117,7 @@ const SellNFT = (props: any) => {
 	);
 
 	useEffect(() => {
+	
 		if (address === '') {
 			setAddress(props.connectedAddress);
 		}
@@ -168,6 +174,7 @@ const SellNFT = (props: any) => {
 	};
 	//onSubmit
 	const submit = async (e: any) => {
+		console.log(nftDetail.collection._id);
 		e.preventDefault();
 		if (copies > nftDetail.copies) {
 			if (Number(nftDetail.copies) === 1) {
@@ -180,10 +187,13 @@ const SellNFT = (props: any) => {
 			return '';
 		}
 		// if (await validateNetwork()) {
+
+		
 		if (!nftDetail?.user?.isApproved) {
 			setShow(true);
 			return '';
 		}
+
 
 		let price: any = '';
 		let payload: object = {};
@@ -269,18 +279,42 @@ const SellNFT = (props: any) => {
 	) => {
 		const formData = new FormData();
 		try {
+			const response = await handleRequest("get",
+			`collection/get/${nftDetail.collection._id}`);
+			console.log("Deployed" , response.data.collection.deploy);
+			let collectioncontractAddress;
+			let result;
 			const auctionEndDate = timedAuctionConfig.duration.endDate;
 			const auctionStartDate = timedAuctionConfig.duration.startDate;
 
-			const biddingTime = new Date(auctionEndDate).getTime();
-			const startTime = new Date(auctionStartDate).getTime();
-
-			const result = await openNFTForBidding(
-				biddingTime,
-				startTime,
-				nftDetail?.tokenId,
-				copies
+			const biddingTime = Math.floor(
+				new Date(auctionEndDate).getTime() / 1000.0
 			);
+			const startTime = Math.floor(
+				new Date(auctionStartDate).getTime() / 1000.0
+			);
+			if(response.data.collection.deploy === true){
+				collectioncontractAddress = response.data.collection.contractAddress;  
+				result = await openNFTForBidding(
+					startTime,
+					biddingTime,
+					nftDetail?.tokenId,
+					copies,
+					+price,
+					collectioncontractAddress,
+				);
+			}
+			else
+			{
+				result = await openNFTForBidding(
+					startTime,
+					biddingTime,
+					nftDetail?.tokenId,
+					copies,
+					+price
+				);
+			}
+			 
 			if (result) {
 				activityPayload.price = price;
 				payload.sellId = Number(result);
@@ -302,6 +336,10 @@ const SellNFT = (props: any) => {
 	) => {
 		const formData = new FormData();
 		try {
+			const response = await handleRequest("get",
+			`collection/get/${nftDetail.collection._id}`);
+			let collectioncontractAddress;
+			// if(res.data.collection.deploy === true){
 			let res = null;
 			if (nftDetail?.lazyMinted) {
 				res = await createVoucher(
@@ -316,24 +354,23 @@ const SellNFT = (props: any) => {
 					return false;
 				}
 			} else {
-				console.log(
-					'props.blockchainType?.toLowerCase()',
-					props.blockchainType?.toLowerCase()
-				);
-				if (props.blockchainType?.toLowerCase() == 'solana') {
-					res = await listItemForFixedPriceSolana(
-						wallet,
-						price,
-						nftDetail?.mint
+				if(response.data.collection.deploy === true){
+				collectioncontractAddress = response.data.collection.contractAddress;  
+
+					res = await putonsale(
+						nftDetail.tokenId,
+						copies,
+						fixedConfig.price.amount,
+						collectioncontractAddress
 					);
-				}
-				if (props.blockchainType?.toLowerCase() === 'ethereum') {
+				}else{
 					res = await putonsale(
 						nftDetail.tokenId,
 						copies,
 						fixedConfig.price.amount
 					);
 				}
+				
 			}
 
 			if (res) {
@@ -395,7 +432,22 @@ const SellNFT = (props: any) => {
 		formData.append('isApproved', true);
 		formData.append('userId', nftDetail.user._id);
 		try {
-			const accApproved = await setApprovalForAll(setApprovalStatus);
+			
+			let accApproved = undefined;
+			let collectioncontractAddress;
+			const res = await handleRequest("get",
+			`collection/get/${nftDetail.collection._id}`);
+
+			if(res.data.collection.deploy === true){
+				
+				collectioncontractAddress = res.data.collection.contractAddress;  
+				accApproved = await setApprovalForAll(setApprovalStatus,collectioncontractAddress);
+			}
+			else
+			{
+				accApproved = await setApprovalForAll(setApprovalStatus);
+				
+			}
 			if (accApproved) {
 				const updatedNFTDetail = { ...nftDetail };
 				updatedNFTDetail.user.isApproved = true;
@@ -412,6 +464,7 @@ const SellNFT = (props: any) => {
 	};
 
 	const { image, name, description, remainingCopies, fileType } = nftDetail;
+	
 	return (
 		<>
 			<Banner

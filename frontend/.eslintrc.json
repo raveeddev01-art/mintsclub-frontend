@@ -19,7 +19,16 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "react/react-in-jsx-scope": "off"
+    //   "prettier/prettier": "error",
+      "semi-spacing": "error",
+      "no-undef": "off",
+      "no-console": "warn",
+      "eqeqeq": "warn",
+      "no-useless-concat": "error",
+      "no-useless-return": "error",
+      "no-constant-condition": "warn",
+      "no-return-assign": "error",
+      "no-unused-expressions": ["error", { "allowTernary": true }],
 
     }
 }
