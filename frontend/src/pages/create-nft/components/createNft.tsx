@@ -281,6 +281,7 @@ const CreateNft = ({
 				const { formValid } = state;
 
 				if (formValid) {
+					setLoader(true);
 					await pinFileToIPFS(nft.image, nftInfo);
 				} else {
 					state.formValid = false;
