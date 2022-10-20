@@ -290,12 +290,6 @@ const NFTDetail = (props: any) => {
     }
   }, [props.togleLikeRes]);
 
-  // useEffect(() => {
-  //   if (props.activitiesAuth) {
-  //     setActivities(props.activities);
-  //   }
-  // }, [props.activitiesAuth]);
-
   const handleRouting = async () => {
     const { ownerAddress } = nftDetail;
 
@@ -338,57 +332,6 @@ const NFTDetail = (props: any) => {
       });
     }
   };
-  // const success = () => {
-
-  //   setLikeBtnDisable(false);
-  //   console.log("sucees");
-  // };
-
-  // const { mutate:toggleLikeDislike} = useInsertData("nftLikes/likeDislike", success);
-
-  // const handleLikesTogleApi = async (nftId: string, status: string ,likesCount: number ) => {
-  //   if (await validateNetwork()) {
-  //     if (!likeButtonDisable) {
-  //       setLikeBtnDisable(true);
-  //       setToggle(!toggle);
-
-  //       let userId = ENV.getUserKeys("_id")._id;
-
-  //       let data = {
-  //         userId,
-  //         nftId,
-  //         count: 1,
-  //       };
-
-  //       if (status === "dislike" && likesCount > 0) {
-
-  //         let result = likedNfts.filter((item: any) => item.nftId !== nftId);
-  //         setLikedNfts(result);
-  //         increOrDecreLikes(nftId ,'dislike')
-          
-  //         toggleLikeDislike(data);
-
-  //       } else {
-        
-  //         let myLikedNfts: any = [];
-  //           if (likedNfts && likedNfts.length > 0) {
-  //             myLikedNfts = likedNfts;
-  //           }
-  //           let obj = {
-  //             _id: "1234455",
-  //             nftId,
-  //           };
-
-  //           myLikedNfts.push(obj);
-  //         setLikedNfts(myLikedNfts);
-  //         increOrDecreLikes(nftId ,'like')
-  //         toggleLikeDislike(data);
-  //               }
-  //     }
-  //   } else {
-  //     toast.error("Please Connect Your Metamask With Ethereum Rinkby Network");
-  //   }
-  // };
 
   //match if nft liked
 
