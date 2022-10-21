@@ -314,7 +314,10 @@ export const putonsale = async (
 		let weiAmount = BigInt(Web3.utils.toWei(`${price}`, 'ether'));
 		let web3 = await getWeb3();
 		let id = Number(tokenId);
-		console.log({ abi, contractAddress, collectionAddress,id,amount,NFTAdddress },"check bro");
+		console.log(
+			{ abi, contractAddress, collectionAddress, id, amount, NFTAdddress },
+			'check bro'
+		);
 		const result = await contractM.methods
 			.listItemForFixedPrice(
 				id,
@@ -332,7 +335,7 @@ export const putonsale = async (
 		console.log({ sellId, whole: result.events.OfferSale }, 'sellId');
 		return sellId;
 	} catch (err) {
-		console.log(err, "error");
+		console.log(err, 'error');
 		throw new Error(err);
 	}
 };
@@ -387,7 +390,7 @@ export const setApprovalForAll = async (
 	setApprovalStatus,
 	collectionAddress = null
 ) => {
-	console.log(collectionAddress,"collection")
+	console.log(collectionAddress, 'collection');
 	try {
 		let abi = null;
 		let contractAddress = null;

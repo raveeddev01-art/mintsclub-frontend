@@ -1,13 +1,13 @@
-import MyAlgoConnect from "@randlabs/myalgo-connect";
-import { OnApplicationComplete } from "algosdk";
+import MyAlgoConnect from '@randlabs/myalgo-connect';
+import { OnApplicationComplete } from 'algosdk';
 
-import approval_program from "./algorand/approval.teal";
-import clear_program from "./algorand/clear.teal";
-const crypto = require("crypto-browserify");
-const algosdk = require("algosdk");
+import approval_program from './algorand/approval.teal';
+import clear_program from './algorand/clear.teal';
+const crypto = require('crypto-browserify');
+const algosdk = require('algosdk');
 const enc = new TextEncoder();
 const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
-const nobleEd25519 = require("@noble/ed25519");
+const nobleEd25519 = require('@noble/ed25519');
 
 const settings = {
 	shouldSelectOneAccount: false,
@@ -46,26 +46,26 @@ const CheckBalance = async (accountaddress) => {
 };
 
 const sendAmount = async (accountaddress, to_address) => {
-  const params = await algodClient.getTransactionParams().do();
-  const note = enc.encode("Amount is being sent");
+	const params = await algodClient.getTransactionParams().do();
+	const note = enc.encode('Amount is being sent');
 
-  const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-    suggestedParams: {
-      ...params,
-    },
-    from: accountaddress.toString(),
-    to: to_address,
-    amount: 200000,
-    note: note,
-  });
+	const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+		suggestedParams: {
+			...params,
+		},
+		from: accountaddress.toString(),
+		to: to_address,
+		amount: 200000,
+		note: note,
+	});
 
 	const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
 
 	const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
 
-  console.log(response);
+	console.log(response);
 
-  console.log("Payment Successful");
+	console.log('Payment Successful');
 };
 
 ///////////////////////////////////algo sdk code ////////////
@@ -240,7 +240,7 @@ async function closeoutAliceAlgos(algodClient, alice) {
 	// console.log("Transaction information: %o", mytxinfo);
 	accountInfo = await algodClient.accountInformation(alice.addr).do();
 	let txAmount = confirmedTxn.txn.txn.amt;
-	if (confirmedTxn.txn.txn.amt == undefined) {
+	if (confirmedTxn.txn.txn.amt === undefined) {
 		console.log('Transaction Amount: %d microAlgos', 0);
 		txAmount = 0;
 	} else {
@@ -351,114 +351,114 @@ async function createNFT(inputFields) {
 }
 
 const compileProgram = async (client, programSource) => {
-  let encoder = new TextEncoder();
-  let programBytes = encoder.encode(programSource);
-  let compileResponse = await client.compile(programBytes).do();
-  let compiledBytes = new Uint8Array(
-    Buffer.from(compileResponse.result, "base64")
-  );
+	let encoder = new TextEncoder();
+	let programBytes = encoder.encode(programSource);
+	let compileResponse = await client.compile(programBytes).do();
+	let compiledBytes = new Uint8Array(
+		Buffer.from(compileResponse.result, 'base64')
+	);
 
-  return compiledBytes;
+	return compiledBytes;
 };
 
 async function signMessageFromUserForAlgorand(nounce, accountaddress) {
-  const data = enc.encode(`I am signing my one-time nonce: ${nounce}`);
-  const sig = await myAlgoConnect.signBytes(data, accountaddress);
-  return { publicAddress: accountaddress, signature: sig };
+	const data = enc.encode(`I am signing my one-time nonce: ${nounce}`);
+	const sig = await myAlgoConnect.signBytes(data, accountaddress);
+	return { publicAddress: accountaddress, signature: sig };
 }
 
 async function createApp(nft_ID, accountaddress) {
-  var approvalProg = "";
-  var clearProg = "";
-  await fetch(approval_program)
-    .then((r) => r.text())
-    .then((text) => {
-      approvalProg = text;
-    });
+	let approvalProg = '';
+	let clearProg = '';
+	await fetch(approval_program)
+		.then((r) => r.text())
+		.then((text) => {
+			approvalProg = text;
+		});
 
-  await fetch(clear_program)
-    .then((r) => r.text())
-    .then((text) => {
-      clearProg = text;
-    });
+	await fetch(clear_program)
+		.then((r) => r.text())
+		.then((text) => {
+			clearProg = text;
+		});
 
-  var approval_teal = await compileProgram(algodClient, approvalProg);
-  var clear_teal = await compileProgram(algodClient, clearProg);
+	let approval_teal = await compileProgram(algodClient, approvalProg);
+	let clear_teal = await compileProgram(algodClient, clearProg);
 
-  const nftID = 115655736; //replace with nft_ID
-  const foreignAssets = [];
-  foreignAssets.push(nftID);
-  const waiting_time = 15;
-  const royaltyfee = 35;
-  const royaltyaddress =
-    "CRJYNOMU3ZXQVZ26TOVVJLLYTIK6AOKUY746PLA2G6OKVCXKOADSV4AN5Y";
-  const params = await algodClient.getTransactionParams().do();
-  params.fee = 1000;
-  params.flatFee = true;
-  const app_args = [
-    algosdk.decodeAddress(accountaddress.toString()).publicKey,
-    algosdk.encodeUint64(nftID),
-    algosdk.encodeUint64(royaltyfee),
-    algosdk.encodeUint64(waiting_time),
-    algosdk.decodeAddress(royaltyaddress.toString()).publicKey,
-  ];
+	const nftID = 115655736; //replace with nft_ID
+	const foreignAssets = [];
+	foreignAssets.push(nftID);
+	const waiting_time = 15;
+	const royaltyfee = 35;
+	const royaltyaddress =
+		'CRJYNOMU3ZXQVZ26TOVVJLLYTIK6AOKUY746PLA2G6OKVCXKOADSV4AN5Y';
+	const params = await algodClient.getTransactionParams().do();
+	params.fee = 1000;
+	params.flatFee = true;
+	const app_args = [
+		algosdk.decodeAddress(accountaddress.toString()).publicKey,
+		algosdk.encodeUint64(nftID),
+		algosdk.encodeUint64(royaltyfee),
+		algosdk.encodeUint64(waiting_time),
+		algosdk.decodeAddress(royaltyaddress.toString()).publicKey,
+	];
 
-  const txn = await algosdk.makeApplicationCreateTxnFromObject({
-    from: accountaddress.toString(),
-    suggestedParams: params,
-    onComplete: OnApplicationComplete.NoOpOC,
-    approvalProgram: approval_teal,
-    clearProgram: clear_teal,
-    numLocalInts: 3,
-    numLocalByteSlices: 0,
-    numGlobalInts: 4,
-    numGlobalByteSlices: 2,
-    appArgs: app_args,
-    foreignAssets: foreignAssets,
-  });
+	const txn = await algosdk.makeApplicationCreateTxnFromObject({
+		from: accountaddress.toString(),
+		suggestedParams: params,
+		onComplete: OnApplicationComplete.NoOpOC,
+		approvalProgram: approval_teal,
+		clearProgram: clear_teal,
+		numLocalInts: 3,
+		numLocalByteSlices: 0,
+		numGlobalInts: 4,
+		numGlobalByteSlices: 2,
+		appArgs: app_args,
+		foreignAssets: foreignAssets,
+	});
 
-  const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-  const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
-  console.log("response", response);
+	const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+	const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
+	console.log('response', response);
 
-  let appID = null;
-  // wait for transaction to be confirmed
-  const confirmedTxn = await algosdk.waitForConfirmation(
-    algodClient,
-    response.txId,
-    4
-  );
-  console.log("confirmedTxn", confirmedTxn);
+	let appID = null;
+	// wait for transaction to be confirmed
+	const confirmedTxn = await algosdk.waitForConfirmation(
+		algodClient,
+		response.txId,
+		4
+	);
+	console.log('confirmedTxn', confirmedTxn);
 
-  appID = await confirmedTxn["application-index"];
-  console.log("appID ", appID);
+	appID = await confirmedTxn['application-index'];
+	console.log('appID ', appID);
 
-  const appAddr = await algosdk.getApplicationAddress(appID);
-  console.log("appAddr ", appAddr);
+	const appAddr = await algosdk.getApplicationAddress(appID);
+	console.log('appAddr ', appAddr);
 
-  await sendAmount(accountaddress, appAddr);
+	await sendAmount(accountaddress, appAddr);
 
-  const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
-    from: accountaddress.toString(),
-    assetIndex: nftID,
-    manager: accountaddress.toString(),
-    clawback: appAddr,
-    freeze: appAddr,
-    suggestedParams: params,
-    strictEmptyAddressChecking: false,
-  });
+	const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
+		from: accountaddress.toString(),
+		assetIndex: nftID,
+		manager: accountaddress.toString(),
+		clawback: appAddr,
+		freeze: appAddr,
+		suggestedParams: params,
+		strictEmptyAddressChecking: false,
+	});
 
-  console.log("Tx Clawback ", tx);
+	console.log('Tx Clawback ', tx);
 
-  const optin = await algosdk.makeApplicationOptInTxnFromObject({
-    appIndex: appID,
-    from: accountaddress.toString(),
-    suggestedParams: params,
-  });
+	const optin = await algosdk.makeApplicationOptInTxnFromObject({
+		appIndex: appID,
+		from: accountaddress.toString(),
+		suggestedParams: params,
+	});
 
-  console.log("App optin ", optin);
+	console.log('App optin ', optin);
 
-  return { appID, appAddr };
+	return { appID, appAddr };
 }
 
 // async function setSale(inputFields) {

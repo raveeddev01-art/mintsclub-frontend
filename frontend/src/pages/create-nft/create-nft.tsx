@@ -238,7 +238,7 @@ class CreateNFT extends React.Component<
 					label: item.name,
 					categoryId: item.categoryId,
 					contractAddress: item?.contractAddress ? item?.contractAddress : null,
-					isApproved: item?.isApproved ,
+					isApproved: item?.isApproved,
 				};
 
 				updatedCollections.push(obj);
@@ -355,7 +355,7 @@ class CreateNFT extends React.Component<
 			collectionId: value.value,
 			categoryId: value.categoryId,
 			contractAddress: value?.contractAddress ? value?.contractAddress : null,
-			isApproved: value?.isApproved?value?.isApproved:false,
+			isApproved: value?.isApproved ? value?.isApproved : false,
 		};
 		this.setState({
 			nft,
@@ -658,7 +658,6 @@ class CreateNFT extends React.Component<
 			audioUrl,
 			selectedCollection,
 		} = this.state;
-
 
 		const { connectedAddress } = this.props;
 		const { onDrop, dragOver, dragEnter, dragLeave } = this;

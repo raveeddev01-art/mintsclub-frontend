@@ -10,7 +10,7 @@ import axios from 'axios';
 import { ENV } from '../../../config/config';
 import { mintSingleNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
 
 const CreateNft = ({
@@ -45,14 +45,14 @@ const CreateNft = ({
 	};
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
 		console.log(nftInfo, 'nftInfo');
-		let data: any = { ...nftInfo };
+		const data: any = { ...nftInfo };
 		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data123', data);
 		console.log('props.blockchainType', props.blockchainType);
 		data.image = image;
 		data.metaData = metaData.metaDataUrl;
 		data.remainingCopies = data.copies;
 		data.activeAuction = null;
-console.log(data,"data")
+		console.log(data, 'data');
 		try {
 			let paylaod = {};
 			console.log(blockChainType, 'blockchainType');
@@ -62,7 +62,7 @@ console.log(data,"data")
 					blockChainType === 'polygon' ||
 					blockChainType === 'bsc'
 				) {
-					let mintId = await mintNFt(
+					const mintId = await mintNFt(
 						metaData,
 						state.nft.copies,
 						nftInfo?.contractAddress
@@ -81,7 +81,7 @@ console.log(data,"data")
 				if (props.blockchainType === 'algorand') {
 					console.log('Algorand Implementation for Minting NFT');
 					const { name, copies } = state.nft;
-					let tokenId = await createNFT({
+					const tokenId = await createNFT({
 						assetName: name,
 						total: copies,
 						metaData,
@@ -144,14 +144,14 @@ console.log(data,"data")
 	};
 
 	const uploadJsonToIpfs = async (fileUrl: any) => {
-		let dataInput: any = {};
+		const dataInput: any = {};
 		const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-		let properties = {
+		const properties = {
 			properties: state.nft.properties,
 			levels: state.nft.levels,
 			stats: state.nft.stats,
 		};
-		let data = {
+		const data = {
 			name: state.nft.name,
 			symbol: 'Gamo',
 			sellerFeeBasisPoints: 0,
@@ -187,13 +187,13 @@ console.log(data,"data")
 		metaData: any = null,
 		image: any = null
 	) => {
-		let payload = { ...data };
+		const payload = { ...data };
 		payload.nftId = `${props.match.params.nftId}`;
 		if (metaData) {
 			payload.metaData = metaData;
 			payload.image = image;
 		}
-		let res = await handleRequest('put', 'nfts/updateNft', payload);
+		const res = await handleRequest('put', 'nfts/updateNft', payload);
 		console.log(res, 'res');
 		if (res.data.success) {
 			props.history.push('/userprofile');
@@ -219,9 +219,9 @@ console.log(data,"data")
 		let fileUrl: any = '';
 		let compressedFileUrl: any = '';
 		if (file.name) {
-			let originalFile: any = new FormData();
-			let compressedFile: any = new FormData();
-			let thumbnail = await compressImage(file);
+			const originalFile: any = new FormData();
+			const compressedFile: any = new FormData();
+			const thumbnail = await compressImage(file);
 			originalFile.append('file', file);
 			compressedFile.append('file', thumbnail);
 			console.log(
@@ -256,7 +256,7 @@ console.log(data,"data")
 
 			const { nft, videoURL, audioUrl } = state;
 
-			let nftInfo: any = { ...nft };
+			const nftInfo: any = { ...nft };
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
 			nftInfo.stats = JSON.stringify(nftInfo.stats);
