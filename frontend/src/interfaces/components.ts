@@ -248,8 +248,8 @@ export interface CreateNftInterface {
 	toast: any;
 	validator: any;
 	capitalize: any;
-	setState: any;
 	handleBtnDisable: any;
+	setLoader:any,
 	blockChainType: string;
 }
 

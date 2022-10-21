@@ -143,6 +143,8 @@ class CreateNFT extends React.Component<
 				collectionId: '',
 				ownerAddress: '',
 				categoryId: '',
+				contractAddress: null,
+				isApproved: true,
 				status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
 			},
 			properties: [{ name: '', type: '' }],
@@ -235,7 +237,10 @@ class CreateNFT extends React.Component<
 					value: item._id,
 					label: item.name,
 					categoryId: item.categoryId,
+					contractAddress: item?.contractAddress ? item?.contractAddress : null,
+					isApproved: item?.isApproved ,
 				};
+
 				updatedCollections.push(obj);
 			}
 			if (this.props?.match.params.nftId) {
@@ -345,7 +350,13 @@ class CreateNFT extends React.Component<
 	}
 	onChangeSelect = (value: any) => {
 		let { nft } = this.state;
-		nft = { ...nft, collectionId: value.value, categoryId: value.categoryId };
+		nft = {
+			...nft,
+			collectionId: value.value,
+			categoryId: value.categoryId,
+			contractAddress: value?.contractAddress ? value?.contractAddress : null,
+			isApproved: value?.isApproved?value?.isApproved:false,
+		};
 		this.setState({
 			nft,
 			selectedCollection: value,
@@ -635,7 +646,6 @@ class CreateNFT extends React.Component<
 			return false;
 		}
 	};
-
 	render() {
 		const {
 			nft,
@@ -648,6 +658,8 @@ class CreateNFT extends React.Component<
 			audioUrl,
 			selectedCollection,
 		} = this.state;
+
+
 		const { connectedAddress } = this.props;
 		const { onDrop, dragOver, dragEnter, dragLeave } = this;
 		if (
@@ -831,33 +843,37 @@ class CreateNFT extends React.Component<
 								/>
 								{!this.props.match.params.nftId && (
 									<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-										{this.props.blockchainType !== "algorand" && <> <div>
-											<label className="create-collection-label ms-0">
-												Free minting
-											</label>
-											<p>Buyer will pay gas fess for minting</p>
-										</div> <MintSwitch
-											checked={this.state.isFreeMint}
-											onChange={() => {
-												this.setState({ isFreeMint: !this.state.isFreeMint });
-											}}
-											inputProps={{ 'aria-label': 'mint' }}
-										/></> }
-										
+										{this.props.blockchainType !== 'algorand' && (
+											<>
+												{' '}
+												<div>
+													<label className="create-collection-label ms-0">
+														Free minting
+													</label>
+													<p>Buyer will pay gas fess for minting</p>
+												</div>{' '}
+												<MintSwitch
+													checked={this.state.isFreeMint}
+													onChange={() => {
+														this.setState({
+															isFreeMint: !this.state.isFreeMint,
+														});
+													}}
+													inputProps={{ 'aria-label': 'mint' }}
+												/>
+											</>
+										)}
 									</div>
 								)}
 								<CreateNft
 									props={this.props}
 									state={this.state}
-									setState={this.setState}
+									setLoader={(status: any) => this.setState({ loader: status })}
 									toast={toast}
 									validator={this.validator}
 									capitalize={this.capitalize}
 									handleBtnDisable={this.handleBtnDisable}
-									blockChainType={
-										// ENV.getUserKeys('blockchainType')?.blockchainType ||
-										this.props.blockchainType
-									}
+									blockChainType={this.props.blockchainType}
 								/>
 							</div>
 							{/* </form> */}
@@ -922,7 +938,7 @@ const mapStateToProps = (state: {
 	wallet: { connectedAddress: any; blockchainType: string };
 }) => ({
 	connectedAddress: state.wallet.connectedAddress,
-	blockchainType: state.wallet.blockchainType,
+	blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
 });
 
 export default connect(mapStateToProps, {})(CreateNFT);

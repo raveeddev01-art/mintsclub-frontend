@@ -11,7 +11,7 @@ import { ENV } from '../../../config/config';
 import { mintSingleNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
-import {createNFT} from "../../../utils/algorand"
+import { createNFT } from '../../../utils/algorand';
 
 const CreateNft = ({
 	props,
@@ -19,7 +19,8 @@ const CreateNft = ({
 	toast,
 	validator,
 	capitalize,
-	setState,
+	setLoader,
+	blockChainType,
 	handleBtnDisable,
 }: CreateNftInterface) => {
 	const wallet = useWallet();
@@ -33,60 +34,69 @@ const CreateNft = ({
 				toast.success('NFT created successfully');
 				props.history.push('/explore/allNFT');
 			} else {
-				setState({ loader: false });
+				setLoader(false);
 				toast.error(res.data.message);
 			}
 		} catch (err: any) {
-			setState({ loader: false });
+			setLoader(false);
 
 			toast.error(err.message);
 		}
 	};
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
+		console.log(nftInfo, 'nftInfo');
 		let data: any = { ...nftInfo };
 		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data123', data);
-		console.log("props.blockchainType", props.blockchainType)
+		console.log('props.blockchainType', props.blockchainType);
 		data.image = image;
 		data.metaData = metaData.metaDataUrl;
 		data.remainingCopies = data.copies;
 		data.activeAuction = null;
-
+console.log(data,"data")
 		try {
 			let paylaod = {};
-
+			console.log(blockChainType, 'blockchainType');
 			if (!state.isFreeMint) {
-				if (props.blockchainType === 'ethereum') {
-					let createNftResult = await mintNFt(metaData, state.nft.copies);
-					if (createNftResult.events.TransferSingle.returnValues.id) {
+				if (
+					blockChainType === 'ethereum' ||
+					blockChainType === 'polygon' ||
+					blockChainType === 'bsc'
+				) {
+					let mintId = await mintNFt(
+						metaData,
+						state.nft.copies,
+						nftInfo?.contractAddress
+					);
+
+					if (mintId) {
 						paylaod = {
-							nftToken: createNftResult.events.TransferSingle.returnValues.id,
-							data: { ...data, blockchainType: props.blockchainType },
+							nftToken: mintId,
+							data: { ...data, blockchainType: blockChainType },
 							image,
 							lazyMinted: false,
 						};
 					}
 				}
-			
-				if(props.blockchainType === 'algorand'){
+
+				if (props.blockchainType === 'algorand') {
 					console.log('Algorand Implementation for Minting NFT');
 					const { name, copies } = state.nft;
 					let tokenId = await createNFT({
 						assetName: name,
 						total: copies,
 						metaData,
-						connectedAddress: props.connectedAddress
-						
-					  });
-					  console.log("Algorand Token ID",tokenId)
-					  
-					  if (tokenId) {
+						connectedAddress: props.connectedAddress,
+					});
+					console.log('Algorand Token ID', tokenId);
+
+					if (tokenId) {
 						paylaod = {
-						  nftToken: tokenId,
-						  data: { ...data, blockchainType: props.blockchainType },
-						  image,
-						  lazyMinted: false,
+							nftToken: tokenId,
+							data: { ...data, blockchainType: props.blockchainType },
+							image,
+							lazyMinted: false,
 						};
-					  }			  
+					}
 				}
 
 				if (props.blockchainType === 'solana') {
@@ -106,7 +116,7 @@ const CreateNft = ({
 							nftToken: -1,
 							data: {
 								...data,
-								blockchainType: props.blockchainType,
+								blockchainType: blockChainType,
 								mint: response?.mintAddress.toBase58(),
 								txnHash: response?.response.signature,
 							},
@@ -115,21 +125,21 @@ const CreateNft = ({
 						};
 					}
 				}
-
 			} else {
 				paylaod = {
 					nftToken: (Math.floor(Math.random() * 10000) + 10000)
 						.toString()
 						.substring(1),
-					data: { ...data, blockchainType: props.blockchainType },
+					data: { ...data, blockchainType: blockChainType },
 					image,
 					lazyMinted: state.isFreeMint,
 				};
 			}
 			await insertNFT(paylaod);
 		} catch (err: any) {
+			console.log(err, 'error');
 			toast.error(err);
-			setState({ loader: false });
+			setLoader(false);
 		}
 	};
 
@@ -168,7 +178,7 @@ const CreateNft = ({
 			return { dataInput, image: fileUrl };
 		} catch (err: any) {
 			toast.error(err);
-			setState({ loader: false });
+			setLoader(false);
 		}
 	};
 
@@ -202,7 +212,7 @@ const CreateNft = ({
 			return response;
 		} catch (err: any) {
 			toast.error(err);
-			setState({ loader: false });
+			setLoader(false);
 		}
 	};
 	const pinFileToIPFS = async (file: any, nftInfo: any) => {
@@ -264,6 +274,7 @@ const CreateNft = ({
 				const { formValid } = state;
 
 				if (formValid) {
+					setLoader(true);
 					await pinFileToIPFS(nft.image, nftInfo);
 				} else {
 					state.formValid = false;

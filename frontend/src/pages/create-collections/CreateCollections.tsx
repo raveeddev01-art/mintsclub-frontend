@@ -374,8 +374,8 @@ class CreateCollections extends Component<
 						},
 						async () => {
 							const { collection } = this.state;
-							collection['blockchainType'] = this.props.blockchainType;
-							console.log('collection', collection);
+							collection['blockchainType'] =
+								ENV.getUserKeys('blockchainType')?.blockchainType;
 							const formData: any = new FormData();
 							for (const val in collection) {
 								if (val === 'logo' || val === 'featuredImg') {
@@ -404,16 +404,18 @@ class CreateCollections extends Component<
 								}
 							}
 							formData.append('_id', `${this.props.match.params.id}`);
-							// formData.append(
-							//   "blockchainType",
-							//   `${this.props.blockchainType}}`
-							// );
 							if (this.props.match.params.id) {
 								return await this.editCollectionInfo(formData);
 							}
 							if (collection?.deploy) {
 								const response = await this.deployCollection();
-								formData.append('abi', response?.abi);
+								console.log(
+									response?.contractAddress,
+									'response?.contractAddress'
+								);
+								formData.append('abi', JSON.stringify(response?.abi));
+								formData.append('isApproved', false);
+
 								formData.append(
 									'contractAddress',
 									`${response?.contractAddress}`
@@ -429,6 +431,7 @@ class CreateCollections extends Component<
 									'🚀 ~ file: CreateCollections.tsx ~ line 427 ~ formData',
 									formData
 								);
+								formData.append('isApproved', true);
 
 								this.insertCollection(formData);
 							}
