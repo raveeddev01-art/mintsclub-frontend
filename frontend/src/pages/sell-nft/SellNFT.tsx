@@ -124,7 +124,6 @@ const SellNFT = (props: any) => {
 	);
 
 	useEffect(() => {
-
 		if (address === '') {
 			setAddress(props.connectedAddress);
 		}
@@ -339,8 +338,7 @@ const SellNFT = (props: any) => {
 					return false;
 				}
 			} else {
-			
-				if (props.blockchainType?.toLowerCase() == 'solana') {
+				if (props.blockchainType?.toLowerCase() === 'solana') {
 					res = await listItemForFixedPriceSolana(
 						wallet,
 						price,

@@ -6,20 +6,23 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
     ],
     "overrides": [
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "prettier"
     ],
     "rules": {
-    //   "prettier/prettier": "error",
+      "prettier/prettier": "error",
       "semi-spacing": "error",
       "no-undef": "off",
       "no-console": "warn",
@@ -29,6 +32,21 @@
       "no-constant-condition": "warn",
       "no-return-assign": "error",
       "no-unused-expressions": ["error", { "allowTernary": true }],
+
+      // * Best Practice
+      "react/display-name": "off",
+      "react/prop-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "react/jsx-wrap-multilines": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+
+      // * ES6
+    //   "arrow-spacing": "error",
+      "no-duplicate-imports": "error",
+      "no-var": "error",
+      "object-shorthand": "off"
 
     }
 }

@@ -193,7 +193,7 @@ const ConnectWallet = (props: any) => {
 	///Authenticate
 	const onSuccessAuthentication = (data: any) => {
 		if (data.data.success) {
-			console.log(data.data.data,"authenticate")
+			console.log(data.data.data, 'authenticate');
 			ENV.encryptUserData(data.data.data);
 			history.push(location?.state ? location.state : '/');
 		} else {
