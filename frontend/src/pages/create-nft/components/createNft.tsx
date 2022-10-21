@@ -44,6 +44,7 @@ const CreateNft = ({
 		}
 	};
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
+		console.log(nftInfo, 'nftInfo');
 		let data: any = { ...nftInfo };
 		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data123', data);
 		console.log('props.blockchainType', props.blockchainType);
@@ -51,7 +52,7 @@ const CreateNft = ({
 		data.metaData = metaData.metaDataUrl;
 		data.remainingCopies = data.copies;
 		data.activeAuction = null;
-
+console.log(data,"data")
 		try {
 			let paylaod = {};
 			console.log(blockChainType, 'blockchainType');
@@ -61,28 +62,20 @@ const CreateNft = ({
 					blockChainType === 'polygon' ||
 					blockChainType === 'bsc'
 				) {
-					let collectioncontractAddress;
-          			
-					  let mintId = undefined;
-					  const res = await handleRequest("get",
-					  `collection/get/${state.selectedCollection.value}`);
-						if(res.data.collection.deploy === true){
-						// collection contract and abi will be passed here
-							collectioncontractAddress = res.data.collection.contractAddress;  
-							mintId = await mintNFt(metaData, state.nft.copies,collectioncontractAddress);
-						}
-						else{
-							mintId = await mintNFt(metaData, state.nft.copies);
-						}
-						
-						if (mintId) {
-							paylaod = {
-								nftToken: mintId,
-								data: { ...data, blockchainType: blockChainType },
-								image,
-								lazyMinted: false,
-							};
-						}
+					let mintId = await mintNFt(
+						metaData,
+						state.nft.copies,
+						nftInfo?.contractAddress
+					);
+
+					if (mintId) {
+						paylaod = {
+							nftToken: mintId,
+							data: { ...data, blockchainType: blockChainType },
+							image,
+							lazyMinted: false,
+						};
+					}
 				}
 
 				if (props.blockchainType === 'algorand') {

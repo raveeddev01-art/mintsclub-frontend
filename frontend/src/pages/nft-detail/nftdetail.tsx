@@ -296,12 +296,6 @@ const NFTDetail = (props: any) => {
 		}
 	}, [props.togleLikeRes]);
 
-	// useEffect(() => {
-	//   if (props.activitiesAuth) {
-	//     setActivities(props.activities);
-	//   }
-	// }, [props.activitiesAuth]);
-
 	const handleRouting = async () => {
 		const { ownerAddress } = nftDetail;
 
@@ -545,7 +539,6 @@ const NFTDetail = (props: any) => {
 					if (blockchainType === 'solana') {
 						const { mint } = nftDetail;
 						const { sellerTradeState, sellingConfig } = nftDetail.auction;
-						console.log('Solana Implementation for Buy Now');
 						const buyFixedPriceResponse = await buyNowFixedPriceAuction(
 							wallet,
 							mint,
@@ -553,7 +546,6 @@ const NFTDetail = (props: any) => {
 							sellingConfig?.price?.amount
 						);
 
-						console.log('buyFixedPrice', buyFixedPriceResponse);
 						if (buyFixedPriceResponse) {
 							const payload = {
 								userId,
@@ -905,6 +897,7 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
+
 	return (
 		<>
 			<Banner
@@ -923,7 +916,7 @@ const NFTDetail = (props: any) => {
 				}}
 				onDelete={() => handleDelete()}
 			/>
-			{loader || (isLoading && <FullPageLoader />)}
+			{(loader || isLoading) && <FullPageLoader />}
 
 			<div className="new-nft-detail padding-wrapper">
 				<div className="container">

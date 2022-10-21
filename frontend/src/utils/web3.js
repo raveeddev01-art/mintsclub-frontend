@@ -80,7 +80,11 @@ export const getBalance = async () => {
 	return ethBalance;
 };
 
-export const mintNFt = async (metaData, amount, collectionAddress=undefined) => {
+export const mintNFt = async (
+	metaData,
+	amount,
+	collectionAddress = undefined
+) => {
 	let web3 = await getWeb3();
 	if (!web3) {
 		toast.error('No web3 instance found');
@@ -102,17 +106,17 @@ export const mintNFt = async (metaData, amount, collectionAddress=undefined) => 
 	} else {
 		return toast.error('wrong network');
 	}
-	console.log({ abi, contractAddress, nftAmount, metaData });
+	console.log({ abi, contractAddress, nftAmount, metaData, collectionAddress });
 
 	try {
 		let connectedAddress = await connectMetamask();
-    let contractM = undefined;
-    if(collectionAddress){
-      contractM = await getContractMethods(abi, collectionAddress);
-    }
-    else{
-        contractM = await getContractMethods(abi, contractAddress);
-    }
+		let contractM = undefined;
+
+		contractM = await getContractMethods(
+			abi,
+			collectionAddress ? collectionAddress : contractAddress
+		);
+
 		let result = await contractM.methods
 			.mint(connectedAddress, nftAmount, metaData)
 			.send({ from: connectedAddress });
@@ -135,7 +139,6 @@ export const mintNFt = async (metaData, amount, collectionAddress=undefined) => 
 		throw new Error(err);
 	}
 };
-
 
 export const editNFTUri = async (tokenId, metaData) => {
 	try {
@@ -163,7 +166,7 @@ export const openNFTForBidding = async (
 	tokenId,
 	copies,
 	initialPrice,
-	collectionAddress=''
+	collectionAddress = null
 ) => {
 	console.log({
 		biddingStartTime,
@@ -200,19 +203,18 @@ export const openNFTForBidding = async (
 
 		console.log(intPrice, 'intPrice');
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
-		let result;
-		if(collectionAddress){
-			console.log({
-				intPrice,
-				biddingStartTime,
-				biddingEndTime,
-				fee: 150,
-				id,
-				copies,
-				collectionAddress,
-				connectedAddress,
-			});
-			 result = await contractM.methods
+
+		console.log({
+			intPrice,
+			biddingStartTime,
+			biddingEndTime,
+			fee: 150,
+			id,
+			copies,
+			collectionAddress,
+			connectedAddress,
+		});
+		const result = await contractM.methods
 			.listItemForAuction(
 				web3.utils.toBN(intPrice),
 				biddingStartTime,
@@ -220,38 +222,10 @@ export const openNFTForBidding = async (
 				150,
 				id,
 				+copies,
-				collectionAddress,
+				collectionAddress ? collectionAddress : NFTAdddress,
 				connectedAddress
 			)
 			.send({ from: connectedAddress });
-		}
-		else
-		{
-			console.log({
-				intPrice,
-				biddingStartTime,
-				biddingEndTime,
-				fee: 150,
-				id,
-				copies,
-				goerliMintingContract,
-				connectedAddress,
-			});
-			 result = await contractM.methods
-			.listItemForAuction(
-				web3.utils.toBN(intPrice),
-				biddingStartTime,
-				biddingEndTime,
-				150,
-				id,
-				+copies,
-				NFTAdddress,
-				connectedAddress
-			)
-			.send({ from: connectedAddress });
-		}
-		
-	
 		console.log(result, 'result of listitem for auction');
 
 		let sellId = await Number(
@@ -270,7 +244,6 @@ export const placeABid = async (amount, tokenId) => {
 		let abi = null;
 		let contractAddress = null;
 		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		console.log(blockchainType, 'blockchainType');
 		if (blockchainType === 'ethereum') {
 			contractAddress = ENV.goerliMarketPlaceContract;
 			abi = ethMarketPlaceContract;
@@ -283,7 +256,6 @@ export const placeABid = async (amount, tokenId) => {
 		} else {
 			return toast.error('wrong network');
 		}
-		console.log({ abi, contractAddress });
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
 		const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, 'ether')));
@@ -311,9 +283,13 @@ export const placeABid = async (amount, tokenId) => {
 	}
 };
 
-export const putonsale = async (tokenId, amount, price , collectionAddress='') => {
+export const putonsale = async (
+	tokenId,
+	amount,
+	price,
+	collectionAddress = null
+) => {
 	try {
-
 		let abi = null;
 		let contractAddress = null;
 		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
@@ -334,64 +310,29 @@ export const putonsale = async (tokenId, amount, price , collectionAddress='') =
 			return toast.error('wrong network');
 		}
 		let connectedAddress = await connectMetamask();
-		console.log({ abi, contractAddress });
 		const contractM = await getContractMethods(abi, contractAddress);
 		let weiAmount = BigInt(Web3.utils.toWei(`${price}`, 'ether'));
 		let web3 = await getWeb3();
 		let id = Number(tokenId);
-		let result;
-    if(collectionAddress){
-      console.log({
-        id,
-        amount,
-        weiAmount,
-        connectedAddress,
-        collectionAddress,
-      });
-       result = await contractM.methods
-        .listItemForFixedPrice(
-          id,
-          +amount,
-          weiAmount,
-          150,
-          collectionAddress,
-          connectedAddress
-        )
-        .send({
-          from: connectedAddress,
-          // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-        });
-    }
-    else
-    {
-      console.log({
-        id,
-        amount,
-        weiAmount,
-        connectedAddress,
-        NFTAdddress,
-      });
-       result = await contractM.methods
-        .listItemForFixedPrice(
-          id,
-          +amount,
-          weiAmount,
-          150,
-          NFTAdddress,
-          connectedAddress
-        )
-        .send({
-          from: connectedAddress,
-          // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
-        });
-    }
+		console.log({ abi, contractAddress, collectionAddress,id,amount,NFTAdddress },"check bro");
+		const result = await contractM.methods
+			.listItemForFixedPrice(
+				id,
+				+amount,
+				weiAmount,
+				150,
+				collectionAddress ? collectionAddress : NFTAdddress,
+				connectedAddress
+			)
+			.send({
+				from: connectedAddress,
+			});
 		console.log(result, 'result==>');
-		// let sellId = await web3.utils.hexToNumber(result.events.OfferSale.returnValues._fixeditemid);
 		let sellId = Number(result.events.OfferSale.returnValues._fixeditemid);
 		console.log({ sellId, whole: result.events.OfferSale }, 'sellId');
 		return sellId;
 	} catch (err) {
-		// console.log(err, "error");
+		console.log(err, "error");
 		throw new Error(err);
 	}
 };
@@ -437,12 +378,16 @@ export const BuyFixedPriceNFT = async (
 		}
 	} catch (err) {
 		setConfirmed(false);
-		// console.log(err);
+		console.log(err);
 
 		throw new Error(err);
 	}
 };
-export const setApprovalForAll = async (setApprovalStatus , collectionAddress= string) => {
+export const setApprovalForAll = async (
+	setApprovalStatus,
+	collectionAddress = null
+) => {
+	console.log(collectionAddress,"collection")
 	try {
 		let abi = null;
 		let contractAddress = null;
@@ -465,15 +410,12 @@ export const setApprovalForAll = async (setApprovalStatus , collectionAddress= s
 		} else {
 			return toast.error('wrong network');
 		}
-		let connectedAddress = await connectMetamask();
-    let contractM = undefined;
-    if(collectionAddress){
-      contractM = await getContractMethods(abi, collectionAddress);
-    }
-    else
-    {
-      contractM = await getContractMethods(abi, contractAddress);
-    }
+		const connectedAddress = await connectMetamask();
+		const contractM = await getContractMethods(
+			abi,
+			collectionAddress ? collectionAddress : contractAddress
+		);
+
 		const result = await contractM.methods
 			.setApprovalForAll(contractToApprove, true)
 			.send({

@@ -59,7 +59,6 @@ const SellNFT = (props: any) => {
 		},
 	});
 
-	console.log('fixedPriceConfig', timedAuctionConfig);
 	const [nftDetail, setNftDetail] = useState<any>('');
 	const [loader, setLoader] = useState<boolean>(true); // NFT loader
 	const location: any = useLocation();
@@ -113,19 +112,18 @@ const SellNFT = (props: any) => {
 		() => console.log(),
 		() => console.log()
 	);
+	const { mutate: approveCollection } = useEditData(
+		'collection/edit',
+		(data: any) => {
+			const updatedNFTDetail = { ...nftDetail };
+			updatedNFTDetail.user.isApproved = true;
+			updatedNFTDetail.isApproved = true;
+			setNftDetail(updatedNFTDetail);
+			setApprovalStatus('approved');
+		}
+	);
 
 	useEffect(() => {
-		// const fetchData = async () => {
-		// 	setcollectionId(nftDetail.collection._id);
-		// 	console.log(collectionId);
-		// 	const res = await handleRequest("get",
-		// 	`collection/get/${collectionId}`);
-		// 	if(res.data.collection.deploy === true){
-		// 		setcollectionAddress(res.data.collection.contractAddress);
-		// 	}
-		//   }
-		//   fetchData();
-		//   console.log(collectionAddress);
 
 		if (address === '') {
 			setAddress(props.connectedAddress);
@@ -183,7 +181,6 @@ const SellNFT = (props: any) => {
 	};
 	//onSubmit
 	const submit = async (e: any) => {
-		console.log(nftDetail.collection._id);
 		e.preventDefault();
 		if (copies > nftDetail.copies) {
 			if (Number(nftDetail.copies) === 1) {
@@ -196,8 +193,11 @@ const SellNFT = (props: any) => {
 			return '';
 		}
 		// if (await validateNetwork()) {
-
-		if (!nftDetail?.user?.isApproved) {
+		if (!nftDetail.isApproved) {
+			setShow(true);
+			return '';
+		}
+		if (!nftDetail?.user?.isApproved && nftDetail?.isApproved) {
 			setShow(true);
 			return '';
 		}
@@ -286,13 +286,6 @@ const SellNFT = (props: any) => {
 	) => {
 		const formData = new FormData();
 		try {
-			const response = await handleRequest(
-				'get',
-				`collection/get/${nftDetail.collection._id}`
-			);
-			console.log('Deployed', response.data.collection.deploy);
-			let collectioncontractAddress;
-			let result;
 			const auctionEndDate = timedAuctionConfig.duration.endDate;
 			const auctionStartDate = timedAuctionConfig.duration.startDate;
 
@@ -302,25 +295,14 @@ const SellNFT = (props: any) => {
 			const startTime = Math.floor(
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
-			if (response.data.collection.deploy === true) {
-				collectioncontractAddress = response.data.collection.contractAddress;
-				result = await openNFTForBidding(
-					startTime,
-					biddingTime,
-					nftDetail?.tokenId,
-					copies,
-					+price,
-					collectioncontractAddress
-				);
-			} else {
-				result = await openNFTForBidding(
-					startTime,
-					biddingTime,
-					nftDetail?.tokenId,
-					copies,
-					+price
-				);
-			}
+			const result = await openNFTForBidding(
+				startTime,
+				biddingTime,
+				nftDetail?.tokenId,
+				copies,
+				+price,
+				nftDetail?.contractAddress
+			);
 
 			if (result) {
 				activityPayload.price = price;
@@ -343,12 +325,6 @@ const SellNFT = (props: any) => {
 	) => {
 		const formData = new FormData();
 		try {
-			const response = await handleRequest(
-				'get',
-				`collection/get/${nftDetail.collection._id}`
-			);
-			let collectioncontractAddress;
-			// if(res.data.collection.deploy === true){
 			let res = null;
 			if (nftDetail?.lazyMinted) {
 				res = await createVoucher(
@@ -363,10 +339,7 @@ const SellNFT = (props: any) => {
 					return false;
 				}
 			} else {
-				console.log(
-					'props.blockchainType?.toLowerCase()',
-					props.blockchainType?.toLowerCase()
-				);
+			
 				if (props.blockchainType?.toLowerCase() == 'solana') {
 					res = await listItemForFixedPriceSolana(
 						wallet,
@@ -374,24 +347,16 @@ const SellNFT = (props: any) => {
 						nftDetail?.mint
 					);
 				}
-				if (props.blockchainType?.toLowerCase() === 'ethereum') {
-					if (response.data.collection.deploy === true) {
-						collectioncontractAddress =
-							response.data.collection.contractAddress;
-
-						res = await putonsale(
-							nftDetail.tokenId,
-							copies,
-							fixedConfig.price.amount,
-							collectioncontractAddress
-						);
-					} else {
-						res = await putonsale(
-							nftDetail.tokenId,
-							copies,
-							fixedConfig.price.amount
-						);
-					}
+				if (
+					props.blockchainType?.toLowerCase() !== 'solana' &&
+					props.blockchainType?.toLowerCase() !== 'algorand'
+				) {
+					res = await putonsale(
+						nftDetail.tokenId,
+						copies,
+						fixedConfig.price.amount,
+						nftDetail.contractAddress
+					);
 				}
 			}
 
@@ -452,24 +417,21 @@ const SellNFT = (props: any) => {
 		setApprovalStatus('pending');
 		const formData: any = new FormData();
 		formData.append('isApproved', true);
-		formData.append('userId', nftDetail.user._id);
+		if (!nftDetail.isApproved) {
+			formData.append('collectionId', nftDetail.collectionId);
+			formData.append('nftId', nftDetail._id);
+		} else {
+			formData.append('userId', nftDetail.user._id);
+		}
 		try {
-			let accApproved = undefined;
-			let collectioncontractAddress;
-			const res = await handleRequest(
-				'get',
-				`collection/get/${nftDetail.collection._id}`
+			const accApproved = await setApprovalForAll(
+				setApprovalStatus,
+				nftDetail.contractAddress
 			);
-
-			if (res.data.collection.deploy === true) {
-				collectioncontractAddress = res.data.collection.contractAddress;
-				accApproved = await setApprovalForAll(
-					setApprovalStatus,
-					collectioncontractAddress
-				);
-			} else {
-				accApproved = await setApprovalForAll(setApprovalStatus);
+			if (!nftDetail.isApproved) {
+				return approveCollection(formData);
 			}
+
 			if (accApproved) {
 				const updatedNFTDetail = { ...nftDetail };
 				updatedNFTDetail.user.isApproved = true;
@@ -486,7 +448,6 @@ const SellNFT = (props: any) => {
 	};
 
 	const { image, name, description, remainingCopies, fileType } = nftDetail;
-
 	return (
 		<>
 			<Banner
@@ -576,12 +537,9 @@ const SellNFT = (props: any) => {
 	);
 };
 
-const mapStateToProps = (state: any) => (
-	console.log('stat', state),
-	{
-		blockchainType: state.wallet.blockchainType,
-		connectedAddress: state.wallet.connectedAddress,
-	}
-);
+const mapStateToProps = (state: any) => ({
+	blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
+	connectedAddress: state.wallet.connectedAddress,
+});
 
 export default connect(mapStateToProps, {})(SellNFT);
