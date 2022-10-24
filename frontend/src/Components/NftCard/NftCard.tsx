@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import useVideoPlayer from '../TestVideoCard/Components/UseVideoPlayer';
@@ -16,6 +16,9 @@ import {
 	CHAIN_LOGOS,
 	CHAIN_TITLE,
 } from '../../utils/helpers/helpers';
+
+import { useGetData, useInsertData } from '../../hooks/Common';
+import { ENV } from '../../config/config';
 
 const NFTCard: FC<NFTCardInt> = (props) => {
 	const history = useHistory();
@@ -37,9 +40,13 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 		compressedFile,
 		blockchainType,
 	} = props.data;
+	const [nftLikes, SetNftLikes] = useState(likeCount);
+	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
+	const [likesbyUser, setLikesbyUser] = useState<boolean>(false);
 
 	const { username, profileImage, profilePhoto }: any = props?.owner || {};
 	const { likedNfts } = props;
+
 	const validateIfLiked = (likedNfts1: any, id: string) => {
 		if (likedNfts && likedNfts?.length > 0) {
 			const result = likedNfts.find((item) => item.nftId === id);
@@ -52,6 +59,55 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 			return false;
 		}
 	};
+
+	//React Query to post likedislike
+	const success = () => {
+		setLikeBtnDisable(false);
+		refetch();
+		setLikesbyUser(!likesbyUser);
+
+		console.log('sucees');
+	};
+
+	const { mutate: toggleLikeDislike } = useInsertData(
+		'nftLikes/likeDislike',
+		success
+	);
+
+	//React Query to get likedislike
+
+	const onSuccess = (data: any) => {
+		SetNftLikes(data?.data?.data.length);
+	};
+
+	const { refetch } = useGetData(
+		'nftLike',
+		'nftLikes/getNftLikes',
+		ENV.objectToQueryString({
+			nftId: props.data._id,
+		}),
+		onSuccess
+	);
+
+	// React Query to Check Liked NFTs
+	const onResponse = (data: any) => {
+		console.log('data check NFt likes:', data);
+		setLikesbyUser(data.data.likedByUser);
+	};
+	const { refetch: checklikedNfts } = useGetData(
+		'checkLikes',
+		'nftLikes/checkNftLikes',
+		ENV.objectToQueryString({
+			nftId: props.data._id,
+			userId: ENV.getUserKeys('_id')._id,
+		}),
+		onResponse
+	);
+
+	useEffect(() => {
+		refetch();
+		checklikedNfts();
+	}, [props?.data?._id]);
 
 	return (
 		<Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
@@ -150,13 +206,16 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 						{name && name.length > 25 ? name.slice(0, 25) + '...' : name}
 					</div>
 					<div className="nft-owner-price d-flex align-items-center">
-						<span className="me-2">{likeCount ? likeCount : 0}</span>
-						{!validateIfLiked(likedNfts, _id) ? (
+						<span className="me-2">{nftLikes ? nftLikes : 0}</span>
+						{!likesbyUser ? (
 							<img
 								src={Images.whiteEmptyHeart}
 								alt=""
 								onClick={() => {
-									props.handleLikesTogleApi(_id, 'like', likeCount);
+									toggleLikeDislike({
+										nftId: props.data._id,
+										userId: ENV.getUserKeys('_id')._id,
+									});
 								}}
 							/>
 						) : (
@@ -164,7 +223,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								src={Images.whiteFillHeart}
 								alt=""
 								onClick={() => {
-									props.handleLikesTogleApi(_id, 'dislike', likeCount);
+									toggleLikeDislike({
+										nftId: props.data._id,
+										userId: ENV.getUserKeys('_id')._id,
+									});
 								}}
 							/>
 						)}
