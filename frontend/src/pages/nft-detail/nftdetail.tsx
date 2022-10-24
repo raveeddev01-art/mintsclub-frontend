@@ -349,40 +349,6 @@ const NFTDetail = (props: any) => {
 		// }
 	};
 
-	const handleLikesTogleApi = async (nftId: string, status: string) => {
-		// if (await validateNetwork()) {
-		if (!likeButtonDisable) {
-			setLikeBtnDisable(true);
-			setToggle(!toggle);
-
-			const userId = ENV.getUserKeys('_id')._id;
-
-			const data = {
-				userId,
-				nftId,
-				count: 1,
-			};
-
-			if (status === 'dislike' && nftDetail.likesCount > 0) {
-				const nft = nftDetail;
-				nft.likesCount = nft.likesCount - 1;
-
-				setNftDetail(nft);
-				props.toggleLikeDislike(data);
-			} else {
-				const nft = nftDetail;
-				nft.likesCount = nft.likesCount + 1;
-
-				setNftDetail(nft);
-
-				props.toggleLikeDislike(data);
-			}
-		}
-		// } else {
-		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-		// }
-	};
-
 	//match if nft liked
 
 	const validateIfLiked = (nfts?: any, nft?: any) => {
@@ -986,7 +952,7 @@ const NFTDetail = (props: any) => {
 								<Activities activities={activities} />
 							</div>
 						</div>
-						<MoreNFTs info={{ nfts, handleLikesTogleApi, likedNfts }} />
+						<MoreNFTs info={{ nfts, likedNfts }} />
 					</div>
 				</div>
 			</div>
