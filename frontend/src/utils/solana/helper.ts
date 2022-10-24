@@ -1,7 +1,29 @@
 import { getMetaplex } from './config';
 import { PublicKey, sol, walletAdapterIdentity } from '@metaplex-foundation/js';
+import * as anchor from '@project-serum/anchor';
+import { BN } from '@project-serum/anchor';
+import { getAssociatedTokenAddress } from '@solana/spl-token';
+import { createSellInstruction } from '@metaplex-foundation/mpl-auctioneer';
+import { clusterApiUrl, Connection, Transaction } from '@solana/web3.js';
 
 const AUCTION_HOUSE_ADDRESS = 'HGLp7o4LTbKCsrLPRLogfwmLVFN7LzpuCgpgJ3W6sNVP';
+
+const AUCTION_HOUSE_PROGRAM_ID = new PublicKey(
+	'hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk'
+);
+const AUCTIONEER_AUCTION_HOUSE_ADDRESS = new PublicKey(
+	'6d2ipuim1xY76ob4rHmP9Tt4jYCesPUfQCbPPGKa36s'
+);
+
+const AUCTIONEER = new PublicKey('neer8g6yJq2mQM6KbnViEDAD4gr3gRZyMMf4F2p3MEh');
+
+const WRAPPED_SOL_MINT = new PublicKey(
+	'So11111111111111111111111111111111111111112'
+);
+
+const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
+	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
+);
 
 const mintSingleNft = async (
 	wallet: any,
@@ -60,6 +82,8 @@ const listItemForFixedPriceSolana = async (
 	price: number,
 	mintAddress: string
 ) => {
+	console.log('checkingggggg');
+	return;
 	const metaplex = getMetaplex();
 	metaplex.use(walletAdapterIdentity(wallet));
 
@@ -171,10 +195,181 @@ const buyNowFixedPriceAuction = async (
 	}
 };
 
+const getAuctionHouseTradeState = async (
+	auctionHouse: PublicKey,
+	wallet: { toBuffer: () => Uint8Array | Buffer },
+	tokenAccount: PublicKey,
+	treasuryMint: PublicKey,
+	tokenMint: PublicKey,
+	tokenSize: string | number | anchor.BN | number[] | Uint8Array | Buffer,
+	buyPrice: string | number | anchor.BN | number[] | Uint8Array | Buffer
+) => {
+	return await PublicKey.findProgramAddress(
+		[
+			Buffer.from('auction_house'),
+			wallet.toBuffer(),
+			auctionHouse.toBuffer(),
+			tokenAccount.toBuffer(),
+			treasuryMint.toBuffer(),
+			tokenMint.toBuffer(),
+			new BN(buyPrice).toArrayLike(Buffer, 'le', 8),
+			new BN(tokenSize).toArrayLike(Buffer, 'le', 8),
+		],
+		AUCTION_HOUSE_PROGRAM_ID
+	);
+};
+const listItemForLiveAuction = async (
+	wallet: any,
+	mintAddress: string,
+	startTime: number,
+	endTime: number
+) => {
+	try {
+		console.log('live auction implementation');
+		return;
+		const MINT = new PublicKey(mintAddress);
+		const connection = new Connection(clusterApiUrl('devnet'));
+		const metaplex = getMetaplex();
+		const [auctioneerAuthority, bump] = await PublicKey.findProgramAddress(
+			[Buffer.from('auctioneer'), AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer()],
+			AUCTIONEER
+		);
+
+		const pda = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auctioneer'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				auctioneerAuthority.toBuffer(),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const associatedAddress = await getAssociatedTokenAddress(
+			MINT,
+			wallet.publicKey
+		);
+		const listingConfig = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('listing_config'),
+				wallet.publicKey.toBuffer(),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				associatedAddress.toBuffer(),
+				WRAPPED_SOL_MINT.toBuffer(),
+				MINT.toBuffer(),
+				new BN(1).toArrayLike(Buffer, 'le', 8),
+			],
+			AUCTIONEER
+		);
+
+		const [sellerTradeState, tradeBump] = await getAuctionHouseTradeState(
+			AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			wallet.publicKey,
+			associatedAddress,
+			WRAPPED_SOL_MINT,
+			MINT,
+			1,
+			'18446744073709551615'
+		);
+
+		const [freeTradeState, freeTradeBump] = await getAuctionHouseTradeState(
+			AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			wallet.publicKey,
+			associatedAddress,
+			WRAPPED_SOL_MINT,
+			MINT,
+			1,
+			'0'
+		);
+
+		const feePayer = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				Buffer.from('fee_payer'),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const metadata = await anchor.web3.PublicKey.findProgramAddress(
+			[
+				Buffer.from('metadata'),
+				TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+				MINT.toBuffer(),
+			],
+			TOKEN_METADATA_PROGRAM_ID
+		);
+
+		const [signer, signerBump] = await PublicKey.findProgramAddress(
+			[Buffer.from('auction_house'), Buffer.from('signer')],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const auctionHouseAuthority = new PublicKey(
+			'Eo6psn7nEnmtspqdi4ak4oFw2m9v7LJinsook6sLfk6'
+		);
+		console.log('checkingggg', listingConfig[0].toBase58());
+
+		const accounts = {
+			auctionHouseProgram: AUCTION_HOUSE_PROGRAM_ID,
+			listingConfig: listingConfig[0],
+			wallet: wallet.publicKey,
+			tokenAccount: associatedAddress,
+			metadata: metadata[0],
+			authority: auctionHouseAuthority,
+			auctionHouse: AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			auctionHouseFeeAccount: feePayer[0],
+			sellerTradeState: sellerTradeState,
+			freeSellerTradeState: freeTradeState,
+			auctioneerAuthority: auctioneerAuthority,
+			ahAuctioneerPda: pda[0],
+			programAsSigner: signer,
+		};
+
+		const args = {
+			tradeStateBump: tradeBump,
+			freeTradeStateBump: freeTradeBump,
+			programAsSignerBump: signerBump,
+			auctioneerAuthorityBump: bump,
+			tokenSize: new BN(Math.ceil(1 * 1)),
+			startTime: 1665598784,
+			endTime: 1666335326,
+			reservePrice: 1,
+			minBidIncrement: 1,
+			timeExtPeriod: 1,
+			timeExtDelta: 1,
+			allowHighBidCancel: true,
+		};
+
+		const sellInstruction = await createSellInstruction(accounts, args);
+		const transaction = new Transaction();
+
+		transaction.add(sellInstruction);
+		transaction.feePayer = wallet.publicKey as any;
+		transaction.recentBlockhash = (
+			await connection.getLatestBlockhash()
+		).blockhash;
+
+		const signedTransaction = await wallet.signTransaction(transaction);
+
+		console.log(
+			'🚀 ~ file: Sell.tsx ~ line 165 ~ sellFunction ~ signedTransaction',
+			signedTransaction
+		);
+		const txtId = await connection.sendRawTransaction(
+			signedTransaction.serialize(),
+			{ skipPreflight: true }
+		);
+		console.log('🚀 ~ file: Sell.tsx ~ line 173 ~ sellFunction ~ txtId', txtId);
+	} catch (e) {
+		console.log('🚀 ~ file: Sell.tsx ~ line 177 ~ sellFunction ~ e', e);
+	}
+};
+
 export {
 	mintSingleNft,
 	signMessageFromUserForSolana,
 	listItemForFixedPriceSolana,
 	cancelItemFromListing,
 	buyNowFixedPriceAuction,
+	listItemForLiveAuction,
 };

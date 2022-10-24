@@ -31,7 +31,10 @@ import NFTDetail from './components/NFTDetail';
 import FixedPriceListing from './components/FixedPriceListing';
 import AuctionListing from './components/AuctionListing';
 import Buttons from './components/Buttons';
-import { listItemForFixedPriceSolana } from '../../utils/solana/helper';
+import {
+	listItemForFixedPriceSolana,
+	listItemForLiveAuction,
+} from '../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { CHAIN_CURRENCY } from '../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../utils/helpers/ethereum';
@@ -266,7 +269,17 @@ const SellNFT = (props: any) => {
 			const startTime = Math.floor(
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
-			const result = await openNFTForBidding(
+			let result = undefined;
+			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
+				result = await listItemForLiveAuction(
+					wallet,
+					nftDetail?.mint,
+					startTime,
+					biddingTime
+				);
+			}
+			result = await openNFTForBidding(
+				biddingTime,
 				startTime,
 				biddingTime,
 				nftDetail?.tokenId,
