@@ -415,11 +415,11 @@ const SellNFT = (props: any) => {
 		setApprovalStatus('pending');
 		const formData: any = new FormData();
 		formData.append('isApproved', true);
+		formData.append('userId', nftDetail.user._id);
+
 		if (!nftDetail.isApproved) {
 			formData.append('collectionId', nftDetail.collectionId);
 			formData.append('nftId', nftDetail._id);
-		} else {
-			formData.append('userId', nftDetail.user._id);
 		}
 		try {
 			const accApproved = await setApprovalForAll(
