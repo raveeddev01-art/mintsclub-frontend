@@ -159,15 +159,18 @@ class CreateCollections extends Component<
 	getCategories = async () => {
 		try {
 			const res = await handleRequest('get', 'category/list');
+			
 			const { success, categories, message } = res.data;
 			if (success) {
 				const updatedCategories = [];
 				for (const item of categories) {
-					const obj = {
-						value: item._id,
-						label: item.name,
-					};
-					updatedCategories.push(obj);
+					if(item.name !== "Default Collection"){
+						const obj = {
+							value: item._id,
+							label: item.name,
+						};
+						updatedCategories.push(obj);
+					}	
 				}
 				this.setState({ categories: updatedCategories, loader: false }, () => {
 					// empty arrow function

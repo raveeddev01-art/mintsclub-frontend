@@ -50,14 +50,16 @@ const CreateNft = ({
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
+
 		const { Collections: collections } = res.data.data.collections;
 
 		if (!collections.length) {
-		
+	
 		const args : any= {
 			userId: `${ENV.getUserKeys('_id')._id}`,
 			ownerAddress: props.connectedAddress,
-			blockchainType: props.blockchainType
+			blockchainType: props.blockchainType,
+			
 		} 
 		
 		 await handleRequest(
