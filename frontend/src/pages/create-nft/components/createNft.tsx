@@ -43,6 +43,49 @@ const CreateNft = ({
 			toast.error(err.message);
 		}
 	};
+
+	const createDefaultCollection = async() =>{
+		
+		const res = await handleRequest(
+			'get',
+			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
+		);
+		const { Collections: collections } = res.data.data.collections;
+
+		if (!collections.length) {
+		
+		const args : any= {
+			userId: `${ENV.getUserKeys('_id')._id}`,
+			ownerAddress: props.connectedAddress,
+			blockchainType: props.blockchainType
+		} 
+		
+		 await handleRequest(
+			'post',
+			`collection/createDefault`, args
+		);
+		const res_fetchCollection = await handleRequest(
+			'get',
+			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
+		);
+	
+		const { Collections: collections } = res_fetchCollection.data.data.collections;
+		const updatedCollections = [];
+		for (const item of collections) {
+			 const obj = {
+				value: item._id,
+				label: item.name,
+				categoryId: item.categoryId, 
+			};
+		 updatedCollections.push(obj);
+		}
+		state.selectedCollection = updatedCollections[0];
+		state.nft.categoryId = updatedCollections[0].categoryId;
+		state.nft.collectionId = updatedCollections[0].value
+	
+	};
+}
+
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
 		console.log(nftInfo, 'nftInfo');
 		const data: any = { ...nftInfo };
@@ -269,6 +312,12 @@ const CreateNft = ({
 			} else {
 				nftInfo.fileType = 'image';
 			}
+
+			if(state.selectedCollection == null){
+				await createDefaultCollection();									
+			}
+			nftInfo.categoryId = nft.categoryId;
+			nftInfo.collectionId = nft.collectionId;
 
 			if (validator.allValid() && nft.collectionId) {
 				const { formValid } = state;

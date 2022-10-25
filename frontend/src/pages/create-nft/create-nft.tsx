@@ -221,26 +221,20 @@ class CreateNFT extends React.Component<
 				: this.myRef?.current?.pause();
 		}
 	};
+
 	getMyCollections = async () => {
 		const res = await handleRequest(
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
 		const { Collections: collections } = res.data.data.collections;
-		if (!collections.length) {
-			toast.info('Please create a collection first');
-			return this.props.history.push('/createcollection');
-		} else {
 			const updatedCollections = [];
 			for (const item of collections) {
 				const obj = {
 					value: item._id,
 					label: item.name,
-					categoryId: item.categoryId,
-					contractAddress: item?.contractAddress ? item?.contractAddress : null,
-					isApproved: item?.isApproved,
+					categoryId: item.categoryId, 
 				};
-
 				updatedCollections.push(obj);
 			}
 			if (this.props?.match.params.nftId) {
@@ -250,7 +244,7 @@ class CreateNFT extends React.Component<
 				collections: updatedCollections,
 				loader: false,
 			});
-		}
+		
 	};
 	getNFTInfo = async (collections: any) => {
 		try {
@@ -764,13 +758,15 @@ class CreateNFT extends React.Component<
 								<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
 									<label className="create-collection-label d-flex">
 										Select Collection:*
-										<span className="text-danger ms-2">
+										{ this.state.selectedCollection!= null &&
+											<span className="text-danger ms-2">
 											{this.validator.message(
 												'name',
 												nft.collectionId,
 												'required'
 											)}
 										</span>
+										}
 									</label>
 
 									<Select
