@@ -41,7 +41,23 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 		ownerAddress,
 		username,
 		profilePhoto,
+		blockchainType,
 	} = item;
+
+	const verifyOnwer = () => {
+		if (
+			ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+			ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
+		) {
+			return 'you';
+		} else if (username && username?.length > 12) {
+			return username.substring(0, 12) + '...';
+		} else if (username && username?.length <= 12) {
+			return username;
+		} else {
+			return 'unnamed';
+		}
+	};
 	return (
 		<Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
 			<div className="auction-img-wrapper">
@@ -168,16 +184,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 					<div className="ms-2 auction-owner-name">
 						<p>
 							{'Owned by:'}
-							<span className="text-capitalize ms-1">
-								{!username
-									? 'unnamed'
-									: connectedAddress?.toUpperCase() ===
-									  ownerAddress?.toUpperCase()
-									? 'You'
-									: username && username.length > 12
-									? username.substring(0, 12) + '....'
-									: username}
-							</span>
+							<span className="text-capitalize ms-1">{verifyOnwer()}</span>
 						</p>
 					</div>
 				</div>
@@ -185,7 +192,9 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 					className="auction-bit-btn"
 					onClick={() => history.push(`explore/nftdetail/${nftId}`)}
 				>
-					{connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() ||
+					{(connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+						ENV.getUserKeys('blockchainType')?.blockchainType ===
+							blockchainType) ||
 					!userId
 						? 'View'
 						: 'Place a Bid'}

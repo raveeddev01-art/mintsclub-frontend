@@ -16,7 +16,6 @@ import {
 	CHAIN_LOGOS,
 	CHAIN_TITLE,
 } from '../../utils/helpers/helpers';
-
 import { useGetData, useInsertData } from '../../hooks/Common';
 import { ENV } from '../../config/config';
 
@@ -57,6 +56,20 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 			}
 		} else {
 			return false;
+		}
+	};
+	const verifyOnwer = () => {
+		if (
+			ownerAddress?.toUpperCase() === props.connectedAddress?.toUpperCase() &&
+			ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
+		) {
+			return 'you';
+		} else if (username && username?.length > 19) {
+			return username.substring(0, 19) + '...';
+		} else if (username && username?.length <= 19) {
+			return username;
+		} else {
+			return 'unnamed';
 		}
 	};
 
@@ -261,16 +274,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 						</div>
 						<div className="ms-2 nft-owner-name">
 							<p className="d-flex flex-column">
-								<span className="text-capitalize ms-1">
-									{ownerAddress?.toUpperCase() ===
-									props.connectedAddress?.toUpperCase()
-										? 'You'
-										: username && username?.length > 19
-										? username.substring(0, 19) + '...'
-										: username && username?.length <= 19
-										? username
-										: 'unnamed'}
-								</span>
+								<span className="text-capitalize ms-1">{verifyOnwer()}</span>
 								<span className="nft-price mt-1">
 									<img className="me-2" src={Images.nftPriceTag} />
 									<a className="price ms-1">

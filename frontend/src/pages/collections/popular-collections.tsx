@@ -151,7 +151,6 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 	useEffect(() => {
 		refetchPopular();
 	}, [categoryId]);
-
 	return (
 		<>
 			<section className="popular-collections-area padding-wrapper">
@@ -241,6 +240,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 										profileImage={collection.profileImage[0]}
 										ownerAddress={collection.ownerAddress}
 										connectedAddress={props.connectedAddress}
+										userId={collection.userId}
 									/>
 								);
 							})}

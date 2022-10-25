@@ -34,6 +34,7 @@ import Buttons from './components/Buttons';
 import { listItemForFixedPriceSolana } from '../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { CHAIN_CURRENCY } from '../../utils/helpers/helpers';
+import { isUserLoggedIn } from '../../utils/helpers/ethereum';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
@@ -123,24 +124,6 @@ const SellNFT = (props: any) => {
 		}
 	);
 
-	useEffect(() => {
-		if (address === '') {
-			setAddress(props.connectedAddress);
-		}
-		if (
-			props.connectedAddress !== '' &&
-			address !== '' &&
-			ENV.getUserKeys('address')?.address?.toUpperCase() !==
-				props.connectedAddress.toUpperCase()
-		) {
-			toast.info('Please login with new connected account');
-			return history.push({
-				pathname: `/connect-wallet`,
-				state: `/sellnft`,
-			});
-		}
-	}, [props.connectedAddress]);
-
 	const onChange = (e: any) => {
 		const { name, value } = e.target;
 
@@ -181,98 +164,98 @@ const SellNFT = (props: any) => {
 	//onSubmit
 	const submit = async (e: any) => {
 		e.preventDefault();
-		if (copies > nftDetail.copies) {
-			if (Number(nftDetail.copies) === 1) {
-				toast.info(`Copies should be equal to ${nftDetail.copies}`);
-			} else {
-				toast.info(
-					`Copies should be less than or equal to ${nftDetail.copies}`
+		if (isUserLoggedIn(history)) {
+			if (copies > nftDetail.copies) {
+				if (Number(nftDetail.copies) === 1) {
+					toast.info(`Copies should be equal to ${nftDetail.copies}`);
+				} else {
+					toast.info(
+						`Copies should be less than or equal to ${nftDetail.copies}`
+					);
+				}
+				return '';
+			}
+			if (!nftDetail.isApproved) {
+				setShow(true);
+				return '';
+			}
+			if (!nftDetail?.user?.isApproved && nftDetail?.isApproved) {
+				setShow(true);
+				return '';
+			}
+
+			let price: any = '';
+			let payload: object = {};
+
+			const timedConfig = { ...timedAuctionConfig };
+
+			const fixedConfig = { ...fixedPriceConfig };
+			const { _id, ownerId } = nftDetail;
+
+			const activityPayload = {
+				nftId: _id,
+				ownerId,
+				fromAddress: props.connectedAddress,
+				activityType: 'List',
+			};
+
+			if (sellingMethod === 2) {
+				if (Number(timedConfig.startPrice.amount) === 0) {
+					toast.error('Price should be greater then 0');
+					return '';
+				}
+				const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+				const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+				//calculate end time
+				timedConfig.duration.endDate = calclateStartOrEndTime(
+					timedAuctionEndTime,
+					timedConfig.duration.endTime
 				);
+
+				//calculate start time
+				timedConfig.duration.startDate = calclateStartOrEndTime(
+					timedAuctionStartTime,
+					timedConfig.duration.startTime
+				);
+
+				//Deleting unused data from payload
+				const auctionConfig = timedConfig;
+				delete auctionConfig.duration.startTime;
+				delete auctionConfig.duration.endTime;
+				delete auctionConfig.method;
+				price = Number(auctionConfig.startPrice.amount);
+				auctionConfig.startPrice.amount = Number(
+					auctionConfig.startPrice.amount
+				);
+				payload = {
+					nftId: location.state._id,
+					userId: ENV.getUserKeys('_id')._id,
+					sellingMethod,
+					sellingConfig: JSON.stringify(auctionConfig),
+					copiesForAuction: copies,
+				};
+			} else {
+				price = Number(fixedConfig.price.amount);
+				if (price === 0) {
+					toast.error('Price should be greater then 0');
+					return '';
+				}
+				payload = {
+					nftId: location.state._id,
+					sellingMethod,
+					sellingConfig: JSON.stringify(fixedConfig),
+					copiesForAuction: copies,
+				};
 			}
-			return '';
-		}
-		// if (await validateNetwork()) {
-		if (!nftDetail.isApproved) {
-			setShow(true);
-			return '';
-		}
-		if (!nftDetail?.user?.isApproved && nftDetail?.isApproved) {
-			setShow(true);
-			return '';
-		}
 
-		let price: any = '';
-		let payload: object = {};
+			setLoader(true);
 
-		const timedConfig = { ...timedAuctionConfig };
-
-		const fixedConfig = { ...fixedPriceConfig };
-		const { _id, ownerId } = nftDetail;
-
-		const activityPayload = {
-			nftId: _id,
-			ownerId,
-			fromAddress: props.connectedAddress,
-			activityType: 'List',
-		};
-
-		if (sellingMethod === 2) {
-			if (Number(timedConfig.startPrice.amount) === 0) {
-				toast.error('Price should be greater then 0');
-				return '';
+			if (sellingMethod === 2) {
+				openBidding(timedAuctionConfig, payload, activityPayload, price);
+			} else {
+				openForSale(activityPayload, payload, fixedConfig, price);
 			}
-			const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-			const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
-			//calculate end time
-			timedConfig.duration.endDate = calclateStartOrEndTime(
-				timedAuctionEndTime,
-				timedConfig.duration.endTime
-			);
-
-			//calculate start time
-			timedConfig.duration.startDate = calclateStartOrEndTime(
-				timedAuctionStartTime,
-				timedConfig.duration.startTime
-			);
-
-			//Deleting unused data from payload
-			const auctionConfig = timedConfig;
-			delete auctionConfig.duration.startTime;
-			delete auctionConfig.duration.endTime;
-			delete auctionConfig.method;
-			price = Number(auctionConfig.startPrice.amount);
-			auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
-			payload = {
-				nftId: location.state._id,
-				userId: ENV.getUserKeys('_id')._id,
-				sellingMethod,
-				sellingConfig: JSON.stringify(auctionConfig),
-				copiesForAuction: copies,
-			};
-		} else {
-			price = Number(fixedConfig.price.amount);
-			if (price === 0) {
-				toast.error('Price should be greater then 0');
-				return '';
-			}
-			payload = {
-				nftId: location.state._id,
-				sellingMethod,
-				sellingConfig: JSON.stringify(fixedConfig),
-				copiesForAuction: copies,
-			};
 		}
-
-		setLoader(true);
-
-		if (sellingMethod === 2) {
-			openBidding(timedAuctionConfig, payload, activityPayload, price);
-		} else {
-			openForSale(activityPayload, payload, fixedConfig, price);
-		}
-		// } else {
-		// 	toast.error('Please Connect Your Metamask With Ethereum Goerli Network');
-		// }
 	};
 
 	//Open for Bidding/Auction
@@ -325,56 +308,34 @@ const SellNFT = (props: any) => {
 		const formData = new FormData();
 		try {
 			let res = null;
-			if (nftDetail?.lazyMinted) {
-				res = await createVoucher(
+			if (props.blockchainType?.toLowerCase() === 'solana') {
+				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
+			}
+			if (
+				props.blockchainType?.toLowerCase() !== 'solana' &&
+				props.blockchainType?.toLowerCase() !== 'algorand' &&
+				!nftDetail?.lazyMinted
+			) {
+				res = await putonsale(
 					nftDetail.tokenId,
 					copies,
-					nftDetail.metaData,
-					price
+					fixedConfig.price.amount,
+					nftDetail.contractAddress
 				);
-				if (!res.success) {
-					setLoader(false);
-					toast.error(res.data.message);
-					return false;
-				}
-			} else {
-				if (props.blockchainType?.toLowerCase() === 'solana') {
-					res = await listItemForFixedPriceSolana(
-						wallet,
-						price,
-						nftDetail?.mint
-					);
-				}
-				if (
-					props.blockchainType?.toLowerCase() !== 'solana' &&
-					props.blockchainType?.toLowerCase() !== 'algorand'
-				) {
-					res = await putonsale(
-						nftDetail.tokenId,
-						copies,
-						fixedConfig.price.amount,
-						nftDetail.contractAddress
-					);
-				}
 			}
 
-			if (res) {
-				activityPayload.price = price;
-				payload.blockchainType = props.blockchainType.toLowerCase();
-				if (props.blockchainType?.toLowerCase() === 'solana') {
-					payload.sellerTradeState = res;
-				} else {
-					payload.sellId = Number(
-						nftDetail.lazyMinted ? nftDetail.tokenId : res
-					);
-				}
-				if (nftDetail.lazyMinted) {
-					payload.signature = res.data;
-				}
-				for (const key in payload) formData.append(key, payload[key]);
-				insertActivity(activityPayload);
-				insertAuction(formData);
+			activityPayload.price = price;
+			payload.blockchainType = props.blockchainType.toLowerCase();
+			if (props.blockchainType?.toLowerCase() === 'solana') {
+				payload.sellerTradeState = res;
 			}
+			if (nftDetail.lazyMinted) {
+				payload.sellId = 0;
+				// payload.signature = res.data;
+			}
+			for (const key in payload) formData.append(key, payload[key]);
+			insertActivity(activityPayload);
+			insertAuction(formData);
 		} catch (err: any) {
 			console.log(err, 'error');
 			setLoader(false);

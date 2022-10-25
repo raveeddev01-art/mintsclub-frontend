@@ -6,6 +6,7 @@ import ImageLoader from '../ContentLoader/ImageLoader';
 import SubImgLoader from '../ContentLoader/CollectionSubLoader';
 import { CollectionCardInt } from '../../interfaces/components';
 import './CollectionsCard.scss';
+import { ENV } from '../../config/config';
 
 const CollectionsCard: FC<CollectionCardInt> = ({
 	CardImg,
@@ -20,10 +21,25 @@ const CollectionsCard: FC<CollectionCardInt> = ({
 	profileImage,
 	ownerAddress,
 	connectedAddress,
+	userId,
 }) => {
 	const [loader, setLoader] = useState<any>(true);
 	const history = useHistory();
 
+	const verifyOnwer = () => {
+		if (
+			ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+			ENV.getUserKeys('_id')?._id === userId
+		) {
+			return 'you';
+		} else if (userName && userName?.length > 12) {
+			return userName.substring(0, 12) + '...';
+		} else if (userName && userName?.length <= 12) {
+			return userName;
+		} else {
+			return 'unnamed';
+		}
+	};
 	return (
 		<Card
 			className="collection-cards-container m-1 mx-auto mx-sm-1"
@@ -86,14 +102,7 @@ const CollectionsCard: FC<CollectionCardInt> = ({
 								/>
 								<p>
 									Owned by:{' '}
-									<span className="text-capitalize ms-1">
-										{ownerAddress?.toUpperCase() ===
-										connectedAddress?.toUpperCase()
-											? 'You'
-											: userName
-											? userName
-											: 'unnamed'}
-									</span>
+									<span className="text-capitalize ms-1">{verifyOnwer()}</span>
 								</p>
 							</div>
 						</div>

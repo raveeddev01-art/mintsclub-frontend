@@ -1,11 +1,10 @@
-import { constants } from 'http2';
 import { CreateNftInterface } from '../../../interfaces/components';
 import {
 	compressImage,
 	formatBytes,
 	handleRequest,
 } from '../../../utils/functions';
-import { mintNFt, validateNetwork } from '../../../utils/web3';
+import { mintNFt } from '../../../utils/web3';
 import axios from 'axios';
 import { ENV } from '../../../config/config';
 import { mintSingleNft } from '../../../utils/solana/helper';
@@ -22,6 +21,7 @@ const CreateNft = ({
 	setLoader,
 	blockChainType,
 	handleBtnDisable,
+	connectedAddress,
 }: CreateNftInterface) => {
 	const wallet = useWallet();
 	const [loading, setLoading] = useState<boolean>(false);
@@ -44,8 +44,7 @@ const CreateNft = ({
 		}
 	};
 
-	const createDefaultCollection = async() =>{
-		
+	const createDefaultCollection = async () => {
 		const res = await handleRequest(
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
@@ -54,39 +53,34 @@ const CreateNft = ({
 		const { Collections: collections } = res.data.data.collections;
 
 		if (!collections.length) {
-	
-		const args : any= {
-			userId: `${ENV.getUserKeys('_id')._id}`,
-			ownerAddress: props.connectedAddress,
-			blockchainType: props.blockchainType,
-			
-		} 
-		
-		 await handleRequest(
-			'post',
-			`collection/createDefault`, args
-		);
-		const res_fetchCollection = await handleRequest(
-			'get',
-			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
-		);
-	
-		const { Collections: collections } = res_fetchCollection.data.data.collections;
-		const updatedCollections = [];
-		for (const item of collections) {
-			 const obj = {
-				value: item._id,
-				label: item.name,
-				categoryId: item.categoryId, 
+			const args: any = {
+				userId: `${ENV.getUserKeys('_id')._id}`,
+				ownerAddress: props.connectedAddress,
+				blockchainType: props.blockchainType,
 			};
-		 updatedCollections.push(obj);
+
+			await handleRequest('post', `collection/createDefault`, args);
+			const res_fetchCollection = await handleRequest(
+				'get',
+				`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
+			);
+
+			const { Collections: collections } =
+				res_fetchCollection.data.data.collections;
+			const updatedCollections = [];
+			for (const item of collections) {
+				const obj = {
+					value: item._id,
+					label: item.name,
+					categoryId: item.categoryId,
+				};
+				updatedCollections.push(obj);
+			}
+			state.selectedCollection = updatedCollections[0];
+			state.nft.categoryId = updatedCollections[0].categoryId;
+			state.nft.collectionId = updatedCollections[0].value;
 		}
-		state.selectedCollection = updatedCollections[0];
-		state.nft.categoryId = updatedCollections[0].categoryId;
-		state.nft.collectionId = updatedCollections[0].value
-	
 	};
-}
 
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
 		console.log(nftInfo, 'nftInfo');
@@ -172,9 +166,7 @@ const CreateNft = ({
 				}
 			} else {
 				paylaod = {
-					nftToken: (Math.floor(Math.random() * 10000) + 10000)
-						.toString()
-						.substring(1),
+					nftToken: 0,
 					data: { ...data, blockchainType: blockChainType },
 					image,
 					lazyMinted: state.isFreeMint,
@@ -315,8 +307,8 @@ const CreateNft = ({
 				nftInfo.fileType = 'image';
 			}
 
-			if(state.selectedCollection == null){
-				await createDefaultCollection();									
+			if (state.selectedCollection == null) {
+				await createDefaultCollection();
 			}
 			nftInfo.categoryId = nft.categoryId;
 			nftInfo.collectionId = nft.collectionId;

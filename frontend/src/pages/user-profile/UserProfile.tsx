@@ -129,25 +129,6 @@ const UserProfile = (props: any) => {
 	);
 
 	useEffect(() => {
-		if (accAddress === '') {
-			setAccountAddress(props.connectedAddress);
-		}
-		if (
-			accAddress !== '' &&
-			props.connectedAddress !== '' &&
-			ENV.getUserKeys('address')?.address?.toUpperCase() !==
-				props.connectedAddress.toUpperCase()
-		) {
-			// toast.info("Please login with new connected Account user");
-			localStorage.clear();
-			history.push({
-				pathname: `/connect-wallet`,
-				state: `/userprofile`,
-			});
-		}
-	}, [props.connectedAddress]);
-
-	useEffect(() => {
 		if (props.myLikedNftsStatus) {
 			setLikedNfts(props.myLikedNfts);
 		}
