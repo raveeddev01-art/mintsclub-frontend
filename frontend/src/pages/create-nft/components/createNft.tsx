@@ -50,14 +50,28 @@ const CreateNft = ({
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
+
 		const { Collections: collections } = res.data.data.collections;
 
 		if (!collections.length) {
-		
+		const catogries = await handleRequest('get', 'category/list');
+		const {categories} = catogries.data;
+		const DefaultCategory = []
+		for (const item of categories) {
+			if(item.name === "Default Collection"){
+				const obj = {
+					value: item._id,
+					label: item.name,
+				};
+				DefaultCategory.push(obj);
+			}	
+		}
 		const args : any= {
 			userId: `${ENV.getUserKeys('_id')._id}`,
 			ownerAddress: props.connectedAddress,
-			blockchainType: props.blockchainType
+			blockchainType: props.blockchainType,
+			categoryId: DefaultCategory[0].value,
+			name: DefaultCategory[0].label
 		} 
 		
 		 await handleRequest(
