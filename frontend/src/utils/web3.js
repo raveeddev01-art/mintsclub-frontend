@@ -8,7 +8,6 @@ import polygonMarketPlaceContract from './abis/polygon/marketPlace.json';
 import binanceMintAbi from './abis/binance/mint.json';
 import binanceMarketPlaceContract from './abis/binance/marketPlace.json';
 import typedDataV4 from './typeDatav4';
-import voucherAbi from './abis/voucher-abi.json';
 import batchMintAbi from './abis/batchMint-abi.json';
 const goerliMintingContract = ENV.goerliMintingContract;
 const polygonMintingContract = ENV.polygonMintingContract;
@@ -42,7 +41,9 @@ const getNetworkName = (chainId) => {
 		4: 'Ethereum Rinkeyby',
 		3: 'Ethereum Ropsten',
 		42: 'Ethereum Kovan',
-		5: 'Ethereum Goerli',
+		5: 'ethereum',
+		80001: 'polygon',
+		97: 'bsc',
 	};
 	return networks[chainId];
 };
@@ -52,6 +53,7 @@ export const getNetworkNameByChainId = async () => {
 		let web3 = await getWeb3();
 		let chainId = await web3.eth.getChainId();
 		let currentNetwork = getNetworkName(chainId);
+		console.log(currentNetwork, 'currentNetwork');
 		return currentNetwork;
 	}
 };
@@ -62,6 +64,7 @@ export const getChainId = async () => {
 		return chainId;
 	}
 };
+
 export const validateNetwork = async () => {
 	let prevNetwork = await getNetworkNameByChainId();
 
@@ -79,18 +82,7 @@ export const getBalance = async () => {
 
 	return ethBalance;
 };
-
-export const mintNFt = async (
-	metaData,
-	amount,
-	collectionAddress = undefined
-) => {
-	let web3 = await getWeb3();
-	if (!web3) {
-		toast.error('No web3 instance found');
-		return false;
-	}
-	const nftAmount = Number(amount);
+const getMintContractInfo = () => {
 	let abi = null;
 	let contractAddress = null;
 	let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
@@ -106,6 +98,48 @@ export const mintNFt = async (
 	} else {
 		return toast.error('wrong network');
 	}
+	return { abi, contractAddress };
+};
+
+const getMarketPlaceContractInfo = () => {
+	let abi = null;
+	let contractAddress = null;
+	let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+	let NFTAdddress = null;
+	if (blockchainType === 'ethereum') {
+		contractAddress = ENV.goerliMarketPlaceContract;
+		abi = ethMarketPlaceContract;
+		NFTAdddress = goerliMintingContract;
+	} else if (blockchainType === 'polygon') {
+		contractAddress = ENV.polygonMarketPlaceContract;
+		abi = polygonMarketPlaceContract;
+		NFTAdddress = polygonMintingContract;
+	} else if (blockchainType === 'bsc') {
+		contractAddress = ENV.bscMarketPlaceContract;
+		abi = binanceMarketPlaceContract;
+		NFTAdddress = binanceMintingContract;
+	} else {
+		return toast.error('wrong network');
+	}
+	return { abi, contractAddress, NFTAdddress };
+};
+const getLatestTokenId = async (methods) => {
+	const id = await methods.latestTokenID().call();
+	return +id + 1;
+};
+
+export const mintNFt = async (
+	metaData,
+	amount,
+	collectionAddress = undefined
+) => {
+	let web3 = await getWeb3();
+	if (!web3) {
+		toast.error('No web3 instance found');
+		return false;
+	}
+	const nftAmount = Number(amount);
+	const { abi, contractAddress } = getMintContractInfo();
 	console.log({ abi, contractAddress, nftAmount, metaData, collectionAddress });
 
 	try {
@@ -117,23 +151,88 @@ export const mintNFt = async (
 			collectionAddress ? collectionAddress : contractAddress
 		);
 
-		let result = await contractM.methods
-			.mint(connectedAddress, nftAmount, metaData)
+		const id = await getLatestTokenId(contractM.methods);
+		await contractM.methods
+			.mint(connectedAddress, +id, nftAmount, metaData, 150)
 			.send({ from: connectedAddress });
-		console.log(result, 'result==>');
-		if (blockchainType === 'ethereum') {
-			return Number(result.events.TransferSingle.returnValues.id);
-		} else if (blockchainType === 'polygon') {
-			console.log(result.events.URI, 'URI');
-			console.log(
-				result.events.URI.returnValues['id'],
-				'result.events.uri.returnvalues.id'
-			);
-			return Number(result.events.URI.returnValues['id']);
-		} else if (blockchainType === 'bsc') {
-			return Number(result.events.URI.returnValues['id']);
-		}
+		return id;
+		// if (blockchainType === 'ethereum') {
+		// 	return Number(result.events.TransferSingle.returnValues.id);
+		// } else if (blockchainType === 'polygon') {
+		// 	console.log(result.events.URI, 'URI');
+		// 	console.log(
+		// 		result.events.URI.returnValues['id'],
+		// 		'result.events.uri.returnvalues.id'
+		// 	);
+		// 	return Number(result.events.URI.returnValues['id']);
+		// } else if (blockchainType === 'bsc') {
+		// 	return Number(result.events.URI.returnValues['id']);
+		// }
 	} catch (err) {
+		console.log(err, 'error in mintNFT');
+		toast.error(err.message);
+		throw new Error(err);
+	}
+};
+
+export const lazyMint = async (
+	tokenId,
+	copies,
+	ownerAddress,
+	metaData,
+	price,
+	collectionAddress = undefined,
+	setTransactionHash,
+	setConfirmed
+) => {
+	let web3 = await getWeb3();
+	if (!web3) {
+		toast.error('No web3 instance found');
+		return false;
+	}
+
+	const { abi, contractAddress } = getMintContractInfo();
+	console.log(contractAddress, 'contractAddress');
+	const priceToMint = Number(BigInt(Web3.utils.toWei(`${price}`, 'ether')));
+
+	try {
+		let connectedAddress = await connectMetamask();
+
+		const contractM = await getContractMethods(
+			abi,
+			collectionAddress ? collectionAddress : contractAddress
+		);
+		const latestTokenId = await getLatestTokenId(contractM.methods);
+
+		console.log(
+			{
+				connectedAddress,
+				tokenId,
+				copies,
+				ownerAddress,
+				metaData,
+				latestTokenId,
+				contractAddress,
+			},
+			'testing'
+		);
+		let result = await contractM.methods
+			.Lazymint(
+				connectedAddress,
+				latestTokenId,
+				+copies,
+				ownerAddress,
+				metaData
+			)
+			.send({ from: connectedAddress, value: priceToMint })
+			.on('transactionHash', function (hash) {
+				setTransactionHash(hash);
+				setConfirmed(true);
+			});
+		console.log(result, 'result==>');
+		return latestTokenId;
+	} catch (err) {
+		setConfirmed(false);
 		console.log(err, 'error in mintNFT');
 		toast.error(err.message);
 		throw new Error(err);
@@ -147,7 +246,10 @@ export const editNFTUri = async (tokenId, metaData) => {
 			toast.error('No web3 instance found');
 			return false;
 		}
-		const contractM = await getContractMethods();
+
+		const { abi, contractAddress } = getMintContractInfo();
+
+		const contractM = await getContractMethods(abi, contractAddress);
 		let connectedAddress = await connectMetamask();
 		let result = await contractM.methods
 			.EditNFTUri(+tokenId, metaData)
@@ -176,25 +278,7 @@ export const openNFTForBidding = async (
 		initialPrice,
 	});
 	try {
-		let abi = null;
-		let contractAddress = null;
-		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		let NFTAdddress = null;
-		if (blockchainType === 'ethereum') {
-			contractAddress = ENV.goerliMarketPlaceContract;
-			abi = ethMarketPlaceContract;
-			NFTAdddress = goerliMintingContract;
-		} else if (blockchainType === 'polygon') {
-			contractAddress = ENV.polygonMarketPlaceContract;
-			abi = polygonMarketPlaceContract;
-			NFTAdddress = polygonMintingContract;
-		} else if (blockchainType === 'bsc') {
-			contractAddress = ENV.bscMarketPlaceContract;
-			abi = binanceMarketPlaceContract;
-			NFTAdddress = binanceMintingContract;
-		} else {
-			return toast.error('wrong network');
-		}
+		const { abi, contractAddress, NFTAdddress } = getMarketPlaceContractInfo();
 		let web3 = await getWeb3();
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
@@ -241,21 +325,8 @@ export const openNFTForBidding = async (
 
 export const placeABid = async (amount, tokenId) => {
 	try {
-		let abi = null;
-		let contractAddress = null;
-		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		if (blockchainType === 'ethereum') {
-			contractAddress = ENV.goerliMarketPlaceContract;
-			abi = ethMarketPlaceContract;
-		} else if (blockchainType === 'polygon') {
-			contractAddress = ENV.polygonMarketPlaceContract;
-			abi = polygonMarketPlaceContract;
-		} else if (blockchainType === 'bsc') {
-			contractAddress = ENV.bscMarketPlaceContract;
-			abi = binanceMarketPlaceContract;
-		} else {
-			return toast.error('wrong network');
-		}
+		const { abi, contractAddress } = getMarketPlaceContractInfo();
+
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
 		const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, 'ether')));
@@ -290,25 +361,8 @@ export const putonsale = async (
 	collectionAddress = null
 ) => {
 	try {
-		let abi = null;
-		let contractAddress = null;
-		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		let NFTAdddress = null;
-		if (blockchainType === 'ethereum') {
-			contractAddress = ENV.goerliMarketPlaceContract;
-			abi = ethMarketPlaceContract;
-			NFTAdddress = goerliMintingContract;
-		} else if (blockchainType === 'polygon') {
-			contractAddress = ENV.polygonMarketPlaceContract;
-			abi = polygonMarketPlaceContract;
-			NFTAdddress = polygonMintingContract;
-		} else if (blockchainType === 'bsc') {
-			contractAddress = ENV.bscMarketPlaceContract;
-			abi = binanceMarketPlaceContract;
-			NFTAdddress = binanceMintingContract;
-		} else {
-			return toast.error('wrong network');
-		}
+		const { abi, contractAddress, NFTAdddress } = getMarketPlaceContractInfo();
+
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
 		let weiAmount = BigInt(Web3.utils.toWei(`${price}`, 'ether'));
@@ -348,21 +402,8 @@ export const BuyFixedPriceNFT = async (
 ) => {
 	setConfirmed('pending');
 	try {
-		let abi = null;
-		let contractAddress = null;
-		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		if (blockchainType === 'ethereum') {
-			contractAddress = ENV.goerliMarketPlaceContract;
-			abi = ethMarketPlaceContract;
-		} else if (blockchainType === 'polygon') {
-			contractAddress = ENV.polygonMarketPlaceContract;
-			abi = polygonMarketPlaceContract;
-		} else if (blockchainType === 'bsc') {
-			contractAddress = ENV.bscMarketPlaceContract;
-			abi = binanceMarketPlaceContract;
-		} else {
-			return toast.error('wrong network');
-		}
+		const { abi, contractAddress } = getMarketPlaceContractInfo();
+
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
 
@@ -439,21 +480,8 @@ export const setApprovalForAll = async (
 
 export const claimNFTfromContract = async (tokenId) => {
 	try {
-		let abi = null;
-		let contractAddress = null;
-		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		if (blockchainType === 'ethereum') {
-			contractAddress = ENV.goerliMarketPlaceContract;
-			abi = ethMarketPlaceContract;
-		} else if (blockchainType === 'polygon') {
-			contractAddress = ENV.polygonMarketPlaceContract;
-			abi = polygonMarketPlaceContract;
-		} else if (blockchainType === 'bsc') {
-			contractAddress = ENV.bscMarketPlaceContract;
-			abi = binanceMarketPlaceContract;
-		} else {
-			return toast.error('wrong network');
-		}
+		const { abi, contractAddress } = getMarketPlaceContractInfo();
+
 		let web3 = await getWeb3();
 		let connectedAddress = await getMetamaskConnectedAddress();
 		const contractM = await getContractMethods(abi, contractAddress);
@@ -471,21 +499,8 @@ export const claimNFTfromContract = async (tokenId) => {
 };
 export const endAuctionFromContract = async (tokenId) => {
 	try {
-		let abi = null;
-		let contractAddress = null;
-		let blockchainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		if (blockchainType === 'ethereum') {
-			contractAddress = ENV.goerliMarketPlaceContract;
-			abi = ethMarketPlaceContract;
-		} else if (blockchainType === 'polygon') {
-			contractAddress = ENV.polygonMarketPlaceContract;
-			abi = polygonMarketPlaceContract;
-		} else if (blockchainType === 'bsc') {
-			contractAddress = ENV.bscMarketPlaceContract;
-			abi = binanceMarketPlaceContract;
-		} else {
-			return toast.error('wrong network');
-		}
+		const { abi, contractAddress } = getMarketPlaceContractInfo();
+
 		let web3 = await getWeb3();
 		let connectedAddress = await getMetamaskConnectedAddress();
 		const contractM = await getContractMethods(abi, contractAddress);

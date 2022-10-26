@@ -3,23 +3,44 @@ import { useHistory } from 'react-router';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { toast } from 'react-toastify';
 import { ENV } from '../../config/config';
+import { getNetworkNameByChainId } from '../web3';
+import { useLocation } from 'react-router-dom';
 
 export const ListenMetaMaskAccs = () => {
 	const { darkMode } = useContext(darkModeContext);
 	const history = useHistory();
+	const location = useLocation();
 	useEffect(() => {
 		if (!window.ethereum) {
 			return;
 		}
 		const accountWasChanged = () => {
-			if (ENV.getUserKeys('blockchainType')?.blockchainType === 'ethereum') {
+			if (location.pathname !== '/connect-wallet' && validateChain()) {
 				toast.info('Please login with new connected address');
-				localStorage.clear();
-				localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-				history.push('/connect-wallet');
+				logout();
 			}
 		};
+		const validateChain = () => {
+			let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+
+			return (
+				blockChainType === 'ethereum' ||
+				blockChainType === 'polygon' ||
+				blockChainType === 'bsc'
+			);
+		};
+		const logout = () => {
+			localStorage.clear();
+			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+			history.push('/connect-wallet');
+		};
 		window.ethereum.on('accountsChanged', accountWasChanged);
+		window.ethereum.on('chainChanged', (_chainId) => {
+			if (location.pathname !== '/connect-wallet' && validateChain()) {
+				toast.info('please login with new connected network');
+				Logout();
+			}
+		});
 
 		/////Metamask listeners
 
@@ -45,4 +66,26 @@ export const ListenMetaMaskAccs = () => {
 			// unexpected empty errow function
 		};
 	}, []);
+};
+
+export const verifyOwnerShip = (connectedAddress, addressToVerify) => {
+	if (!isUserLoggedIn()) {
+		toast.info('please log in with wallet');
+		return logout();
+	}
+	if (connectedAddress.toUpperCase() === addressToVerify?.toUpperCase()) {
+		return true;
+	} else {
+		toast.info('you are not owner');
+		return logout();
+	}
+};
+export const isUserLoggedIn = (history, verifyOwnerShip) => {
+	if (ENV.getUserKeys('blockchainType')?.blockchainType) {
+		return true;
+	} else {
+		toast.info('please login to continue');
+		history.push('/connect-wallet');
+		return false;
+	}
 };

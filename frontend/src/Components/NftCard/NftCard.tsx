@@ -4,10 +4,9 @@ import { useHistory } from 'react-router';
 import useVideoPlayer from '../TestVideoCard/Components/UseVideoPlayer';
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import placeholderImg from '../../assets/images/placeholder.png';
-import { ReactComponent as PolygonIcon } from '../../assets/images/polygon-cir.svg';
 import { connect } from 'react-redux';
 import './NftCard.scss';
-import { Images, blockchainIcons } from '../../assets/assets';
+import { Images } from '../../assets/assets';
 import ImageLoader from '../ContentLoader/ImageLoader';
 import Audio from '../Audio/Audio';
 import { CHAINS_INTERFACE, NFTCardInt } from '../../interfaces/components';
@@ -15,11 +14,10 @@ import {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
 	CHAIN_TITLE,
+	verifyOwner,
 } from '../../utils/helpers/helpers';
-
 import { useGetData, useInsertData } from '../../hooks/Common';
 import { ENV } from '../../config/config';
-
 const NFTCard: FC<NFTCardInt> = (props) => {
 	const history = useHistory();
 	const videoElement = React.useRef(null);
@@ -65,8 +63,6 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 		setLikeBtnDisable(false);
 		refetch();
 		setLikesbyUser(!likesbyUser);
-
-		console.log('sucees');
 	};
 
 	const { mutate: toggleLikeDislike } = useInsertData(
@@ -91,7 +87,6 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 
 	// React Query to Check Liked NFTs
 	const onResponse = (data: any) => {
-		console.log('data check NFt likes:', data);
 		setLikesbyUser(data.data.likedByUser);
 	};
 	const { refetch: checklikedNfts } = useGetData(
@@ -262,14 +257,12 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 						<div className="ms-2 nft-owner-name">
 							<p className="d-flex flex-column">
 								<span className="text-capitalize ms-1">
-									{ownerAddress?.toUpperCase() ===
-									props.connectedAddress?.toUpperCase()
-										? 'You'
-										: username && username?.length > 19
-										? username.substring(0, 19) + '...'
-										: username && username?.length <= 19
-										? username
-										: 'unnamed'}
+									{verifyOwner(
+										ownerAddress,
+										props.connectedAddress,
+										blockchainType,
+										username
+									)}
 								</span>
 								<span className="nft-price mt-1">
 									<img className="me-2" src={Images.nftPriceTag} />

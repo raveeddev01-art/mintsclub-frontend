@@ -13,15 +13,11 @@ import { ENV } from '../../config/config';
 import $ from 'jquery';
 import SimpleReactValidator from 'simple-react-validator';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
-import { getCurrentAddress, mintNFt, validateNetwork } from '../../utils/web3';
 import './createNft.scss';
 import AddIcon from '../../assets/images/add-icon.svg';
 import PropertiesModal from '../../Components/Modals/PropertiesModal/PropertiesModal';
 import LevelsModal from '../../Components/Modals/LevelsModal/LevelsModal';
 import StatsModal from '../../Components/Modals/StatsModal/StatsModal';
-import StatsInfo from './components/statsinfo';
-import LevelsInfo from './components/levelsinfo';
-import PropertiesInfo from './components/propertiesinfo';
 import Banner from '../../Components/Banner/Banner';
 import BannerBg from '../../assets/images/hero-bg.png';
 import BannerImage from '../../assets/images/bannerimg2.png';
@@ -29,13 +25,9 @@ import Select from 'react-select';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import UploadIcon from '../../assets/images/upload-icon.png';
 import UploadWhiteIcon from '../../assets/images/uploadWhiteIcon.png';
-import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
-import Audio from '../../Components/Audio/Audio';
 import { styled } from '@mui/material/styles';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 import { createNFTbanner } from '../../utils/exportData';
-import axios from 'axios';
-import { mintSingleNft } from '../../utils/solana/helper';
 import CreateNft from './components/createNft';
 import UploadFile from './components/UploadFile/UploadFile';
 import AddLevels from './components/AddLevels/AddLevels';
@@ -202,19 +194,6 @@ class CreateNFT extends React.Component<
 	componentDidUpdate = async (prevProps: any, prevState: any) => {
 		const { connectedAddress } = this.props;
 
-		if (
-			prevProps.connectedAddress !== '' &&
-			prevProps.connectedAddress.toUpperCase() !==
-				connectedAddress.toUpperCase() &&
-			connectedAddress !== ''
-		) {
-			toast.info('Please login with new connected account');
-			localStorage.clear();
-			return this.props.history.push({
-				pathname: `/connect-wallet`,
-				state: `/create`,
-			});
-		}
 		if (this.state.playerState.isPlaying !== prevState.playerState.isPlaying) {
 			this.state.playerState.isPlaying
 				? this.myRef?.current?.play()
@@ -228,23 +207,22 @@ class CreateNFT extends React.Component<
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
 		const { Collections: collections } = res.data.data.collections;
-			const updatedCollections = [];
-			for (const item of collections) {
-				const obj = {
-					value: item._id,
-					label: item.name,
-					categoryId: item.categoryId, 
-				};
-				updatedCollections.push(obj);
-			}
-			if (this.props?.match.params.nftId) {
-				await this.getNFTInfo(updatedCollections);
-			}
-			this.setState({
-				collections: updatedCollections,
-				loader: false,
-			});
-		
+		const updatedCollections = [];
+		for (const item of collections) {
+			const obj = {
+				value: item._id,
+				label: item.name,
+				categoryId: item.categoryId,
+			};
+			updatedCollections.push(obj);
+		}
+		if (this.props?.match.params.nftId) {
+			await this.getNFTInfo(updatedCollections);
+		}
+		this.setState({
+			collections: updatedCollections,
+			loader: false,
+		});
 	};
 	getNFTInfo = async (collections: any) => {
 		try {
@@ -758,15 +736,15 @@ class CreateNFT extends React.Component<
 								<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
 									<label className="create-collection-label d-flex">
 										Select Collection:*
-										{ this.state.selectedCollection!= null &&
+										{this.state.selectedCollection != null && (
 											<span className="text-danger ms-2">
-											{this.validator.message(
-												'name',
-												nft.collectionId,
-												'required'
-											)}
-										</span>
-										}
+												{this.validator.message(
+													'name',
+													nft.collectionId,
+													'required'
+												)}
+											</span>
+										)}
 									</label>
 
 									<Select
@@ -869,6 +847,7 @@ class CreateNFT extends React.Component<
 									capitalize={this.capitalize}
 									handleBtnDisable={this.handleBtnDisable}
 									blockChainType={this.props.blockchainType}
+									connectedAddress={this.props.connectedAddress}
 								/>
 							</div>
 							{/* </form> */}

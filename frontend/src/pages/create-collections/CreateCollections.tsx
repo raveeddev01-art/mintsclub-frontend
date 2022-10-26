@@ -3,7 +3,6 @@ import axios from 'axios';
 import './CreateCollections.scss';
 import { connect } from 'react-redux';
 import {
-	decimalNumberValidator,
 	firstInputCharacterSpace,
 	handleRequest,
 	compressImage,
@@ -25,6 +24,7 @@ import Switch, { SwitchProps } from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import { deployCollectionContract } from '../../utils/web3';
 import UploadFiles from './Components/UploadFiles';
+
 const MintSwitch = styled(Switch)(({ theme }: any) => ({
 	width: 28,
 	height: 16,
@@ -136,18 +136,7 @@ class CreateCollections extends Component<
 
 	componentDidUpdate(prevProps: any) {
 		const { connectedAddress } = this.props;
-		if (
-			prevProps.connectedAddress !== '' &&
-			prevProps.connectedAddress.toUpperCase() !==
-				connectedAddress.toUpperCase() &&
-			connectedAddress !== ''
-		) {
-			toast.info('Please login with new connected account');
-			return this.props.history.push({
-				pathname: `/connect-wallet`,
-				state: `/createcollection`,
-			});
-		}
+
 		if (prevProps.connectedAddress === '' && connectedAddress) {
 			let { collection } = this.state;
 			collection = { ...collection, ownerAddress: connectedAddress };
@@ -159,18 +148,18 @@ class CreateCollections extends Component<
 	getCategories = async () => {
 		try {
 			const res = await handleRequest('get', 'category/list');
-			
+
 			const { success, categories, message } = res.data;
 			if (success) {
 				const updatedCategories = [];
 				for (const item of categories) {
-					if(item.name !== "Default Collection"){
+					if (item.name !== 'Default Collection') {
 						const obj = {
 							value: item._id,
 							label: item.name,
 						};
 						updatedCategories.push(obj);
-					}	
+					}
 				}
 				this.setState({ categories: updatedCategories, loader: false }, () => {
 					// empty arrow function
@@ -359,10 +348,8 @@ class CreateCollections extends Component<
 		};
 		this.setState({ collection, isSubmitted: false });
 	};
-
-	submit = (e: any) => {
+	submit = async (e: any) => {
 		e.preventDefault();
-		const userId = ENV.getUserKeys('_id')._id;
 		this.setState(
 			{
 				isSubmitted: true,

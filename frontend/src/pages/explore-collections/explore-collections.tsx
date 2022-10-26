@@ -86,6 +86,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 			return Images.imagePlaceholder;
 		}
 	};
+	console.log(collections, 'collections');
 	return (
 		<>
 			{isCategoryLoading && isLoadinCollections ? (
@@ -173,6 +174,8 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 												profileImage={collection?.profileImage[0]}
 												ownerAddress={collection?.ownerAddress}
 												connectedAddress={props.connectedAddress}
+												userId={collection.userId}
+												blockchainType={collection.blockchainType}
 											/>
 										</div>
 									);

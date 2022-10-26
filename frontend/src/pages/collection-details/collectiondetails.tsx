@@ -182,7 +182,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	const isOwner = () => {
 		return (
 			props?.connectedAddress?.toUpperCase() ===
-			location?.state?.ownerAddress?.toUpperCase()
+				location?.state?.ownerAddress?.toUpperCase() &&
+			blockchainType === ENV.getUserKeys('blockchainType').blockchainType
 		);
 	};
 	const isOwnerLoggedIn = () => {
@@ -196,6 +197,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		subHeading: 'Explore',
 		heading: name,
 	};
+	console.log(location.state, 'location.state');
 
 	return (
 		<>

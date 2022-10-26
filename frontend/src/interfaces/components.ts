@@ -146,6 +146,8 @@ export interface CollectionCardInt {
 	profileImage: string;
 	ownerAddress?: string;
 	connectedAddress?: string;
+	userId?:string;
+	blockchainType:string
 }
 
 export interface HeroInt {
@@ -251,6 +253,7 @@ export interface CreateNftInterface {
 	handleBtnDisable: any;
 	setLoader: any;
 	blockChainType: string;
+	connectedAddress:string,
 }
 
 export interface CHAINS_INTERFACE {

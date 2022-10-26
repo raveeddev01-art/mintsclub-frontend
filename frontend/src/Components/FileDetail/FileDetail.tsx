@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { ENV } from '../../config/config';
+import { verifyOwner, verifyNFTStatus } from '../../utils/helpers/helpers';
 const FileDetail = ({ info }: any) => {
 	const {
 		name,
@@ -21,7 +22,9 @@ const FileDetail = ({ info }: any) => {
 		auctionEnded,
 		EndAuction,
 		Images,
+		blockchainType,
 	}: any = info;
+
 	return (
 		<div className="col-xl-6">
 			<div className="nft-img-detail">
@@ -110,38 +113,26 @@ const FileDetail = ({ info }: any) => {
 					Owned by:
 					<span className="text-capitalize ms-1">
 						{' '}
-						{ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase()
-							? 'You'
-							: user?.username
-							? user.username
-							: 'unnamed'}
+						{verifyOwner(
+							ownerAddress,
+							connectedAddress,
+							blockchainType,
+							user?.username
+						)}
 					</span>
 				</p>
 			</div>
 			<div className="nft-detail-btn">
 				{checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate) &&
 					!claimNFT && (
-						<button
-							// disabled={disabled}
-							onClick={() => handleRouting()}
-						>
-							{' '}
-							{ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
-							sellingMethod === 2 &&
-							auctionEnded === false
-								? 'End Auction'
-								: ownerAddress?.toUpperCase() ===
-										connectedAddress.toUpperCase() &&
-								  sellingMethod === 1 &&
-								  auctionEnded === false
-								? 'Resale'
-								: ownerAddress?.toUpperCase() === connectedAddress.toUpperCase()
-								? 'Sell'
-								: sellingMethod === 2 && auctionEnded === false
-								? 'Place A Bid'
-								: sellingMethod === 1 && auctionEnded === false
-								? 'Buy Now'
-								: ''}
+						<button onClick={() => handleRouting()}>
+							{verifyNFTStatus(
+								ownerAddress,
+								connectedAddress,
+								sellingMethod,
+								auctionEnded,
+								blockchainType
+							)}
 						</button>
 					)}
 

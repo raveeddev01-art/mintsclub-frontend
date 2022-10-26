@@ -6,7 +6,7 @@ import ImageLoader from '../ContentLoader/ImageLoader';
 import SubImgLoader from '../ContentLoader/CollectionSubLoader';
 import { CollectionCardInt } from '../../interfaces/components';
 import './CollectionsCard.scss';
-
+import { verifyOwner } from '../../utils/helpers/helpers';
 const CollectionsCard: FC<CollectionCardInt> = ({
 	CardImg,
 	Subimg1,
@@ -20,10 +20,11 @@ const CollectionsCard: FC<CollectionCardInt> = ({
 	profileImage,
 	ownerAddress,
 	connectedAddress,
+	userId,
+	blockchainType,
 }) => {
 	const [loader, setLoader] = useState<any>(true);
 	const history = useHistory();
-
 	return (
 		<Card
 			className="collection-cards-container m-1 mx-auto mx-sm-1"
@@ -87,12 +88,12 @@ const CollectionsCard: FC<CollectionCardInt> = ({
 								<p>
 									Owned by:{' '}
 									<span className="text-capitalize ms-1">
-										{ownerAddress?.toUpperCase() ===
-										connectedAddress?.toUpperCase()
-											? 'You'
-											: userName
-											? userName
-											: 'unnamed'}
+										{verifyOwner(
+											ownerAddress,
+											connectedAddress,
+											blockchainType,
+											userName
+										)}
 									</span>
 								</p>
 							</div>

@@ -5,14 +5,6 @@ import CollectionsCard from '../../Components/CollectionsCards/CollectionsCard';
 import ViewAllIcon from '../../assets/images/view-all-arrow.svg';
 import CardSlider from '../../Components/CardSlider/CardSlider';
 import { ENV } from '../../config/config';
-// import {
-//   beforeCategory,
-//   getCategories,
-// } from '../../Components/Categories/categories.action';
-// import {
-//   beforePopularCollection,
-//   getPopularCollections,
-// } from './collections.actions';
 import { connect } from 'react-redux';
 import { Images } from '../../assets/assets';
 import { PopularCollectionInt } from '../../interfaces/PopularCollections/interface';
@@ -151,7 +143,6 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 	useEffect(() => {
 		refetchPopular();
 	}, [categoryId]);
-
 	return (
 		<>
 			<section className="popular-collections-area padding-wrapper">
@@ -241,6 +232,8 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 										profileImage={collection.profileImage[0]}
 										ownerAddress={collection.ownerAddress}
 										connectedAddress={props.connectedAddress}
+										userId={collection.userId}
+										blockchainType={collection.blockchainType}
 									/>
 								);
 							})}

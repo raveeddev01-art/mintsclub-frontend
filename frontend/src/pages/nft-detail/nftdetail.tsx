@@ -23,13 +23,11 @@ import moment from 'moment';
 import axios from 'axios';
 import {
 	placeABid,
-	connectMetamask,
 	BuyFixedPriceNFT,
-	getWalletAddress,
 	getBalance,
-	validateNetwork,
 	claimNFTfromContract,
 	endAuctionFromContract,
+	lazyMint,
 	redeemVoucher,
 } from '../../utils/web3';
 import {
@@ -50,17 +48,13 @@ import { toast } from 'react-toastify';
 import BuyModal from '../../Components/Modals/BuyModal/BuyModal';
 import BidModal from '../../Components/Modals/BidModal/BidModal';
 import useVideoPlayer from '../../Components/TestVideoCard/Components/UseVideoPlayer';
-import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import Banner from '../../Components/Banner/Banner';
 import BannerBg from '../../assets/images/hero-bg.png';
 import BannerImage from '../../assets/images/bannerimg.png';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { Images, blockchainIcons } from '../../assets/assets';
-import NFTDetailLoader from '../../Components/ContentLoader/NftDetailLoader';
-import Audio from '../../Components/Audio/Audio';
 import { getBannerData, nftBanner } from '../../utils/exportData';
-import Table from '../../Components/Table/Table';
 import { useGetData, useDeleteData } from '../../hooks/Common';
 import MetaData from '../../Components/MetaData/MetaData';
 import MetaDataSmall from '../../Components/MetaData/MetaDataSmall';
@@ -70,12 +64,15 @@ import Offers from './components/Offers';
 import Activities from './components/Activities';
 import FileViewer from './components/FileViewer';
 import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
+import { isUserLoggedIn } from '../../utils/helpers/ethereum';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
 import {
 	buyNowFixedPriceAuction,
 	cancelItemFromListing,
 } from '../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
+import darkModeContext from '../../context/darkmode/DarkModeContext';
+
 const NFTDetail = (props: any) => {
 	const wallet = useWallet();
 	const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -110,6 +107,7 @@ const NFTDetail = (props: any) => {
 	const [beforeGetBids, setBeforeGetBids] = useState<boolean>(false);
 	const nftId = props.match.params.id;
 	const userId = ENV.getUserKeys('_id')._id;
+	const { darkMode } = useContext(darkModeContext);
 
 	useEffect(() => {
 		window.scroll(0, 600);
@@ -297,56 +295,32 @@ const NFTDetail = (props: any) => {
 	}, [props.togleLikeRes]);
 
 	const handleRouting = async () => {
-		const { ownerAddress } = nftDetail;
-
-		const currentAddress = connectedAddress?.toUpperCase();
-		if (
-			ENV.getUserKeys('address')?.address?.toUpperCase() ===
-			connectedAddress?.toUpperCase()
-		) {
-			// if (await validateNetwork()) {
-			if (
-				currentAddress === ownerAddress.toUpperCase() &&
-				nftDetail?.auction?.sellingMethod === 2
-			) {
+		//Validate if i am owner
+		//Todo for solana and algorand
+		if (isUserLoggedIn(history)) {
+			if (isOwner() && nftDetail?.auction?.sellingMethod === 2) {
 				EndAuction();
 				return;
 			}
-			if (currentAddress === ownerAddress.toUpperCase()) {
+			if (isOwner()) {
 				history.push({
 					pathname: `/sell-item/${nftDetail._id}`,
 					state: nftDetail,
 				});
 				return;
 			}
-			if (nftDetail?.auction?.sellingMethod === 2) {
-				setBidModalShow(true);
-				return;
-			}
-			if (nftDetail?.auction?.sellingMethod === 1) {
-				setModalShow(true);
-				return;
-			}
-			// } else {
-			// 	toast.error(
-			// 		'Please Connect Your Metamask With Ethereum Rinkby Network'
-			// 	);
-			// }
-		} else {
-			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-			return;
+
+			//If i am not owner
+			return openModals();
 		}
-		// } else {
-		if (ENV.getUserKeys('address')?.address) {
-			toast.info('Please login with new connected account');
-		} else {
-			toast.info('Please login first to continue');
+	};
+	const openModals = () => {
+		if (nftDetail?.auction?.sellingMethod === 2) {
+			setBidModalShow(true);
 		}
-		history.push({
-			pathname: `/connect-wallet`,
-			state: `/nftdetail/${props.match.params.id}`,
-		});
-		// }
+		if (nftDetail?.auction?.sellingMethod === 1) {
+			setModalShow(true);
+		}
 	};
 
 	//match if nft liked
@@ -491,11 +465,7 @@ const NFTDetail = (props: any) => {
 
 	const BuyNow = async () => {
 		try {
-			if (
-				ENV.getUserKeys('address')?.address?.toUpperCase() ===
-				connectedAddress?.toUpperCase()
-			) {
-				// if (await validateNetwork()) {
+			if (isUserLoggedIn(history)) {
 				setDisabled(true);
 				if (nftDetail.lazyMinted) {
 					BuyLazyNft();
@@ -556,24 +526,10 @@ const NFTDetail = (props: any) => {
 					// 	toast.error(err);
 					// }
 				}
-				// } else {
-				// 	toast.error(
-				// 		'Please Connect Your Metamask With Ethereum Rinkby Network'
-				// 	);
-				// }
 			}
-			if (ENV.getUserKeys('address')?.address) {
-				toast.info('Please login with new connected account');
-			} else {
-				toast.info('Please login first to continue');
-			}
-			history.push({
-				pathname: `/connect-wallet`,
-				state: `/nftdetail/${props.match.params.id}`,
-			});
 		} catch (err: any) {
-			toast.error(err);
 			console.log('🚀 ~ file: nftdetail.tsx ~ line 570 ~ BuyNow ~ err', err);
+			toast.error(err);
 		} finally {
 			setDisabled(false);
 		}
@@ -581,18 +537,23 @@ const NFTDetail = (props: any) => {
 
 	const BuyLazyNft = async () => {
 		try {
-			const { metaData, copies } = nftDetail;
-			const { signature, sellId, sellingConfig, copiesForAuction } =
-				nftDetail.auction;
+			const {
+				metaData,
+				copies,
+				tokenId,
+				ownerAddress,
+				currentPrice,
+				contractAddress,
+			} = nftDetail;
+
 			setConfirmed('pending');
-			const res = await redeemVoucher(
-				{
-					uri: metaData,
-					signature,
-					tokenId: sellId,
-					copies: copiesForAuction,
-					minPrice: Number(sellingConfig.price.amount),
-				},
+			const res = await lazyMint(
+				tokenId,
+				copies,
+				ownerAddress,
+				metaData,
+				currentPrice,
+				contractAddress,
 				setTransactionHash,
 				setConfirmed
 			);
@@ -600,6 +561,7 @@ const NFTDetail = (props: any) => {
 				userId,
 				nftId,
 				ownerAddress: props.connectedAddress,
+				tokenId: res,
 			};
 			createActivity('Transfer', false, props.connectedAddress);
 			props.beforeOffer();
@@ -638,11 +600,7 @@ const NFTDetail = (props: any) => {
 	const checkIfAuctionStartedorEnded = (startDate: Date, endDate: Date) => {
 		//check if i am owner
 
-		if (
-			props.connectedAddress?.toUpperCase() ===
-				nftDetail.ownerAddress?.toUpperCase() ||
-			nftDetail?.auction?.sellingMethod === 1
-		) {
+		if (isOwner() || nftDetail?.auction?.sellingMethod === 1) {
 			return true;
 		}
 		if (startDate && endDate && nftDetail?.auction?.sellingMethod) {
@@ -698,7 +656,13 @@ const NFTDetail = (props: any) => {
 						const highestBidByUser = newBids.reduce((max: any, obj: any) =>
 							max.bidAmount > obj.bidAmount ? max : obj
 						);
-						if (highestBidByUser.fromAddress === connectedAddress) {
+						const blockChainType =
+							ENV.getUserKeys('blockchainType')?.blockchainType;
+						if (
+							highestBidByUser.fromAddress === connectedAddress &&
+							blockChainType === blockchainType
+						) {
+							//
 							if (!claimNFT) {
 								setClaimNFT(true);
 							}
@@ -799,13 +763,16 @@ const NFTDetail = (props: any) => {
 			}
 		}
 	};
-	const isOwner = () => {
-		return (
-			nftDetail?.ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase()
-		);
-	};
+
 	const isOwnerLoggedIn = () => {
 		return !userId || (userId && userId !== nftDetail.ownerId);
+	};
+	const isOwner = () => {
+		const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+		return (
+			nftDetail?.ownerAddress?.toUpperCase() ===
+				connectedAddress?.toUpperCase() && blockChainType === blockchainType
+		);
 	};
 
 	const {
@@ -835,7 +802,6 @@ const NFTDetail = (props: any) => {
 		copiesForAuction,
 		auctionEnded,
 	}: any = nftDetail?.auction || {};
-
 	const { connectedAddress } = props;
 	const nftInfo: any = [
 		{
@@ -930,6 +896,7 @@ const NFTDetail = (props: any) => {
 										auctionEnded,
 										EndAuction,
 										Images,
+										blockchainType,
 									}}
 								/>
 								<MetaDataSmall
