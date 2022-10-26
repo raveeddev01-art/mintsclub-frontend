@@ -12,7 +12,7 @@ import { Images } from '../../assets/assets';
 import ImageLoader from '../ContentLoader/ImageLoader';
 import AuctionAudio from '../AuctionAudio/AuctionAudio';
 import { AuctionCardInterface } from '../../interfaces/components';
-
+import { verifyOwner } from '../../utils/helpers/helpers';
 const AuctionsCards: FC<AuctionCardInterface> = ({
 	ownerName,
 	userId,
@@ -44,20 +44,6 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 		blockchainType,
 	} = item;
 
-	const verifyOnwer = () => {
-		if (
-			ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-			ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
-		) {
-			return 'you';
-		} else if (username && username?.length > 12) {
-			return username.substring(0, 12) + '...';
-		} else if (username && username?.length <= 12) {
-			return username;
-		} else {
-			return 'unnamed';
-		}
-	};
 	return (
 		<Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
 			<div className="auction-img-wrapper">
@@ -184,7 +170,14 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 					<div className="ms-2 auction-owner-name">
 						<p>
 							{'Owned by:'}
-							<span className="text-capitalize ms-1">{verifyOnwer()}</span>
+							<span className="text-capitalize ms-1">
+								{verifyOwner(
+									ownerAddress,
+									connectedAddress,
+									blockchainType,
+									username
+								)}
+							</span>
 						</p>
 					</div>
 				</div>

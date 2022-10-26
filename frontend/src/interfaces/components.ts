@@ -146,7 +146,8 @@ export interface CollectionCardInt {
 	profileImage: string;
 	ownerAddress?: string;
 	connectedAddress?: string;
-	userId?:string
+	userId?:string;
+	blockchainType:string
 }
 
 export interface HeroInt {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ENV } from '../../config/config';
+import { verifyOwner, verifyNFTStatus } from '../../utils/helpers/helpers';
 const FileDetail = ({ info }: any) => {
 	const {
 		name,
@@ -23,51 +24,51 @@ const FileDetail = ({ info }: any) => {
 		Images,
 		blockchainType,
 	}: any = info;
-	const verifyOnwerName = () => {
-		console.log(
-			ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-				ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
-		);
-		if (
-			ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-			ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
-		) {
-			return 'you';
-		} else if (user?.username) {
-			return user?.username;
-		} else {
-			return 'unnamed';
-		}
-	};
-	const verifyNFTStatus = () => {
-		const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
-		if (
-			ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
-			sellingMethod === 2 &&
-			auctionEnded === false &&
-			blockChainType === blockchainType
-		) {
-			return 'End Auction';
-		} else if (
-			ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
-			sellingMethod === 1 &&
-			auctionEnded === false &&
-			blockChainType === blockchainType
-		) {
-			return 'Resale';
-		} else if (
-			ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
-			blockChainType === blockchainType
-		) {
-			return 'Sell';
-		} else if (sellingMethod === 2 && auctionEnded === false) {
-			return 'Place A Bid';
-		} else if (sellingMethod === 1 && auctionEnded === false) {
-			return 'Buy Now';
-		} else {
-			return 'invalid detail';
-		}
-	};
+	// const verifyOwnerName = () => {
+	// 	console.log(
+	// 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+	// 			ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
+	// 	);
+	// 	if (
+	// 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+	// 		ENV.getUserKeys('blockchainType')?.blockchainType === blockchainType
+	// 	) {
+	// 		return 'you';
+	// 	} else if (user?.username) {
+	// 		return user?.username;
+	// 	} else {
+	// 		return 'unnamed';
+	// 	}
+	// };
+	// const verifyNFTStatus = () => {
+	// 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+	// 	if (
+	// 		ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
+	// 		sellingMethod === 2 &&
+	// 		auctionEnded === false &&
+	// 		blockChainType === blockchainType
+	// 	) {
+	// 		return 'End Auction';
+	// 	} else if (
+	// 		ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
+	// 		sellingMethod === 1 &&
+	// 		auctionEnded === false &&
+	// 		blockChainType === blockchainType
+	// 	) {
+	// 		return 'Resale';
+	// 	} else if (
+	// 		ownerAddress?.toUpperCase() === connectedAddress.toUpperCase() &&
+	// 		blockChainType === blockchainType
+	// 	) {
+	// 		return 'Sell';
+	// 	} else if (sellingMethod === 2 && auctionEnded === false) {
+	// 		return 'Place A Bid';
+	// 	} else if (sellingMethod === 1 && auctionEnded === false) {
+	// 		return 'Buy Now';
+	// 	} else {
+	// 		return 'invalid detail';
+	// 	}
+	// };
 
 	return (
 		<div className="col-xl-6">
@@ -155,13 +156,29 @@ const FileDetail = ({ info }: any) => {
 				/>
 				<p>
 					Owned by:
-					<span className="text-capitalize ms-1"> {verifyOnwerName()}</span>
+					<span className="text-capitalize ms-1">
+						{' '}
+						{verifyOwner(
+							ownerAddress,
+							connectedAddress,
+							blockchainType,
+							user?.username
+						)}
+					</span>
 				</p>
 			</div>
 			<div className="nft-detail-btn">
 				{checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate) &&
 					!claimNFT && (
-						<button onClick={() => handleRouting()}>{verifyNFTStatus()}</button>
+						<button onClick={() => handleRouting()}>
+							{verifyNFTStatus(
+								ownerAddress,
+								connectedAddress,
+								sellingMethod,
+								auctionEnded,
+								blockchainType
+							)}
+						</button>
 					)}
 
 				{claimNFT && (
