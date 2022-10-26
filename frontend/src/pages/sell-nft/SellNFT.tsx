@@ -165,23 +165,12 @@ const SellNFT = (props: any) => {
 	const submit = async (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history)) {
-			if (copies > nftDetail.copies) {
-				if (Number(nftDetail.copies) === 1) {
-					toast.info(`Copies should be equal to ${nftDetail.copies}`);
-				} else {
-					toast.info(
-						`Copies should be less than or equal to ${nftDetail.copies}`
-					);
-				}
-				return '';
-			}
-			if (!nftDetail.isApproved) {
+			if (
+				(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
+				!nftDetail.isApproved
+			) {
 				setShow(true);
-				return '';
-			}
-			if (!nftDetail?.user?.isApproved && nftDetail?.isApproved) {
-				setShow(true);
-				return '';
+				return;
 			}
 
 			let price: any = '';
