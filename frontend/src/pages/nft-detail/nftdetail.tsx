@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './nftdetail.scss';
+
 import {
 	getNFT,
 	getNFTsByCollection,
@@ -54,7 +55,7 @@ import BannerImage from '../../assets/images/bannerimg.png';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { Images, blockchainIcons } from '../../assets/assets';
-import { getBannerData, nftBanner } from '../../utils/exportData';
+import { getBannerData, nftBanner, currency } from '../../utils/exportData';
 import { useGetData, useDeleteData } from '../../hooks/Common';
 import MetaData from '../../Components/MetaData/MetaData';
 import MetaDataSmall from '../../Components/MetaData/MetaDataSmall';
@@ -356,25 +357,9 @@ const NFTDetail = (props: any) => {
 			return result.toString().slice(0, 8);
 		}
 	};
-	console.log('This is Blockchain type', nftDetail.blockchainType);
 	useEffect(() => {
-		const bct = nftDetail.blockchainType;
-		let coin = '';
-		if (bct === 'ethereum') {
-			coin = 'ETH';
-		}
-		if (bct === 'solana') {
-			coin = 'SOL';
-		}
-		if (bct === 'polygon') {
-			coin = 'MATIC';
-		}
-		if (bct === 'algorand') {
-			coin = 'ALGO';
-		}
-		if (bct === 'BSC') {
-			coin = 'BSC';
-		}
+		const bct: any = nftDetail.blockchainType;
+		const coin = currency[bct];
 		axios
 			.get(
 				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
@@ -383,7 +368,7 @@ const NFTDetail = (props: any) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, [nftDetail.blockchainType]);
+	}, [currency, nftDetail]);
 
 	useEffect(() => {
 		if (props.togleLikeRes) {
