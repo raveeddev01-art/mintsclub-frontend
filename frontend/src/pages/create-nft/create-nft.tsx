@@ -736,7 +736,7 @@ class CreateNFT extends React.Component<
 								<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
 									<label className="create-collection-label d-flex">
 										Select Collection:*
-										{this.state.selectedCollection != null && (
+										{this.state.selectedCollection !== null && (
 											<span className="text-danger ms-2">
 												{this.validator.message(
 													'name',

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import './nftdetail.scss';
+
 import {
 	getNFT,
 	getNFTsByCollection,
@@ -54,7 +55,7 @@ import BannerImage from '../../assets/images/bannerimg.png';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { Images, blockchainIcons } from '../../assets/assets';
-import { getBannerData, nftBanner } from '../../utils/exportData';
+import { getBannerData, nftBanner, currency } from '../../utils/exportData';
 import { useGetData, useDeleteData } from '../../hooks/Common';
 import MetaData from '../../Components/MetaData/MetaData';
 import MetaDataSmall from '../../Components/MetaData/MetaDataSmall';
@@ -356,17 +357,18 @@ const NFTDetail = (props: any) => {
 			return result.toString().slice(0, 8);
 		}
 	};
-
 	useEffect(() => {
+		const bct: any = nftDetail.blockchainType;
+		const coin = currency[bct];
 		axios
 			.get(
-				'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
+				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
 			)
 			.then((res) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, []);
+	}, [currency, nftDetail]);
 
 	useEffect(() => {
 		if (props.togleLikeRes) {

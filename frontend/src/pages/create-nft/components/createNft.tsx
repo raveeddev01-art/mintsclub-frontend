@@ -307,7 +307,7 @@ const CreateNft = ({
 				nftInfo.fileType = 'image';
 			}
 
-			if (state.selectedCollection == null) {
+			if (state.selectedCollection === null) {
 				await createDefaultCollection();
 			}
 			nftInfo.categoryId = nft.categoryId;

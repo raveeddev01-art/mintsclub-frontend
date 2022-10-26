@@ -30,6 +30,14 @@ export const WordsFamousNfts = [
 	{ img: nft7 },
 ];
 
+export const currency: any = {
+	ethereum: 'ETH',
+	polygon: 'MATIC',
+	BSC: 'BSC',
+	solana: 'SOL',
+	algorand: 'ALGO',
+};
+
 export const iconByActivity = {
 	minted: <MdShoppingCart />,
 	transfer: <GrTransaction />,
