@@ -356,17 +356,34 @@ const NFTDetail = (props: any) => {
 			return result.toString().slice(0, 8);
 		}
 	};
-
+	console.log('This is Blockchain type', nftDetail.blockchainType);
 	useEffect(() => {
+		const bct = nftDetail.blockchainType;
+		let coin = '';
+		if (bct === 'ethereum') {
+			coin = 'ETH';
+		}
+		if (bct === 'solana') {
+			coin = 'SOL';
+		}
+		if (bct === 'polygon') {
+			coin = 'MATIC';
+		}
+		if (bct === 'algorand') {
+			coin = 'ALGO';
+		}
+		if (bct === 'BSC') {
+			coin = 'BSC';
+		}
 		axios
 			.get(
-				'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
+				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
 			)
 			.then((res) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, []);
+	}, [nftDetail.blockchainType]);
 
 	useEffect(() => {
 		if (props.togleLikeRes) {
