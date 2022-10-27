@@ -2,556 +2,409 @@
 txn ApplicationID
 int 0
 ==
-bnz main_l21
+bnz main_l25
 txn OnCompletion
-int CloseOut
+int NoOp
 ==
-bnz main_l20
+bnz main_l16
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l6
 txn OnCompletion
 int OptIn
 ==
-bnz main_l19
 txn OnCompletion
-int 0
-==
-bnz main_l5
-int 0
-return
-main_l5:
-txn TypeEnum
-int appl
-!=
-txn NumAppArgs
-int 0
+int CloseOut
 ==
 ||
-bnz main_l18
-txna ApplicationArgs 0
-byte "setupSale"
+txn OnCompletion
+int UpdateApplication
 ==
-bnz main_l17
-txna ApplicationArgs 0
-byte "buy"
-==
-bnz main_l16
-txna ApplicationArgs 0
-byte "executeTransfer"
-==
-bnz main_l12
-txna ApplicationArgs 0
-byte "refund"
-==
-bnz main_l11
+||
+bnz main_l5
+err
+main_l5:
 int 0
 return
-main_l11:
-global GroupSize
-int 1
-==
-assert
-txn NumAppArgs
-int 1
-==
-assert
+main_l6:
+global LatestTimestamp
+byte "start"
+app_global_get
+<
+bnz main_l15
+byte "end"
+app_global_get
+global LatestTimestamp
+<=
+bnz main_l9
 int 0
-callsub sub0
-gtxn 0 Sender
-gtxna 0 Accounts 1
+return
+main_l9:
+byte "bid_account"
+app_global_get
+global ZeroAddress
 !=
-assert
-gtxna 0 Accounts 1
-byte "approveTransfer"
-app_local_get
-int 1
-==
-assert
-gtxn 0 Sender
-byte "approveTransfer"
-app_local_get
-int 1
-==
-assert
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-global MinTxnFee
->
-assert
-gtxn 0 Sender
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-global MinTxnFee
--
-callsub sub1
-gtxna 0 Accounts 1
-byte "approveTransfer"
-int 0
-app_local_put
-gtxn 0 Sender
-byte "approveTransfer"
-app_local_del
+bnz main_l12
+byte "nft_id"
+app_global_get
+byte "seller"
+app_global_get
+callsub sub0
+main_l11:
+byte "seller"
+app_global_get
+callsub sub2
 int 1
 return
 main_l12:
-gtxn 0 NumAppArgs
-int 1
-==
-assert
-global GroupSize
-int 1
-==
-assert
-int 0
+byte "bid_amount"
+app_global_get
+byte "reserve_amount"
+app_global_get
+>=
+bnz main_l14
+byte "nft_id"
+app_global_get
+byte "seller"
+app_global_get
 callsub sub0
-gtxna 0 Accounts 1
-byte "approveTransfer"
-app_local_get
-int 1
-==
-assert
-gtxna 0 Accounts 1
-gtxn 0 Sender
-!=
-gtxn 0 Sender
-byte "approveTransfer"
-app_local_get
-int 1
-==
-&&
-global Round
-byte "waitingTime"
+byte "bid_account"
 app_global_get
-gtxna 0 Accounts 1
-byte "roundSaleBegan"
-app_local_get
-+
->
-||
-assert
-int 2
-global MinTxnFee
-*
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-<
-assert
-gtxna 0 Accounts 1
-byte "AssetId"
+byte "bid_amount"
 app_global_get
-callsub sub3
-gtxna 0 Accounts 1
-byte "Creator"
+callsub sub1
+b main_l11
+main_l14:
+byte "nft_id"
 app_global_get
-==
-bnz main_l15
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-int 2
-global MinTxnFee
-*
--
-byte "royaltyFee"
+byte "bid_account"
+app_global_get
+callsub sub0
+byte "bid_amount"
+app_global_get
+byte "royalty_fee"
 app_global_get
 callsub sub4
-main_l14:
-store 8
-int 18446744073709551615
-load 8
--
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-int 2
-global MinTxnFee
-*
--
->=
-assert
-int 18446744073709551615
-byte "collectedFees"
+store 2
+byte "royalty_address"
 app_global_get
--
-load 8
->=
+load 2
+callsub sub5
+b main_l11
+main_l15:
+txn Sender
+byte "seller"
+app_global_get
+==
+txn Sender
+global CreatorAddress
+==
+||
 assert
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-int 2
-global MinTxnFee
-*
--
-load 8
->
-assert
-gtxna 0 Accounts 1
-gtxn 0 Sender
-byte "AssetId"
+byte "nft_id"
+app_global_get
+byte "seller"
+app_global_get
+callsub sub0
+byte "seller"
 app_global_get
 callsub sub2
-byte "RoyaltyAddress"
-app_global_get
-load 8
-callsub sub1
-gtxna 0 Accounts 1
-callsub sub6
-byte "collectedFees"
-byte "collectedFees"
-app_global_get
-load 8
-+
-app_global_put
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_del
-gtxna 0 Accounts 1
-byte "approveTransfer"
-app_local_del
-gtxn 0 Sender
-byte "approveTransfer"
-app_local_del
 int 1
 return
-main_l15:
-int 0
-b main_l14
 main_l16:
-gtxn 0 NumAppArgs
-int 2
-==
-assert
-global GroupSize
-int 2
-==
-assert
-gtxn 1 TypeEnum
-int pay
-==
-assert
-byte "AssetId"
-app_global_get
-gtxna 0 ApplicationArgs 1
+txna ApplicationArgs 0
 btoi
-==
-assert
-gtxna 0 Accounts 1
-byte "approveTransfer"
-app_local_get
-int 0
-==
-assert
-gtxna 0 Accounts 1
-byte "amountPayment"
-app_local_get
-gtxn 1 Amount
-==
-assert
-global CurrentApplicationAddress
-gtxn 1 Receiver
-==
-assert
-int 0
-callsub sub0
-int 1
-callsub sub0
-gtxna 0 Accounts 1
-byte "AssetId"
-app_global_get
-callsub sub3
-gtxn 0 Sender
-gtxna 0 Accounts 1
-!=
-assert
-gtxna 0 Accounts 1
-byte "approveTransfer"
-int 1
-app_local_put
-gtxn 0 Sender
-byte "approveTransfer"
-int 1
-app_local_put
-gtxna 0 Accounts 1
-byte "roundSaleBegan"
-global Round
-app_local_put
-int 1
-return
-main_l17:
-txn NumAppArgs
-int 2
-==
-assert
-global GroupSize
-int 1
-==
-assert
-int 0
-callsub sub0
-txna ApplicationArgs 1
-btoi
-int 0
->
-assert
-byte "AssetId"
-app_global_get
-asset_params_get AssetClawback
-store 4
-store 5
-load 4
-assert
-load 5
-global CurrentApplicationAddress
-==
-assert
-byte "AssetId"
-app_global_get
-asset_params_get AssetFreeze
-store 6
-store 7
-load 6
-assert
-load 7
-global CurrentApplicationAddress
-==
-assert
-txn Sender
-byte "AssetId"
-app_global_get
-callsub sub3
-txna ApplicationArgs 1
-btoi
-int 2
-global MinTxnFee
-*
->
-assert
-txn Sender
-byte "amountPayment"
-txna ApplicationArgs 1
-btoi
-app_local_put
-txn Sender
-byte "approveTransfer"
-int 0
-app_local_put
-int 1
-return
-main_l18:
-int 0
-return
-main_l19:
-int 1
-return
-main_l20:
-int 1
-return
-main_l21:
-txn TypeEnum
-int appl
-==
-assert
-txn NumAppArgs
 int 5
 ==
-assert
-txna ApplicationArgs 2
+bnz main_l24
+txna ApplicationArgs 0
 btoi
-int 1000
-<=
-assert
-int 0
-callsub sub0
-txna ApplicationArgs 1
-btoi
-asset_params_get AssetDecimals
+int 6
+==
+bnz main_l19
+err
+main_l19:
+global CurrentApplicationAddress
+byte "nft_id"
+app_global_get
+asset_holding_get AssetBalance
 store 0
 store 1
+txn GroupIndex
+int 1
+-
+gtxns Amount
+byte "bid_amount"
+app_global_get
+byte "min_bid_inc"
+app_global_get
++
+>=
 load 0
-assert
+&&
 load 1
 int 0
-==
-assert
-txna ApplicationArgs 1
-btoi
-asset_params_get AssetDefaultFrozen
-store 2
-store 3
-load 2
-assert
-load 3
+>
+&&
+txn GroupIndex
 int 1
+-
+gtxns TypeEnum
+int pay
 ==
+&&
+txn GroupIndex
+int 1
+-
+gtxns Sender
+txn Sender
+==
+&&
+txn GroupIndex
+int 1
+-
+gtxns Receiver
+global CurrentApplicationAddress
+==
+&&
+txn GroupIndex
+int 1
+-
+gtxns Amount
+global MinTxnFee
+>=
+&&
 assert
-byte "Creator"
-txna ApplicationArgs 0
+txn GroupIndex
+int 1
+-
+gtxns Amount
+byte "bid_amount"
+app_global_get
+byte "min_bid_inc"
+app_global_get
++
+>=
+bnz main_l21
+int 0
+return
+main_l21:
+byte "bid_account"
+app_global_get
+global ZeroAddress
+!=
+bnz main_l23
+main_l22:
+byte "bid_amount"
+txn GroupIndex
+int 1
+-
+gtxns Amount
 app_global_put
-byte "AssetId"
-txna ApplicationArgs 1
-btoi
+byte "bid_account"
+txn GroupIndex
+int 1
+-
+gtxns Sender
 app_global_put
-byte "royaltyFee"
-txna ApplicationArgs 2
-btoi
-app_global_put
-byte "waitingTime"
-txna ApplicationArgs 3
-btoi
-app_global_put
-byte "RoyaltyAddress"
-txna ApplicationArgs 4
+byte "num_bids"
+byte "num_bids"
+app_global_get
+int 1
++
 app_global_put
 int 1
 return
-sub0: // defaultTransactionChecks
-store 9
-load 9
-global GroupSize
-<
-assert
-load 9
-gtxns RekeyTo
-global ZeroAddress
-==
-assert
-load 9
-gtxns CloseRemainderTo
-global ZeroAddress
-==
-assert
-load 9
-gtxns AssetCloseTo
-global ZeroAddress
-==
-assert
-retsub
-sub1: // sendPayment
-store 11
-store 10
-itxn_begin
-int pay
-itxn_field TypeEnum
-load 11
-itxn_field Amount
-load 10
-itxn_field Receiver
-global MinTxnFee
-itxn_field Fee
-itxn_submit
-retsub
-sub2: // transferAsset
-store 14
-store 13
-store 12
+main_l23:
+byte "bid_account"
+app_global_get
+byte "bid_amount"
+app_global_get
+callsub sub1
+b main_l22
+main_l24:
 itxn_begin
 int axfer
 itxn_field TypeEnum
-int 1
-itxn_field AssetAmount
-load 13
-itxn_field AssetReceiver
-load 12
-itxn_field AssetSender
-load 14
+byte "nft_id"
+app_global_get
 itxn_field XferAsset
-global MinTxnFee
-itxn_field Fee
+global CurrentApplicationAddress
+itxn_field AssetReceiver
+itxn_submit
+int 1
+return
+main_l25:
+byte "seller"
+txna ApplicationArgs 0
+app_global_put
+byte "nft_id"
+txna ApplicationArgs 1
+btoi
+app_global_put
+byte "start"
+txna ApplicationArgs 2
+btoi
+app_global_put
+byte "end"
+txna ApplicationArgs 3
+btoi
+app_global_put
+byte "reserve_amount"
+txna ApplicationArgs 4
+btoi
+app_global_put
+byte "min_bid_inc"
+txna ApplicationArgs 5
+btoi
+app_global_put
+byte "bid_account"
+global ZeroAddress
+app_global_put
+byte "royalty_fee"
+txna ApplicationArgs 6
+btoi
+app_global_put
+byte "royalty_address"
+txna ApplicationArgs 7
+app_global_put
+global LatestTimestamp
+txna ApplicationArgs 2
+btoi
+<
+txna ApplicationArgs 2
+btoi
+txna ApplicationArgs 3
+btoi
+<
+&&
+byte "royalty_fee"
+app_global_get
+int 1000
+<=
+&&
+assert
+int 1
+return
+sub0: // closeNFTTo
+store 4
+store 3
+global CurrentApplicationAddress
+load 3
+asset_holding_get AssetBalance
+store 5
+store 6
+load 5
+bz sub0_l2
+itxn_begin
+int axfer
+itxn_field TypeEnum
+load 3
+itxn_field XferAsset
+load 4
+itxn_field AssetCloseTo
+itxn_submit
+sub0_l2:
+retsub
+sub1: // repayPreviousLeadBidder
+store 8
+store 7
+itxn_begin
+int pay
+itxn_field TypeEnum
+load 8
+itxn_field Amount
+load 7
+itxn_field Receiver
 itxn_submit
 retsub
-sub3: // checkNFTBalance
-store 16
+sub2: // closeAccountTo
+store 9
+global CurrentApplicationAddress
+balance
+int 0
+!=
+bz sub2_l2
+itxn_begin
+int pay
+itxn_field TypeEnum
+load 9
+itxn_field CloseRemainderTo
+itxn_submit
+sub2_l2:
+retsub
+sub3: // checkRoyaltyFeeComputation
 store 15
-load 15
-load 16
-asset_holding_get AssetBalance
-store 17
-store 18
-load 17
-int 1
-==
+store 14
+load 14
+int 0
+>
 assert
-load 18
-int 1
-==
+load 15
+int 18446744073709551615
+load 14
+/
+<=
 assert
 retsub
 sub4: // computeRoyaltyFee
-store 20
-store 19
-load 19
-load 20
-callsub sub5
-load 19
-load 20
+store 11
+store 10
+load 10
+load 11
+callsub sub3
+load 10
+load 11
 *
 int 1000
 %
-store 21
-load 19
-load 20
+store 12
+load 10
+load 11
 *
 int 1000
 /
-store 22
-load 20
+store 13
+load 11
 int 0
 ==
-load 22
+load 13
 int 0
 ==
 ||
 bnz sub4_l6
-load 20
+load 11
 int 1000
 >=
 bnz sub4_l5
-load 21
+load 12
 int 500
 >
 bnz sub4_l4
-load 22
+load 13
 b sub4_l7
 sub4_l4:
-load 22
+load 13
 int 1
 +
 b sub4_l7
 sub4_l5:
-load 19
+load 10
 b sub4_l7
 sub4_l6:
 int 0
 sub4_l7:
 retsub
-sub5: // checkRoyaltyFeeComputation
-store 24
-store 23
-load 23
-int 0
->
-assert
-load 24
-int 18446744073709551615
-load 23
-/
-<=
-assert
-retsub
-sub6: // closeAccountTo
-store 25
-global CurrentApplicationAddress
-balance
-int 0
-!=
-bz sub6_l2
+sub5: // sendRoyaltyFee
+store 17
+store 16
 itxn_begin
 int pay
 itxn_field TypeEnum
-load 25
-itxn_field CloseRemainderTo
+load 17
+itxn_field Amount
+load 16
+itxn_field Receiver
 itxn_submit
-sub6_l2:
 retsub

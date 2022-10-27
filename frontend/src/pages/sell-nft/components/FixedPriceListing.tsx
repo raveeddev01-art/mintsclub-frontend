@@ -1,10 +1,19 @@
 import React from 'react';
 import { CHAINS_INTERFACE } from '../../../interfaces/components';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
+import { isUserLoggedIn } from '../../../utils/helpers/ethereum';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { putonsale } from '../../../utils/web3';
+import { listItemForFixedPriceSolana } from '../../../utils/solana/helper';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { ENV } from '../../../config/config';
 
-const FixedPriceListing = ({ data }: any) => {
+const FixedPriceListing = ({ data, blockchainType }: any) => {
 	const {
-		submit,
+		// submit,
 		onChange,
 		decimalNumberValidator,
 		fixedPriceConfig,
@@ -14,7 +23,95 @@ const FixedPriceListing = ({ data }: any) => {
 		setCopiesError,
 		copies,
 		setCopies,
+		setShow,
+		getActivityPayload,
+		sellingMethod,
+		insertActivity,
+		insertAuction,
+		setLoader,
 	} = data;
+	const history: any = useHistory();
+	const location: any = useLocation();
+	const wallet = useWallet();
+	console.log(blockchainType, 'blockchainType');
+	const submit = (e: any) => {
+		e.preventDefault();
+		if (isUserLoggedIn(history)) {
+			console.log(nftDetail);
+			if (
+				(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
+				!nftDetail.isApproved
+			) {
+				setShow(true);
+				return '';
+			}
+			handleFixedPriceAuction();
+		}
+	};
+	const handleFixedPriceAuction = () => {
+		const fixedConfig = { ...fixedPriceConfig };
+		const activityPayload = getActivityPayload();
+
+		const price = Number(fixedConfig.price.amount);
+		if (price === 0) {
+			toast.error('Price should be greater then 0');
+			return '';
+		}
+		const payload = {
+			nftId: location.state._id,
+			sellingMethod,
+			sellingConfig: JSON.stringify(fixedConfig),
+			copiesForAuction: copies,
+		};
+		openForSale(activityPayload, payload, fixedConfig, price);
+	};
+
+	const openForSale = async (
+		activityPayload: any,
+		payload: any,
+		fixedConfig: any,
+		price: any
+	) => {
+		const formData = new FormData();
+		try {
+			let res = null;
+			if (blockchainType?.toLowerCase() === 'solana') {
+				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
+			}
+			if (
+				blockchainType?.toLowerCase() !== 'solana' &&
+				blockchainType?.toLowerCase() !== 'algorand' &&
+				!nftDetail?.lazyMinted
+			) {
+				res = await putonsale(
+					nftDetail.tokenId,
+					copies,
+					fixedConfig.price.amount,
+					nftDetail.contractAddress
+				);
+				payload.sellId = res;
+			}
+
+			activityPayload.price = price;
+			payload.blockchainType = blockchainType.toLowerCase();
+			if (blockchainType?.toLowerCase() === 'solana') {
+				payload.sellerTradeState = res;
+			}
+			if (nftDetail.lazyMinted) {
+				payload.sellId = 0;
+				// payload.signature = res.data;
+			}
+			for (const key in payload) formData.append(key, payload[key]);
+			insertActivity(activityPayload);
+			insertAuction(formData);
+		} catch (err: any) {
+			console.log(err, 'error');
+			setLoader(false);
+			toast.error(err);
+		} finally {
+			setLoader(false);
+		}
+	};
 	return (
 		<form onSubmit={submit}>
 			<div className="row g-4 g-xl-5">
@@ -125,4 +222,9 @@ const FixedPriceListing = ({ data }: any) => {
 		</form>
 	);
 };
-export default FixedPriceListing;
+const mapStateToProps = (state: any) => ({
+	blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
+	connectedAddress: state.wallet.connectedAddress,
+});
+
+export default connect(mapStateToProps, {})(FixedPriceListing);

@@ -3,10 +3,21 @@ import React from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import { CHAINS_INTERFACE } from '../../../interfaces/components';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
-
-const AuctionListing = ({ data }: any) => {
+import { isUserLoggedIn } from '../../../utils/helpers/ethereum';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { ENV } from '../../../config/config';
+import { openNFTForBidding } from '../../../utils/web3';
+import { connect } from 'react-redux';
+import { createAuctionApp } from '../../../utils/algorand';
+import {
+	listItemForFixedPriceSolana,
+	listItemForLiveAuction,
+} from '../../utils/solana/helper';
+const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
-		submit,
+		// submit,
 		onChange,
 		decimalNumberValidator,
 		timedAuctionConfig,
@@ -16,9 +27,142 @@ const AuctionListing = ({ data }: any) => {
 		setCopiesError,
 		copies,
 		setCopies,
+		setShow,
 		dateRangeInitialSettings,
 		handleDateChange,
+		getActivityPayload,
+		sellingMethod,
+		insertActivity,
+		insertAuction,
+		setLoader,
 	} = data;
+	const history: any = useHistory();
+	const location: any = useLocation();
+	const submit = (e: any) => {
+		e.preventDefault();
+		if (isUserLoggedIn(history)) {
+			setLoader(true);
+			console.log(nftDetail);
+			// if (
+			// 	(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
+			// 	!nftDetail.isApproved
+			// ) {
+			// 	setShow(true);
+			// 	return '';
+			// }
+			handleAuction();
+		}
+	};
+	const handleAuction = () => {
+		const timedConfig = { ...timedAuctionConfig };
+		const activityPayload = getActivityPayload();
+		const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+		const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+		//calculate end time
+		timedConfig.duration.endDate = calclateStartOrEndTime(
+			timedAuctionEndTime,
+			timedConfig.duration.endTime
+		);
+
+		//calculate start time
+		timedConfig.duration.startDate = calclateStartOrEndTime(
+			timedAuctionStartTime,
+			timedConfig.duration.startTime
+		);
+
+		//Deleting unused data from payload
+		const auctionConfig = timedConfig;
+		delete auctionConfig.duration.startTime;
+		delete auctionConfig.duration.endTime;
+		delete auctionConfig.method;
+		const price = Number(auctionConfig.startPrice.amount);
+		auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
+		const payload = {
+			nftId: location.state._id,
+			userId: ENV.getUserKeys('_id')._id,
+			sellingMethod,
+			sellingConfig: JSON.stringify(auctionConfig),
+			copiesForAuction: copies,
+		};
+		openBidding(timedAuctionConfig, payload, activityPayload, price);
+	};
+
+	//Open for Bidding/Auction
+
+	const openBidding = async (
+		timedAuctionConfig: any,
+		payload: any,
+		activityPayload: any,
+		price: any
+	) => {
+		const formData = new FormData();
+		try {
+			const auctionEndDate = timedAuctionConfig.duration.endDate;
+			const auctionStartDate = timedAuctionConfig.duration.startDate;
+
+			const biddingTime = Math.floor(
+				new Date(auctionEndDate).getTime() / 1000.0
+			);
+			const startTime = Math.floor(
+				new Date(auctionStartDate).getTime() / 1000.0
+			);
+			let result = null;
+
+			///////////////////////
+
+
+			//////////////////////
+			if (blockchainType === 'ethereum') {
+				result = await openNFTForBidding(
+					startTime,
+					biddingTime,
+					nftDetail?.tokenId,
+					+copies,
+					+price,
+					nftDetail?.contractAddress
+				);
+			} else if (blockchainType === 'algorand') {
+				result = await createAuctionApp(
+					startTime,
+					biddingTime,
+					nftDetail?.tokenId,
+					+copies,
+					+price,
+					connectedAddress
+				);
+			}else if(blockchainType==="solana"){
+				result = await listItemForLiveAuction(
+					wallet,
+					nftDetail?.mint,
+					startTime,
+					biddingTime
+				);
+			}
+
+			if (result) {
+				activityPayload.price = price;
+				payload.sellId = Number(result);
+				if (props.blockchainType?.toLowerCase() === 'solana') {
+					console.log('iffffffff');
+					payload.txnHash = result;
+					payload.sellerPublicKey = wallet.publicKey?.toBase58();
+				} else {
+					payload.sellId = Number(result);
+				}
+				for (const key in payload) formData.append(key, payload[key]);
+				insertActivity(activityPayload);
+				insertAuction(payload);
+			}
+		} catch (err: any) {
+			setLoader(false);
+			toast.error(err);
+		}
+	};
+	const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
+		let time = auctionConfig.toString();
+		time = time.slice(0, 15) + ' ' + startOrEndTime + ':00' + time.slice(24);
+		return time;
+	};
 	return (
 		<form onSubmit={submit}>
 			<div className="row g-4 g-xl-5">
@@ -200,5 +344,9 @@ const AuctionListing = ({ data }: any) => {
 		</form>
 	);
 };
+const mapStateToProps = (state: any) => ({
+	blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
+	connectedAddress: state.wallet.connectedAddress,
+});
 
-export default AuctionListing;
+export default connect(mapStateToProps, {})(AuctionListing);

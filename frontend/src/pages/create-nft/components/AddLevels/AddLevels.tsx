@@ -3,7 +3,6 @@ import LevelsInfo from '../levelsinfo';
 
 const AddLevels = ({ data }: any) => {
 	const { showModal, AddIcon, nft } = data;
-	console.log(data, 'data');
 	return (
 		<div className="col-12 col-lg-6 mt-3 mt-lg-5">
 			<label className="create-collection-label">Levels:</label>
