@@ -175,6 +175,19 @@ const SellNFT = (props: any) => {
 				setShow(true);
 				return;
 			}
+			return '';
+		}
+		// if (await validateNetwork()) {
+		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
+			if (!nftDetail.isApproved) {
+				setShow(true);
+				return '';
+			}
+			if (!nftDetail?.user?.isApproved && nftDetail?.isApproved) {
+				setShow(true);
+				return '';
+			}
+		}
 
 			let price: any = '';
 			let payload: object = {};
@@ -266,9 +279,11 @@ const SellNFT = (props: any) => {
 			const biddingTime = Math.floor(
 				new Date(auctionEndDate).getTime() / 1000.0
 			);
+
 			const startTime = Math.floor(
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
+
 			let result = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				result = await listItemForLiveAuction(
@@ -278,19 +293,27 @@ const SellNFT = (props: any) => {
 					biddingTime
 				);
 			}
-			result = await openNFTForBidding(
-				biddingTime,
-				startTime,
-				biddingTime,
-				nftDetail?.tokenId,
-				copies,
-				+price,
-				nftDetail?.contractAddress
-			);
+			if (ENV.getUserKeys('blockchainType').blockchainType !== 'solana') {
+				result = await openNFTForBidding(
+					startTime,
+					biddingTime,
+					nftDetail?.tokenId,
+					copies,
+					+price,
+					nftDetail?.contractAddress
+				);
+			}
 
 			if (result) {
 				activityPayload.price = price;
-				payload.sellId = Number(result);
+				payload.blockchainType = props.blockchainType.toLowerCase();
+				if (props.blockchainType?.toLowerCase() === 'solana') {
+					console.log('iffffffff');
+					payload.txnHash = result;
+					payload.sellerPublicKey = wallet.publicKey?.toBase58();
+				} else {
+					payload.sellId = Number(result);
+				}
 				for (const key in payload) formData.append(key, payload[key]);
 				insertActivity(activityPayload);
 				insertAuction(payload);

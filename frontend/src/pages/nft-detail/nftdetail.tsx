@@ -68,8 +68,10 @@ import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../utils/helpers/ethereum';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
 import {
+	bidForLiveAuction,
 	buyNowFixedPriceAuction,
 	cancelItemFromListing,
+	getSolanaBalance,
 } from '../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
@@ -207,7 +209,12 @@ const NFTDetail = (props: any) => {
 			qs = ENV.objectToQueryString(qs);
 			props.getMyLikedNfts(qs);
 			validateIfLiked();
-			const balance = await getBalance();
+			let balance = undefined;
+			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
+				balance = await getSolanaBalance(wallet);
+			} else {
+				balance = await getBalance();
+			}
 			setBalance(balance);
 			// setLoader(true);
 		};
@@ -398,7 +405,18 @@ const NFTDetail = (props: any) => {
 	const placeBid = async () => {
 		// if (await validateNetwork()) {
 		try {
-			const result = await placeABid(price, nftDetail?.auction?.sellId);
+			let result = undefined;
+			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
+				result = await bidForLiveAuction(
+					wallet,
+					nftDetail?.auction.sellerPublicKey,
+					nftDetail?.mint,
+					price
+				);
+			}
+			if (ENV.getUserKeys('blockchainType').blockchainType !== 'solana') {
+				result = await placeABid(price, nftDetail?.auction?.sellId);
+			}
 			if (result) {
 				const payload = {
 					ownerId: nftDetail.ownerId,

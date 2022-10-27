@@ -2,9 +2,25 @@ import { getMetaplex } from './config';
 import { PublicKey, sol, walletAdapterIdentity } from '@metaplex-foundation/js';
 import * as anchor from '@project-serum/anchor';
 import { BN } from '@project-serum/anchor';
-import { getAssociatedTokenAddress } from '@solana/spl-token';
-import { createSellInstruction } from '@metaplex-foundation/mpl-auctioneer';
-import { clusterApiUrl, Connection, Transaction } from '@solana/web3.js';
+import {
+	ASSOCIATED_TOKEN_PROGRAM_ID,
+	getAssociatedTokenAddress,
+	TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
+import {
+	createBuyInstruction,
+	createSellInstruction,
+} from '@metaplex-foundation/mpl-auctioneer';
+import {
+	clusterApiUrl,
+	Connection,
+	LAMPORTS_PER_SOL,
+	SystemProgram,
+	SYSVAR_RENT_PUBKEY,
+	Transaction,
+} from '@solana/web3.js';
+import e from 'express';
+import idl from './idl.json';
 
 const AUCTION_HOUSE_ADDRESS = 'HGLp7o4LTbKCsrLPRLogfwmLVFN7LzpuCgpgJ3W6sNVP';
 
@@ -23,6 +39,10 @@ const WRAPPED_SOL_MINT = new PublicKey(
 
 const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
 	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
+);
+
+const auctionHouseAuthority = new PublicKey(
+	'Eo6psn7nEnmtspqdi4ak4oFw2m9v7LJinsook6sLfk6'
 );
 
 const mintSingleNft = async (
@@ -82,8 +102,6 @@ const listItemForFixedPriceSolana = async (
 	price: number,
 	mintAddress: string
 ) => {
-	console.log('checkingggggg');
-	return;
 	const metaplex = getMetaplex();
 	metaplex.use(walletAdapterIdentity(wallet));
 
@@ -225,8 +243,6 @@ const listItemForLiveAuction = async (
 	endTime: number
 ) => {
 	try {
-		console.log('live auction implementation');
-		return;
 		const MINT = new PublicKey(mintAddress);
 		const connection = new Connection(clusterApiUrl('devnet'));
 		const metaplex = getMetaplex();
@@ -304,11 +320,6 @@ const listItemForLiveAuction = async (
 			AUCTION_HOUSE_PROGRAM_ID
 		);
 
-		const auctionHouseAuthority = new PublicKey(
-			'Eo6psn7nEnmtspqdi4ak4oFw2m9v7LJinsook6sLfk6'
-		);
-		console.log('checkingggg', listingConfig[0].toBase58());
-
 		const accounts = {
 			auctionHouseProgram: AUCTION_HOUSE_PROGRAM_ID,
 			listingConfig: listingConfig[0],
@@ -331,13 +342,13 @@ const listItemForLiveAuction = async (
 			programAsSignerBump: signerBump,
 			auctioneerAuthorityBump: bump,
 			tokenSize: new BN(Math.ceil(1 * 1)),
-			startTime: 1665598784,
-			endTime: 1666335326,
+			startTime: startTime,
+			endTime: endTime,
 			reservePrice: 1,
 			minBidIncrement: 1,
 			timeExtPeriod: 1,
 			timeExtDelta: 1,
-			allowHighBidCancel: true,
+			allowHighBidCancel: false,
 		};
 
 		const sellInstruction = await createSellInstruction(accounts, args);
@@ -351,20 +362,432 @@ const listItemForLiveAuction = async (
 
 		const signedTransaction = await wallet.signTransaction(transaction);
 
-		console.log(
-			'🚀 ~ file: Sell.tsx ~ line 165 ~ sellFunction ~ signedTransaction',
-			signedTransaction
-		);
-		const txtId = await connection.sendRawTransaction(
+		const txnHash = await connection.sendRawTransaction(
 			signedTransaction.serialize(),
 			{ skipPreflight: true }
 		);
-		console.log('🚀 ~ file: Sell.tsx ~ line 173 ~ sellFunction ~ txtId', txtId);
+		console.log(
+			'🚀 ~ file: Sell.tsx ~ line 173 ~ sellFunction ~ txtId',
+			txnHash
+		);
+		return txnHash;
 	} catch (e) {
 		console.log('🚀 ~ file: Sell.tsx ~ line 177 ~ sellFunction ~ e', e);
+		return e;
 	}
 };
 
+const bidForLiveAuction = async (
+	wallet: any,
+	sellerKey: string,
+	mintAddress: string,
+	price: number
+) => {
+	try {
+		const amountToBid = price * LAMPORTS_PER_SOL;
+		const metaplex = getMetaplex();
+		const connection = new Connection(clusterApiUrl('devnet'));
+		metaplex.use(walletAdapterIdentity(wallet));
+
+		const auctioneerAuthority = await PublicKey.findProgramAddress(
+			[Buffer.from('auctioneer'), AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer()],
+			AUCTIONEER
+		);
+
+		const pda = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auctioneer'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				auctioneerAuthority[0].toBuffer(),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+		const sellerPublicKey = new PublicKey(sellerKey);
+		const MINT = new PublicKey(mintAddress);
+
+		const associatedAddress = await getAssociatedTokenAddress(
+			MINT,
+			sellerPublicKey
+		);
+
+		const listingConfig = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('listing_config'),
+				sellerPublicKey.toBuffer(),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				associatedAddress.toBuffer(),
+				WRAPPED_SOL_MINT.toBuffer(),
+				MINT.toBuffer(),
+				new BN(1).toArrayLike(Buffer, 'le', 8),
+			],
+			AUCTIONEER
+		);
+
+		const metadata = await anchor.web3.PublicKey.findProgramAddress(
+			[
+				Buffer.from('metadata'),
+				TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+				MINT.toBuffer(),
+			],
+			TOKEN_METADATA_PROGRAM_ID
+		);
+
+		const escrowPaymentAccount = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				wallet.publicKey.toBuffer(),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+		const buyerTradeState = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				wallet.publicKey.toBuffer(),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				associatedAddress.toBuffer(),
+				WRAPPED_SOL_MINT.toBuffer(),
+				MINT.toBuffer(),
+				new BN(amountToBid).toArrayLike(Buffer, 'le', 8),
+				new BN(1).toArrayLike(Buffer, 'le', 8),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const auctionHouseFeeAccount = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				Buffer.from('fee_payer'),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const buyArgs = {
+			tradeStateBump: buyerTradeState[1],
+			escrowPaymentBump: escrowPaymentAccount[1],
+			auctioneerAuthorityBump: auctioneerAuthority[1],
+			buyerPrice: amountToBid,
+			tokenSize: 1,
+		};
+
+		const buyAccounts = {
+			auctionHouseProgram: AUCTION_HOUSE_PROGRAM_ID,
+			listingConfig: listingConfig[0],
+			seller: sellerPublicKey,
+			wallet: wallet.publicKey,
+			paymentAccount: wallet.publicKey,
+			transferAuthority: sellerPublicKey,
+			treasuryMint: WRAPPED_SOL_MINT,
+			tokenAccount: associatedAddress,
+			metadata: metadata[0],
+			escrowPaymentAccount: escrowPaymentAccount[0],
+			authority: auctionHouseAuthority,
+			auctionHouse: AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			auctionHouseFeeAccount: auctionHouseFeeAccount[0],
+			buyerTradeState: buyerTradeState[0],
+			auctioneerAuthority: auctioneerAuthority[0],
+			ahAuctioneerPda: pda[0],
+		};
+
+		const buy = await createBuyInstruction(buyAccounts, buyArgs);
+		const transaction = new Transaction();
+
+		transaction.add(buy);
+		transaction.feePayer = wallet.publicKey as any;
+		transaction.recentBlockhash = (
+			await connection.getLatestBlockhash()
+		).blockhash;
+
+		const signedTransaction = await wallet.signTransaction(transaction);
+		const txnHash = await connection.sendRawTransaction(
+			signedTransaction.serialize(),
+			{ skipPreflight: true }
+		);
+		console.log(
+			'🚀 ~ file: Sell.tsx ~ line 173 ~ sellFunction ~ txnHash',
+			txnHash
+		);
+		return txnHash;
+	} catch (e) {
+		console.log(
+			'🚀 ~ file: Authorize.tsx ~ line 76 ~ authorizeFunction ~ e',
+			e
+		);
+		return e;
+	}
+};
+
+const getSolanaBalance = async (wallet: any) => {
+	const connection = new Connection(clusterApiUrl('devnet'));
+	const balance = await connection.getBalance(wallet.publicKey);
+	const lamportBalance = balance / LAMPORTS_PER_SOL;
+	return lamportBalance;
+};
+
+const executeSaleForLiveAuction = async (
+	sellerKey: string,
+	mintAddress: string,
+	wallet: any,
+	bidPrice: number
+) => {
+	try {
+		const MINT = new PublicKey(mintAddress);
+		const buyerPrice = bidPrice * LAMPORTS_PER_SOL;
+		const connection = new anchor.web3.Connection(
+			'https://api.devnet.solana.com'
+		);
+		const options = anchor.AnchorProvider.defaultOptions();
+		//@ts-ignore
+		const provider = new anchor.AnchorProvider(connection, wallet, options);
+
+		if (!provider) {
+			return;
+		}
+
+		const a = JSON.stringify(idl);
+		const b = JSON.parse(a);
+
+		const program = new anchor.Program(b, idl.metadata.address, provider);
+
+		const auctioneerAuthority1 = await PublicKey.findProgramAddress(
+			[Buffer.from('auctioneer'), AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer()],
+			AUCTIONEER
+		);
+
+		const pda = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auctioneer'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				auctioneerAuthority1[0].toBuffer(),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const sellerPublicKey = new PublicKey(sellerKey);
+		const associatedAddress = await getAssociatedTokenAddress(
+			MINT,
+			sellerPublicKey
+		);
+
+		const listingConfig1 = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('listing_config'),
+				sellerPublicKey.toBuffer(),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				associatedAddress.toBuffer(),
+				WRAPPED_SOL_MINT.toBuffer(),
+				MINT.toBuffer(),
+				new BN(1).toArrayLike(Buffer, 'le', 8),
+			],
+			AUCTIONEER
+		);
+
+		const metadata1 = await anchor.web3.PublicKey.findProgramAddress(
+			[
+				Buffer.from('metadata'),
+				TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+				MINT.toBuffer(),
+			],
+			TOKEN_METADATA_PROGRAM_ID
+		);
+
+		const escrowPaymentAccount1 = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				wallet.publicKey.toBuffer(),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const buyerAssociatedAccount = await getAssociatedTokenAddress(
+			MINT,
+			wallet.publicKey
+		);
+
+		const feePayer = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				Buffer.from('fee_payer'),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const buyerTradeState1 = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				wallet.publicKey.toBuffer(),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				associatedAddress.toBuffer(),
+				WRAPPED_SOL_MINT.toBuffer(),
+				MINT.toBuffer(),
+				new BN(buyerPrice).toArrayLike(Buffer, 'le', 8),
+				new BN(1).toArrayLike(Buffer, 'le', 8),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const [sellerTradeState, tradeBump] = await getAuctionHouseTradeState(
+			AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			sellerPublicKey,
+			associatedAddress,
+			WRAPPED_SOL_MINT,
+			MINT,
+			1,
+			'18446744073709551615'
+		);
+
+		const [freeTradeState, freeTradeBump] = await getAuctionHouseTradeState(
+			AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			sellerPublicKey,
+			associatedAddress,
+			WRAPPED_SOL_MINT,
+			MINT,
+			1,
+			'0'
+		);
+
+		const [signer, signerBump] = await PublicKey.findProgramAddress(
+			[Buffer.from('auction_house'), Buffer.from('signer')],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const ahTreasury = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				Buffer.from('treasury'),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+
+		const metaplex = getMetaplex();
+		const remainingAccounts = [];
+		const nft = await metaplex.nfts().findByMint({ mintAddress: MINT });
+		//   .run()
+		for (let i = 0; i < nft.creators.length; i++) {
+			const creator = {
+				pubkey: nft.creators[i].address,
+				isWritable: true,
+				isSigner: false,
+			};
+			remainingAccounts.push(creator);
+		}
+
+		console.log(remainingAccounts[0].pubkey.toBase58(), 'remainingAccounts');
+		console.log('@@checkinggg', remainingAccounts);
+
+		// let CreatorAddress = remainingAccounts[0].pubkey;
+		const escrowPaymentBump = escrowPaymentAccount1[1];
+
+		const freeTradeStateBump = freeTradeBump;
+
+		const programAsSignerBump = signerBump;
+
+		const auctioneerAuthorityBump = auctioneerAuthority1[1];
+
+		const bidderPrice = new anchor.BN(buyerPrice);
+
+		const tokenSize = new anchor.BN(1);
+
+		const auctionHouseProgram = AUCTION_HOUSE_PROGRAM_ID;
+
+		const listingConfig = listingConfig1[0];
+
+		const buyer = wallet.publicKey;
+
+		const seller = sellerPublicKey;
+
+		const tokenAccount = associatedAddress;
+
+		const tokenMint = MINT;
+
+		const metadata = metadata1[0];
+
+		const treasuryMint = WRAPPED_SOL_MINT;
+
+		const escrowPaymentAccount = escrowPaymentAccount1[0];
+
+		const sellerPaymentReceiptAccount = sellerPublicKey;
+
+		const buyerReceiptTokenAccount = buyerAssociatedAccount;
+
+		const authority = auctionHouseAuthority;
+
+		const auctionHouse = AUCTIONEER_AUCTION_HOUSE_ADDRESS;
+
+		const auctionHouseFeeAccount = feePayer[0];
+		const auctionHouseTreasury = ahTreasury[0];
+		const buyerTradeState = buyerTradeState1[0];
+
+		const auctioneerAuthority = auctioneerAuthority1[0];
+		const ahAuctioneerPda = pda[0];
+		const programAsSigner = signer;
+		const tokenProgram = TOKEN_PROGRAM_ID;
+		const systemProgram = SystemProgram.programId;
+		const ataProgram = ASSOCIATED_TOKEN_PROGRAM_ID;
+		const rent = SYSVAR_RENT_PUBKEY;
+
+		const txSig = await program.methods
+			.executeSale(
+				escrowPaymentBump,
+				freeTradeStateBump,
+				programAsSignerBump,
+				auctioneerAuthorityBump,
+				bidderPrice,
+				tokenSize
+			)
+			.accounts({
+				auctionHouseProgram,
+				listingConfig,
+				buyer,
+				seller,
+				tokenAccount,
+				tokenMint,
+				metadata,
+				treasuryMint,
+				escrowPaymentAccount,
+				sellerPaymentReceiptAccount,
+				buyerReceiptTokenAccount,
+				authority,
+				auctionHouse,
+				auctionHouseFeeAccount,
+				auctionHouseTreasury,
+				buyerTradeState,
+				sellerTradeState,
+				freeTradeState,
+				auctioneerAuthority,
+				ahAuctioneerPda,
+				tokenProgram,
+				systemProgram,
+				ataProgram,
+				programAsSigner,
+				rent,
+			})
+			.remainingAccounts(
+				remainingAccounts
+				// 	[
+				// 	{
+				// 		pubkey: new PublicKey('5k2EPeEp4ZZaRKdW7uDvTxwoRgYkatk15LEhRPYXhaxD'),
+				// 		isWritable: false,
+				// 		isSigner: false,
+				// 	},
+				// 	{
+				// 		pubkey: new PublicKey('4douvideaZJtZLztHJK8H5FDrr1AkVYZUWGDgyYxCwL8'),
+				// 		isWritable: true,
+				// 		isSigner: false,
+				// 	},
+				// ]
+			)
+			.rpc();
+		console.log('🚀 ~ file: helper.ts ~ line 926 ~ txSig', txSig);
+		return txSig;
+	} catch (e) {
+		console.log('🚀 ~ file: helper.ts ~ line 929 ~ e', e);
+	}
+};
 export {
 	mintSingleNft,
 	signMessageFromUserForSolana,
@@ -372,4 +795,7 @@ export {
 	cancelItemFromListing,
 	buyNowFixedPriceAuction,
 	listItemForLiveAuction,
+	getSolanaBalance,
+	bidForLiveAuction,
+	executeSaleForLiveAuction,
 };
