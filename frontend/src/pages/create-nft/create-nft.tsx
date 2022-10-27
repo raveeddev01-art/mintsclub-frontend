@@ -206,7 +206,7 @@ class CreateNFT extends React.Component<
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
-		const { Collections: collections } = res.data.data.collections;
+		const { Collections: collections }: any = res?.data?.data?.collections;
 		const updatedCollections = [];
 		for (const item of collections) {
 			const obj = {
