@@ -311,6 +311,7 @@ const SellNFT = (props: any) => {
 					fixedConfig.price.amount,
 					nftDetail.contractAddress
 				);
+				payload.sellId = res;
 			}
 
 			activityPayload.price = price;
