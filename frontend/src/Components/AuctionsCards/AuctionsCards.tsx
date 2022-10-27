@@ -185,10 +185,8 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 					className="auction-bit-btn"
 					onClick={() => history.push(`explore/nftdetail/${nftId}`)}
 				>
-					{(connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
-						ENV.getUserKeys('blockchainType')?.blockchainType ===
-							blockchainType) ||
-					!userId
+					{connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+					ENV.getUserKeys('_id')?._id === userId
 						? 'View'
 						: 'Place a Bid'}
 				</button>
