@@ -1,14 +1,16 @@
 import MyAlgoConnect from '@randlabs/myalgo-connect';
 import { OnApplicationComplete } from 'algosdk';
-
 import approval_program from './algorand/approval.teal';
 import clear_program from './algorand/clear.teal';
+// import auction_approval from './algorand/auction_approval.teal';
+// import auction_approval from './algorand/auction_approval.teal'
+
 const crypto = require('crypto-browserify');
 const algosdk = require('algosdk');
 const enc = new TextEncoder();
 const myAlgoConnect = new MyAlgoConnect({ disableLedgerNano: false });
 const nobleEd25519 = require('@noble/ed25519');
-
+// console.log(auction_approval);
 const settings = {
 	shouldSelectOneAccount: false,
 	openManager: false,
@@ -86,35 +88,33 @@ const keypress = async () => {
 // once created sucessfully, you will need to add funds
 // The Algorand TestNet Dispenser is located here:
 // https://dispenser.testnet.aws.algodev.network/
-
-const DISPENSERACCOUNT =
-	'HZ57J3K46JIJXILONBBZOHX6BKPXEM2VVXNRFSUED6DKFD5ZD24PMJ3MVA';
 async function createAsset(algodClient, inputFields) {
+	console.log('==> CREATE ASSET');
 	const { assetName, total, metaData, connectedAddress } = inputFields;
-	console.log(connectedAddress, total, typeof total, 'connectedAddress===>');
+	console.log({ assetName, total, metaData, connectedAddress });
 	const params = await algodClient.getTransactionParams().do();
-	const defaultFrozen = true;
-	const unitName = assetName;
 	const decimals = 0;
+	const defaultFrozen = false;
 
-	console.log(__dirname, '__dirname');
-	console.log({ unitName, decimals, assetName, total, metaData });
+	const unitName = assetName.substring(0, 6);
+
 	const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
 		assetName: assetName,
 		assetURL: metaData.metaDataUrl,
 		decimals: decimals,
 		defaultFrozen: defaultFrozen,
-		from: connectedAddress,
+		from: connectedAddress.toString(),
 		suggestedParams: params,
 		total: +total,
 		unitName: unitName,
+		manager: connectedAddress.toString(),
 	});
 	console.log(txn, 'txn');
 	const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
 	console.log(signedTxn, 'signedTxn');
 
 	const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
-	let assetID = null;
+	let nftID = null;
 	// wait for transaction to be confirmed
 	const confirmedTxn = await algosdk.waitForConfirmation(
 		algodClient,
@@ -128,223 +128,18 @@ async function createAsset(algodClient, inputFields) {
 			' confirmed in round ' +
 			confirmedTxn['confirmed-round']
 	);
-	assetID = confirmedTxn['asset-index'];
+	nftID = confirmedTxn['asset-index'];
+	console.log(nftID);
 
-	return { assetID };
+	return { nftID };
 }
-
-async function destroyAsset(algodClient, alice, assetID) {
-	console.log('');
-	console.log('==> DESTROY ASSET');
-	// All of the created assets should now be back in the creators
-	// Account so we can delete the asset.
-	// If this is not the case the asset deletion will fail
-	const params = await algodClient.getTransactionParams().do();
-	// Comment out the next two lines to use suggested fee
-	// params.fee = 1000;
-	// params.flatFee = true;
-	// The address for the from field must be the manager account
-	const addr = alice.addr;
-	// if all assets are held by the asset creator,
-	// the asset creator can sign and issue "txn" to remove the asset from the ledger.
-	const txn = algosdk.makeAssetDestroyTxnWithSuggestedParamsFromObject({
-		from: addr,
-		note: undefined,
-		assetIndex: assetID,
-		suggestedParams: params,
-	});
-	// The transaction must be signed by the manager which
-	// is currently set to alice
-	const rawSignedTxn = txn.signTxn(alice.sk);
-	const tx = await algodClient.sendRawTransaction(rawSignedTxn).do();
-	// Wait for confirmation
-	const confirmedTxn = await algosdk.waitForConfirmation(
-		algodClient,
-		tx.txId,
-		4
-	);
-	//Get the completed Transaction
-	console.log(
-		'Transaction ' +
-			tx.txId +
-			' confirmed in round ' +
-			confirmedTxn['confirmed-round']
-	);
-	// The account3 and account1 should no longer contain the asset as it has been destroyed
-	console.log('Asset ID: ' + assetID);
-	console.log('Alice = ' + alice.addr);
-	// await printCreatedAsset(algodClient, alice.addr, assetID);
-	// await printAssetHolding(algodClient, alice.addr, assetID);
-
-	// Notice that although the asset was destroyed, the asset id and associated
-	// metadata still exists in account holdings for any account that optin.
-	// When you destroy an asset, the global parameters associated with that asset
-	// (manager addresses, name, etc.) are deleted from the creator's account.
-	// However, holdings are not deleted automatically -- users still need to
-	// use the closeToAccount on the call makePaymentTxnWithSuggestedParams of the deleted asset.
-	// This is necessary for technical reasons because we currently can't have a single transaction touch potentially
-	// thousands of accounts (all the holdings that would need to be deleted).
-
-	// ==> DESTROY ASSET
-	// Transaction QCE52AAX75VBSGDL36VHMNVT6LXSR5M6V5JUNSKE6BXQGLQEMLDA confirmed in round 16833536
-	// Asset ID: 28291127
-	// Alice = RA6RAUNDQGHRWTCR5YRL2YJMIXTHWD5S3ZYHVBGSNA76AVBAYELSNRVKEI
-	// Bob = YC3UYV4JLHD344OC3G7JK37DRVSE7X7U2NOZVWSQNVKNEGV4M3KFA7WZ44
-}
-async function closeoutAliceAlgos(algodClient, alice) {
-	console.log('');
-	console.log("==> CLOSE OUT ALICE'S ALGOS TO DISPENSER");
-	let accountInfo = await algodClient.accountInformation(alice.addr).do();
-	console.log('Alice Account balance: %d microAlgos', accountInfo.amount);
-	const startingAmount = accountInfo.amount;
-	// Construct the transaction
-	const params = await algodClient.getTransactionParams().do();
-	// comment out the next two lines to use suggested fee
-	// params.fee = 1000;
-	// params.flatFee = true;
-	// For more info see:
-	// https://developer.algorand.org/docs/reference/transactions/#payment-transaction
-	// receiver account to send to
-	const receiver = alice.addr;
-	const enc = new TextEncoder();
-	const amount = 0;
-	const sender = alice.addr;
-	// closeToRemainder will remove the assetholding from the account
-	const closeRemainderTo = DISPENSERACCOUNT;
-	const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-		from: sender,
-		to: receiver,
-		amount,
-		closeRemainderTo,
-		note: undefined,
-		suggestedParams: params,
-	});
-	// Sign the transaction
-	const rawSignedTxn = txn.signTxn(alice.sk);
-	// Submit the transaction
-	const tx = await algodClient.sendRawTransaction(rawSignedTxn).do();
-	// Wait for confirmation
-	const confirmedTxn = await algosdk.waitForConfirmation(
-		algodClient,
-		tx.txId,
-		4
-	);
-	//Get the completed Transaction
-	console.log(
-		'Transaction ' +
-			tx.txId +
-			' confirmed in round ' +
-			confirmedTxn['confirmed-round']
-	);
-	// const mytxinfo = JSON.stringify(confirmedTxn.txn.txn, undefined, 2);
-	// console.log("Transaction information: %o", mytxinfo);
-	accountInfo = await algodClient.accountInformation(alice.addr).do();
-	let txAmount = confirmedTxn.txn.txn.amt;
-	if (confirmedTxn.txn.txn.amt === undefined) {
-		console.log('Transaction Amount: %d microAlgos', 0);
-		txAmount = 0;
-	} else {
-		console.log('Transaction Amount: %d microAlgos', confirmedTxn.txn.txn.amt);
-	}
-	console.log('Transaction Fee: %d microAlgos', confirmedTxn.txn.txn.fee);
-	const closeoutamt = startingAmount - txAmount - confirmedTxn.txn.txn.fee;
-	console.log('Close To Amount: %d microAlgos', closeoutamt);
-	console.log('Bobs Account balance: %d microAlgos', accountInfo.amount);
-
-	// Sample Output
-	// ==> CLOSE OUT ALICE'S ALGOS TO DISPENSER
-	// Alice Account balance: 8996000 microAlgos
-	// Transaction IC6IQVUOFLTTXNWZWD4F6L5CZXOFBTD3EY2QJUY5MHUOQSAX3CEA confirmed in round 16833543
-	// Transaction Amount: 0 microAlgos
-	// Transaction Fee: 1000 microAlgos
-	// Bobs Account balance: 0 microAlgos
-}
-
-const createAccount = function () {
-	try {
-		// let account1_mnemonic = "goat march toilet hope fan federal around nut drip island tooth mango table deal diesel reform lecture warrior tent volcano able wheel marriage absorb minimum";
-		// const myaccount = algosdk.mnemonicToSecretKey(account1_mnemonic);
-		const myaccount = algosdk.generateAccount();
-		console.log('Account Address = ' + myaccount.addr);
-		let account_mnemonic = algosdk.secretKeyToMnemonic(myaccount.sk);
-		console.log('Account Mnemonic = ' + account_mnemonic);
-		console.log('Account created. Save off Mnemonic and address');
-		console.log('Add funds to account using the TestNet Dispenser: ');
-		console.log(
-			'https://dispenser.testnet.aws.algodev.network/?account=' + myaccount.addr
-		);
-
-		return myaccount;
-	} catch (err) {
-		console.log('err', err);
-	}
-};
-
-// Function used to print created asset for account and assetid
-// const printCreatedAsset = async function (algodClient, account, assetid) {
-//     // note: if you have an indexer instance available it is easier to just use this
-//     //     let accountInfo = await indexerClient.searchAccounts()
-//     //    .assetID(assetIndex).do();
-//     // and in the loop below use this to extract the asset for a particular account
-//     // accountInfo['accounts'][idx][account]);
-//     let accountInfo = await algodClient.accountInformation(account).do();
-//     for (idx = 0; idx < accountInfo['created-assets'].length; idx++) {
-//         let scrutinizedAsset = accountInfo['created-assets'][idx];
-//         if (scrutinizedAsset['index'] == assetid) {
-//             console.log("AssetID = " + scrutinizedAsset['index']);
-//             let myparms = JSON.stringify(scrutinizedAsset['params'], undefined, 2);
-//             console.log("parms = " + myparms);
-//             break;
-//         }
-//     }
-// };
-// Function used to print asset holding for account and assetid
-// const printAssetHolding = async function (algodClient, account, assetid) {
-//     // note: if you have an indexer instance available it is easier to just use this
-//     //     let accountInfo = await indexerClient.searchAccounts()
-//     //    .assetID(assetIndex).do();
-//     // and in the loop below use this to extract the asset for a particular account
-//     // accountInfo['accounts'][idx][account]);
-//     let accountInfo = await algodClient.accountInformation(account).do();
-//     for (idx = 0; idx < accountInfo['assets'].length; idx++) {
-//         let scrutinizedAsset = accountInfo['assets'][idx];
-//         if (scrutinizedAsset['asset-id'] == assetid) {
-//             let myassetholding = JSON.stringify(scrutinizedAsset, undefined, 2);
-//             console.log("assetholdinginfo = " + myassetholding);
-//             break;
-//         }
-//     }
-// };
 
 async function createNFT(inputFields) {
 	try {
-		// let alice = createAccount();
-		// console.log("Press any key when the account is funded");
-		// await keypress();
-		// Connect your client
-		// const algodToken = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-		// const algodServer = 'http://localhost';
-		// const algodPort = 4001;
-		// const algodToken = '2f3203f21e738a1de6110eba6984f9d03e5a95d7a577b34616854064cf2c0e7b';
-		// const algodServer = 'https://academy-algod.dev.aws.algodev.network';
-		// const algodPort = 443;
-
-		// let algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
-		// let connectedAddress = await connectWallet();
-
 		// CREATE ASSET
-		const { assetID } = await createAsset(
-			algodClient,
-			// connectedAddress[0],
-			inputFields
-		);
-		console.log(assetID, 'assetId========>');
-		return assetID;
-
-		// DESTROY ASSET
-		// await destroyAsset(algodClient, alice, assetID);
-		// CLOSEOUT ALGOS - Alice closes out Alogs to dispenser
-		// await closeoutAliceAlgos(algodClient, alice);
+		const { nftID } = await createAsset(algodClient, inputFields);
+		console.log(nftID, 'assetId========>');
+		return nftID;
 	} catch (err) {
 		console.log('err', err);
 	}
@@ -373,6 +168,8 @@ async function createApp(nft_ID, accountaddress) {
 	await fetch(approval_program)
 		.then((r) => r.text())
 		.then((text) => {
+			console.log('there');
+
 			approvalProg = text;
 		});
 
@@ -384,7 +181,7 @@ async function createApp(nft_ID, accountaddress) {
 
 	let approval_teal = await compileProgram(algodClient, approvalProg);
 	let clear_teal = await compileProgram(algodClient, clearProg);
-
+	console.log('here');
 	const nftID = 115655736; //replace with nft_ID
 	const foreignAssets = [];
 	foreignAssets.push(nftID);
@@ -461,6 +258,185 @@ async function createApp(nft_ID, accountaddress) {
 	return { appID, appAddr };
 }
 
+const createAuctionApp = async (
+	startTime,
+	endTime,
+	nftID,
+	copies,
+	price,
+	royaltyaddress
+) => {
+	console.log({ startTime, endTime, nftID, copies, price, royaltyaddress });
+
+	try {
+		let approvalProg = '';
+		let clearProg = '';
+		await fetch(approval_program)
+			.then((r) => r.text())
+			.then((text) => {
+				approvalProg = text;
+			});
+
+		await fetch(clear_program)
+			.then((r) => r.text())
+			.then((text) => {
+				clearProg = text;
+			});
+
+		let approval_teal = await compileProgram(algodClient, approvalProg);
+		let clear_teal = await compileProgram(algodClient, clearProg);
+		const reserve = 1000000;
+		const minBidIncrement = 100000;
+		const royaltyfee = 35;
+		const params = await algodClient.getTransactionParams().do();
+		params.fee = 1000;
+		params.flatFee = true;
+		const app_args = [
+			algosdk.decodeAddress(royaltyaddress.toString()).publicKey,
+			algosdk.encodeUint64(nftID),
+			algosdk.encodeUint64(startTime),
+			algosdk.encodeUint64(endTime),
+			algosdk.encodeUint64(reserve),
+			algosdk.encodeUint64(minBidIncrement),
+			algosdk.encodeUint64(royaltyfee),
+			algosdk.decodeAddress(royaltyaddress.toString()).publicKey,
+		];
+		const txn = await algosdk.makeApplicationCreateTxn(
+			royaltyaddress.toString(),
+			params,
+			OnApplicationComplete.NoOpOC,
+			approval_teal,
+			clear_teal,
+			0,
+			0,
+			8,
+			3,
+			app_args
+		);
+		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
+		console.log('Response: ', response);
+		let appID = null;
+		const confirmedTxn = await algosdk.waitForConfirmation(
+			algodClient,
+			response.txId,
+			4
+		);
+		appID = confirmedTxn['application-index'];
+		// setAppId(appID);
+		console.log('confirmedTxn', confirmedTxn);
+		console.log('App is create with appId: ', appID);
+		await setupAuctionApp(appID, nftID, royaltyaddress, copies);
+		return appID;
+	} catch (err) {
+		console.log(err, 'error while algornad');
+	}
+};
+const setupAuctionApp = async (appid, nftID, accountaddress, copies) => {
+	try {
+		console.log('appid', appid);
+		console.log(appid, nftID, accountaddress, copies);
+		const app_address = algosdk.getApplicationAddress(appid);
+		const params = await algodClient.getTransactionParams().do();
+		params.fee = 1000;
+		params.flatFee = true;
+		const fundingAmount = 100000 + 100000 + 3 * 1000;
+
+		const fundAppTxn =
+			await algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+				suggestedParams: {
+					...params,
+				},
+				from: accountaddress.toString(),
+				to: app_address,
+				amount: fundingAmount,
+			});
+
+		const setupTxn = await algosdk.makeApplicationCallTxnFromObject({
+			from: accountaddress.toString(),
+			appIndex: appid,
+			onComplete: OnApplicationComplete.NoOpOC,
+			appArgs: [algosdk.encodeUint64(5)],
+			foreignAssets: [nftID],
+			suggestedParams: params,
+		});
+
+		const fundNftTxn =
+			await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+				from: accountaddress.toString(),
+				to: app_address,
+				assetIndex: nftID,
+				amount: copies,
+				suggestedParams: params,
+			});
+
+		algosdk.assignGroupID([fundAppTxn, setupTxn, fundNftTxn]);
+
+		const signedFundAppTxn = await myAlgoConnect.signTransaction(
+			fundAppTxn.toByte()
+		);
+		const signedSetupTxn = await myAlgoConnect.signTransaction(
+			setupTxn.toByte()
+		);
+		const signedFundNftTxn = await myAlgoConnect.signTransaction(
+			fundNftTxn.toByte()
+		);
+		const response = await algodClient
+			.sendRawTransaction([
+				signedFundAppTxn.blob,
+				signedSetupTxn.blob,
+				signedFundNftTxn.blob,
+			])
+			.do();
+
+		// const confirmedTxn = await algosdk.waitForConfirmation(
+		//   algodClient,
+		//   signedFundAppTxn.txId,
+		//   4
+		// );
+		console.log('Setup app is completed: ', response);
+
+		const global_state = await getAppGlobalState(appid, accountaddress);
+		console.log('SDfas 1234', global_state);
+		return appid;
+		// setGlobalState(global_state);
+		// console.log(global_state);
+	} catch (err) {
+		console.log(err, 'error while setting up app');
+	}
+};
+
+const getAppGlobalState = async (appid, accountaddress) => {
+	const appinfo = await algodClient
+		.accountApplicationInformation(accountaddress.toString(), appid)
+		.do();
+	console.log('appinfo', appinfo);
+	const state = await decodeState(appinfo['created-app']['global-state']);
+	return state;
+};
+
+const decodeState = async (stateArray) => {
+	let state = {};
+	console.log('stateArray', stateArray);
+	stateArray.forEach((pair) => {
+		let key = Buffer.from(pair['key'], 'base64');
+		let value = pair['value'];
+		let valueType = value['type'];
+
+		if (valueType == 2) {
+			value = value['uint'];
+		} else if (valueType == 1) {
+			value = Buffer.from(value['bytes'], 'base64');
+		} else {
+			console.log('Unexpected State Type: ', valueType);
+		}
+
+		state[key] = value;
+	});
+
+	return state;
+};
+
 // async function setSale(inputFields) {
 //   const params = await algodClient.getTransactionParams().do();
 
@@ -478,4 +454,10 @@ async function createApp(nft_ID, accountaddress) {
 //   console.log("setsale ", setsale);
 // }
 
-export { signMessageFromUserForAlgorand, createApp, CheckBalance, createNFT };
+export {
+	signMessageFromUserForAlgorand,
+	createApp,
+	CheckBalance,
+	createNFT,
+	createAuctionApp,
+};
