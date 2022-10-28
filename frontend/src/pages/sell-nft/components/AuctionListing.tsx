@@ -14,7 +14,9 @@ import { createAuctionApp } from '../../../utils/algorand';
 import {
 	listItemForFixedPriceSolana,
 	listItemForLiveAuction,
-} from '../../utils/solana/helper';
+} from '../../../utils/solana/helper';
+import { useWallet } from '@solana/wallet-adapter-react';
+
 const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
 		// submit,
@@ -38,6 +40,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	} = data;
 	const history: any = useHistory();
 	const location: any = useLocation();
+	const wallet: any = useWallet();
 	const submit = (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history)) {
@@ -110,7 +113,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 			///////////////////////
 
-
 			//////////////////////
 			if (blockchainType === 'ethereum') {
 				result = await openNFTForBidding(
@@ -130,7 +132,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					+price,
 					connectedAddress
 				);
-			}else if(blockchainType==="solana"){
+			} else if (blockchainType === 'solana') {
 				result = await listItemForLiveAuction(
 					wallet,
 					nftDetail?.mint,
@@ -142,7 +144,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			if (result) {
 				activityPayload.price = price;
 				payload.sellId = Number(result);
-				if (props.blockchainType?.toLowerCase() === 'solana') {
+				if (blockchainType?.toLowerCase() === 'solana') {
 					console.log('iffffffff');
 					payload.txnHash = result;
 					payload.sellerPublicKey = wallet.publicKey?.toBase58();
