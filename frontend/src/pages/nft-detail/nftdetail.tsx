@@ -391,20 +391,16 @@ const NFTDetail = (props: any) => {
 		setPrice(result);
 	};
 	const handleModalSubmit = async () => {
-		// if (await validateNetwork()) {
-		setLoader(true);
-
-		if (nftDetail?.auction?.sellingMethod === 2) {
-			placeBid();
-		} else {
-			makeOffer();
+		if (isUserLoggedIn(history)) {
+			setLoader(true);
+			if (nftDetail?.auction?.sellingMethod === 2) {
+				placeBid();
+			} else {
+				makeOffer();
+			}
 		}
-		// } else {
-		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-		// }
 	};
 	const placeBid = async () => {
-		// if (await validateNetwork()) {
 		try {
 			let result = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
@@ -437,9 +433,6 @@ const NFTDetail = (props: any) => {
 			setLoader(false);
 			toast.error(err);
 		}
-		// } else {
-		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-		// }
 	};
 
 	const makeOffer = async () => {
@@ -850,7 +843,7 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
-
+	console.log(nftDetail, 'nftDetail');
 	return (
 		<>
 			<Banner
