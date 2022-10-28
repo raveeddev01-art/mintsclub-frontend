@@ -5,12 +5,21 @@ import ModalClose from '../../../assets/images/modal-close.svg';
 import '../BuyModal/BuyModal.scss';
 import TickIcon from '../../assets/images/tick-checkbox.svg';
 import axios from 'axios';
-import { BidModalInt } from '../../../interfaces/components';
+import { BidModalInt, CHAINS_INTERFACE } from '../../../interfaces/components';
+import { ENV } from '../../../config/config';
+import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 
 const BidModal: FC<BidModalInt> = (props) => {
 	const [checkBox, setCheckBox] = useState<any>(false);
+	const [blockchainType, setBlockchainType] = useState<any>('');
 	const [exchangeRate, setExchangeRate] = useState<any>(0);
+
 	useEffect(() => {
+		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
+			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
+		} else {
+			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
+		}
 		axios
 			.get(
 				'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
@@ -83,11 +92,24 @@ const BidModal: FC<BidModalInt> = (props) => {
 						</div>
 					</div>
 					<div className="inp-currency">
-						<h6>ETH</h6>
+						<h6>
+							{
+								CHAIN_CURRENCY[
+									blockchainType.toLowerCase() as keyof CHAINS_INTERFACE
+								]
+							}
+						</h6>
 					</div>
 				</div>
 				<div className="bid-balance text-start">
-					<p>Balance: {Number(balance).toFixed(4)} ETH</p>
+					<p>
+						Balance: {Number(balance).toFixed(4)}{' '}
+						{
+							CHAIN_CURRENCY[
+								blockchainType.toLowerCase() as keyof CHAINS_INTERFACE
+							]
+						}
+					</p>
 				</div>
 				{balance !== '' && balance === 0 && (
 					<p className="text-center insufcient-funds text-danger">
