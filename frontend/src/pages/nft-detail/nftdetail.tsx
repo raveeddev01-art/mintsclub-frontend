@@ -401,7 +401,6 @@ const NFTDetail = (props: any) => {
 			}
 		}
 	};
-	console.log(nftDetail, 'nftDetail');
 	const placeBid = async () => {
 		const { connectedAddress } = props;
 		const { auction, ownerAddress, _id, ownerId, tokenId, mint } = nftDetail;
