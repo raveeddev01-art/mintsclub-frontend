@@ -436,173 +436,185 @@ const decodeState = async (stateArray) => {
 
 	return state;
 };
-
+function checkAddress(elem) {
+	return elem;
+}
 ///place a bid
 
-const placeBid = async (bid, bidder_address) => {
-	const appid = 117205865;
-	const nftID = 116191502;
-	let prevBidLeader = null;
-	const app_address = await algosdk.getApplicationAddress(appid);
-	// console.log(globalState)
-	let global_state = await getAppGlobalState(appid);
-	//   var global_state = {"nft_id": 116191502, "bid_account": {"type": "Buffer","data": [0,0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0,
-	//             0
-	//         ]
-	//     },
-	//     "royalty_address": {
-	//         "type": "Buffer",
-	//         "data": [
-	//             33,
-	//             160,
-	//             162,
-	//             211,
-	//             37,
-	//             202,
-	//             55,
-	//             153,
-	//             85,
-	//             94,
-	//             67,
-	//             27,
-	//             76,
-	//             175,
-	//             204,
-	//             151,
-	//             98,
-	//             7,
-	//             239,
-	//             4,
-	//             73,
-	//             168,
-	//             186,
-	//             228,
-	//             242,
-	//             118,
-	//             62,
-	//             130,
-	//             156,
-	//             168,
-	//             124,
-	//             108
-	//         ]
-	//     },
-	//     "end": 1666245931,
-	//     "min_bid_inc": 100000,
-	//     "start": 1666245871,
-	//     "reserve_amount": 1000000,
-	//     "seller": {
-	//         "type": "Buffer",
-	//         "data": [
-	//             133,
-	//             61,
-	//             7,
-	//             35,
-	//             136,
-	//             87,
-	//             241,
-	//             215,
-	//             95,
-	//             210,
-	//             250,
-	//             138,
-	//             47,
-	//             40,
-	//             22,
-	//             11,
-	//             133,
-	//             240,
-	//             81,
-	//             237,
-	//             224,
-	//             61,
-	//             8,
-	//             188,
-	//             81,
-	//             82,
-	//             117,
-	//             38,
-	//             10,
-	//             162,
-	//             197,
-	//             7
-	//         ]
-	//     },
-	//     "royalty_fee": 35
-	// }
-	if (global_state['bid_account']['data'].some(checkAddress)) {
-		prevBidLeader = algosdk.encodeAddress(global_state['bid_account']);
-		prevBidLeader = [prevBidLeader];
-	} else {
-		prevBidLeader = [];
+const placeBidOnAlgorand = async (
+	bid,
+	bidder_address,
+	ownerAddress,
+	appid,
+	nftID
+) => {
+	try {
+		let prevBidLeader = null;
+		const app_address = await algosdk.getApplicationAddress(appid);
+		console.log({ bid, bidder_address, ownerAddress, appid, nftID });
+		// console.log(globalState)
+		let global_state = await getAppGlobalState(appid, ownerAddress);
+		console.log(global_state, 'global_state');
+		//   var global_state = {"nft_id": 116191502, "bid_account": {"type": "Buffer","data": [0,0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0,
+		//             0
+		//         ]
+		//     },
+		//     "royalty_address": {
+		//         "type": "Buffer",
+		//         "data": [
+		//             33,
+		//             160,
+		//             162,
+		//             211,
+		//             37,
+		//             202,
+		//             55,
+		//             153,
+		//             85,
+		//             94,
+		//             67,
+		//             27,
+		//             76,
+		//             175,
+		//             204,
+		//             151,
+		//             98,
+		//             7,
+		//             239,
+		//             4,
+		//             73,
+		//             168,
+		//             186,
+		//             228,
+		//             242,
+		//             118,
+		//             62,
+		//             130,
+		//             156,
+		//             168,
+		//             124,
+		//             108
+		//         ]
+		//     },
+		//     "end": 1666245931,
+		//     "min_bid_inc": 100000,
+		//     "start": 1666245871,
+		//     "reserve_amount": 1000000,
+		//     "seller": {
+		//         "type": "Buffer",
+		//         "data": [
+		//             133,
+		//             61,
+		//             7,
+		//             35,
+		//             136,
+		//             87,
+		//             241,
+		//             215,
+		//             95,
+		//             210,
+		//             250,
+		//             138,
+		//             47,
+		//             40,
+		//             22,
+		//             11,
+		//             133,
+		//             240,
+		//             81,
+		//             237,
+		//             224,
+		//             61,
+		//             8,
+		//             188,
+		//             81,
+		//             82,
+		//             117,
+		//             38,
+		//             10,
+		//             162,
+		//             197,
+		//             7
+		//         ]
+		//     },
+		//     "royalty_fee": 35
+		// }
+		if (global_state['bid_account']['data'].some(checkAddress)) {
+			prevBidLeader = algosdk.encodeAddress(global_state['bid_account']);
+			prevBidLeader = [prevBidLeader];
+		} else {
+			prevBidLeader = [];
+		}
+
+		const params = await algodClient.getTransactionParams().do();
+		params.fee = 1000;
+		params.flatFee = true;
+
+		const payTxn = await algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+			from: bidder_address,
+			to: app_address,
+			amount: bid,
+			suggestedParams: params,
+		});
+
+		const appCallTxn = await algosdk.makeApplicationCallTxnFromObject({
+			from: bidder_address,
+			appIndex: appid,
+			onComplete: OnApplicationComplete.NoOpOC,
+			appArgs: [algosdk.encodeUint64(6)],
+			foreignAssets: [nftID],
+			accounts: prevBidLeader,
+			suggestedParams: params,
+		});
+
+		algosdk.assignGroupID([payTxn, appCallTxn]);
+
+		const signedPayTxn = await myAlgoConnect.signTransaction(payTxn.toByte());
+		const signedAppCallTxn = await myAlgoConnect.signTransaction(
+			appCallTxn.toByte()
+		);
+
+		const response = await algodClient
+			.sendRawTransaction([signedPayTxn.blob, signedAppCallTxn.blob])
+			.do();
+
+		// const confirmedTxn = await algosdk.waitForConfirmation(
+		//   algodClient,
+		//   appCallTxn.txId,
+		// );
+		console.log('Bid is placed: ', response);
+	} catch (err) {
+		console.log(err, 'error while algorand bidding');
 	}
-
-	const params = await algodClient.getTransactionParams().do();
-	params.fee = 1000;
-	params.flatFee = true;
-
-	const payTxn = await algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-		from: bidder_address,
-		to: app_address,
-		amount: bid,
-		suggestedParams: params,
-	});
-
-	const appCallTxn = await algosdk.makeApplicationCallTxnFromObject({
-		from: bidder_address,
-		appIndex: appid,
-		onComplete: OnApplicationComplete.NoOpOC,
-		appArgs: [algosdk.encodeUint64(6)],
-		foreignAssets: [nftID],
-		accounts: prevBidLeader,
-		suggestedParams: params,
-	});
-
-	algosdk.assignGroupID([payTxn, appCallTxn]);
-
-	const signedPayTxn = await myAlgoConnect.signTransaction(payTxn.toByte());
-	const signedAppCallTxn = await myAlgoConnect.signTransaction(
-		appCallTxn.toByte()
-	);
-
-	const response = await algodClient
-		.sendRawTransaction([signedPayTxn.blob, signedAppCallTxn.blob])
-		.do();
-
-	// const confirmedTxn = await algosdk.waitForConfirmation(
-	//   algodClient,
-	//   appCallTxn.txId,
-	// );
-	console.log('Bid is placed: ', response);
 };
 
 // async function setSale(inputFields) {
@@ -628,4 +640,5 @@ export {
 	CheckBalance,
 	createNFT,
 	createAuctionApp,
+	placeBidOnAlgorand,
 };

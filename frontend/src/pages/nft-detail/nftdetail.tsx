@@ -73,6 +73,7 @@ import {
 	cancelItemFromListing,
 	getSolanaBalance,
 } from '../../utils/solana/helper';
+import { placeBidOnAlgorand } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 
@@ -400,30 +401,42 @@ const NFTDetail = (props: any) => {
 			}
 		}
 	};
+	console.log(nftDetail, 'nftDetail');
 	const placeBid = async () => {
+		const { connectedAddress } = props;
+		const { auction, ownerAddress, _id, ownerId, tokenId, mint } = nftDetail;
 		try {
 			let result = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				result = await bidForLiveAuction(
 					wallet,
-					nftDetail?.auction.sellerPublicKey,
-					nftDetail?.mint,
+					auction?.sellerPublicKey,
+					mint,
 					price
 				);
-			}
-			if (ENV.getUserKeys('blockchainType').blockchainType !== 'solana') {
-				result = await placeABid(price, nftDetail?.auction?.sellId);
+			} else if (
+				ENV.getUserKeys('blockchainType').blockchainType !== 'algorand'
+			) {
+				result = await placeABid(price, auction?.sellId);
+			} else {
+				result = await placeBidOnAlgorand(
+					+price,
+					connectedAddress,
+					ownerAddress,
+					auction?.sellId,
+					tokenId
+				);
 			}
 			if (result) {
 				const payload = {
-					ownerId: nftDetail.ownerId,
-					auctionId: nftDetail?.auction?._id,
+					ownerId: ownerId,
+					auctionId: auction?._id,
 					bidAmount: price,
-					nftId: nftDetail._id,
+					nftId: _id,
 					bidBy: ENV.getUserKeys('_id')._id,
 					isAccepted: false,
-					toAddress: nftDetail.ownerAddress,
-					fromAddress: props.connectedAddress,
+					toAddress: ownerAddress,
+					fromAddress: connectedAddress,
 				};
 				props.beforeBid();
 				props.placeBid(payload);
