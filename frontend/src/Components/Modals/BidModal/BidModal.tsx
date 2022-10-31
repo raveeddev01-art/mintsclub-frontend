@@ -29,6 +29,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				setExchangeRate(currentUSD);
 			});
 	}, []);
+
 	const {
 		onChange,
 		decimalNumberValidator,

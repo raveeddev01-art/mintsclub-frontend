@@ -73,6 +73,7 @@ import {
 	cancelItemFromListing,
 	getSolanaBalance,
 } from '../../utils/solana/helper';
+import { placeBidOnAlgorand, getAlgoBalance } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 
@@ -86,7 +87,6 @@ const NFTDetail = (props: any) => {
 	const [activities, setActivities] = useState<any>([]);
 	const [loader, setLoader] = useState<boolean>(true);
 	const [price, setPrice] = useState<number>(0);
-	const [bids, setBids] = useState<any>(null);
 	const [offers, setOffers] = useState<any>(null);
 	const [modalShow, setModalShow] = useState<any>(false);
 	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
@@ -146,79 +146,25 @@ const NFTDetail = (props: any) => {
 		onSuccessGetNFT
 	);
 
-	//get activities
-	const onSuccessGetActivities = (data: any) => {
-		if (data.data.success) {
-			setActivities(data.data.data);
-		} else {
-			setError(data.data.message);
-		}
-	};
-
-	const { isLoading: isLoadingActivity } = useGetData(
-		'GetActivities',
-		'activity/get',
-		ENV.objectToQueryString({ nftId: nftDetail._id }),
-		onSuccessGetActivities,
-		null,
-		beforeGetActivities
-	);
-
-	//get offers
-	const onSuccessGetOffers = (data: any) => {
-		if (data.data.success) {
-			setOffers(data.offers);
-		} else {
-			setError(data.data.message);
-		}
-	};
-
-	const { isLoading: isLoadingOffers } = useGetData(
-		'GetOffers',
-		'offer/list',
-		ENV.objectToQueryString({ nftId: nftDetail._id }),
-		onSuccessGetOffers,
-		null,
-		beforeGetOffers
-	);
-
-	//get Bids
-	const onSuccessGetBids = (data: any) => {
-		if (data.data.success) {
-			setBids(data.data.data.Bids);
-		} else {
-			setError(data.data.message);
-		}
-	};
-
-	const { isLoading: isLoadingBids } = useGetData(
-		'GetBids',
-		'bid/list',
-		ENV.objectToQueryString({ nftId: nftDetail._id }),
-		onSuccessGetBids,
-		null,
-		beforeGetBids
-	);
-
 	useEffect(() => {
-		const getBannerData = async () => {
-			// props.beforeNFT();
-			// props.getNFT(nftId);
+		const getData = async () => {
 			props.beforeNFTByCollection();
 			let qs: any = { userId };
 			qs = ENV.objectToQueryString(qs);
 			props.getMyLikedNfts(qs);
 			validateIfLiked();
 			let balance = undefined;
-			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
+			if (props.blockchainType === 'solana') {
 				balance = await getSolanaBalance(wallet);
-			} else {
+			} else if (props.blockchainType !== 'algorand') {
 				balance = await getBalance();
+			} else if (props.blockchainType === 'algorand') {
+				balance = await getAlgoBalance(props.connectedAddress);
+				console.log(balance, 'balance');
 			}
 			setBalance(balance);
-			// setLoader(true);
 		};
-		getBannerData();
+		getData();
 	}, [props.match.params.id]);
 
 	useEffect(() => {
@@ -390,43 +336,50 @@ const NFTDetail = (props: any) => {
 		setPrice(result);
 	};
 	const handleModalSubmit = async () => {
-		// if (await validateNetwork()) {
-		setLoader(true);
-
-		if (nftDetail?.auction?.sellingMethod === 2) {
-			placeBid();
-		} else {
-			makeOffer();
+		if (isUserLoggedIn(history)) {
+			setLoader(true);
+			if (nftDetail?.auction?.sellingMethod === 2) {
+				placeBid();
+			} else {
+				makeOffer();
+			}
 		}
-		// } else {
-		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-		// }
 	};
 	const placeBid = async () => {
-		// if (await validateNetwork()) {
+		const { connectedAddress } = props;
+		const { auction, ownerAddress, _id, ownerId, tokenId, mint } = nftDetail;
 		try {
 			let result = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				result = await bidForLiveAuction(
 					wallet,
-					nftDetail?.auction.sellerPublicKey,
-					nftDetail?.mint,
+					auction?.sellerPublicKey,
+					mint,
 					price
 				);
-			}
-			if (ENV.getUserKeys('blockchainType').blockchainType !== 'solana') {
-				result = await placeABid(price, nftDetail?.auction?.sellId);
+			} else if (
+				ENV.getUserKeys('blockchainType').blockchainType !== 'algorand'
+			) {
+				result = await placeABid(price, auction?.sellId);
+			} else {
+				result = await placeBidOnAlgorand(
+					+price,
+					connectedAddress,
+					ownerAddress,
+					auction?.sellId,
+					tokenId
+				);
 			}
 			if (result) {
 				const payload = {
-					ownerId: nftDetail.ownerId,
-					auctionId: nftDetail?.auction?._id,
+					ownerId: ownerId,
+					auctionId: auction?._id,
 					bidAmount: price,
-					nftId: nftDetail._id,
+					nftId: _id,
 					bidBy: ENV.getUserKeys('_id')._id,
 					isAccepted: false,
-					toAddress: nftDetail.ownerAddress,
-					fromAddress: props.connectedAddress,
+					toAddress: ownerAddress,
+					fromAddress: connectedAddress,
 				};
 				props.beforeBid();
 				props.placeBid(payload);
@@ -436,9 +389,6 @@ const NFTDetail = (props: any) => {
 			setLoader(false);
 			toast.error(err);
 		}
-		// } else {
-		// 	toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-		// }
 	};
 
 	const makeOffer = async () => {
@@ -752,12 +702,12 @@ const NFTDetail = (props: any) => {
 		);
 		if (res.data.success) {
 			if (userId === ownerId) {
-				props.beforeBid();
-				setBids(null);
+				// props.beforeBid();
+				// setBids(null);
 				toast.success(res.data.message);
 			} else {
-				props.beforeBid();
-				setBids(null);
+				// props.beforeBid();
+				// setBids(null);
 				toast.success('You have purchased NFT successfully');
 			}
 			history.push('/userprofile');
@@ -849,7 +799,7 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
-
+	console.log(nftDetail, 'nftDetail');
 	return (
 		<>
 			<Banner
@@ -934,9 +884,15 @@ const NFTDetail = (props: any) => {
 									</div>
 								</div>
 								<Offers
-									data={{ bids, exchangeRate, lowestNftPrice, sellingMethod }}
+									data={{
+										exchangeRate,
+										lowestNftPrice,
+										sellingMethod,
+										nftId: nftDetail?._id,
+										beforeGetBids,
+									}}
 								/>
-								<Activities activities={activities} />
+								<Activities nftId={nftDetail?._id} />
 							</div>
 						</div>
 						<MoreNFTs info={{ nfts, likedNfts }} />
@@ -1005,6 +961,7 @@ const mapStateToProps = (state: any) => ({
 	bidsByNftAuth: state.bid.bidsBYNftAuth,
 	togleLikeRes: state.explore.togleLikeRes,
 	connectedAddress: state.wallet.connectedAddress,
+	blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
 });
 
 export default connect(mapStateToProps, {

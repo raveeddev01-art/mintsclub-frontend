@@ -26,7 +26,7 @@ export interface BannerInterface {
 
 export interface TableInterface {
 	titles: any[];
-	data: any[];
+	data: any;
 	lowestNftPrice: number;
 	exchangeRate: number;
 	status: string;
