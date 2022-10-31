@@ -40,11 +40,12 @@ export const connectWallet = async () => {
 		console.error(err);
 	}
 };
-const CheckBalance = async (accountaddress) => {
+const getAlgoBalance = async (accountaddress) => {
 	// console.log(algodClient);
 	let accountInfo = await algodClient.accountInformation(accountaddress).do();
 	console.log(accountInfo);
 	console.log('Account balance: %d microAlgos', accountInfo.amount);
+	return accountInfo.amount;
 };
 
 const sendAmount = async (accountaddress, to_address) => {
@@ -568,7 +569,7 @@ const placeBidOnAlgorand = async (
 		//     },
 		//     "royalty_fee": 35
 		// }
-		if (global_state['bid_account']['data'].some(checkAddress)) {
+		if (global_state['bid_account']['data']?.some(checkAddress)) {
 			prevBidLeader = algosdk.encodeAddress(global_state['bid_account']);
 			prevBidLeader = [prevBidLeader];
 		} else {
@@ -611,7 +612,8 @@ const placeBidOnAlgorand = async (
 		//   algodClient,
 		//   appCallTxn.txId,
 		// );
-		console.log('Bid is placed: ', response);
+		return response;
+		// console.log('Bid is placed: ', response);
 	} catch (err) {
 		console.log(err, 'error while algorand bidding');
 	}
@@ -637,7 +639,7 @@ const placeBidOnAlgorand = async (
 export {
 	signMessageFromUserForAlgorand,
 	createApp,
-	CheckBalance,
+	getAlgoBalance,
 	createNFT,
 	createAuctionApp,
 	placeBidOnAlgorand,
