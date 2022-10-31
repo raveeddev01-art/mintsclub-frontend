@@ -167,96 +167,94 @@ const SellNFT = (props: any) => {
 	//onSubmit
 	const submit = async (e: any) => {
 		e.preventDefault();
-		if (isUserLoggedIn(history)) {
+		try {
 			if (
-				(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
-				!nftDetail.isApproved
+				isUserLoggedIn(history) &&
+				props.blockchainType !== 'algorand' &&
+				props.blockchainType !== 'solana'
 			) {
-				setShow(true);
-				return;
+				if (
+					(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
+					!nftDetail.isApproved
+				) {
+					setShow(true);
+					return;
+				}
 			}
-			return '';
-		}
-		// if (await validateNetwork()) {
-		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
-			if (!nftDetail.isApproved) {
-				setShow(true);
-				return '';
-			}
-			if (!nftDetail?.user?.isApproved && nftDetail?.isApproved) {
-				setShow(true);
-				return '';
-			}
-		}
 
-		let price: any = '';
-		let payload: object = {};
+			let price: any = '';
+			let payload: object = {};
 
-		const timedConfig = { ...timedAuctionConfig };
+			const timedConfig = { ...timedAuctionConfig };
 
-		const fixedConfig = { ...fixedPriceConfig };
-		const { _id, ownerId } = nftDetail;
+			const fixedConfig = { ...fixedPriceConfig };
+			const { _id, ownerId } = nftDetail;
 
-		const activityPayload = {
-			nftId: _id,
-			ownerId,
-			fromAddress: props.connectedAddress,
-			activityType: 'List',
-		};
-
-		if (sellingMethod === 2) {
-			if (Number(timedConfig.startPrice.amount) === 0) {
-				toast.error('Price should be greater then 0');
-				return '';
-			}
-			const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-			const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
-			//calculate end time
-			timedConfig.duration.endDate = calclateStartOrEndTime(
-				timedAuctionEndTime,
-				timedConfig.duration.endTime
-			);
-
-			//calculate start time
-			timedConfig.duration.startDate = calclateStartOrEndTime(
-				timedAuctionStartTime,
-				timedConfig.duration.startTime
-			);
-
-			//Deleting unused data from payload
-			const auctionConfig = timedConfig;
-			delete auctionConfig.duration.startTime;
-			delete auctionConfig.duration.endTime;
-			delete auctionConfig.method;
-			price = Number(auctionConfig.startPrice.amount);
-			auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
-			payload = {
-				nftId: location.state._id,
-				userId: ENV.getUserKeys('_id')._id,
-				sellingMethod,
-				sellingConfig: JSON.stringify(auctionConfig),
-				copiesForAuction: copies,
+			const activityPayload = {
+				nftId: _id,
+				ownerId,
+				fromAddress: props.connectedAddress,
+				activityType: 'List',
 			};
-		} else {
-			price = Number(fixedConfig.price.amount);
-			if (price === 0) {
-				toast.error('Price should be greater then 0');
-				return '';
+
+			if (sellingMethod === 2) {
+				if (Number(timedConfig.startPrice.amount) === 0) {
+					toast.error('Price should be greater then 0');
+					return '';
+				}
+				const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
+				const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+				//calculate end time
+				timedConfig.duration.endDate = calclateStartOrEndTime(
+					timedAuctionEndTime,
+					timedConfig.duration.endTime
+				);
+
+				//calculate start time
+				timedConfig.duration.startDate = calclateStartOrEndTime(
+					timedAuctionStartTime,
+					timedConfig.duration.startTime
+				);
+
+				//Deleting unused data from payload
+				const auctionConfig = timedConfig;
+				delete auctionConfig.duration.startTime;
+				delete auctionConfig.duration.endTime;
+				delete auctionConfig.method;
+				price = Number(auctionConfig.startPrice.amount);
+				auctionConfig.startPrice.amount = Number(
+					auctionConfig.startPrice.amount
+				);
+				payload = {
+					nftId: location.state._id,
+					userId: ENV.getUserKeys('_id')._id,
+					sellingMethod,
+					sellingConfig: JSON.stringify(auctionConfig),
+					copiesForAuction: copies,
+				};
+			} else {
+				price = Number(fixedConfig.price.amount);
+				if (price === 0) {
+					toast.error('Price should be greater then 0');
+					return '';
+				}
+				payload = {
+					nftId: location.state._id,
+					sellingMethod,
+					sellingConfig: JSON.stringify(fixedConfig),
+					copiesForAuction: copies,
+				};
 			}
-			payload = {
-				nftId: location.state._id,
-				sellingMethod,
-				sellingConfig: JSON.stringify(fixedConfig),
-				copiesForAuction: copies,
-			};
-		}
 
-		setLoader(true);
+			setLoader(true);
 
-		if (sellingMethod === 2) {
-			openBidding(timedAuctionConfig, payload, activityPayload, price);
-		} else {
-			openForSale(activityPayload, payload, fixedConfig, price);
+			if (sellingMethod === 2) {
+				openBidding(timedAuctionConfig, payload, activityPayload, price);
+			} else {
+				openForSale(activityPayload, payload, fixedConfig, price);
+			}
+		} catch (err) {
+			console.log(err, 'error while sell nft');
 		}
 	};
 
