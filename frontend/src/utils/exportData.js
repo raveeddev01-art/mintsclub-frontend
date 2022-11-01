@@ -152,6 +152,10 @@ export const ChainsOptions = [
 		label: 'Binance',
 		value: 0,
 	},
+	{
+		label: 'Solana',
+		value: 'solana',
+	},
 ];
 export const nftTypesOptions = [
 	{

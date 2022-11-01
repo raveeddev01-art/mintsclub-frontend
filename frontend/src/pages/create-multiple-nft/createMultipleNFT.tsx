@@ -86,7 +86,7 @@ function CreateMultipleNFT(props: any) {
 		(res: any) => {
 			if (res.data.success) {
 				console.log(res.data.data.collections, 'collections');
-				const collectionsOptions = res.data.data.collections.Collections.map(
+				const collectionsOptions = res?.data?.data?.collections.Collections.map(
 					(item: any) => {
 						return {
 							value: item._id,
@@ -201,7 +201,7 @@ function CreateMultipleNFT(props: any) {
 				fileType: batchFile.nftCollectionType,
 				chainId: batchFile.chainId,
 				categoryId: batchFile.categoryId,
-				status: 'pending',
+				status: 'inProgress',
 				ownerAddress: props?.connectedAddress,
 				userId: ENV.getUserKeys('_id')._id,
 			};
