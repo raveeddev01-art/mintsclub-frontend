@@ -15,7 +15,6 @@ import { useEditData } from '../../hooks/Common';
 import { useGetUserDataById } from '../../hooks/UserProfile';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { compressImage } from '../../utils/functions';
-import axios from 'axios';
 
 const EditProfile = (props: any) => {
 	const [loader, setLoader] = useState<boolean>(false);
@@ -96,35 +95,22 @@ const EditProfile = (props: any) => {
 			setImage(file);
 		}
 	};
-	const formatBytes = (bytes: number, decimals = 2) => {
-		if (bytes === 0) return '0 Bytes';
-
-		const k = 1024;
-		const dm = decimals < 0 ? 0 : decimals;
-		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-		const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-		return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-	};
 
 	const submit = async (e: any) => {
 		e.preventDefault();
 		setErrors('');
 		setLoader(true);
-		// let signature = await signRequest();
-
 		const formData = new FormData();
+		let file = null;
 		formData.append('userId', ENV.getUserKeys('_id')._id);
 		if (image?.name) {
-			const compressedFile: any = await compressImage(image);
-			const result: any = await uploadFileToIpfs(compressedFile);
-
-			const url = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
-			formData.append('profileImage', url);
+			file = await compressImage(image);
 		} else {
-			formData.append('profileImage', imageUrl);
+			file = image;
 		}
+
+		formData.append('profileImage', file);
+		// }
 		if (banner) {
 			formData.append('bannerImage', banner);
 		}
@@ -136,22 +122,6 @@ const EditProfile = (props: any) => {
 		formData.append('instaLink', instaLink);
 
 		mutate(formData);
-	};
-	const uploadFileToIpfs = async (file: string) => {
-		const data: any = new FormData();
-		data.append('file', file);
-		try {
-			const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-			const response = await axios.post(url, data, {
-				headers: {
-					'Content-Type': `multipart/form-data; boundary= ${data._boundary}`,
-					Authorization: `Bearer ${ENV.pinataJWT}`,
-				},
-			});
-			return response;
-		} catch (err: any) {
-			toast.error(err);
-		}
 	};
 	const bannerData = {
 		subHeading: 'Information',
