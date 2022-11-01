@@ -94,7 +94,10 @@ const NavbarMain = () => {
 							alt="logo"
 						/>
 					</NavLink>
-					<Navbar.Toggle aria-controls="basic-navbar-nav" />
+					<Navbar.Toggle
+						className="Navbar-droptown"
+						aria-controls="basic-navbar-nav"
+					/>
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className={'ms-xl-auto'}>
 							<NavLink className="nav-main-link nav-link" to="/">

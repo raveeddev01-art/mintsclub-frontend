@@ -30,7 +30,7 @@ export const WordsFamousNfts = [
 	{ img: nft7 },
 ];
 
-export const currency: any = {
+export const currency = {
 	ethereum: 'ETH',
 	polygon: 'MATIC',
 	BSC: 'BSC',
@@ -103,7 +103,7 @@ export const getBannerData = (subHeading, heading) => {
 		subHeading: subHeading,
 		heading: heading,
 		content:
-			'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
+			'Explore on the world`s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
 	};
 };
 //All NFTs

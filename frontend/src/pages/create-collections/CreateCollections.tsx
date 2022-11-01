@@ -64,7 +64,7 @@ const MintSwitch = styled(Switch)(({ theme }: any) => ({
 		backgroundColor:
 			theme.palette.mode === 'dark'
 				? 'rgba(255,255,255,.35)'
-				: 'rgba(0,0,0,.25)',
+				: 'rgb(159, 159, 159)',
 		boxSizing: 'border-box',
 	},
 }));
@@ -633,10 +633,8 @@ class CreateCollections extends Component<
 									></textarea>
 								</div>
 								<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-									<div>
-										<label className="create-collection-label ms-0">
-											Deploy Collection
-										</label>
+									<div className="create-collection-label ms-0">
+										<label>Deploy Collection</label>
 										<p>It&apos;s free</p>
 									</div>
 									<MintSwitch
