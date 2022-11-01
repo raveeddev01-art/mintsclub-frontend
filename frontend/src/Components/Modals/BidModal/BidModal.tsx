@@ -95,7 +95,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						<h6>
 							{
 								CHAIN_CURRENCY[
-									blockchainType.toLowerCase() as keyof CHAINS_INTERFACE
+									blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
 								]
 							}
 						</h6>
@@ -106,7 +106,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						Balance: {Number(balance).toFixed(4)}{' '}
 						{
 							CHAIN_CURRENCY[
-								blockchainType.toLowerCase() as keyof CHAINS_INTERFACE
+								blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
 							]
 						}
 					</p>
