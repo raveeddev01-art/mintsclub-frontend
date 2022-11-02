@@ -19,7 +19,6 @@ export const ENV = {
 
 	web3ProviderAddress: process.env.REACT_APP_WEB3_PROVIDER_ADDRESS,
 	ariswapContractAddress: process.env.REACT_APP_ARISWAP_CONTRACT_ADDRESS,
-	pinataJWT: process.env.REACT_APP_PINATA_JWT,
 	batchMintLazyContract: process.env.REACT_APP_BATCHMINT_LAZY_CONTRACT,
 	// process variables
 	url: process.env.REACT_APP_BASE_URL,

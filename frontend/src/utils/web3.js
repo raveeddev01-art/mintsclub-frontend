@@ -239,17 +239,19 @@ export const lazyMint = async (
 	}
 };
 
-export const editNFTUri = async (tokenId, metaData) => {
+export const editNFTUri = async (tokenId, metaData, collectionAddress) => {
 	try {
 		let web3 = await getWeb3();
+		console.log({ tokenId, metaData });
 		if (!web3) {
 			toast.error('No web3 instance found');
 			return false;
 		}
-
 		const { abi, contractAddress } = getMintContractInfo();
-
-		const contractM = await getContractMethods(abi, contractAddress);
+		const contractM = await getContractMethods(
+			abi,
+			collectionAddress ? collectionAddress : contractAddress
+		);
 		let connectedAddress = await connectMetamask();
 		let result = await contractM.methods
 			.EditNFTUri(+tokenId, metaData)
@@ -386,7 +388,7 @@ export const putonsale = async (
 			});
 		console.log(result, 'result==>');
 		let sellId = Number(result.events.OfferSale.returnValues._fixeditemid);
-		console.log({ sellId, whole: result.events.OfferSale }, 'sellId');
+		console.log({ sellId, whole: result.events.OfferSale }, 'sRellId');
 		return sellId;
 	} catch (err) {
 		console.log(err, 'error');
