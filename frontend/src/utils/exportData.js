@@ -156,6 +156,10 @@ export const ChainsOptions = [
 		label: 'Solana',
 		value: 'solana',
 	},
+	{
+		label: 'Algorand',
+		value: 'algorand',
+	},
 ];
 export const nftTypesOptions = [
 	{
