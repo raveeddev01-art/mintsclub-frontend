@@ -107,7 +107,7 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 													collection?.username[0] ? collection.username[0] : ''
 												}
 												NFTCount={
-													collection.TotalNfts ? collection.TotalNfts : 0
+													collection.nftDetail ? collection.nftDetail.length : 0
 												}
 												profileImage={collection?.profileImage[0]}
 												ownerAddress={collection?.ownerAddress}
