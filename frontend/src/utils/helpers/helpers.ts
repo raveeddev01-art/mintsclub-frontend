@@ -4,6 +4,7 @@ import binance from '../../assets/images/about-binance.svg';
 import algoran from '../../assets/images/about-algoran.svg';
 import solana from '../../assets/images/about-solana.svg';
 import { ENV } from '../../config/config';
+import { formatBytes } from '../functions';
 const CHAIN_LOGOS = {
 	polygon: polygonIcon,
 	ethereum: ethereumIcon,
@@ -83,10 +84,51 @@ const verifyNFTStatus = (
 	}
 };
 
+const handleFilesValidation = (
+	e: {
+		dataTransfer: { files: { type: string }[] };
+		target: { files: { type: string }[] };
+	},
+	status: string
+) => {
+	let files: any;
+	let type: any;
+	if (status === 'onDrag') {
+		files = e.dataTransfer.files[0];
+		type = e.dataTransfer.files[0].type;
+	} else {
+		files = e.target.files[0];
+		type = e.target.files[0].type;
+	}
+	if (files) {
+		if (
+			type === 'image/jpeg' ||
+			type === 'image/png' ||
+			type === 'image/gif' ||
+			type === 'video/mp4' ||
+			type === 'audio/mpeg' ||
+			type === 'image/webp'
+		) {
+			const fileSize = formatBytes(files.size).split(' ');
+			if (
+				(+fileSize[0] > 100 && fileSize[1] === 'MB') ||
+				fileSize[1] === 'GB'
+			) {
+				return 'File size limit is exceeded';
+			} else {
+				return 'file matched';
+			}
+		} else {
+			return 'File not supported!';
+		}
+	}
+};
+
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
 	CHAIN_TITLE,
 	verifyOwner,
 	verifyNFTStatus,
+	handleFilesValidation,
 };

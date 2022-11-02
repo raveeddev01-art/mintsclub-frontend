@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import './CreateCollections.scss';
 import { connect } from 'react-redux';
 import {
@@ -376,13 +375,7 @@ class CreateCollections extends Component<
 										const compressedFile: any = await compressImage(
 											collection[val]
 										);
-
-										const result: any = await this.uploadFileToIpfs(
-											compressedFile
-										);
-
-										const url: any = `https://mintsclub.mypinata.cloud/ipfs/${result.data.IpfsHash}`;
-										formData.append(val, url);
+										formData.append(val, compressedFile);
 									} else {
 										formData.append(val, collection[val]);
 									}
@@ -442,25 +435,6 @@ class CreateCollections extends Component<
 			}
 		);
 	};
-	uploadFileToIpfs = async (file: any) => {
-		const data: any = new FormData();
-		data.append('file', file);
-		try {
-			const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-			const response = await axios.post(url, data, {
-				headers: {
-					'Content-Type': `multipart/form-data; boundary= ${data._boundary}`,
-					Authorization: `Bearer ${ENV.pinataJWT}`,
-					// pinata_api_key: `${process.env.REACT_APP_PINATA_API_KEY}`,
-					// pinata_secret_api_key: `${process.env.REACT_APP_PINATA_API_SECRET}`,
-				},
-			});
-			return response;
-		} catch (err: any) {
-			toast.error(err);
-			this.setState({ loader: false });
-		}
-	};
 	handleSelectChange = (selectedOption: any) => {
 		let { collection } = this.state;
 		collection = { ...collection, categoryId: selectedOption.value };
@@ -509,114 +483,126 @@ class CreateCollections extends Component<
 			selectedOption,
 		}: any = this.state;
 
-		if (!ENV.getUserKeys('_id')._id) {
-			toast.error('Please login to create Collection');
-			this.props.history.push('/');
-			return ' ';
-		} else {
-			const bannerData = {
-				subHeading: 'Create New',
-				heading: 'Create New Collection',
-				content:
-					'Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
-			};
-			//create collection max size validation
-			return (
-				<>
-					{loader && <FullPageLoader />}
-					<section className="create-collection">
-						<Banner
-							subHeading={bannerData.subHeading}
-							heading={bannerData.heading}
-							content={bannerData.content}
-							bgImg={BannerBg}
-							bannerImg={BannerImage}
-							bg={true}
-						/>
-						<div className="container">
-							<div className="row">
-								<UploadFiles
-									data={{
-										collection,
-										onFileChange: (e: any) => this.onFileChange(e),
-										Images,
-									}}
+		const bannerData = {
+			subHeading: 'Create New',
+			heading: 'Create New Collection',
+			content:
+				'Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
+		};
+		//create collection max size validation
+		return (
+			<>
+				{loader && <FullPageLoader />}
+				<section className="create-collection">
+					<Banner
+						subHeading={bannerData.subHeading}
+						heading={bannerData.heading}
+						content={bannerData.content}
+						bgImg={BannerBg}
+						bannerImg={BannerImage}
+						bg={true}
+					/>
+					<div className="container">
+						<div className="row">
+							<UploadFiles
+								data={{
+									collection,
+									onFileChange: (e: any) => this.onFileChange(e),
+									Images,
+								}}
+							/>
+
+							<div className="col-lg-4 col-md-6 col-sm-12">
+								<label className="create-collection-label">Name:*</label>
+								<input
+									className="create-collection-input mt-2"
+									id="name"
+									type="text"
+									name="name"
+									onChange={(e) => this.onChange(e)}
+									value={collection.name}
+									onKeyDown={(e) =>
+										firstInputCharacterSpace(e, collection.name.length)
+									}
+									placeholder="Enter name"
+									maxLength={55}
+									autoComplete="off"
 								/>
+							</div>
 
-								<div className="col-lg-4 col-md-6 col-sm-12">
-									<label className="create-collection-label">Name:*</label>
-									<input
-										className="create-collection-input mt-2"
-										id="name"
-										type="text"
-										name="name"
-										onChange={(e) => this.onChange(e)}
-										value={collection.name}
-										onKeyDown={(e) =>
-											firstInputCharacterSpace(e, collection.name.length)
-										}
-										placeholder="Enter name"
-										maxLength={55}
-										autoComplete="off"
-									/>
-								</div>
+							<div className="col-lg-4 col-md-6 mt-3 mt-md-0 position-relative">
+								<label className="create-collection-label">URL:</label>
+								<span className="text-danger position-absolute top-0">
+									{this.validator.message('url', collection.url, 'url')}
+								</span>
+								<input
+									className="create-collection-input mt-2"
+									id="url"
+									type="text"
+									name="url"
+									placeholder="Enter URL"
+									onChange={(e) => this.onChange(e)}
+									value={collection.url}
+									onKeyDown={(e) =>
+										firstInputCharacterSpace(e, collection.url.length)
+									}
+									maxLength={55}
+									autoComplete="off"
+								/>
+							</div>
 
-								<div className="col-lg-4 col-md-6 mt-3 mt-md-0 position-relative">
-									<label className="create-collection-label">URL:</label>
-									<span className="text-danger position-absolute top-0">
-										{this.validator.message('url', collection.url, 'url')}
-									</span>
-									<input
-										className="create-collection-input mt-2"
-										id="url"
-										type="text"
-										name="url"
-										placeholder="Enter URL"
-										onChange={(e) => this.onChange(e)}
-										value={collection.url}
-										onKeyDown={(e) =>
-											firstInputCharacterSpace(e, collection.url.length)
-										}
-										maxLength={55}
-										autoComplete="off"
-									/>
-								</div>
+							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
+								<QueryClientHook
+									hook={useQuery} // react query hook
+									params={[
+										'categories', // keyName
+										() => handleRequest('get', 'category/list'),
+										// ...options
+									]}
+								>
+									{({ data }: any) => {
+										return (
+											<>
+												<label className="create-collection-label">
+													Select Category:*
+												</label>
+												<Select
+													className="react-select-cls"
+													classNamePrefix="react-select"
+													value={selectedOption}
+													isSearchable={false}
+													onChange={this.handleSelectChange}
+													options={this.formateCategories(
+														data?.data?.categories
+													)}
+													placeholder="Select Category"
+												/>
+											</>
+										);
+									}}
+								</QueryClientHook>
+							</div>
 
-								<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
-									<QueryClientHook
-										hook={useQuery} // react query hook
-										params={[
-											'categories', // keyName
-											() => handleRequest('get', 'category/list'),
-											// ...options
-										]}
-									>
-										{({ data }: any) => {
-											return (
-												<>
-													<label className="create-collection-label">
-														Select Category:*
-													</label>
-													<Select
-														className="react-select-cls"
-														classNamePrefix="react-select"
-														value={selectedOption}
-														isSearchable={false}
-														onChange={this.handleSelectChange}
-														options={this.formateCategories(
-															data?.data?.categories
-														)}
-														placeholder="Select Category"
-													/>
-												</>
-											);
-										}}
-									</QueryClientHook>
-								</div>
+							<div className="col-12 mt-3 mt-lg-5">
+								<label className="create-collection-label">Description:*</label>
 
-								<div className="col-12 mt-3 mt-lg-5">
-									<label className="create-collection-label">
-										Description:*
+								<textarea
+									className="create-collection-area mt-2"
+									name="description"
+									placeholder="Max 500 characters"
+									maxLength={500}
+									rows={3}
+									onChange={(e) => this.onChange(e)}
+									onKeyDown={(e) =>
+										firstInputCharacterSpace(e, collection.description.length)
+									}
+									value={collection.description}
+								></textarea>
+							</div>
+							<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+								<div>
+									<label className="create-collection-label ms-0">
+										Deploy Collection
 									</label>
 
 									<textarea
@@ -652,23 +638,34 @@ class CreateCollections extends Component<
 										Create Collection
 									</button>
 								</div>
+								<MintSwitch
+									checked={this.state.collection.deploy}
+									onChange={this.handleDeployChange}
+									inputProps={{ 'aria-label': 'mint' }}
+								/>
+							</div>
+							<div className="create-collection-btn-container">
+								<button
+									className="btn create-collection-btn btn-linear-gradient mt-5"
+									disabled={this.handleValidation()}
+									onClick={(e) => this.submit(e)}
+								>
+									Create Collection
+								</button>
 							</div>
 						</div>
-					</section>
+					</div>
+				</section>
 
-					<OwnCollectionToday />
-				</>
-			);
-		}
+				<OwnCollectionToday />
+			</>
+		);
 	}
 }
 
-const mapStateToProps = (state: any) => (
-	console.log('State', state),
-	{
-		connectedAddress: state.wallet.connectedAddress,
-		blockchainType: state.wallet.blockchainType,
-	}
-);
+const mapStateToProps = (state: any) => ({
+	connectedAddress: state.wallet.connectedAddress,
+	blockchainType: state.wallet.blockchainType,
+});
 
 export default connect(mapStateToProps, {})(CreateCollections);

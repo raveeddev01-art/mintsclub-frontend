@@ -25,58 +25,15 @@ import Select from 'react-select';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import UploadIcon from '../../assets/images/upload-icon.png';
 import UploadWhiteIcon from '../../assets/images/uploadWhiteIcon.png';
-import { styled } from '@mui/material/styles';
-import Switch, { SwitchProps } from '@mui/material/Switch';
 import { createNFTbanner } from '../../utils/exportData';
 import CreateNft from './components/createNft';
 import UploadFile from './components/UploadFile/UploadFile';
 import AddLevels from './components/AddLevels/AddLevels';
 import AddProperties from './components/AddProperties/AddProperties';
 import AddStats from './components/AddStats/AddStats';
+import FreeMintSwitch from './components/FreeMintSwitch/FreeMintSwitch';
+import { handleFilesValidation } from '../../utils/helpers/helpers';
 const placeholderImg = '';
-const MintSwitch = styled(Switch)(({ theme }) => ({
-	width: 28,
-	height: 16,
-	padding: 0,
-	display: 'flex',
-	'&:active': {
-		'& .MuiSwitch-thumb': {
-			width: 15,
-		},
-		'& .MuiSwitch-switchBase.Mui-checked': {
-			transform: 'translateX(9px)',
-		},
-	},
-	'& .MuiSwitch-switchBase': {
-		padding: 2,
-		'&.Mui-checked': {
-			transform: 'translateX(12px)',
-			color: '#fff',
-			'& + .MuiSwitch-track': {
-				opacity: 1,
-				backgroundColor: theme.palette.mode === 'dark' ? '#387fff' : '#387fff',
-			},
-		},
-	},
-	'& .MuiSwitch-thumb': {
-		boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-		width: 12,
-		height: 12,
-		borderRadius: 6,
-		transition: theme.transitions.create(['width'], {
-			duration: 200,
-		}),
-	},
-	'& .MuiSwitch-track': {
-		borderRadius: 16 / 2,
-		opacity: 1,
-		backgroundColor:
-			theme.palette.mode === 'dark'
-				? 'rgba(255,255,255,.35)'
-				: 'rgba(0,0,0,.25)',
-		boxSizing: 'border-box',
-	},
-}));
 
 class CreateNFT extends React.Component<
 	{
@@ -137,7 +94,6 @@ class CreateNFT extends React.Component<
 				categoryId: '',
 				contractAddress: null,
 				isApproved: true,
-				status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
 			},
 			properties: [{ name: '', type: '' }],
 			levels: [{ name: '', value: '', total: 5 }],
@@ -192,8 +148,6 @@ class CreateNFT extends React.Component<
 	};
 
 	componentDidUpdate = async (prevProps: any, prevState: any) => {
-		const { connectedAddress } = this.props;
-
 		if (this.state.playerState.isPlaying !== prevState.playerState.isPlaying) {
 			this.state.playerState.isPlaying
 				? this.myRef?.current?.play()
@@ -363,7 +317,7 @@ class CreateNFT extends React.Component<
 	};
 
 	onFileChange = async (e: any, status: any) => {
-		if (this.handleFilesValidation(e, status) === 'file matched') {
+		if (handleFilesValidation(e, status) === 'file matched') {
 			let file: any = '';
 			let url: any = '';
 			let fileId: any = '';
@@ -431,7 +385,7 @@ class CreateNFT extends React.Component<
 					file = {};
 				}
 		} else {
-			const message: any = this.handleFilesValidation(e, status);
+			const message: any = handleFilesValidation(e, status);
 			toast.error(message);
 			this.setState({
 				error: true,
@@ -454,46 +408,6 @@ class CreateNFT extends React.Component<
 		e.nativeEvent.preventDefault();
 		if (!e) return;
 		this.onFileChange(e, 'onDrag');
-	};
-
-	handleFilesValidation = (
-		e: {
-			dataTransfer: { files: { type: string }[] };
-			target: { files: { type: string }[] };
-		},
-		status: string
-	) => {
-		let files: any;
-		let type: any;
-		if (status === 'onDrag') {
-			files = e.dataTransfer.files[0];
-			type = e.dataTransfer.files[0].type;
-		} else {
-			files = e.target.files[0];
-			type = e.target.files[0].type;
-		}
-		if (files) {
-			if (
-				type === 'image/jpeg' ||
-				type === 'image/png' ||
-				type === 'image/gif' ||
-				type === 'video/mp4' ||
-				type === 'audio/mpeg' ||
-				type === 'image/webp'
-			) {
-				const fileSize = formatBytes(files.size).split(' ');
-				if (
-					(+fileSize[0] > 100 && fileSize[1] === 'MB') ||
-					fileSize[1] === 'GB'
-				) {
-					return 'File size limit is exceeded';
-				} else {
-					return 'file matched';
-				}
-			} else {
-				return 'File not supported!';
-			}
-		}
 	};
 
 	clearData = () => {
@@ -632,280 +546,252 @@ class CreateNFT extends React.Component<
 			selectedCollection,
 		} = this.state;
 
-		const { connectedAddress } = this.props;
+		const { connectedAddress, blockchainType } = this.props;
 		const { onDrop, dragOver, dragEnter, dragLeave } = this;
-		if (
-			ENV.getUserKeys('address')?.address?.toUpperCase() ===
-				connectedAddress?.toUpperCase() ||
-			connectedAddress === ''
-		) {
-			return (
-				<>
-					<section className="create-collection create-nft">
-						<Banner
-							subHeading={createNFTbanner.subHeading}
-							heading={createNFTbanner.heading}
-							content={createNFTbanner.content}
-							bgImg={BannerBg}
-							bannerImg={BannerImage}
-							bg={true}
-						/>
-						<div className="container">
-							{loader && <FullPageLoader />}
 
-							<div className="row">
-								<UploadFile
-									data={{
-										onDrop,
-										dragOver,
-										dragEnter,
-										dragLeave,
-										imageURL,
-										onFileChange: this.onFileChange,
-										UploadWhiteIcon,
-										validator: this.validator,
-										videoURL,
-										myRef: this.myRef,
-										nft,
-										playerState: this.state.playerState,
-										togglePlay: this.togglePlay,
-										audioUrl,
-										UploadIcon,
-									}}
-								/>
-								<div className="col-lg-4 col-md-6 col-sm-12">
-									<label className="create-collection-label d-flex">
-										Title:*{' '}
-										<span className="text-danger ms-2">
-											{this.validator.message('name', nft.name, 'required')}
-										</span>
-									</label>
-									<input
-										className="create-collection-input mt-2"
-										name="name"
-										placeholder="Enter title"
-										required={true}
-										maxLength={100}
-										minLength={3}
-										onKeyDown={(e) =>
-											firstInputCharacterSpace(e, nft.name.length)
+		return (
+			<>
+				<section className="create-collection create-nft">
+					<Banner
+						subHeading={createNFTbanner.subHeading}
+						heading={createNFTbanner.heading}
+						content={createNFTbanner.content}
+						bgImg={BannerBg}
+						bannerImg={BannerImage}
+						bg={true}
+					/>
+					<div className="container">
+						{loader && <FullPageLoader />}
+
+						<div className="row">
+							<UploadFile
+								data={{
+									onDrop,
+									dragOver,
+									dragEnter,
+									dragLeave,
+									imageURL,
+									onFileChange: this.onFileChange,
+									UploadWhiteIcon,
+									validator: this.validator,
+									videoURL,
+									myRef: this.myRef,
+									nft,
+									playerState: this.state.playerState,
+									togglePlay: this.togglePlay,
+									audioUrl,
+									UploadIcon,
+								}}
+							/>
+							<div className="col-lg-4 col-md-6 col-sm-12">
+								<label className="create-collection-label d-flex">
+									Title:*{' '}
+									<span className="text-danger ms-2">
+										{this.validator.message('name', nft.name, 'required')}
+									</span>
+								</label>
+								<input
+									className="create-collection-input mt-2"
+									name="name"
+									placeholder="Enter title"
+									required={true}
+									maxLength={100}
+									minLength={3}
+									onKeyDown={(e) =>
+										firstInputCharacterSpace(e, nft.name.length)
+									}
+									onChange={(e) => {
+										if (
+											nft?.name.trim() === '' &&
+											e.target.value.includes('.')
+										) {
+											return false;
 										}
-										onChange={(e) => {
-											if (
-												nft?.name.trim() === '' &&
-												e.target.value.includes('.')
-											) {
-												return false;
-											}
+										this.onChange(e);
+									}}
+									value={nft.name}
+									autoComplete="off"
+								/>
+							</div>
+
+							<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+								<label className="create-collection-label d-flex">
+									No of Copies:* (Max 1M)
+									<span className="text-danger ms-2">
+										{this.validator.message('name', nft.copies, 'required')}
+									</span>
+								</label>
+								<input
+									className="create-collection-input mt-2"
+									name="copies"
+									placeholder="No. of Copies"
+									type="text"
+									autoComplete="off"
+									required={true}
+									onKeyDown={(e) => decimalNumberValidator(e)}
+									onChange={(e) => {
+										if (
+											(e.target.value.length && e.target.value === '0') ||
+											e.target.value.includes('.') ||
+											+e.target.value > 1000000
+										) {
+											return false;
+										} else {
 											this.onChange(e);
-										}}
-										value={nft.name}
-										autoComplete="off"
-									/>
-								</div>
+										}
+									}}
+									value={nft.copies}
+								/>
+							</div>
 
-								<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
-									<label className="create-collection-label d-flex">
-										No of Copies:* (Max 1M)
-										<span className="text-danger ms-2">
-											{this.validator.message('name', nft.copies, 'required')}
-										</span>
-									</label>
-									<input
-										className="create-collection-input mt-2"
-										name="copies"
-										placeholder="No. of Copies"
-										type="text"
-										autoComplete="off"
-										required={true}
-										onKeyDown={(e) => decimalNumberValidator(e)}
-										onChange={(e) => {
-											if (
-												(e.target.value.length && e.target.value === '0') ||
-												e.target.value.includes('.') ||
-												+e.target.value > 1000000
-											) {
-												return false;
-											} else {
-												this.onChange(e);
-											}
-										}}
-										value={nft.copies}
-									/>
-								</div>
-
-								<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
-									<label className="create-collection-label d-flex">
-										Select Collection:*
-										{this.state.selectedCollection !== null && (
-											<span className="text-danger ms-2">
-												{this.validator.message(
-													'name',
-													nft.collectionId,
-													'required'
-												)}
-											</span>
-										)}
-									</label>
-
-									<Select
-										className="react-select-cls"
-										classNamePrefix="react-select"
-										placeholder="Select Collection"
-										isSearchable={false}
-										value={selectedCollection}
-										name="collectionId"
-										onChange={this.onChangeSelect}
-										options={collections}
-									/>
-								</div>
-								<div className="col-12 mt-3 mt-lg-5">
-									<label className="create-collection-label d-flex">
-										Description:*{' '}
+							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
+								<label className="create-collection-label d-flex">
+									Select Collection:*
+									{this.state.selectedCollection !== null && (
 										<span className="text-danger ms-2">
 											{this.validator.message(
-												'description',
-												nft.description,
+												'name',
+												nft.collectionId,
 												'required'
 											)}
 										</span>
-									</label>
+									)}
+								</label>
 
-									<textarea
-										className="create-collection-area mt-2"
-										name="description"
-										rows={3}
-										placeholder="Max 500 characters"
-										maxLength={500}
-										onChange={(e: any) => {
-											if (
-												nft?.description.trim() === '' &&
-												e.target.value.includes('.')
-											) {
-												return false;
-											}
-											this.onChange(e);
-										}}
-										onKeyDown={(e) =>
-											firstInputCharacterSpace(e, nft?.description.length)
-										}
-										value={nft.description}
-									></textarea>
-								</div>
-
-								<AddProperties
-									data={{
-										showModal: () =>
-											this.setState({ propertiesmodalShow: true }),
-										AddIcon,
-										nft: this.state.nft,
-									}}
-								/>
-								<AddLevels
-									data={{
-										showModal: () => this.setState({ levelsmodalShow: true }),
-										AddIcon,
-										nft: this.state.nft,
-									}}
-								/>
-								<AddStats
-									data={{
-										showModal: () => this.setState({ statsmodalShow: true }),
-										AddIcon,
-										nft: this.state.nft,
-									}}
-								/>
-								{!this.props.match.params.nftId && (
-									<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-										{this.props.blockchainType !== 'algorand' && (
-											<>
-												{' '}
-												<div>
-													<label className="create-collection-label ms-0">
-														Free minting
-													</label>
-													<p>Buyer will pay gas fess for minting</p>
-												</div>{' '}
-												<MintSwitch
-													checked={this.state.isFreeMint}
-													onChange={() => {
-														this.setState({
-															isFreeMint: !this.state.isFreeMint,
-														});
-													}}
-													inputProps={{ 'aria-label': 'mint' }}
-												/>
-											</>
-										)}
-									</div>
-								)}
-								<CreateNft
-									props={this.props}
-									state={this.state}
-									setLoader={(status: any) => this.setState({ loader: status })}
-									toast={toast}
-									validator={this.validator}
-									capitalize={this.capitalize}
-									handleBtnDisable={this.handleBtnDisable}
-									blockChainType={this.props.blockchainType}
-									connectedAddress={this.props.connectedAddress}
+								<Select
+									className="react-select-cls"
+									classNamePrefix="react-select"
+									placeholder="Select Collection"
+									isSearchable={false}
+									value={selectedCollection}
+									name="collectionId"
+									onChange={this.onChangeSelect}
+									options={collections}
 								/>
 							</div>
-							{/* </form> */}
+							<div className="col-12 mt-3 mt-lg-5">
+								<label className="create-collection-label d-flex">
+									Description:*{' '}
+									<span className="text-danger ms-2">
+										{this.validator.message(
+											'description',
+											nft.description,
+											'required'
+										)}
+									</span>
+								</label>
+
+								<textarea
+									className="create-collection-area mt-2"
+									name="description"
+									rows={3}
+									placeholder="Max 500 characters"
+									maxLength={500}
+									onChange={(e: any) => {
+										if (
+											nft?.description.trim() === '' &&
+											e.target.value.includes('.')
+										) {
+											return false;
+										}
+										this.onChange(e);
+									}}
+									onKeyDown={(e) =>
+										firstInputCharacterSpace(e, nft?.description.length)
+									}
+									value={nft.description}
+								></textarea>
+							</div>
+
+							<AddProperties
+								data={{
+									showModal: () => this.setState({ propertiesmodalShow: true }),
+									AddIcon,
+									nft: this.state.nft,
+								}}
+							/>
+							<AddLevels
+								data={{
+									showModal: () => this.setState({ levelsmodalShow: true }),
+									AddIcon,
+									nft: this.state.nft,
+								}}
+							/>
+							<AddStats
+								data={{
+									showModal: () => this.setState({ statsmodalShow: true }),
+									AddIcon,
+									nft: this.state.nft,
+								}}
+							/>
+							<FreeMintSwitch
+								nftId={this.props.match.params.nftId}
+								blockchainType={blockchainType}
+								isFreeMint={this.state.isFreeMint}
+								onSwitch={() => {
+									this.setState({
+										isFreeMint: !this.state.isFreeMint,
+									});
+								}}
+							/>
+							<CreateNft
+								props={this.props}
+								state={this.state}
+								setLoader={(status: any) => this.setState({ loader: status })}
+								toast={toast}
+								validator={this.validator}
+								capitalize={this.capitalize}
+								handleBtnDisable={this.handleBtnDisable}
+								blockChainType={blockchainType}
+								connectedAddress={connectedAddress}
+							/>
 						</div>
-					</section>
+						{/* </form> */}
+					</div>
+				</section>
 
-					<PropertiesModal
-						show={this.state.propertiesmodalShow}
-						addMoreValues={this.addMoreValues}
-						handleChange={this.handleChange}
-						removeFormFields={this.removeFormFields}
-						properties={this.state.properties}
-						onSave={this.onSave}
-						onHide={() => {
-							this.setState({
-								propertiesmodalShow: false,
-							});
-						}}
-					/>
-
-					<LevelsModal
-						show={this.state.levelsmodalShow}
-						addMoreValues={this.addMoreValues}
-						handleChange={this.handleChange}
-						removeFormFields={this.removeFormFields}
-						levels={this.state.levels}
-						onSave={this.onSave}
-						onHide={() => {
-							this.setState({
-								levelsmodalShow: false,
-							});
-						}}
-					/>
-					<StatsModal
-						show={this.state.statsmodalShow}
-						addMoreValues={this.addMoreValues}
-						handleChange={this.handleChange}
-						removeFormFields={this.removeFormFields}
-						stats={this.state.stats}
-						onSave={this.onSave}
-						onHide={() => {
-							this.setState({
-								statsmodalShow: false,
-							});
-						}}
-					/>
-					<OwnCollectionToday />
-				</>
-			);
-		} else {
-			toast.info('Please login with new connected account');
-			this.props.history.push({
-				pathname: `/connect-wallet`,
-				state: `/create`,
-			});
-			return ' ';
-		}
+				<PropertiesModal
+					show={this.state.propertiesmodalShow}
+					addMoreValues={this.addMoreValues}
+					handleChange={this.handleChange}
+					removeFormFields={this.removeFormFields}
+					properties={this.state.properties}
+					onSave={this.onSave}
+					onHide={() => {
+						this.setState({
+							propertiesmodalShow: false,
+						});
+					}}
+				/>
+				<LevelsModal
+					show={this.state.levelsmodalShow}
+					addMoreValues={this.addMoreValues}
+					handleChange={this.handleChange}
+					removeFormFields={this.removeFormFields}
+					levels={this.state.levels}
+					onSave={this.onSave}
+					onHide={() => {
+						this.setState({
+							levelsmodalShow: false,
+						});
+					}}
+				/>
+				<StatsModal
+					show={this.state.statsmodalShow}
+					addMoreValues={this.addMoreValues}
+					handleChange={this.handleChange}
+					removeFormFields={this.removeFormFields}
+					stats={this.state.stats}
+					onSave={this.onSave}
+					onHide={() => {
+						this.setState({
+							statsmodalShow: false,
+						});
+					}}
+				/>
+				<OwnCollectionToday />
+			</>
+		);
 	}
 }
 

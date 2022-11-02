@@ -1,11 +1,6 @@
 import { CreateNftInterface } from '../../../interfaces/components';
-import {
-	compressImage,
-	formatBytes,
-	handleRequest,
-} from '../../../utils/functions';
-import { mintNFt } from '../../../utils/web3';
-import axios from 'axios';
+import { compressImage, handleRequest } from '../../../utils/functions';
+import { mintNFt, editNFTUri } from '../../../utils/web3';
 import { ENV } from '../../../config/config';
 import { mintSingleNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -20,8 +15,6 @@ const CreateNft = ({
 	capitalize,
 	setLoader,
 	blockChainType,
-	handleBtnDisable,
-	connectedAddress,
 }: CreateNftInterface) => {
 	const wallet = useWallet();
 	const [loading, setLoading] = useState<boolean>(false);
@@ -83,86 +76,28 @@ const CreateNft = ({
 	};
 
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
-		console.log(nftInfo, 'nftInfo');
 		const data: any = { ...nftInfo };
-		console.log('🚀 ~ file: createNft.tsx ~ line 44 ~ mintNFT ~ data123', data);
-		console.log('props.blockchainType', props.blockchainType);
 		data.image = image;
 		data.metaData = metaData.metaDataUrl;
 		data.remainingCopies = data.copies;
 		data.activeAuction = null;
-		console.log(data, 'data');
 		try {
-			let paylaod = {};
-			console.log(blockChainType, 'blockchainType');
+			let paylaod: any = {};
 			if (!state.isFreeMint) {
 				if (
 					blockChainType === 'ethereum' ||
 					blockChainType === 'polygon' ||
 					blockChainType === 'bsc'
 				) {
-					const mintId = await mintNFt(
-						metaData,
-						state.nft.copies,
-						nftInfo?.contractAddress
-					);
-
-					if (mintId) {
-						paylaod = {
-							nftToken: mintId,
-							data: { ...data, blockchainType: blockChainType },
-							image,
-							lazyMinted: false,
-						};
-					}
+					paylaod = await mintEthNFT(metaData, nftInfo, data, image);
 				}
 
 				if (props.blockchainType === 'algorand') {
-					console.log('Algorand Implementation for Minting NFT');
-					const { name, copies } = state.nft;
-					const tokenId = await createNFT({
-						assetName: name,
-						total: copies,
-						metaData,
-						connectedAddress: props.connectedAddress,
-					});
-					console.log('Algorand Token ID', tokenId);
-
-					if (tokenId) {
-						paylaod = {
-							nftToken: tokenId,
-							data: { ...data, blockchainType: props.blockchainType },
-							image,
-							lazyMinted: false,
-						};
-					}
+					paylaod = await mintAlgoNFT(metaData, data, image);
 				}
 
 				if (props.blockchainType === 'solana') {
-					console.log('Solana Implementation for Minting NFT');
-					const response = await mintSingleNft(
-						wallet,
-						data.metaData,
-						data.name,
-						500
-					);
-					console.log(
-						'🚀 ~ file: create-nft.tsx ~ line 456 ~ mintNFT= ~ response',
-						response
-					);
-					if (response?.response.signature) {
-						paylaod = {
-							nftToken: -1,
-							data: {
-								...data,
-								blockchainType: blockChainType,
-								mint: response?.mintAddress.toBase58(),
-								txnHash: response?.response.signature,
-							},
-							image,
-							lazyMinted: false,
-						};
-					}
+					paylaod = await mintSolNFT(data, image);
 				}
 			} else {
 				paylaod = {
@@ -179,118 +114,92 @@ const CreateNft = ({
 			setLoader(false);
 		}
 	};
+	const mintEthNFT = async (
+		metaData: string,
+		nftInfo: any,
+		data: any,
+		image: string
+	) => {
+		const mintId = await mintNFt(
+			metaData,
+			state.nft.copies,
+			nftInfo?.contractAddress
+		);
 
-	const uploadJsonToIpfs = async (fileUrl: any) => {
-		const dataInput: any = {};
-		const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-		const properties = {
-			properties: state.nft.properties,
-			levels: state.nft.levels,
-			stats: state.nft.stats,
-		};
-		const data = {
-			name: state.nft.name,
-			symbol: 'Gamo',
-			sellerFeeBasisPoints: 0,
-			image: fileUrl,
-			description: state.nft.description,
-			properties: properties,
-			collection: {
-				name: state.selectedCollection.label,
-				id: state.selectedCollection.value,
-				categoryId: state.selectedCollection.categoryId,
-			},
-		};
-
-		try {
-			const response = await axios.post(url, data, {
-				headers: {
-					Authorization: `Bearer ${ENV.pinataJWT}`,
-				},
-			});
-			dataInput.ipfsJsonData = data;
-			dataInput.metaDataUrl =
-				'https://mintsclub.mypinata.cloud/ipfs/' + response.data.IpfsHash;
-			dataInput.fileUrl = fileUrl;
-			return { dataInput, image: fileUrl };
-		} catch (err: any) {
-			toast.error(err);
-			setLoader(false);
+		if (mintId) {
+			return {
+				nftToken: mintId,
+				data: { ...data, blockchainType: blockChainType },
+				image,
+				lazyMinted: false,
+			};
 		}
 	};
+	const mintAlgoNFT = async (metaData: string, data: any, image: string) => {
+		const { name, copies } = state.nft;
+		const tokenId = await createNFT({
+			assetName: name,
+			total: copies,
+			metaData,
+			connectedAddress: props.connectedAddress,
+		});
+		console.log('Algorand Token ID', tokenId);
 
+		if (tokenId) {
+			return {
+				nftToken: tokenId,
+				data: { ...data, blockchainType: props.blockchainType },
+				image,
+				lazyMinted: false,
+			};
+		}
+	};
+	const mintSolNFT = async (data: any, image: string) => {
+		const response = await mintSingleNft(wallet, data.metaData, data.name, 500);
+		if (response?.response.signature) {
+			return {
+				nftToken: -1,
+				data: {
+					...data,
+					blockchainType: blockChainType,
+					mint: response?.mintAddress.toBase58(),
+					txnHash: response?.response.signature,
+				},
+				image,
+				lazyMinted: false,
+			};
+		}
+	};
 	const editNFT = async (
 		data: any,
 		metaData: any = null,
 		image: any = null
 	) => {
-		const payload = { ...data };
-		payload.nftId = `${props.match.params.nftId}`;
-		if (metaData) {
-			payload.metaData = metaData;
-			payload.image = image;
-		}
-		const res = await handleRequest('put', 'nfts/updateNft', payload);
-		console.log(res, 'res');
-		if (res.data.success) {
-			props.history.push('/userprofile');
+		try {
+			await editNFTUri(
+				state.nftInfo.tokenId,
+				metaData,
+				state?.nftInfo?.contractAddress
+			);
+			const payload = { ...data };
+			payload.nftId = `${props.match.params.nftId}`;
+			if (metaData) {
+				payload.metaData = metaData;
+				payload.image = image;
+			}
+			const res = await handleRequest('put', 'nfts/updateNft', payload);
+			console.log(res, 'res');
+			if (res.data.success) {
+				props.history.push('/userprofile');
+			}
+		} catch (err: any) {
+			setLoader(false);
+			toast.error(err?.message);
 		}
 	};
 
-	const uploadFileToIpfs = async (formData: any) => {
-		try {
-			const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-			const response = await axios.post(url, formData, {
-				headers: {
-					'Content-Type': `multipart/form-data; boundary= ${formData._boundary}`,
-					Authorization: `Bearer ${ENV.pinataJWT}`,
-				},
-			});
-			return response;
-		} catch (err: any) {
-			toast.error(err);
-			setLoader(false);
-		}
-	};
-	const pinFileToIPFS = async (file: any, nftInfo: any) => {
-		let fileUrl: any = '';
-		let compressedFileUrl: any = '';
-		if (file.name) {
-			const originalFile: any = new FormData();
-			const compressedFile: any = new FormData();
-			const thumbnail = await compressImage(file);
-			originalFile.append('file', file);
-			compressedFile.append('file', thumbnail);
-			console.log(
-				formatBytes(thumbnail.size).split(' '),
-				'compressed file size'
-			);
-			const orignalIpfsFile: any = await uploadFileToIpfs(originalFile);
-			const compressedIpfsFile: any = await uploadFileToIpfs(compressedFile);
-			fileUrl = `https://mintsclub.mypinata.cloud/ipfs/${orignalIpfsFile.data.IpfsHash}`;
-			compressedFileUrl = `https://mintsclub.mypinata.cloud/ipfs/${compressedIpfsFile.data.IpfsHash}`;
-			// const fileOutputData: any = { fileUrl, hash: fileData.data.IpfsHash };
-		} else {
-			fileUrl = file;
-		}
-		const metaData: any = await uploadJsonToIpfs(fileUrl);
-		if (props.match.params.nftId) {
-			return editNFT(
-				{ ...nftInfo, compressedFile: compressedFileUrl },
-				metaData.dataInput.metaDataUrl,
-				metaData.image
-			);
-		}
-		mintNFT(
-			{ ...nftInfo, compressedFile: compressedFileUrl },
-			metaData.dataInput,
-			metaData.image
-		);
-	};
 	const handleSubmit = async (e: any) => {
 		try {
-			setLoading(true);
-
 			const { nft, videoURL, audioUrl } = state;
 
 			const nftInfo: any = { ...nft };
@@ -310,15 +219,25 @@ const CreateNft = ({
 			if (state.selectedCollection === null) {
 				await createDefaultCollection();
 			}
-			nftInfo.categoryId = nft.categoryId;
-			nftInfo.collectionId = nft.collectionId;
 
 			if (validator.allValid() && nft.collectionId) {
 				const { formValid } = state;
 
 				if (formValid) {
 					setLoader(true);
-					await pinFileToIPFS(nft.image, nftInfo);
+					const res = await uploadDataOnIpfs(nftInfo);
+					console.log(res, 'res of edit upload');
+					toast.success('data uploaded on ipfs');
+					const { compressedFile, image, dataInput } = res.data.data;
+					if (props.match.params.nftId) {
+						editNFT(
+							{ ...nftInfo, compressedFile: state.nftInfo.compressedFile },
+							dataInput.metaDataUrl,
+							image
+						);
+					} else {
+						mintNFT({ ...nftInfo, compressedFile }, dataInput, image);
+					}
 				} else {
 					state.formValid = false;
 					validator.showMessages();
@@ -326,6 +245,8 @@ const CreateNft = ({
 				}
 			}
 		} catch (err) {
+			setLoading(false);
+
 			console.log(
 				'🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err',
 				err
@@ -333,6 +254,24 @@ const CreateNft = ({
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const uploadDataOnIpfs = async (nftInfo: any) => {
+		const { selectedCollection } = state;
+		nftInfo.collection = JSON.stringify({
+			name: selectedCollection.label,
+			id: selectedCollection.value,
+			categoryId: nftInfo.categoryId,
+		});
+		const compressedFile = await compressImage(nftInfo?.image);
+		nftInfo = { ...nftInfo, compressedFile };
+		console.log(nftInfo, 'nftInfo');
+		const formData: any = new FormData();
+		for (const val in nftInfo) {
+			formData.append(val, nftInfo[val]);
+		}
+		const res = await handleRequest('post', 'nfts/upload/ipfs', formData);
+		return res;
 	};
 
 	const getButtonText = () => {
