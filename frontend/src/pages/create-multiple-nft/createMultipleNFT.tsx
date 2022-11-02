@@ -123,11 +123,11 @@ function CreateMultipleNFT(props: any) {
 		let files: any;
 		let type: any;
 		if (status === 'onDrag') {
-			files = e.dataTransfer.files[0];
-			type = e.dataTransfer.files[0].type;
+			files = e?.dataTransfer?.files[0];
+			type = e?.dataTransfer?.files[0].type;
 		} else {
-			files = e.target.files[0];
-			type = e.target.files[0].type;
+			files = e?.target?.files[0];
+			type = e?.target?.files[0].type;
 		}
 		if (files) {
 			if (type === 'application/zip') {
@@ -144,10 +144,12 @@ function CreateMultipleNFT(props: any) {
 	};
 
 	const onFileChange = (e: any, status: any) => {
+		console.log('checking if file uploaded', e);
 		if (handleFilesValidation(e, status) === 'file matched') {
 			let file: any = '';
 			let url: any = '';
 			let fileId: any = '';
+			// console.log('file1234', e.target.files);
 			if (status === 'onDrag') {
 				file = e.dataTransfer.files[0];
 				url = URL.createObjectURL(e.dataTransfer.files[0]);
@@ -157,7 +159,7 @@ function CreateMultipleNFT(props: any) {
 				url = URL.createObjectURL(e.target.files[0]);
 				fileId = e.target.id;
 			}
-			console.log('file', file);
+			// console.log('file', file);
 			if (file)
 				if (file.type.includes('zip')) {
 					setUploadStatus(true);
@@ -172,6 +174,11 @@ function CreateMultipleNFT(props: any) {
 		}
 	};
 
+	const removeFile = (e: any) => {
+		setUploadStatus(false);
+		setBatchFile({ ...batchFile, file: '' });
+		setFileName('');
+	};
 	const validator = new SimpleReactValidator({
 		autoForceUpdate: forceUpdate,
 		messages: {
@@ -265,6 +272,7 @@ function CreateMultipleNFT(props: any) {
 										onChange={(e) => onFileChange(e, 'onChange')}
 										accept=".zip"
 										name="zip"
+										value=""
 									/>
 									<span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
 										Browse File
@@ -285,9 +293,8 @@ function CreateMultipleNFT(props: any) {
 											</div>
 										</div>
 										<button
-											onClick={() => {
-												setUploadStatus(false);
-												setBatchFile({ ...batchFile, file: '' });
+											onClick={(e) => {
+												removeFile(e);
 											}}
 										>
 											<BinIcon />
