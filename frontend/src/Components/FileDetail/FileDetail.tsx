@@ -23,6 +23,11 @@ const FileDetail = ({ info }: any) => {
 		EndAuction,
 		Images,
 		blockchainType,
+		highestBidder,
+		activeAuction,
+		currentBidder,
+		bidStatus,
+		status,
 	}: any = info;
 
 	return (
@@ -123,7 +128,11 @@ const FileDetail = ({ info }: any) => {
 				</p>
 			</div>
 			<div className="nft-detail-btn">
-				{checkIfAuctionStartedorEnded(auctionStartDate, auctionEndDate) &&
+				{checkIfAuctionStartedorEnded(
+					auctionStartDate,
+					auctionEndDate,
+					blockchainType
+				) &&
 					!claimNFT && (
 						<button onClick={() => handleRouting()}>
 							{verifyNFTStatus(
@@ -131,7 +140,12 @@ const FileDetail = ({ info }: any) => {
 								connectedAddress,
 								sellingMethod,
 								auctionEnded,
-								blockchainType
+								blockchainType,
+								highestBidder,
+								activeAuction,
+								currentBidder,
+								bidStatus,
+								status
 							)}
 						</button>
 					)}

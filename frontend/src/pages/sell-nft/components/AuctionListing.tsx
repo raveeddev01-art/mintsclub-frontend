@@ -45,7 +45,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history)) {
 			setLoader(true);
-			console.log(nftDetail);
 			// if (
 			// 	(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
 			// 	!nftDetail.isApproved
@@ -106,9 +105,11 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			const biddingTime = Math.floor(
 				new Date(auctionEndDate).getTime() / 1000.0
 			);
+
 			const startTime = Math.floor(
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
+
 			let result = null;
 
 			///////////////////////
@@ -143,9 +144,9 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 			if (result) {
 				activityPayload.price = price;
-				payload.sellId = Number(result);
+				// payload.sellId = Number(result);
+				payload.blockchainType = blockchainType;
 				if (blockchainType?.toLowerCase() === 'solana') {
-					console.log('iffffffff');
 					payload.txnHash = result;
 					payload.sellerPublicKey = wallet.publicKey?.toBase58();
 				} else {

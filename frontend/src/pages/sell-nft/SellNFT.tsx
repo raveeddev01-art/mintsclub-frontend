@@ -25,10 +25,7 @@ import NFTDetail from './components/NFTDetail';
 import FixedPriceListing from './components/FixedPriceListing';
 import AuctionListing from './components/AuctionListing';
 import Buttons from './components/Buttons';
-import {
-	listItemForFixedPriceSolana,
-	listItemForLiveAuction,
-} from '../../utils/solana/helper';
+
 import { useWallet } from '@solana/wallet-adapter-react';
 import { CHAIN_CURRENCY } from '../../utils/helpers/helpers';
 import { CHAINS_INTERFACE } from '../../interfaces/components';

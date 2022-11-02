@@ -53,16 +53,54 @@ const verifyNFTStatus = (
 	connectedAddress?: string,
 	sellingMethod?: number,
 	auctionEnded?: boolean,
-	blockchainType?: string
+	blockchainType?: string,
+	highestBidder: any = undefined,
+	activeAuction: any = undefined,
+	currentBidder: any = undefined,
+	bidStatus: any = undefined,
+	status: any = undefined
 ) => {
+	console.log(
+		'🚀 ~ file: helpers.ts ~ line 62 ~ connectedAddress',
+		connectedAddress
+	);
+	console.log('🚀 ~ file: helpers.ts ~ line 62 ~ status', status);
+	console.log('🚀 ~ file: helpers.ts ~ line 61 ~ auctionEnded', auctionEnded);
+	console.log('🚀 ~ file: helpers.ts ~ line 61 ~ sellingMethod', sellingMethod);
+	console.log('🚀 ~ file: helpers.ts ~ line 62 ~ currentBidder', currentBidder);
+	console.log('🚀 ~ file: helpers.ts ~ line 62 ~ bidStatus', bidStatus);
+
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 2 &&
 		auctionEnded === false &&
-		blockChainType === blockchainType
+		blockChainType !== 'solana'
 	) {
 		return 'End Auction';
+	} else if (
+		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+		sellingMethod === 2 &&
+		auctionEnded === false &&
+		blockChainType === 'solana'
+	) {
+		return 'Cancel Listing';
+	} else if (
+		highestBidder?.toUpperCase() === connectedAddress?.toUpperCase() &&
+		sellingMethod === 2 &&
+		auctionEnded === false &&
+		status === 'claimNft' &&
+		blockChainType === 'solana' &&
+		activeAuction !== null
+	) {
+		return 'Claim NFT';
+	} else if (
+		connectedAddress?.toUpperCase() === currentBidder?.toUpperCase() &&
+		sellingMethod === 2 &&
+		blockChainType === 'solana' &&
+		bidStatus === 'claimable'
+	) {
+		return 'Claim Bid';
 	} else if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 1 &&
