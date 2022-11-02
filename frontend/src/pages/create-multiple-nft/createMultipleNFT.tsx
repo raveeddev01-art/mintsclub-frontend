@@ -144,12 +144,10 @@ function CreateMultipleNFT(props: any) {
 	};
 
 	const onFileChange = (e: any, status: any) => {
-		console.log('checking if file uploaded', e);
 		if (handleFilesValidation(e, status) === 'file matched') {
 			let file: any = '';
 			let url: any = '';
 			let fileId: any = '';
-			// console.log('file1234', e.target.files);
 			if (status === 'onDrag') {
 				file = e.dataTransfer.files[0];
 				url = URL.createObjectURL(e.dataTransfer.files[0]);
@@ -215,7 +213,6 @@ function CreateMultipleNFT(props: any) {
 			uploadFiles(payload);
 		} else {
 			Object.keys(validator.fields).forEach(function (key) {
-				console.log('Key : ' + key + ', Value : ' + validator.fields[key]);
 				if (key === 'zip' && validator.fields[key] === false) {
 					toast.error('Zip file is required');
 					setLoader(false);
