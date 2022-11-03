@@ -1,18 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './SellNFT.scss';
 import { ENV } from '../../config/config';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import moment from 'moment';
-import { decimalNumberValidator, handleRequest } from '../../utils/functions';
+import { decimalNumberValidator } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-	openNFTForBidding,
-	putonsale,
-	setApprovalForAll,
-	validateNetwork,
-	createVoucher,
-} from '../../utils/web3';
+import { setApprovalForAll } from '../../utils/web3';
 import { toast } from 'react-toastify';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import useVideoPlayer from '../../Components/TestVideoCard/Components/UseVideoPlayer';
@@ -31,17 +25,12 @@ import NFTDetail from './components/NFTDetail';
 import FixedPriceListing from './components/FixedPriceListing';
 import AuctionListing from './components/AuctionListing';
 import Buttons from './components/Buttons';
-import {
-	listItemForFixedPriceSolana,
-	listItemForLiveAuction,
-} from '../../utils/solana/helper';
+
 import { useWallet } from '@solana/wallet-adapter-react';
 import { CHAIN_CURRENCY } from '../../utils/helpers/helpers';
-import { isUserLoggedIn } from '../../utils/helpers/ethereum';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
 const { dateRangeInitialSettings } = ENV;
 const SellNFT = (props: any) => {
-	const wallet = useWallet();
 	const [activeBtn, setActiveBtn] = useState<any>(0);
 	const [sellingMethod, setSellingMethod] = useState<number>(1); // 1 = Fixed Price, 2 = Timed Auction
 	const [fixedPriceConfig, setFixedPriceConfig] = useState<any>({
@@ -164,212 +153,18 @@ const SellNFT = (props: any) => {
 			});
 		}
 	};
-	//onSubmit
-	const submit = async (e: any) => {
-		e.preventDefault();
-		try {
-			if (
-				isUserLoggedIn(history) &&
-				props.blockchainType !== 'algorand' &&
-				props.blockchainType !== 'solana'
-			) {
-				if (
-					(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
-					!nftDetail.isApproved
-				) {
-					setShow(true);
-					return;
-				}
-			}
 
-			let price: any = '';
-			let payload: object = {};
-
-			const timedConfig = { ...timedAuctionConfig };
-
-			const fixedConfig = { ...fixedPriceConfig };
-			const { _id, ownerId } = nftDetail;
-
-			const activityPayload = {
-				nftId: _id,
-				ownerId,
-				fromAddress: props.connectedAddress,
-				activityType: 'List',
-			};
-
-			if (sellingMethod === 2) {
-				if (Number(timedConfig.startPrice.amount) === 0) {
-					toast.error('Price should be greater then 0');
-					return '';
-				}
-				const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-				const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
-				//calculate end time
-				timedConfig.duration.endDate = calclateStartOrEndTime(
-					timedAuctionEndTime,
-					timedConfig.duration.endTime
-				);
-
-				//calculate start time
-				timedConfig.duration.startDate = calclateStartOrEndTime(
-					timedAuctionStartTime,
-					timedConfig.duration.startTime
-				);
-
-				//Deleting unused data from payload
-				const auctionConfig = timedConfig;
-				delete auctionConfig.duration.startTime;
-				delete auctionConfig.duration.endTime;
-				delete auctionConfig.method;
-				price = Number(auctionConfig.startPrice.amount);
-				auctionConfig.startPrice.amount = Number(
-					auctionConfig.startPrice.amount
-				);
-				payload = {
-					nftId: location.state._id,
-					userId: ENV.getUserKeys('_id')._id,
-					sellingMethod,
-					sellingConfig: JSON.stringify(auctionConfig),
-					copiesForAuction: copies,
-				};
-			} else {
-				price = Number(fixedConfig.price.amount);
-				if (price === 0) {
-					toast.error('Price should be greater then 0');
-					return '';
-				}
-				payload = {
-					nftId: location.state._id,
-					sellingMethod,
-					sellingConfig: JSON.stringify(fixedConfig),
-					copiesForAuction: copies,
-				};
-			}
-
-			setLoader(true);
-
-			if (sellingMethod === 2) {
-				openBidding(timedAuctionConfig, payload, activityPayload, price);
-			} else {
-				openForSale(activityPayload, payload, fixedConfig, price);
-			}
-		} catch (err) {
-			console.log(err, 'error while sell nft');
-		}
+	const getActivityPayload = () => {
+		const { _id, ownerId } = nftDetail;
+		const activityPayload = {
+			nftId: _id,
+			ownerId,
+			fromAddress: props.connectedAddress,
+			activityType: 'List',
+		};
+		return activityPayload;
 	};
 
-	//Open for Bidding/Auction
-
-	const openBidding = async (
-		timedAuctionConfig: any,
-		payload: any,
-		activityPayload: any,
-		price: any
-	) => {
-		const formData = new FormData();
-		try {
-			const auctionEndDate = timedAuctionConfig.duration.endDate;
-			const auctionStartDate = timedAuctionConfig.duration.startDate;
-
-			const biddingTime = Math.floor(
-				new Date(auctionEndDate).getTime() / 1000.0
-			);
-
-			const startTime = Math.floor(
-				new Date(auctionStartDate).getTime() / 1000.0
-			);
-
-			let result = undefined;
-			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
-				result = await listItemForLiveAuction(
-					wallet,
-					nftDetail?.mint,
-					startTime,
-					biddingTime
-				);
-			}
-			if (ENV.getUserKeys('blockchainType').blockchainType !== 'solana') {
-				result = await openNFTForBidding(
-					startTime,
-					biddingTime,
-					nftDetail?.tokenId,
-					copies,
-					+price,
-					nftDetail?.contractAddress
-				);
-			}
-
-			if (result) {
-				activityPayload.price = price;
-				payload.blockchainType = props.blockchainType.toLowerCase();
-				if (props.blockchainType?.toLowerCase() === 'solana') {
-					console.log('iffffffff');
-					payload.txnHash = result;
-					payload.sellerPublicKey = wallet.publicKey?.toBase58();
-				} else {
-					payload.sellId = Number(result);
-				}
-				for (const key in payload) formData.append(key, payload[key]);
-				insertActivity(activityPayload);
-				insertAuction(payload);
-			}
-		} catch (err: any) {
-			setLoader(false);
-			toast.error(err);
-		}
-	};
-	//Open for fixed price
-	const openForSale = async (
-		activityPayload: any,
-		payload: any,
-		fixedConfig: any,
-		price: any
-	) => {
-		const formData = new FormData();
-		try {
-			let res = null;
-			if (props.blockchainType?.toLowerCase() === 'solana') {
-				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
-			}
-			if (
-				props.blockchainType?.toLowerCase() !== 'solana' &&
-				props.blockchainType?.toLowerCase() !== 'algorand' &&
-				!nftDetail?.lazyMinted
-			) {
-				res = await putonsale(
-					nftDetail.tokenId,
-					copies,
-					fixedConfig.price.amount,
-					nftDetail.contractAddress
-				);
-				payload.sellId = res;
-			}
-
-			activityPayload.price = price;
-			payload.blockchainType = props.blockchainType.toLowerCase();
-			if (props.blockchainType?.toLowerCase() === 'solana') {
-				payload.sellerTradeState = res;
-			}
-			if (nftDetail.lazyMinted) {
-				payload.sellId = 0;
-				// payload.signature = res.data;
-			}
-			for (const key in payload) formData.append(key, payload[key]);
-			insertActivity(activityPayload);
-			insertAuction(formData);
-		} catch (err: any) {
-			console.log(err, 'error');
-			setLoader(false);
-			toast.error(err);
-		} finally {
-			setLoader(false);
-		}
-	};
-	const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
-		let time = auctionConfig.toString();
-		time = time.slice(0, 15) + ' ' + startOrEndTime + ':00' + time.slice(24);
-		return time;
-	};
 	const handleDateChange = (e: any, picker: any) => {
 		const { name } = e.target;
 		const { startDate, endDate } = picker;
@@ -472,7 +267,6 @@ const SellNFT = (props: any) => {
 						{activeBtn === 0 ? (
 							<FixedPriceListing
 								data={{
-									submit,
 									onChange,
 									decimalNumberValidator,
 									fixedPriceConfig,
@@ -482,12 +276,17 @@ const SellNFT = (props: any) => {
 									copies,
 									setCopies,
 									nftDetail,
+									setShow,
+									getActivityPayload,
+									sellingMethod,
+									insertActivity,
+									insertAuction,
+									setLoader,
 								}}
 							/>
 						) : (
 							<AuctionListing
 								data={{
-									submit,
 									onChange,
 									decimalNumberValidator,
 									timedAuctionConfig,
@@ -499,6 +298,12 @@ const SellNFT = (props: any) => {
 									setCopies,
 									dateRangeInitialSettings,
 									handleDateChange,
+									setShow,
+									getActivityPayload,
+									sellingMethod,
+									insertActivity,
+									insertAuction,
+									setLoader,
 								}}
 							/>
 						)}
