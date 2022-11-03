@@ -60,16 +60,6 @@ const verifyNFTStatus = (
 	bidStatus: any = undefined,
 	status: any = undefined
 ) => {
-	console.log(
-		'🚀 ~ file: helpers.ts ~ line 62 ~ connectedAddress',
-		connectedAddress
-	);
-	console.log('🚀 ~ file: helpers.ts ~ line 62 ~ status', status);
-	console.log('🚀 ~ file: helpers.ts ~ line 61 ~ auctionEnded', auctionEnded);
-	console.log('🚀 ~ file: helpers.ts ~ line 61 ~ sellingMethod', sellingMethod);
-	console.log('🚀 ~ file: helpers.ts ~ line 62 ~ currentBidder', currentBidder);
-	console.log('🚀 ~ file: helpers.ts ~ line 62 ~ bidStatus', bidStatus);
-
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&

@@ -60,7 +60,6 @@ const mintSingleNft = async (
 ) => {
 	try {
 		const metaplex = getMetaplex();
-		console.log('🚀 ~ file: helper.ts ~ line 12 ~ metaplex', metaplex);
 
 		metaplex.use(walletAdapterIdentity(wallet));
 		const mintNftResponse: any = await metaplex.nfts().create({
@@ -68,15 +67,10 @@ const mintSingleNft = async (
 			sellerFeeBasisPoints,
 			name,
 		});
-		console.log(
-			'🚀 ~ file: helper.ts ~ line 16 ~ mintNftResponse',
-			mintNftResponse.mintAddress.toBase58(),
-			mintNftResponse.tokenAddress.toBase58(),
-			mintNftResponse.response.signature
-		);
+
 		return mintNftResponse;
 	} catch (err) {
-		console.log('🚀 ~ file: helper.ts ~ line 4 ~ mintSingleNft ~ err', err);
+		return err;
 	}
 };
 
@@ -97,10 +91,7 @@ const signMessageFromUserForSolana = async (
 			return { publicAddress: connectedAddress, signature: signatureBase64 };
 		}
 	} catch (err) {
-		console.log(
-			'🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err',
-			err
-		);
+		return err;
 	}
 };
 
@@ -116,13 +107,6 @@ const listItemForFixedPriceSolana = async (
 		address: new PublicKey(AUCTION_HOUSE_ADDRESS),
 	});
 
-	console.log(
-		'🚀 ~ file: Listing.tsx ~ line 44 ~ listNft ~ auctionHouse',
-		auctionHouse
-	);
-
-	console.log(auctionHouse.feeAccountAddress.toString(), 'fee account');
-
 	const { listing, sellerTradeState, receipt } = await metaplex
 		.auctionHouse()
 		.list({
@@ -131,12 +115,6 @@ const listItemForFixedPriceSolana = async (
 			mintAccount: new PublicKey(mintAddress),
 		});
 
-	console.log(
-		' listing, sellerTradeState, receipt',
-		listing,
-		sellerTradeState,
-		receipt
-	);
 	return sellerTradeState.toBase58();
 };
 
@@ -155,22 +133,15 @@ const cancelItemFromListing = async (
 			tradeStateAddress: new PublicKey(tradeStateAddress),
 			auctionHouse,
 		});
-		console.log('🚀 ~ file: helper.ts ~ line 105 ~ listing ~ listing', listing);
 
 		const cancelListing = await metaplex.auctionHouse().cancelListing({
 			listing,
 			auctionHouse,
 		});
-		console.log(
-			'🚀 ~ file: helper.ts ~ line 111 ~ cancelListing ~ cancelListing',
-			cancelListing
-		);
+
 		return cancelListing;
 	} catch (err) {
-		console.log(
-			'🚀 ~ file: helper.ts ~ line 95 ~ cancelItemFromListing ~ err',
-			err
-		);
+		return err;
 	}
 };
 
@@ -181,7 +152,6 @@ const buyNowFixedPriceAuction = async (
 	price: number
 ) => {
 	try {
-		console.log('Price', price);
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 
@@ -201,22 +171,15 @@ const buyNowFixedPriceAuction = async (
 			price: sol(price),
 		});
 
-		console.log('bid==>', bid);
-
 		const purchase = await metaplex.auctionHouse().executeSale({
 			auctionHouse,
 			bid: bid.bid,
 			listing,
 		});
 
-		console.log('purchase', purchase);
-
 		return purchase;
 	} catch (err) {
-		console.log(
-			'🚀 ~ file: helper.ts ~ line 134 ~ buyNowFixedPriceAuction ~ err',
-			err
-		);
+		return err;
 	}
 };
 
@@ -375,13 +338,9 @@ const listItemForLiveAuction = async (
 			signedTransaction.serialize()
 			// { skipPreflight: true }
 		);
-		console.log(
-			'🚀 ~ file: Sell.tsx ~ line 173 ~ sellFunction ~ txtId',
-			txnHash
-		);
+
 		return txnHash;
 	} catch (e) {
-		console.log('🚀 ~ file: Sell.tsx ~ line 177 ~ sellFunction ~ e', e);
 		return e;
 	}
 };
@@ -513,16 +472,9 @@ const bidForLiveAuction = async (
 			signedTransaction.serialize()
 			// { skipPreflight: true }
 		);
-		console.log(
-			'🚀 ~ file: Sell.tsx ~ line 173 ~ sellFunction ~ txnHash',
-			txnHash
-		);
+
 		return txnHash;
 	} catch (e) {
-		console.log(
-			'🚀 ~ file: Authorize.tsx ~ line 76 ~ authorizeFunction ~ e',
-			e
-		);
 		return e;
 	}
 };
@@ -676,7 +628,6 @@ const executeSaleForLiveAuction = async (
 		const metaplex = getMetaplex();
 		const remainingAccounts = [];
 		const nft = await metaplex.nfts().findByMint({ mintAddress: MINT });
-		//   .run()
 		for (let i = 0; i < nft.creators.length; i++) {
 			const creator = {
 				pubkey: nft.creators[i].address,
@@ -686,10 +637,6 @@ const executeSaleForLiveAuction = async (
 			remainingAccounts.push(creator);
 		}
 
-		console.log(remainingAccounts[0].pubkey.toBase58(), 'remainingAccounts');
-		console.log('@@checkinggg', remainingAccounts);
-
-		// let CreatorAddress = remainingAccounts[0].pubkey;
 		const escrowPaymentBump = escrowPaymentAccount1[1];
 
 		const freeTradeStateBump = freeTradeBump;
@@ -776,21 +723,11 @@ const executeSaleForLiveAuction = async (
 				programAsSigner,
 				rent,
 			})
-			.remainingAccounts(
-				remainingAccounts
-				// 	[
-				// 	{
-				// 		pubkey: new PublicKey('GpcLGX5oQLWqsSjtuP4W2ux5Abv27s6AVWuMPmfYvXy8'),
-				// 		isWritable: true,
-				// 		isSigner: false,
-				// 	},
-				// ]
-			)
+			.remainingAccounts(remainingAccounts)
 			.rpc();
-		console.log('🚀 ~ file: helper.ts ~ line 926 ~ txSig', txSig);
 		return txSig;
 	} catch (e) {
-		console.log('🚀 ~ file: helper.ts ~ line 929 ~ e', e);
+		return e;
 	}
 };
 
@@ -888,16 +825,10 @@ const claimBidsForLiveAuction = async (wallet: any, bidPrice: number) => {
 			signedTransaction.serialize()
 			// { skipPreflight: true }
 		);
-		console.log(
-			'🚀 ~ file: helper.ts ~ line 892 ~ claimBidsForLiveAuction ~ txnHash',
-			txnHash
-		);
+
 		return txnHash;
 	} catch (e) {
-		console.log(
-			'🚀 ~ file: helper.ts ~ line 896 ~ claimBidsForLiveAuction ~ e',
-			e
-		);
+		return e;
 	}
 };
 export {

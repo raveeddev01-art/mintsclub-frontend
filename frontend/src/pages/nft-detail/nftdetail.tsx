@@ -194,7 +194,6 @@ const NFTDetail = (props: any) => {
 	const onSuccessGetBids = (data: any) => {
 		if (data.data.success) {
 			setBids(data.data.data.Bids);
-			console.log('checkingggg bids data', bids);
 		} else {
 			setError(data.data.message);
 		}
@@ -328,10 +327,7 @@ const NFTDetail = (props: any) => {
 					wallet,
 					nftDetail?.auction?.highestBid
 				);
-				console.log(
-					'🚀 ~ file: nftdetail.tsx ~ line 325 ~ handleRouting ~ result',
-					result
-				);
+
 				if (result) {
 					EndAuctionFromBackend();
 				}
@@ -343,8 +339,6 @@ const NFTDetail = (props: any) => {
 				nftDetail?.auction?.auctionEnded === true &&
 				connectedAddress?.toUpperCase() !== highestBidder?.toUpperCase()
 			) {
-				console.log('======> in claim bid function');
-
 				const result = await claimBidsForLiveAuction(wallet, claimBidPrice);
 				if (result) {
 					try {
@@ -623,7 +617,6 @@ const NFTDetail = (props: any) => {
 				}
 			}
 		} catch (err: any) {
-			console.log('🚀 ~ file: nftdetail.tsx ~ line 570 ~ BuyNow ~ err', err);
 			toast.error(err);
 		} finally {
 			setDisabled(false);
@@ -746,29 +739,12 @@ const NFTDetail = (props: any) => {
 	}, [nftDetail, initial]);
 
 	const isAuctionEnded = async () => {
-		console.log(
-			'🚀 ~ file: nftdetail.tsx ~ line 667 ~ isAuctionEnded ~ nftDetail',
-			nftDetail
-		);
 		if (nftDetail && nftDetail?.auction?.sellingMethod === 2) {
 			const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
-			console.log(
-				'🚀 ~ file: nftdetail.tsx ~ line 713 ~ isAuctionEnded ~ auctionEndDate',
-				auctionEndDate
-			);
 
 			const currentDate = new Date();
 
 			if (currentDate > auctionEndDate) {
-				console.log(
-					'🚀 ~ file: nftdetail.tsx ~ line 721 ~ isAuctionEnded ~ currentDate',
-					currentDate
-				);
-				console.log(
-					'🚀 ~ file: nftdetail.tsx ~ line 758 ~ isAuctionEnded ~ initial',
-					initial
-				);
-
 				if (!initial) {
 					let qs: any = {
 						nftId: nftDetail._id,
@@ -779,19 +755,13 @@ const NFTDetail = (props: any) => {
 					url += `?${qs}`;
 					const res = await axios.get(url);
 					const newBids = res.data.data.Bids;
-					console.log(
-						'🚀 ~ file: nftdetail.tsx ~ line 732 ~ isAuctionEnded ~ newBids',
-						newBids
-					);
+
 					const getBidDataOfCurrentUser = newBids.filter(function (bid: {
 						fromAddress: any;
 					}) {
 						return bid?.fromAddress === connectedAddress;
 					});
-					console.log(
-						'🚀 ~ file: nftdetail.tsx ~ line 764 ~ isAuctionEnded ~ getBidDataOfCurrentUser',
-						getBidDataOfCurrentUser
-					);
+
 					if (getBidDataOfCurrentUser.length > 0) {
 						setCurrentBidder(getBidDataOfCurrentUser[0]?.fromAddress);
 						setBidStatus(getBidDataOfCurrentUser[0]?.status);

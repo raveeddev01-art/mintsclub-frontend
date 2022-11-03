@@ -45,13 +45,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history)) {
 			setLoader(true);
-			// if (
-			// 	(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
-			// 	!nftDetail.isApproved
-			// ) {
-			// 	setShow(true);
-			// 	return '';
-			// }
+
 			handleAuction();
 		}
 	};
