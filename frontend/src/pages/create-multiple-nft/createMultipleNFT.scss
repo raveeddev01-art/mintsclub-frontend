@@ -74,6 +74,9 @@
           .react-select__placeholder {
             color: #9c9c9c;
           }
+          .react-select__single-value{
+            color: var(--text-body-two);
+            }
         }
       }
       .react-select__indicator-separator {
