@@ -123,11 +123,11 @@ function CreateMultipleNFT(props: any) {
 		let files: any;
 		let type: any;
 		if (status === 'onDrag') {
-			files = e.dataTransfer.files[0];
-			type = e.dataTransfer.files[0].type;
+			files = e?.dataTransfer?.files[0];
+			type = e?.dataTransfer?.files[0].type;
 		} else {
-			files = e.target.files[0];
-			type = e.target.files[0].type;
+			files = e?.target?.files[0];
+			type = e?.target?.files[0].type;
 		}
 		if (files) {
 			if (type === 'application/zip') {
@@ -157,7 +157,7 @@ function CreateMultipleNFT(props: any) {
 				url = URL.createObjectURL(e.target.files[0]);
 				fileId = e.target.id;
 			}
-			console.log('file', file);
+			// console.log('file', file);
 			if (file)
 				if (file.type.includes('zip')) {
 					setUploadStatus(true);
@@ -172,6 +172,11 @@ function CreateMultipleNFT(props: any) {
 		}
 	};
 
+	const removeFile = (e: any) => {
+		setUploadStatus(false);
+		setBatchFile({ ...batchFile, file: '' });
+		setFileName('');
+	};
 	const validator = new SimpleReactValidator({
 		autoForceUpdate: forceUpdate,
 		messages: {
@@ -208,7 +213,6 @@ function CreateMultipleNFT(props: any) {
 			uploadFiles(payload);
 		} else {
 			Object.keys(validator.fields).forEach(function (key) {
-				console.log('Key : ' + key + ', Value : ' + validator.fields[key]);
 				if (key === 'zip' && validator.fields[key] === false) {
 					toast.error('Zip file is required');
 					setLoader(false);
@@ -265,6 +269,7 @@ function CreateMultipleNFT(props: any) {
 										onChange={(e) => onFileChange(e, 'onChange')}
 										accept=".zip"
 										name="zip"
+										value=""
 									/>
 									<span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">
 										Browse File
@@ -285,9 +290,8 @@ function CreateMultipleNFT(props: any) {
 											</div>
 										</div>
 										<button
-											onClick={() => {
-												setUploadStatus(false);
-												setBatchFile({ ...batchFile, file: '' });
+											onClick={(e) => {
+												removeFile(e);
 											}}
 										>
 											<BinIcon />
