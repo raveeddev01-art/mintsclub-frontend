@@ -61,6 +61,7 @@ const verifyNFTStatus = (
 	status: any = undefined,
 	bidCount: any = undefined
 ) => {
+	console.log('🚀 ~ file: helpers.ts ~ line 64 ~ bidCount', bidCount);
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
@@ -74,7 +75,8 @@ const verifyNFTStatus = (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 2 &&
 		auctionEnded === false &&
-		blockChainType === 'solana'
+		blockChainType === 'solana' &&
+		bidCount.length === 0
 	) {
 		return 'Cancel Listing';
 	} else if (

@@ -8,7 +8,10 @@ import {
 	TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import {
+	CancelInstructionAccounts,
+	CancelInstructionArgs,
 	createBuyInstruction,
+	createCancelInstruction,
 	createSellInstruction,
 	createWithdrawInstruction,
 	WithdrawInstructionAccounts,
@@ -831,6 +834,151 @@ const claimBidsForLiveAuction = async (wallet: any, bidPrice: number) => {
 		return e;
 	}
 };
+
+const cancelListingForLiveAuction = async (
+	wallet: any,
+	mintAddress: string
+) => {
+	try {
+		console.log('Cancel listing for auctioneer@@@@@@');
+		const metaplex = getMetaplex();
+		metaplex.use(walletAdapterIdentity(wallet));
+		const MINT = new PublicKey(mintAddress);
+
+		const options = anchor.AnchorProvider.defaultOptions();
+		const connection = new Connection(clusterApiUrl('devnet'));
+
+		//@ts-ignore
+		const provider = new anchor.AnchorProvider(connection, wallet, options);
+
+		if (!provider) {
+			return;
+		}
+		const [auctioneerAuthority, bump] = await PublicKey.findProgramAddress(
+			[Buffer.from('auctioneer'), AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer()],
+			AUCTIONEER
+		);
+
+		const args: CancelInstructionArgs = {
+			auctioneerAuthorityBump: bump,
+			buyerPrice: new BN('18446744073709551615'),
+			tokenSize: new BN(Math.ceil(1 * 1)),
+		};
+		const sellerPublicKey = wallet.publicKey;
+
+		const associatedAddress = await getAssociatedTokenAddress(
+			MINT,
+			sellerPublicKey
+		);
+		const listingConfig1 = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('listing_config'),
+				sellerPublicKey.toBuffer(),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				associatedAddress.toBuffer(),
+				WRAPPED_SOL_MINT.toBuffer(),
+				MINT.toBuffer(),
+				new BN(1).toArrayLike(Buffer, 'le', 8),
+			],
+			AUCTIONEER
+		);
+
+		const feePayer = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auction_house'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				Buffer.from('fee_payer'),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+		const pda = await PublicKey.findProgramAddress(
+			[
+				Buffer.from('auctioneer'),
+				AUCTIONEER_AUCTION_HOUSE_ADDRESS.toBuffer(),
+				auctioneerAuthority.toBuffer(),
+			],
+			AUCTION_HOUSE_PROGRAM_ID
+		);
+		const [sellerTradeState, tradeBump] = await getAuctionHouseTradeState(
+			AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			wallet.publicKey,
+			associatedAddress,
+			WRAPPED_SOL_MINT,
+			MINT,
+			1,
+			'18446744073709551615'
+		);
+		const [freeTradeState, freeTradeBump] = await getAuctionHouseTradeState(
+			AUCTIONEER_AUCTION_HOUSE_ADDRESS,
+			wallet.publicKey,
+			associatedAddress,
+			WRAPPED_SOL_MINT,
+			MINT,
+			1,
+			'0'
+		);
+
+		const auctionHouseProgram = AUCTION_HOUSE_PROGRAM_ID;
+
+		const listingConfig = listingConfig1[0];
+
+		const seller = sellerPublicKey;
+
+		const tokenAccount = associatedAddress;
+
+		const tokenMint = MINT;
+
+		const authority = auctionHouseAuthority;
+
+		const auctionHouse = AUCTIONEER_AUCTION_HOUSE_ADDRESS;
+
+		const auctionHouseFeeAccount = feePayer[0];
+
+		const ahAuctioneerPda = pda[0];
+
+		const tradeState = sellerTradeState;
+
+		const accounts: CancelInstructionAccounts = {
+			auctionHouseProgram,
+			listingConfig,
+			seller,
+			wallet: wallet.publicKey,
+			tokenAccount,
+			tokenMint,
+			authority,
+			auctionHouse,
+			auctionHouseFeeAccount,
+			tradeState,
+			auctioneerAuthority,
+			ahAuctioneerPda,
+		};
+		const cancelInstruction = createCancelInstruction(accounts, args);
+		const transaction = new Transaction();
+
+		transaction.add(cancelInstruction);
+		transaction.feePayer = wallet.publicKey as any;
+		transaction.recentBlockhash = (
+			await connection.getLatestBlockhash()
+		).blockhash;
+
+		const signedTransaction = await wallet.signTransaction(transaction);
+
+		const txnHash = await connection.sendRawTransaction(
+			signedTransaction.serialize(),
+			{ skipPreflight: false }
+		);
+		console.log(
+			'🚀 ~ file: CancelListingAuctioneer.tsx ~ line 171 ~ cancelListing ~ txtId',
+			txnHash
+		);
+		return txnHash;
+	} catch (e) {
+		console.log(
+			'🚀 ~ file: CancelListingAuctioneer.tsx ~ line 176 ~ cancelListing ~ e',
+			e
+		);
+	}
+};
 export {
 	mintSingleNft,
 	signMessageFromUserForSolana,
@@ -842,4 +990,5 @@ export {
 	bidForLiveAuction,
 	executeSaleForLiveAuction,
 	claimBidsForLiveAuction,
+	cancelListingForLiveAuction,
 };
