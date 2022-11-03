@@ -503,8 +503,9 @@ const NFTDetail = (props: any) => {
 					isAccepted: false,
 					toAddress: ownerAddress,
 					fromAddress: connectedAddress,
-					blockchainType: blockchainType,
+					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 				};
+
 				props.beforeBid();
 				props.placeBid(payload);
 				createActivity('Bid', price);
