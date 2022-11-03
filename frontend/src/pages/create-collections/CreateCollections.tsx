@@ -347,6 +347,7 @@ class CreateCollections extends Component<
 		};
 		this.setState({ collection, isSubmitted: false });
 	};
+
 	submit = async (e: any) => {
 		e.preventDefault();
 		this.setState(
@@ -600,24 +601,6 @@ class CreateCollections extends Component<
 								></textarea>
 							</div>
 							<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-								<div>
-									<label className="create-collection-label ms-0">
-										Deploy Collection
-									</label>
-
-									<textarea
-										className="create-collection-area mt-2"
-										name="description"
-										placeholder="Max 500 characters"
-										maxLength={500}
-										rows={3}
-										onChange={(e) => this.onChange(e)}
-										onKeyDown={(e) =>
-											firstInputCharacterSpace(e, collection.description.length)
-										}
-										value={collection.description}
-									></textarea>
-								</div>
 								<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
 									<div className="create-collection-label ms-0">
 										<label>Deploy Collection</label>
@@ -629,20 +612,6 @@ class CreateCollections extends Component<
 										inputProps={{ 'aria-label': 'mint' }}
 									/>
 								</div>
-								<div className="create-collection-btn-container">
-									<button
-										className="btn create-collection-btn btn-linear-gradient mt-5"
-										disabled={this.handleValidation()}
-										onClick={(e) => this.submit(e)}
-									>
-										Create Collection
-									</button>
-								</div>
-								<MintSwitch
-									checked={this.state.collection.deploy}
-									onChange={this.handleDeployChange}
-									inputProps={{ 'aria-label': 'mint' }}
-								/>
 							</div>
 							<div className="create-collection-btn-container">
 								<button
