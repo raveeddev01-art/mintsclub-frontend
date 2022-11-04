@@ -152,6 +152,10 @@ const handleFilesValidation = (
 	}
 };
 
+const capitalize = (word: string) => {
+	return word[0].toUpperCase() + word.slice(1).toLowerCase();
+};
+
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
@@ -159,4 +163,5 @@ export {
 	verifyOwner,
 	verifyNFTStatus,
 	handleFilesValidation,
+	capitalize,
 };

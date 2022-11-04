@@ -10,10 +10,35 @@ import {
 	firstInputCharacterSpace,
 } from '../../../utils/functions';
 import { StatsInt } from '../../../interfaces/components';
-const StatsModal: FC<StatsInt> = (props) => {
-	const { show, onHide } = props;
-	const { addMoreValues, handleChange, removeFormFields, stats, onSave } =
-		props;
+const StatsModal: FC<any> = (props) => {
+	const { stats, show, nftInfo, addMore, handlers } = props;
+	const {
+		handleModalsRemove,
+		handleModalsOnHide,
+		handleModalsOnChange,
+		handleModalsAddMore,
+		onSave,
+	} = handlers;
+	const handleChange = (i: any, e: any, status: string) => {
+		const newFormValues = [...stats];
+		newFormValues[i][e.target.name] =
+			e.target.name === 'value' && e.target.value !== ''
+				? +e.target.value
+				: e.target.value;
+		handleModalsOnChange('stats', newFormValues);
+	};
+	const handleRemove = (i: number, status: string) => {
+		const newFormValues = [...stats];
+		newFormValues.splice(i, 1);
+		const newNFTValues = [...nftInfo.stats];
+		newNFTValues.splice(i, 1);
+		const nft = { ...nftInfo, stats: newNFTValues };
+		handleModalsRemove('stats', newFormValues, nft);
+	};
+	const handleAddMore = () => {
+		const addState = [...stats, { name: '', value: '', total: 5 }];
+		handleModalsAddMore('stats', addState);
+	};
 	const handleSubmit = () => {
 		if (stats && stats.length > 0) {
 			const isEmpty = stats.filter(
@@ -31,7 +56,7 @@ const StatsModal: FC<StatsInt> = (props) => {
 		<Modal
 			{...props}
 			show={show}
-			onHide={onHide}
+			onHide={() => handleModalsOnHide('levelsmodalShow')}
 			size="lg"
 			dialogClassName="buy-modal-dialog"
 			contentClassName="buy-modal-content"
@@ -42,7 +67,7 @@ const StatsModal: FC<StatsInt> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">Add Stats</Modal.Title>
 
 				<div className="modal-close-container">
-					<button onClick={onHide}>
+					<button onClick={() => handleModalsOnHide('levelsmodalShow')}>
 						<img src={ModalClose} alt="closemodal" />
 					</button>
 				</div>
@@ -124,13 +149,13 @@ const StatsModal: FC<StatsInt> = (props) => {
 										</div>
 										<div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
 											<div className="inp-close text-end me-2">
-												<button type="submit">
+												<span>
 													<img
 														src={InputClose}
 														alt="closemodal"
-														onClick={() => removeFormFields(i, 'stats')}
+														onClick={() => handleRemove(i, 'stats')}
 													/>
-												</button>
+												</span>
 											</div>
 										</div>
 									</div>
@@ -141,14 +166,18 @@ const StatsModal: FC<StatsInt> = (props) => {
 			</Modal.Body>
 			<Modal.Footer>
 				<div className="modal-nft-footer d-flex align-items-center">
-					<button
+					<span
 						className="btn modal-btn-addMore mt-2"
-						onClick={() => addMoreValues('stats')}
+						onClick={(e) => {
+							e.preventDefault();
+							handleAddMore();
+						}}
 					>
 						Add more
-					</button>
+					</span>
 					<button
 						className="btn btn-linear-gradient modal-btn-save mt-2 ms-3"
+						type="submit"
 						disabled={stats && stats.length === 0}
 						onClick={handleSubmit}
 					>

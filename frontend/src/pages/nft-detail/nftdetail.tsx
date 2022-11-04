@@ -385,6 +385,7 @@ const NFTDetail = (props: any) => {
 			return openModals();
 		}
 	};
+
 	const openModals = () => {
 		if (nftDetail?.auction?.sellingMethod === 2) {
 			setBidModalShow(true);

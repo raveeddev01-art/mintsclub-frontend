@@ -92,12 +92,9 @@ export interface Buy {
 }
 export interface Levels {
 	show: boolean;
-	onHide: () => any;
 	levels: any[];
-	addMoreValues: (status: string) => any;
-	handleChange: (i: number, e: any, status: string) => any;
-	removeFormFields: (i: number, status: string) => any;
-	onSave: (status: string) => any;
+	nftInfo: any;
+	handlers: any;
 }
 
 export interface BreadcrumbInt {
@@ -109,22 +106,16 @@ export interface BreadcrumbInt {
 
 export interface PropertiesInt {
 	show: boolean;
-	onHide: () => any;
-	addMoreValues: (status: string) => any;
-	handleChange: (i: any, e: any, status: string) => any;
-	removeFormFields: (i: any, status: string) => any;
 	properties: any[];
-	onSave: (status: string) => any;
+	nftInfo: any;
+	handlers: any;
 }
 
 export interface StatsInt {
 	show: boolean;
-	onHide: () => any;
-	addMoreValues: (status: string) => any;
-	handleChange: (i: any, e: any, status: string) => any;
-	removeFormFields: (i: any, status: string) => any;
-	onSave: (status: string) => any;
 	stats: any[];
+	nftInfo: any;
+	handlers: any;
 }
 export interface AuctionAudioInt {
 	src: string;
@@ -146,8 +137,8 @@ export interface CollectionCardInt {
 	profileImage: string;
 	ownerAddress?: string;
 	connectedAddress?: string;
-	userId?:string;
-	blockchainType:string
+	userId?: string;
+	blockchainType: string;
 }
 
 export interface HeroInt {
@@ -253,7 +244,7 @@ export interface CreateNftInterface {
 	handleBtnDisable: any;
 	setLoader: any;
 	blockChainType: string;
-	connectedAddress:string,
+	connectedAddress: string;
 }
 
 export interface CHAINS_INTERFACE {

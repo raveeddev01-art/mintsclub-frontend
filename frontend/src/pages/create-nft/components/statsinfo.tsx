@@ -23,7 +23,7 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>
 						<span>Stat Name: </span>
-						{name.length > 8 ? name.slice(0, 8) + '...' : name}
+						{name?.length > 8 ? name.slice(0, 8) + '...' : name}
 					</p>
 					<div className="stats-content">
 						<p>{value} of 5</p>
