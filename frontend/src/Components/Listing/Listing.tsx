@@ -1,13 +1,13 @@
 import React, { useState, useEffect, FC } from 'react';
 import './Listing.scss';
-import { ReactComponent as SearchIcon } from '../../assets/images/searchicon.svg';
-import NftCard from '../NftCard/NftCard';
-import FullPageLoader from '../FullPageLoader/FullPageLoader';
-import Select from 'react-select';
-import { editImage } from '../../assets/assets';
 import { decimalNumberValidator } from '../../utils/functions';
 import { listingInt } from '../../interfaces/components';
-
+import SortFilter from '../Filters/SortFIlter';
+import OwnerFilters from '../Filters/OwnerFilters';
+import StatusFilter from '../Filters/StatusFIlter';
+import PriceFilter from '../Filters/PriceFilter';
+import CollectionFilter from '../Filters/CollectionFilter';
+import FilteredNftsList from '../Filters/FilteredNftsList';
 const Listing: FC<listingInt> = (props) => {
 	const [minValue, setMinValue] = useState<any>('');
 	const [maxValue, setMaxValue] = useState<any>('');
@@ -262,273 +262,87 @@ const Listing: FC<listingInt> = (props) => {
 		<div className="filterhoc-wrapper padding-wrapper">
 			<div className="container">
 				<div className="row justify-content-center justify-content-lg-start">
-					<div className="col-12 order-0">
-						<div
-							className={`d-flex flex-column flex-md-row align-items-center justify-content-md-between`}
-						>
-							<div className="search-input mb-4 mb-md-0">
-								<input
-									type="text"
-									placeholder="Search items and accounts"
-									maxLength={50}
-									onChange={(e: any) => {
-										if (keyword.trim() === '' && e.target.value.trim() === '') {
-											return false;
-										} else if (e.target.value === '') {
-											handleSearchKeyword(false);
-											setKeyword(e.target.value);
-										} else {
-											setKeyword(e.target.value);
-										}
-									}}
-									onKeyPress={(e: any) =>
-										e.key === 'Enter' && handleSearchKeyword(keyword)
-									}
-									value={keyword}
-								/>
-								<SearchIcon />
-							</div>
-							<div className="sort-by-select mb-4 mb-md-0">
-								<p className="me-3">Sort by:</p>
-								<Select
-									className="react-select-cls"
-									classNamePrefix="react-select"
-									styles={selectCustomStyles}
-									// defaultValue={priceOptions[3]}
-									value={selectedOption}
-									isSearchable={false}
-									onChange={(value) => {
-										handleSelectChange(value);
-										handleSortOptions(value);
-									}}
-									options={priceOptions}
-								/>
-							</div>
-							<div className="mob-filters-btn d-flex d-lg-none align-items-center justify-content-center">
-								<button
-									className={`${filterActive ? 'mob-active-filter' : ''}`}
-									onClick={handleFilters}
-								>
-									Filters
-								</button>
-							</div>
-						</div>
-					</div>
-					<div className="col-12 my-5 order-2 order-lg-1 ">
-						<div className="hero-nav d-flex flex-column flex-sm-row align-items-center justify-content-between">
-							<div>
-								{' '}
-								{menuData &&
-									menuData.length > 0 &&
-									menuData.map((item: any, id: any) => {
-										return (
-											<button
-												key={id}
-												onClick={() => {
-													setIsActive(id);
-													handleNftFilter?.(item);
-													setMenuFilter?.(item);
-												}}
-												className={`${
-													id === isActive ? 'active-hero-nav' : ''
-												} me-2 me-xl-3`}
-											>
-												{item}
-											</button>
-										);
-									})}
-							</div>
-							<div className="total-items mt-3 mt-sm-0">
-								<p>
-									Total items:{' '}
-									<span>{nftPagination?.total ? nftPagination?.total : 0}</span>
-								</p>
-							</div>
-						</div>
-					</div>
+					<SortFilter
+						data={{
+							keyword,
+							handleSearchKeyword,
+							setKeyword,
+							handleSelectChange,
+							handleSortOptions,
+							priceOptions,
+							selectedOption,
+							selectCustomStyles,
+							filterActive,
+							handleFilters,
+						}}
+					/>
+
+					<OwnerFilters
+						data={{
+							menuData,
+							setIsActive,
+							isActive,
+							handleNftFilter,
+							setMenuFilter,
+							nftPagination,
+						}}
+					/>
 					<div
 						className={`${
 							filterActive ? 'd-block d-lg-block' : 'd-none d-lg-block'
 						} col-md-5 col-lg-4 col-xl-3 order-1 order-lg-2 mt-4 mt-lg-0`}
 					>
-						<div className="filter-container mb-4">
-							<h6>Status</h6>
-							<hr />
-							<div className="d-flex flex-wrap align-items-center ">
-								{statusData &&
-									statusData.map((status: any, id: any) => {
-										return (
-											<button
-												key={id}
-												onClick={() => {
-													handleStatusFilter(status);
-													setStatusActive(status);
-												}}
-												className={`${
-													status === statusActive ? 'active-filter-btn' : ''
-												} filter-btn me-3`}
-											>
-												{status}
-											</button>
-										);
-									})}
-							</div>
-							<div className="d-flex align-items-end justify-content-end">
-								{statusActive && (
-									<button
-										className="filter-clear-btn"
-										onClick={() => {
-											setStatusActive(null);
-											handleClearFilter('status');
-										}}
-									>
-										Clear
-									</button>
-								)}
-							</div>
-						</div>
-						<div className="filter-container mb-4">
-							<h6>Price</h6>
-							<hr />
-							<div className="min-max-inp d-flex flex-column flex-sm-row align-items-center justify-content-center justify-content-sm-between mb-2">
-								<div className="d-flex flex-column flex-sm-row align-items-center justify-content-center">
-									<input
-										type="number"
-										placeholder="Min"
-										className="me-sm-2"
-										value={minValue}
-										onKeyDown={(e) => decimalNumberValidator(e)}
-										onChange={onChangeMinPrice}
-									></input>
-									<input
-										type="number"
-										placeholder="Max"
-										className="mt-3 mt-sm-0 me-sm-2"
-										value={maxValue}
-										onKeyDown={(e) => decimalNumberValidator(e)}
-										onChange={onChangeMaxPrice}
-									></input>
-								</div>
-								<button
-									className="mt-3 mt-sm-0"
-									onClick={() => applyMinMaxFilter()}
-									disabled={disabled || minValue === '' || maxValue === ''}
-								>
-									Apply
-								</button>
-							</div>
-							<div className="d-flex align-items-end justify-content-end">
-								{minValue && maxValue && (
-									<button
-										className="filter-clear-btn"
-										onClick={() => handleClearFilter('price')}
-									>
-										Clear
-									</button>
-								)}
-							</div>
-						</div>
-						{isHideCollection() && (
-							<div className="filter-container hoc-collections-container mb-4">
-								<h6>Collections</h6>
-								<hr />
-								<div className="d-flex flex-wrap align-items-center ">
-									{collections && collections.length > 0 ? (
-										collections.map((collection: any, id: any) => {
-											return (
-												<button
-													key={id}
-													onClick={() => {
-														handleCollectionsFilter(collection._id);
-														setCollectionActive(id);
-													}}
-													className={`${
-														id === collectionActive ? 'active-filter-btn' : ''
-													} filter-btn me-2 me-xl-3`}
-												>
-													{collection.name}
-												</button>
-											);
-										})
-									) : (
-										<p className="text-center mx-auto not-found">
-											No collections found
-										</p>
-									)}
-								</div>
-								<div className="d-flex align-items-end justify-content-end">
-									{collectionActive !== null && (
-										<button
-											className="filter-clear-btn"
-											onClick={() => {
-												setCollectionActive(null);
-												handleClearFilter('collections');
-											}}
-										>
-											Clear
-										</button>
-									)}
-								</div>
-							</div>
-						)}
+						<StatusFilter
+							data={{
+								statusData,
+								statusActive,
+								setStatusActive,
+								handleStatusFilter,
+								handleClearFilter,
+							}}
+						/>
+
+						<PriceFilter
+							data={{
+								minValue,
+								maxValue,
+								decimalNumberValidator,
+								onChangeMinPrice,
+								onChangeMaxPrice,
+								applyMinMaxFilter,
+								disabled,
+								handleClearFilter,
+							}}
+						/>
+
+						<CollectionFilter
+							data={{
+								isHideCollection,
+								collections,
+								handleCollectionsFilter,
+								setCollectionActive,
+								collectionActive,
+								handleClearFilter,
+							}}
+						/>
 						<div className="d-flex align-items-center justify-content-center btn-clear-all">
 							<button onClick={() => handleClearFilter(null)}>
 								Clear All Filters
 							</button>
 						</div>
 					</div>
-					<div className="col-lg-8 col-xl-9 order-3">
-						{/* {loader ? (
-              <FullPageLoader />
-            ) : ( */}
-						<div className="row g-1">
-							{filterationLoader ? (
-								<div className="text-center">
-									<div className="spinner-border text-secondary" role="status">
-										<span className="sr-only">Loading...</span>
-									</div>
-								</div>
-							) : nfts && nfts.length > 0 ? (
-								nfts.map((nft: any, index: number) => {
-									return (
-										<div
-											key={index}
-											className="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4"
-										>
-											{
-												<NftCard
-													data={nft}
-													handleLikesTogleApi={handleLikesTogleApi}
-													likedNfts={likedNfts}
-													owner={nft.owner}
-													path={path}
-													index={index}
-												/>
-											}
-										</div>
-									);
-								})
-							) : (
-								<p className="text-center mt-5 no-nft-title">No NFTs Found</p>
-							)}
-							<div className="col-12">
-								<div className="mt-5 text-center">
-									{nfts &&
-										nftPagination?.total > nfts.length &&
-										!filterationLoader && (
-											<button
-												className="btn btn-rounded-bordered px-5"
-												onClick={() => handlePagination()}
-											>
-												Load more...
-											</button>
-										)}
-								</div>
-							</div>
-						</div>
-						{/* ) */}
-						{/* } */}
-					</div>
+
+					<FilteredNftsList
+						data={{
+							filterationLoader,
+							nfts,
+							handleLikesTogleApi,
+							likedNfts,
+							path,
+							nftPagination,
+							handlePagination,
+						}}
+					/>
 				</div>
 			</div>
 		</div>

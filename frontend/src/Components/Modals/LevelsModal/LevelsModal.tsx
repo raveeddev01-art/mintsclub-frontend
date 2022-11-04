@@ -10,16 +10,37 @@ import {
 	firstInputCharacterSpace,
 } from '../../../utils/functions';
 import { Levels } from '../../../interfaces/components';
-const LevelsModal: FC<Levels> = (props) => {
+const LevelsModal: FC<any> = (props) => {
+	const { show, levels, nftInfo, handlers } = props;
 	const {
-		show,
-		onHide,
-		levels,
-		addMoreValues,
-		handleChange,
-		removeFormFields,
+		handleModalsRemove,
+		handleModalsOnHide,
+		handleModalsOnChange,
+		handleModalsAddMore,
 		onSave,
-	} = props;
+	} = handlers;
+	const handleRemove = (i: number, status: string) => {
+		const newFormValues = [...levels];
+		newFormValues.splice(i, 1);
+		const newNFTValues = [...nftInfo.levels];
+		newNFTValues.splice(i, 1);
+		const nft = { ...nftInfo, levels: newNFTValues };
+		handleModalsRemove('levels', newFormValues, nft);
+	};
+	const handleAddMore = () => {
+		const addState = [...levels, { name: '', value: '', total: 5 }];
+		handleModalsAddMore('levels', addState);
+	};
+	const handleChange = (i: any, e: any, status: string) => {
+		const newFormValues = [...levels];
+		newFormValues[i][e.target.name] =
+			e.target.name === 'value' && e.target.value !== ''
+				? +e.target.value
+				: e.target.value;
+		handleModalsOnChange('levels', newFormValues);
+
+		// onChangeLevels(newFormValues);
+	};
 
 	const handleSubmit = () => {
 		if (levels && levels.length > 0) {
@@ -38,7 +59,7 @@ const LevelsModal: FC<Levels> = (props) => {
 		<Modal
 			{...props}
 			show={show}
-			onHide={onHide}
+			onHide={() => handleModalsOnHide('levelsmodalShow')}
 			size="lg"
 			dialogClassName="buy-modal-dialog"
 			contentClassName="buy-modal-content"
@@ -48,7 +69,7 @@ const LevelsModal: FC<Levels> = (props) => {
 			<Modal.Header>
 				<Modal.Title id="contained-modal-title-vcenter">Add Levels</Modal.Title>
 				<div className="modal-close-container">
-					<button onClick={onHide}>
+					<button onClick={() => handleModalsOnHide('levelsmodalShow')}>
 						<img src={ModalClose} alt="closemodal" />
 					</button>
 				</div>
@@ -127,13 +148,13 @@ const LevelsModal: FC<Levels> = (props) => {
 									</div>
 									<div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
 										<div className="inp-close text-end me-2">
-											<button>
+											<span>
 												<img
 													src={InputClose}
 													alt="closemodal"
-													onClick={() => removeFormFields(i, 'levels')}
+													onClick={() => handleRemove(i, 'levels')}
 												/>
-											</button>
+											</span>
 										</div>
 									</div>
 								</div>
@@ -143,12 +164,12 @@ const LevelsModal: FC<Levels> = (props) => {
 			</Modal.Body>
 			<Modal.Footer>
 				<div className="modal-nft-footer d-flex align-items-center">
-					<button
+					<span
 						className="btn modal-btn-addMore mt-2"
-						onClick={() => addMoreValues('levels')}
+						onClick={() => handleAddMore()}
 					>
 						Add more
-					</button>
+					</span>
 					<button
 						className="btn btn-linear-gradient modal-btn-save mt-2 ms-3 "
 						disabled={levels && levels.length === 0}

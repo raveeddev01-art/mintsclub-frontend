@@ -8,11 +8,11 @@ const PropertiesInfo: FC<PropertiesInfoInterface> = ({ name, type }) => {
 				<div className="properties-content">
 					<p>
 						<span>Type: </span>
-						{type.length > 5 ? type.slice(0, 5) + '...' : type}
+						{type?.length > 5 ? type.slice(0, 5) + '...' : type}
 					</p>
 					<p>
 						<span>Name: </span>
-						{name.length > 5 ? name.slice(0, 5) + '...' : name}
+						{name?.length > 5 ? name.slice(0, 5) + '...' : name}
 					</p>
 				</div>
 			</div>

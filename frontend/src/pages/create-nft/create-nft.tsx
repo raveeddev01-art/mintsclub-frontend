@@ -15,9 +15,6 @@ import SimpleReactValidator from 'simple-react-validator';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import './createNft.scss';
 import AddIcon from '../../assets/images/add-icon.svg';
-import PropertiesModal from '../../Components/Modals/PropertiesModal/PropertiesModal';
-import LevelsModal from '../../Components/Modals/LevelsModal/LevelsModal';
-import StatsModal from '../../Components/Modals/StatsModal/StatsModal';
 import Banner from '../../Components/Banner/Banner';
 import BannerBg from '../../assets/images/hero-bg.png';
 import BannerImage from '../../assets/images/bannerimg2.png';
@@ -32,7 +29,8 @@ import AddLevels from './components/AddLevels/AddLevels';
 import AddProperties from './components/AddProperties/AddProperties';
 import AddStats from './components/AddStats/AddStats';
 import FreeMintSwitch from './components/FreeMintSwitch/FreeMintSwitch';
-import { handleFilesValidation } from '../../utils/helpers/helpers';
+import { handleFilesValidation, capitalize } from '../../utils/helpers/helpers';
+import Modals from './components/Modals/Modals';
 const placeholderImg = '';
 
 class CreateNFT extends React.Component<
@@ -137,8 +135,6 @@ class CreateNFT extends React.Component<
 				state: `/create`,
 			});
 		}
-
-		// let ownerAddress = await getCurrentAddress(this.wallet);
 
 		let { nft } = this.state;
 		nft = { ...nft, ownerAddress: this.props.connectedAddress };
@@ -290,32 +286,6 @@ class CreateNFT extends React.Component<
 		});
 	};
 
-	reset = () => {
-		const nft = {
-			userId: ENV.getUserKeys('_id')._id,
-			ownerId: ENV.getUserKeys('_id')._id,
-			image: '',
-			name: '',
-			description: '',
-			royalty: '',
-			size: '',
-			copies: '',
-			collectionId: '',
-			ownerAddress: this.state.nft.ownerAddress,
-			status: 1, // 1 = put on sale, 2 = instant sale price, 3 = unlock purchased
-		};
-		this.setState({ nft });
-	};
-	capitalize(word: any) {
-		return word[0].toUpperCase() + word.slice(1).toLowerCase();
-	}
-	deleteNFT = async () => {
-		const res = await handleRequest(
-			'delete',
-			`nfts/delete/${this.props.match.params.nftId}`
-		);
-	};
-
 	onFileChange = async (e: any, status: any) => {
 		if (handleFilesValidation(e, status) === 'file matched') {
 			let file: any = '';
@@ -410,98 +380,7 @@ class CreateNFT extends React.Component<
 		this.onFileChange(e, 'onDrag');
 	};
 
-	clearData = () => {
-		this.setState({
-			imageURL: '',
-			audioUrl: '',
-			videoURL: '',
-		});
-	};
-
 	////property modal handlers
-
-	addMoreValues = (status: string) => {
-		if (status === 'properties') {
-			this.setState({
-				properties: [...this.state.properties, { name: '', type: '' }],
-			});
-		} else if (status === 'stats') {
-			this.setState({
-				stats: [...this.state.stats, { name: '', value: '', total: 5 }],
-			});
-		} else {
-			this.setState({
-				levels: [...this.state.levels, { name: '', value: '', total: 5 }],
-			});
-		}
-	};
-
-	handleChange = (
-		i: any,
-		e: { target: { name: string; value: string } },
-		status: string
-	) => {
-		if (status === 'properties') {
-			const newFormValues = [...this.state.properties];
-			newFormValues[i][e.target.name] = e.target.value;
-			this.setState({
-				properties: newFormValues,
-			});
-		} else if (status === 'stats') {
-			const newFormValues = [...this.state.stats];
-			newFormValues[i][e.target.name] =
-				e.target.name === 'value' && e.target.value !== ''
-					? +e.target.value
-					: e.target.value;
-			this.setState({
-				stats: newFormValues,
-			});
-		} else {
-			const newFormValues = [...this.state.levels];
-			newFormValues[i][e.target.name] =
-				e.target.name === 'value' && e.target.value !== ''
-					? +e.target.value
-					: e.target.value;
-			this.setState({
-				levels: newFormValues,
-			});
-		}
-	};
-
-	removeFormFields = (i: number, status: string) => {
-		let { nft } = this.state;
-		if (status === 'properties') {
-			const newFormValues = [...this.state.properties];
-			newFormValues.splice(i, 1);
-			const newNFTValues = [...this.state.nft.properties];
-			newNFTValues.splice(i, 1);
-			nft = { ...nft, properties: newNFTValues };
-			this.setState({
-				properties: newFormValues,
-				nft,
-			});
-		} else if (status === 'stats') {
-			const newFormValues = [...this.state.stats];
-			newFormValues.splice(i, 1);
-			const newNFTValues = [...this.state.nft.stats];
-			newNFTValues.splice(i, 1);
-			nft = { ...nft, stats: newNFTValues };
-			this.setState({
-				stats: newFormValues,
-				nft,
-			});
-		} else {
-			const newFormValues = [...this.state.levels];
-			newFormValues.splice(i, 1);
-			const newNFTValues = [...this.state.nft.levels];
-			newNFTValues.splice(i, 1);
-			nft = { ...nft, levels: newNFTValues };
-			this.setState({
-				levels: newFormValues,
-				nft,
-			});
-		}
-	};
 
 	onSave = (status: string) => {
 		let { nft } = this.state;
@@ -525,6 +404,33 @@ class CreateNFT extends React.Component<
 			});
 		}
 	};
+	handleModalsRemove = (name: string, data: any, nft: any) => {
+		// let	nft = { ...nft, [name]: data };
+		this.setState({
+			...this.state,
+			[name]: data,
+			nft,
+		});
+	};
+	handleModalsOnHide = (name: string) => {
+		this.setState({
+			...this.state,
+			[name]: false,
+		});
+	};
+	handleModalsOnChange = (name: string, data: any) => {
+		this.setState({
+			...this.state,
+			[name]: data,
+		});
+	};
+	handleModalsAddMore = (name: string, data: any) => {
+		this.setState({
+			...this.state,
+			[name]: data,
+		});
+	};
+
 	handleBtnDisable = () => {
 		const { image, description, copies, categoryId } = this.state.nft;
 		if (!image || !description || !copies || !categoryId) {
@@ -740,7 +646,7 @@ class CreateNFT extends React.Component<
 								setLoader={(status: any) => this.setState({ loader: status })}
 								toast={toast}
 								validator={this.validator}
-								capitalize={this.capitalize}
+								capitalize={capitalize}
 								handleBtnDisable={this.handleBtnDisable}
 								blockChainType={blockchainType}
 								connectedAddress={connectedAddress}
@@ -749,44 +655,14 @@ class CreateNFT extends React.Component<
 						{/* </form> */}
 					</div>
 				</section>
-
-				<PropertiesModal
-					show={this.state.propertiesmodalShow}
-					addMoreValues={this.addMoreValues}
-					handleChange={this.handleChange}
-					removeFormFields={this.removeFormFields}
-					properties={this.state.properties}
-					onSave={this.onSave}
-					onHide={() => {
-						this.setState({
-							propertiesmodalShow: false,
-						});
-					}}
-				/>
-				<LevelsModal
-					show={this.state.levelsmodalShow}
-					addMoreValues={this.addMoreValues}
-					handleChange={this.handleChange}
-					removeFormFields={this.removeFormFields}
-					levels={this.state.levels}
-					onSave={this.onSave}
-					onHide={() => {
-						this.setState({
-							levelsmodalShow: false,
-						});
-					}}
-				/>
-				<StatsModal
-					show={this.state.statsmodalShow}
-					addMoreValues={this.addMoreValues}
-					handleChange={this.handleChange}
-					removeFormFields={this.removeFormFields}
-					stats={this.state.stats}
-					onSave={this.onSave}
-					onHide={() => {
-						this.setState({
-							statsmodalShow: false,
-						});
+				<Modals
+					state={this.state}
+					handlers={{
+						handleModalsRemove: this.handleModalsRemove,
+						handleModalsOnHide: this.handleModalsOnHide,
+						handleModalsOnChange: this.handleModalsOnChange,
+						handleModalsAddMore: this.handleModalsAddMore,
+						onSave: this.onSave,
 					}}
 				/>
 				<OwnCollectionToday />
