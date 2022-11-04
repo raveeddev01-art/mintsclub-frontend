@@ -136,20 +136,20 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				);
 			}
 
-			if (result) {
-				activityPayload.price = price;
-				// payload.sellId = Number(result);
-				payload.blockchainType = blockchainType;
-				if (blockchainType?.toLowerCase() === 'solana') {
-					payload.txnHash = result;
-					payload.sellerPublicKey = wallet.publicKey?.toBase58();
-				} else {
-					payload.sellId = Number(result);
-				}
-				for (const key in payload) formData.append(key, payload[key]);
-				insertActivity(activityPayload);
-				insertAuction(payload);
+			// if (result) {
+			activityPayload.price = price;
+			// payload.sellId = Number(result);
+			payload.blockchainType = blockchainType;
+			if (blockchainType?.toLowerCase() === 'solana') {
+				payload.txnHash = result;
+				payload.sellerPublicKey = wallet.publicKey?.toBase58();
+			} else {
+				payload.sellId = Number(result);
 			}
+			for (const key in payload) formData.append(key, payload[key]);
+			insertActivity(activityPayload);
+			insertAuction(payload);
+			// }
 		} catch (err: any) {
 			setLoader(false);
 			toast.error(err);

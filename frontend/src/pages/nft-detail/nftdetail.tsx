@@ -30,6 +30,8 @@ import {
 	endAuctionFromContract,
 	lazyMint,
 	redeemVoucher,
+	cancelNFTListingforAuction,
+	cancelNFTListingforFixedPrice,
 } from '../../utils/web3';
 import {
 	placeBid,
@@ -313,7 +315,50 @@ const NFTDetail = (props: any) => {
 	const handleRouting = async () => {
 		//Validate if i am owner
 		//Todo for solana and algorand
+
 		if (isUserLoggedIn(history)) {
+			if (
+				blockchainType === 'ethereum' &&
+				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.auction?.auctionEnded === false &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+				bidCount.length === 0
+			) {
+				console.log('coming heree auction');
+				const result = await cancelNFTListingforAuction(
+					nftDetail?.auction?.sellId
+				);
+				if (result) {
+					try {
+						cancelListFromBackend();
+					} catch (error) {
+						toast.success('Something went wrong while cancel listing');
+					}
+				}
+				return;
+			}
+			if (
+				blockchainType === 'ethereum' &&
+				nftDetail?.auction?.sellingMethod === 1 &&
+				nftDetail?.auction?.auctionEnded === false &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+				bidCount.length === 0
+			) {
+				console.log('cancel fized price selling');
+				const result = await cancelNFTListingforFixedPrice(
+					nftDetail?.auction?.sellId
+				);
+				console.log('result', result);
+				if (result) {
+					try {
+						cancelListFromBackend();
+					} catch (error) {
+						toast.success('Something went wrong while cancel listing');
+					}
+				}
+
+				return;
+			}
 			if (
 				blockchainType === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 2 &&
@@ -374,6 +419,7 @@ const NFTDetail = (props: any) => {
 				return;
 			}
 			if (isOwner()) {
+				console.log('checking ownver is exist');
 				history.push({
 					pathname: `/sell-item/${nftDetail._id}`,
 					state: nftDetail,
@@ -887,6 +933,32 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
+	const cancelListFromBackend = async () => {
+		const headers = {
+			Authorization: ENV.Authorization,
+			'x-auth-token': ENV.x_auth_token,
+			'Access-Control-Allow-Origin': '*',
+			'x-access-token':
+				ENV.getUserKeys('accessToken') &&
+				ENV.getUserKeys('accessToken').accessToken
+					? ENV.getUserKeys('accessToken').accessToken
+					: '',
+		};
+		const res = await axios.post(
+			`${ENV.url}auctions/cancelList`,
+			{
+				auctionId: nftDetail?.auction?._id,
+			},
+			{
+				headers: headers,
+			}
+		);
+		if (res.data.success) {
+			toast.success('You have cancelled Listing successfully');
+			history.push('/explore/allNFT');
+		}
+	};
+
 	const isOwnerLoggedIn = () => {
 		return !userId || (userId && userId !== nftDetail.ownerId);
 	};
@@ -930,6 +1002,7 @@ const NFTDetail = (props: any) => {
 		status,
 	}: any = nftDetail?.auction || {};
 	const { connectedAddress } = props;
+	const bidCount = nftDetail?.auction?.bids;
 	const nftInfo: any = [
 		{
 			title: 'Contract Address',
@@ -1028,6 +1101,7 @@ const NFTDetail = (props: any) => {
 										currentBidder,
 										bidStatus,
 										status,
+										bidCount,
 									}}
 								/>
 								<MetaDataSmall

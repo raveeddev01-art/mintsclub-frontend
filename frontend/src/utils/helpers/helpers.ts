@@ -58,14 +58,16 @@ const verifyNFTStatus = (
 	activeAuction: any = undefined,
 	currentBidder: any = undefined,
 	bidStatus: any = undefined,
-	status: any = undefined
+	status: any = undefined,
+	bidCount: any = undefined
 ) => {
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 2 &&
 		auctionEnded === false &&
-		blockChainType !== 'solana'
+		blockChainType !== 'solana' &&
+		bidCount.length > 0
 	) {
 		return 'End Auction';
 	} else if (
@@ -76,6 +78,26 @@ const verifyNFTStatus = (
 	) {
 		return 'Cancel Listing';
 	} else if (
+		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+		sellingMethod === 2 &&
+		auctionEnded === false &&
+		bidCount.length === 0 &&
+		blockChainType === 'ethereum' &&
+		bidCount.length === 0
+	) {
+		return 'Cancel Listing';
+	}
+	// else if (
+	// 	ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+	// 	sellingMethod === 1 &&
+	// 	auctionEnded === false &&
+	// 	bidCount.length === 0 &&
+	// 	blockChainType === 'ethereum' &&
+	// 	bidCount.length === 0
+	// ) {
+	// 	return 'Cancel Listing';
+	// }
+	else if (
 		highestBidder?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 2 &&
 		auctionEnded === false &&

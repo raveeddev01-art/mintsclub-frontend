@@ -101,9 +101,10 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 				payload.sellId = 0;
 				// payload.signature = res.data;
 			}
+			console.log('payload', payload);
 			for (const key in payload) formData.append(key, payload[key]);
 			insertActivity(activityPayload);
-			insertAuction(formData);
+			insertAuction(payload);
 		} catch (err: any) {
 			console.log(err, 'error');
 			setLoader(false);
