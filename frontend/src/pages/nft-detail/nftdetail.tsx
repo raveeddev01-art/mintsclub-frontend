@@ -324,7 +324,6 @@ const NFTDetail = (props: any) => {
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
-				console.log('coming heree auction');
 				const result = await cancelNFTListingforAuction(
 					nftDetail?.auction?.sellId
 				);
@@ -344,11 +343,9 @@ const NFTDetail = (props: any) => {
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
-				console.log('cancel fized price selling');
 				const result = await cancelNFTListingforFixedPrice(
 					nftDetail?.auction?.sellId
 				);
-				console.log('result', result);
 				if (result) {
 					try {
 						cancelListFromBackend();
@@ -419,7 +416,6 @@ const NFTDetail = (props: any) => {
 				return;
 			}
 			if (isOwner()) {
-				console.log('checking ownver is exist');
 				history.push({
 					pathname: `/sell-item/${nftDetail._id}`,
 					state: nftDetail,

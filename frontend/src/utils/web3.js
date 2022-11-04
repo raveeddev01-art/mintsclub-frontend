@@ -30,7 +30,7 @@ export const getWeb3 = async () => {
 };
 
 const getContractMethods = async (abiJson, contract) => {
-	console.log(contract, 'contract1');
+	console.log(contract, 'contract');
 	let web3 = await getWeb3();
 	const contractM = new web3.eth.Contract(abiJson, contract);
 	return contractM;
@@ -287,27 +287,17 @@ export const openNFTForBidding = async (
 		let id = Number(tokenId);
 		const intPrice = Number(web3.utils.toWei(`${initialPrice}`, 'ether'));
 
-		console.log(intPrice, 'intPrice');
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
-		// console.log('coming here');
-		// console.log({
-		// 	intPrice,
-		// 	biddingStartTime,
-		// 	biddingEndTime,
-		// 	fee: 150,
-		// 	id,
-		// 	copies,
-		// 	collectionAddress,
-		// 	connectedAddress,
-		// });
-		console.log(
-			'data',
-			web3.utils.toBN(intPrice),
+		console.log({
+			intPrice,
 			biddingStartTime,
 			biddingEndTime,
+			fee: 150,
 			id,
-			+copies
-		);
+			copies,
+			collectionAddress,
+			connectedAddress,
+		});
 		const result = await contractM.methods
 			.listItemForAuction(
 				web3.utils.toBN(intPrice),
@@ -318,7 +308,6 @@ export const openNFTForBidding = async (
 				collectionAddress ? collectionAddress : NFTAdddress
 			)
 			.send({ from: connectedAddress });
-		console.log(result, 'result of listitem for auction');
 
 		let sellId = await Number(
 			result.events.AuctionStart.returnValues._auctionid
@@ -380,7 +369,6 @@ export const putonsale = async (
 			{ abi, contractAddress, collectionAddress, id, amount, NFTAdddress },
 			'check bro'
 		);
-		// uint256 _tokenId, uint256 _amount , uint256 _price , address _nftAddress
 		const result = await contractM.methods
 			.listItemForFixedPrice(
 				id,
@@ -812,9 +800,6 @@ export const deployCollectionContract = (abi, bytecode) => {
 };
 
 export const cancelNFTListingforAuction = async (listingId) => {
-	console.log({
-		listingId,
-	});
 	try {
 		const { abi, contractAddress } = getMarketPlaceContractInfo();
 
@@ -824,26 +809,10 @@ export const cancelNFTListingforAuction = async (listingId) => {
 		console.log('contractM', contractM.methods);
 		const result = contractM.methods.cancelAuction(listingId).send({
 			from: connectedAddress,
-			// gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
 		});
 		if (result) {
-			console.log(result, 'result');
 			return result;
 		}
-
-		// const { abi, contractAddress } = getMarketPlaceContractInfo();
-		// let web3 = await getWeb3();
-		// let connectedAddress = await connectMetamask();
-		// const contractM = await getContractMethods(abi, contractAddress);
-		// console.log({
-		// 	listingId,
-		// });
-		// const result = await contractM.methods
-		// 	.cancellAuction(listingId)
-		// 	.send({ from: connectedAddress });
-		// console.log(result, 'result of cancel for auction');
-
-		// return result;
 	} catch (err) {
 		console.log(err, 'error');
 		throw new Error(err);
@@ -851,40 +820,20 @@ export const cancelNFTListingforAuction = async (listingId) => {
 };
 
 export const cancelNFTListingforFixedPrice = async (listingId) => {
-	console.log({
-		listingId,
-	});
 	try {
 		const { abi, contractAddress } = getMarketPlaceContractInfo();
 
 		let web3 = await getWeb3();
 		let connectedAddress = await getMetamaskConnectedAddress();
 		const contractM = await getContractMethods(abi, contractAddress);
-		console.log('contractM', contractM.methods);
 		const result = contractM.methods
 			.cancellListingForFixedPRice(listingId)
 			.send({
 				from: connectedAddress,
-				// gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
 			});
 		if (result) {
-			console.log(result, 'result');
 			return result;
 		}
-
-		// const { abi, contractAddress } = getMarketPlaceContractInfo();
-		// let web3 = await getWeb3();
-		// let connectedAddress = await connectMetamask();
-		// const contractM = await getContractMethods(abi, contractAddress);
-		// console.log({
-		// 	listingId,
-		// });
-		// const result = await contractM.methods
-		// 	.cancellAuction(listingId)
-		// 	.send({ from: connectedAddress });
-		// console.log(result, 'result of cancel for auction');
-
-		// return result;
 	} catch (err) {
 		console.log(err, 'error');
 		throw new Error(err);
