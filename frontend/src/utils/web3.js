@@ -799,38 +799,23 @@ export const deployCollectionContract = (abi, bytecode) => {
 	});
 };
 
-export const cancelNFTListingforAuction = async (listingId) => {
+export const cancelNFTListing = async (listingId, sellingMethod) => {
 	try {
 		const { abi, contractAddress } = getMarketPlaceContractInfo();
 
 		let web3 = await getWeb3();
 		let connectedAddress = await getMetamaskConnectedAddress();
 		const contractM = await getContractMethods(abi, contractAddress);
-		console.log('contractM', contractM.methods);
-		const result = contractM.methods.cancelAuction(listingId).send({
-			from: connectedAddress,
-		});
-		if (result) {
-			return result;
-		}
-	} catch (err) {
-		console.log(err, 'error');
-		throw new Error(err);
-	}
-};
-
-export const cancelNFTListingforFixedPrice = async (listingId) => {
-	try {
-		const { abi, contractAddress } = getMarketPlaceContractInfo();
-
-		let web3 = await getWeb3();
-		let connectedAddress = await getMetamaskConnectedAddress();
-		const contractM = await getContractMethods(abi, contractAddress);
-		const result = contractM.methods
-			.cancellListingForFixedPRice(listingId)
-			.send({
+		let result;
+		if (sellingMethod === 2) {
+			result = contractM.methods.cancelAuction(listingId).send({
 				from: connectedAddress,
 			});
+		} else {
+			result = contractM.methods.cancellListingForFixedPRice(listingId).send({
+				from: connectedAddress,
+			});
+		}
 		if (result) {
 			return result;
 		}
