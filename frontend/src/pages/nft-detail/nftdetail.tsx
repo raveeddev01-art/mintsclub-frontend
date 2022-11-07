@@ -72,6 +72,7 @@ import {
 	bidForLiveAuction,
 	buyNowFixedPriceAuction,
 	cancelItemFromListing,
+	cancelListingForLiveAuction,
 	claimBidsForLiveAuction,
 	executeSaleForLiveAuction,
 	getSolanaBalance,
@@ -352,6 +353,30 @@ const NFTDetail = (props: any) => {
 
 				if (result) {
 					EndAuctionFromBackend();
+				}
+				return;
+			}
+			if (
+				blockchainType === 'solana' &&
+				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.auction?.auctionEnded === false &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+				bidCount.length === 0
+			) {
+				const result = await cancelListingForLiveAuction(
+					wallet,
+					nftDetail?.mint
+				);
+
+				if (result) {
+					try {
+						cancelAuction({
+							auctionId: nftDetail?.auction?._id,
+							txnHash: result,
+						});
+					} catch (error) {
+						toast.success('Something went wrong while cancel listing');
+					}
 				}
 				return;
 			}
@@ -763,6 +788,10 @@ const NFTDetail = (props: any) => {
 
 	const isAuctionEnded = async () => {
 		if (nftDetail && nftDetail?.auction?.sellingMethod === 2) {
+			console.log(
+				'🚀 ~ file: nftdetail.tsx ~ line 743 ~ isAuctionEnded ~ nftDetail',
+				nftDetail
+			);
 			const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
 
 			const currentDate = new Date();
