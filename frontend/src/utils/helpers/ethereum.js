@@ -80,11 +80,18 @@ export const verifyOwnerShip = (connectedAddress, addressToVerify) => {
 		return logout();
 	}
 };
-export const isUserLoggedIn = (history, verifyOwnerShip) => {
-	if (ENV.getUserKeys('blockchainType')?.blockchainType) {
+export const isUserLoggedIn = (history, loggedInType) => {
+	let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+	if (blockChainType && loggedInType === blockChainType) {
 		return true;
 	} else {
-		toast.info('please login to continue');
+		toast.info(
+			`please login ${
+				loggedInType !== blockChainType && blockChainType === 'bsc'
+					? ' with binance network'
+					: `with ${loggedInType} network`
+			}  to continue`
+		);
 		history.push('/connect-wallet');
 		return false;
 	}

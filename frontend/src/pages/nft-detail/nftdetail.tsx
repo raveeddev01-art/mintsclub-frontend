@@ -315,7 +315,7 @@ const NFTDetail = (props: any) => {
 		//Validate if i am owner
 		//Todo for solana and algorand
 
-		if (isUserLoggedIn(history)) {
+		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
 				blockchainType === 'ethereum' &&
 				nftDetail?.auction?.auctionEnded === false &&
@@ -476,7 +476,7 @@ const NFTDetail = (props: any) => {
 		setPrice(result);
 	};
 	const handleModalSubmit = async () => {
-		if (isUserLoggedIn(history)) {
+		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			setLoader(true);
 			if (nftDetail?.auction?.sellingMethod === 2) {
 				placeBid();
@@ -577,7 +577,7 @@ const NFTDetail = (props: any) => {
 
 	const BuyNow = async () => {
 		try {
-			if (isUserLoggedIn(history)) {
+			if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 				setDisabled(true);
 				if (nftDetail.lazyMinted) {
 					BuyLazyNft();

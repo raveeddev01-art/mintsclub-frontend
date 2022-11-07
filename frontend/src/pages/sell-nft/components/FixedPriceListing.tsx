@@ -33,10 +33,9 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet = useWallet();
-	console.log(blockchainType, 'blockchainType');
 	const submit = (e: any) => {
 		e.preventDefault();
-		if (isUserLoggedIn(history)) {
+		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			console.log(nftDetail);
 			if (
 				(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||

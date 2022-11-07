@@ -143,7 +143,6 @@ const CreateNft = ({
 			metaData,
 			connectedAddress: props.connectedAddress,
 		});
-		console.log('Algorand Token ID', tokenId);
 
 		if (tokenId) {
 			return {
@@ -188,7 +187,6 @@ const CreateNft = ({
 				payload.image = image;
 			}
 			const res = await handleRequest('put', 'nfts/updateNft', payload);
-			console.log(res, 'res');
 			if (res.data.success) {
 				props.history.push('/userprofile');
 			}
@@ -226,7 +224,6 @@ const CreateNft = ({
 				if (formValid) {
 					setLoader(true);
 					const res = await uploadDataOnIpfs(nftInfo);
-					console.log(res, 'res of edit upload');
 					toast.success('data uploaded on ipfs');
 					const { compressedFile, image, dataInput } = res.data.data;
 					if (props.match.params.nftId) {
