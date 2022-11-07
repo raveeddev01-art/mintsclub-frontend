@@ -11,10 +11,7 @@ import { ENV } from '../../../config/config';
 import { openNFTForBidding } from '../../../utils/web3';
 import { connect } from 'react-redux';
 import { createAuctionApp } from '../../../utils/algorand';
-import {
-	listItemForFixedPriceSolana,
-	listItemForLiveAuction,
-} from '../../../utils/solana/helper';
+import { listItemForLiveAuction } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 
 const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
@@ -143,20 +140,20 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				);
 			}
 
-			// if (result) {
-			activityPayload.price = price;
-			// payload.sellId = Number(result);
-			payload.blockchainType = blockchainType;
-			if (blockchainType?.toLowerCase() === 'solana') {
-				payload.txnHash = result;
-				payload.sellerPublicKey = wallet.publicKey?.toBase58();
-			} else {
-				payload.sellId = Number(result);
+			if (result) {
+				activityPayload.price = price;
+				// payload.sellId = Number(result);
+				payload.blockchainType = blockchainType;
+				if (blockchainType?.toLowerCase() === 'solana') {
+					payload.txnHash = result;
+					payload.sellerPublicKey = wallet.publicKey?.toBase58();
+				} else {
+					payload.sellId = Number(result);
+				}
+				for (const key in payload) formData.append(key, payload[key]);
+				insertActivity(activityPayload);
+				insertAuction(payload);
 			}
-			for (const key in payload) formData.append(key, payload[key]);
-			insertActivity(activityPayload);
-			insertAuction(payload);
-			// }
 		} catch (err: any) {
 			setLoader(false);
 			toast.error(err);

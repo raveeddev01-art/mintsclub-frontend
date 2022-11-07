@@ -840,7 +840,6 @@ const cancelListingForLiveAuction = async (
 	mintAddress: string
 ) => {
 	try {
-		console.log('Cancel listing for auctioneer@@@@@@');
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 		const MINT = new PublicKey(mintAddress);
@@ -973,10 +972,7 @@ const cancelListingForLiveAuction = async (
 		);
 		return txnHash;
 	} catch (e) {
-		console.log(
-			'🚀 ~ file: CancelListingAuctioneer.tsx ~ line 176 ~ cancelListing ~ e',
-			e
-		);
+		return e;
 	}
 };
 export {

@@ -35,10 +35,11 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 	const wallet = useWallet();
 	const submit = (e: any) => {
 		e.preventDefault();
-		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
-			console.log(nftDetail);
+		if (isUserLoggedIn(history)) {
 			if (
-				(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
+				(blockchainType !== 'solana' &&
+					!nftDetail?.user?.isApproved &&
+					nftDetail?.isApproved) ||
 				!nftDetail.isApproved
 			) {
 				setShow(true);
@@ -94,7 +95,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 			activityPayload.price = price;
 			payload.blockchainType = blockchainType.toLowerCase();
 			if (blockchainType?.toLowerCase() === 'solana') {
-				payload.sellerTradeState = res;
+				payload.txnHash = res;
 			}
 			if (nftDetail.lazyMinted) {
 				payload.sellId = 0;

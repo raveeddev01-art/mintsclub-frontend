@@ -367,11 +367,16 @@ const NFTDetail = (props: any) => {
 					wallet,
 					nftDetail?.mint
 				);
+
 				if (result) {
-					console.log(
-						'🚀 ~ file: nftdetail.tsx ~ line 349 ~ handleRouting ~ result',
-						result
-					);
+					try {
+						cancelAuction({
+							auctionId: nftDetail?.auction?._id,
+							txnHash: result,
+						});
+					} catch (error) {
+						toast.success('Something went wrong while cancel listing');
+					}
 				}
 				return;
 			}
@@ -980,7 +985,6 @@ const NFTDetail = (props: any) => {
 		highestBidder,
 		status,
 	}: any = nftDetail?.auction || {};
-	const bidCount = nftDetail?.auction?.bids;
 	const { connectedAddress } = props;
 	const bidCount = nftDetail?.auction?.bids;
 	const nftInfo: any = [
