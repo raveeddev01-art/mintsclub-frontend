@@ -190,13 +190,15 @@ const SellNFT = (props: any) => {
 
 	const approveAccount = async () => {
 		setApprovalStatus('pending');
+		const payload: any = {};
 		const formData: any = new FormData();
-		formData.append('isApproved', true);
-		formData.append('userId', nftDetail.user._id);
-
+		payload.isApproved = true;
+		payload.userId = nftDetail.user._id;
 		if (!nftDetail.isApproved) {
-			formData.append('collectionId', nftDetail.collectionId);
-			formData.append('nftId', nftDetail._id);
+			payload.collectionId = nftDetail.collectionId;
+			payload.nftId = nftDetail._id;
+			// formData.append('collectionId', nftDetail.collectionId);
+			// formData.append('nftId', nftDetail._id);
 		}
 		try {
 			const accApproved = await setApprovalForAll(
@@ -204,14 +206,14 @@ const SellNFT = (props: any) => {
 				nftDetail.contractAddress
 			);
 			if (!nftDetail.isApproved) {
-				return approveCollection(formData);
+				return approveCollection(payload);
 			}
 
 			if (accApproved) {
 				const updatedNFTDetail = { ...nftDetail };
 				updatedNFTDetail.user.isApproved = true;
 				setNftDetail(updatedNFTDetail);
-				updateProfile(formData);
+				updateProfile(payload);
 				setApprovalStatus('approved');
 				toast.success('Your Account is Approved!.');
 				return '';

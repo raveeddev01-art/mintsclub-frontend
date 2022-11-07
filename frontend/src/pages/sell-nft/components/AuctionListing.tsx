@@ -43,7 +43,14 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const wallet: any = useWallet();
 	const submit = (e: any) => {
 		e.preventDefault();
-		if (isUserLoggedIn(history)) {
+		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
+			if (
+				(!nftDetail?.user?.isApproved && nftDetail?.isApproved) ||
+				!nftDetail.isApproved
+			) {
+				setShow(true);
+				return '';
+			}
 			setLoader(true);
 
 			handleAuction();
