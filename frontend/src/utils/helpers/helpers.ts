@@ -79,20 +79,10 @@ const verifyNFTStatus = (
 		return 'Cancel Listing';
 	} else if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-		sellingMethod === 2 &&
 		auctionEnded === false &&
 		bidCount.length === 0 &&
 		blockChainType === 'ethereum' &&
-		bidCount.length === 0
-	) {
-		return 'Cancel Listing';
-	} else if (
-		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-		sellingMethod === 1 &&
-		auctionEnded === false &&
-		bidCount.length === 0 &&
-		blockChainType === 'ethereum' &&
-		bidCount.length === 0
+		sellingMethod
 	) {
 		return 'Cancel Listing';
 	} else if (
