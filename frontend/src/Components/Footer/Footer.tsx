@@ -15,7 +15,11 @@ const Footer: FC<footerInt> = () => {
 		'users/subscribe',
 		(res: any) => {
 			console.log(res, 'res');
-			toast.success('Subscribed successfully');
+			if (res.data.success) {
+				toast.success('Subscribed successfully');
+			} else {
+				toast.info(res?.data?.message);
+			}
 		}
 	);
 
