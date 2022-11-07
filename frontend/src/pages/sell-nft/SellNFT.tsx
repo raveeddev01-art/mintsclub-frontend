@@ -165,6 +165,114 @@ const SellNFT = (props: any) => {
 		return activityPayload;
 	};
 
+	//Open for Bidding/Auction
+
+	const openBidding = async (
+		timedAuctionConfig: any,
+		payload: any,
+		activityPayload: any,
+		price: any
+	) => {
+		try {
+			const auctionEndDate = timedAuctionConfig.duration.endDate;
+			const auctionStartDate = timedAuctionConfig.duration.startDate;
+
+			const biddingTime = Math.floor(
+				new Date(auctionEndDate).getTime() / 1000.0
+			);
+
+			const startTime = Math.floor(
+				new Date(auctionStartDate).getTime() / 1000.0
+			);
+
+			let result = undefined;
+			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
+				result = await listItemForLiveAuction(
+					wallet,
+					nftDetail?.mint,
+					startTime,
+					biddingTime
+				);
+			}
+			if (ENV.getUserKeys('blockchainType').blockchainType !== 'solana') {
+				result = await openNFTForBidding(
+					startTime,
+					biddingTime,
+					nftDetail?.tokenId,
+					copies,
+					+price,
+					nftDetail?.contractAddress
+				);
+			}
+
+			if (result) {
+				activityPayload.price = price;
+				payload.blockchainType = props.blockchainType.toLowerCase();
+				if (props.blockchainType?.toLowerCase() === 'solana') {
+					console.log('iffffffff');
+					payload.txnHash = result;
+					payload.sellerPublicKey = wallet.publicKey?.toBase58();
+				} else {
+					payload.sellId = Number(result);
+				}
+				insertActivity(activityPayload);
+				insertAuction(payload);
+			}
+		} catch (err: any) {
+			setLoader(false);
+			toast.error(err);
+		}
+	};
+	//Open for fixed price
+	const openForSale = async (
+		activityPayload: any,
+		payload: any,
+		fixedConfig: any,
+		price: any
+	) => {
+		try {
+			let res = null;
+			if (props.blockchainType?.toLowerCase() === 'solana') {
+				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
+			}
+			if (
+				props.blockchainType?.toLowerCase() !== 'solana' &&
+				props.blockchainType?.toLowerCase() !== 'algorand' &&
+				!nftDetail?.lazyMinted
+			) {
+				res = await putonsale(
+					nftDetail.tokenId,
+					copies,
+					fixedConfig.price.amount,
+					nftDetail.contractAddress
+				);
+				payload.sellId = res;
+			}
+
+			activityPayload.price = price;
+			payload.blockchainType = props.blockchainType.toLowerCase();
+			if (props.blockchainType?.toLowerCase() === 'solana') {
+				payload.sellerTradeState = res;
+			}
+			if (nftDetail.lazyMinted) {
+				payload.sellId = 0;
+				// payload.signature = res.data;
+			}
+			insertActivity(activityPayload);
+			insertAuction(payload);
+		} catch (err: any) {
+			console.log(err, 'error');
+			setLoader(false);
+			toast.error(err);
+		} finally {
+			setLoader(false);
+		}
+	};
+	const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
+		let time = auctionConfig.toString();
+		time = time.slice(0, 15) + ' ' + startOrEndTime + ':00' + time.slice(24);
+		return time;
+	};
 	const handleDateChange = (e: any, picker: any) => {
 		const { name } = e.target;
 		const { startDate, endDate } = picker;
