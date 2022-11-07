@@ -125,8 +125,6 @@ export const placeABid = async (amount, tokenId) => {
     let connectedAddress = await connectMetamask();
     const contractM = await getContractMethods();
     const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, "ether")));
-    // let bidAmount = Number(amount) * 1000000000000000000;
-    console.log(bidAmount, "bidAmount");
     let id = Number(tokenId);
     let web3 = await getWeb3();
 
@@ -135,7 +133,7 @@ export const placeABid = async (amount, tokenId) => {
       .send({
         from: connectedAddress,
         value: bidAmount,
-        gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+        // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
 
     if (result) {
@@ -238,7 +236,7 @@ export const claimNFTfromContract = async (tokenId) => {
     const contractM = await getContractMethods();
     const result = contractM.methods.claimNft(tokenId).send({
       from: connectedAddress,
-      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+      // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
 
     });
     if (result) {
@@ -256,7 +254,7 @@ export const endAuctionFromContract = async (tokenId) => {
     const contractM = await getContractMethods();
     const result = contractM.methods.auctionEnd(tokenId).send({
       from: connectedAddress,
-      gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
+      // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
     });
     if (result) {
       // console.log(result, "result");
