@@ -30,6 +30,7 @@ import {
 	endAuctionFromContract,
 	lazyMint,
 	redeemVoucher,
+	cancelNFTListing,
 } from '../../utils/web3';
 import {
 	placeBid,
@@ -56,7 +57,7 @@ import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectio
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { Images, blockchainIcons } from '../../assets/assets';
 import { getBannerData, nftBanner, currency } from '../../utils/exportData';
-import { useGetData, useDeleteData } from '../../hooks/Common';
+import { useGetData, useDeleteData, useInsertData } from '../../hooks/Common';
 import MetaData from '../../Components/MetaData/MetaData';
 import MetaDataSmall from '../../Components/MetaData/MetaDataSmall';
 import FileDetail from '../../Components/FileDetail/FileDetail';
@@ -313,7 +314,28 @@ const NFTDetail = (props: any) => {
 	const handleRouting = async () => {
 		//Validate if i am owner
 		//Todo for solana and algorand
+
 		if (isUserLoggedIn(history)) {
+			if (
+				blockchainType === 'ethereum' &&
+				nftDetail?.auction?.auctionEnded === false &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+				bidCount.length === 0
+			) {
+				const result = await cancelNFTListing(
+					nftDetail?.auction?.sellId,
+					nftDetail?.auction?.sellingMethod
+				);
+
+				if (result) {
+					try {
+						cancelAuction({ auctionId: nftDetail?.auction?._id });
+					} catch (error) {
+						toast.success('Something went wrong while cancel listing');
+					}
+				}
+				return;
+			}
 			if (
 				blockchainType === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 2 &&
@@ -887,6 +909,11 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
+	const { mutate: cancelAuction } = useInsertData('auctions/cancelList', () => {
+		toast.success('You have cancelled Listing successfully');
+		history.push('/explore/allNFT');
+	});
+
 	const isOwnerLoggedIn = () => {
 		return !userId || (userId && userId !== nftDetail.ownerId);
 	};
@@ -930,6 +957,7 @@ const NFTDetail = (props: any) => {
 		status,
 	}: any = nftDetail?.auction || {};
 	const { connectedAddress } = props;
+	const bidCount = nftDetail?.auction?.bids;
 	const nftInfo: any = [
 		{
 			title: 'Contract Address',
@@ -1028,6 +1056,7 @@ const NFTDetail = (props: any) => {
 										currentBidder,
 										bidStatus,
 										status,
+										bidCount,
 									}}
 								/>
 								<MetaDataSmall

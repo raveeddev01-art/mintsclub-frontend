@@ -287,9 +287,7 @@ export const openNFTForBidding = async (
 		let id = Number(tokenId);
 		const intPrice = Number(web3.utils.toWei(`${initialPrice}`, 'ether'));
 
-		console.log(intPrice, 'intPrice');
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
-
 		console.log({
 			intPrice,
 			biddingStartTime,
@@ -305,14 +303,11 @@ export const openNFTForBidding = async (
 				web3.utils.toBN(intPrice),
 				biddingStartTime,
 				biddingEndTime,
-				150,
 				id,
 				+copies,
-				collectionAddress ? collectionAddress : NFTAdddress,
-				connectedAddress
+				collectionAddress ? collectionAddress : NFTAdddress
 			)
 			.send({ from: connectedAddress });
-		console.log(result, 'result of listitem for auction');
 
 		let sellId = await Number(
 			result.events.AuctionStart.returnValues._auctionid
@@ -379,9 +374,9 @@ export const putonsale = async (
 				id,
 				+amount,
 				weiAmount,
-				150,
-				collectionAddress ? collectionAddress : NFTAdddress,
-				connectedAddress
+				// 150,
+				collectionAddress ? collectionAddress : NFTAdddress
+				// connectedAddress
 			)
 			.send({
 				from: connectedAddress,
@@ -802,4 +797,30 @@ export const deployCollectionContract = (abi, bytecode) => {
 			return reject(err);
 		}
 	});
+};
+
+export const cancelNFTListing = async (listingId, sellingMethod) => {
+	try {
+		const { abi, contractAddress } = getMarketPlaceContractInfo();
+
+		let web3 = await getWeb3();
+		let connectedAddress = await getMetamaskConnectedAddress();
+		const contractM = await getContractMethods(abi, contractAddress);
+		let result;
+		if (sellingMethod === 2) {
+			result = contractM.methods.cancelAuction(listingId).send({
+				from: connectedAddress,
+			});
+		} else {
+			result = contractM.methods.cancellListingForFixedPRice(listingId).send({
+				from: connectedAddress,
+			});
+		}
+		if (result) {
+			return result;
+		}
+	} catch (err) {
+		console.log(err, 'error');
+		throw new Error(err);
+	}
 };

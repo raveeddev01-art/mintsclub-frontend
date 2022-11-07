@@ -103,7 +103,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 			}
 			for (const key in payload) formData.append(key, payload[key]);
 			insertActivity(activityPayload);
-			insertAuction(formData);
+			insertAuction(payload);
 		} catch (err: any) {
 			console.log(err, 'error');
 			setLoader(false);

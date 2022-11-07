@@ -28,6 +28,7 @@ const FileDetail = ({ info }: any) => {
 		currentBidder,
 		bidStatus,
 		status,
+		bidCount,
 	}: any = info;
 
 	return (
@@ -145,7 +146,8 @@ const FileDetail = ({ info }: any) => {
 								activeAuction,
 								currentBidder,
 								bidStatus,
-								status
+								status,
+								bidCount
 							)}
 						</button>
 					)}
