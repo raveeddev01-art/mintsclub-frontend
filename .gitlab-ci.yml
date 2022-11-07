@@ -6,6 +6,7 @@ mintsclub-Front-v2:
   script:
     - cd /root/frontend-v2
     - git reset --hard
+    - rm /root/.ssh/known_hosts
     - git pull origin mintsclub-design-v2
     - cd /root/frontend-v2/frontend
     - npm cache clean --force
