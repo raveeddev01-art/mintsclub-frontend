@@ -133,7 +133,6 @@ export const placeABid = async (amount, tokenId) => {
       .send({
         from: connectedAddress,
         value: bidAmount,
-        // gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
       });
 
     if (result) {
