@@ -45,6 +45,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 				setShow(true);
 				return '';
 			}
+
 			handleFixedPriceAuction();
 		}
 	};
@@ -95,7 +96,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 			activityPayload.price = price;
 			payload.blockchainType = blockchainType.toLowerCase();
 			if (blockchainType?.toLowerCase() === 'solana') {
-				payload.txnHash = res;
+				payload.sellerTradeState = res;
 			}
 			if (nftDetail.lazyMinted) {
 				payload.sellId = 0;
