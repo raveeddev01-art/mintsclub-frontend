@@ -35,7 +35,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 	const wallet = useWallet();
 	const submit = (e: any) => {
 		e.preventDefault();
-		if (isUserLoggedIn(history)) {
+		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
 				(blockchainType !== 'solana' &&
 					!nftDetail?.user?.isApproved &&

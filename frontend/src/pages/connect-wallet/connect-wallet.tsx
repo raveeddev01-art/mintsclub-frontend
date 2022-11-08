@@ -35,7 +35,6 @@ const ConnectWallet = (props: any) => {
 	const location: any = useLocation();
 	const [connectedAddress, setConnectedAddres] = useState<any>(null);
 
-
 	const { setError } = useContext(errorHandler);
 
 	const wallet = useWallet();
