@@ -315,7 +315,6 @@ const NFTDetail = (props: any) => {
 	const handleRouting = async () => {
 		//Validate if i am owner
 		//Todo for solana and algorand
-
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
 				blockchainType === 'ethereum' &&
@@ -353,6 +352,31 @@ const NFTDetail = (props: any) => {
 
 				if (result) {
 					EndAuctionFromBackend();
+				}
+				return;
+			}
+			if (
+				blockchainType?.toLowerCase() === 'solana' &&
+				nftDetail?.auction?.sellingMethod === 1 &&
+				nftDetail?.auction?.status === 'active' &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
+			) {
+				const { sellerTradeState } = nftDetail.auction || {};
+				if (sellerTradeState) {
+					const response: any = await cancelItemFromListing(
+						wallet,
+						sellerTradeState
+					);
+					if (response) {
+						try {
+							cancelAuction({
+								auctionId: nftDetail?.auction?._id,
+								txnHash: response?.signature,
+							});
+						} catch (error) {
+							toast.success('Something went wrong while cancel listing');
+						}
+					}
 				}
 				return;
 			}
@@ -852,19 +876,6 @@ const NFTDetail = (props: any) => {
 			setLoader(true);
 			const { ownerId } = nftDetail;
 			const { sellingMethod, sellId } = nftDetail?.auction || {};
-			if (blockchainType?.toLowerCase() === 'solana') {
-				const { sellerTradeState } = nftDetail.auction || {};
-				if (sellerTradeState) {
-					const response: any = await cancelItemFromListing(
-						wallet,
-						sellerTradeState
-					);
-					if (response) {
-						EndAuctionFromBackend();
-					}
-				}
-				return;
-			}
 
 			if (userId === ownerId && sellingMethod === 2) {
 				const result = await endAuctionFromContract(sellId);
