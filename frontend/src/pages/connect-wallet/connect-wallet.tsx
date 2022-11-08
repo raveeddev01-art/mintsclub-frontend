@@ -35,7 +35,6 @@ const ConnectWallet = (props: any) => {
 	const location: any = useLocation();
 	const [connectedAddress, setConnectedAddres] = useState<any>(null);
 
-	console.log('connectedAddress', connectedAddress);
 
 	const { setError } = useContext(errorHandler);
 
@@ -133,7 +132,6 @@ const ConnectWallet = (props: any) => {
 				selectedBlockchainType = 'ethereum';
 				if (response?.users?.length > 0) {
 					const res = await handleSign(response?.users[0].nounce);
-					console.log('resone of if', res);
 					authenticate({
 						...res,
 						blockchainType: response?.users[0]?.blockchainType,
@@ -196,7 +194,6 @@ const ConnectWallet = (props: any) => {
 	///Authenticate
 	const onSuccessAuthentication = (data: any) => {
 		if (data.data.success) {
-			console.log(data.data.data, 'authenticate');
 			ENV.encryptUserData(data.data.data);
 			history.push(location?.state ? location.state : '/');
 		} else {
@@ -212,7 +209,6 @@ const ConnectWallet = (props: any) => {
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
 		const addr = await connectWallet();
-		console.log('connected addr in alog wallet', addr?.[0]);
 		setConnectedAddres(addr?.[0]);
 		props.setWalletAddress(addr?.[0]);
 		props.setBlockchainType('algorand');
@@ -221,7 +217,6 @@ const ConnectWallet = (props: any) => {
 	};
 	const ethereumFunc = async (status: any, chainId: any) => {
 		const currentChainId = await getChainId();
-		console.log({ currentChainId, chainId });
 		if (chainId !== currentChainId) {
 			await switchNetworkToChainId(chainId);
 		}
@@ -309,7 +304,6 @@ const ConnectWallet = (props: any) => {
 
 	useEffect(() => {
 		if (wallet.publicKey && wallet.connected) {
-			console.log('wallet Connected');
 			props.setBlockchainType('solana');
 			props.setWalletAddress(wallet.publicKey?.toBase58());
 			setConnectedAddres(wallet.publicKey?.toBase58());
