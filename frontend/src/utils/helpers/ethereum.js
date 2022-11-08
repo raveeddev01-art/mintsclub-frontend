@@ -89,9 +89,12 @@ export const isUserLoggedIn = (history, loggedInType) => {
 			`please login ${
 				loggedInType !== blockChainType && blockChainType === 'bsc'
 					? ' with binance network'
+					: !blockChainType
+					? ''
 					: `with ${loggedInType} network`
 			}  to continue`
 		);
+
 		history.push('/connect-wallet');
 		return false;
 	}

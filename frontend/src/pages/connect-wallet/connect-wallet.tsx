@@ -133,8 +133,11 @@ const ConnectWallet = (props: any) => {
 				selectedBlockchainType = 'ethereum';
 				if (response?.users?.length > 0) {
 					const res = await handleSign(response?.users[0].nounce);
-
-					authenticate({ ...res, blockchainType: response.blockchainType });
+					console.log('resone of if', res);
+					authenticate({
+						...res,
+						blockchainType: response?.users[0]?.blockchainType,
+					});
 					return;
 				}
 			}
@@ -180,7 +183,7 @@ const ConnectWallet = (props: any) => {
 	const onSuccessSignUp = async (data: any) => {
 		if (data.data.success) {
 			const res = await handleSign(data?.data?.data?.nounce);
-			authenticate(res);
+			authenticate({ ...res, blockchainType: data?.data?.data.blockchainType });
 		} else {
 			setError(data.data.message);
 		}
