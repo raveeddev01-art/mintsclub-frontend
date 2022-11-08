@@ -46,7 +46,6 @@ const App = React.memo((props) => {
     const clearAccount = () => {};
     window.ethereum.on("accountsChanged", accountWasChanged);
     window.ethereum.on("connect", getAndSetAccount);
-    // window.ethereum.on("disconnect", ()=>alert("account cleared"));
     window.ethereum.request({ method: "eth_requestAccounts" }).then(
       (accounts) => {
         setWallet(accounts[0]);
