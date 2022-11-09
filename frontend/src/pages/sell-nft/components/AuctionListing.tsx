@@ -113,7 +113,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			///////////////////////
 
 			//////////////////////
-			if (blockchainType === 'ethereum') {
+			if (
+				blockchainType?.toLowerCase() !== 'solana' &&
+				blockchainType?.toLowerCase() !== 'algorand' &&
+				!nftDetail?.lazyMinted &&
+				payload?.sellingMethod === 2
+			) {
 				result = await openNFTForBidding(
 					startTime,
 					biddingTime,

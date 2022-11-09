@@ -317,7 +317,9 @@ const NFTDetail = (props: any) => {
 		//Todo for solana and algorand
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
-				blockchainType === 'ethereum' &&
+				(blockchainType === 'polygon' ||
+					blockchainType === 'ethereum' ||
+					blockchainType === 'bsc') &&
 				nftDetail?.auction?.auctionEnded === false &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
