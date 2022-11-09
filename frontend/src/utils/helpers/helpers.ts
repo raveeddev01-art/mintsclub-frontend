@@ -11,6 +11,7 @@ const CHAIN_LOGOS = {
 	binance: binance,
 	solana: solana,
 	algorand: algoran,
+	bsc: binance,
 };
 
 const CHAIN_TITLE = {
@@ -19,6 +20,7 @@ const CHAIN_TITLE = {
 	binance: 'BSC',
 	solana: 'Solana',
 	algorand: 'Algorand',
+	bsc: 'BSC',
 };
 
 const CHAIN_CURRENCY = {
@@ -27,6 +29,7 @@ const CHAIN_CURRENCY = {
 	binance: 'BNB',
 	solana: 'SOL',
 	algorand: 'ALGO',
+	bsc: 'BSC',
 };
 
 const verifyOwner = (
