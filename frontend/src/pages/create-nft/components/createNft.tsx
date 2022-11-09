@@ -44,15 +44,17 @@ const CreateNft = ({
 		);
 
 		const { Collections: collections } = res.data.data.collections;
-
-		if (!collections.length) {
+		if (collections.length === 0 || !collections.length) {
 			const args: any = {
 				userId: `${ENV.getUserKeys('_id')._id}`,
 				ownerAddress: props.connectedAddress,
 				blockchainType: props.blockchainType,
 			};
-
-			await handleRequest('post', `collection/createDefault`, args);
+			const test = await handleRequest(
+				'post',
+				`collection/createDefault`,
+				args
+			);
 			const res_fetchCollection = await handleRequest(
 				'get',
 				`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
@@ -223,6 +225,8 @@ const CreateNft = ({
 
 				if (formValid) {
 					setLoader(true);
+					nftInfo.collectionId = nft.collectionId;
+					nftInfo.categoryId = nft.categoryId;
 					const res = await uploadDataOnIpfs(nftInfo);
 					toast.success('data uploaded on ipfs');
 					const { compressedFile, image, dataInput } = res.data.data;
