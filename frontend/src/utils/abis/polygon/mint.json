@@ -271,19 +271,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getMCaddress",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "_contractaddress",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{ "internalType": "uint256", "name": "_tokenId", "type": "uint256" }
 		],
@@ -317,16 +304,16 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "latestTokenID",
-		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"name": "isTokenIdAleadyExist",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "mclubmintaddress",
-		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"name": "latestTokenID",
+		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
@@ -427,18 +414,6 @@
 		],
 		"name": "uri",
 		"outputs": [{ "internalType": "string", "name": "", "type": "string" }],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{ "internalType": "address", "name": "_address", "type": "address" },
-			{ "internalType": "uint256", "name": "_tokenId", "type": "uint256" }
-		],
-		"name": "validateMinter",
-		"outputs": [
-			{ "internalType": "address", "name": "_minter", "type": "address" }
-		],
 		"stateMutability": "view",
 		"type": "function"
 	}

@@ -68,7 +68,7 @@ const verifyNFTStatus = (
 		sellingMethod === 2 &&
 		auctionEnded === false &&
 		blockChainType !== 'solana' &&
-		bidCount.length > 0
+		bidCount?.length > 0
 	) {
 		return 'End Auction';
 	} else if (
@@ -76,7 +76,7 @@ const verifyNFTStatus = (
 		sellingMethod &&
 		auctionEnded === false &&
 		blockChainType === blockChainType &&
-		bidCount.length === 0
+		bidCount?.length === 0
 	) {
 		return 'Cancel Listing';
 	}
