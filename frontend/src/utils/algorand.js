@@ -423,9 +423,9 @@ const decodeState = async (stateArray) => {
 		let value = pair['value'];
 		let valueType = value['type'];
 
-		if (valueType == 2) {
+		if (valueType === 2) {
 			value = value['uint'];
-		} else if (valueType == 1) {
+		} else if (valueType === 1) {
 			value = Buffer.from(value['bytes'], 'base64');
 		} else {
 			console.log('Unexpected State Type: ', valueType);

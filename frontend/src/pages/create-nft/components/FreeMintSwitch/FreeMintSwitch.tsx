@@ -14,7 +14,7 @@ const FreeMintSwitch = (props: any) => {
 								<label className="create-collection-label ms-0">
 									Free minting
 								</label>
-								<p>Buyer will pay gas fess for minting</p>
+								<p>Buyer will pay gas fee for minting</p>
 							</div>{' '}
 							<MintSwitch
 								checked={isFreeMint}
