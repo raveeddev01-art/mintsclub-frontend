@@ -10,6 +10,7 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 		nftImage,
 		totalBids,
 		owner,
+		username,
 		_id,
 		ownerAddress,
 		nftId,
@@ -43,8 +44,8 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 								<span className="text-capitalize">
 									{connectedAddress.toUpperCase() === ownerAddress.toUpperCase()
 										? 'You'
-										: owner?.username
-										? owner.username
+										: data?.username
+										? username
 										: 'unnamed'}
 								</span>
 							</p>
