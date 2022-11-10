@@ -441,7 +441,8 @@ const NFTDetail = (props: any) => {
 			if (
 				isOwner() &&
 				nftDetail?.auction?.sellingMethod === 2 &&
-				blockchainType !== 'solana'
+				blockchainType !== 'solana' &&
+				nftDetail?.activeAuction !== null
 			) {
 				EndAuction();
 				return;
@@ -813,11 +814,11 @@ const NFTDetail = (props: any) => {
 	}, [nftDetail, initial]);
 
 	const isAuctionEnded = async () => {
-		if (nftDetail && nftDetail?.auction?.sellingMethod === 2) {
-			console.log(
-				'🚀 ~ file: nftdetail.tsx ~ line 743 ~ isAuctionEnded ~ nftDetail',
-				nftDetail
-			);
+		if (
+			nftDetail &&
+			nftDetail?.auction?.sellingMethod === 2 &&
+			nftDetail?.activeAuction !== null
+		) {
 			const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
 
 			const currentDate = new Date();

@@ -29,7 +29,7 @@ const CHAIN_CURRENCY = {
 	binance: 'BNB',
 	solana: 'SOL',
 	algorand: 'ALGO',
-	bsc: 'BSC',
+	bsc: 'BNB',
 };
 
 const verifyOwner = (
@@ -120,10 +120,15 @@ const verifyNFTStatus = (
 	// }
 	else if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-		blockChainType === blockchainType
+		blockChainType === blockchainType &&
+		activeAuction === null
 	) {
 		return 'Sell';
-	} else if (sellingMethod === 2 && auctionEnded === false) {
+	} else if (
+		sellingMethod === 2 &&
+		auctionEnded === false &&
+		ownerAddress?.toUpperCase() !== connectedAddress?.toUpperCase()
+	) {
 		return 'Place A Bid';
 	} else if (sellingMethod === 1 && auctionEnded === false) {
 		return 'Buy Now';
