@@ -8,7 +8,7 @@ import { ReactComponent as ZipFileIcon } from '../../assets/images/zip-file.svg'
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { formatBytes } from '../../utils/functions';
+import { formatBytes, handleRequest } from '../../utils/functions';
 import './createMultipleNFT.scss';
 import { Link } from 'react-router-dom';
 import { uploadToS3Bucket } from '../../utils/s3Bucket';
@@ -157,7 +157,6 @@ function CreateMultipleNFT(props: any) {
 				url = URL.createObjectURL(e.target.files[0]);
 				fileId = e.target.id;
 			}
-			// console.log('file', file);
 			if (file)
 				if (file.type.includes('zip')) {
 					setUploadStatus(true);
@@ -184,8 +183,51 @@ function CreateMultipleNFT(props: any) {
 		},
 	});
 
+	const createDefaultCollection = async () => {
+		const res = await handleRequest(
+			'get',
+			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
+		);
+		const { Collections: collections } = res.data.data.collections;
+		if (collections.length === 0 || collections.length) {
+			const blockchainType = ENV.getUserKeys('blockchainType').blockchainType;
+			const args: any = {
+				userId: `${ENV.getUserKeys('_id')._id}`,
+				ownerAddress: props.connectedAddress,
+				blockchainType,
+			};
+			await handleRequest('post', `collection/createDefault`, args);
+			const res_fetchCollection = await handleRequest(
+				'get',
+				`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
+			);
+
+			const { Collections: collections } =
+				res_fetchCollection.data.data.collections;
+			const updatedCollections = [];
+			for (const item of collections) {
+				const obj = {
+					value: item._id,
+					label: item.name,
+					categoryId: item.categoryId,
+				};
+				updatedCollections.push(obj);
+			}
+			batchFile.categoryId = updatedCollections[0].categoryId;
+			batchFile.collectionId = updatedCollections[0].value;
+		}
+	};
+
 	const submit = async () => {
 		setLoader(true);
+		if (
+			selectedCollection === null &&
+			batchFile?.chainId !== '' &&
+			batchFile?.nftCollectionType !== ''
+		) {
+			await createDefaultCollection();
+			validator.fields['collectionId'] = true;
+		}
 		if (validator.allValid()) {
 			if (!batchFile.file.name) {
 				toast.error('Zip file is required');
@@ -232,7 +274,6 @@ function CreateMultipleNFT(props: any) {
 			});
 		}
 	};
-
 	return (
 		<>
 			{loader && <FullPageLoader />}
@@ -432,7 +473,12 @@ function CreateMultipleNFT(props: any) {
 								</div>
 								<button
 									className="btn upload btn-linear-gradient mt-5"
-									disabled={!checkBox}
+									disabled={
+										!checkBox ||
+										batchFile?.chainId === '' ||
+										batchFile?.file === '' ||
+										batchFile?.nftCollectionType === ''
+									}
 									onClick={() => submit()}
 								>
 									Upload
