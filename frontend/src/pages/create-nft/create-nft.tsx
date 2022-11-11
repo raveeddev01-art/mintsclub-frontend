@@ -489,7 +489,11 @@ class CreateNFT extends React.Component<
 									UploadIcon,
 								}}
 							/>
-							<div className="col-lg-4 col-md-6 col-sm-12">
+							<div
+								className={`col-md-6 col-sm-12 ${
+									blockchainType === 'solana' ? 'col-lg-6' : 'col-lg-4'
+								}`}
+							>
 								<label className="create-collection-label d-flex">
 									Title:*{' '}
 									<span className="text-danger ms-2">
@@ -520,37 +524,43 @@ class CreateNFT extends React.Component<
 								/>
 							</div>
 
-							<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
-								<label className="create-collection-label d-flex">
-									No of Copies:* (Max 1M)
-									<span className="text-danger ms-2">
-										{this.validator.message('name', nft.copies, 'required')}
-									</span>
-								</label>
-								<input
-									className="create-collection-input mt-2"
-									name="copies"
-									placeholder="No. of Copies"
-									type="text"
-									autoComplete="off"
-									required={true}
-									onKeyDown={(e) => decimalNumberValidator(e)}
-									onChange={(e) => {
-										if (
-											(e.target.value.length && e.target.value === '0') ||
-											e.target.value.includes('.') ||
-											+e.target.value > 1000000
-										) {
-											return false;
-										} else {
-											this.onChange(e);
-										}
-									}}
-									value={nft.copies}
-								/>
-							</div>
+							{blockchainType !== 'solana' && (
+								<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+									<label className="create-collection-label d-flex">
+										No of Copies:* (Max 1M)
+										<span className="text-danger ms-2">
+											{this.validator.message('name', nft.copies, 'required')}
+										</span>
+									</label>
+									<input
+										className="create-collection-input mt-2"
+										name="copies"
+										placeholder="No. of Copies"
+										type="text"
+										autoComplete="off"
+										required={true}
+										onKeyDown={(e) => decimalNumberValidator(e)}
+										onChange={(e) => {
+											if (
+												(e.target.value.length && e.target.value === '0') ||
+												e.target.value.includes('.') ||
+												+e.target.value > 1000000
+											) {
+												return false;
+											} else {
+												this.onChange(e);
+											}
+										}}
+										value={nft.copies}
+									/>
+								</div>
+							)}
 
-							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
+							<div
+								className={`col-md-6 mt-3 mt-lg-0 ${
+									blockchainType === 'solana' ? 'col-lg-6' : 'col-lg-4'
+								}`}
+							>
 								<label className="create-collection-label d-flex">
 									Select Collection:*
 									{this.state.selectedCollection !== null && (

@@ -207,6 +207,7 @@ const CreateNft = ({
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
 			nftInfo.stats = JSON.stringify(nftInfo.stats);
 			nftInfo.name = capitalize(nftInfo.name);
+			nftInfo.blockchainType = props.blockchainType;
 
 			if (videoURL) {
 				nftInfo.fileType = 'video';
