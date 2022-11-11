@@ -30,6 +30,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		insertAuction,
 		setLoader,
 	} = data;
+
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet = useWallet();
@@ -57,6 +58,9 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		if (price === 0) {
 			toast.error('Price should be greater then 0');
 			return '';
+		}
+		if (nftDetail?.blockchainType === 'solana') {
+			setCopies(0);
 		}
 		const payload = {
 			nftId: location.state._id,
@@ -116,7 +120,11 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 	return (
 		<form onSubmit={submit}>
 			<div className="row g-4 g-xl-5">
-				<div className="col-md-6">
+				<div
+					className={` ${
+						blockchainType === 'solana' ? 'col-md-12' : 'col-md-6'
+					}`}
+				>
 					<div className="sell-detail-box">
 						<h5>Price:*</h5>
 						<hr />
@@ -150,47 +158,49 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 						</div>
 					</div>
 				</div>
-				<div className="col-md-6">
-					<div className="sell-detail-box">
-						<h5>
-							No of Copies:*{' '}
-							{copiesError && (
-								<span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
-							)}
-						</h5>
-						<hr />
-						<div className="sell-inp-container d-flex align-items-center">
-							<input
-								type="number"
-								name="copies"
-								placeholder="Copies"
-								style={{
-									borderRadius: '4px',
-								}}
-								min={'1'}
-								onChange={(e: any) => {
-									if (+e.target.value > remainingCopies) {
-										setCopiesError(true);
-										return false;
-									}
-									if (
-										(e.target.value === 0 && copies === '') ||
-										e.target.value.includes('.')
-									) {
-										return false;
-									}
-									setCopiesError(false);
-									setCopies(e.target.value);
-								}}
-								onKeyDown={(e) => decimalNumberValidator(e)}
-								value={copies}
-								required
-								autoComplete="off"
-							/>
-							<div className="inp-tag">Copies</div>
+				{blockchainType !== 'solana' && (
+					<div className="col-md-6">
+						<div className="sell-detail-box">
+							<h5>
+								No of Copies:*{' '}
+								{copiesError && (
+									<span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
+								)}
+							</h5>
+							<hr />
+							<div className="sell-inp-container d-flex align-items-center">
+								<input
+									type="number"
+									name="copies"
+									placeholder="Copies"
+									style={{
+										borderRadius: '4px',
+									}}
+									min={'1'}
+									onChange={(e: any) => {
+										if (+e.target.value > remainingCopies) {
+											setCopiesError(true);
+											return false;
+										}
+										if (
+											(e.target.value === 0 && copies === '') ||
+											e.target.value.includes('.')
+										) {
+											return false;
+										}
+										setCopiesError(false);
+										setCopies(e.target.value);
+									}}
+									onKeyDown={(e) => decimalNumberValidator(e)}
+									value={copies}
+									required
+									autoComplete="off"
+								/>
+								<div className="inp-tag">Copies</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				)}
 				<div className="col-md-6">
 					<div className="sell-detail-box">
 						<h5>Fees:</h5>

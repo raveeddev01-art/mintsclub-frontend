@@ -72,12 +72,14 @@ const FileDetail = ({ info }: any) => {
 						<p> ($ {(currentPrice * exchangeRate).toFixed(2)})</p>
 					</div>
 				</div>
-				<div className="nft-detail-rounded-box on-sale">
-					<p>
-						Copies On Sale:{' '}
-						<span> {copiesForAuction ? copiesForAuction : 0}</span>
-					</p>
-				</div>
+				{blockchainType !== 'solana' && (
+					<div className="nft-detail-rounded-box on-sale">
+						<p>
+							Copies On Sale:{' '}
+							<span> {copiesForAuction ? copiesForAuction : 0}</span>
+						</p>
+					</div>
+				)}
 				<div className="nft-detail-date d-flex align-items-center">
 					<p>
 						{sellingMethod && sellingMethod === 2 && (
