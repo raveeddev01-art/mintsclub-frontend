@@ -409,7 +409,7 @@ class CreateCollections extends Component<
 									formData
 								);
 
-								setTimeout(() => this.insertCollection(formData), 5000);
+								this.insertCollection(formData);
 							} else {
 								console.log(
 									'🚀 ~ file: CreateCollections.tsx ~ line 427 ~ formData',

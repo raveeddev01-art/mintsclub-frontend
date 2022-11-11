@@ -51,6 +51,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		}
 	};
 	const handleFixedPriceAuction = () => {
+		setLoader(true);
 		const fixedConfig = { ...fixedPriceConfig };
 		const activityPayload = getActivityPayload();
 
