@@ -820,9 +820,7 @@ const NFTDetail = (props: any) => {
 			nftDetail?.activeAuction !== null
 		) {
 			const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
-
 			const currentDate = new Date();
-
 			if (currentDate > auctionEndDate) {
 				if (!initial) {
 					let qs: any = {
