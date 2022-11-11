@@ -476,7 +476,6 @@ function CreateMultipleNFT(props: any) {
 									disabled={
 										!checkBox ||
 										batchFile?.chainId === '' ||
-										// batchFile?.collectionId === '' ||
 										batchFile?.file === '' ||
 										batchFile?.nftCollectionType === ''
 									}
