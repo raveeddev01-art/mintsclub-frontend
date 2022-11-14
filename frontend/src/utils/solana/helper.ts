@@ -21,6 +21,7 @@ import {
 	clusterApiUrl,
 	Connection,
 	LAMPORTS_PER_SOL,
+	PublicKeyInitData,
 	SystemProgram,
 	SYSVAR_RENT_PUBKEY,
 	Transaction,
@@ -28,31 +29,34 @@ import {
 import e from 'express';
 import idl from './idl.json';
 
-const AUCTION_HOUSE_ADDRESS = 'HGLp7o4LTbKCsrLPRLogfwmLVFN7LzpuCgpgJ3W6sNVP';
+const AUCTION_HOUSE_ADDRESS = process.env.REACT_APP_AUCTION_HOUSE_ADDRESS;
 
 const AUCTION_HOUSE_PROGRAM_ID = new PublicKey(
-	'hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk'
+	process.env.REACT_APP_AUCTION_HOUSE_PROGRAM_ID as PublicKeyInitData
 );
 const AUCTIONEER_AUCTION_HOUSE_ADDRESS = new PublicKey(
-	'6d2ipuim1xY76ob4rHmP9Tt4jYCesPUfQCbPPGKa36s'
+	process.env.REACT_APP_AUCTIONEER_AUCTION_HOUSE_ADDRESS as PublicKeyInitData
 );
 
-const AUCTIONEER = new PublicKey('neer8g6yJq2mQM6KbnViEDAD4gr3gRZyMMf4F2p3MEh');
+const AUCTIONEER = new PublicKey(
+	process.env.REACT_APP_AUCTIONEER as PublicKeyInitData
+);
 
 const WRAPPED_SOL_MINT = new PublicKey(
-	'So11111111111111111111111111111111111111112'
+	process.env.REACT_APP_WRAPPED_SOL_MINT as PublicKeyInitData
 );
 
 const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
-	'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
+	process.env.REACT_APP_TOKEN_METADATA_PROGRAM_ID as PublicKeyInitData
 );
 
 const auctionHouseAuthority = new PublicKey(
-	'Eo6psn7nEnmtspqdi4ak4oFw2m9v7LJinsook6sLfk6'
+	process.env.REACT_APP_AUCTION_HOUSE_AUTHORITY as PublicKeyInitData
 );
 
 const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
-	'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
+	process.env
+		.REACT_APP_SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID as PublicKeyInitData
 );
 
 const mintSingleNft = async (
@@ -107,7 +111,7 @@ const listItemForFixedPriceSolana = async (
 	metaplex.use(walletAdapterIdentity(wallet));
 
 	const auctionHouse = await metaplex.auctionHouse().findByAddress({
-		address: new PublicKey(AUCTION_HOUSE_ADDRESS),
+		address: new PublicKey(AUCTION_HOUSE_ADDRESS as PublicKeyInitData),
 	});
 
 	const { listing, sellerTradeState, receipt } = await metaplex
@@ -129,7 +133,7 @@ const cancelItemFromListing = async (
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 		const auctionHouse = await metaplex.auctionHouse().findByAddress({
-			address: new PublicKey(AUCTION_HOUSE_ADDRESS),
+			address: new PublicKey(AUCTION_HOUSE_ADDRESS as PublicKeyInitData),
 		});
 
 		const listing = await metaplex.auctionHouse().findListingByTradeState({
@@ -158,9 +162,9 @@ const buyNowFixedPriceAuction = async (
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 
-		const auctionHouse = await metaplex
-			.auctionHouse()
-			.findByAddress({ address: new PublicKey(AUCTION_HOUSE_ADDRESS) });
+		const auctionHouse = await metaplex.auctionHouse().findByAddress({
+			address: new PublicKey(AUCTION_HOUSE_ADDRESS as PublicKeyInitData),
+		});
 
 		const listing = await metaplex.auctionHouse().findListingByTradeState({
 			tradeStateAddress: new PublicKey(tradeStateAddress),
@@ -975,6 +979,166 @@ const cancelListingForLiveAuction = async (
 		return e;
 	}
 };
+
+const creatAuctionHouse = async (wallet: any) => {
+	const metaplex = getMetaplex();
+	const auctionHouse = await metaplex.auctionHouse().create({
+		sellerFeeBasisPoints: 200,
+		authority: wallet,
+		feeWithdrawalDestination: wallet.publicKey.toBase58(),
+		treasuryWithdrawalDestinationOwner: wallet.publicKey.toBase58(),
+		// requiresSignOff: false,
+		// treasuryMint: WRAPPED_SOL_MINT,
+		// treasuryMint: NATIVE_MINT,
+		// authority: authority.publicKey,
+		// canChangeSalePrice: true,
+	});
+
+	console.log(
+		'🚀 ~ file: CreateAuctionHouse.tsx ~ line 37 ~ creatAuctionHouse ~ auctionHouse',
+		auctionHouse
+	);
+
+	console.log(
+		'🚀 ~ file: CreateAuctionHouse.tsx ~ line 40 ~ creatAuctionHouse ~ auctionHouse ~ auctionHouseAddress',
+		auctionHouse.auctionHouseAddress.toBase58()
+	);
+};
+
+const updateAuctionHouse = async (wallet: any) => {
+	const metaplex = getMetaplex();
+	const auctionHouse = await metaplex.auctionHouse().findByAddress({
+		address: new PublicKey('rtiMEdqM6vuq6UcxD3RAR4QxGRetBRDsvh9VZ8X9SHJ'),
+	});
+	const AuctionHouseUpdate = await metaplex.auctionHouse().update({
+		auctionHouse,
+		sellerFeeBasisPoints: 400,
+		authority: wallet,
+		feeWithdrawalDestination: wallet.publicKey.toBase58(),
+		treasuryWithdrawalDestinationOwner: wallet.publicKey.toBase58(),
+	});
+	console.log(
+		'🚀 ~ file: CreateAuctionHouse.tsx ~ line 72 ~ updateAuctionHouse ~ AuctionHouseUpdate',
+		AuctionHouseUpdate
+	);
+};
+
+const withdrawFundsFromTreasuryAccount = async (wallet: any) => {
+	const metaplex = getMetaplex();
+	const auctionHouse = await metaplex.auctionHouse().findByAddress({
+		address: new PublicKey('Gva26VNrtefAPB512WwPyusxiQd3u6r3UmhgtG8DjiNS'),
+	});
+	const withdrawFromTreasuryAccount = await metaplex
+		.auctionHouse()
+		.withdrawFromTreasuryAccount({
+			auctionHouse: auctionHouse,
+			authority: wallet,
+			amount: sol(1.5),
+		});
+	console.log(
+		'🚀 ~ file: ListNFT.tsx ~ line 103 ~ withdrawFromTreasuryAccount ~ withdrawFromTreasuryAccount',
+		withdrawFromTreasuryAccount
+	);
+};
+
+const withdrawFundsFromFeeAccount = async (wallet: any) => {
+	const metaplex = getMetaplex();
+	const auctionHouse = await metaplex.auctionHouse().findByAddress({
+		address: new PublicKey('Gva26VNrtefAPB512WwPyusxiQd3u6r3UmhgtG8DjiNS'),
+	});
+	const withdrawFromFeeAccount = await metaplex
+		.auctionHouse()
+		.withdrawFromFeeAccount({
+			auctionHouse: auctionHouse,
+			authority: wallet,
+			amount: sol(1.5),
+		});
+	console.log(
+		'🚀 ~ file: ListNFT.tsx ~ line 103 ~ withdrawFromFeeAccount ~ withdrawFromFeeAccount',
+		withdrawFromFeeAccount
+	);
+};
+
+const withdrawFromFeeAccForAuctioneer = async () => {
+	const connection = new anchor.web3.Connection(
+		'https://api.devnet.solana.com'
+	);
+	const options = anchor.AnchorProvider.defaultOptions();
+	//@ts-ignore
+	const provider = new anchor.AnchorProvider(connection, wallet, options);
+
+	if (!provider) {
+		return;
+	}
+
+	const a = JSON.stringify(idl);
+	const b = JSON.parse(a);
+	const program = new anchor.Program(b, idl.metadata.address, provider);
+
+	const systemProgram = SystemProgram.programId;
+
+	const txSig = await program.methods
+		.withdrawFromFee(new anchor.BN(100000000))
+		.accounts({
+			authority: auctionHouseAuthority,
+			feeWithdrawalDestination: auctionHouseAuthority,
+			auctionHouseFeeAccount: new PublicKey(
+				'DCRVXfZgdw4dLaa5amS4CdjWn7YTXZUPzwLpyDazv3bK'
+			),
+			auctionHouse: new PublicKey(
+				'6d2ipuim1xY76ob4rHmP9Tt4jYCesPUfQCbPPGKa36s'
+			),
+			systemProgram,
+		})
+		.rpc();
+	console.log(
+		'🚀 ~ file: helper.ts ~ line 1094 ~ withdrawFromFeeAccForAuctioneer ~ txSig',
+		txSig
+	);
+};
+
+const withdrawFromTreasuryAccForAuctioneer = async () => {
+	const connection1 = new anchor.web3.Connection(
+		'https://api.devnet.solana.com'
+	);
+	const options = anchor.AnchorProvider.defaultOptions();
+	//@ts-ignore
+	const provider = new anchor.AnchorProvider(connection1, wallet, options);
+
+	if (!provider) {
+		return;
+	}
+
+	const a = JSON.stringify(idl);
+	const b = JSON.parse(a);
+
+	const program = new anchor.Program(b, idl.metadata.address, provider);
+
+	const treasuryMint = WRAPPED_SOL_MINT;
+	const systemProgram = SystemProgram.programId;
+	const tokenProgram = TOKEN_PROGRAM_ID;
+
+	const txSig = await program.methods
+		.withdrawFromTreasury(new anchor.BN(200000000))
+		.accounts({
+			treasuryMint,
+			authority: auctionHouseAuthority,
+			treasuryWithdrawalDestination: auctionHouseAuthority,
+			auctionHouseTreasury: new PublicKey(
+				'J7fd3XeX79Ai8uYksVu2TnzEr3PoGpEmTJHBpmsZt7o4'
+			),
+			auctionHouse: new PublicKey(
+				'6d2ipuim1xY76ob4rHmP9Tt4jYCesPUfQCbPPGKa36s'
+			),
+			tokenProgram,
+			systemProgram,
+		})
+		.rpc();
+	console.log(
+		'🚀 ~ file: helper.ts ~ line 1140 ~ withdrawFromTreasuryAccForAuctioneer ~ txSig',
+		txSig
+	);
+};
 export {
 	mintSingleNft,
 	signMessageFromUserForSolana,
@@ -987,4 +1151,10 @@ export {
 	executeSaleForLiveAuction,
 	claimBidsForLiveAuction,
 	cancelListingForLiveAuction,
+	creatAuctionHouse,
+	updateAuctionHouse,
+	withdrawFundsFromTreasuryAccount,
+	withdrawFundsFromFeeAccount,
+	withdrawFromTreasuryAccForAuctioneer,
+	withdrawFromFeeAccForAuctioneer,
 };
