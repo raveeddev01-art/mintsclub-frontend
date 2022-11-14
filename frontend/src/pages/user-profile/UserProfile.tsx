@@ -139,72 +139,6 @@ const UserProfile = (props: any) => {
 			setAddressCopied(false);
 		}, 3000);
 
-	const handleLikesTogleApi = async (
-		nftId: string,
-
-		status: string,
-
-		likesCount: number
-	) => {
-		if (await validateNetwork()) {
-			if (!likeButtonDisable) {
-				setLikeBtnDisable(true);
-				const data = {
-					userId,
-					nftId,
-					count: 1,
-				};
-				if (status === 'dislike' && likesCount > 0) {
-					const result = likedNfts.filter((item: any) => item.nftId !== nftId);
-					setLikedNfts(result);
-					increOrDecreLikes(nftId, 'dec');
-					mutate(data);
-				}
-				if (status === 'like') {
-					let myLikedNfts = [];
-					if (likedNfts && likedNfts.length > 0) {
-						myLikedNfts = likedNfts;
-					}
-					const obj = {
-						_id: '1234455',
-						nftId,
-					};
-					myLikedNfts.push(obj);
-
-					setLikedNfts(myLikedNfts);
-					increOrDecreLikes(nftId, 'inc');
-					mutate(data);
-				}
-			}
-		} else {
-			toast.error('Please Connect Your Metamask With Ethereum Rinkby Network');
-		}
-	};
-
-	const increOrDecreLikes = (id: string, status: string) => {
-		if (status === 'dec') {
-			const newResult = nfts.map((item: any) => {
-				if (item._id !== id) {
-					return item;
-				} else {
-					if (item?.likeCount > 0) {
-						return { ...item, likeCount: item.likeCount - 1 };
-					}
-				}
-			});
-			setNFTs(newResult);
-		} else {
-			const final = nfts.map((item: any) => {
-				if (item._id !== id) {
-					return item;
-				} else {
-					return { ...item, likeCount: item.likeCount + 1 };
-				}
-			});
-			setNFTs(final);
-		}
-	};
-
 	const handleNftFilter = (id: string, data = false) => {
 		const itemsToFilter = data ? data : nftsCopy;
 		setInitial(false);
@@ -369,7 +303,6 @@ const UserProfile = (props: any) => {
 						nfts={nfts?.slice(0, dataLimit)}
 						loader={isLoadingNFTs}
 						likedNfts={likedNfts}
-						handleLikesTogleApi={handleLikesTogleApi}
 						handleNftFilter={handleNftFilter}
 						nftPagination={nftPagination}
 						fetchData={fetchData}

@@ -5,7 +5,6 @@ const FilteredNftsList = ({ data }: any) => {
 	const {
 		filterationLoader,
 		nfts,
-		handleLikesTogleApi,
 		likedNfts,
 		path,
 		nftPagination,
@@ -33,7 +32,6 @@ const FilteredNftsList = ({ data }: any) => {
 								{
 									<NftCard
 										data={nft}
-										handleLikesTogleApi={handleLikesTogleApi}
 										likedNfts={likedNfts}
 										owner={nft.owner}
 										path={path}

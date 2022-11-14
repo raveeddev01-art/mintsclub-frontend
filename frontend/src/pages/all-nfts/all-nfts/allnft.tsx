@@ -107,97 +107,6 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 		onSuccessCollections,
 		nfts ? true : false
 	);
-
-	const handleLikesTogleApi = async (
-		nftId: string,
-		status: string,
-		likesCount: number
-	) => {
-		if (
-			ENV.getUserKeys('address')?.address?.toUpperCase() ===
-			props.connectedAddress?.toUpperCase()
-		) {
-			if (await validateNetwork()) {
-				if (!likeButtonDisable || likeButtonDisable === null) {
-					setLikeBtnDisable(true);
-					const userId = ENV.getUserKeys('_id')._id;
-
-					const body = {
-						userId,
-						nftId,
-						count: 1,
-					};
-
-					if (status === 'dislike' && likesCount > 0) {
-						const result = likedNfts.filter(
-							(item: any) => item.nftId !== nftId
-						);
-
-						setLikedNfts(result);
-						increOrDecreLikes(nftId, 'dec');
-
-						mutate(body);
-					}
-
-					if (status === 'like') {
-						let myLikedNfts: any = [];
-						if (likedNfts && likedNfts.length > 0) {
-							myLikedNfts = likedNfts;
-						}
-
-						const obj = {
-							_id: '1234455',
-							nftId,
-						};
-
-						myLikedNfts.push(obj);
-
-						setLikedNfts(myLikedNfts);
-						increOrDecreLikes(nftId, 'inc');
-						mutate(body);
-					}
-					// setNFTs(nfts);
-				}
-			} else {
-				toast.error(
-					'Please Connect Your Metamask With Ethereum Rinkby Network'
-				);
-			}
-		} else {
-			if (ENV.getUserKeys('address')?.address) {
-				toast.info('Please login with new connected account');
-			} else {
-				toast.info('Please login first to continue');
-			}
-			history.push({
-				pathname: `/connect-wallet`,
-				state: `/explore/allNFT`,
-			});
-		}
-	};
-	const increOrDecreLikes = (id: string, status: string) => {
-		if (status === 'dec') {
-			const newResult = nfts.map((item: any) => {
-				if (item._id !== id) {
-					return item;
-				} else {
-					if (item?.likeCount > 0) {
-						return { ...item, likeCount: item.likeCount - 1 };
-					}
-				}
-			});
-			setNFTs(newResult);
-		} else {
-			const final = nfts.map((item: any) => {
-				if (item._id !== id) {
-					return item;
-				} else {
-					return { ...item, likeCount: item.likeCount + 1 };
-				}
-			});
-			setNFTs(final);
-		}
-	};
 	return (
 		<>
 			<section className="explore-collection-section padding-wrapper pt-0">
@@ -219,7 +128,6 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 					loader={isLoadingNFTs}
 					likedNfts={likedNfts}
 					nftPagination={nftPagination}
-					handleLikesTogleApi={handleLikesTogleApi}
 					fetchData={fetchData}
 					initialKeyword={props?.location?.state}
 					path="/explore/nftdetail/"
