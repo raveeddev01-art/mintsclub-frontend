@@ -56,7 +56,7 @@ const StatsModal: FC<any> = (props) => {
 		<Modal
 			{...props}
 			show={show}
-			onHide={() => handleModalsOnHide('levelsmodalShow')}
+			onHide={() => handleModalsOnHide('statsmodalShow')}
 			size="lg"
 			dialogClassName="buy-modal-dialog"
 			contentClassName="buy-modal-content"
@@ -67,7 +67,7 @@ const StatsModal: FC<any> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">Add Stats</Modal.Title>
 
 				<div className="modal-close-container">
-					<button onClick={() => handleModalsOnHide('levelsmodalShow')}>
+					<button onClick={() => handleModalsOnHide('statsmodalShow')}>
 						<img src={ModalClose} alt="closemodal" />
 					</button>
 				</div>

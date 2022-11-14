@@ -100,11 +100,11 @@
 }
 
 .create-nft .upload-nft-container .upload-icon-container span {
-  color: var(--create-nft-upload-clr);
+  // color: var(--create-nft-upload-clr);
 }
 
 .create-nft .upload-nft-container .upload-icon-container span.upload-nft-btn {
-  color: var(--btn-bg-sec);
+  // color: var(--btn-bg-sec);
 }
 
 .create-nft .create-collection-input {
@@ -256,8 +256,9 @@
   border-radius: 20px;
 }
 .create-nft .uploaded-img-browse {
-  color: #436bc1;
-  background: #ffffff;
+  // color: #436bc1;
+  color: #ffffff;
+  background: #436bc1;
   border-radius: 55px;
   font-style: normal;
   font-weight: 700;

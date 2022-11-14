@@ -163,6 +163,7 @@ export interface listingInt {
 	setFilterationLoader: (item: any) => any;
 	nfts: any[];
 	loader: boolean;
+	statusData?: any;
 	likedNfts: any[] | null;
 	nftPagination: any;
 	handleLikesTogleApi: (_id: string, status: string, likeCount: any) => any;
