@@ -1,7 +1,23 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 const UploadFiles = ({ data }: any) => {
-	const { collection, onFileChange, Images } = data;
+	const { collection,onFileChange,  Images } = data;
+	const fileChange = (e:any) => {
+		if(e.target.files.length < 1){
+		  return;
+		}
+		const file = e.target.files[0];
+		const validExtensions = ['png','jpeg','jpg']
+		const fileExtension = file.type.split('/')[1]
+		if(validExtensions.includes(fileExtension)){
+			onFileChange(e)
+
+		}
+		else{
+			toast.info('This file is not Supported ');
+		}
+	}
 	console.log(data, 'data');
 	return (
 		<div className="upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0">
@@ -15,7 +31,7 @@ const UploadFiles = ({ data }: any) => {
 								id="logo"
 								type="file"
 								accept=".png,.jpeg,.jpg"
-								onChange={(e) => onFileChange(e)}
+								onChange={fileChange}
 								style={{ display: 'none' }}
 								name="logo"
 							/>
@@ -32,7 +48,7 @@ const UploadFiles = ({ data }: any) => {
 							id="logo"
 							type="file"
 							accept=".png,.jpeg,.jpg"
-							onChange={(e) => onFileChange(e)}
+							onChange={(e) => fileChange(e)}
 							style={{ display: 'none' }}
 							name="logo"
 						/>
@@ -57,8 +73,8 @@ const UploadFiles = ({ data }: any) => {
 									accept=".png,.jpeg,.jpg"
 									style={{ display: 'none' }}
 									name="featuredImg"
-									onChange={(e) => onFileChange(e)}
-								/>
+									onChange={fileChange}
+									/>
 								<img src={Images.featureImageInputBG} />
 								<div className="feature-img-round-info">
 									<p className="text-center mb-2 browse-file">Browse Files</p>
@@ -77,7 +93,7 @@ const UploadFiles = ({ data }: any) => {
 							accept=".png,.jpeg,.jpg"
 							style={{ display: 'none' }}
 							name="featuredImg"
-							onChange={(e) => onFileChange(e)}
+								onChange={fileChange}
 						/>
 						<img src={Images.editIconLarge} />
 					</label>
