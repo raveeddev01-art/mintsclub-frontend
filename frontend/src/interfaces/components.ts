@@ -52,7 +52,6 @@ export interface NFTCardInt {
 	path: string;
 	connectedAddress: string;
 
-	handleLikesTogleApi: (_id: string, status: string, likeCount: any) => {};
 }
 export interface ApprovalModalInt {
 	approvalStatus: string;
@@ -165,7 +164,6 @@ export interface listingInt {
 	loader: boolean;
 	likedNfts: any[] | null;
 	nftPagination: any;
-	handleLikesTogleApi: (_id: string, status: string, likeCount: any) => any;
 	fetchData: (filter: any) => any;
 	path: string;
 	getPaginatedData?: () => any;

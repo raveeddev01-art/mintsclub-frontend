@@ -8,7 +8,7 @@ import './HeroCards.scss';
 const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 	const {
 		nftImage,
-		totalBids,
+		Totalbids,
 		owner,
 		username,
 		_id,
@@ -62,8 +62,8 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 			<div className="hero-placed-bid text-center">
 				{status !== 'nfts' ? (
 					<h6>
-						{totalBids > 0
-							? `${totalBids}+ People placed Bid`
+						{data.Totalbids > 0
+							? `${data.Totalbids} + People placed Bid`
 							: 'No Bids Found'}
 					</h6>
 				) : (

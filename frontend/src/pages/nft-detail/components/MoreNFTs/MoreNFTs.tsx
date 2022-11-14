@@ -2,7 +2,7 @@ import React from 'react';
 import NftCard from '../../../../Components/NftCard/NftCard';
 
 const MoreNFTs = ({ info }: any) => {
-	const { nfts, handleLikesTogleApi, likedNfts }: any = info;
+	const { nfts,  likedNfts }: any = info;
 	return (
 		<div className="col-12 order-2 mt-5">
 			<div className="detail-more-collection">
@@ -20,7 +20,6 @@ const MoreNFTs = ({ info }: any) => {
 									{
 										<NftCard
 											data={nft}
-											handleLikesTogleApi={handleLikesTogleApi}
 											likedNfts={likedNfts}
 											owner={nft?.owner[0]}
 											path="/explore/nftdetail/"

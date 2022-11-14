@@ -324,11 +324,15 @@ const NFTDetail = (props: any) => {
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
-				const result = await cancelNFTListing(
-					nftDetail?.auction?.sellId,
-					nftDetail?.auction?.sellingMethod
-				);
-
+				let result;
+				if (!nftDetail?.lazyMinted) {
+					const result = await cancelNFTListing(
+						nftDetail?.auction?.sellId,
+						nftDetail?.auction?.sellingMethod
+					);
+				} else {
+					result = true;
+				}
 				if (result) {
 					try {
 						cancelAuction({ auctionId: nftDetail?.auction?._id });

@@ -59,7 +59,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 	};
 
 	//React Query to post likedislike
-	const success = () => {
+	const likeDislikeSuccess = () => {
 		setLikeBtnDisable(false);
 		refetch();
 		setLikesbyUser(!likesbyUser);
@@ -67,7 +67,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 
 	const { mutate: toggleLikeDislike } = useInsertData(
 		'nftLikes/likeDislike',
-		success
+		likeDislikeSuccess
 	);
 
 	//React Query to get likedislike
@@ -89,19 +89,20 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 	const onResponse = (data: any) => {
 		setLikesbyUser(data.data.likedByUser);
 	};
-	const { refetch: checklikedNfts } = useGetData(
-		'checkLikes',
-		'nftLikes/checkNftLikes',
-		ENV.objectToQueryString({
-			nftId: props.data._id,
-			userId: ENV.getUserKeys('_id')._id,
-		}),
-		onResponse
-	);
-
+	if(ENV.getUserKeys('_id')._id){
+		useGetData(
+			'checkLikes',
+			'nftLikes/checkNftLikes',
+			ENV.objectToQueryString({
+				nftId: props.data._id,
+				userId: ENV.getUserKeys('_id')._id,
+			}),
+			onResponse
+		);
+	}
+	
 	useEffect(() => {
 		refetch();
-		checklikedNfts();
 	}, [props?.data?._id]);
 
 	return (
@@ -207,6 +208,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								src={Images.whiteEmptyHeart}
 								alt=""
 								onClick={() => {
+									if(!ENV.getUserKeys('_id')._id){
+										history.push('/connect-wallet')
+										return
+									}
 									toggleLikeDislike({
 										nftId: props.data._id,
 										userId: ENV.getUserKeys('_id')._id,
@@ -218,6 +223,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								src={Images.whiteFillHeart}
 								alt=""
 								onClick={() => {
+									if(!ENV.getUserKeys('_id')._id){
+										history.push('/connect-wallet')
+										return
+									}
 									toggleLikeDislike({
 										nftId: props.data._id,
 										userId: ENV.getUserKeys('_id')._id,

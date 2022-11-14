@@ -600,19 +600,22 @@ class CreateCollections extends Component<
 									value={collection.description}
 								></textarea>
 							</div>
-							<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+							{ENV.getUserKeys('blockchainType')?.blockchainType !==
+								'solana' && (
 								<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-									<div className="create-collection-label ms-0">
-										<label>Deploy Collection</label>
-										<p>It&apos;s free</p>
+									<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+										<div className="create-collection-label ms-0">
+											<label>Deploy Collection</label>
+											<p>It&apos;s free</p>
+										</div>
+										<MintSwitch
+											checked={this.state.collection.deploy}
+											onChange={this.handleDeployChange}
+											inputProps={{ 'aria-label': 'mint' }}
+										/>
 									</div>
-									<MintSwitch
-										checked={this.state.collection.deploy}
-										onChange={this.handleDeployChange}
-										inputProps={{ 'aria-label': 'mint' }}
-									/>
 								</div>
-							</div>
+							)}
 							<div className="create-collection-btn-container">
 								<button
 									className="btn create-collection-btn btn-linear-gradient mt-5"
