@@ -92,6 +92,7 @@ const StatsModal: FC<any> = (props) => {
 													<input
 														type="text"
 														name="name"
+														maxLength={40}
 														value={item.name}
 														onKeyDown={(e) =>
 															firstInputCharacterSpace(e, item.name.length)
