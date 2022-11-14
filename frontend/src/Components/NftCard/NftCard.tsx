@@ -89,7 +89,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 	const onResponse = (data: any) => {
 		setLikesbyUser(data.data.likedByUser);
 	};
-	if(ENV.getUserKeys('_id')._id){
+	if (ENV.getUserKeys('_id')._id) {
 		useGetData(
 			'checkLikes',
 			'nftLikes/checkNftLikes',
@@ -100,7 +100,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 			onResponse
 		);
 	}
-	
+
 	useEffect(() => {
 		refetch();
 	}, [props?.data?._id]);
@@ -208,9 +208,9 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								src={Images.whiteEmptyHeart}
 								alt=""
 								onClick={() => {
-									if(!ENV.getUserKeys('_id')._id){
-										history.push('/connect-wallet')
-										return
+									if (!ENV.getUserKeys('_id')._id) {
+										history.push('/connect-wallet');
+										return;
 									}
 									toggleLikeDislike({
 										nftId: props.data._id,
@@ -223,9 +223,9 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								src={Images.whiteFillHeart}
 								alt=""
 								onClick={() => {
-									if(!ENV.getUserKeys('_id')._id){
-										history.push('/connect-wallet')
-										return
+									if (!ENV.getUserKeys('_id')._id) {
+										history.push('/connect-wallet');
+										return;
 									}
 									toggleLikeDislike({
 										nftId: props.data._id,

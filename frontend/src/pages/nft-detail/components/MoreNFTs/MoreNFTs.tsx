@@ -2,7 +2,7 @@ import React from 'react';
 import NftCard from '../../../../Components/NftCard/NftCard';
 
 const MoreNFTs = ({ info }: any) => {
-	const { nfts,  likedNfts }: any = info;
+	const { nfts, likedNfts }: any = info;
 	return (
 		<div className="col-12 order-2 mt-5">
 			<div className="detail-more-collection">
