@@ -78,85 +78,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		onSuccessLikeDislike
 	);
 
-	///////////Likes
-	const handleLikesTogleApi = async (
-		nftId: string,
-		status: string,
-		likesCount: number
-	) => {
-		if (ENV.getUserKeys('_id')?._id) {
-			if (await validateNetwork()) {
-				if (!likeButtonDisable) {
-					setLikeBtnDisable(true);
-					const userId = ENV.getUserKeys('_id')._id;
-					const body = {
-						userId,
-						nftId,
-						count: 1,
-					};
-
-					if (status === 'dislike' && likesCount > 0) {
-						const result = likedNfts?.filter((item) => item.nftId !== nftId);
-						if (result) {
-							setLikedNfts(result);
-						}
-						increOrDecreLikes(nftId, 'dec');
-						mutate(body);
-					}
-
-					if (status === 'like') {
-						let myLikedNfts = [];
-						if (likedNfts && likedNfts.length > 0) {
-							myLikedNfts = likedNfts;
-						}
-
-						const obj = {
-							_id: '1234455',
-							nftId,
-						};
-
-						myLikedNfts.push(obj);
-
-						setLikedNfts(myLikedNfts);
-						increOrDecreLikes(nftId, 'inc');
-						mutate(body);
-					}
-					// setNFTs(nfts);
-				}
-			} else {
-				toast.error(
-					'Please Connect Your Metamask With Ethereum Goerli Network'
-				);
-			}
-		} else {
-			history.push('/login');
-		}
-	};
-
-	const increOrDecreLikes = (id: string, status: string) => {
-		if (status === 'dec') {
-			const newResult = nfts?.map((item: any) => {
-				if (item._id !== id) {
-					return item;
-				} else {
-					if (item?.likeCount > 0) {
-						return { ...item, likeCount: item.likeCount - 1 };
-					}
-				}
-			});
-			setNfts(newResult);
-		} else {
-			const final = nfts?.map((item: any) => {
-				if (item._id !== id) {
-					return item;
-				} else {
-					return { ...item, likeCount: item.likeCount + 1 };
-				}
-			});
-			setNfts(final);
-		}
-	};
-
 	const fetchData = (filterObj: object) => {
 		setFilter(filterObj);
 	};
@@ -307,7 +228,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 					loader={isLoadingNFTs}
 					likedNfts={likedNfts}
 					nftPagination={nftPagination}
-					handleLikesTogleApi={handleLikesTogleApi}
 					fetchData={fetchData}
 					path="/explore/nftdetail/"
 					collectionDetail
