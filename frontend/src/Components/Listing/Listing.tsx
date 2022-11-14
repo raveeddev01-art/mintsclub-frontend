@@ -8,6 +8,7 @@ import StatusFilter from '../Filters/StatusFIlter';
 import PriceFilter from '../Filters/PriceFilter';
 import CollectionFilter from '../Filters/CollectionFilter';
 import FilteredNftsList from '../Filters/FilteredNftsList';
+import { ENV } from '../../config/config';
 const Listing: FC<listingInt> = (props) => {
 	const [minValue, setMinValue] = useState<any>('');
 	const [maxValue, setMaxValue] = useState<any>('');
@@ -35,6 +36,9 @@ const Listing: FC<listingInt> = (props) => {
 		auction: false,
 		latest: false,
 		keyword: props.initialKeyword ? props.initialKeyword : '',
+		collected: false,
+		created: false,
+		userOwned: ENV.getUserKeys('_id')._id,
 	});
 	const priceOptions = [
 		{ value: 'lowtohigh', label: 'Low To High' },
@@ -192,6 +196,25 @@ const Listing: FC<listingInt> = (props) => {
 			}));
 		}
 	};
+
+	const handleNftFilter = (id: string, data = false) => {
+		setInitial(false);
+		setFilterationLoader(true);
+		if (id === 'Collected') {
+			// console.log('This is collected,id', filter.collected);
+			setFilter((prev: any) => ({
+				...prev,
+				collected: ENV.getUserKeys('_id')._id,
+				created: false,
+			}));
+		} else if (id === 'Created') {
+			setFilter((prev: any) => ({
+				...prev,
+				created: ENV.getUserKeys('_id')._id,
+				collected: false,
+			}));
+		}
+	};
 	const handleClearFilter = (id: any) => {
 		if (id === 'status') {
 			setFilterationLoader(true);
@@ -200,6 +223,13 @@ const Listing: FC<listingInt> = (props) => {
 				buy: false,
 				auction: false,
 				new: false,
+			}));
+		} else if (id === 'item') {
+			setFilterationLoader(true);
+			setFilter((prev: any) => ({
+				...prev,
+				collected: false,
+				created: false,
 			}));
 		} else if (id === 'price') {
 			setFilterationLoader(true);
@@ -217,6 +247,8 @@ const Listing: FC<listingInt> = (props) => {
 			setSelectedOption(null);
 			setFilterActive(null);
 			setKeyword('');
+			setFilterationLoader(true);
+			setIsActive(null);
 			setFilter({
 				collectionId: false,
 				gtePrice: false,
@@ -231,6 +263,9 @@ const Listing: FC<listingInt> = (props) => {
 				buy: false,
 				auction: false,
 				latest: false,
+				created: false,
+				collected: false,
+				userOwned: ENV.getUserKeys('_id')._id,
 			});
 		}
 	};
@@ -242,12 +277,13 @@ const Listing: FC<listingInt> = (props) => {
 		collections,
 		disabled,
 		menuData,
-		handleNftFilter,
+		// handleNftFilter,
 		setMenuFilter,
 		filterationLoader,
 		setFilterationLoader,
 		nfts,
 		loader,
+		totalItems,
 		likedNfts,
 		nftPagination,
 		handleLikesTogleApi,
@@ -285,6 +321,8 @@ const Listing: FC<listingInt> = (props) => {
 							handleNftFilter,
 							setMenuFilter,
 							nftPagination,
+							totalItems,
+							setStatusActive,
 						}}
 					/>
 					<div

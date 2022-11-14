@@ -38,7 +38,7 @@ const UserProfile = (props: any) => {
 	const [copy, setCopy] = useState<boolean>(false);
 	const [collections, setCollections] = useState<any>(null);
 	const [nftPagination, setNFTPagination] = useState<any>(null);
-	const [dataLimit, setDataLimit] = useState<number>(10);
+	const [dataLimit, setDataLimit] = useState<number>(9);
 	const [menuFilter, setMenuFilter] = useState<any>(false);
 	const [accAddress, setAccountAddress] = useState<string>(
 		props.connectedAddress
@@ -52,30 +52,39 @@ const UserProfile = (props: any) => {
 		window.scroll(0, 0);
 	}, []);
 
-	const onSuccessNFTs = (res: any) => {
-		// eslint-disable-next-line no-unsafe-optional-chaining
-		const { nfts } = res?.data?.data;
-		const data: any = nfts;
-		if (!menuFilter) {
-			const Nfts = data?.filter((item: any) => item.ownerId === userId);
-			if (Nfts?.length > 0) {
-				setDisabled(false);
-			} else {
-				if (initial) {
-					setDisabled(true);
-				}
-			}
-			setNFTs(Nfts);
-			setNFTPagination({ total: Nfts?.length });
+	const onSuccessNFTs = (data: any) => {
+		if (data?.data?.success) {
+			setFilterationLoader(false);
+			setNFTPagination(data.data.data.pagination);
+			setNFTs(data.data.data.nfts);
 		} else {
-			setNFTPagination(data.length);
-			handleNftFilter(menuFilter, data);
+			setError(data.data.message);
 		}
-		setInitial(false);
-		setNFTsCopy(data);
-		setLoader(false);
-		setFilterationLoader(false);
 	};
+	// const onSuccessNFTs = (res: any) => {
+	// 	// eslint-disable-next-line no-unsafe-optional-chaining
+	// 	const { nfts } = res?.data?.data;
+	// 	const data: any = nfts;
+	// 	if (!menuFilter) {
+	// 		const Nfts = data?.filter((item: any) => item.ownerId === userId);
+	// 		if (Nfts?.length > 0) {
+	// 			setDisabled(false);
+	// 		} else {
+	// 			if (initial) {
+	// 				setDisabled(true);
+	// 			}
+	// 		}
+	// 		setNFTs(Nfts);
+	// 		setNFTPagination({ total: Nfts?.length });
+	// 	} else {
+	// 		setNFTPagination(data.length);
+	// 		handleNftFilter(menuFilter, data);
+	// 	}
+	// 	setInitial(false);
+	// 	setNFTsCopy(data);
+	// 	setLoader(false);
+	// 	setFilterationLoader(false);
+	// };
 	const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
 		filter,
 		onSuccessNFTs,
@@ -139,57 +148,20 @@ const UserProfile = (props: any) => {
 			setAddressCopied(false);
 		}, 3000);
 
-	const handleNftFilter = (id: string, data = false) => {
-		const itemsToFilter = data ? data : nftsCopy;
-		setInitial(false);
-		if (id === 'Collected') {
-			const Nfts = itemsToFilter.filter(
-				(item: any) => item.creatorId !== userId && item.ownerId === userId
-			);
-			setDataLimit(10);
-			setNFTPagination({ total: Nfts.length });
-			setNFTs(Nfts);
-		} else if (id === 'Created') {
-			const Nfts = itemsToFilter.filter(
-				(item: any) => item.ownerId === userId && item.creatorId === userId
-			);
-
-			setDataLimit(10);
-			setNFTPagination({ total: Nfts.length });
-			setNFTs(Nfts);
-		} else {
-			handleFavFilter(itemsToFilter);
-		}
-	};
-
-	const handleFavFilter = (data = false) => {
-		const itemToFilter = data ? data : nftsCopy;
-		const favNfts = [];
-		for (const item of itemToFilter) {
-			const foundNft = likedNfts.find((liked: any) => liked.nftId === item._id);
-			if (foundNft) {
-				favNfts.push(item);
-			}
-		}
-		setDataLimit(10);
-		setNFTPagination({ total: favNfts.length });
-		setNFTs(favNfts);
-	};
-
 	const fetchData = (filterObj: any) => {
 		setFilter(filterObj);
 		getNFTs(filterObj);
 		refetch();
 	};
 	const getPaginatedData = () => {
-		setDataLimit((prev) => prev + 10);
+		setDataLimit((prev) => prev + 9);
 	};
 
 	const bannerData = {
 		subHeading: '',
 		heading: 'User Profile',
 	};
-	const menuData = ['Collected', 'Created', 'Favourited'];
+	const menuData = ['Collected', 'Created'];
 
 	if (
 		props.connectedAddress === '' ||
@@ -303,7 +275,8 @@ const UserProfile = (props: any) => {
 						nfts={nfts?.slice(0, dataLimit)}
 						loader={isLoadingNFTs}
 						likedNfts={likedNfts}
-						handleNftFilter={handleNftFilter}
+						// handleLikesTogleApi={handleLikesTogleApi}
+						// handleNftFilter={handleNftFilter}
 						nftPagination={nftPagination}
 						fetchData={fetchData}
 						setMenuFilter={setMenuFilter}
