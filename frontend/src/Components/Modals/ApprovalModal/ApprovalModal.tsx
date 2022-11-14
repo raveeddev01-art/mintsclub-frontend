@@ -31,7 +31,7 @@ const ApprovalModal: FC<ApprovalModalInt> = ({
 								? 'Congratulations'
 								: approvalStatus === 'in-progress'
 								? 'We’re on it'
-								: 'Your account if not approved yet.'}
+								: 'Your account is not approved yet.'}
 						</Modal.Title>
 						<div className="modal-close-container" onClick={onHide}>
 							<button>

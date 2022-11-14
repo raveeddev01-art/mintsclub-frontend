@@ -162,6 +162,7 @@ export interface listingInt {
 	setFilterationLoader: (item: any) => any;
 	nfts: any[];
 	loader: boolean;
+	statusData?: any;
 	likedNfts: any[] | null;
 	nftPagination: any;
 	fetchData: (filter: any) => any;

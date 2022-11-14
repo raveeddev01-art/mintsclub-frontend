@@ -8,6 +8,8 @@ const OwnerFilters = ({ data }: any) => {
 		handleNftFilter,
 		setMenuFilter,
 		nftPagination,
+		totalItems,
+		setStatusActive,
 	} = data;
 	return (
 		<div className="col-12 my-5 order-2 order-lg-1 ">
@@ -24,6 +26,7 @@ const OwnerFilters = ({ data }: any) => {
 										setIsActive(id);
 										handleNftFilter?.(item);
 										setMenuFilter?.(item);
+										setStatusActive(item);
 									}}
 									className={`${
 										id === isActive ? 'active-hero-nav' : ''
@@ -38,6 +41,7 @@ const OwnerFilters = ({ data }: any) => {
 					<p>
 						Total items:{' '}
 						<span>{nftPagination?.total ? nftPagination?.total : 0}</span>
+						{/* <span>{totalItems}</span> */}
 					</p>
 				</div>
 			</div>
