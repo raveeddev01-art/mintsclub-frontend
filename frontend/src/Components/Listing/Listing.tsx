@@ -38,7 +38,7 @@ const Listing: FC<listingInt> = (props) => {
 		keyword: props.initialKeyword ? props.initialKeyword : '',
 		collected: false,
 		created: false,
-		userowned: ENV.getUserKeys('_id')._id,
+		userOwned: ENV.getUserKeys('_id')._id,
 	});
 	const priceOptions = [
 		{ value: 'lowtohigh', label: 'Low To High' },
@@ -265,7 +265,7 @@ const Listing: FC<listingInt> = (props) => {
 				latest: false,
 				created: false,
 				collected: false,
-				userowned: ENV.getUserKeys('_id')._id,
+				userOwned: ENV.getUserKeys('_id')._id,
 			});
 		}
 	};

@@ -62,7 +62,7 @@ export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
 			keyword,
 			collected,
 			created,
-			userowned,
+			userOwned,
 		} = filter;
 		if (collectionId) nftQS.collectionId = collectionId;
 		if (gtePrice) nftQS.gtePrice = gtePrice;
@@ -78,7 +78,7 @@ export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
 		if (latest) nftQS.latest = latest;
 		if (collected) nftQS.collected = collected;
 		if (created) nftQS.created = created;
-		if (userowned) nftQS.userowned = userowned;
+		if (userOwned) nftQS.userOwned = userOwned;
 		if (page) {
 			nftQS.page = page;
 		} else {
