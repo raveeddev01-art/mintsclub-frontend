@@ -776,14 +776,11 @@ export const deployCollectionContract = async (bytecode) => {
 					return resolve(contractData);
 				})
 				.catch((err) => {
-					console.log('error', err);
-					toast.error('Transaction Failed please check wallet history!');
-					return reject(err);
+					reject(err);
 				});
 		} catch (err) {
 			console.log('error', err);
-			toast.error('Transaction Failed please check wallet history!');
-			return reject(err);
+			throw new Error(err);
 		}
 	});
 };

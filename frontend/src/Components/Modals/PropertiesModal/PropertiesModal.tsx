@@ -17,7 +17,6 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
 		handleModalsAddMore,
 		onSave,
 	}: any = handlers;
-	console.log({ properties, infoProperties: nftInfo.properties });
 	const handleRemove = (i: number, status: string) => {
 		const newFormValues = [...properties];
 		newFormValues.splice(i, 1);
