@@ -244,6 +244,7 @@ export interface CreateNftInterface {
 	setLoader: any;
 	blockChainType: string;
 	connectedAddress: string;
+	setError:any,
 }
 
 export interface CHAINS_INTERFACE {
