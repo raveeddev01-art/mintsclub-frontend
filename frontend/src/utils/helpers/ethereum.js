@@ -38,7 +38,7 @@ export const ListenMetaMaskAccs = () => {
 		window.ethereum.on('chainChanged', (_chainId) => {
 			if (location.pathname !== '/connect-wallet' && validateChain()) {
 				toast.info('please login with new connected network');
-				Logout();
+				logout();
 			}
 		});
 
