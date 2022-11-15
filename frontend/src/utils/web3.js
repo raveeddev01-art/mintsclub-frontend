@@ -156,18 +156,6 @@ export const mintNFt = async (
 			.mint(connectedAddress, +id, nftAmount, metaData, 150)
 			.send({ from: connectedAddress });
 		return id;
-		// if (blockchainType === 'ethereum') {
-		// 	return Number(result.events.TransferSingle.returnValues.id);
-		// } else if (blockchainType === 'polygon') {
-		// 	console.log(result.events.URI, 'URI');
-		// 	console.log(
-		// 		result.events.URI.returnValues['id'],
-		// 		'result.events.uri.returnvalues.id'
-		// 	);
-		// 	return Number(result.events.URI.returnValues['id']);
-		// } else if (blockchainType === 'bsc') {
-		// 	return Number(result.events.URI.returnValues['id']);
-		// }
 	} catch (err) {
 		console.log(err, 'error in mintNFT');
 		toast.error(err.message);
@@ -759,16 +747,17 @@ const handleSignMessage = (address) => {
 	});
 };
 
-export const deployCollectionContract = (abi, bytecode) => {
+export const deployCollectionContract = async (bytecode) => {
 	// eslint-disable-next-line no-async-promise-executor
-	return new Promise(async (resolve, reject) => {
+	const { abi } = getMintContractInfo();
+	const address = await connectMetamask();
+	const web3 = new Web3(Web3.givenProvider);
+	let contract = await new web3.eth.Contract(abi, null, {
+		data: bytecode,
+		from: address,
+	});
+	return new Promise((resolve, reject) => {
 		try {
-			const web3 = new Web3(Web3.givenProvider);
-			const address = await connectMetamask();
-			let contract = await new web3.eth.Contract(abi, null, {
-				data: bytecode,
-				from: address,
-			});
 			contract
 				.deploy({
 					data: bytecode,
