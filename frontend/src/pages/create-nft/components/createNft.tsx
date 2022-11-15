@@ -2,7 +2,7 @@ import { CreateNftInterface } from '../../../interfaces/components';
 import { compressImage, handleRequest } from '../../../utils/functions';
 import { mintNFt, editNFTUri } from '../../../utils/web3';
 import { ENV } from '../../../config/config';
-import { mintSingleNft } from '../../../utils/solana/helper';
+import { mintSingleNft, updateNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
@@ -178,20 +178,41 @@ const CreateNft = ({
 		image: any = null
 	) => {
 		try {
-			await editNFTUri(
-				state.nftInfo.tokenId,
-				metaData,
-				state?.nftInfo?.contractAddress
-			);
-			const payload = { ...data };
-			payload.nftId = `${props.match.params.nftId}`;
-			if (metaData) {
-				payload.metaData = metaData;
-				payload.image = image;
-			}
-			const res = await handleRequest('put', 'nfts/updateNft', payload);
-			if (res.data.success) {
-				props.history.push('/userprofile');
+			if (props.blockchainType !== 'solana') {
+				await editNFTUri(
+					state.nftInfo.tokenId,
+					metaData,
+					state?.nftInfo?.contractAddress
+				);
+				const payload = { ...data };
+				payload.nftId = `${props.match.params.nftId}`;
+				if (metaData) {
+					payload.metaData = metaData;
+					payload.image = image;
+				}
+				const res = await handleRequest('put', 'nfts/updateNft', payload);
+				if (res.data.success) {
+					props.history.push('/userprofile');
+				}
+			} else {
+				const response = await updateNft(
+					metaData,
+					state.nftInfo.name,
+					state.nftInfo.mint,
+					wallet
+				);
+				if (response) {
+					const payload = { ...data };
+					payload.nftId = `${props.match.params.nftId}`;
+					if (metaData) {
+						payload.metaData = metaData;
+						payload.image = image;
+					}
+					const res = await handleRequest('put', 'nfts/updateNft', payload);
+					if (res.data.success) {
+						props.history.push('/userprofile');
+					}
+				}
 			}
 		} catch (err: any) {
 			setLoader(false);
@@ -262,12 +283,18 @@ const CreateNft = ({
 			categoryId: nftInfo.categoryId,
 		});
 		const compressedFile = await compressImage(nftInfo?.image);
-		nftInfo = { ...nftInfo, compressedFile };
+
+		if (compressedFile) {
+			nftInfo = { ...nftInfo, compressedFile };
+		}
+
 		const formData: any = new FormData();
 		for (const val in nftInfo) {
 			formData.append(val, nftInfo[val]);
 		}
+
 		const res = await handleRequest('post', 'nfts/upload/ipfs', formData);
+
 		return res;
 	};
 

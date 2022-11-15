@@ -966,13 +966,34 @@ const cancelListingForLiveAuction = async (
 			signedTransaction.serialize(),
 			{ skipPreflight: false }
 		);
-		console.log(
-			'🚀 ~ file: CancelListingAuctioneer.tsx ~ line 171 ~ cancelListing ~ txtId',
-			txnHash
-		);
+
 		return txnHash;
 	} catch (e) {
 		return e;
+	}
+};
+
+const updateNft = async (
+	tokenUri: string,
+	name: string,
+	mint: string,
+	wallet: any
+) => {
+	try {
+		const mintAddress = new PublicKey(mint);
+		const metaplex = getMetaplex();
+		metaplex.use(walletAdapterIdentity(wallet));
+
+		const nft = await metaplex.nfts().findByMint({ mintAddress });
+
+		const editNft = await metaplex.nfts().update({
+			nftOrSft: nft,
+			name: name,
+			uri: tokenUri,
+		});
+		return editNft?.response?.signature;
+	} catch (err) {
+		return err;
 	}
 };
 export {
@@ -987,4 +1008,5 @@ export {
 	executeSaleForLiveAuction,
 	claimBidsForLiveAuction,
 	cancelListingForLiveAuction,
+	updateNft,
 };
