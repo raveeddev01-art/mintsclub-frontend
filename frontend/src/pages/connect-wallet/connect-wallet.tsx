@@ -49,7 +49,7 @@ const ConnectWallet = (props: any) => {
 	//     window.open(
 	//       "https://metamask.app.link/dapp/mintsclub-v2-marketplace.invo.zone/"
 	//     );
-	//   } else {
+	//   }else {
 	//     // if (getChainId !== ENV.chainId) {
 	//     //   try {
 	//     //     await switchNetworkToChainId(ENV.chainId);
@@ -211,10 +211,14 @@ const ConnectWallet = (props: any) => {
 		setConnectedAddres(addr?.[0]);
 		props.setWalletAddress(addr?.[0]);
 		props.setBlockchainType('algorand');
-
 		return addr?.[0];
 	};
 	const ethereumFunc = async (status: any, chainId: any) => {
+		if (detectMobile() && !window?.ethereum) {
+			return window.open(
+				'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
+			);
+		}
 		const currentChainId = await getChainId();
 		if (chainId !== currentChainId) {
 			await switchNetworkToChainId(chainId);

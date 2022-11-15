@@ -315,14 +315,12 @@ export const placeABid = async (amount, tokenId) => {
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
 		const bidAmount = Number(BigInt(Web3.utils.toWei(`${amount}`, 'ether')));
-		// let bidAmount = Number(amount) * 1000000000000000000;
 		let id = Number(tokenId);
 		let web3 = await getWeb3();
 
 		const result = await contractM.methods.bid(id).send({
 			from: connectedAddress,
 			value: bidAmount,
-			// gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
 		});
 
 		if (result) {
