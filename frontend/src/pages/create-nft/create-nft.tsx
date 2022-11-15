@@ -158,15 +158,18 @@ class CreateNFT extends React.Component<
 		);
 		const { Collections: collections }: any = res?.data?.data?.collections;
 		const updatedCollections = [];
-		for (const item of collections) {
-			const obj = {
-				value: item._id,
-				label: item.name,
-				categoryId: item.categoryId,
-				isApproved: item?.isApproved,
-				contractAddress: item?.contractAddress,
-			};
-			updatedCollections.push(obj);
+		if (collections?.length > 0) {
+			for (const item of collections) {
+				const obj = {
+					value: item._id,
+					label: item.name,
+					categoryId: item.categoryId,
+					isApproved: item?.isApproved,
+					contractAddress: item?.contractAddress,
+				};
+				updatedCollections.push(obj);
+				this.setDefaultCollection(updatedCollections[0]);
+			}
 		}
 		if (this.props?.match.params.nftId) {
 			await this.getNFTInfo(updatedCollections);
@@ -175,6 +178,22 @@ class CreateNFT extends React.Component<
 			collections: updatedCollections,
 			loader: false,
 		});
+	};
+	setDefaultCollection = (data: any) => {
+		let { nft } = this.state;
+		if (data) {
+			nft = {
+				...nft,
+				collectionId: data?.value,
+				categoryId: data?.categoryId,
+				contractAddress: data?.contractAddress ? data?.contractAddress : null,
+				isApproved: data?.isApproved ? data?.isApproved : false,
+			};
+			this.setState({
+				nft,
+				selectedCollection: data,
+			});
+		}
 	};
 	getNFTInfo = async (collections: any) => {
 		try {
@@ -562,15 +581,15 @@ class CreateNFT extends React.Component<
 								}`}
 							>
 								<label className="create-collection-label d-flex">
-									Select Collection:*
+									Select Collection:
 									{/* {this.state.selectedCollection === null && ( */}
-									<span className="text-danger ms-2">
+									{/* <span className="text-danger ms-2">
 										{this.validator.message(
 											'collectionId',
 											selectedCollection,
 											'required'
 										)}
-									</span>
+									</span> */}
 									{/* // )} */}
 								</label>
 

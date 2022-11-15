@@ -75,6 +75,7 @@ const CreateNft = ({
 			state.selectedCollection = updatedCollections[0];
 			state.nft.categoryId = updatedCollections[0].categoryId;
 			state.nft.collectionId = updatedCollections[0].value;
+			state.collections = updatedCollections;
 		}
 	};
 

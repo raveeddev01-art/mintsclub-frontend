@@ -152,6 +152,7 @@ export const mintNFt = async (
 		);
 
 		const id = await getLatestTokenId(contractM.methods);
+
 		await contractM.methods
 			.mint(connectedAddress, +id, nftAmount, metaData, 150)
 			.send({ from: connectedAddress });
