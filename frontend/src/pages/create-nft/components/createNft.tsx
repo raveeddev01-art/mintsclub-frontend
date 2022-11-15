@@ -15,6 +15,7 @@ const CreateNft = ({
 	capitalize,
 	setLoader,
 	blockChainType,
+	setError,
 }: CreateNftInterface) => {
 	const wallet = useWallet();
 	const [loading, setLoading] = useState<boolean>(false);
@@ -221,30 +222,25 @@ const CreateNft = ({
 				await createDefaultCollection();
 			}
 
-			if (validator.allValid() && nft.collectionId) {
-				const { formValid } = state;
-
-				if (formValid) {
-					setLoader(true);
-					nftInfo.collectionId = nft.collectionId;
-					nftInfo.categoryId = nft.categoryId;
-					const res = await uploadDataOnIpfs(nftInfo);
-					toast.success('data uploaded on ipfs');
-					const { compressedFile, image, dataInput } = res.data.data;
-					if (props.match.params.nftId) {
-						editNFT(
-							{ ...nftInfo, compressedFile: state.nftInfo.compressedFile },
-							dataInput.metaDataUrl,
-							image
-						);
-					} else {
-						mintNFT({ ...nftInfo, compressedFile }, dataInput, image);
-					}
+			if (validator.allValid()) {
+				setLoader(true);
+				nftInfo.collectionId = nft.collectionId;
+				nftInfo.categoryId = nft.categoryId;
+				const res = await uploadDataOnIpfs(nftInfo);
+				toast.success('data uploaded on ipfs');
+				const { compressedFile, image, dataInput } = res.data.data;
+				if (props.match.params.nftId) {
+					editNFT(
+						{ ...nftInfo, compressedFile: state.nftInfo.compressedFile },
+						dataInput.metaDataUrl,
+						image
+					);
 				} else {
-					state.formValid = false;
-					validator.showMessages();
-					toast.error('Please fill all required fields in valid format.');
+					mintNFT({ ...nftInfo, compressedFile }, dataInput, image);
 				}
+			} else {
+				setError();
+				toast.error('Please fill all required fields in valid format.');
 			}
 		} catch (err) {
 			setLoading(false);

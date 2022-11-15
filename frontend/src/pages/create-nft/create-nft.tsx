@@ -455,7 +455,6 @@ class CreateNFT extends React.Component<
 
 		const { connectedAddress, blockchainType } = this.props;
 		const { onDrop, dragOver, dragEnter, dragLeave } = this;
-
 		return (
 			<>
 				<section className="create-collection create-nft">
@@ -564,15 +563,15 @@ class CreateNFT extends React.Component<
 							>
 								<label className="create-collection-label d-flex">
 									Select Collection:*
-									{this.state.selectedCollection !== null && (
-										<span className="text-danger ms-2">
-											{this.validator.message(
-												'name',
-												nft.collectionId,
-												'required'
-											)}
-										</span>
-									)}
+									{/* {this.state.selectedCollection === null && ( */}
+									<span className="text-danger ms-2">
+										{this.validator.message(
+											'collectionId',
+											selectedCollection,
+											'required'
+										)}
+									</span>
+									{/* // )} */}
 								</label>
 
 								<Select
@@ -661,6 +660,12 @@ class CreateNFT extends React.Component<
 								handleBtnDisable={this.handleBtnDisable}
 								blockChainType={blockchainType}
 								connectedAddress={connectedAddress}
+								setError={() => {
+									this.setState({
+										formValid: false,
+									});
+									this.validator.showMessages();
+								}}
 							/>
 						</div>
 						{/* </form> */}
