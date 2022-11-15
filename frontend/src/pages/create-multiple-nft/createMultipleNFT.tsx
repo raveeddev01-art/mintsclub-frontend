@@ -189,7 +189,7 @@ function CreateMultipleNFT(props: any) {
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
 		const { Collections: collections } = res.data.data.collections;
-		if (collections.length === 0 || collections.length) {
+		if (!collections.length) {
 			const blockchainType = ENV.getUserKeys('blockchainType').blockchainType;
 			const args: any = {
 				userId: `${ENV.getUserKeys('_id')._id}`,
@@ -201,7 +201,7 @@ function CreateMultipleNFT(props: any) {
 				'get',
 				`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 			);
-
+			validator.fields['collectionId'] = true;
 			const { Collections: collections } =
 				res_fetchCollection.data.data.collections;
 			const updatedCollections = [];
@@ -226,9 +226,8 @@ function CreateMultipleNFT(props: any) {
 			batchFile?.nftCollectionType !== ''
 		) {
 			await createDefaultCollection();
-			validator.fields['collectionId'] = true;
 		}
-		if (validator.allValid()) {
+		if (validator.allValid() && batchFile?.collectionId !== '') {
 			if (!batchFile.file.name) {
 				toast.error('Zip file is required');
 				setLoader(false);
