@@ -270,7 +270,8 @@ class CreateCollections extends Component<
 				toast.error(message);
 			}
 		} catch (err: any) {
-			toast.error(err.message);
+			this.setState({ loader: false });
+			throw new Error(err.message);
 		}
 	};
 
@@ -391,22 +392,26 @@ class CreateCollections extends Component<
 								return await this.editCollectionInfo(formData);
 							}
 							if (collection?.deploy) {
-								const response = await this.deployCollection();
-								console.log(
-									response?.contractAddress,
-									'response?.contractAddress'
-								);
-								formData.append('isApproved', false);
-								formData.append(
-									'contractAddress',
-									`${response?.contractAddress}`
-								);
-								console.log(
-									'🚀 ~ file: CreateCollections.tsx ~ line 423 ~ formData before time',
-									formData
-								);
+								try {
+									const response = await this.deployCollection();
+									console.log(
+										response?.contractAddress,
+										'response?.contractAddress'
+									);
+									formData.append('isApproved', false);
+									formData.append(
+										'contractAddress',
+										`${response?.contractAddress}`
+									);
+									console.log(
+										'🚀 ~ file: CreateCollections.tsx ~ line 423 ~ formData before time',
+										formData
+									);
 
-								this.insertCollection(formData);
+									this.insertCollection(formData);
+								} catch (err: any) {
+									return toast.error(err?.message);
+								}
 							} else {
 								console.log(
 									'🚀 ~ file: CreateCollections.tsx ~ line 427 ~ formData',
