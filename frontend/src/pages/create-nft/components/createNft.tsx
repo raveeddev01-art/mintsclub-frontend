@@ -267,7 +267,6 @@ const CreateNft = ({
 		});
 		const compressedFile = await compressImage(nftInfo?.image);
 		nftInfo = { ...nftInfo, compressedFile };
-		console.log(nftInfo, 'nftInfo');
 		const formData: any = new FormData();
 		for (const val in nftInfo) {
 			formData.append(val, nftInfo[val]);

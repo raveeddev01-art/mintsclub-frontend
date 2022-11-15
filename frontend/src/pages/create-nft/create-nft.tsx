@@ -164,6 +164,7 @@ class CreateNFT extends React.Component<
 				label: item.name,
 				categoryId: item.categoryId,
 				isApproved: item?.isApproved,
+				contractAddress: item?.contractAddress,
 			};
 			updatedCollections.push(obj);
 		}

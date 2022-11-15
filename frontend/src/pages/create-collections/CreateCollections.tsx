@@ -261,9 +261,8 @@ class CreateCollections extends Component<
 			const res = await handleRequest('post', 'collection/deploy');
 			const { success, data, message } = res.data;
 			if (success) {
-				const abi = data?.abi;
 				const bytecode = data?.bytecode;
-				const resp = await deployCollectionContract(abi, bytecode);
+				const resp = await deployCollectionContract(bytecode);
 				const contractAddress = resp?.contractadd;
 				const res = { ...data, contractAddress };
 				return res;
@@ -397,9 +396,7 @@ class CreateCollections extends Component<
 									response?.contractAddress,
 									'response?.contractAddress'
 								);
-								formData.append('abi', JSON.stringify(response?.abi));
 								formData.append('isApproved', false);
-
 								formData.append(
 									'contractAddress',
 									`${response?.contractAddress}`
