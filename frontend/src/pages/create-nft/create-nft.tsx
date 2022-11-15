@@ -505,7 +505,7 @@ class CreateNFT extends React.Component<
 									name="name"
 									placeholder="Enter title"
 									required={true}
-									maxLength={100}
+									maxLength={25}
 									minLength={3}
 									onKeyDown={(e) =>
 										firstInputCharacterSpace(e, nft.name.length)
