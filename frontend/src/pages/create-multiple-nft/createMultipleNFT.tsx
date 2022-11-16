@@ -18,7 +18,8 @@ import { ENV } from '../../config/config';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
-
+import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
+import { CHAINS_INTERFACE } from '../../interfaces/components';
 const bannerContent = {
 	subHeading: 'Get Started',
 	heading: 'Create Multiple NFT',
@@ -41,7 +42,6 @@ function CreateMultipleNFT(props: any) {
 	const forceUpdate = useForceUpdate();
 	const [batchFile, setBatchFile] = useState<any>({
 		file: '',
-		chainId: '',
 		collectionId: '',
 		categoryId: '',
 		nftCollectionType: '',
@@ -220,11 +220,7 @@ function CreateMultipleNFT(props: any) {
 
 	const submit = async () => {
 		setLoader(true);
-		if (
-			selectedCollection === null &&
-			batchFile?.chainId !== '' &&
-			batchFile?.nftCollectionType !== ''
-		) {
+		if (selectedCollection === null && batchFile?.nftCollectionType !== '') {
 			await createDefaultCollection();
 		}
 		if (validator.allValid() && batchFile?.collectionId !== '') {
@@ -245,7 +241,7 @@ function CreateMultipleNFT(props: any) {
 				),
 				collectionId: batchFile.collectionId,
 				fileType: batchFile.nftCollectionType,
-				chainId: batchFile.chainId,
+				blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 				categoryId: batchFile.categoryId,
 				status: 'inProgress',
 				ownerAddress: props?.connectedAddress,
@@ -262,9 +258,6 @@ function CreateMultipleNFT(props: any) {
 					validator.fields[key] === false
 				) {
 					toast.error('NFT Collection Type is required');
-					setLoader(false);
-				} else if (key === 'chainId' && validator.fields[key] === false) {
-					toast.error('Chain is required');
 					setLoader(false);
 				} else if (key === 'collectionId' && validator.fields[key] === false) {
 					toast.error('Collection is required');
@@ -288,6 +281,33 @@ function CreateMultipleNFT(props: any) {
 				<div className="page-content">
 					<div className="container">
 						<div className="row">
+							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
+								<label className="create-collection-label d-flex align-items-center">
+									You Are Minting On:
+									<span className="text-danger ms-2 d-flex align-items-center">
+										{
+											CHAIN_TITLE[
+												ENV.getUserKeys(
+													'blockchainType'
+												).blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+											]
+										}
+										<img
+											src={
+												CHAIN_LOGOS[
+													ENV.getUserKeys(
+														'blockchainType'
+													).blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+												]
+											}
+											alt=""
+											className="ms-1"
+											width="20"
+											height="20"
+										/>
+									</span>
+								</label>
+							</div>
 							<div className="col-12 mb-4">
 								<label className="w-100 mb-3">Upload*</label>
 								<div
@@ -338,27 +358,6 @@ function CreateMultipleNFT(props: any) {
 										</button>
 									</div>
 								)}
-							</div>
-							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
-								<label className="create-collection-label d-flex">
-									Select Chain:*
-									<span className="text-danger ms-2">
-										{validator.message('chainId', selectedChain, 'required')}
-									</span>
-								</label>
-								<Select
-									className="react-select-cls"
-									classNamePrefix="react-select"
-									placeholder="Select Chain"
-									isSearchable={false}
-									value={selectedChain}
-									name="chainId"
-									onChange={(value: any) => {
-										setSelectedChain(value);
-										setBatchFile({ ...batchFile, chainId: value.value });
-									}}
-									options={ChainsOptions}
-								/>
 							</div>
 							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
 								<label className="create-collection-label d-flex">
@@ -474,7 +473,6 @@ function CreateMultipleNFT(props: any) {
 									className="btn upload btn-linear-gradient mt-5"
 									disabled={
 										!checkBox ||
-										batchFile?.chainId === '' ||
 										batchFile?.file === '' ||
 										batchFile?.nftCollectionType === ''
 									}
