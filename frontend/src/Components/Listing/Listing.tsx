@@ -379,6 +379,7 @@ const Listing: FC<listingInt> = (props) => {
 							path,
 							nftPagination,
 							handlePagination,
+							loader,
 						}}
 					/>
 				</div>

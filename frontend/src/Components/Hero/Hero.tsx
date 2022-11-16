@@ -77,7 +77,13 @@ const Hero: FC<HeroInt> = (props) => {
 							</Link>
 							<div className="watch-video d-flex align-items-center">
 								<button className="hero-play-btn">
-									<img src={Play} alt="play" />
+									<a
+										// href="https://youtu.be/ZJmzdQ-WId4"
+										target="_blank"
+										rel="noreferrer"
+									>
+										<img src={Play} alt="play" />
+									</a>
 								</button>
 								<span className="ms-4">Watch video to learn more ...</span>
 							</div>

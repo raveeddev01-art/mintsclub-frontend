@@ -183,7 +183,11 @@ const BuyModal: FC<Buy> = (props) => {
 						)}
 						<p>
 							By checking this box, I agree to MintsClub{' '}
-							<Link to="/termsandconditions" target="_blank">
+							<Link
+								to="/termsandconditions"
+								target="_blank"
+								className="services-link"
+							>
 								Terms of Services
 							</Link>
 						</p>
