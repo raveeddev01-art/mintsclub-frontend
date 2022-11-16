@@ -94,7 +94,7 @@ const SellNFT = (props: any) => {
 
 	const { isLoading: isInsertingAuction, mutate: insertAuction } =
 		useInsertData('auctions/create', () => {
-			toast.success('Auction created successfully');
+			toast.success('NFT listed successfully');
 			history.push(`/userprofile`);
 		});
 
