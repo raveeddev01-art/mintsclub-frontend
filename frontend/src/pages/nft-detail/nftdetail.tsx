@@ -809,6 +809,58 @@ const NFTDetail = (props: any) => {
 			return 'Sale ends ' + auctionEndTimeConversion(auctionEndDate);
 		}
 	};
+	const getBidsListOfAuction = async () => {
+		const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
+		const currentDate = new Date();
+		if (currentDate > auctionEndDate) {
+			if (!initial) {
+				let queryString: any = {
+					nftId: nftDetail._id,
+					// auctionId: nftDetail?.auction?._id,
+				};
+				queryString = ENV.objectToQueryString(queryString);
+				let url = `${ENV.url}bid/list`;
+				url += `?${queryString}`;
+				const res = await axios.get(url);
+				const newBids = res.data.data.Bids;
+
+				const getBidDataOfCurrentUser = newBids.filter(function (bid: {
+					fromAddress: any;
+				}) {
+					return bid?.fromAddress === connectedAddress;
+				});
+
+				if (getBidDataOfCurrentUser.length > 0) {
+					setCurrentBidder(getBidDataOfCurrentUser[0]?.fromAddress);
+					setBidStatus(getBidDataOfCurrentUser[0]?.status);
+					setClaimBidPrice(getBidDataOfCurrentUser[0]?.bidAmount);
+					setClaimBidId(getBidDataOfCurrentUser[0]?._id);
+				}
+
+				if (!initial) {
+					setInitial(true);
+				}
+
+				if (newBids?.length > 0) {
+					const highestBidByUser = newBids.reduce((max: any, obj: any) =>
+						max.bidAmount > obj.bidAmount ? max : obj
+					);
+					const blockChainType =
+						ENV.getUserKeys('blockchainType')?.blockchainType;
+
+					if (
+						highestBidByUser.fromAddress === connectedAddress &&
+						blockChainType !== 'solana'
+					) {
+						//
+						if (!claimNFT) {
+							setClaimNFT(true);
+						}
+					}
+				}
+			}
+		}
+	};
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -820,58 +872,17 @@ const NFTDetail = (props: any) => {
 	const isAuctionEnded = async () => {
 		if (
 			nftDetail &&
-			nftDetail?.auction?.sellingMethod === 2 &&
-			nftDetail?.activeAuction !== null
+			nftDetail.blockchainType === 'solana' &&
+			nftDetail?.auction?.sellingMethod === 2
 		) {
-			const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
-			const currentDate = new Date();
-			if (currentDate > auctionEndDate) {
-				if (!initial) {
-					let qs: any = {
-						nftId: nftDetail._id,
-						// auctionId: nftDetail?.auction?._id,
-					};
-					qs = ENV.objectToQueryString(qs);
-					let url = `${ENV.url}bid/list`;
-					url += `?${qs}`;
-					const res = await axios.get(url);
-					const newBids = res.data.data.Bids;
-
-					const getBidDataOfCurrentUser = newBids.filter(function (bid: {
-						fromAddress: any;
-					}) {
-						return bid?.fromAddress === connectedAddress;
-					});
-
-					if (getBidDataOfCurrentUser.length > 0) {
-						setCurrentBidder(getBidDataOfCurrentUser[0]?.fromAddress);
-						setBidStatus(getBidDataOfCurrentUser[0]?.status);
-						setClaimBidPrice(getBidDataOfCurrentUser[0]?.bidAmount);
-						setClaimBidId(getBidDataOfCurrentUser[0]?._id);
-					}
-
-					if (!initial) {
-						setInitial(true);
-					}
-
-					if (newBids?.length > 0) {
-						const highestBidByUser = newBids.reduce((max: any, obj: any) =>
-							max.bidAmount > obj.bidAmount ? max : obj
-						);
-						const blockChainType =
-							ENV.getUserKeys('blockchainType')?.blockchainType;
-
-						if (
-							highestBidByUser.fromAddress === connectedAddress &&
-							blockChainType !== 'solana'
-						) {
-							//
-							if (!claimNFT) {
-								setClaimNFT(true);
-							}
-						}
-					}
-				}
+			await getBidsListOfAuction();
+		} else {
+			if (
+				nftDetail &&
+				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction !== null
+			) {
+				await getBidsListOfAuction();
 			}
 		}
 	};
