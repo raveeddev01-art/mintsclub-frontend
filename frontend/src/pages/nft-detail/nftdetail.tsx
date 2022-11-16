@@ -316,6 +316,8 @@ const NFTDetail = (props: any) => {
 		//Validate if i am owner
 		//Todo for solana and algorand
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
+			setLoader(true);
+
 			if (
 				(blockchainType === 'polygon' ||
 					blockchainType === 'ethereum' ||
@@ -324,14 +326,12 @@ const NFTDetail = (props: any) => {
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
-				let result;
+				let result = null;
 				if (!nftDetail?.lazyMinted) {
-					const result = await cancelNFTListing(
+					result = await cancelNFTListing(
 						nftDetail?.auction?.sellId,
 						nftDetail?.auction?.sellingMethod
 					);
-				} else {
-					result = true;
 				}
 				if (result) {
 					try {
@@ -1118,9 +1118,16 @@ const NFTDetail = (props: any) => {
 										<p>{description}</p>
 									</div>
 								</div>
-								<Offers
-									data={{ bids, exchangeRate, lowestNftPrice, sellingMethod }}
-								/>
+								{nftDetail?.auction?.sellingMethod === 2 && (
+									<Offers
+										data={{
+											bids,
+											exchangeRate,
+											lowestNftPrice,
+											sellingMethod,
+										}}
+									/>
+								)}
 								<Activities activities={activities} />
 							</div>
 						</div>

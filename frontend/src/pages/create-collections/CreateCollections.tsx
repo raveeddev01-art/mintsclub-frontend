@@ -387,7 +387,7 @@ class CreateCollections extends Component<
 									// empty block statement
 								}
 							}
-							formData.append('_id', `${this.props.match.params.id}`);
+							formData.append('collectionId', `${this.props.match.params.id}`);
 							if (this.props.match.params.id) {
 								return await this.editCollectionInfo(formData);
 							}
