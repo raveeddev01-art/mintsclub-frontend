@@ -333,7 +333,7 @@ const NFTDetail = (props: any) => {
 						nftDetail?.auction?.sellingMethod
 					);
 				}
-				if (result) {
+				if (result || nftDetail?.lazyMinted) {
 					try {
 						cancelAuction({ auctionId: nftDetail?.auction?._id });
 					} catch (error) {
