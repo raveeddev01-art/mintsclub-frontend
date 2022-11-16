@@ -814,13 +814,13 @@ const NFTDetail = (props: any) => {
 		const currentDate = new Date();
 		if (currentDate > auctionEndDate) {
 			if (!initial) {
-				let qs: any = {
+				let queryString: any = {
 					nftId: nftDetail._id,
 					// auctionId: nftDetail?.auction?._id,
 				};
-				qs = ENV.objectToQueryString(qs);
+				queryString = ENV.objectToQueryString(queryString);
 				let url = `${ENV.url}bid/list`;
-				url += `?${qs}`;
+				url += `?${queryString}`;
 				const res = await axios.get(url);
 				const newBids = res.data.data.Bids;
 
