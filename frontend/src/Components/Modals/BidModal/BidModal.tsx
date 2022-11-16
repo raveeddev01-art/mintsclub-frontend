@@ -8,8 +8,10 @@ import axios from 'axios';
 import { BidModalInt, CHAINS_INTERFACE } from '../../../interfaces/components';
 import { ENV } from '../../../config/config';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
+import { currency } from '../../../utils/exportData';
 
 const BidModal: FC<BidModalInt> = (props) => {
+	const curreny1: any = currency;
 	const [checkBox, setCheckBox] = useState<any>(false);
 	const [blockchainType, setBlockchainType] = useState<any>('');
 	const [exchangeRate, setExchangeRate] = useState<any>(0);
@@ -20,15 +22,21 @@ const BidModal: FC<BidModalInt> = (props) => {
 		} else {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
 		}
+		const coin = curreny1[ENV.getUserKeys('blockchainType').blockchainType];
+		console.log(
+			'This is blockchainType',
+			ENV.getUserKeys('blockchainType').blockchainType
+		);
 		axios
 			.get(
-				'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
+				// 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
+				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
 			)
 			.then((res) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, []);
+	}, [currency]);
 	const {
 		onChange,
 		decimalNumberValidator,
@@ -141,7 +149,11 @@ const BidModal: FC<BidModalInt> = (props) => {
 						)}
 						<p>
 							By checking this box, I agree to MintsClub{' '}
-							<Link to="/termsandconditions" target="_blank">
+							<Link
+								to="/termsandconditions"
+								target="_blank"
+								className="services-link"
+							>
 								Terms of Services
 							</Link>
 						</p>
