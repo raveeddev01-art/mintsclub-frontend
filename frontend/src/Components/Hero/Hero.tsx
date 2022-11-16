@@ -79,7 +79,6 @@ const Hero: FC<HeroInt> = (props) => {
 								<button className="hero-play-btn">
 									<a
 										// href="https://youtu.be/ZJmzdQ-WId4"
-										href="https://invozone.slack.com/archives/C02LBMBRDCG/p1665569130545069"
 										target="_blank"
 										rel="noreferrer"
 									>
