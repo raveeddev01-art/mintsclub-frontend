@@ -29,6 +29,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		insertActivity,
 		insertAuction,
 		setLoader,
+		approvalStatus,
 	} = data;
 
 	const history: any = useHistory();
@@ -225,6 +226,9 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 				<div className="sell-btn-container d-flex justify-content-center justify-content-lg-start">
 					<button
 						className="btn btn-linear-gradient sell-btn-completed"
+						disabled={
+							approvalStatus === 'pending' && approvalStatus === 'in-progress'
+						}
 						type="submit"
 					>
 						Complete Listing

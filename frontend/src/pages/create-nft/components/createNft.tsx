@@ -250,8 +250,7 @@ const CreateNft = ({
 				nftInfo.categoryId = nft.categoryId;
 				const res = await uploadDataOnIpfs(nftInfo);
 				toast.success('data uploaded on ipfs');
-				const { compressedFile, image, dataInput } = res.data.data;
-
+				const { compressedFileUrl, image, dataInput } = res.data.data;
 				if (props.match.params.nftId) {
 					if (nftInfo?.fileType === 'image') {
 						nftInfo.compressedFile = state.nftInfo.compressedFile;
@@ -259,9 +258,9 @@ const CreateNft = ({
 					editNFT(nftInfo, dataInput.metaDataUrl, image);
 				} else {
 					if (nftInfo?.fileType === 'image') {
-						nftInfo.compressedFile = compressedFile;
+						nftInfo.compressedFile = compressedFileUrl;
 					}
-					console.log(nftInfo, 'nftInfo');
+
 					mintNFT(nftInfo, dataInput, image);
 				}
 			} else {

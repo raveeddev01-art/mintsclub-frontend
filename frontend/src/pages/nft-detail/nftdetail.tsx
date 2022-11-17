@@ -316,8 +316,6 @@ const NFTDetail = (props: any) => {
 		//Validate if i am owner
 		//Todo for solana and algorand
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
-			setLoader(true);
-
 			if (
 				(blockchainType === 'polygon' ||
 					blockchainType === 'ethereum' ||
@@ -328,6 +326,8 @@ const NFTDetail = (props: any) => {
 			) {
 				let result = null;
 				if (!nftDetail?.lazyMinted) {
+					setLoader(true);
+
 					result = await cancelNFTListing(
 						nftDetail?.auction?.sellId,
 						nftDetail?.auction?.sellingMethod
@@ -1048,7 +1048,7 @@ const NFTDetail = (props: any) => {
 				content={nftBanner.content}
 				bgImg={BannerBg}
 				bannerImg={BannerImage}
-				btns={isOwner() ? true : false}
+				btns={isOwner() && !sellingMethod ? true : false}
 				onEdit={() => {
 					if (isOwnerLoggedIn()) {
 						toast.info('Please sign in to edit NFT');
