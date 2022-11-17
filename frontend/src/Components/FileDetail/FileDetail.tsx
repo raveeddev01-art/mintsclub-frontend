@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ENV } from '../../config/config';
 import { verifyOwner, verifyNFTStatus } from '../../utils/helpers/helpers';
 const FileDetail = ({ info }: any) => {
@@ -30,6 +30,20 @@ const FileDetail = ({ info }: any) => {
 		status,
 		bidCount,
 	}: any = info;
+
+	const buttonText = verifyNFTStatus(
+		ownerAddress,
+		connectedAddress,
+		sellingMethod,
+		auctionEnded,
+		blockchainType,
+		highestBidder,
+		activeAuction,
+		currentBidder,
+		bidStatus,
+		status,
+		bidCount
+	);
 
 	return (
 		<div className="col-xl-6">
@@ -136,7 +150,8 @@ const FileDetail = ({ info }: any) => {
 					auctionEndDate,
 					blockchainType
 				) &&
-					!claimNFT && (
+					!claimNFT &&
+					buttonText !== 'invalid detail' && (
 						<button onClick={() => handleRouting()}>
 							{verifyNFTStatus(
 								ownerAddress,
