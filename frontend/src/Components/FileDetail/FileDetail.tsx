@@ -31,8 +31,6 @@ const FileDetail = ({ info }: any) => {
 		bidCount,
 	}: any = info;
 
-	const [hideButton, setHideButton] = useState<boolean>(false);
-
 	const buttonText = verifyNFTStatus(
 		ownerAddress,
 		connectedAddress,
@@ -46,17 +44,6 @@ const FileDetail = ({ info }: any) => {
 		status,
 		bidCount
 	);
-
-	useEffect(() => {
-		if (blockchainType === 'solana' && buttonText === 'invalid detail') {
-			setHideButton(true);
-		}
-	});
-	useEffect(() => {
-		if (blockchainType === 'solana' && buttonText !== 'invalid detail') {
-			setHideButton(false);
-		}
-	}, [buttonText]);
 
 	return (
 		<div className="col-xl-6">
@@ -164,7 +151,7 @@ const FileDetail = ({ info }: any) => {
 					blockchainType
 				) &&
 					!claimNFT &&
-					!hideButton && (
+					buttonText !== 'invalid detail' && (
 						<button onClick={() => handleRouting()}>
 							{verifyNFTStatus(
 								ownerAddress,
