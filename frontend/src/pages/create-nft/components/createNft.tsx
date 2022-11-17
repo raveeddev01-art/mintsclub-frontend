@@ -252,13 +252,16 @@ const CreateNft = ({
 				toast.success('data uploaded on ipfs');
 				const { compressedFile, image, dataInput } = res.data.data;
 				if (props.match.params.nftId) {
-					editNFT(
-						{ ...nftInfo, compressedFile: state.nftInfo.compressedFile },
-						dataInput.metaDataUrl,
-						image
-					);
+					if (nftInfo?.fileType === 'image') {
+						nftInfo.compressedFile = state.nftInfo.compressedFile;
+					}
+					editNFT(nftInfo, dataInput.metaDataUrl, image);
 				} else {
-					mintNFT({ ...nftInfo, compressedFile }, dataInput, image);
+					if (nftInfo?.fileType === 'image') {
+						nftInfo.compressedFile = compressedFile;
+					}
+					console.log(nftInfo, 'nftInfo');
+					mintNFT(nftInfo, dataInput, image);
 				}
 			} else {
 				setError();
@@ -283,12 +286,13 @@ const CreateNft = ({
 			id: selectedCollection.value,
 			categoryId: nftInfo.categoryId,
 		});
-		const compressedFile = await compressImage(nftInfo?.image);
+		if (nftInfo.fileType === 'video') {
+			const compressedFile = await compressImage(nftInfo?.image);
 
-		if (compressedFile) {
-			nftInfo = { ...nftInfo, compressedFile };
+			if (compressedFile) {
+				nftInfo = { ...nftInfo, compressedFile };
+			}
 		}
-
 		const formData: any = new FormData();
 		for (const val in nftInfo) {
 			formData.append(val, nftInfo[val]);
