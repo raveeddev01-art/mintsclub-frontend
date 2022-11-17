@@ -86,7 +86,6 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 			return Images.imagePlaceholder;
 		}
 	};
-	console.log(collections, 'collections');
 	return (
 		<>
 			{isCategoryLoading && isLoadinCollections ? (

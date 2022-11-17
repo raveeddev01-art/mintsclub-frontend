@@ -251,6 +251,7 @@ const CreateNft = ({
 				const res = await uploadDataOnIpfs(nftInfo);
 				toast.success('data uploaded on ipfs');
 				const { compressedFile, image, dataInput } = res.data.data;
+
 				if (props.match.params.nftId) {
 					if (nftInfo?.fileType === 'image') {
 						nftInfo.compressedFile = state.nftInfo.compressedFile;
@@ -286,7 +287,7 @@ const CreateNft = ({
 			id: selectedCollection.value,
 			categoryId: nftInfo.categoryId,
 		});
-		if (nftInfo.fileType === 'video') {
+		if (nftInfo.fileType === 'image') {
 			const compressedFile = await compressImage(nftInfo?.image);
 
 			if (compressedFile) {
