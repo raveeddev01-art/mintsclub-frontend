@@ -189,13 +189,21 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 								<div className="mt-5 d-flex justify-content-center align-items-center">
 									{!empty &&
 										collections?.length &&
-										// !isLoadinCollections &&
+										!isLoadinCollections &&
 										pagination.totalRecords > collections.length && (
 											<button
 												className="btn btn-rounded-bordered px-5"
 												onClick={() => handlePagination()}
 											>
 												Load more...
+											</button>
+										)}
+									{!empty &&
+										collections?.length &&
+										isLoadinCollections &&
+										pagination.totalRecords > collections.length && (
+											<button className="btn btn-rounded-bordered px-5">
+												Loading...
 											</button>
 										)}
 								</div>

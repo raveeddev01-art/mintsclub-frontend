@@ -38,6 +38,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 		compressedFile,
 		blockchainType,
 	} = props.data;
+
 	const [nftLikes, SetNftLikes] = useState(likeCount);
 	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
 	const [likesbyUser, setLikesbyUser] = useState<boolean>(false);
@@ -276,6 +277,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 								<span className="nft-price mt-1">
 									<img className="me-2" src={Images.nftPriceTag} />
 									<a className="price ms-1">
+										{/* {currentPrice.toString().length} */}
 										{currentPrice}{' '}
 										{
 											CHAIN_CURRENCY[

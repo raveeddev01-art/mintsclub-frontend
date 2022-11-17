@@ -1,5 +1,5 @@
 import NftCard from '../NftCard/NftCard';
-import React from 'react';
+import React, { useState } from 'react';
 
 const FilteredNftsList = ({ data }: any) => {
 	const {
@@ -9,6 +9,7 @@ const FilteredNftsList = ({ data }: any) => {
 		path,
 		nftPagination,
 		handlePagination,
+		loader,
 	} = data;
 	return (
 		<div className="col-lg-8 col-xl-9 order-3">
@@ -46,14 +47,25 @@ const FilteredNftsList = ({ data }: any) => {
 				)}
 				<div className="col-12">
 					<div className="mt-5 text-center">
-						{nfts && nftPagination?.total > nfts.length && !filterationLoader && (
-							<button
-								className="btn btn-rounded-bordered px-5"
-								onClick={() => handlePagination()}
-							>
-								Load more...
-							</button>
-						)}
+						{nfts &&
+							nftPagination?.total > nfts.length &&
+							!filterationLoader &&
+							!loader && (
+								<button
+									className="btn btn-rounded-bordered px-5"
+									onClick={() => handlePagination()}
+								>
+									Load more...
+								</button>
+							)}
+						{nfts &&
+							nftPagination?.total > nfts.length &&
+							!filterationLoader &&
+							loader && (
+								<button className="btn btn-rounded-bordered px-5">
+									Loading...
+								</button>
+							)}
 					</div>
 				</div>
 			</div>
