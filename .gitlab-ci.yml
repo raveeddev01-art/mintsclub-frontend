@@ -9,7 +9,7 @@ mintsclub-Front-v2:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - echo "Deploy to mintsclub new production server"
-    - ssh-add <(echo "$SSH_PROD_MINTSCLUB")
+    - ssh-add <(echo "$SSH_GITLAB_FRONT")
     - rm -rf .git
     - ssh -o StrictHostKeyChecking=no mintsclub-new-prod@10.10.12.26 "cd /home/mintsclub-new-prod/frontend-mintsclub/frontend-v2/frontend; git reset --hard;  git pull origin mintsclub-design-v2; yarn install ; npm run build; pm2 restart 0; exit"
   only:
