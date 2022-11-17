@@ -390,6 +390,22 @@ const NFTDetail = (props: any) => {
 				blockchainType === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 2 &&
 				nftDetail?.auction?.auctionEnded === false &&
+				nftDetail?.auction?.status === 'reclaimNft'
+			) {
+				try {
+					cancelAuction({
+						auctionId: nftDetail?.auction?._id,
+					});
+				} catch (error) {
+					toast.success('Something went wrong while reclaiming nft');
+				}
+
+				return;
+			}
+			if (
+				blockchainType === 'solana' &&
+				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.auction?.auctionEnded === false &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {

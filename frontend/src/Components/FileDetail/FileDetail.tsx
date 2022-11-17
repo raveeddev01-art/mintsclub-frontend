@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ENV } from '../../config/config';
 import { verifyOwner, verifyNFTStatus } from '../../utils/helpers/helpers';
 const FileDetail = ({ info }: any) => {
@@ -30,6 +30,33 @@ const FileDetail = ({ info }: any) => {
 		status,
 		bidCount,
 	}: any = info;
+
+	const [hideButton, setHideButton] = useState<boolean>(false);
+
+	const buttonText = verifyNFTStatus(
+		ownerAddress,
+		connectedAddress,
+		sellingMethod,
+		auctionEnded,
+		blockchainType,
+		highestBidder,
+		activeAuction,
+		currentBidder,
+		bidStatus,
+		status,
+		bidCount
+	);
+
+	useEffect(() => {
+		if (blockchainType === 'solana' && buttonText === 'invalid detail') {
+			setHideButton(true);
+		}
+	});
+	useEffect(() => {
+		if (blockchainType === 'solana' && buttonText !== 'invalid detail') {
+			setHideButton(false);
+		}
+	}, [buttonText]);
 
 	return (
 		<div className="col-xl-6">
@@ -136,7 +163,8 @@ const FileDetail = ({ info }: any) => {
 					auctionEndDate,
 					blockchainType
 				) &&
-					!claimNFT && (
+					!claimNFT &&
+					!hideButton && (
 						<button onClick={() => handleRouting()}>
 							{verifyNFTStatus(
 								ownerAddress,

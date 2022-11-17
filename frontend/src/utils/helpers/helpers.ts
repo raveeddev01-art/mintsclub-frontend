@@ -64,7 +64,6 @@ const verifyNFTStatus = (
 	status: any = undefined,
 	bidCount: any = undefined
 ) => {
-	console.log('🚀 ~ file: helpers.ts ~ line 64 ~ bidCount', bidCount);
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
@@ -78,21 +77,20 @@ const verifyNFTStatus = (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod &&
 		auctionEnded === false &&
-		blockChainType === blockChainType &&
+		blockChainType !== 'solana' &&
 		bidCount?.length === 0
 	) {
 		return 'Cancel Listing';
-	}
-	// else if (
-	// 	ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
-	// 	auctionEnded === false &&
-	// 	bidCount.length === 0 &&
-	// 	blockChainType === 'ethereum' &&
-	// 	sellingMethod
-	// ) {
-	// 	return 'Cancel Listing';
-	// }
-	else if (
+	} else if (
+		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+		sellingMethod &&
+		auctionEnded === false &&
+		blockChainType === 'solana' &&
+		bidCount?.length === 0 &&
+		status !== 'reclaimNft'
+	) {
+		return 'Cancel Listing';
+	} else if (
 		highestBidder?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 2 &&
 		auctionEnded === false &&
@@ -101,6 +99,14 @@ const verifyNFTStatus = (
 		activeAuction !== null
 	) {
 		return 'Claim NFT';
+	} else if (
+		sellingMethod === 2 &&
+		auctionEnded === false &&
+		status === 'reclaimNft' &&
+		blockChainType === 'solana' &&
+		activeAuction !== null
+	) {
+		return 'Reclaim NFT';
 	} else if (
 		connectedAddress?.toUpperCase() === currentBidder?.toUpperCase() &&
 		sellingMethod === 2 &&
@@ -127,7 +133,8 @@ const verifyNFTStatus = (
 	} else if (
 		sellingMethod === 2 &&
 		auctionEnded === false &&
-		ownerAddress?.toUpperCase() !== connectedAddress?.toUpperCase()
+		ownerAddress?.toUpperCase() !== connectedAddress?.toUpperCase() &&
+		status !== 'reclaimNft'
 	) {
 		return 'Place A Bid';
 	} else if (sellingMethod === 1 && auctionEnded === false) {
