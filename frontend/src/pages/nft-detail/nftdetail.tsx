@@ -347,6 +347,7 @@ const NFTDetail = (props: any) => {
 				nftDetail?.auction?.sellingMethod === 2 &&
 				nftDetail?.auction?.auctionEnded === false &&
 				nftDetail?.auction?.status === 'claimNft' &&
+				connectedAddress?.toUpperCase() === highestBidder?.toUpperCase() &&
 				nftDetail.activeAuction !== null
 			) {
 				const result = await executeSaleForLiveAuction(
@@ -429,7 +430,7 @@ const NFTDetail = (props: any) => {
 			if (
 				blockchainType === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 2 &&
-				nftDetail?.auction?.auctionEnded === true &&
+				// nftDetail?.auction?.auctionEnded === true &&
 				connectedAddress?.toUpperCase() !== highestBidder?.toUpperCase()
 			) {
 				const result = await claimBidsForLiveAuction(wallet, claimBidPrice);
@@ -481,7 +482,10 @@ const NFTDetail = (props: any) => {
 	};
 
 	const openModals = () => {
-		if (nftDetail?.auction?.sellingMethod === 2) {
+		if (
+			nftDetail?.auction?.sellingMethod === 2 &&
+			nftDetail?.auction?.status === 'active'
+		) {
 			setBidModalShow(true);
 		}
 		if (nftDetail?.auction?.sellingMethod === 1) {

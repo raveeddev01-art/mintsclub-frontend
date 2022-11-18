@@ -134,7 +134,7 @@ const verifyNFTStatus = (
 		sellingMethod === 2 &&
 		auctionEnded === false &&
 		ownerAddress?.toUpperCase() !== connectedAddress?.toUpperCase() &&
-		status !== 'reclaimNft'
+		status === 'active'
 	) {
 		return 'Place A Bid';
 	} else if (sellingMethod === 1 && auctionEnded === false) {
