@@ -430,7 +430,7 @@ const NFTDetail = (props: any) => {
 			if (
 				blockchainType === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 2 &&
-				// nftDetail?.auction?.auctionEnded === true &&
+				bidStatus === 'claimable' &&
 				connectedAddress?.toUpperCase() !== highestBidder?.toUpperCase()
 			) {
 				const result = await claimBidsForLiveAuction(wallet, claimBidPrice);
