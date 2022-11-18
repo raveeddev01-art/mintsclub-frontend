@@ -1064,7 +1064,11 @@ const NFTDetail = (props: any) => {
 				content={nftBanner.content}
 				bgImg={BannerBg}
 				bannerImg={BannerImage}
-				btns={isOwner() && !sellingMethod ? true : false}
+				btns={
+					isOwner() && !sellingMethod && copies - remainingCopies === 0
+						? true
+						: false
+				}
 				onEdit={() => {
 					if (isOwnerLoggedIn()) {
 						toast.info('Please sign in to edit NFT');
