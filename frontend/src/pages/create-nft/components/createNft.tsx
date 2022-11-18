@@ -6,6 +6,7 @@ import { mintSingleNft, updateNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
+import { blockchainIcons } from '../../../assets/assets';
 
 const CreateNft = ({
 	props,
@@ -14,7 +15,7 @@ const CreateNft = ({
 	validator,
 	capitalize,
 	setLoader,
-	blockChainType,
+	blockchainType,
 	setError,
 }: CreateNftInterface) => {
 	const wallet = useWallet();
@@ -87,9 +88,9 @@ const CreateNft = ({
 			let paylaod: any = {};
 			if (!state.isFreeMint) {
 				if (
-					blockChainType === 'ethereum' ||
-					blockChainType === 'polygon' ||
-					blockChainType === 'bsc'
+					blockchainType === 'ethereum' ||
+					blockchainType === 'polygon' ||
+					blockchainType === 'bsc'
 				) {
 					paylaod = await mintEthNFT(metaData, nftInfo, data, image);
 				}
@@ -104,7 +105,7 @@ const CreateNft = ({
 			} else {
 				paylaod = {
 					nftToken: 0,
-					data: { ...data, blockchainType: blockChainType },
+					data: { ...data, blockchainType: blockchainType },
 					image,
 					lazyMinted: state.isFreeMint,
 				};
@@ -131,7 +132,7 @@ const CreateNft = ({
 		if (mintId) {
 			return {
 				nftToken: mintId,
-				data: { ...data, blockchainType: blockChainType },
+				data: { ...data, blockchainType: blockchainType },
 				image,
 				lazyMinted: false,
 			};
@@ -162,7 +163,7 @@ const CreateNft = ({
 				nftToken: -1,
 				data: {
 					...data,
-					blockchainType: blockChainType,
+					blockchainType: blockchainType,
 					mint: response?.mintAddress.toBase58(),
 					txnHash: response?.response.signature,
 				},
@@ -309,19 +310,18 @@ const CreateNft = ({
 	};
 
 	const handleValidation = () => {
-		const { copies, name, description, image, collectionId } = state.nft;
+		const { copies, name, description, image } = state.nft;
+		console.log('this is type-=====', blockchainType);
 		if (
-			description === '' ||
-			collectionId === '' ||
-			copies === '' ||
 			name === '' ||
-			image === ''
+			description === '' ||
+			image === '' ||
+			(blockchainType !== 'solana' && copies === '') && (blockchainType !== 'algorand' && copies === '')
+
 		) {
 			return true;
 		}
-		else {
-			return false;
-		}
+		return false;
 	};
 	return (
 		<div className="create-collection-btn-container">

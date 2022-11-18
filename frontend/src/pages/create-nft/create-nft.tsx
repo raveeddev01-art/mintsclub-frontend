@@ -671,7 +671,7 @@ class CreateNFT extends React.Component<
 								validator={this.validator}
 								capitalize={capitalize}
 								handleBtnDisable={this.handleBtnDisable}
-								blockChainType={blockchainType}
+								blockchainType={blockchainType}
 								connectedAddress={connectedAddress}
 								setError={() => {
 									this.setState({
