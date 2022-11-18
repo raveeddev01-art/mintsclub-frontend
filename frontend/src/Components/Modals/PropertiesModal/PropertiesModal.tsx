@@ -91,7 +91,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
 													type="text"
 													name="type"
 													value={item.type}
-													maxLength={40}
+													maxLength={10}
 													onKeyDown={(e) =>
 														firstInputCharacterSpace(e, item.type.length)
 													}
@@ -110,7 +110,7 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
 												<input
 													type="text"
 													name="name"
-													maxLength={40}
+													maxLength={10}
 													value={item.name}
 													onKeyDown={(e) =>
 														firstInputCharacterSpace(e, item.name.length)

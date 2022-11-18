@@ -223,7 +223,6 @@ const SellNFT = (props: any) => {
 			return '';
 		}
 	};
-
 	const { image, name, description, remainingCopies, fileType } = nftDetail;
 	return (
 		<>

@@ -56,7 +56,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		}
 	};
 	const handleAuction = () => {
-		const timedConfig = { ...timedAuctionConfig };
+		const timedConfig = JSON.parse(JSON.stringify(timedAuctionConfig));
 		const activityPayload = getActivityPayload();
 		const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
 		const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
@@ -71,14 +71,15 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			timedAuctionStartTime,
 			timedConfig.duration.startTime
 		);
-
-		//Deleting unused data from payload
-		const auctionConfig = timedConfig;
+		setUpAuction(timedConfig, activityPayload);
+	};
+	const setUpAuction = (timedConfig: any, activityPayload: any) => {
+		const auctionConfig = JSON.parse(JSON.stringify(timedConfig));
 		delete auctionConfig.duration.startTime;
 		delete auctionConfig.duration.endTime;
 		delete auctionConfig.method;
 		const price = Number(auctionConfig.startPrice.amount);
-		auctionConfig.startPrice.amount = Number(auctionConfig.startPrice.amount);
+		auctionConfig.startPrice.amount = price;
 		const payload = {
 			nftId: location.state._id,
 			userId: ENV.getUserKeys('_id')._id,
@@ -86,11 +87,10 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			sellingConfig: JSON.stringify(auctionConfig),
 			copiesForAuction: copies,
 		};
-		openBidding(timedAuctionConfig, payload, activityPayload, price);
+		openBidding(auctionConfig, payload, activityPayload, price);
 	};
 
 	//Open for Bidding/Auction
-
 	const openBidding = async (
 		timedAuctionConfig: any,
 		payload: any,
@@ -109,12 +109,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			const startTime = Math.floor(
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
-
 			let result = null;
-
-			///////////////////////
-
-			//////////////////////
 			if (
 				blockchainType?.toLowerCase() !== 'solana' &&
 				blockchainType?.toLowerCase() !== 'algorand' &&
