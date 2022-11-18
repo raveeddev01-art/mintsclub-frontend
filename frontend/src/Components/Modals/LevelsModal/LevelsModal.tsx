@@ -94,7 +94,7 @@ const LevelsModal: FC<any> = (props) => {
 													type="text"
 													name="name"
 													value={item.name}
-													maxLength={40}
+													maxLength={10}
 													onKeyDown={(e) =>
 														firstInputCharacterSpace(e, item.name.length)
 													}
