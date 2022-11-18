@@ -215,10 +215,10 @@ class CreateNFT extends React.Component<
 					collection,
 					copies,
 				} = res?.data.data;
-
 				const selectedCollection = collections.find(
 					(item: any) => item.value === collectionId
 				);
+				this.setDefaultCollection(selectedCollection);
 				let { nft }: any = this.state;
 				nft = {
 					...nft,
@@ -232,6 +232,7 @@ class CreateNFT extends React.Component<
 					image,
 					collectionId: collectionId,
 				};
+
 				if (fileType === 'image') {
 					this.setState({
 						isFreeMint: lazyMinted,
@@ -471,7 +472,6 @@ class CreateNFT extends React.Component<
 			audioUrl,
 			selectedCollection,
 		} = this.state;
-
 		const { connectedAddress, blockchainType } = this.props;
 		const { onDrop, dragOver, dragEnter, dragLeave } = this;
 		return (
@@ -510,7 +510,13 @@ class CreateNFT extends React.Component<
 							/>
 							<div
 								className={`col-md-6 col-sm-12 ${
-									blockchainType === 'solana' ? 'col-lg-6' : 'col-lg-4'
+									blockchainType !== 'solana' &&
+									this?.props?.match?.params?.nftId
+										? 'col-lg-12'
+										: blockchainType === 'solana' ||
+										  this?.props?.match?.params?.nftId
+										? 'col-lg-6'
+										: 'col-lg-4'
 								}`}
 							>
 								<label className="create-collection-label d-flex">
@@ -543,67 +549,64 @@ class CreateNFT extends React.Component<
 								/>
 							</div>
 
-							{blockchainType !== 'solana' && (
-								<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+							{blockchainType !== 'solana' &&
+								!this?.props?.match?.params?.nftId && (
+									<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+										<label className="create-collection-label d-flex">
+											No of Copies:* (Max 1M)
+											<span className="text-danger ms-2">
+												{this.validator.message('name', nft.copies, 'required')}
+											</span>
+										</label>
+										<input
+											className="create-collection-input mt-2"
+											name="copies"
+											placeholder="No. of Copies"
+											type="text"
+											autoComplete="off"
+											required={true}
+											onKeyDown={(e) => decimalNumberValidator(e)}
+											onChange={(e) => {
+												if (
+													(e.target.value.length && e.target.value === '0') ||
+													e.target.value.includes('.') ||
+													+e.target.value > 1000000
+												) {
+													return false;
+												} else {
+													this.onChange(e);
+												}
+											}}
+											value={nft.copies}
+										/>
+									</div>
+								)}
+							{!this?.props?.match?.params?.nftId && (
+								<div
+									className={`col-md-6 mt-3 mt-lg-0 ${
+										blockchainType === 'solana' ||
+										this?.props?.match?.params?.nftId
+											? 'col-lg-6'
+											: 'col-lg-4'
+									}`}
+								>
 									<label className="create-collection-label d-flex">
-										No of Copies:* (Max 1M)
-										<span className="text-danger ms-2">
-											{this.validator.message('name', nft.copies, 'required')}
-										</span>
+										Select Collection:
 									</label>
-									<input
-										className="create-collection-input mt-2"
-										name="copies"
-										placeholder="No. of Copies"
-										type="text"
-										autoComplete="off"
-										required={true}
-										onKeyDown={(e) => decimalNumberValidator(e)}
-										onChange={(e) => {
-											if (
-												(e.target.value.length && e.target.value === '0') ||
-												e.target.value.includes('.') ||
-												+e.target.value > 1000000
-											) {
-												return false;
-											} else {
-												this.onChange(e);
-											}
-										}}
-										value={nft.copies}
+
+									<Select
+										className="react-select-cls"
+										classNamePrefix="react-select"
+										placeholder="Select Collection"
+										isSearchable={false}
+										value={selectedCollection}
+										name="collectionId"
+										onChange={this.onChangeSelect}
+										options={collections}
 									/>
 								</div>
 							)}
 
-							<div
-								className={`col-md-6 mt-3 mt-lg-0 ${
-									blockchainType === 'solana' ? 'col-lg-6' : 'col-lg-4'
-								}`}
-							>
-								<label className="create-collection-label d-flex">
-									Select Collection:
-									{/* {this.state.selectedCollection === null && ( */}
-									{/* <span className="text-danger ms-2">
-										{this.validator.message(
-											'collectionId',
-											selectedCollection,
-											'required'
-										)}
-									</span> */}
-									{/* // )} */}
-								</label>
-
-								<Select
-									className="react-select-cls"
-									classNamePrefix="react-select"
-									placeholder="Select Collection"
-									isSearchable={false}
-									value={selectedCollection}
-									name="collectionId"
-									onChange={this.onChangeSelect}
-									options={collections}
-								/>
-							</div>
 							<div className="col-12 mt-3 mt-lg-5">
 								<label className="create-collection-label d-flex">
 									Description:*{' '}
