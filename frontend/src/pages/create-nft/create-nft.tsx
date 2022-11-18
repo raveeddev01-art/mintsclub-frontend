@@ -125,7 +125,6 @@ class CreateNFT extends React.Component<
 			},
 		});
 	}
-
 	componentDidMount = async () => {
 		window.scroll(0, 0);
 		this.getMyCollections();

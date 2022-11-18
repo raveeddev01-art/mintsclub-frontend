@@ -43,7 +43,6 @@ const CreateNft = ({
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
-
 		const { Collections: collections } = res.data.data.collections;
 		if (collections.length === 0 || !collections.length) {
 			const args: any = {
@@ -78,7 +77,6 @@ const CreateNft = ({
 			state.collections = updatedCollections;
 		}
 	};
-
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
 		const data: any = { ...nftInfo };
 		data.image = image;
@@ -224,7 +222,6 @@ const CreateNft = ({
 	const handleSubmit = async (e: any) => {
 		try {
 			const { nft, videoURL, audioUrl } = state;
-
 			const nftInfo: any = { ...nft };
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
@@ -269,7 +266,6 @@ const CreateNft = ({
 			}
 		} catch (err) {
 			setLoading(false);
-
 			console.log(
 				'🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err',
 				err
@@ -312,11 +308,26 @@ const CreateNft = ({
 		return 'Save Changes';
 	};
 
+	const handleValidation = () => {
+		const { copies, name, description, image, collectionId } = state.nft;
+		if (
+			description === '' ||
+			collectionId === '' ||
+			copies === '' ||
+			name === '' ||
+			image === ''
+		) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	};
 	return (
 		<div className="create-collection-btn-container">
 			<button
 				className="btn create-collection-btn btn-linear-gradient mt-5"
-				disabled={loading}
+				disabled={loading || handleValidation()}
 				onClick={(e) => handleSubmit(e)}
 			>
 				{getButtonText()}
