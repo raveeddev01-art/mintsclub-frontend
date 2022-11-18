@@ -44,7 +44,6 @@ function CreateMultipleNFT(props: any) {
 		file: '',
 		collectionId: '',
 		categoryId: '',
-		nftCollectionType: '',
 	});
 
 	function useForceUpdate() {
@@ -220,7 +219,7 @@ function CreateMultipleNFT(props: any) {
 
 	const submit = async () => {
 		setLoader(true);
-		if (selectedCollection === null && batchFile?.nftCollectionType !== '') {
+		if (selectedCollection === null) {
 			await createDefaultCollection();
 		}
 		if (validator.allValid() && batchFile?.collectionId !== '') {
@@ -240,7 +239,6 @@ function CreateMultipleNFT(props: any) {
 					batchFile.file.name.indexOf('.')
 				),
 				collectionId: batchFile.collectionId,
-				fileType: batchFile.nftCollectionType,
 				blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 				categoryId: batchFile.categoryId,
 				status: 'inProgress',
@@ -388,34 +386,6 @@ function CreateMultipleNFT(props: any) {
 									options={collectionsOptions}
 								/>
 							</div>
-							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
-								<label className="create-collection-label d-flex">
-									NFT Collection Type:*
-									<span className="text-danger ms-2">
-										{validator.message(
-											'collectionType',
-											selectedCollectionType,
-											'required'
-										)}
-									</span>
-								</label>
-								<Select
-									className="react-select-cls"
-									classNamePrefix="react-select"
-									placeholder="NFT Collection Type"
-									isSearchable={false}
-									value={selectedCollectionType}
-									name="collectionType"
-									onChange={(value: any) => {
-										setSelectedCollectionType(value);
-										setBatchFile({
-											...batchFile,
-											nftCollectionType: value.value,
-										});
-									}}
-									options={nftTypesOptions}
-								/>
-							</div>
 							<div className="col-12">
 								<div className="second-section">
 									<h5>
@@ -471,11 +441,7 @@ function CreateMultipleNFT(props: any) {
 								</div>
 								<button
 									className="btn upload btn-linear-gradient mt-5"
-									disabled={
-										!checkBox ||
-										batchFile?.file === '' ||
-										batchFile?.nftCollectionType === ''
-									}
+									disabled={!checkBox || batchFile?.file === ''}
 									onClick={() => submit()}
 								>
 									Upload
