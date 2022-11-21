@@ -311,7 +311,6 @@ const CreateNft = ({
 
 	const handleValidation = () => {
 		const { copies, name, description, image } = state.nft;
-		console.log('this is type-=====', blockchainType);
 		if (
 			name === '' ||
 			description === '' ||
