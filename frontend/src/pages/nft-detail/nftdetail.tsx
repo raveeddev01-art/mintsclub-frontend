@@ -82,7 +82,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 
 const NFTDetail = (props: any) => {
-	const curreny1: any = currency;
+	const currencyData: any = currency;
 	const wallet = useWallet();
 	const [exchangeRate, setExchangeRate] = useState<number>(0);
 	const [toggle, setToggle] = React.useState<boolean>(true);
@@ -528,7 +528,7 @@ const NFTDetail = (props: any) => {
 	};
 	useEffect(() => {
 		const bct: any = nftDetail.blockchainType;
-		const coin = curreny1[bct];
+		const coin = currencyData[bct];
 		axios
 			.get(
 				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`

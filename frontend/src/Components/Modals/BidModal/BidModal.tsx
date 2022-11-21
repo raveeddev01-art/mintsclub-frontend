@@ -11,7 +11,7 @@ import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 import { currency } from '../../../utils/exportData';
 
 const BidModal: FC<BidModalInt> = (props) => {
-	const curreny1: any = currency;
+	const currencyData: any = currency;
 	const [checkBox, setCheckBox] = useState<any>(false);
 	const [blockchainTypes, setBlockchainType] = useState<any>('');
 	const [exchangeRate, setExchangeRate] = useState<any>(0);
@@ -34,7 +34,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		} else {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
 		}
-		const coin = curreny1[blockchainType];
+		const coin = currencyData[blockchainType];
 		axios
 			.get(
 				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
