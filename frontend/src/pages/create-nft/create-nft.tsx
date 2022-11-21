@@ -622,21 +622,13 @@ class CreateNFT extends React.Component<
 								<textarea
 									className="create-collection-area mt-2"
 									name="description"
-									rows={13}
+									rows={3}
 									placeholder="Max 500 characters"
 									maxLength={500}
 									onKeyDown={(e) =>
 										firstInputCharacterSpace(e, nft?.description.length)
 									}
-									onChange={(e: any) => {
-										if (
-											nft?.description.trim() === '' &&
-											e.target.value.includes('.')
-										) {
-											return false;
-										}
-										this.onChange(e);
-									}}
+									onChange={(e) => this.onChange(e)}
 									value={nft.description}
 								></textarea>
 							</div>

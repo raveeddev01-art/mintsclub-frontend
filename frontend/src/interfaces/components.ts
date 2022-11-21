@@ -51,7 +51,6 @@ export interface NFTCardInt {
 	index?: number;
 	path: string;
 	connectedAddress: string;
-
 }
 export interface ApprovalModalInt {
 	approvalStatus: string;
@@ -67,6 +66,7 @@ export interface BidModalInt {
 	calculatePricePercantage: () => any;
 	onHide: () => {};
 	balance: any;
+	blockchainType: string;
 	price: any;
 	show: boolean;
 }
@@ -244,7 +244,7 @@ export interface CreateNftInterface {
 	setLoader: any;
 	blockChainType: string;
 	connectedAddress: string;
-	setError:any,
+	setError: any;
 }
 
 export interface CHAINS_INTERFACE {

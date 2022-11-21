@@ -11,32 +11,11 @@ import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 import { currency } from '../../../utils/exportData';
 
 const BidModal: FC<BidModalInt> = (props) => {
-	const curreny1: any = currency;
+	const currencyData: any = currency;
 	const [checkBox, setCheckBox] = useState<any>(false);
-	const [blockchainType, setBlockchainType] = useState<any>('');
+	const [blockchainTypes, setBlockchainType] = useState<any>('');
 	const [exchangeRate, setExchangeRate] = useState<any>(0);
 
-	useEffect(() => {
-		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
-			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
-		} else {
-			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
-		}
-		const coin = curreny1[ENV.getUserKeys('blockchainType').blockchainType];
-		console.log(
-			'This is blockchainType',
-			ENV.getUserKeys('blockchainType').blockchainType
-		);
-		axios
-			.get(
-				// 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,ETH'
-				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
-			)
-			.then((res) => {
-				const currentUSD = res.data.USD;
-				setExchangeRate(currentUSD);
-			});
-	}, [currency]);
 	const {
 		onChange,
 		decimalNumberValidator,
@@ -45,9 +24,26 @@ const BidModal: FC<BidModalInt> = (props) => {
 		onHide,
 		balance,
 		price,
+		blockchainType,
 		show,
 	} = props;
 
+	useEffect(() => {
+		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
+			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
+		} else {
+			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
+		}
+		const coin = currencyData[blockchainType];
+		axios
+			.get(
+				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
+			)
+			.then((res) => {
+				const currentUSD = res.data.USD;
+				setExchangeRate(currentUSD);
+			});
+	}, [currency, blockchainType]);
 	return (
 		<Modal
 			{...props}
