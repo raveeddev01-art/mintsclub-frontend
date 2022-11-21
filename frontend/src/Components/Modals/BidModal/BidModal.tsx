@@ -35,7 +35,6 @@ const BidModal: FC<BidModalInt> = (props) => {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
 		}
 		const coin = curreny1[blockchainType];
-		console.log('This is Coin', coin);
 		axios
 			.get(
 				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
@@ -44,7 +43,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, [currency]);
+	}, [currency, blockchainType]);
 	return (
 		<Modal
 			{...props}

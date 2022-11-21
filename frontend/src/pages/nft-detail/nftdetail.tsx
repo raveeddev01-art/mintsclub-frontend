@@ -528,9 +528,7 @@ const NFTDetail = (props: any) => {
 	};
 	useEffect(() => {
 		const bct: any = nftDetail.blockchainType;
-		// console.log('This is blockchainType:....', bct);
 		const coin = curreny1[bct];
-		// console.log('This is coin:', coin);
 		axios
 			.get(
 				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
