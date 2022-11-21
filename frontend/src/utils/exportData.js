@@ -33,7 +33,7 @@ export const WordsFamousNfts = [
 export const currency = {
 	ethereum: 'ETH',
 	polygon: 'MATIC',
-	BSC: 'BSC',
+	bsc: 'BSC',
 	solana: 'SOL',
 	algorand: 'ALGO',
 };
