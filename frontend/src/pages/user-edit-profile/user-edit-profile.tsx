@@ -202,7 +202,7 @@ const EditProfile = (props: any) => {
 										}}
 										value={username}
 										placeholder="Username"
-										maxLength={55}
+										maxLength={15}
 										minLength={3}
 										autoComplete="off"
 									/>
