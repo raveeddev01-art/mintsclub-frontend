@@ -110,7 +110,9 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 
 			if (nftDetail.lazyMinted) {
 				payload.sellId = 0;
-				payload.sellerTradeState = 'null';
+				if (blockchainType?.toLowerCase() === 'solana') {
+					payload.sellerTradeState = 'null';
+				}
 				// payload.signature = res.data;
 			}
 			for (const key in payload) formData.append(key, payload[key]);
