@@ -7,6 +7,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
 import { blockchainIcons } from '../../../assets/assets';
+import { useToast } from 'react-toastify';
 
 const CreateNft = ({
 	props,
@@ -192,6 +193,7 @@ const CreateNft = ({
 				}
 				const res = await handleRequest('put', 'nfts/updateNft', payload);
 				if (res.data.success) {
+					toast.success('NFT updated successfully');
 					props.history.push('/userprofile');
 				}
 			} else {
@@ -210,6 +212,7 @@ const CreateNft = ({
 					}
 					const res = await handleRequest('put', 'nfts/updateNft', payload);
 					if (res.data.success) {
+						toast.success('NFT updated successfully');
 						props.history.push('/userprofile');
 					}
 				}
@@ -315,8 +318,10 @@ const CreateNft = ({
 			name === '' ||
 			description === '' ||
 			image === '' ||
-			(blockchainType !== 'solana' && copies === '') && (blockchainType !== 'algorand' && copies === '')
-
+			(blockchainType !== 'solana' &&
+				copies === '' &&
+				blockchainType !== 'algorand' &&
+				copies === '')
 		) {
 			return true;
 		}
