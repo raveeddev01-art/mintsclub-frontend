@@ -279,6 +279,7 @@ const UserProfile = (props: any) => {
 						// handleNftFilter={handleNftFilter}
 						nftPagination={nftPagination}
 						fetchData={fetchData}
+						refetchNFTs={refetch}
 						setMenuFilter={setMenuFilter}
 						menuData={menuData}
 						path="/explore/nftdetail/"
