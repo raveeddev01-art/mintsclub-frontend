@@ -42,6 +42,38 @@
       border-radius: 22px;
     }
   }
+  .nft-video-container {
+    position: relative;
+    }
+    .nft-video-container .controls {  
+      position: absolute;
+      top: 0;
+      right: 5px;
+      padding: 14px;
+    }
+    .nft-video-container .controls .play-pause-btn {
+      background: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nft-video-container {
+      max-width: 500px;
+      height: 500px;
+      border-radius: 22px;
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 22px;
+      }
+    }
   .sell-btn-active {
     background: #387fff;
     height: 50px;

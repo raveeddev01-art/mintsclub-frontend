@@ -35,7 +35,7 @@ const ImageView = ({ info }: any) => {
 				</div>
 			) : fileType === 'video' ? (
 				<div className="card-img-top">
-					<div className="nft-img-container nft-video-container mx-auto mx-lg-0">
+					<div className="nft-video-container mx-auto mx-lg-0">
 						<div
 							style={{
 								display: `${contentLoader ? 'block' : 'none'}`,
