@@ -27,6 +27,7 @@ import {
 } from '@solana/web3.js';
 import e from 'express';
 import idl from './idl.json';
+import { compressImage, handleRequest } from '../functions';
 
 const AUCTION_HOUSE_ADDRESS = 'HGLp7o4LTbKCsrLPRLogfwmLVFN7LzpuCgpgJ3W6sNVP';
 
@@ -996,6 +997,41 @@ const updateNft = async (
 		return err;
 	}
 };
+
+const uploadDataOnIpfs = async (nftInfo: any) => {
+	const formData: any = new FormData();
+	for (const val in nftInfo) {
+		formData.append(val, nftInfo[val]);
+	}
+
+	const res = await handleRequest('post', 'nfts/upload/ipfs', formData);
+
+	return res;
+};
+
+const singleLazyMint = async (
+	wallet: any,
+	tokenUri: string,
+	name: string,
+	creators: any,
+	sellerFeeBasisPoints = 200
+) => {
+	try {
+		const metaplex = getMetaplex();
+		metaplex.use(walletAdapterIdentity(wallet));
+
+		const mintNftResponse: any = await metaplex.nfts().create({
+			uri: tokenUri,
+			sellerFeeBasisPoints,
+			name,
+			creators,
+		});
+
+		return mintNftResponse;
+	} catch (err) {
+		return err;
+	}
+};
 export {
 	mintSingleNft,
 	signMessageFromUserForSolana,
@@ -1009,4 +1045,6 @@ export {
 	claimBidsForLiveAuction,
 	cancelListingForLiveAuction,
 	updateNft,
+	uploadDataOnIpfs,
+	singleLazyMint,
 };

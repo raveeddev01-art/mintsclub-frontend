@@ -76,10 +76,14 @@ import {
 	claimBidsForLiveAuction,
 	executeSaleForLiveAuction,
 	getSolanaBalance,
+	singleLazyMint,
+	uploadDataOnIpfs,
 } from '../../utils/solana/helper';
 import { placeBidOnAlgorand } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
+import { Wallet } from '@project-serum/anchor';
+import { PublicKey } from '@solana/web3.js';
 
 const NFTDetail = (props: any) => {
 	const currencyData: any = currency;
@@ -732,24 +736,81 @@ const NFTDetail = (props: any) => {
 				currentPrice,
 				contractAddress,
 			} = nftDetail;
-
+			let payload: any = '';
 			setConfirmed('pending');
-			const res = await lazyMint(
-				tokenId,
-				copies,
-				ownerAddress,
-				metaData,
-				currentPrice,
-				contractAddress,
-				setTransactionHash,
-				setConfirmed
-			);
-			const payload = {
-				userId,
-				nftId,
-				ownerAddress: props.connectedAddress,
-				tokenId: res,
-			};
+			if (nftDetail.blockchainType === 'solana') {
+				const creators: any = [
+					{
+						address: new PublicKey(ownerAddress),
+						share: 100,
+					},
+					{
+						address: wallet.publicKey,
+						share: 0,
+					},
+				];
+				const nftInfo = {
+					name: nftDetail?.name,
+					image: nftDetail?.image,
+					description: nftDetail?.description,
+
+					properties: JSON.stringify(nftDetail?.properties),
+					levels: JSON.stringify(nftDetail?.levels),
+					stats: JSON.stringify(nftDetail?.stats),
+					creators: JSON.stringify(creators),
+
+					collection: JSON.stringify({
+						name: nftDetail?.collection?.name,
+						id: nftDetail?.collection?._id,
+						categoryId: nftDetail?.collection?.categoryId,
+					}),
+					blockchainType: nftDetail?.blockchainType,
+					ownerId: nftDetail?.ownerId,
+					userId: nftDetail?.userId,
+					collectionId: nftDetail?.collectionId,
+					isApproved: nftDetail?.isApproved,
+				};
+
+				const res = await uploadDataOnIpfs(nftInfo);
+				if (res?.data?.data) {
+					const tokenUri = res.data.data.dataInput.metaDataUrl;
+
+					const response = await singleLazyMint(
+						wallet,
+						tokenUri,
+						nftDetail?.name,
+						creators,
+						500
+					);
+					if (response?.response.signature) {
+						payload = {
+							userId,
+							nftId,
+							ownerAddress: props.connectedAddress,
+							mint: response?.mintAddress.toBase58(),
+							metaData: tokenUri,
+						};
+					}
+				}
+			} else {
+				const res = await lazyMint(
+					tokenId,
+					copies,
+					ownerAddress,
+					metaData,
+					currentPrice,
+					contractAddress,
+					setTransactionHash,
+					setConfirmed
+				);
+				payload = {
+					userId,
+					nftId,
+					ownerAddress: props.connectedAddress,
+					tokenId: res,
+				};
+			}
+
 			createActivity('Transfer', false, props.connectedAddress);
 			props.beforeOffer();
 			props.buyNow(payload);

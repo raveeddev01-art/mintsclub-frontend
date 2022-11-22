@@ -82,7 +82,10 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		const formData = new FormData();
 		try {
 			let res = null;
-			if (blockchainType?.toLowerCase() === 'solana') {
+			if (
+				blockchainType?.toLowerCase() === 'solana' &&
+				!nftDetail?.lazyMinted
+			) {
 				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
 			}
 			if (
@@ -104,8 +107,10 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 			if (blockchainType?.toLowerCase() === 'solana') {
 				payload.sellerTradeState = res;
 			}
+
 			if (nftDetail.lazyMinted) {
 				payload.sellId = 0;
+				payload.sellerTradeState = 'null';
 				// payload.signature = res.data;
 			}
 			for (const key in payload) formData.append(key, payload[key]);
