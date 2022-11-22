@@ -242,7 +242,7 @@ export interface CreateNftInterface {
 	capitalize: any;
 	handleBtnDisable: any;
 	setLoader: any;
-	blockChainType: string;
+	blockchainType: string;
 	connectedAddress: string;
 	setError: any;
 }

@@ -125,7 +125,6 @@ class CreateNFT extends React.Component<
 			},
 		});
 	}
-
 	componentDidMount = async () => {
 		window.scroll(0, 0);
 		this.getMyCollections();
@@ -672,7 +671,7 @@ class CreateNFT extends React.Component<
 								validator={this.validator}
 								capitalize={capitalize}
 								handleBtnDisable={this.handleBtnDisable}
-								blockChainType={blockchainType}
+								blockchainType={blockchainType}
 								connectedAddress={connectedAddress}
 								setError={() => {
 									this.setState({

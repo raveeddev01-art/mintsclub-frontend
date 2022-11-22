@@ -6,6 +6,8 @@ import { mintSingleNft, updateNft } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
+import { blockchainIcons } from '../../../assets/assets';
+import { useToast } from 'react-toastify';
 
 const CreateNft = ({
 	props,
@@ -14,7 +16,7 @@ const CreateNft = ({
 	validator,
 	capitalize,
 	setLoader,
-	blockChainType,
+	blockchainType,
 	setError,
 }: CreateNftInterface) => {
 	const wallet = useWallet();
@@ -43,7 +45,6 @@ const CreateNft = ({
 			'get',
 			`collection/myCollectionList?userId=${ENV.getUserKeys('_id')._id}`
 		);
-
 		const { Collections: collections } = res.data.data.collections;
 		if (collections.length === 0 || !collections.length) {
 			const args: any = {
@@ -78,7 +79,6 @@ const CreateNft = ({
 			state.collections = updatedCollections;
 		}
 	};
-
 	const mintNFT = async (nftInfo: any, metaData: any, image: any) => {
 		const data: any = { ...nftInfo };
 		data.image = image;
@@ -89,9 +89,9 @@ const CreateNft = ({
 			let paylaod: any = {};
 			if (!state.isFreeMint) {
 				if (
-					blockChainType === 'ethereum' ||
-					blockChainType === 'polygon' ||
-					blockChainType === 'bsc'
+					blockchainType === 'ethereum' ||
+					blockchainType === 'polygon' ||
+					blockchainType === 'bsc'
 				) {
 					paylaod = await mintEthNFT(metaData, nftInfo, data, image);
 				}
@@ -106,7 +106,7 @@ const CreateNft = ({
 			} else {
 				paylaod = {
 					nftToken: 0,
-					data: { ...data, blockchainType: blockChainType },
+					data: { ...data, blockchainType: blockchainType },
 					image,
 					lazyMinted: state.isFreeMint,
 				};
@@ -133,7 +133,7 @@ const CreateNft = ({
 		if (mintId) {
 			return {
 				nftToken: mintId,
-				data: { ...data, blockchainType: blockChainType },
+				data: { ...data, blockchainType: blockchainType },
 				image,
 				lazyMinted: false,
 			};
@@ -164,7 +164,7 @@ const CreateNft = ({
 				nftToken: -1,
 				data: {
 					...data,
-					blockchainType: blockChainType,
+					blockchainType: blockchainType,
 					mint: response?.mintAddress.toBase58(),
 					txnHash: response?.response.signature,
 				},
@@ -193,6 +193,7 @@ const CreateNft = ({
 				}
 				const res = await handleRequest('put', 'nfts/updateNft', payload);
 				if (res.data.success) {
+					toast.success('NFT updated successfully');
 					props.history.push('/userprofile');
 				}
 			} else {
@@ -211,6 +212,7 @@ const CreateNft = ({
 					}
 					const res = await handleRequest('put', 'nfts/updateNft', payload);
 					if (res.data.success) {
+						toast.success('NFT updated successfully');
 						props.history.push('/userprofile');
 					}
 				}
@@ -224,7 +226,6 @@ const CreateNft = ({
 	const handleSubmit = async (e: any) => {
 		try {
 			const { nft, videoURL, audioUrl } = state;
-
 			const nftInfo: any = { ...nft };
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
@@ -269,7 +270,6 @@ const CreateNft = ({
 			}
 		} catch (err) {
 			setLoading(false);
-
 			console.log(
 				'🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err',
 				err
@@ -312,11 +312,26 @@ const CreateNft = ({
 		return 'Save Changes';
 	};
 
+	const handleValidation = () => {
+		const { copies, name, description, image } = state.nft;
+		if (
+			name === '' ||
+			description === '' ||
+			image === '' ||
+			(blockchainType !== 'solana' &&
+				copies === '' &&
+				blockchainType !== 'algorand' &&
+				copies === '')
+		) {
+			return true;
+		}
+		return false;
+	};
 	return (
 		<div className="create-collection-btn-container">
 			<button
 				className="btn create-collection-btn btn-linear-gradient mt-5"
-				disabled={loading}
+				disabled={loading || handleValidation()}
 				onClick={(e) => handleSubmit(e)}
 			>
 				{getButtonText()}
