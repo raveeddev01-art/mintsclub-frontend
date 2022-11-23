@@ -126,6 +126,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 			setLoader(false);
 		}
 	};
+	
 	return (
 		<form onSubmit={submit}>
 			<div className="row g-4 g-xl-5">
@@ -141,7 +142,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 							<input
 								type="text"
 								name="fixedPriceConfig.price.amount"
-								placeholder="Amount"
+								placeholder= "Amount"
 								style={{
 									borderRadius: '4px',
 								}}
@@ -151,6 +152,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 										return '';
 									}
 									onChange(e);
+									
 								}}
 								onKeyDown={(e) => decimalNumberValidator(e)}
 								value={fixedPriceConfig.price.amount}

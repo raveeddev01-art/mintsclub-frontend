@@ -118,17 +118,6 @@ const SellNFT = (props: any) => {
 
 	const onChange = (e: any) => {
 		const { name, value } = e.target;
-		const decimalCount = (num: any) => {
-			const numStr = String(num);
-			if (numStr.includes('.')) {
-				return numStr.split('.')[1].length;
-			}
-			return 0;
-		};
-		if (decimalCount(value) > 2) {
-			toast.error('Only 2 places allowed after Decimal ');
-			return;
-		}
 		let data = null;
 
 		if (sellingMethod === 1) {
