@@ -278,7 +278,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 									<img className="me-2" src={Images.nftPriceTag} />
 									<a className="price ms-1">
 										{/* {currentPrice.toString().length} */}
-										{currentPrice.toFixed(2)}{' '}
+										{currentPrice}{' '}
 										{
 											CHAIN_CURRENCY[
 												blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
