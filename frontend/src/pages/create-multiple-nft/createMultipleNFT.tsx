@@ -130,7 +130,7 @@ function CreateMultipleNFT(props: any) {
 			type = e?.target?.files[0].type;
 		}
 		if (files) {
-			if (type === 'application/zip') {
+			if (type.includes('zip')){
 				const fileSize = formatBytes(files.size).split(' ');
 				if (+fileSize[0] > 1 && fileSize[1] === 'GB') {
 					toast.error('File size limit is exceeded');
