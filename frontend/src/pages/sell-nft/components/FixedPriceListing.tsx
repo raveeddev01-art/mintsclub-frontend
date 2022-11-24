@@ -126,7 +126,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 			setLoader(false);
 		}
 	};
-	
+
 	return (
 		<form onSubmit={submit}>
 			<div className="row g-4 g-xl-5">
@@ -142,7 +142,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 							<input
 								type="text"
 								name="fixedPriceConfig.price.amount"
-								placeholder= "Amount"
+								placeholder="Amount"
 								style={{
 									borderRadius: '4px',
 								}}
@@ -152,7 +152,6 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 										return '';
 									}
 									onChange(e);
-									
 								}}
 								onKeyDown={(e) => decimalNumberValidator(e)}
 								value={fixedPriceConfig.price.amount}
@@ -173,7 +172,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 					<div className="col-md-6">
 						<div className="sell-detail-box">
 							<h5>
-								No of Copies:*{' '}
+								No. of Copies:*{' '}
 								{copiesError && (
 									<span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
 								)}

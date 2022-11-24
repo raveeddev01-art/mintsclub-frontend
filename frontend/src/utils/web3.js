@@ -274,7 +274,7 @@ export const openNFTForBidding = async (
 		let connectedAddress = await connectMetamask();
 		const contractM = await getContractMethods(abi, contractAddress);
 		let id = Number(tokenId);
-		const intPrice =  web3.utils.toWei(`${initialPrice}`, 'ether' );
+		const intPrice = web3.utils.toWei(`${initialPrice}`, 'ether');
 
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
 		console.log({

@@ -552,7 +552,7 @@ class CreateNFT extends React.Component<
 								!this?.props?.match?.params?.nftId && (
 									<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
 										<label className="create-collection-label d-flex">
-											No of Copies:* (Max 1M)
+											No. of Copies:* (Max 1M)
 											<span className="text-danger ms-2">
 												{this.validator.message('name', nft.copies, 'required')}
 											</span>

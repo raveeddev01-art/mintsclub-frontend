@@ -211,7 +211,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					<div className="col-md-6">
 						<div className="sell-detail-box">
 							<h5>
-								No of Copies:*{' '}
+								No. of Copies:*{' '}
 								{copiesError && (
 									<span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
 								)}
