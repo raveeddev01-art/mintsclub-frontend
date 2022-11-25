@@ -130,9 +130,9 @@ function CreateMultipleNFT(props: any) {
 		}
 		if (files) {
 			if (type.includes('zip')) {
-				const fileSize = formatBytes(files.size).split(' ');
-				if (+fileSize[0] > 1 && fileSize[1] === 'GB') {
-					toast.error('File size limit is exceeded');
+				const fileSize = files?.size;
+				if (fileSize > 400000000) {
+					toast.error('Maximum Zip File size should be 400MB');
 				} else {
 					return 'file matched';
 				}
@@ -393,13 +393,18 @@ function CreateMultipleNFT(props: any) {
 										following:
 									</h5>
 									<ul>
-										<li>Only png or jpeg image file types</li>
-										<li>All meadata must be in a json format</li>
-										<li>Please make sure you zip the folder and upload</li>
+										<li>Only .png or .jpeg image file types.</li>
+										<li>All meadata must be in a .json format.</li>
+										<li>Please make sure you zip the folder and upload.</li>
+										<li>Zip file should not contain any folder.</li>
+										<li>Max zip file size should be 400MB</li>
 										<li>
-											Download our sample json file to get the corrrect format
-											of metadata. This will help to prevent any issues that may
-											hinder your collections display and listing properties.{' '}
+											Download our sample .json file to get the corrrect format
+											of metadata.
+										</li>
+										<li>
+											This will help to prevent any issues that may hinder your
+											collections display and listing properties.{' '}
 										</li>
 									</ul>
 									<Link to="/files/test.json" target="_blank" download>
