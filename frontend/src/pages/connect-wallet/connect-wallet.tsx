@@ -121,6 +121,7 @@ const ConnectWallet = (props: any) => {
 	///Validate
 	const onSuccessValidateUser = async (data: any) => {
 		const response = data.data;
+
 		let selectedBlockchainType = undefined;
 		if (response.success) {
 			if (
@@ -145,6 +146,7 @@ const ConnectWallet = (props: any) => {
 					const res = await signMessageFromUserForSolana(
 						response?.users[0].nounce
 					);
+
 					authenticate({ ...res, blockchainType: 'solana' });
 					return;
 				}
@@ -213,6 +215,15 @@ const ConnectWallet = (props: any) => {
 		props.setBlockchainType('algorand');
 		return addr?.[0];
 	};
+	const connectSolanaWallet = async () => {
+		await wallet.select(wallet.wallets[0].adapter.name);
+
+		if (wallet.publicKey && wallet.connected) {
+			props.setBlockchainType('solana');
+			props.setWalletAddress(wallet.publicKey?.toBase58());
+			setConnectedAddres(wallet.publicKey?.toBase58());
+		}
+	};
 	const ethereumFunc = async (status: any, chainId: any) => {
 		if (detectMobile() && !window?.ethereum) {
 			return window.open(
@@ -280,8 +291,12 @@ const ConnectWallet = (props: any) => {
 					name: 'Solana',
 					icon: connectModal.phantomImg,
 					functionality: async () => {
-						await wallet.disconnect();
-						wallet.select('Phantom' as WalletName);
+						await connectSolanaWallet();
+						if (wallet.connected) {
+							validateUser({ blockchainType: 'solana' });
+						} else {
+							toast.error('Something went wrong.Please try again');
+						}
 					},
 				},
 			],
@@ -304,17 +319,6 @@ const ConnectWallet = (props: any) => {
 			],
 		},
 	];
-
-	useEffect(() => {
-		if (wallet.publicKey && wallet.connected) {
-			props.setBlockchainType('solana');
-			props.setWalletAddress(wallet.publicKey?.toBase58());
-			setConnectedAddres(wallet.publicKey?.toBase58());
-			if (connectedAddress) {
-				validateUser({ blockchainType: 'solana' });
-			}
-		}
-	}, [wallet.connected, wallet.publicKey]);
 
 	return (
 		<Container>

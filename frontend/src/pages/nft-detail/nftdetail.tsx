@@ -769,6 +769,7 @@ const NFTDetail = (props: any) => {
 					userId: nftDetail?.userId,
 					collectionId: nftDetail?.collectionId,
 					isApproved: nftDetail?.isApproved,
+					sellerFeeBasisPoints: 500,
 				};
 
 				const res = await uploadDataOnIpfs(nftInfo);
