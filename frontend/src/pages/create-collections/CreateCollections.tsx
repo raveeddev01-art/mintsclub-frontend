@@ -527,7 +527,7 @@ class CreateCollections extends Component<
 									onKeyDown={(e) =>
 										firstInputCharacterSpace(e, collection.name.length)
 									}
-									placeholder="Enter name"
+									placeholder="Enter Name"
 									maxLength={55}
 									autoComplete="off"
 								/>
@@ -592,7 +592,7 @@ class CreateCollections extends Component<
 								<textarea
 									className="create-collection-area mt-2"
 									name="description"
-									placeholder="Max 500 characters"
+									placeholder="Max 500 Characters"
 									maxLength={500}
 									rows={3}
 									onChange={(e) => this.onChange(e)}
