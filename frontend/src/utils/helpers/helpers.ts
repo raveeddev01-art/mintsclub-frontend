@@ -188,7 +188,7 @@ const capitalize = (word: string) => {
 	return word[0]?.toUpperCase() + word?.slice(1)?.toLowerCase();
 };
 const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
-	let chaintype = blockchainType;
+	const chaintype = blockchainType;
 	const scansURL: any = {
 		ethereum: `${process.env.REACT_APP_ETH_CHAIN_SCAN}/${transactionHash}`,
 		polygon: `${process.env.REACT_APP_POLYGON_CHAIN_SCAN}/${transactionHash}`,
