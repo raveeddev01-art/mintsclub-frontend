@@ -33,6 +33,19 @@ const BuyModal: FC<Buy> = (props) => {
 		balance,
 		fileType,
 	} = props;
+
+	const chain = () => {
+		let chaintype = blockchainType;
+		const url: any = {
+			ethereum: `${process.env.REACT_APP_ETH_CHAIN_SCAN}/${transactionHash}`,
+			polygon: `${process.env.REACT_APP_POLYGON_CHAIN_SCAN}/${transactionHash}`,
+			bsc: `${process.env.REACT_APP_BSC_CHAIN_SCAN}/${transactionHash}`,
+			solana: `${process.env.REACT_APP_SOLANA_CHAIN_SCAN}/${transactionHash}?${process.env.REACT_APP_DEVNET}`,
+			Algorand: `${process.env.REACT_APP_ALGORAND_CHAIN_SCAN}/${transactionHash}`,
+		};
+		return url[chaintype];
+	};
+
 	return confirmed === '' || confirmed === false || confirmed === 'pending' ? (
 		<Modal
 			{...props}
@@ -374,12 +387,9 @@ const BuyModal: FC<Buy> = (props) => {
 					</div>
 					<div
 						className="status-address"
-						onClick={() =>
-							window.open(
-								`https://rinkeby.etherscan.io/tx/${transactionHash}`,
-								'_blank'
-							)
-						}
+						onClick={() => {
+							window.open(chain(), '_blank');
+						}}
 					>
 						<p>
 							{transactionHash.slice(0, 6) +
