@@ -44,7 +44,6 @@ function CreateMultipleNFT(props: any) {
 		file: '',
 		collectionId: '',
 		categoryId: '',
-		nftCollectionType: '',
 	});
 
 	function useForceUpdate() {
@@ -131,9 +130,9 @@ function CreateMultipleNFT(props: any) {
 		}
 		if (files) {
 			if (type.includes('zip')) {
-				const fileSize = formatBytes(files.size).split(' ');
-				if (+fileSize[0] > 1 && fileSize[1] === 'GB') {
-					toast.error('File size limit is exceeded');
+				const fileSize = files?.size;
+				if (fileSize > 400000000) {
+					toast.error('Maximum Zip File size should be 400MB');
 				} else {
 					return 'file matched';
 				}
@@ -220,7 +219,7 @@ function CreateMultipleNFT(props: any) {
 
 	const submit = async () => {
 		setLoader(true);
-		if (selectedCollection === null && batchFile?.nftCollectionType !== '') {
+		if (selectedCollection === null) {
 			await createDefaultCollection();
 		}
 		if (validator.allValid() && batchFile?.collectionId !== '') {
@@ -240,7 +239,6 @@ function CreateMultipleNFT(props: any) {
 					batchFile.file.name.indexOf('.')
 				),
 				collectionId: batchFile.collectionId,
-				fileType: batchFile.nftCollectionType,
 				blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 				categoryId: batchFile.categoryId,
 				status: 'inProgress',
@@ -388,34 +386,6 @@ function CreateMultipleNFT(props: any) {
 									options={collectionsOptions}
 								/>
 							</div>
-							<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
-								<label className="create-collection-label d-flex">
-									NFT Collection Type:*
-									<span className="text-danger ms-2">
-										{validator.message(
-											'collectionType',
-											selectedCollectionType,
-											'required'
-										)}
-									</span>
-								</label>
-								<Select
-									className="react-select-cls"
-									classNamePrefix="react-select"
-									placeholder="NFT Collection Type"
-									isSearchable={false}
-									value={selectedCollectionType}
-									name="collectionType"
-									onChange={(value: any) => {
-										setSelectedCollectionType(value);
-										setBatchFile({
-											...batchFile,
-											nftCollectionType: value.value,
-										});
-									}}
-									options={nftTypesOptions}
-								/>
-							</div>
 							<div className="col-12">
 								<div className="second-section">
 									<h5>
@@ -423,13 +393,18 @@ function CreateMultipleNFT(props: any) {
 										following:
 									</h5>
 									<ul>
-										<li>Only png or jpeg image file types</li>
-										<li>All meadata must be in a json format</li>
-										<li>Please make sure you zip the folder and upload</li>
+										<li>Only .png or .jpeg image file types.</li>
+										<li>All meadata must be in a .json format.</li>
+										<li>Please make sure you zip the folder and upload.</li>
+										<li>Zip file should not contain any folder.</li>
+										<li>Max zip file size should be 400MB</li>
 										<li>
-											Download our sample json file to get the corrrect format
-											of metadata. This will help to prevent any issues that may
-											hinder your collections display and listing properties.{' '}
+											Download our sample .json file to get the corrrect format
+											of metadata.
+										</li>
+										<li>
+											This will help to prevent any issues that may hinder your
+											collections display and listing properties.{' '}
 										</li>
 									</ul>
 									<Link to="/files/test.json" target="_blank" download>
@@ -471,11 +446,7 @@ function CreateMultipleNFT(props: any) {
 								</div>
 								<button
 									className="btn upload btn-linear-gradient mt-5"
-									disabled={
-										!checkBox ||
-										batchFile?.file === '' ||
-										batchFile?.nftCollectionType === ''
-									}
+									disabled={!checkBox || batchFile?.file === ''}
 									onClick={() => submit()}
 								>
 									Upload
