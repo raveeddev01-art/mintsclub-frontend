@@ -13,8 +13,10 @@ import { ReactComponent as VideoIcon } from '../../../assets/images/buy-video-ic
 import { ReactComponent as AudioIcon } from '../../../assets/images/audio-icon.svg';
 import ModalSmiley from '../../../assets/images/model-smiley.svg';
 import { Buy, CHAINS_INTERFACE } from '../../../interfaces/components';
-import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
-import { blockchainScanUrlData } from '../../../utils/helpers/helpers';
+import {
+	CHAIN_CURRENCY,
+	blockchainScanUrlData,
+} from '../../../utils/helpers/helpers';
 const BuyModal: FC<Buy> = (props) => {
 	const [purchase, setPurchase] = useState<any>(true);
 	const [checkBox, setCheckBox] = useState<any>(false);
