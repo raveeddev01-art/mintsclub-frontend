@@ -194,7 +194,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 												className="btn btn-rounded-bordered px-5"
 												onClick={() => handlePagination()}
 											>
-												Load more...
+												Load More...
 											</button>
 										)}
 									{!empty &&

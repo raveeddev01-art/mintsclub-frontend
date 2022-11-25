@@ -131,7 +131,7 @@ const TopSellerList = (props: any) => {
 											className="btn btn-linear-gradient px-5"
 											onClick={() => handlePagination()}
 										>
-											Load more
+											Load More...
 										</button>
 									)}
 							</div>

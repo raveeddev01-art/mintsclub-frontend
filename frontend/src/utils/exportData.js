@@ -117,7 +117,7 @@ export const AllNFTsbBanner = {
 //Explore Collections
 export const exploreCollectionBanner = {
 	subHeading: 'Collections',
-	heading: 'Explore all',
+	heading: 'Explore All',
 	content:
 		' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
 };

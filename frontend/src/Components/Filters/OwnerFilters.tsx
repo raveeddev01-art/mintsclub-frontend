@@ -39,7 +39,7 @@ const OwnerFilters = ({ data }: any) => {
 				</div>
 				<div className="total-items mt-3 mt-sm-0">
 					<p>
-						Total items:{' '}
+						Total Items:{' '}
 						<span>{nftPagination?.total ? nftPagination?.total : 0}</span>
 						{/* <span>{totalItems}</span> */}
 					</p>

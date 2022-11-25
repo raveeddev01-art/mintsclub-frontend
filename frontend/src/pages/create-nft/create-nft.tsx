@@ -527,7 +527,7 @@ class CreateNFT extends React.Component<
 								<input
 									className="create-collection-input mt-2"
 									name="name"
-									placeholder="Enter title"
+									placeholder="Enter Title"
 									required={true}
 									maxLength={25}
 									minLength={3}
@@ -622,7 +622,7 @@ class CreateNFT extends React.Component<
 									className="create-collection-area mt-2"
 									name="description"
 									rows={3}
-									placeholder="Max 500 characters"
+									placeholder="Max 500 Characters"
 									maxLength={500}
 									onKeyDown={(e) =>
 										firstInputCharacterSpace(e, nft?.description.length)

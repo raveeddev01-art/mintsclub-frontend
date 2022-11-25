@@ -121,7 +121,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 								</div>
 							</div>
 						</div>
-						<div className="row g-3 align-items-center justify-content-center">
+						<div className="row g-3 align-items-center justify-content-left">
 							{isLoadingLiveAuctions || isLoadingCategories ? (
 								<div className="spinner-border" role="status"></div>
 							) : auctions && auctions.length > 0 ? (
@@ -149,7 +149,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 										pagination.total > auctions.length &&
 										auctions.length > 10 && (
 											<button className="btn btn-linear-gradient px-5">
-												Load more
+												Load More...
 											</button>
 										)}
 								</div>

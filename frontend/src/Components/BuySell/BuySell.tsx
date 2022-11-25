@@ -21,7 +21,7 @@ const Buysell = () => {
 										className="btn btn-rounded-bordered btn-start-selling text-right"
 										to="/explore/allNFT"
 									>
-										Start buying
+										Start Buying
 									</Link>
 								</div>
 							</div>
@@ -40,7 +40,7 @@ const Buysell = () => {
 										className="btn btn-rounded-bordered btn-start-selling"
 										to="/userprofile"
 									>
-										Start selling
+										Start Selling
 									</Link>
 								</div>
 							</div>
