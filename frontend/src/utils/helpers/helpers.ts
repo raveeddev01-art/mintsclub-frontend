@@ -187,7 +187,17 @@ const handleFilesValidation = (
 const capitalize = (word: string) => {
 	return word[0]?.toUpperCase() + word?.slice(1)?.toLowerCase();
 };
-
+const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
+	let chaintype = blockchainType;
+	const scansURL: any = {
+		ethereum: `${process.env.REACT_APP_ETH_CHAIN_SCAN}/${transactionHash}`,
+		polygon: `${process.env.REACT_APP_POLYGON_CHAIN_SCAN}/${transactionHash}`,
+		bsc: `${process.env.REACT_APP_BSC_CHAIN_SCAN}/${transactionHash}`,
+		solana: `${process.env.REACT_APP_SOLANA_CHAIN_SCAN}/${transactionHash}?${process.env.REACT_APP_DEVNET}`,
+		Algorand: `${process.env.REACT_APP_ALGORAND_CHAIN_SCAN}/${transactionHash}`,
+	};
+	return scansURL[chaintype];
+};
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
@@ -196,4 +206,5 @@ export {
 	verifyNFTStatus,
 	handleFilesValidation,
 	capitalize,
+	blockchainScanUrlData,
 };

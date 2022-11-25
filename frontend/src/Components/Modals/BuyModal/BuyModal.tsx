@@ -14,6 +14,7 @@ import { ReactComponent as AudioIcon } from '../../../assets/images/audio-icon.s
 import ModalSmiley from '../../../assets/images/model-smiley.svg';
 import { Buy, CHAINS_INTERFACE } from '../../../interfaces/components';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
+import { blockchainScanUrlData } from '../../../utils/helpers/helpers';
 const BuyModal: FC<Buy> = (props) => {
 	const [purchase, setPurchase] = useState<any>(true);
 	const [checkBox, setCheckBox] = useState<any>(false);
@@ -33,19 +34,6 @@ const BuyModal: FC<Buy> = (props) => {
 		balance,
 		fileType,
 	} = props;
-
-	const chain = () => {
-		let chaintype = blockchainType;
-		const url: any = {
-			ethereum: `${process.env.REACT_APP_ETH_CHAIN_SCAN}/${transactionHash}`,
-			polygon: `${process.env.REACT_APP_POLYGON_CHAIN_SCAN}/${transactionHash}`,
-			bsc: `${process.env.REACT_APP_BSC_CHAIN_SCAN}/${transactionHash}`,
-			solana: `${process.env.REACT_APP_SOLANA_CHAIN_SCAN}/${transactionHash}?${process.env.REACT_APP_DEVNET}`,
-			Algorand: `${process.env.REACT_APP_ALGORAND_CHAIN_SCAN}/${transactionHash}`,
-		};
-		return url[chaintype];
-	};
-
 	return confirmed === '' || confirmed === false || confirmed === 'pending' ? (
 		<Modal
 			{...props}
@@ -388,7 +376,10 @@ const BuyModal: FC<Buy> = (props) => {
 					<div
 						className="status-address"
 						onClick={() => {
-							window.open(chain(), '_blank');
+							window.open(
+								blockchainScanUrlData(blockchainType, transactionHash),
+								'_blank'
+							);
 						}}
 					>
 						<p>
