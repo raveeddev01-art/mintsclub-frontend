@@ -14,6 +14,7 @@ import { ReactComponent as AudioIcon } from '../../../assets/images/audio-icon.s
 import ModalSmiley from '../../../assets/images/model-smiley.svg';
 import { Buy, CHAINS_INTERFACE } from '../../../interfaces/components';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
+import { blockchainScanUrlData } from '../../../utils/helpers/helpers';
 const BuyModal: FC<Buy> = (props) => {
 	const [purchase, setPurchase] = useState<any>(true);
 	const [checkBox, setCheckBox] = useState<any>(false);
@@ -374,12 +375,12 @@ const BuyModal: FC<Buy> = (props) => {
 					</div>
 					<div
 						className="status-address"
-						onClick={() =>
+						onClick={() => {
 							window.open(
-								`https://rinkeby.etherscan.io/tx/${transactionHash}`,
+								blockchainScanUrlData(blockchainType, transactionHash),
 								'_blank'
-							)
-						}
+							);
+						}}
 					>
 						<p>
 							{transactionHash.slice(0, 6) +
