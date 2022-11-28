@@ -84,7 +84,6 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Wallet } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
-import { getSystemSettings } from '../../Components/SystemSetting/systemSetting.action';
 
 const NFTDetail = (props: any) => {
 	const currencyData: any = currency;
@@ -1341,5 +1340,4 @@ export default connect(mapStateToProps, {
 	getActivities,
 	getItemsListing,
 	beforeNFTByCollection,
-	getSystemSettings,
 })(NFTDetail);
