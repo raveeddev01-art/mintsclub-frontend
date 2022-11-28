@@ -22,7 +22,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 	const [isActive, setIsActive] = useState('All');
 	const [categoryId, setCategoryId] = useState('all');
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(10);
+	const [limit, setLimit] = useState(12);
 	const [categories, setCategories] = useState<any[] | null>(null);
 	const [empty, setEmpty] = useState(false);
 	const [loader, setLoader] = useState(true);
@@ -43,10 +43,9 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 	const onErrorPopular = (error: any) => {
 		setError(error);
 	};
-
 	const {
 		isFetching: isFetchingPopular,
-		isLoading,
+		isLoading: isLoadinCollections,
 		refetch: refetchPopular,
 	} = useGetPopularCollections(
 		onErrorPopular,
@@ -73,7 +72,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 
 	useEffect(() => {
 		refetchPopular();
-	}, [page, categoryId]);
+	}, [page, categoryId, limit]);
 
 	const calcualtePopularCollections = (data: any) => {
 		if (data.collectionsList.length > 0) {
@@ -140,7 +139,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 	const handlePagination = () => {
 		// window.scroll(0, 500);
 		setPage(page);
-		setLimit(limit + 10);
+		setLimit(limit + 12);
 	};
 
 	const handleFilterCategory = (category: string) => {
@@ -164,6 +163,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 			return Images.imagePlaceholder;
 		}
 	};
+	console.log(pagination, 'This is pagination');
 
 	return (
 		<>
@@ -174,7 +174,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 				bgImg={BannerBg}
 				bannerImg={BannerImage}
 			/>
-			{categoryIsLoading && isLoading ? (
+			{categoryIsLoading && isLoadinCollections ? (
 				<FullPageLoader />
 			) : (
 				<>
@@ -241,7 +241,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 								</div>
 							</div>
 							<div className="row g-1 align-items-center">
-								{isLoading || isFetchingCategories || isFetchingPopular ? (
+								{isLoadinCollections || categoryIsLoading ? (
 									<div className="d-flex justify-content-center">
 										<div className="spinner-border" role="status">
 											<span className="sr-only">Loading...</span>
@@ -279,13 +279,22 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 								<div className="col-12">
 									<div className="mt-5 text-center">
 										{!empty &&
-											popular?.length === 10 &&
+											popular?.length &&
+											!isFetchingPopular &&
 											pagination.totalRecords > popular.length && (
 												<button
 													className="btn btn-rounded-bordered px-5"
 													onClick={() => handlePagination()}
 												>
 													Load More...
+												</button>
+											)}
+										{!empty &&
+											popular?.length &&
+											isFetchingPopular &&
+											pagination.totalRecords > popular.length && (
+												<button className="btn btn-rounded-bordered px-5">
+													Loading...
 												</button>
 											)}
 									</div>

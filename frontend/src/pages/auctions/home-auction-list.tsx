@@ -1,4 +1,4 @@
-import React, { useState, useContext, FC } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
 import AuctionsCards from '../../Components/AuctionsCards/AuctionsCards';
 import { connect } from 'react-redux';
 import { ENV } from '../../config/config';
@@ -14,24 +14,42 @@ import './home-auction-list.scss';
 
 const AuctionsList: FC<AuctionsListInt> = () => {
 	const [isActive, setIsActive] = useState(0);
+	const [page, setPage] = useState(1);
+	const [limit, setLimit] = useState(12);
 	const [auctions, setAuctions] = useState<Array<object> | null>(null);
 	const [categories, setCategories] = useState<Array<object> | null>(null);
 	const [categoryId, setCategoryId] = useState('all');
+	const [empty, setEmpty] = useState(false);
 	const [pagination, setPagination] = useState<any>(null);
 	const { setError } = useContext(errorHandler);
 
 	const onSuccessLiveAuctions = (data: any) => {
 		if (data.data.success) {
 			setAuctions(data.data.data.auctions);
-			setPagination(data.data.data.pagination);
+			// setPagination(data.data.data.pagination);
+			calcualteAuctionNFTs(data.data?.data);
 		} else {
 			setError(data.data.message);
 		}
 	};
-	const { isLoading: isLoadingLiveAuctions } = useGetLiveAuctions(
-		categoryId,
-		onSuccessLiveAuctions
-	);
+	const calcualteAuctionNFTs = (data: any) => {
+		const pagination = data.pagination;
+		setPagination(pagination);
+	};
+
+	const {
+		isLoading: isLoadingLiveAuctions,
+		isFetching: isFetchingAuction,
+		refetch: refetchAuction,
+	} = useGetLiveAuctions(categoryId, onSuccessLiveAuctions, limit);
+	const handlePagination = () => {
+		setPage(page);
+		setLimit(limit + 12);
+	};
+
+	useEffect(() => {
+		refetchAuction();
+	}, [limit]);
 
 	//Get Categories
 	const onSuccessCategories = (data: any) => {
@@ -55,6 +73,7 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 		content:
 			' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
 	};
+	// console.log(pagination.total, 'This is pagination');
 	return (
 		<>
 			<Banner
@@ -145,11 +164,21 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 
 							<div className="col-12">
 								<div className="mt-5 text-center">
-									{auctions &&
-										pagination.total > auctions.length &&
-										auctions.length > 10 && (
-											<button className="btn btn-linear-gradient px-5">
+									{auctions?.length &&
+										!isFetchingAuction &&
+										pagination.total > auctions.length && (
+											<button
+												className="btn btn-linear-gradient px-5"
+												onClick={() => handlePagination()}
+											>
 												Load More...
+											</button>
+										)}
+									{auctions?.length &&
+										isFetchingAuction &&
+										pagination.total > auctions.length && (
+											<button className="btn btn-linear-gradient px-5">
+												Loading...
 											</button>
 										)}
 								</div>

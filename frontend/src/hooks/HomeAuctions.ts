@@ -4,10 +4,15 @@ import { handleRequest } from '../utils/functions';
 import { ENV } from '../config/config';
 import errorHandler from '../context/errorHandler/ErrorHandlerContext';
 
-export const useGetLiveAuctions = (categoryId: any, onSuccess: any) => {
+export const useGetLiveAuctions = (
+	categoryId: any,
+	onSuccess: any,
+	limit?: number
+) => {
 	const { setError } = useContext(errorHandler);
 	const qs = ENV.objectToQueryString({
 		myFilter: categoryId,
+		...(limit && { limit }),
 	});
 	return useQuery(
 		[`auctions${categoryId}`, categoryId],
