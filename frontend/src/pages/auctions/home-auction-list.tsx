@@ -26,15 +26,10 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 	const onSuccessLiveAuctions = (data: any) => {
 		if (data.data.success) {
 			setAuctions(data.data.data.auctions);
-			// setPagination(data.data.data.pagination);
-			calcualteAuctionNFTs(data.data?.data);
+			setPagination(data.data.data.pagination);
 		} else {
 			setError(data.data.message);
 		}
-	};
-	const calcualteAuctionNFTs = (data: any) => {
-		const pagination = data.pagination;
-		setPagination(pagination);
 	};
 
 	const {
@@ -73,7 +68,6 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 		content:
 			' Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
 	};
-	// console.log(pagination.total, 'This is pagination');
 	return (
 		<>
 			<Banner
