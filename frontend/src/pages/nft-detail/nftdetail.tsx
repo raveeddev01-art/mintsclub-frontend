@@ -97,6 +97,7 @@ const NFTDetail = (props: any) => {
 	const [loader, setLoader] = useState<boolean>(true);
 	const [price, setPrice] = useState<number>(0);
 	const [bids, setBids] = useState<any>(null);
+	const [settings, setSettings] = useState<any>(null);
 	const [offers, setOffers] = useState<any>(null);
 	const [modalShow, setModalShow] = useState<any>(false);
 	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
@@ -139,6 +140,7 @@ const NFTDetail = (props: any) => {
 			setLoader(false);
 			// Get Activities
 			setBeforeGetActivities(true);
+
 			// Get Offers and Bids
 			if (nftDetailsData?.auction?.sellingMethod) {
 				if (nftDetailsData?.auction?.sellingMethod === 1) {
@@ -212,6 +214,24 @@ const NFTDetail = (props: any) => {
 		onSuccessGetBids,
 		null,
 		beforeGetBids
+	);
+	//get system Settings
+	const onSuccessGetSettings = (data: any) => {
+		if (data.data) {
+			setSettings(data.data);
+			return data.data;
+		} else {
+			setError(data.data.message);
+		}
+	};
+
+	const { refetch: getSettingsData } = useGetData(
+		'GET_SYSTEM_SETTINGS',
+		'systemSetting/getAllSystemSetting',
+		ENV.objectToQueryString({
+			userId: ENV.getUserKeys('_id')._id,
+		}),
+		onSuccessGetSettings
 	);
 
 	useEffect(() => {
@@ -739,6 +759,8 @@ const NFTDetail = (props: any) => {
 			let payload: any = '';
 			setConfirmed('pending');
 			if (nftDetail.blockchainType === 'solana') {
+				const settingsData = await getSettingsData();
+
 				const creators: any = [
 					{
 						address: new PublicKey(ownerAddress),
@@ -769,6 +791,7 @@ const NFTDetail = (props: any) => {
 					userId: nftDetail?.userId,
 					collectionId: nftDetail?.collectionId,
 					isApproved: nftDetail?.isApproved,
+					sellerFeeBasisPoints: settingsData?.data.data?.sellerFeeBasisPoints,
 				};
 
 				const res = await uploadDataOnIpfs(nftInfo);
@@ -780,7 +803,7 @@ const NFTDetail = (props: any) => {
 						tokenUri,
 						nftDetail?.name,
 						creators,
-						500
+						settingsData?.data.data?.sellerFeeBasisPoints
 					);
 					if (response?.response.signature) {
 						payload = {

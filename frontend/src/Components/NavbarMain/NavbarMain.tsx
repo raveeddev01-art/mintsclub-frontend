@@ -37,12 +37,14 @@ const NavbarMain = () => {
 	};
 	const clearLocalStorage = async () => {
 		if (ENV?.getUserKeys('_id')?._id) {
-			if (wallet.connected) {
-				console.log('Wallet.Connected', wallet.connected);
+			const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+
+			if (wallet.connected && blockChainType !== 'solana') {
 				await wallet.disconnect();
 			}
 			localStorage.clear();
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+
 			history.push('/connect-wallet');
 		}
 	};

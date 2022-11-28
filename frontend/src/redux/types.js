@@ -88,6 +88,10 @@ export const DELETE_OFFER = 'DELETE_OFFER';
 export const CREATE_OFFER = 'CREATE_OFFER';
 export const ACCEPT_OFFER = 'ACCEPT_OFFER';
 
+// SYSTEM SETTING
+
+export const GET_SYSTEM_SETTINGS = 'GET_SYSTEM_SETTINGS';
+
 // BID
 export const BEFORE_BID = 'BEFORE_BID';
 export const GET_BIDS = 'GET_BIDS';

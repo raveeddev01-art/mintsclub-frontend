@@ -232,6 +232,9 @@ const CreateNft = ({
 			nftInfo.stats = JSON.stringify(nftInfo.stats);
 			nftInfo.name = capitalize(nftInfo.name);
 			nftInfo.blockchainType = props.blockchainType;
+			if (props.blockchainType === 'solana') {
+				nftInfo.sellerFeeBasisPoints = 500;
+			}
 
 			if (videoURL) {
 				nftInfo.fileType = 'video';
