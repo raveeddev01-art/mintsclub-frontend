@@ -194,7 +194,7 @@ const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 		polygon: `${process.env.REACT_APP_POLYGON_CHAIN_SCAN}/${transactionHash}`,
 		bsc: `${process.env.REACT_APP_BSC_CHAIN_SCAN}/${transactionHash}`,
 		solana: `${process.env.REACT_APP_SOLANA_CHAIN_SCAN}/${transactionHash}?${process.env.REACT_APP_DEVNET}`,
-		Algorand: `${process.env.REACT_APP_ALGORAND_CHAIN_SCAN}/${transactionHash}`,
+		algorand: `${process.env.REACT_APP_ALGORAND_CHAIN_SCAN}/${transactionHash}`,
 	};
 	return scansURL[chaintype];
 };
