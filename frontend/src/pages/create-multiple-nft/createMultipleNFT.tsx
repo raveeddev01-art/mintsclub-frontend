@@ -10,7 +10,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { formatBytes, handleRequest } from '../../utils/functions';
 import './createMultipleNFT.scss';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { uploadToS3Bucket } from '../../utils/s3Bucket';
 import { ChainsOptions, nftTypesOptions } from '../../utils/exportData';
 import { useGetData, useInsertData } from '../../hooks/Common';
@@ -45,6 +45,7 @@ function CreateMultipleNFT(props: any) {
 		collectionId: '',
 		categoryId: '',
 	});
+	const history = useHistory();
 
 	function useForceUpdate() {
 		const [value, setValue] = useState(0);
@@ -107,6 +108,7 @@ function CreateMultipleNFT(props: any) {
 			} else {
 				setLoader(false);
 				toast.success('your NFTs are added to the queue');
+				history.push('/userprofile');
 			}
 		}
 	);
