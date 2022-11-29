@@ -87,16 +87,36 @@ class CreateCollections extends Component<
 		abi?: any;
 		contractAddress?: string;
 		blockchainType?: string;
+		bannerHeading: string;
+		bannerSubHeading: string;
+		buttonText: string;
+		isEdit: boolean;
 	}
 > {
 	validator: SimpleReactValidator;
 	constructor(props: any) {
+		const pathName = window.location.pathname;
+		const pathNames = pathName.split('/');
+		let bannerHeadings = 'Create New Collection';
+		let buttonTexts = 'Create Collection';
+		let bannerSubHeadings = 'Create One';
+		let isEdits = true;
+		if (pathNames[2] === 'edit') {
+			bannerHeadings = 'Edit Collections';
+			buttonTexts = 'Save Changes';
+			bannerSubHeadings = 'Edit';
+			isEdits = false;
+		}
 		super(props);
 		this.state = {
 			isSubmitted: false,
 			formValid: true,
 			loader: true,
 			errors: '',
+			bannerHeading: bannerHeadings,
+			bannerSubHeading: bannerSubHeadings,
+			buttonText: buttonTexts,
+			isEdit: isEdits,
 			collection: {
 				userId: ENV.getUserKeys('_id')._id,
 				ownerAddress: this.props.connectedAddress,
@@ -483,12 +503,16 @@ class CreateCollections extends Component<
 			loader,
 			isSubmitted,
 			categories,
+			bannerHeading,
+			bannerSubHeading,
+			buttonText,
+			isEdit,
 			selectedOption,
 		}: any = this.state;
 
 		const bannerData = {
-			subHeading: 'Create New',
-			heading: 'Create New Collection',
+			subHeading: bannerSubHeading,
+			heading: bannerHeading,
 			content:
 				'Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
 		};
@@ -605,17 +629,19 @@ class CreateCollections extends Component<
 							{ENV.getUserKeys('blockchainType')?.blockchainType !==
 								'solana' && (
 								<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-									<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
-										<div className="create-collection-label ms-0">
-											<label>Deploy Collection</label>
-											<p>It&apos;s free</p>
+									{isEdit ? (
+										<div className="col-12 col-lg-6 mt-3 d-flex align-items-center justify-content-between px-3">
+											<div className="create-collection-label ms-0">
+												<label>Deploy Collection</label>
+												<p>It&apos;s free</p>
+											</div>
+											<MintSwitch
+												checked={this.state.collection.deploy}
+												onChange={this.handleDeployChange}
+												inputProps={{ 'aria-label': 'mint' }}
+											/>
 										</div>
-										<MintSwitch
-											checked={this.state.collection.deploy}
-											onChange={this.handleDeployChange}
-											inputProps={{ 'aria-label': 'mint' }}
-										/>
-									</div>
+									) : null}
 								</div>
 							)}
 							<div className="create-collection-btn-container">
@@ -624,7 +650,7 @@ class CreateCollections extends Component<
 									disabled={this.handleValidation()}
 									onClick={(e) => this.submit(e)}
 								>
-									Create Collection
+									{buttonText}
 								</button>
 							</div>
 						</div>
