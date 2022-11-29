@@ -102,7 +102,6 @@ class CreateCollections extends Component<
 		let bannerSubHeadings = 'Create One';
 		let isEdits = true;
 		if (pathNames[2] === 'edit') {
-			// console.log('yes');
 			bannerHeadings = 'Edit Collections';
 			buttonTexts = 'Save Changes';
 			bannerSubHeadings = 'Edit';
@@ -512,10 +511,8 @@ class CreateCollections extends Component<
 		}: any = this.state;
 
 		const bannerData = {
-			// subHeading: 'Create New',
 			subHeading: bannerSubHeading,
 			heading: bannerHeading,
-			// heading: 'Create New Collection',
 			content:
 				'Explore on the world’s best & largest NFT marketplace with our beautiful NFT products. We want to be a part of your smile, success and future growth.',
 		};
