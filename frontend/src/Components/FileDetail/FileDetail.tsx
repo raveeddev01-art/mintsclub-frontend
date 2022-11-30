@@ -44,7 +44,7 @@ const FileDetail = ({ info }: any) => {
 		status,
 		bidCount
 	);
-	const sold = copies - remainingCopies
+	const sold = copies - remainingCopies;
 	return (
 		<div className="col-xl-6">
 			<div className="nft-img-detail">
@@ -65,7 +65,7 @@ const FileDetail = ({ info }: any) => {
 					<div className="col-6 col-sm-4 col-xl-6 col-xxl-4">
 						<div className="nft-detail-rounded-box">
 							<p>
-								Sold: <span>{sold || 0 }</span>
+								Sold: <span>{sold || 0}</span>
 							</p>
 						</div>
 					</div>
