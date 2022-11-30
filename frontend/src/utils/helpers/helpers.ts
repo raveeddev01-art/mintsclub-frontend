@@ -78,6 +78,7 @@ const verifyNFTStatus = (
 		sellingMethod &&
 		auctionEnded === false &&
 		blockChainType !== 'solana' &&
+		blockChainType !== 'algorand' &&
 		bidCount?.length === 0
 	) {
 		return 'Cancel Listing';

@@ -54,6 +54,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			}
 			if (
 				(nftDetail?.blockchainType !== 'solana' &&
+					nftDetail?.blockchainType !== 'algorand' &&
 					!nftDetail?.user?.isApproved &&
 					nftDetail?.isApproved) ||
 				!nftDetail.isApproved
@@ -160,11 +161,14 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 			if (result) {
 				activityPayload.price = price;
-				// payload.sellId = Number(result);
 				payload.blockchainType = blockchainType;
 				if (blockchainType?.toLowerCase() === 'solana') {
 					payload.txnHash = result?.txnHash;
 					payload.sellerPublicKey = wallet.publicKey?.toBase58();
+				} else if (blockchainType?.toLowerCase() === 'algorand') {
+					payload.globalState = result?.globalState;
+					payload.sellId = Number(result?.appId);
+					payload.sellerPublicKey = nftDetail?.ownerAddress;
 				} else {
 					payload.sellId = Number(result);
 				}

@@ -79,7 +79,7 @@ import {
 	singleLazyMint,
 	uploadDataOnIpfs,
 } from '../../utils/solana/helper';
-import { placeBidOnAlgorand } from '../../utils/algorand';
+import { CheckBalance, placeBidOnAlgorand } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Wallet } from '@project-serum/anchor';
@@ -246,6 +246,10 @@ const NFTDetail = (props: any) => {
 			let balance = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				balance = await getSolanaBalance(wallet);
+			} else if (
+				ENV.getUserKeys('blockchainType').blockchainType === 'algorand'
+			) {
+				balance = await CheckBalance(connectedAddress);
 			} else {
 				balance = await getBalance();
 			}
@@ -298,17 +302,30 @@ const NFTDetail = (props: any) => {
 	}, [props.myLikedNftsStatus]);
 
 	const setNextBidFivePercHigh = (data: any) => {
-		let fivePerc: any = '';
-		const { highestBid } = data.auction || {};
+		let result: any = '';
 		const { currentPrice, collectionId } = data;
-		if (highestBid === 0 || highestBid === undefined) {
-			fivePerc = (5 / 100) * currentPrice;
-			fivePerc = fivePerc + currentPrice;
+
+		if (blockchainType === 'algorand') {
+			let bidAmount: any = '';
+			const { highestBid } = data.auction || {};
+			if (highestBid === 0 || highestBid === undefined) {
+				bidAmount = 0.1;
+			} else {
+				bidAmount = 0.1 + highestBid;
+			}
+			result = bidAmount;
 		} else {
-			fivePerc = (5 / 100) * highestBid;
-			fivePerc = fivePerc + highestBid;
+			let fivePerc: any = '';
+			const { highestBid } = data.auction || {};
+			if (highestBid === 0 || highestBid === undefined) {
+				fivePerc = (5 / 100) * currentPrice;
+				fivePerc = fivePerc + currentPrice;
+			} else {
+				fivePerc = (5 / 100) * highestBid;
+				fivePerc = fivePerc + highestBid;
+			}
+			result = fivePerc.toString().slice(0, 8);
 		}
-		const result = fivePerc.toString().slice(0, 8);
 		setPrice(result);
 		validateIfLiked(likedNfts, data);
 		props.beforeNFTByCollection();
@@ -622,11 +639,12 @@ const NFTDetail = (props: any) => {
 					connectedAddress,
 					ownerAddress,
 					auction?.sellId,
-					tokenId
+					tokenId,
+					auction?.globalState
 				);
 			}
 			if (result) {
-				const payload = {
+				const payload: any = {
 					ownerId: ownerId,
 					auctionId: auction?._id,
 					bidAmount: price,
@@ -637,6 +655,9 @@ const NFTDetail = (props: any) => {
 					fromAddress: connectedAddress,
 					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 				};
+				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
+					payload.globalState = result;
+				}
 
 				props.beforeBid();
 				props.placeBid(payload);
