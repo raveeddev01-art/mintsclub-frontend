@@ -63,12 +63,19 @@ class CreateNFT extends React.Component<
 		isFreeMint: any;
 		playerState: any;
 		nftInfo: any;
+		bannerHeading: string;
 	}
 > {
 	validator: SimpleReactValidator;
 	myRef: any;
 	wallet: any;
 	constructor(props: any) {
+		const pathName = window.location.pathname;
+		const pathNames = pathName.split('/');
+		let bannerHeading = createNFTbanner.heading;
+		if (pathNames[2] === 'edit') {
+			bannerHeading = createNFTbanner.editHeading;
+		}
 		super(props);
 		this.myRef = React.createRef();
 		this.state = {
@@ -76,6 +83,7 @@ class CreateNFT extends React.Component<
 			formValid: true,
 			loader: true,
 			errors: '',
+			bannerHeading: bannerHeading,
 			nft: {
 				userId: ENV.getUserKeys('_id')._id,
 				ownerId: ENV.getUserKeys('_id')._id,
@@ -470,6 +478,7 @@ class CreateNFT extends React.Component<
 			errorMessage,
 			audioUrl,
 			selectedCollection,
+			bannerHeading,
 		} = this.state;
 		const { connectedAddress, blockchainType } = this.props;
 		const { onDrop, dragOver, dragEnter, dragLeave } = this;
@@ -478,7 +487,7 @@ class CreateNFT extends React.Component<
 				<section className="create-collection create-nft">
 					<Banner
 						subHeading={createNFTbanner.subHeading}
-						heading={createNFTbanner.heading}
+						heading={bannerHeading}
 						content={createNFTbanner.content}
 						bgImg={BannerBg}
 						bannerImg={BannerImage}

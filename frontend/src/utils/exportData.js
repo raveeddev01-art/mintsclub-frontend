@@ -134,6 +134,7 @@ export const myCollectionBanner = {
 export const createNFTbanner = {
 	subHeading: 'Get Started',
 	heading: 'Create NFT',
+	editHeading: 'Edit NFT',
 	content:
 		'Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
 };

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
-class Layout3 extends Component {
-	render() {
-		return <div className="main bg-clr">{this.props.children}</div>;
-	}
-}
+const Layout3 = (props) => {
+	return (
+		<>
+			<div className="main bg-clr">{props.children}</div>;
+		</>
+	);
+};
 
 export default Layout3;
