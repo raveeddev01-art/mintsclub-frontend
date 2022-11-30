@@ -124,7 +124,7 @@ const getMarketPlaceContractInfo = () => {
 	return { abi, contractAddress, NFTAdddress };
 };
 const getLatestTokenId = async (methods) => {
-	const id = await methods.latestTokenID().call();
+	const id = await methods.LatestTokenId().call();
 	return +id + 1;
 };
 
