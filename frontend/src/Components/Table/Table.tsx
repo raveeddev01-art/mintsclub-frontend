@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { MdShoppingCart } from 'react-icons/md';
 
 import { BiTransferAlt } from 'react-icons/bi';
@@ -64,7 +64,7 @@ const Table: React.FC<TableInterface> = ({
 					}`,
 					item5: (
 						<div>
-							<ReactTimeAgo date={item.createdAt} locale="en-US" />
+							<ReactTimeAgo date={new Date(item.createdAt)} locale="en-US" />
 						</div>
 					),
 				};
@@ -98,7 +98,7 @@ const Table: React.FC<TableInterface> = ({
 					}`,
 					item5: (
 						<div>
-							<ReactTimeAgo date={item.createdAt} locale="en-US" />
+							<ReactTimeAgo date={new Date(item.createdAt)} locale="en-US" />
 						</div>
 					),
 				};
@@ -138,9 +138,15 @@ const Table: React.FC<TableInterface> = ({
 							})}
 						</>
 					) : (
-						<p className="text-center d-flex justify-content-center align-items-center">
-							{` No ${status} found`}
-						</p>
+						<tr>
+							<td>
+								<Fragment>
+									<div className="text-center d-flex justify-content-center align-items-center">
+										{` No ${status} found`}
+									</div>
+								</Fragment>
+							</td>
+						</tr>
 					)}
 				</tbody>
 			</table>
