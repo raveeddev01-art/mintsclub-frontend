@@ -13,12 +13,14 @@ import BannerImage from '../../assets/images/bannerimg.png';
 import { myCollectionBanner } from '../../utils/exportData';
 import { ExploreCollectionInt } from '../../interfaces/ExploreCollections/interface';
 import { useGetMyCollections } from '../../hooks/AllNFTs';
+import { useGetCategories } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const MyCollections: FC<ExploreCollectionInt> = (props) => {
 	const [collections, setCollections] = useState<any[] | null>(null);
+	const [categories, setCategories] = useState<any[] | null>(null);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(10);
+	const [limit, setLimit] = useState(12);
 	const [empty, setEmpty] = useState(false);
 	const [pagination, setPagination] = useState<any>(null);
 	const { setError } = useContext(errorHandler);
@@ -40,20 +42,31 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 			setError(data.data.message);
 		}
 	};
-	const { isLoading: isLoadinCollections } = useGetMyCollections(
-		onSuccessCollections,
-		true,
-		ENV.objectToQueryString({
-			page: page,
-			limit: limit,
-			userId: userId,
-		})
+	const { isFetching: isFetchingCollection, isLoading: isLoadinCollections } =
+		useGetMyCollections(
+			onSuccessCollections,
+			true,
+			ENV.objectToQueryString({
+				page: page,
+				limit: limit,
+				userId: userId,
+			})
+		);
+	const onSuccessCategories = (data: any) => {
+		if (data.data.success) {
+			setCategories(data.data.categories);
+		} else {
+			setError(data.data.message);
+		}
+	};
+	const { isLoading: categoryIsLoading }: any = useGetCategories(
+		(error: any) => console.log(error),
+		onSuccessCategories
 	);
-
 	const handlePagination = () => {
 		// window.scroll(0, 500);
 		setPage(page);
-		setLimit(limit + 10);
+		setLimit(limit + 12);
 	};
 	const handleImage = (item: any, index: number) => {
 		if (item?.nftDetail[index]?.image) {
@@ -71,7 +84,7 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 	};
 	return (
 		<>
-			{isLoadinCollections ? (
+			{categoryIsLoading && isLoadinCollections ? (
 				<FullPageLoader />
 			) : (
 				<section className="explore-collection-section padding-wrapper pt-0">
@@ -85,7 +98,7 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 					/>
 					<div className="container mt-5">
 						<div className="row g-1 align-items-center">
-							{isLoadinCollections ? (
+							{categoryIsLoading && isLoadinCollections ? (
 								<div className="d-flex justify-content-center">
 									<div className="spinner-border" role="status">
 										<span className="sr-only">Loading...</span>
@@ -126,14 +139,22 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 							<div className="col-12">
 								<div className="mt-5 d-flex justify-content-center align-items-center">
 									{!empty &&
-										collections?.length === 10 &&
-										!isLoadinCollections &&
+										collections?.length &&
+										!isFetchingCollection &&
 										pagination.totalRecords > collections.length && (
 											<button
 												className="btn btn-rounded-bordered px-5"
 												onClick={() => handlePagination()}
 											>
 												Load More...
+											</button>
+										)}
+									{!empty &&
+										collections?.length &&
+										isFetchingCollection &&
+										pagination.totalRecords > collections.length && (
+											<button className="btn btn-rounded-bordered px-5">
+												Loading...
 											</button>
 										)}
 								</div>

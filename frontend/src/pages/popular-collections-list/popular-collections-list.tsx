@@ -146,7 +146,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 		setCategoryId(category);
 		setLoader(true);
 		setPage(1);
-		setLimit(10);
+		setLimit(12);
 	};
 
 	const handleImage = (item: any, index: number) => {
