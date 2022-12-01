@@ -70,9 +70,20 @@ const verifyNFTStatus = (
 		sellingMethod === 2 &&
 		auctionEnded === false &&
 		blockChainType !== 'solana' &&
+		blockChainType !== 'algorand' &&
 		bidCount?.length > 0
 	) {
 		return 'End Auction';
+	} else if (
+		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
+		sellingMethod === 2 &&
+		auctionEnded === false &&
+		status === 'claimNft' &&
+		blockChainType === 'algorand' &&
+		activeAuction !== null &&
+		bidCount?.length > 0
+	) {
+		return 'Close Auction';
 	} else if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod &&

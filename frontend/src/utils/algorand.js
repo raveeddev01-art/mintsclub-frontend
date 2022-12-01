@@ -415,7 +415,6 @@ const getAppGlobalState = async (appid, accountaddress) => {
 	const appinfo = await algodClient
 		.accountApplicationInformation(accountaddress.toString(), appid)
 		.do();
-	console.log('appinfo', appinfo);
 	const state = await decodeState(appinfo['created-app']['global-state']);
 	return state;
 };
@@ -444,7 +443,6 @@ const decodeState = async (stateArray) => {
 function checkAddress(elem) {
 	return elem;
 }
-///place a bid
 
 const placeBidOnAlgorand = async (
 	bid,
@@ -455,25 +453,19 @@ const placeBidOnAlgorand = async (
 	global_state
 ) => {
 	try {
-		console.log('🚀 ~ file: algorand.js ~ line 459 ~ bid', bid);
 		const bidAmount = await algosdk.algosToMicroalgos(bid);
-		console.log('🚀 ~ file: algorand.js ~ line 461 ~ bidAmount', bidAmount);
-		let prevBidLeader = null;
 		const app_address = await algosdk.getApplicationAddress(appid);
 
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 464 ~ global_state',
-			global_state
-		);
+		let prevBidLeader = undefined;
 
 		if (global_state['bid_account']['data'].some(checkAddress)) {
-			prevBidLeader = algosdk.encodeAddress(global_state['bid_account']);
+			prevBidLeader = algosdk.encodeAddress(
+				global_state['bid_account']['data']
+			);
 			prevBidLeader = [prevBidLeader];
 		} else {
 			prevBidLeader = [];
 		}
-
-		console.log('checkkkkkkkk');
 
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
@@ -506,13 +498,25 @@ const placeBidOnAlgorand = async (
 		const response = await algodClient
 			.sendRawTransaction([signedPayTxn.blob, signedAppCallTxn.blob])
 			.do();
-		console.log('🚀 ~ file: algorand.js ~ line 512 ~ response', response);
+		const assetoptin =
+			await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+				amount: 0,
+				assetIndex: nftID,
+				from: bidder_address,
+				to: bidder_address,
+				suggestedParams: {
+					...params,
+				},
+			});
+		const signedOptInTxn = await myAlgoConnect.signTransaction(
+			assetoptin.toByte()
+		);
+
+		const signOptRawTransaction = await algodClient
+			.sendRawTransaction(signedOptInTxn.blob)
+			.do();
 
 		const new_global_state = await getAppGlobalState(appid, ownerAddress);
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 510 ~ new_global_state',
-			new_global_state
-		);
 
 		return new_global_state;
 	} catch (err) {
@@ -520,22 +524,47 @@ const placeBidOnAlgorand = async (
 	}
 };
 
-// async function setSale(inputFields) {
-//   const params = await algodClient.getTransactionParams().do();
+const closeAuction = async (appId, seller_address, nftID, appGlobalState) => {
+	try {
+		let accounts = [];
+		accounts.push(seller_address);
+		const params = await algodClient.getTransactionParams().do();
+		params.fee = 1000;
+		params.flatFee = true;
 
-//   await algosdk.makeApplicationCallTxnFromObject({
-//     appIndex: appID,
-//     from: accountaddress.toString(),
-//     foreignAssets: [nftID],
-//     onComplete: OnApplicationComplete.NoOpOC,
-//     suggestedParams: params,
-//     appArgs: app_args,
-//     approvalProgram: approval_teal,
-//     clearProgram: clear_teal,
-//   });
+		if (appGlobalState['bid_account']) {
+			accounts.push(
+				algosdk.encodeAddress(appGlobalState['bid_account']['data'])
+			);
+		}
+		if (appGlobalState['royalty_address']) {
+			accounts.push(
+				algosdk.encodeAddress(appGlobalState['royalty_address']['data'])
+			);
+		}
 
-//   console.log("setsale ", setsale);
-// }
+		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
+			from: seller_address,
+			appIndex: appId,
+			accounts: accounts,
+			foreignAssets: [nftID],
+			suggestedParams: {
+				...params,
+			},
+		});
+
+		const signedTxn = await myAlgoConnect.signTransaction(deleteTxn.toByte());
+
+		const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
+		return tx;
+	} catch (err) {
+		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
+	}
+};
+
+function sleep(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export {
 	signMessageFromUserForAlgorand,
@@ -544,4 +573,5 @@ export {
 	createNFT,
 	createAuctionApp,
 	placeBidOnAlgorand,
+	closeAuction,
 };

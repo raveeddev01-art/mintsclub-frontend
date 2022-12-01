@@ -79,7 +79,11 @@ import {
 	singleLazyMint,
 	uploadDataOnIpfs,
 } from '../../utils/solana/helper';
-import { CheckBalance, placeBidOnAlgorand } from '../../utils/algorand';
+import {
+	CheckBalance,
+	closeAuction,
+	placeBidOnAlgorand,
+} from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Wallet } from '@project-serum/anchor';
@@ -305,11 +309,12 @@ const NFTDetail = (props: any) => {
 		let result: any = '';
 		const { currentPrice, collectionId } = data;
 
-		if (blockchainType === 'algorand') {
+		if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
 			let bidAmount: any = '';
 			const { highestBid } = data.auction || {};
+
 			if (highestBid === 0 || highestBid === undefined) {
-				bidAmount = 0.1;
+				bidAmount = currentPrice + 0.1;
 			} else {
 				bidAmount = 0.1 + highestBid;
 			}
@@ -381,6 +386,25 @@ const NFTDetail = (props: any) => {
 					} catch (error) {
 						toast.success('Something went wrong while cancel listing');
 					}
+				}
+				return;
+			}
+			if (
+				blockchainType === 'algorand' &&
+				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.auction?.auctionEnded === false &&
+				nftDetail?.auction?.status === 'claimNft' &&
+				nftDetail.activeAuction !== null
+			) {
+				const result = await closeAuction(
+					nftDetail?.auction?.sellId,
+					nftDetail?.auction?.sellerPublicKey,
+					nftDetail?.tokenId,
+					nftDetail?.auction?.globalState
+				);
+
+				if (result) {
+					EndAuctionFromBackend();
 				}
 				return;
 			}
@@ -928,7 +952,7 @@ const NFTDetail = (props: any) => {
 			} else if (
 				currentDate > auctionStartDate &&
 				// currentDate > auctionEndDate &&
-				blockchainType === 'solana'
+				(blockchainType === 'solana' || blockchainType === 'algorand')
 			) {
 				return true;
 			}
@@ -991,7 +1015,8 @@ const NFTDetail = (props: any) => {
 
 					if (
 						highestBidByUser.fromAddress === connectedAddress &&
-						blockChainType !== 'solana'
+						blockChainType !== 'solana' &&
+						blockChainType !== 'algorand'
 					) {
 						//
 						if (!claimNFT) {
@@ -1013,7 +1038,8 @@ const NFTDetail = (props: any) => {
 	const isAuctionEnded = async () => {
 		if (
 			nftDetail &&
-			nftDetail.blockchainType === 'solana' &&
+			(nftDetail.blockchainType === 'solana' ||
+				nftDetail.blockchainType === 'algorand') &&
 			nftDetail?.auction?.sellingMethod === 2
 		) {
 			await getBidsListOfAuction();
@@ -1033,16 +1059,17 @@ const NFTDetail = (props: any) => {
 			setLoader(true);
 			const { ownerId } = nftDetail;
 			const { sellingMethod, sellId } = nftDetail?.auction || {};
-
-			if (userId === ownerId && sellingMethod === 2) {
-				const result = await endAuctionFromContract(sellId);
-				if (result) {
-					EndAuctionFromBackend();
-				}
-			} else {
-				const result = await claimNFTfromContract(sellId);
-				if (result) {
-					EndAuctionFromBackend();
+			if (nftDetail?.blockchainType === 'algorand') {
+				if (userId === ownerId && sellingMethod === 2) {
+					const result = await endAuctionFromContract(sellId);
+					if (result) {
+						EndAuctionFromBackend();
+					}
+				} else {
+					const result = await claimNFTfromContract(sellId);
+					if (result) {
+						EndAuctionFromBackend();
+					}
 				}
 			}
 		} catch (err: any) {
