@@ -12,7 +12,7 @@ import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const TopSellerList = (props: any) => {
 	const [sellers, setSellers] = useState<any>([]);
-	const [limit, setLimit] = useState<any>(10);
+	const [limit, setLimit] = useState<any>(12);
 	const [pagination, setPagination] = useState<any>(null);
 	const [empty, setEmpty] = useState<any>(false);
 	const { setError } = useContext(errorHandler);
@@ -37,7 +37,7 @@ const TopSellerList = (props: any) => {
 	}, [props.user.topSellersAuth]);
 
 	const handlePagination = () => {
-		setLimit(limit + 10);
+		setLimit(limit + 12);
 		// let qs: any = { limit: limit + 10, page: 1 };
 		// qs = ENV.objectToQueryString(qs);
 		// props.getTopSellers(qs);
@@ -51,7 +51,7 @@ const TopSellerList = (props: any) => {
 			setError(data.data.message);
 		}
 	};
-	const { isLoading } = useGetTopSellers(
+	const { isLoading: topSellerLoading } = useGetTopSellers(
 		onSuccessTopSellers,
 		ENV.objectToQueryString({ limit, page: 1 })
 	);
@@ -125,13 +125,22 @@ const TopSellerList = (props: any) => {
 						<div className="col-12">
 							<div className="mt-5 text-center">
 								{!empty &&
-									sellers?.length === 10 &&
+									sellers?.length &&
+									!topSellerLoading &&
 									pagination.totalRecords > sellers.length && (
 										<button
 											className="btn btn-linear-gradient px-5"
 											onClick={() => handlePagination()}
 										>
 											Load More...
+										</button>
+									)}
+								{!empty &&
+									sellers?.length &&
+									topSellerLoading &&
+									pagination.totalRecords > sellers.length && (
+										<button className="btn btn-linear-gradient px-5">
+											Loading...
 										</button>
 									)}
 							</div>
