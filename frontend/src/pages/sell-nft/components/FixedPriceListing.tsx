@@ -10,8 +10,9 @@ import { putonsale } from '../../../utils/web3';
 import { listItemForFixedPriceSolana } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ENV } from '../../../config/config';
+import { createFixedPriceApp, setupSale } from '../../../utils/algorand';
 
-const FixedPriceListing = ({ data, blockchainType }: any) => {
+const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
 		// submit,
 		onChange,
@@ -40,6 +41,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
 				(blockchainType !== 'solana' &&
+					blockchainType !== 'algorand' &&
 					!nftDetail?.user?.isApproved &&
 					nftDetail?.isApproved) ||
 				!nftDetail.isApproved
@@ -87,6 +89,30 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 				!nftDetail?.lazyMinted
 			) {
 				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
+			}
+			if (
+				blockchainType?.toLowerCase() === 'algorand' &&
+				!nftDetail?.lazyMinted
+			) {
+				if (nftDetail?.appId === 0) {
+					res = await createFixedPriceApp(
+						nftDetail?.tokenId,
+						nftDetail?.creator?.address,
+						connectedAddress,
+						price
+					);
+					payload.sellId = res;
+					payload.sellerTradeState = connectedAddress;
+				} else {
+					res = await setupSale(
+						price,
+						nftDetail?.appId,
+						nftDetail?.tokenId,
+						connectedAddress
+					);
+					payload.sellId = nftDetail?.appId;
+					payload.sellerTradeState = connectedAddress;
+				}
 			}
 			if (
 				blockchainType?.toLowerCase() !== 'solana' &&

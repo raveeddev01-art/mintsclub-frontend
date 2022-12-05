@@ -80,6 +80,7 @@ import {
 	uploadDataOnIpfs,
 } from '../../utils/solana/helper';
 import {
+	buyFixedPriceNFT,
 	CheckBalance,
 	closeAuction,
 	placeBidOnAlgorand,
@@ -753,6 +754,34 @@ const NFTDetail = (props: any) => {
 							sellerTradeState,
 							sellingConfig?.price?.amount,
 							setConfirmed
+						);
+
+						if (buyFixedPriceResponse) {
+							const payload = {
+								userId,
+								nftId,
+								ownerAddress: props.connectedAddress,
+							};
+							props.beforeOffer();
+							props.buyNow(payload);
+							createActivity('Transfer', false, props.connectedAddress);
+							return;
+						}
+
+						// TODO: Show pop-up with errors
+
+						return;
+					}
+					if (blockchainType === 'algorand') {
+						const { tokenId } = nftDetail;
+						const { sellerTradeState, sellingConfig } = nftDetail.auction;
+						const buyFixedPriceResponse = await buyFixedPriceNFT(
+							sellingConfig?.price?.amount,
+							tokenId,
+							nftDetail?.auction?.sellId,
+							connectedAddress,
+							nftDetail?.creator?.address,
+							sellerTradeState
 						);
 
 						if (buyFixedPriceResponse) {
