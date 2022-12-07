@@ -55,65 +55,61 @@ int 1
 assert
 int 0
 callsub sub0
-gtxn 0 Sender
-gtxna 0 Accounts 1
+gtxn 1 Sender
+gtxna 1 Accounts 1
 !=
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "approveTransfer"
 app_local_get
 int 1
 ==
 assert
-gtxn 0 Sender
+gtxn 1 Sender
 byte "approveTransfer"
 app_local_get
 int 1
 ==
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
 global MinTxnFee
 >
 assert
-gtxn 0 Sender
-gtxna 0 Accounts 1
+gtxn 1 Sender
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
 global MinTxnFee
 -
 callsub sub1
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "approveTransfer"
 int 0
 app_local_put
-gtxn 0 Sender
+gtxn 1 Sender
 byte "approveTransfer"
 app_local_del
 int 1
 return
 main_l12:
-gtxn 0 NumAppArgs
-int 1
-==
-assert
-global GroupSize
+gtxn 4 NumAppArgs
 int 1
 ==
 assert
 int 0
 callsub sub0
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "approveTransfer"
 app_local_get
 int 1
 ==
 assert
-gtxna 0 Accounts 1
-gtxn 0 Sender
+gtxna 1 Accounts 1
+gtxn 1 Sender
 !=
-gtxn 0 Sender
+gtxn 1 Sender
 byte "approveTransfer"
 app_local_get
 int 1
@@ -122,7 +118,7 @@ int 1
 global Round
 byte "waitingTime"
 app_global_get
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "roundSaleBegan"
 app_local_get
 +
@@ -132,21 +128,21 @@ assert
 int 2
 global MinTxnFee
 *
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
 <
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "AssetId"
 app_global_get
 callsub sub3
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "Creator"
 app_global_get
 ==
 bnz main_l15
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
 int 2
@@ -161,7 +157,7 @@ store 8
 int 18446744073709551615
 load 8
 -
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
 int 2
@@ -177,7 +173,7 @@ app_global_get
 load 8
 >=
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
 int 2
@@ -187,8 +183,8 @@ global MinTxnFee
 load 8
 >
 assert
-gtxna 0 Accounts 1
-gtxn 0 Sender
+gtxna 1 Accounts 1
+gtxn 4 Sender
 byte "AssetId"
 app_global_get
 callsub sub2
@@ -196,7 +192,7 @@ byte "RoyaltyAddress"
 app_global_get
 load 8
 callsub sub1
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 callsub sub6
 byte "collectedFees"
 byte "collectedFees"
@@ -204,13 +200,13 @@ app_global_get
 load 8
 +
 app_global_put
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_del
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "approveTransfer"
 app_local_del
-gtxn 0 Sender
+gtxn 1 Sender
 byte "approveTransfer"
 app_local_del
 int 1
@@ -219,61 +215,61 @@ main_l15:
 int 0
 b main_l14
 main_l16:
-gtxn 0 NumAppArgs
+gtxn 1 NumAppArgs
 int 2
 ==
 assert
 global GroupSize
-int 2
+int 5
 ==
 assert
-gtxn 1 TypeEnum
+gtxn 2 TypeEnum
 int pay
 ==
 assert
 byte "AssetId"
 app_global_get
-gtxna 0 ApplicationArgs 1
+gtxna 1 ApplicationArgs 1
 btoi
 ==
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "approveTransfer"
 app_local_get
 int 0
 ==
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "amountPayment"
 app_local_get
-gtxn 1 Amount
+gtxn 2 Amount
 ==
 assert
 global CurrentApplicationAddress
-gtxn 1 Receiver
+gtxn 2 Receiver
 ==
 assert
 int 0
 callsub sub0
 int 1
 callsub sub0
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "AssetId"
 app_global_get
 callsub sub3
-gtxn 0 Sender
-gtxna 0 Accounts 1
+gtxn 1 Sender
+gtxna 1 Accounts 1
 !=
 assert
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "approveTransfer"
 int 1
 app_local_put
-gtxn 0 Sender
+gtxn 1 Sender
 byte "approveTransfer"
 int 1
 app_local_put
-gtxna 0 Accounts 1
+gtxna 1 Accounts 1
 byte "roundSaleBegan"
 global Round
 app_local_put
@@ -282,10 +278,6 @@ return
 main_l17:
 txn NumAppArgs
 int 2
-==
-assert
-global GroupSize
-int 1
 ==
 assert
 int 0

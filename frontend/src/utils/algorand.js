@@ -103,7 +103,7 @@ async function createAsset(algodClient, inputFields) {
 		defaultFrozen: defaultFrozen,
 		from: connectedAddress.toString(),
 		suggestedParams: params,
-		total: +total,
+		total: 1,
 		unitName: unitName,
 		manager: connectedAddress.toString(),
 		freeze: connectedAddress.toString(),
@@ -326,6 +326,7 @@ const createAuctionApp = async (
 		appID = confirmedTxn['application-index'];
 		console.log('confirmedTxn', confirmedTxn);
 		console.log('App is create with appId: ', appID);
+		// App transaction will remain same
 		const result = await setupAuctionApp(
 			appID,
 			nftID,
@@ -378,38 +379,34 @@ const setupAuctionApp = async (appid, nftID, accountaddress, copies) => {
 				amount: copies,
 				suggestedParams: params,
 			});
+		let txnsArray = [fundAppTxn, setupTxn, fundNftTxn];
 
-		algosdk.assignGroupID([fundAppTxn, setupTxn, fundNftTxn]);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
+			txnsArray
+		);
+		const groupID = algosdk.computeGroupID(txnsArray);
+		console.log('Group ID', groupID);
+		for (let i = 0; i < 3; i++) txnsArray[i].group = groupID;
 
-		const signedFundAppTxn = await myAlgoConnect.signTransaction(
-			fundAppTxn.toByte()
+		const signedTxns = await myAlgoConnect.signTransaction(
+			txnsArray.map((txn) => txn.toByte())
 		);
-		const signedSetupTxn = await myAlgoConnect.signTransaction(
-			setupTxn.toByte()
-		);
-		const signedFundNftTxn = await myAlgoConnect.signTransaction(
-			fundNftTxn.toByte()
-		);
-		const response = await algodClient
-			.sendRawTransaction([
-				signedFundAppTxn.blob,
-				signedSetupTxn.blob,
-				signedFundNftTxn.blob,
-			])
+		console.log('Setup app is completed: ', signedTxns);
+		let transactions = [];
+
+		signedTxns.forEach((element) => transactions.push(element.blob));
+		const sendGroupTransactions = await algodClient
+			.sendRawTransaction(transactions)
 			.do();
-
-		// const confirmedTxn = await algosdk.waitForConfirmation(
-		//   algodClient,
-		//   signedFundAppTxn.txId,
-		//   4
-		// );
-		console.log('Setup app is completed: ', response);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
+			sendGroupTransactions
+		);
 
 		const global_state = await getAppGlobalState(appid, accountaddress);
 
 		return global_state;
-		// setGlobalState(global_state);
-		// console.log(global_state);
 	} catch (err) {
 		console.log(err, 'error while setting up app');
 		return err;
@@ -493,16 +490,6 @@ const placeBidOnAlgorand = async (
 			suggestedParams: params,
 		});
 
-		algosdk.assignGroupID([payTxn, appCallTxn]);
-
-		const signedPayTxn = await myAlgoConnect.signTransaction(payTxn.toByte());
-		const signedAppCallTxn = await myAlgoConnect.signTransaction(
-			appCallTxn.toByte()
-		);
-
-		const response = await algodClient
-			.sendRawTransaction([signedPayTxn.blob, signedAppCallTxn.blob])
-			.do();
 		const assetoptin =
 			await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
 				amount: 0,
@@ -513,15 +500,37 @@ const placeBidOnAlgorand = async (
 					...params,
 				},
 			});
-		const signedOptInTxn = await myAlgoConnect.signTransaction(
-			assetoptin.toByte()
+		let txnsArray = [payTxn, appCallTxn, assetoptin];
+
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
+			txnsArray
+		);
+		const groupID = algosdk.computeGroupID(txnsArray);
+		console.log('Group ID', groupID);
+		for (let i = 0; i < 3; i++) txnsArray[i].group = groupID;
+
+		const signedTxns = await myAlgoConnect.signTransaction(
+			txnsArray.map((txn) => txn.toByte())
+		);
+		console.log('Setup app is completed: ', signedTxns);
+		let transactions = [];
+
+		signedTxns.forEach((element) => transactions.push(element.blob));
+		const sendGroupTransactions = await algodClient
+			.sendRawTransaction(transactions)
+			.do();
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
+			sendGroupTransactions
 		);
 
-		const signOptRawTransaction = await algodClient
-			.sendRawTransaction(signedOptInTxn.blob)
-			.do();
-		await sleep(3000);
+		await sleep(5000);
 		const new_global_state = await getAppGlobalState(appid, ownerAddress);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 574 ~ new_global_state',
+			new_global_state
+		);
 
 		return new_global_state;
 	} catch (err) {
@@ -634,6 +643,7 @@ const createFixedPriceApp = async (
 		);
 
 		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+		console.log('🚀 ~ file: algorand.js ~ line 637 ~ signedTxn', signedTxn);
 		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
 		console.log(
 			'🚀 ~ file: algorand.js ~ line 627 ~ createFixedPriceApp ~ response',
@@ -668,16 +678,6 @@ const createFixedPriceApp = async (
 			amount: amount,
 		});
 
-		const signedFundAppTxn = await myAlgoConnect.signTransaction(
-			fundAppTxn.toByte()
-		);
-		const signedFundAppTxnresponse = await algodClient
-			.sendRawTransaction(signedFundAppTxn.blob)
-			.do();
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 686 ~ setupSale ~ signedFundAppTxnresponse',
-			signedFundAppTxnresponse
-		);
 		// Setting Clawback Address
 		const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
 			from: connectedAddress.toString(),
@@ -688,20 +688,7 @@ const createFixedPriceApp = async (
 			strictEmptyAddressChecking: false,
 			manager: connectedAddress.toString(),
 		});
-		console.log('🚀 ~ file: algorand.js ~ line 687 ~ tx', tx);
 
-		const signedtx = await myAlgoConnect.signTransaction(tx.toByte());
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 709 ~ setupSale ~ signedtx',
-			signedtx
-		);
-		const signedtxresponse = await algodClient
-			.sendRawTransaction(signedtx.blob)
-			.do();
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 705 ~ setupSale ~ signedtxresponse',
-			signedtxresponse
-		);
 		// Opt in
 		const optin = await algosdk.makeApplicationOptInTxnFromObject({
 			appIndex: appID,
@@ -709,19 +696,15 @@ const createFixedPriceApp = async (
 			suggestedParams: params,
 		});
 
-		const optintx = await myAlgoConnect.signTransaction(optin.toByte());
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 725 ~ setupSale ~ optintx',
-			optintx
+		const txnsArray = [fundAppTxn, tx, optin];
+
+		const result = await setupSale(
+			price,
+			appID,
+			nftID,
+			connectedAddress,
+			txnsArray
 		);
-		const optintxresponse = await algodClient
-			.sendRawTransaction(optintx.blob)
-			.do();
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 721 ~ setupSale ~ optintxresponse',
-			optintxresponse
-		);
-		const result = await setupSale(price, appID, nftID, connectedAddress);
 		if (result) {
 			return appID;
 		}
@@ -733,7 +716,7 @@ const createFixedPriceApp = async (
 		return err;
 	}
 };
-const setupSale = async (price, appID, nftID, connectedAddress) => {
+const setupSale = async (price, appID, nftID, connectedAddress, txnsArray) => {
 	try {
 		const NFT_PRICE = await algosdk.algosToMicroalgos(price);
 		const params = await algodClient.getTransactionParams().do();
@@ -756,6 +739,7 @@ const setupSale = async (price, appID, nftID, connectedAddress) => {
 		);
 		console.log('check appId===>', appID);
 		console.log('check nftId===>', nftID);
+
 		const setsale = algosdk.makeApplicationCallTxnFromObject({
 			appIndex: appID,
 			from: connectedAddress.toString(),
@@ -764,22 +748,36 @@ const setupSale = async (price, appID, nftID, connectedAddress) => {
 			suggestedParams: params,
 			appArgs: app_args,
 		});
-
-		const setsaleTxn = await myAlgoConnect.signTransaction(setsale.toByte());
 		console.log(
-			'🚀 ~ file: algorand.js ~ line 756 ~ setupSale ~ setsaleTxn',
-			setsaleTxn
+			'🚀 ~ file: algorand.js ~ line 802 ~ setupSale ~ setsale',
+			setsale
 		);
 
-		const setsaleTxnresponse = await algodClient
-			.sendRawTransaction(setsaleTxn.blob)
+		txnsArray.push(setsale);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
+			txnsArray
+		);
+		const groupID = algosdk.computeGroupID(txnsArray);
+		console.log('Group ID', groupID);
+		for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
+
+		const signedTxns = await myAlgoConnect.signTransaction(
+			txnsArray.map((txn) => txn.toByte())
+		);
+		console.log('Setup app is completed: ', signedTxns);
+		let transactions = [];
+
+		signedTxns.forEach((element) => transactions.push(element.blob));
+		const sendGroupTransactions = await algodClient
+			.sendRawTransaction(transactions)
 			.do();
 		console.log(
-			'🚀 ~ file: algorand.js ~ line 761 ~ setupSale ~ setsaleTxnresponse',
-			setsaleTxnresponse
+			'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
+			sendGroupTransactions
 		);
 
-		return setsaleTxnresponse;
+		return sendGroupTransactions;
 	} catch (err) {
 		console.log('🚀 ~ file: algorand.js ~ line 751 ~ setupSale ~ err', err);
 		return err;
@@ -795,16 +793,12 @@ const buyFixedPriceNFT = async (
 	sellerAddress //ownerAddress
 ) => {
 	console.log(
-		'🚀 ~ file: algorand.js ~ line 791 ~ sellerAddress',
+		'🚀 ~ file: algorand.js ~ line 808 ~ sellerAddress',
 		sellerAddress
 	);
 	console.log(
-		'🚀 ~ file: algorand.js ~ line 791 ~ royaltyAddress',
+		'🚀 ~ file: algorand.js ~ line 808 ~ royaltyAddress',
 		royaltyAddress
-	);
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 791 ~ connectedAddress',
-		connectedAddress
 	);
 	try {
 		const NFT_PRICE = await algosdk.algosToMicroalgos(price);
@@ -818,15 +812,6 @@ const buyFixedPriceNFT = async (
 			from: connectedAddress, //buyer address
 			suggestedParams: params,
 		});
-
-		const appoptintx = await myAlgoConnect.signTransaction(appoptin.toByte());
-		const appoptintxresponse = await algodClient
-			.sendRawTransaction(appoptintx.blob)
-			.do();
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 792 ~ buyFixedPriceNFT ~ appoptintxresponse',
-			appoptintxresponse
-		);
 
 		const enc = new TextEncoder();
 		const note = enc.encode('buy');
@@ -843,7 +828,6 @@ const buyFixedPriceNFT = async (
 			accounts: [sellerAddress, royaltyAddress],
 		});
 		console.log('🚀 ~ file: algorand.js ~ line 818 ~ buy', buy);
-		//account ['owner address','creator/royalty address']
 		const appAddr = algosdk.getApplicationAddress(appIndex);
 
 		const paymentTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
@@ -855,27 +839,15 @@ const buyFixedPriceNFT = async (
 			amount: NFT_PRICE,
 		});
 
-		algosdk.assignGroupID([buy, paymentTxn]);
+		const txnsArray = [appoptin, buy, paymentTxn];
 
-		const buytx = await myAlgoConnect.signTransaction(buy.toByte());
-		const paymentAppTxn = await myAlgoConnect.signTransaction(
-			paymentTxn.toByte()
-		);
-
-		let groupedSignedTxns = [];
-		groupedSignedTxns.push(buytx.blob);
-		groupedSignedTxns.push(paymentAppTxn.blob);
-
-		const response = await algodClient
-			.sendRawTransaction(groupedSignedTxns)
-			.do();
-		console.log('🚀 ~ file: algorand.js ~ line 843 ~ response', response);
 		const transferAsset = await executeTransfer(
 			nftID,
 			connectedAddress,
 			appIndex,
 			sellerAddress,
-			royaltyAddress
+			royaltyAddress,
+			txnsArray
 		);
 		if (transferAsset) {
 			return transferAsset;
@@ -890,7 +862,8 @@ const executeTransfer = async (
 	connectedAddress,
 	appID,
 	sellerAddress,
-	royaltyAddress
+	royaltyAddress,
+	txnsArray
 ) => {
 	const params = await algodClient.getTransactionParams().do();
 	params.fee = 1000;
@@ -907,12 +880,6 @@ const executeTransfer = async (
 			},
 		});
 
-	const setsaleTxn = await myAlgoConnect.signTransaction(assetoptin.toByte());
-	const assetoptinresponse = await algodClient
-		.sendRawTransaction(setsaleTxn.blob)
-		.do();
-	console.log('assetoptinresponse', assetoptinresponse);
-
 	const enc = new TextEncoder();
 	const note = enc.encode('executeTransfer');
 
@@ -927,18 +894,31 @@ const executeTransfer = async (
 		appArgs: app_args,
 		accounts: [sellerAddress, royaltyAddress],
 	});
+	txnsArray.push(assetoptin);
+	txnsArray.push(execute);
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
+		txnsArray
+	);
+	const groupID = algosdk.computeGroupID(txnsArray);
+	console.log('Group ID', groupID);
+	for (let i = 0; i < 5; i++) txnsArray[i].group = groupID;
 
-	console.log('execute', execute);
+	const signedTxns = await myAlgoConnect.signTransaction(
+		txnsArray.map((txn) => txn.toByte())
+	);
+	console.log('Setup app is completed: ', signedTxns);
+	let transactions = [];
 
-	algosdk.assignGroupID([execute]);
-	const signedTxn = await myAlgoConnect.signTransaction(execute.toByte());
-
-	let groupedSignedTxns = [];
-	groupedSignedTxns.push(signedTxn.blob);
-
-	const response = await algodClient.sendRawTransaction(groupedSignedTxns).do();
-	console.log('response', response);
-	return response;
+	signedTxns.forEach((element) => transactions.push(element.blob));
+	const sendGroupTransactions = await algodClient
+		.sendRawTransaction(transactions)
+		.do();
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
+		sendGroupTransactions
+	);
+	return sendGroupTransactions;
 };
 export {
 	signMessageFromUserForAlgorand,

@@ -101,17 +101,23 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						connectedAddress,
 						price
 					);
-					payload.sellId = res;
-					payload.sellerTradeState = connectedAddress;
+					if (res.txId) {
+						payload.sellId = res;
+						payload.sellerTradeState = connectedAddress;
+					}
 				} else {
+					const txnsArray: any = [];
 					res = await setupSale(
 						price,
 						nftDetail?.appId,
 						nftDetail?.tokenId,
-						connectedAddress
+						connectedAddress,
+						txnsArray
 					);
-					payload.sellId = nftDetail?.appId;
-					payload.sellerTradeState = connectedAddress;
+					if (res.txId) {
+						payload.sellId = nftDetail?.appId;
+						payload.sellerTradeState = connectedAddress;
+					}
 				}
 			}
 			if (
@@ -194,7 +200,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						</div>
 					</div>
 				</div>
-				{blockchainType !== 'solana' && (
+				{blockchainType !== 'solana' && blockchainType !== 'algorand' && (
 					<div className="col-md-6">
 						<div className="sell-detail-box">
 							<h5>

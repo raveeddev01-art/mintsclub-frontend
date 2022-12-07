@@ -83,6 +83,7 @@ import {
 	buyFixedPriceNFT,
 	CheckBalance,
 	closeAuction,
+	createNFT,
 	placeBidOnAlgorand,
 } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -784,7 +785,7 @@ const NFTDetail = (props: any) => {
 							sellerTradeState
 						);
 
-						if (buyFixedPriceResponse) {
+						if (buyFixedPriceResponse?.txId) {
 							const payload = {
 								userId,
 								nftId,
@@ -800,33 +801,35 @@ const NFTDetail = (props: any) => {
 
 						return;
 					}
+					if (blockchainType !== 'algorand' && blockchainType !== 'solana') {
+						const currentPrice = nftDetail.currentPrice;
+						const nftToken = nftDetail?.auction?.sellId;
 
-					const currentPrice = nftDetail.currentPrice;
-					const nftToken = nftDetail?.auction?.sellId;
+						const result = await BuyFixedPriceNFT(
+							currentPrice,
+							nftToken,
+							setConfirmed,
+							setTransactionHash
+						);
 
-					const result = await BuyFixedPriceNFT(
-						currentPrice,
-						nftToken,
-						setConfirmed,
-						setTransactionHash
-					);
-					if (result) {
-						const payload = {
-							userId,
-							nftId,
-							ownerAddress: props.connectedAddress,
-						};
-						props.beforeOffer();
-						props.buyNow(payload);
-						createActivity('Transfer', false, props.connectedAddress);
+						if (result) {
+							const payload = {
+								userId,
+								nftId,
+								ownerAddress: props.connectedAddress,
+							};
+							props.beforeOffer();
+							props.buyNow(payload);
+							createActivity('Transfer', false, props.connectedAddress);
+						}
+
+						// TODO: Show Error for Ethereum Chain
+						return;
+						// } catch (err: any) {
+						// 	setDisabled(false);
+						// 	toast.error(err);
+						// }
 					}
-
-					// TODO: Show Error for Ethereum Chain
-					return;
-					// } catch (err: any) {
-					// 	setDisabled(false);
-					// 	toast.error(err);
-					// }
 				}
 			}
 		} catch (err: any) {
@@ -848,19 +851,36 @@ const NFTDetail = (props: any) => {
 			} = nftDetail;
 			let payload: any = '';
 			setConfirmed('pending');
-			if (nftDetail.blockchainType === 'solana') {
+			if (
+				nftDetail.blockchainType === 'solana' ||
+				nftDetail.blockchainType === 'algorand'
+			) {
 				const settingsData = await getSettingsData();
+				let creators: any = '';
+				if (nftDetail.blockchainType === 'solana') {
+					creators = [
+						{
+							address: new PublicKey(ownerAddress),
+							share: 100,
+						},
+						{
+							address: wallet.publicKey,
+							share: 0,
+						},
+					];
+				} else {
+					creators = [
+						{
+							address: ownerAddress,
+							share: 100,
+						},
+						{
+							address: props.connectedAddress,
+							share: 0,
+						},
+					];
+				}
 
-				const creators: any = [
-					{
-						address: new PublicKey(ownerAddress),
-						share: 100,
-					},
-					{
-						address: wallet.publicKey,
-						share: 0,
-					},
-				];
 				const nftInfo = {
 					name: nftDetail?.name,
 					image: nftDetail?.image,
@@ -881,28 +901,49 @@ const NFTDetail = (props: any) => {
 					userId: nftDetail?.userId,
 					collectionId: nftDetail?.collectionId,
 					isApproved: nftDetail?.isApproved,
-					sellerFeeBasisPoints: settingsData?.data.data?.sellerFeeBasisPoints,
+					sellerFeeBasisPoints:
+						nftDetail?.blockchainType === 'solana'
+							? settingsData?.data.data?.sellerFeeBasisPoints
+							: 0,
 				};
 
 				const res = await uploadDataOnIpfs(nftInfo);
 				if (res?.data?.data) {
 					const tokenUri = res.data.data.dataInput.metaDataUrl;
 
-					const response = await singleLazyMint(
-						wallet,
-						tokenUri,
-						nftDetail?.name,
-						creators,
-						settingsData?.data.data?.sellerFeeBasisPoints
-					);
-					if (response?.response.signature) {
-						payload = {
-							userId,
-							nftId,
-							ownerAddress: props.connectedAddress,
-							mint: response?.mintAddress.toBase58(),
+					if (nftDetail?.blockchainType === 'solana') {
+						const response = await singleLazyMint(
+							wallet,
+							tokenUri,
+							nftDetail?.name,
+							creators,
+							settingsData?.data.data?.sellerFeeBasisPoints
+						);
+						if (response?.response.signature) {
+							payload = {
+								userId,
+								nftId,
+								ownerAddress: props.connectedAddress,
+								mint: response?.mintAddress.toBase58(),
+								metaData: tokenUri,
+							};
+						}
+					} else {
+						const assetId = await createNFT({
+							assetName: nftDetail?.name,
+							total: copies,
 							metaData: tokenUri,
-						};
+							connectedAddress: props.connectedAddress,
+						});
+						if (assetId) {
+							payload = {
+								userId,
+								nftId,
+								ownerAddress: props.connectedAddress,
+								assetId,
+								metaData: tokenUri,
+							};
+						}
 					}
 				}
 			} else {

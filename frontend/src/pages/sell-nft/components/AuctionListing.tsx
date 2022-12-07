@@ -140,7 +140,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					startTime,
 					biddingTime,
 					nftDetail?.tokenId,
-					+copies,
+					1,
 					+price,
 					connectedAddress,
 					nftDetail?.creator?.address
@@ -229,7 +229,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						</div>
 					</div>
 				</div>
-				{blockchainType !== 'solana' && (
+				{blockchainType !== 'solana' && blockchainType !== 'algorand' && (
 					<div className="col-md-6">
 						<div className="sell-detail-box">
 							<h5>
