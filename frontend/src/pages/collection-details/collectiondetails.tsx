@@ -33,8 +33,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	const [filter, setFilter] = useState<any>({
 		collectionId: location.state.id,
 	});
-	const [floorPrice, setFloorPrice] = useState<any>(0);
-	const [avgSalePrice, setAvgSalePrice] = useState<any>(0);
+	const [floorPrice, setFloorPrice] = useState<string>('0');
+	const [avgSalePrice, setAvgSalePrice] = useState<string>('0');
 	const { setError } = useContext(errorHandler);
 	const history = useHistory();
 
