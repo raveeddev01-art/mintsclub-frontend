@@ -16,7 +16,7 @@ import { Images, blockchainIcons } from '../../assets/assets';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import { CollectionDetailInt } from '../../interfaces/CollectionDetail/interface';
 import { useGetMyLikedNFTs, useGetNFTs } from '../../hooks/CollectionDetails';
-import { useInsertData, useDeleteData } from '../../hooks/Common';
+import { useInsertData, useDeleteData, useGetData } from '../../hooks/Common';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
@@ -33,6 +33,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	const [filter, setFilter] = useState<any>({
 		collectionId: location.state.id,
 	});
+	const [floorPrice, setFloorPrice] = useState<any>(null);
+	const [avgSalePrice, setAvgSalePrice] = useState<any>(null);
 	const { setError } = useContext(errorHandler);
 	const history = useHistory();
 
@@ -55,11 +57,12 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	);
 
 	//Get NFTs
-
 	const onSuccessNFTs = (data: any) => {
 		if (data.data.success) {
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
+			setFloorPrice(data?.data?.data?.nfts[0].floorPrice);
+			setAvgSalePrice(data.data.data.pagination.avgPrice);
 			setNfts(data.data.data.nfts);
 		} else {
 			setError(data.data.message);
@@ -143,7 +146,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 				<div className="container">
 					<div className="collection-detail-cards">
 						<div className="info-card">
-							<h3>0</h3>
+							<h3>{floorPrice ? floorPrice : 0}</h3>
 							<p>Floor Price</p>
 						</div>
 						<div className="info-card">
@@ -155,7 +158,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 							<p>Total Volume</p>
 						</div>
 						<div className="info-card">
-							<h3>0</h3>
+							<h3>{avgSalePrice ? avgSalePrice : 0}</h3>
 							<p>Avg Sale Price</p>
 						</div>
 						<div className="info-card">
