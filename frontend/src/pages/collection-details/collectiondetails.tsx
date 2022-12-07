@@ -33,8 +33,8 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	const [filter, setFilter] = useState<any>({
 		collectionId: location.state.id,
 	});
-	const [floorPrice, setFloorPrice] = useState<any>(null);
-	const [avgSalePrice, setAvgSalePrice] = useState<any>(null);
+	const [floorPrice, setFloorPrice] = useState<any>(0);
+	const [avgSalePrice, setAvgSalePrice] = useState<any>(0);
 	const { setError } = useContext(errorHandler);
 	const history = useHistory();
 
@@ -146,7 +146,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 				<div className="container">
 					<div className="collection-detail-cards">
 						<div className="info-card">
-							<h3>{floorPrice ? floorPrice : 0}</h3>
+							<h3>{floorPrice}</h3>
 							<p>Floor Price</p>
 						</div>
 						<div className="info-card">
@@ -158,7 +158,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 							<p>Total Volume</p>
 						</div>
 						<div className="info-card">
-							<h3>{avgSalePrice ? avgSalePrice : 0}</h3>
+							<h3>{avgSalePrice}</h3>
 							<p>Avg Sale Price</p>
 						</div>
 						<div className="info-card">
