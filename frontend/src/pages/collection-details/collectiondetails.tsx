@@ -16,7 +16,7 @@ import { Images, blockchainIcons } from '../../assets/assets';
 import OwnCollectionToday from '../../Components/OwnCollectionToday/OwnCollectionToday';
 import { CollectionDetailInt } from '../../interfaces/CollectionDetail/interface';
 import { useGetMyLikedNFTs, useGetNFTs } from '../../hooks/CollectionDetails';
-import { useInsertData, useDeleteData } from '../../hooks/Common';
+import { useInsertData, useDeleteData, useGetData } from '../../hooks/Common';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
@@ -55,7 +55,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	);
 
 	//Get NFTs
-
 	const onSuccessNFTs = (data: any) => {
 		if (data.data.success) {
 			setFilterationLoader(false);
@@ -111,14 +110,28 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		const userId = ENV.getUserKeys('_id')._id;
 		return !userId || userId !== location.state.userId;
 	};
-	const { name, logo, description, username, blockchainType }: any =
-		location.state;
+	const {
+		name,
+		logo,
+		description,
+		username,
+		blockchainType,
+		avgSalePrice,
+		floorPriceForFixedAuction,
+		floorPriceForTimedAuction,
+		totalVolume,
+	}: any = location.state;
 
 	const bannerData = {
 		subHeading: 'Explore',
 		heading: name,
 	};
-	console.log(location.state, 'location.state');
+	const volume = location.state.totalVolume;
+	const floorTimedAuction = location.state.floorPriceForTimedAuction;
+	const floorFixedAuction = location.state.floorPriceForFixedAuction;
+	const floorPrice = Math.min(floorTimedAuction, floorFixedAuction);
+	const avgSale = location.state.avgSalePrice;
+	console.log(location.state, 'location.state==========');
 
 	return (
 		<>
@@ -143,7 +156,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 				<div className="container">
 					<div className="collection-detail-cards">
 						<div className="info-card">
-							<h3>0</h3>
+							<h3>{floorPrice ? floorPrice : 0}</h3>
 							<p>Floor Price</p>
 						</div>
 						<div className="info-card">
@@ -151,11 +164,11 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 							<p>Items</p>
 						</div>
 						<div className="info-card">
-							<h3>0</h3>
+							<h3>{volume ? volume : 0}</h3>
 							<p>Total Volume</p>
 						</div>
 						<div className="info-card">
-							<h3>0</h3>
+							<h3>{avgSale ? avgSale : 0}</h3>
 							<p>Avg Sale Price</p>
 						</div>
 						<div className="info-card">
