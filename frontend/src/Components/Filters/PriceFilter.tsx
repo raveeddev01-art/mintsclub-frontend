@@ -20,7 +20,7 @@ const PriceFilter = ({ data }: any) => {
 					<input
 						type="number"
 						placeholder="Min"
-						className="me-sm-2"
+						className="mt-3 mt-sm-0 me-sm-2"
 						value={minValue}
 						onKeyDown={(e) => decimalNumberValidator(e)}
 						onChange={onChangeMinPrice}

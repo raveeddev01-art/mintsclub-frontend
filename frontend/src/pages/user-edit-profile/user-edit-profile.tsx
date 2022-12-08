@@ -31,6 +31,7 @@ const EditProfile = (props: any) => {
 	const [webLink, setWebLink] = useState<string>('');
 	const [_id, setUserId] = useState<string>('');
 	const { setError } = useContext(errorHandler);
+	const [message, setMessage] = useState(true);
 
 	const history = useHistory();
 	useEffect(() => {
@@ -93,6 +94,18 @@ const EditProfile = (props: any) => {
 			}
 			setImageUrl(fileURL);
 			setImage(file);
+		}
+	};
+
+	const emailValidation = (e: any) => {
+		const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+		const emailValue = e.target.value;
+
+		setEmail(emailValue);
+		if (email.match(pattern)) {
+			setMessage(true);
+		} else {
+			setMessage(false);
 		}
 	};
 
@@ -187,7 +200,7 @@ const EditProfile = (props: any) => {
 									</div>
 								</div>
 								<div className="col-lg-4 col-md-6 col-sm-12">
-									<label className="create-collection-label">Username</label>
+									<label className="create-collection-label">Username:</label>
 									<input
 										className="create-collection-input mt-2"
 										id="name"
@@ -208,28 +221,37 @@ const EditProfile = (props: any) => {
 									/>
 								</div>
 
-								<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+								<div className="email-address col-lg-4 col-md-6 mt-3 mt-md-0">
 									<label className="create-collection-label">
-										Email Address
+										Email Address:
 									</label>
 
 									<input
 										className="create-collection-input mt-2"
-										id="url"
-										type="text"
-										name="url"
+										id="email"
+										type="email"
+										name="email"
 										placeholder="Email Address"
-										onChange={(e) => {
-											if (e.target.value.trim() === '' && email === '') {
-												return '';
-											} else {
-												setEmail(e.target.value);
-											}
-										}}
+										onChange={emailValidation}
 										value={email}
 										maxLength={55}
 										autoComplete="off"
 									/>
+									<span
+										className={
+											email.length === 0
+												? 'text-message fill-color'
+												: message
+												? 'text-message success-color'
+												: 'text-message error-color'
+										}
+									>
+										{email.length === 0
+											? ' '
+											: message
+											? ' '
+											: 'The email you entered is invalid'}
+									</span>
 								</div>
 
 								<div className="col-lg-4 col-md-6 mt-3 mt-lg-0">
@@ -278,7 +300,7 @@ const EditProfile = (props: any) => {
 									<input
 										className="create-collection-input mt-2"
 										id="name"
-										type="text"
+										type="url"
 										name="name"
 										onChange={(e) => {
 											if (e.target.value.trim() === '' && twitterLink === '') {
@@ -302,7 +324,7 @@ const EditProfile = (props: any) => {
 									<input
 										className="create-collection-input mt-2"
 										id="url"
-										type="text"
+										type="url"
 										name="url"
 										placeholder="Instagram Link"
 										onChange={(e) => {
@@ -325,7 +347,7 @@ const EditProfile = (props: any) => {
 									<input
 										className="create-collection-input mt-2"
 										id="url"
-										type="text"
+										type="url"
 										name="url"
 										placeholder="Website Link"
 										onChange={(e) => {

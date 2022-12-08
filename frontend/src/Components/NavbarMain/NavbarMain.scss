@@ -23,6 +23,16 @@
   padding-right: 30px;
 }
 
+.main-nav-container .navbar-light .navbar-nav .nav-link.nav-main-link:hover {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  color: #2269ff;
+  padding-right: 30px;
+  border-radius: 50px;
+}
+
+
 .main-nav-container
   .navbar-light
   .navbar-nav
@@ -34,6 +44,20 @@
   padding-right: 30px;
   text-decoration: none;
   transition: color 0s;
+}
+.main-nav-container
+  .navbar-light
+  .navbar-nav
+  .nav-main-link.nav-item.dropdown
+  a:hover {
+  font-weight: 700;
+  font-size: 16px;
+  color: #2269ff;
+
+  padding-right: 30px;
+  text-decoration: none;
+  transition: color 0s;
+  text-shadow: black;
 }
 
 .main-nav-container .navbar-nav .dropdown-bg .dropdown-menu {
