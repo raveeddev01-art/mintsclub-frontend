@@ -211,7 +211,8 @@ export const lazyMint = async (
 				latestTokenId,
 				+copies,
 				ownerAddress,
-				metaData
+				metaData,
+				150
 			)
 			.send({ from: connectedAddress, value: priceToMint })
 			.on('transactionHash', function (hash) {
