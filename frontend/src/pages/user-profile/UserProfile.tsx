@@ -219,7 +219,7 @@ const UserProfile = (props: any) => {
 																	className="me-1"
 																/>
 
-																<p className="acc-adress d-none d-md-block">
+																<p className="acc-address d-none d-md-block">
 																	{user.address}
 																</p>
 																<p className="acc-address d-md-none">
