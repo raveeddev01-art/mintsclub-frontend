@@ -33,8 +33,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	const [filter, setFilter] = useState<any>({
 		collectionId: location.state.id,
 	});
-	const [floorPrice, setFloorPrice] = useState<string>('0');
-	const [avgSalePrice, setAvgSalePrice] = useState<string>('0');
 	const { setError } = useContext(errorHandler);
 	const history = useHistory();
 
@@ -61,8 +59,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		if (data.data.success) {
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
-			setFloorPrice(data?.data?.data?.nfts[0].floorPrice);
-			setAvgSalePrice(data.data.data.pagination.avgPrice);
 			setNfts(data.data.data.nfts);
 		} else {
 			setError(data.data.message);
@@ -114,14 +110,28 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		const userId = ENV.getUserKeys('_id')._id;
 		return !userId || userId !== location.state.userId;
 	};
-	const { name, logo, description, username, blockchainType }: any =
-		location.state;
+	const {
+		name,
+		logo,
+		description,
+		username,
+		blockchainType,
+		avgSalePrice,
+		floorPriceForFixedAuction,
+		floorPriceForTimedAuction,
+		totalVolume,
+	}: any = location.state;
 
 	const bannerData = {
 		subHeading: 'Explore',
 		heading: name,
 	};
-	console.log(location.state, 'location.state');
+	const volume = location.state.totalVolume;
+	const floorTimedAuction = location.state.floorPriceForTimedAuction;
+	const floorFixedAuction = location.state.floorPriceForFixedAuction;
+	const floorPrice = Math.min(floorTimedAuction, floorFixedAuction);
+	const avgSale = location.state.avgSalePrice;
+	console.log(location.state, 'location.state==========');
 
 	return (
 		<>
@@ -146,7 +156,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 				<div className="container">
 					<div className="collection-detail-cards">
 						<div className="info-card">
-							<h3>{floorPrice}</h3>
+							<h3>{floorPrice ? floorPrice : 0}</h3>
 							<p>Floor Price</p>
 						</div>
 						<div className="info-card">
@@ -154,11 +164,11 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 							<p>Items</p>
 						</div>
 						<div className="info-card">
-							<h3>0</h3>
+							<h3>{volume ? volume : 0}</h3>
 							<p>Total Volume</p>
 						</div>
 						<div className="info-card">
-							<h3>{avgSalePrice}</h3>
+							<h3>{avgSale ? avgSale : 0}</h3>
 							<p>Avg Sale Price</p>
 						</div>
 						<div className="info-card">
