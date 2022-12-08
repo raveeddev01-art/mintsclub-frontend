@@ -68,6 +68,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
 		}
 	}
 	const qs = ENV.objectToQueryString(nftQS);
+	console.log('this is limit====',qs)
 	return useQuery(
 		[
 			`collectionNFTs/${

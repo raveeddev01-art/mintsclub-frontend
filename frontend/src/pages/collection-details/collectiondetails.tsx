@@ -120,17 +120,19 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		floorPriceForFixedAuction,
 		floorPriceForTimedAuction,
 		totalVolume,
+		nftDetail,
 	}: any = location.state;
 
 	const bannerData = {
 		subHeading: 'Explore',
 		heading: name,
 	};
-	const volume = location.state.totalVolume;
+	const volume = (location.state.totalVolume).toFixed(2);
 	const floorTimedAuction = location.state.floorPriceForTimedAuction;
 	const floorFixedAuction = location.state.floorPriceForFixedAuction;
-	const floorPrice = Math.min(floorTimedAuction, floorFixedAuction);
-	const avgSale = location.state.avgSalePrice;
+	const floorPrice = (Math.min(floorTimedAuction, floorFixedAuction)).toFixed(2);
+	const avgSale = (location.state.avgSalePrice).toFixed(2);
+	const item = location.state.nftDetail.length;
 	console.log(location.state, 'location.state==========');
 
 	return (
@@ -160,7 +162,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 							<p>Floor Price</p>
 						</div>
 						<div className="info-card">
-							<h3>{nftPagination?.total ? nftPagination?.total : 0}</h3>
+							<h3>{item ? item : 0}</h3>
 							<p>Items</p>
 						</div>
 						<div className="info-card">
