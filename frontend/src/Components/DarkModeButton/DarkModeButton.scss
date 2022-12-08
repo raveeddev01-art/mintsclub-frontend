@@ -18,6 +18,16 @@
   padding-right: 30px;
   margin-bottom: 0;
 }
+.toggle-theme-wrapper p:hover {
+  font-weight: 700;
+  font-size: 16px;
+  color: #2269FF;
+  text-decoration: none;
+  transition: color 0s;
+  white-space: nowrap;
+  padding-right: 30px;
+  margin-bottom: 0;
+}
 
 .toggle-theme {
   position: relative;
