@@ -800,29 +800,39 @@ const buyFixedPriceNFT = async (
 	royaltyAddress,
 	sellerAddress //ownerAddress
 ) => {
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 808 ~ sellerAddress',
-		sellerAddress
-	);
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 808 ~ royaltyAddress',
-		royaltyAddress
-	);
 	try {
 		const NFT_PRICE = await algosdk.algosToMicroalgos(price);
-
+		let txnsArray = [];
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
 		params.flatFee = true;
 
-		const appoptin = await algosdk.makeApplicationOptInTxnFromObject({
-			appIndex: appIndex,
-			from: connectedAddress, //buyer address
-			suggestedParams: params,
+		const accountInfo = await algodClient
+			.accountInformation(connectedAddress.toString())
+			.do();
+		console.log('🚀 ~ file: algorand.js ~ line 821 ~ accountInfo', accountInfo);
+
+		const isAccountOptIn = accountInfo.assets.some((element) => {
+			if (element['asset-id'] === appIndex) {
+				return true;
+			}
+			return false;
 		});
+		if (!isAccountOptIn) {
+			const appoptin = await algosdk.makeApplicationOptInTxnFromObject({
+				appIndex: appIndex,
+				from: connectedAddress, //buyer address
+				suggestedParams: params,
+			});
+			txnsArray.push(appoptin);
+		}
 
 		const enc = new TextEncoder();
-		const note = enc.encode('buy');
+
+		let note = enc.encode('buy');
+		if (isAccountOptIn) {
+			note = enc.encode('buyNew');
+		}
 
 		const app_args = [note, algosdk.encodeUint64(nftID)];
 
@@ -836,6 +846,7 @@ const buyFixedPriceNFT = async (
 			accounts: [sellerAddress, royaltyAddress],
 		});
 		console.log('🚀 ~ file: algorand.js ~ line 818 ~ buy', buy);
+		txnsArray.push(buy);
 		const appAddr = algosdk.getApplicationAddress(appIndex);
 
 		const paymentTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
@@ -846,8 +857,7 @@ const buyFixedPriceNFT = async (
 			to: appAddr, // app address will take from appId
 			amount: NFT_PRICE,
 		});
-
-		const txnsArray = [appoptin, buy, paymentTxn];
+		txnsArray.push(paymentTxn);
 
 		const transferAsset = await executeTransfer(
 			nftID,
@@ -855,7 +865,8 @@ const buyFixedPriceNFT = async (
 			appIndex,
 			sellerAddress,
 			royaltyAddress,
-			txnsArray
+			txnsArray,
+			isAccountOptIn
 		);
 		if (transferAsset) {
 			return transferAsset;
@@ -871,7 +882,8 @@ const executeTransfer = async (
 	appID,
 	sellerAddress,
 	royaltyAddress,
-	txnsArray
+	txnsArray,
+	isAccountOptIn
 ) => {
 	const params = await algodClient.getTransactionParams().do();
 	params.fee = 1000;
@@ -889,7 +901,10 @@ const executeTransfer = async (
 		});
 
 	const enc = new TextEncoder();
-	const note = enc.encode('executeTransfer');
+	let note = enc.encode('executeTransfer');
+	if (isAccountOptIn) {
+		note = enc.encode('executeTransferNew');
+	}
 
 	const app_args = [note];
 
@@ -910,7 +925,7 @@ const executeTransfer = async (
 	);
 	const groupID = algosdk.computeGroupID(txnsArray);
 	console.log('Group ID', groupID);
-	for (let i = 0; i < 5; i++) txnsArray[i].group = groupID;
+	for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
 
 	const signedTxns = await myAlgoConnect.signTransaction(
 		txnsArray.map((txn) => txn.toByte())

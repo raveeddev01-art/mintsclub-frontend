@@ -55,40 +55,40 @@ int 1
 assert
 int 0
 callsub sub0
-gtxn 1 Sender
-gtxna 1 Accounts 1
+gtxn 0 Sender
+gtxna 0 Accounts 1
 !=
 assert
-gtxna 1 Accounts 1
+gtxna 0 Accounts 1
 byte "approveTransfer"
 app_local_get
 int 1
 ==
 assert
-gtxn 1 Sender
+gtxn 0 Sender
 byte "approveTransfer"
 app_local_get
 int 1
 ==
 assert
-gtxna 1 Accounts 1
+gtxna 0 Accounts 1
 byte "amountPayment"
 app_local_get
 global MinTxnFee
 >
 assert
-gtxn 1 Sender
-gtxna 1 Accounts 1
+gtxn 0 Sender
+gtxna 0 Accounts 1
 byte "amountPayment"
 app_local_get
 global MinTxnFee
 -
 callsub sub1
-gtxna 1 Accounts 1
+gtxna 0 Accounts 1
 byte "approveTransfer"
 int 0
 app_local_put
-gtxn 1 Sender
+gtxn 0 Sender
 byte "approveTransfer"
 app_local_del
 int 1
