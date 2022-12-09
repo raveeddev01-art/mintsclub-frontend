@@ -20,6 +20,7 @@ const AddLevels = ({ data }: any) => {
 					</button>
 				</div>
 			</div>
+
 			<div className="nft-level-container mx-3 mt-3 ">
 				{nft.levels.map((item: { name: any; value: any }, index: any) => {
 					return <LevelsInfo name={item.name} value={item.value} key={index} />;

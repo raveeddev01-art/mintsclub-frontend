@@ -9,8 +9,10 @@ import { useGetData } from '../../hooks/Common';
 import { WordsFamousNfts } from '../../utils/exportData';
 import { HeroInt } from '../../interfaces/components';
 import { connect } from 'react-redux';
+import ModalVideo from 'react-modal-video';
 
 const Hero: FC<HeroInt> = (props) => {
+	const [isOpen, setOpen] = useState(false);
 	const [data, setData] = useState<any>(null);
 	const [status, setStatus] = useState<any>(null);
 	const heroSettings = ENV.heroSettings;
@@ -54,60 +56,71 @@ const Hero: FC<HeroInt> = (props) => {
 	}, []);
 
 	return (
-		<section className="hero-section padding-wrapper">
-			<div className="container">
-				<div className="row align-items-center">
-					<div className="col-12 col-lg-6">
-						<h1 className="mt-4">
-							Discover, Collect, <br /> <span>and sell</span> Rare
-							<br />
-							Digital Art <span> NFTs </span>
-						</h1>
-						<p className="mp-explore-text">
-							Build the leading platform for cutting-edge and next gen
-							Blockchain.
-						</p>
-						{/* Buttons */}
-						<div className="button-group mt-lg-5 d-flex">
-							<Link
-								className="btn btn-linear-gradient btn-hero-create me-sm-4"
-								to={'/create'}
-							>
-								Create
-							</Link>
-							<div className="watch-video d-flex align-items-center">
-								<button className="hero-play-btn">
-									<a
-										// href="https://youtu.be/ZJmzdQ-WId4"
-										target="_blank"
-										rel="noreferrer"
+		<>
+			<ModalVideo
+				channel="youtube"
+				isOpen={isOpen}
+				videoId="L61p2uyiMSo"
+				onClose={() => setOpen(false)}
+			/>
+			<section className="hero-section padding-wrapper">
+				<div className="container">
+					<div className="row align-items-center">
+						<div className="col-12 col-lg-6">
+							<h1 className="mt-4">
+								Discover, Collect, <br /> <span>and sell</span> Rare
+								<br />
+								Digital Art <span> NFTs </span>
+							</h1>
+							<p className="mp-explore-text">
+								Build the leading platform for cutting-edge and next gen
+								Blockchain.
+							</p>
+							{/* Buttons */}
+							<div className="button-group mt-lg-5 d-flex">
+								<Link
+									className="btn btn-linear-gradient btn-hero-create me-sm-4"
+									to={'/create'}
+								>
+									Create
+								</Link>
+								<div className="watch-video d-flex align-items-center">
+									<button
+										className="hero-play-btn"
+										onClick={() => setOpen(true)}
 									>
-										<img src={Play} alt="play" />
-									</a>
-								</button>
-								<span className="ms-4">Watch video to learn more ...</span>
+										<a
+											// href="https://youtu.be/ZJmzdQ-WId4"
+											target="_blank"
+											rel="noreferrer"
+										>
+											<img src={Play} alt="play" />
+										</a>
+									</button>
+									<span className="ms-4">Watch video to learn more ...</span>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div className="col-12 col-lg-6">
-						<CardSlider settings={heroSettings}>
-							{data &&
-								data.length > 0 &&
-								data.map((auction: any, id: any) => {
-									return (
-										<HeroCards
-											key={id}
-											data={auction}
-											status={status}
-											// className="slide"
-										/>
-									);
-								})}
-						</CardSlider>
+						<div className="col-12 col-lg-6">
+							<CardSlider settings={heroSettings}>
+								{data &&
+									data.length > 0 &&
+									data.map((auction: any, id: any) => {
+										return (
+											<HeroCards
+												key={id}
+												data={auction}
+												status={status}
+												// className="slide"
+											/>
+										);
+									})}
+							</CardSlider>
+						</div>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		</>
 	);
 };
 const mapStateToProps = (state: any) => ({

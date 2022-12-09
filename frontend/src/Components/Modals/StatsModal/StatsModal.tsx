@@ -74,7 +74,7 @@ const StatsModal: FC<any> = (props) => {
 			</Modal.Header>
 			<Modal.Body className="mt-0 pt-0 px-0 px-sm-3">
 				<form>
-					<div className="nft-modalfields-container pe-2 pe-sm-0 px-sm-2 py-sm-2">
+					<div className="nft-modalfields-container pe-2 px-sm-2 py-sm-2">
 						{stats &&
 							stats.length > 0 &&
 							stats.map((item: any, i: any) => {
@@ -83,7 +83,7 @@ const StatsModal: FC<any> = (props) => {
 										className="row g-2 align-items-center justify-content-between mt-3"
 										key={i}
 									>
-										<div className="col-sm-5 order-1 order-sm-0 mt-0">
+										<div className="col-sm-6 order-1 order-sm-0 mt-0">
 											<div className="bid-inp-container d-flex align-items-center mt-0">
 												<div className="ps-2">
 													<h6>Name:</h6>
@@ -103,7 +103,7 @@ const StatsModal: FC<any> = (props) => {
 												</div>
 											</div>
 										</div>
-										<div className="col-sm-5 order-2 order-sm-1 mt-3 mt-sm-0">
+										<div className="col-sm-6 order-2 order-sm-1 mt-3 mt-sm-0">
 											<div className="d-flex align-items-center justify-content-between">
 												<div className="bid-inp-container modal-value-inp d-flex align-items-center">
 													<div className="ps-2">
@@ -148,7 +148,7 @@ const StatsModal: FC<any> = (props) => {
 												</div>
 											</div>
 										</div>
-										<div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
+										{/* <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
 											<div className="inp-close text-end me-2">
 												<span>
 													<img
@@ -158,7 +158,7 @@ const StatsModal: FC<any> = (props) => {
 													/>
 												</span>
 											</div>
-										</div>
+										</div> */}
 									</div>
 								);
 							})}

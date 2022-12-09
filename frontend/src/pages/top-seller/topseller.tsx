@@ -66,7 +66,7 @@ const TopSeller = (props: any) => {
 								return (
 									<div
 										key={`ts_${idx}`}
-										className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards"
+										className="col-12 col-sm-6 col-lg-4 col-xl-3 item top-seller-cards card_wrap"
 									>
 										{/* Single Seller */}
 										<div className="card top-seller-card">
