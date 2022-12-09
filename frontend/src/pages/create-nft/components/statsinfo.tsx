@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import './nftinfo.scss';
 import { StatsInfoInterface } from '../../../interfaces/components';
+import InputClose from '../../../assets/images/inp-close.svg';
+
 const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 	const filled = () => {
 		const filledArray = [];
@@ -18,7 +20,8 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 		return unFilledArray;
 	};
 	return (
-		<>
+		<div className="nft-info-container-wrap">
+			<img src={InputClose} alt="inputmodal" />
 			<div className="nft-info-container mx-1 mt-3">
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>
@@ -36,7 +39,7 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 export default StatsInfo;

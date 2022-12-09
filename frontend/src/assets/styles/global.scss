@@ -1861,7 +1861,7 @@ aside {
   box-shadow: none !important;
 }
 
-.card:not(.no-hover):hover {
+.card_wrap:hover .card:not(.no-hover) {
   -webkit-transform: translateY(-5px);
   transform: translateY(-5px);
  

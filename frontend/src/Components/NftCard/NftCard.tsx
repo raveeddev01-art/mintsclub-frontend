@@ -1,5 +1,5 @@
 import React, { useState, FC, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import useVideoPlayer from '../TestVideoCard/Components/UseVideoPlayer';
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
@@ -107,197 +107,214 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 	}, [props?.data?._id]);
 
 	return (
-		<Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
-			<div className="nft-img-wrapper">
-				<div className="nft-chain">
-					<img
-						src={
-							CHAIN_LOGOS[
-								(props.data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
-									'ethereum'
-							]
-						}
-						alt=""
-						className="icon"
-					/>
-					<span className="name">
-						{
-							CHAIN_TITLE[
-								(props.data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
-									'ethereum'
-							]
-						}
-					</span>
-				</div>
-				{fileType === 'image' ? (
-					<>
-						<div style={{ display: `${loader ? 'block' : 'none'}` }}>
-							<ImageLoader />
-						</div>
-						<Card.Img
-							variant="top"
-							onLoad={() => setLoader(false)}
-							onClick={() => history.push(`${props.path}${_id}`)}
-							src={compressedFile ? compressedFile : image}
-							alt="AuctionTopImg"
-							style={{ display: `${!loader ? 'block' : 'none'}` }}
+		<div className="card_wrap">
+			<Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
+				<div className="nft-img-wrapper">
+					<div className="nft-chain">
+						<img
+							src={
+								CHAIN_LOGOS[
+									(props.data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+							alt=""
+							className="icon"
 						/>
-					</>
-				) : fileType === 'video' ? (
-					<div className="card-img-top">
-						<div className="video-wrapper">
+						<span className="name">
+							{
+								CHAIN_TITLE[
+									(props.data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+						</span>
+					</div>
+					{fileType === 'image' ? (
+						<>
 							<div style={{ display: `${loader ? 'block' : 'none'}` }}>
 								<ImageLoader />
 							</div>
-							<video
-								id="video1"
+							<Card.Img
+								variant="top"
+								onLoad={() => setLoader(false)}
+								onClick={() => history.push(`${props.path}${_id}`)}
 								src={compressedFile ? compressedFile : image}
-								ref={videoElement}
-								onEnded={() => {
-									togglePlay();
-								}}
-								onCanPlay={() => {
-									setLoader(false);
-								}}
+								alt="AuctionTopImg"
 								style={{ display: `${!loader ? 'block' : 'none'}` }}
 							/>
+						</>
+					) : fileType === 'video' ? (
+						<div className="card-img-top">
+							<div className="video-wrapper">
+								<div style={{ display: `${loader ? 'block' : 'none'}` }}>
+									<ImageLoader />
+								</div>
+								<video
+									id="video1"
+									src={compressedFile ? compressedFile : image}
+									ref={videoElement}
+									onEnded={() => {
+										togglePlay();
+									}}
+									onCanPlay={() => {
+										setLoader(false);
+									}}
+									style={{ display: `${!loader ? 'block' : 'none'}` }}
+								/>
 
-							<div className="controls">
-								<div className="actions">
-									<button
-										className="play-pause-btn d-flex align-items-center justify-content-center"
-										onClick={togglePlay}
-									>
-										{playerState.isPlaying ? (
-											<BsFillPauseFill />
-										) : (
-											<BsFillPlayFill />
-										)}
-									</button>
+								<div className="controls">
+									<div className="actions">
+										<button
+											className="play-pause-btn d-flex align-items-center justify-content-center"
+											onClick={togglePlay}
+										>
+											{playerState.isPlaying ? (
+												<BsFillPauseFill />
+											) : (
+												<BsFillPlayFill />
+											)}
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				) : fileType === 'audio' ? (
-					<>
-						<div style={{ display: `${loader ? 'block' : 'none'}` }}>
-							<ImageLoader />
-						</div>
-						<Audio
-							src={image}
-							onLoadCallback={() => {
-								setLoader(false);
-								return false;
-							}}
-							loader={loader}
-							fileType={fileType}
-						/>
-					</>
-				) : (
-					' '
-				)}
-			</div>
-			<Card.Body>
-				<Card.Title>
-					<div>
-						{name && name.length > 25 ? name.slice(0, 25) + '...' : name}
-					</div>
-					<div className="nft-owner-price d-flex align-items-center">
-						<span className="me-2">{nftLikes ? nftLikes : 0}</span>
-						{!likesbyUser ? (
-							<img
-								src={Images.whiteEmptyHeart}
-								alt=""
-								onClick={() => {
-									if (!ENV.getUserKeys('_id')._id) {
-										history.push('/connect-wallet');
-										return;
-									}
-									toggleLikeDislike({
-										nftId: props.data._id,
-										userId: ENV.getUserKeys('_id')._id,
-									});
+					) : fileType === 'audio' ? (
+						<>
+							<div style={{ display: `${loader ? 'block' : 'none'}` }}>
+								<ImageLoader />
+							</div>
+							<Audio
+								src={image}
+								onLoadCallback={() => {
+									setLoader(false);
+									return false;
 								}}
+								loader={loader}
+								fileType={fileType}
 							/>
-						) : (
-							<img
-								src={Images.whiteFillHeart}
-								alt=""
-								onClick={() => {
-									if (!ENV.getUserKeys('_id')._id) {
-										history.push('/connect-wallet');
-										return;
-									}
-									toggleLikeDislike({
-										nftId: props.data._id,
-										userId: ENV.getUserKeys('_id')._id,
-									});
-								}}
-							/>
-						)}
-					</div>
-				</Card.Title>
-				<div className="nft-status d-none">
-					<div className="status-info status-sold">
-						<span className="status">
-							Sold:{' '}
-							<span className="status-count">{copies - remainingCopies}</span>{' '}
-						</span>
-					</div>
-					<div className="status-info status-remaining">
-						<span className="status">
-							Remaining: <span className="status-count">{remainingCopies}</span>{' '}
-						</span>
-					</div>
+						</>
+					) : (
+						' '
+					)}
 				</div>
-				<div className="d-flex align-items-center justify-content-between nft-bottom">
-					<div className="nft-card-owner-container d-flex align-items-center">
-						<div className="nft-owner-avatar">
-							<img
-								src={
-									!profilePhoto && !profileImage
-										? placeholderImg
-										: profilePhoto
-										? profilePhoto
-										: profileImage
-								}
-								alt="avatar"
-							/>
+				<Card.Body>
+					<Card.Title>
+						<div>
+							{name && name.length > 25 ? name.slice(0, 25) + '...' : name}
 						</div>
-						<div className="ms-2 nft-owner-name">
-							<p className="d-flex flex-column">
-								<span className="text-capitalize ms-1">
-									{verifyOwner(
-										ownerAddress,
-										props.connectedAddress,
-										blockchainType,
-										username
-									)}
-								</span>
-								<span className="nft-price mt-1">
-									<img className="me-2" src={Images.nftPriceTag} />
-									<a className="price ms-1">
-										{/* {currentPrice.toString().length} */}
-										{currentPrice}{' '}
-										{
-											CHAIN_CURRENCY[
-												blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
-											]
+						<div className="nft-owner-price d-flex align-items-center">
+							<span className="me-2">{nftLikes ? nftLikes : 0}</span>
+							{!likesbyUser ? (
+								<img
+									src={Images.whiteEmptyHeart}
+									alt=""
+									onClick={() => {
+										if (!ENV.getUserKeys('_id')._id) {
+											history.push('/connect-wallet');
+											return;
 										}
-									</a>
-								</span>
-							</p>
+										toggleLikeDislike({
+											nftId: props.data._id,
+											userId: ENV.getUserKeys('_id')._id,
+										});
+									}}
+								/>
+							) : (
+								<img
+									src={Images.whiteFillHeart}
+									alt=""
+									onClick={() => {
+										if (!ENV.getUserKeys('_id')._id) {
+											history.push('/connect-wallet');
+											return;
+										}
+										toggleLikeDislike({
+											nftId: props.data._id,
+											userId: ENV.getUserKeys('_id')._id,
+										});
+									}}
+								/>
+							)}
+						</div>
+					</Card.Title>
+					<div className="nft-status d-none">
+						<div className="status-info status-sold">
+							<span className="status">
+								Sold:{' '}
+								<span className="status-count">{copies - remainingCopies}</span>{' '}
+							</span>
+						</div>
+						<div className="status-info status-remaining">
+							<span className="status">
+								Remaining:{' '}
+								<span className="status-count">{remainingCopies}</span>{' '}
+							</span>
 						</div>
 					</div>
-					<button
-						className="nft-bit-btn"
-						onClick={() => history.push(`${props.path}${_id}`)}
-					>
-						{'View Detail'}
-					</button>
-				</div>
-			</Card.Body>
-		</Card>
+					<div className="d-flex align-items-center justify-content-between nft-bottom">
+						<div className="nft-card-owner-container d-flex align-items-center">
+							<div className="nft-owner-avatar">
+								<img
+									src={
+										!profilePhoto && !profileImage
+											? placeholderImg
+											: profilePhoto
+											? profilePhoto
+											: profileImage
+									}
+									alt="avatar"
+								/>
+							</div>
+							<div className="ms-2 nft-owner-name">
+								<p className="d-flex flex-column">
+									<OverlayTrigger
+										placement="top"
+										overlay={
+											<Tooltip id="tooltip">
+												{verifyOwner(
+													ownerAddress,
+													props.connectedAddress,
+													blockchainType,
+													username
+												)}
+											</Tooltip>
+										}
+									>
+										<span className="text-capitalize ms-1 name">
+											{verifyOwner(
+												ownerAddress,
+												props.connectedAddress,
+												blockchainType,
+												username
+											)}
+										</span>
+									</OverlayTrigger>
+									<span className="nft-price mt-1">
+										<img className="me-2" src={Images.nftPriceTag} />
+										<a className="price ms-1">
+											{/* {currentPrice.toString().length} */}
+											{currentPrice}{' '}
+											{
+												CHAIN_CURRENCY[
+													blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+												]
+											}
+										</a>
+									</span>
+								</p>
+							</div>
+						</div>
+						<button
+							className="nft-bit-btn"
+							onClick={() => history.push(`${props.path}${_id}`)}
+						>
+							{'View Detail'}
+						</button>
+					</div>
+				</Card.Body>
+			</Card>
+		</div>
 	);
 };
 

@@ -101,7 +101,7 @@ const NavbarMain = () => {
 						aria-controls="basic-navbar-nav"
 					/>
 					<Navbar.Collapse id="basic-navbar-nav">
-						<Nav className={'ms-xl-auto'}>
+						<Nav className={'ms-xl-auto mt-4'}>
 							<NavLink className="nav-main-link nav-link" to="/">
 								Home
 							</NavLink>

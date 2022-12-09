@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import './nftinfo.scss';
 import { PropertiesInfoInterface } from '../../../interfaces/components';
+import InputClose from '../../../assets/images/inp-close.svg';
 const PropertiesInfo: FC<PropertiesInfoInterface> = ({ name, type }) => {
 	return (
 		<>
 			<div className="nft-propinfo-container mx-1">
+				<img src={InputClose} alt="inputmodal" />
 				<div className="properties-content">
 					<p>
 						<span>Type: </span>

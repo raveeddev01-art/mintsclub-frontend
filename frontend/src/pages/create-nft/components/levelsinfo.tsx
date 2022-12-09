@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import './nftinfo.scss';
+import InputClose from '../../../assets/images/inp-close.svg';
 import { LevelsInfoInterface } from '../../../interfaces/components';
 
 const LevelsInfo: FC<LevelsInfoInterface> = ({ name, value, i }) => {
@@ -19,7 +20,8 @@ const LevelsInfo: FC<LevelsInfoInterface> = ({ name, value, i }) => {
 		return unFilledArray;
 	};
 	return (
-		<>
+		<div className="nft-info-container-wrap">
+			<img src={InputClose} alt="inputmodal" />
 			<div className="nft-info-container mx-1 mt-3" key={i}>
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>
@@ -37,7 +39,7 @@ const LevelsInfo: FC<LevelsInfoInterface> = ({ name, value, i }) => {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 export default LevelsInfo;
