@@ -813,11 +813,15 @@ const buyFixedPriceNFT = async (
 		console.log('🚀 ~ file: algorand.js ~ line 821 ~ accountInfo', accountInfo);
 
 		const isAccountOptIn = accountInfo.assets.some((element) => {
-			if (element['asset-id'] === appIndex) {
+			if (element['asset-id'] === nftID) {
 				return true;
 			}
 			return false;
 		});
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 821 ~ isAccountOptIn ~ isAccountOptIn',
+			isAccountOptIn
+		);
 		if (!isAccountOptIn) {
 			const appoptin = await algosdk.makeApplicationOptInTxnFromObject({
 				appIndex: appIndex,
