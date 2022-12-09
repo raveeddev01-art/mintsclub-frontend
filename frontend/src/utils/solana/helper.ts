@@ -734,6 +734,7 @@ const executeSaleForLiveAuction = async (
 			})
 			.remainingAccounts(remainingAccounts)
 			.rpc();
+		console.log('🚀 ~ file: helper.ts ~ line 732 ~ txSig', txSig);
 		return txSig;
 	} catch (e) {
 		return e;

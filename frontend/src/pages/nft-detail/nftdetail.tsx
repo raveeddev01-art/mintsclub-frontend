@@ -1129,17 +1129,15 @@ const NFTDetail = (props: any) => {
 			setLoader(true);
 			const { ownerId } = nftDetail;
 			const { sellingMethod, sellId } = nftDetail?.auction || {};
-			if (nftDetail?.blockchainType === 'algorand') {
-				if (userId === ownerId && sellingMethod === 2) {
-					const result = await endAuctionFromContract(sellId);
-					if (result) {
-						EndAuctionFromBackend();
-					}
-				} else {
-					const result = await claimNFTfromContract(sellId);
-					if (result) {
-						EndAuctionFromBackend();
-					}
+			if (userId === ownerId && sellingMethod === 2) {
+				const result = await endAuctionFromContract(sellId);
+				if (result) {
+					EndAuctionFromBackend();
+				}
+			} else {
+				const result = await claimNFTfromContract(sellId);
+				if (result) {
+					EndAuctionFromBackend();
 				}
 			}
 		} catch (err: any) {

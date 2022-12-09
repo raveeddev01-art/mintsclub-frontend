@@ -588,6 +588,10 @@ const createFixedPriceApp = async (
 	connectedAddress,
 	price
 ) => {
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 591 ~ connectedAddress',
+		connectedAddress
+	);
 	try {
 		let approvalProg = '';
 		let clearProg = '';
@@ -717,6 +721,10 @@ const createFixedPriceApp = async (
 	}
 };
 const setupSale = async (price, appID, nftID, connectedAddress, txnsArray) => {
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 720 ~ setupSale ~ connectedAddress',
+		connectedAddress
+	);
 	try {
 		const NFT_PRICE = await algosdk.algosToMicroalgos(price);
 		const params = await algodClient.getTransactionParams().do();

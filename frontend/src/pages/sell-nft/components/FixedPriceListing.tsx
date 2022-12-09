@@ -101,7 +101,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						connectedAddress,
 						price
 					);
-					if (res.txId) {
+
+					if (res) {
 						payload.sellId = res;
 						payload.sellerTradeState = connectedAddress;
 					}
@@ -113,6 +114,10 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						nftDetail?.tokenId,
 						connectedAddress,
 						txnsArray
+					);
+					console.log(
+						'🚀 ~ file: FixedPriceListing.tsx ~ line 115 ~ FixedPriceListing ~ res',
+						res
 					);
 					if (res.txId) {
 						payload.sellId = nftDetail?.appId;
