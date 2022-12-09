@@ -2,6 +2,8 @@
 	.collection-detail-cards {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		row-gap: 10px;
 		.info-card {
 			background: var(--ts-card-bg);
 			box-shadow: 0px 4px 42px rgba(0, 0, 0, 0.08);
@@ -271,7 +273,24 @@
 	border-color: grey;
 	outline: 0;
 }
-
+@media (max-width: 1200.9px) {
+	.collection {
+		.collection-detail-cards {
+			justify-content: center;
+			margin-right: 30px;
+			.info-card {
+				min-width: 220px;
+				height: 70px;
+				h3 {
+					font-size: 24px;
+				}
+				p {
+					font-size: 13px;
+				}
+			}
+		}
+	}
+}
 @media (max-width: 767.9px) {
 	.collection-detail-content .collection-owner-detail {
 		width: 100%;
