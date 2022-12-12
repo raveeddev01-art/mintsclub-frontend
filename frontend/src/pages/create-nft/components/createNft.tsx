@@ -28,7 +28,7 @@ const CreateNft = ({
 			const { success } = res.data;
 			if (success) {
 				toast.success('NFT created successfully');
-				props.history.push('/explore/allNFT');
+				props.history.push(`/explore/nftdetail/${res.data.nft._id}`);
 			} else {
 				setLoader(false);
 				toast.error(res.data.message);

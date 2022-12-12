@@ -273,7 +273,7 @@ class CreateNFT extends React.Component<
 			const { success } = res.data;
 			if (success) {
 				toast.success('NFT created successfully');
-				this.props.history.push('/explore/allNFT');
+				this.props.history.push(`/explore/nftdetail/${res.data.nft._id}`);
 			} else {
 				this.setState({ loader: false });
 				toast.error(res.data.message);
