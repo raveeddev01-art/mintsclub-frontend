@@ -552,7 +552,7 @@ class CreateCollections extends Component<
 										firstInputCharacterSpace(e, collection.name.length)
 									}
 									placeholder="Enter Name"
-									maxLength={55}
+									maxLength={25}
 									autoComplete="off"
 								/>
 							</div>
@@ -565,7 +565,7 @@ class CreateCollections extends Component<
 								<input
 									className="create-collection-input mt-2"
 									id="url"
-									type="text"
+									type="url"
 									name="url"
 									placeholder="Enter URL"
 									onChange={(e) => this.onChange(e)}
@@ -573,7 +573,6 @@ class CreateCollections extends Component<
 									onKeyDown={(e) =>
 										firstInputCharacterSpace(e, collection.url.length)
 									}
-									maxLength={55}
 									autoComplete="off"
 								/>
 							</div>

@@ -88,7 +88,7 @@ const UserProfile = (props: any) => {
 	const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
 		filter,
 		onSuccessNFTs,
-		9,
+		9
 	);
 
 	const onSuccessUser = (data: any) => {
