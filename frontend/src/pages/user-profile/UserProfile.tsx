@@ -45,7 +45,7 @@ const UserProfile = (props: any) => {
 	);
 	const { darkMode } = useContext(darkModeContext);
 	const { setError } = useContext(errorHandler);
-	const [filter, setFilter] = useState({ page: 1, limit: 9999999 });
+	const [filter, setFilter] = useState({ page: 1, limit: 9 });
 	const userId = ENV.getUserKeys('_id')._id;
 	const history = useHistory();
 	useEffect(() => {
@@ -88,7 +88,7 @@ const UserProfile = (props: any) => {
 	const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
 		filter,
 		onSuccessNFTs,
-		9999999
+		9,
 	);
 
 	const onSuccessUser = (data: any) => {
@@ -153,6 +153,7 @@ const UserProfile = (props: any) => {
 		getNFTs(filterObj);
 		refetch();
 	};
+
 	const getPaginatedData = () => {
 		setDataLimit((prev) => prev + 9);
 	};

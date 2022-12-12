@@ -100,12 +100,13 @@ const verifyNFTStatus = (
 	) {
 		return 'Claim NFT';
 	} else if (
+		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod === 2 &&
 		auctionEnded === false &&
 		status === 'reclaimNft' &&
 		blockChainType === 'solana' &&
 		activeAuction !== null
-	) {
+	) { 
 		return 'Reclaim NFT';
 	} else if (
 		connectedAddress?.toUpperCase() === currentBidder?.toUpperCase() &&
