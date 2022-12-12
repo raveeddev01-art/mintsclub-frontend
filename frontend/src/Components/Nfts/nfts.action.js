@@ -61,8 +61,6 @@ export const getNFTs =
 			let result = await handleRequest('get', 'nfts/list', null, qs);
 			const { data, success } = result.data;
 			if (success) {
-				console.log('this is data in nft.js', data);
-
 				dispatch({
 					type: GET_NFTS,
 					payload: data,
@@ -285,8 +283,6 @@ export const getProfileNfts =
 		try {
 			const res = await handleRequest('get', 'nfts/list', null, qs);
 			const { data, success } = res.data;
-			console.log('🚀 ~ file: nfts.action.js:287 ~ data', data);
-
 			if (success) {
 				dispatch({
 					type: GET_PROFILE_NFTS,
