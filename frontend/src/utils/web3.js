@@ -470,7 +470,7 @@ export const claimNFTfromContract = async (tokenId) => {
 		let web3 = await getWeb3();
 		let connectedAddress = await getMetamaskConnectedAddress();
 		const contractM = await getContractMethods(abi, contractAddress);
-		const result = contractM.methods.claimNft(tokenId).send({
+		const result = contractM.methods.claimNFT(tokenId).send({
 			from: connectedAddress,
 			gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
 		});

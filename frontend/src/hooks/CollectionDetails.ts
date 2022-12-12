@@ -57,7 +57,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
 		if (auction) nftQS.auction = auction;
 		if (latest) nftQS.latest = latest;
 		if (page) {
-			nftQS.page = page;
+			nftQS.page = page;			
 		} else {
 			nftQS.page = 1;
 		}
@@ -68,7 +68,6 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
 		}
 	}
 	const qs = ENV.objectToQueryString(nftQS);
-	console.log('this is limit====',qs)
 	return useQuery(
 		[
 			`collectionNFTs/${

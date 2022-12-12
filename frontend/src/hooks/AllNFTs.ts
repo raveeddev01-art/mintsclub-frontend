@@ -85,15 +85,12 @@ export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
 			nftQS.page = 1;
 		}
 		if (limit) {
-			console.log('this is if part')
 			nftQS.limit = limit;
 		} else {
-			console.log('this is else part')
 			nftQS.limit = defaultLimit;
 		}
 	}
 	const qs = ENV.objectToQueryString(nftQS);
-	console.log("🚀 ~ file: AllNFTs.ts:94 ~ useGetNFTs==== ~ qs", qs)
 	return useQuery(
 		['nfts', nftQS],
 		() => handleRequest('get', 'nfts/list', null, qs),
