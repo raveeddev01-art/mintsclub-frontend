@@ -106,7 +106,7 @@ const verifyNFTStatus = (
 		status === 'reclaimNft' &&
 		blockChainType === 'solana' &&
 		activeAuction !== null
-	) { 
+	) {
 		return 'Reclaim NFT';
 	} else if (
 		connectedAddress?.toUpperCase() === currentBidder?.toUpperCase() &&

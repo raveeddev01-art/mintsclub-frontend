@@ -65,11 +65,7 @@ const Footer: FC<footerInt> = () => {
 								<h4 className="footer-title">{'Join MintsClub'}</h4>
 								<ul>
 									<li>
-										<Link to="/connect-wallet">Sign In</Link>
-									</li>
-
-									<li>
-										<Link to="/connect-wallet">Sign Up</Link>
+										<Link to="/connect-wallet">Sign Up / In</Link>
 									</li>
 								</ul>
 							</div>
