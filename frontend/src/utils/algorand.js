@@ -4,6 +4,7 @@ import approval_program from './algorand/auctionContract/approval.teal';
 import clear_program from './algorand/auctionContract/clear.teal';
 import fixed_approval_program from './algorand/fixedPriceContract/approval.teal';
 import fixed_clear_program from './algorand/fixedPriceContract/clear.teal';
+import { lazyMint } from './web3';
 
 const crypto = require('crypto-browserify');
 const algosdk = require('algosdk');
@@ -45,7 +46,7 @@ const CheckBalance = async (accountaddress) => {
 	return accountInfo.amount;
 };
 
-const sendAmount = async (accountaddress, to_address) => {
+const sendAmount = async (accountaddress, to_address, amount) => {
 	const params = await algodClient.getTransactionParams().do();
 	const note = enc.encode('Amount is being sent');
 
@@ -55,7 +56,7 @@ const sendAmount = async (accountaddress, to_address) => {
 		},
 		from: accountaddress.toString(),
 		to: to_address,
-		amount: 200000,
+		amount,
 		note: note,
 	});
 
@@ -233,7 +234,7 @@ async function createApp(nft_ID, accountaddress) {
 	const appAddr = await algosdk.getApplicationAddress(appID);
 	console.log('appAddr ', appAddr);
 
-	await sendAmount(accountaddress, appAddr);
+	await sendAmount(accountaddress, appAddr, 200000);
 
 	const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
 		from: accountaddress.toString(),
@@ -586,7 +587,8 @@ const createFixedPriceApp = async (
 	nftID,
 	royaltyaddress,
 	connectedAddress,
-	price
+	price,
+	algoLazyMinted
 ) => {
 	console.log(
 		'🚀 ~ file: algorand.js ~ line 591 ~ connectedAddress',
@@ -707,7 +709,8 @@ const createFixedPriceApp = async (
 			appID,
 			nftID,
 			connectedAddress,
-			txnsArray
+			txnsArray,
+			algoLazyMinted
 		);
 		if (result) {
 			return appID;
@@ -720,13 +723,20 @@ const createFixedPriceApp = async (
 		return err;
 	}
 };
-const setupSale = async (price, appID, nftID, connectedAddress, txnsArray) => {
+const setupSale = async (
+	price,
+	appID,
+	nftID,
+	connectedAddress,
+	txnsArray,
+	algoLazyMinted
+) => {
 	console.log(
 		'🚀 ~ file: algorand.js ~ line 720 ~ setupSale ~ connectedAddress',
 		connectedAddress
 	);
 	try {
-		const NFT_PRICE = await algosdk.algosToMicroalgos(price);
+		let NFT_PRICE = await algosdk.algosToMicroalgos(price);
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
 		params.flatFee = true;
@@ -736,7 +746,13 @@ const setupSale = async (price, appID, nftID, connectedAddress, txnsArray) => {
 			'🚀 ~ file: algorand.js ~ line 674 ~ setupSale ~ appAddr',
 			appAddr
 		);
+		if (algoLazyMinted === true) {
+			const amount = (NFT_PRICE / 100) * 3.5;
+			console.log('🚀 ~ file: algorand.js ~ line 857 ~ amount', amount);
 
+			NFT_PRICE = NFT_PRICE - amount;
+			console.log('🚀 ~ file: algorand.js ~ line 869 ~ NFT_PRICE', NFT_PRICE);
+		}
 		const enc = new TextEncoder();
 		const note = enc.encode('setupSale');
 
@@ -798,10 +814,24 @@ const buyFixedPriceNFT = async (
 	appIndex,
 	connectedAddress,
 	royaltyAddress,
-	sellerAddress //ownerAddress
+	sellerAddress, //ownerAddress
+	algoLazyMinted
 ) => {
+	console.log('🚀 ~ file: algorand.js ~ line 805 ~ lazyMinted', algoLazyMinted);
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 803 ~ connectedAddress',
+		connectedAddress
+	);
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 803 ~ sellerAddress',
+		sellerAddress
+	);
+	console.log(
+		'🚀 ~ file: algorand.js ~ line 803 ~ royaltyAddress',
+		royaltyAddress
+	);
 	try {
-		const NFT_PRICE = await algosdk.algosToMicroalgos(price);
+		let NFT_PRICE = await algosdk.algosToMicroalgos(price);
 		let txnsArray = [];
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
@@ -838,7 +868,22 @@ const buyFixedPriceNFT = async (
 			note = enc.encode('buyNew');
 		}
 
+		const appAddr = algosdk.getApplicationAddress(appIndex);
 		const app_args = [note, algosdk.encodeUint64(nftID)];
+
+		if (algoLazyMinted === true) {
+			const amount = (NFT_PRICE / 100) * 3.5;
+			const sendRoyalityAmountFirstTime = await sendAmount(
+				connectedAddress,
+				royaltyAddress,
+				amount
+			);
+			console.log(
+				'🚀 ~ file: algorand.js ~ line 863 ~ sendRoyalityAmountFirstTime',
+				sendRoyalityAmountFirstTime
+			);
+			NFT_PRICE = NFT_PRICE - amount;
+		}
 
 		const buy = await algosdk.makeApplicationCallTxnFromObject({
 			appIndex: appIndex,
@@ -851,7 +896,6 @@ const buyFixedPriceNFT = async (
 		});
 		console.log('🚀 ~ file: algorand.js ~ line 818 ~ buy', buy);
 		txnsArray.push(buy);
-		const appAddr = algosdk.getApplicationAddress(appIndex);
 
 		const paymentTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
 			suggestedParams: {
@@ -923,6 +967,7 @@ const executeTransfer = async (
 	});
 	txnsArray.push(assetoptin);
 	txnsArray.push(execute);
+	// push sendAmount transaction in txnxArray
 	console.log(
 		'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
 		txnsArray
@@ -945,6 +990,7 @@ const executeTransfer = async (
 		'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
 		sendGroupTransactions
 	);
+
 	return sendGroupTransactions;
 };
 export {

@@ -99,7 +99,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						nftDetail?.tokenId,
 						nftDetail?.creator?.address,
 						connectedAddress,
-						price
+						price,
+						nftDetail?.algoLazyMinted
 					);
 
 					if (res) {
@@ -113,7 +114,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						nftDetail?.appId,
 						nftDetail?.tokenId,
 						connectedAddress,
-						txnsArray
+						txnsArray,
+						nftDetail?.algoLazyMinted
 					);
 					console.log(
 						'🚀 ~ file: FixedPriceListing.tsx ~ line 115 ~ FixedPriceListing ~ res',

@@ -782,7 +782,8 @@ const NFTDetail = (props: any) => {
 							nftDetail?.auction?.sellId,
 							connectedAddress,
 							nftDetail?.creator?.address,
-							sellerTradeState
+							sellerTradeState,
+							nftDetail?.algoLazyMinted
 						);
 
 						if (buyFixedPriceResponse?.txId) {
@@ -790,11 +791,11 @@ const NFTDetail = (props: any) => {
 								userId,
 								nftId,
 								ownerAddress: props.connectedAddress,
+								algoLazyMinted: false,
 							};
 							props.beforeOffer();
 							props.buyNow(payload);
 							createActivity('Transfer', false, props.connectedAddress);
-							return;
 						}
 
 						// TODO: Show pop-up with errors
