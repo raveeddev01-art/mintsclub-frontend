@@ -41,11 +41,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const submit = (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
+			const [hours, minutes] = timedAuctionConfig.duration.startTime.split(':')
 			if (
 				moment().unix() >
 				timedAuctionConfig.duration.startDate
-					.set('hours', timedAuctionConfig.duration.startTime.split(':')[0])
-					.set('minutes', timedAuctionConfig.duration.startTime.split(':')[1])
+					.set('hours', hours)
+					.set('minutes', minutes)
 					.unix()
 			) {
 				toast.error('Time Should be in future');
