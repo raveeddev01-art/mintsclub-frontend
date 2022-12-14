@@ -153,9 +153,11 @@ const buyNowFixedPriceAuction = async (
 	wallet: any,
 	mintAddress: string,
 	tradeStateAddress: string,
-	price: number
+	price: number,
+	setConfirmed: any
 ) => {
 	try {
+		setConfirmed('pending');
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 
@@ -180,9 +182,10 @@ const buyNowFixedPriceAuction = async (
 			bid: bid.bid,
 			listing,
 		});
-
+		setConfirmed(true);
 		return purchase;
 	} catch (err) {
+		setConfirmed(false);
 		return err;
 	}
 };
