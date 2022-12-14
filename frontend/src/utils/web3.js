@@ -785,7 +785,7 @@ export const deployCollectionContract = async (bytecode) => {
 	});
 };
 
-export const cancelNFTListing = async (listingId, sellingMethod) => {
+export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
 	try {
 		const { abi, contractAddress } = getMarketPlaceContractInfo();
 
@@ -794,19 +794,22 @@ export const cancelNFTListing = async (listingId, sellingMethod) => {
 		const contractM = await getContractMethods(abi, contractAddress);
 		let result;
 		if (sellingMethod === 2) {
-			result = contractM.methods.cancelAuction(listingId).send({
+			result = await contractM.methods.cancelAuction(listingId).send({
 				from: connectedAddress,
 			});
 		} else {
-			result = contractM.methods.cancellListingForFixedPRice(listingId).send({
-				from: connectedAddress,
-			});
+			result = await contractM.methods
+				.cancellListingForFixedPRice(listingId)
+				.send({
+					from: connectedAddress,
+				});
 		}
 		if (result) {
+			console.log('its in result===');
 			return result;
 		}
 	} catch (err) {
-		console.log(err, 'error');
+		setLoader(false);
 		throw new Error(err);
 	}
 };
