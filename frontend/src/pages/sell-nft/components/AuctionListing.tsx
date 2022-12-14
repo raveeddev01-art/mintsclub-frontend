@@ -42,6 +42,16 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
+				moment().unix() >
+				timedAuctionConfig.duration.startDate
+					.set('hours', timedAuctionConfig.duration.startTime.split(':')[0])
+					.set('minutes', timedAuctionConfig.duration.startTime.split(':')[1])
+					.unix()
+			) {
+				toast.error('Time Should be in future');
+				return;
+			}
+			if (
 				(nftDetail?.blockchainType !== 'solana' &&
 					!nftDetail?.user?.isApproved &&
 					nftDetail?.isApproved) ||
