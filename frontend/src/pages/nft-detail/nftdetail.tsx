@@ -691,7 +691,8 @@ const NFTDetail = (props: any) => {
 							wallet,
 							mint,
 							sellerTradeState,
-							sellingConfig?.price?.amount
+							sellingConfig?.price?.amount,
+							setConfirmed
 						);
 
 						if (buyFixedPriceResponse) {
