@@ -1,5 +1,23 @@
 [
-	{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "previousAdmin",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "newAdmin",
+				"type": "address"
+			}
+		],
+		"name": "AdminChanged",
+		"type": "event"
+	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -36,6 +54,19 @@
 		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "beacon",
+				"type": "address"
+			}
+		],
+		"name": "BeaconUpgraded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
 				"indexed": false,
 				"internalType": "address",
 				"name": "bidder",
@@ -56,12 +87,114 @@
 		"inputs": [
 			{
 				"indexed": false,
+				"internalType": "uint8",
+				"name": "version",
+				"type": "uint8"
+			}
+		],
+		"name": "Initialized",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "_fixeditemid",
 				"type": "uint256"
 			}
 		],
 		"name": "OfferSale",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "Paused",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "Unpaused",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "implementation",
+				"type": "address"
+			}
+		],
+		"name": "Upgraded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "auctionid",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "winner",
+				"type": "address"
+			}
+		],
+		"name": "auctionend",
 		"type": "event"
 	},
 	{
@@ -111,19 +244,19 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "listingId",
 				"type": "uint256"
 			},
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "tokenid",
 				"type": "uint256"
 			},
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "address",
 				"name": "owner",
 				"type": "address"
@@ -142,19 +275,19 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "listingId",
 				"type": "uint256"
 			},
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "uint256",
 				"name": "tokenid",
 				"type": "uint256"
 			},
 			{
-				"indexed": true,
+				"indexed": false,
 				"internalType": "address",
 				"name": "owner",
 				"type": "address"
@@ -167,6 +300,37 @@
 			}
 		],
 		"name": "cancellAuction",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "auctionid",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "winner",
+				"type": "address"
+			}
+		],
+		"name": "claimnft",
 		"type": "event"
 	},
 	{
@@ -201,6 +365,12 @@
 				"internalType": "uint256",
 				"name": "auctionEndTime",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_listingid",
+				"type": "uint256"
 			}
 		],
 		"name": "listitemforauction",
@@ -225,6 +395,12 @@
 				"indexed": false,
 				"internalType": "uint256",
 				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_listingid",
 				"type": "uint256"
 			}
 		],
@@ -290,7 +466,6 @@
 		"outputs": [
 			{ "internalType": "bool", "name": "isSold", "type": "bool" },
 			{ "internalType": "bool", "name": "OpenForBidding", "type": "bool" },
-			{ "internalType": "bool", "name": "listing", "type": "bool" },
 			{ "internalType": "uint256", "name": "initialPrice", "type": "uint256" },
 			{ "internalType": "uint256", "name": "auctionid", "type": "uint256" },
 			{ "internalType": "uint256", "name": "tokenId", "type": "uint256" },
@@ -320,7 +495,9 @@
 				"type": "address"
 			},
 			{ "internalType": "address", "name": "nftAddress", "type": "address" },
-			{ "internalType": "address", "name": "nftOwner", "type": "address" }
+			{ "internalType": "address", "name": "nftOwner", "type": "address" },
+			{ "internalType": "uint256", "name": "RoyaltyFee", "type": "uint256" },
+			{ "internalType": "address", "name": "RoyaltyReciver", "type": "address" }
 		],
 		"stateMutability": "view",
 		"type": "function"
@@ -332,26 +509,6 @@
 		"name": "bid",
 		"outputs": [],
 		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{ "internalType": "uint256", "name": "_salePrice", "type": "uint256" },
-			{ "internalType": "uint256", "name": "_PBP", "type": "uint256" }
-		],
-		"name": "calculateRoyaltyFee",
-		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{ "internalType": "uint256", "name": "_salePrice", "type": "uint256" },
-			{ "internalType": "uint256", "name": "_PBP", "type": "uint256" }
-		],
-		"name": "calulatePlatFormServiceFee",
-		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-		"stateMutability": "pure",
 		"type": "function"
 	},
 	{
@@ -382,36 +539,71 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "contrctaddress",
-		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"inputs": [
+			{ "internalType": "uint256", "name": "_listingid", "type": "uint256" }
+		],
+		"name": "getAllBids",
+		"outputs": [
+			{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "highestBid",
-		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"inputs": [
+			{ "internalType": "uint256", "name": "_listingid", "type": "uint256" }
+		],
+		"name": "getBidders",
+		"outputs": [
+			{ "internalType": "address[]", "name": "", "type": "address[]" }
+		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "highestBidder",
-		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"inputs": [
+			{ "internalType": "uint256", "name": "_listingid", "type": "uint256" }
+		],
+		"name": "getBidsTime",
+		"outputs": [
+			{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_mintingContract",
+				"type": "address"
+			}
+		],
+		"name": "initialize",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-		"name": "indexAvailable",
+		"name": "isAuctionListedCancelled",
 		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-		"name": "isBidPlaced",
+		"name": "isIndexUsedForListing",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "", "type": "address" },
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
+		],
+		"name": "isNFTClaimed",
 		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
 		"stateMutability": "view",
 		"type": "function"
@@ -458,10 +650,8 @@
 	},
 	{
 		"inputs": [],
-		"name": "minterC",
-		"outputs": [
-			{ "internalType": "contract MinterC", "name": "", "type": "address" }
-		],
+		"name": "mintingcontract",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
@@ -492,10 +682,38 @@
 		"type": "function"
 	},
 	{
-		"inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-		"name": "royalties",
+		"inputs": [],
+		"name": "owner",
 		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pause",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "paused",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "proxiableUUID",
+		"outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -514,6 +732,49 @@
 		"name": "supportsInterface",
 		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "newOwner", "type": "address" }
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "unpause",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newImplementation",
+				"type": "address"
+			}
+		],
+		"name": "upgradeTo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newImplementation",
+				"type": "address"
+			},
+			{ "internalType": "bytes", "name": "data", "type": "bytes" }
+		],
+		"name": "upgradeToAndCall",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	}
 ]
