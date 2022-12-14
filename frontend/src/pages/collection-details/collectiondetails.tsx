@@ -127,11 +127,11 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		subHeading: 'Explore',
 		heading: name,
 	};
-	const volume = location.state.totalVolume.toFixed(2);
+	const volume = (location.state.totalVolume);
 	const floorTimedAuction = location.state.floorPriceForTimedAuction;
 	const floorFixedAuction = location.state.floorPriceForFixedAuction;
-	const floorPrice = Math.min(floorTimedAuction, floorFixedAuction).toFixed(2);
-	const avgSale = location.state.avgSalePrice.toFixed(2);
+	const floorPrice = (Math.min(floorTimedAuction, floorFixedAuction));
+	const avgSale = (location.state.avgSalePrice);
 	const item = location.state.nftDetail.length;
 	console.log(location.state, 'location.state==========');
 
