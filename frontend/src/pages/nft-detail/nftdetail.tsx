@@ -354,7 +354,8 @@ const NFTDetail = (props: any) => {
 
 					result = await cancelNFTListing(
 						nftDetail?.auction?.sellId,
-						nftDetail?.auction?.sellingMethod
+						nftDetail?.auction?.sellingMethod,
+						setLoader
 					);
 				}
 				if (result || nftDetail?.lazyMinted) {
