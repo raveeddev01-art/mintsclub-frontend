@@ -266,9 +266,11 @@ const createAuctionApp = async (
 	copies,
 	price,
 	connectedAddress,
-	royaltyAddress
+	royaltyAddress,
+	setLoader
 ) => {
 	try {
+		setLoader(true);
 		let approvalProg = '';
 		let clearProg = '';
 		await fetch(approval_program)
@@ -318,6 +320,8 @@ const createAuctionApp = async (
 		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
 		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
 		console.log('🚀 ~ file: algorand.js ~ line 318 ~ response', response);
+		setLoader(true);
+
 		let appID = null;
 		const confirmedTxn = await algosdk.waitForConfirmation(
 			algodClient,
@@ -332,7 +336,8 @@ const createAuctionApp = async (
 			appID,
 			nftID,
 			connectedAddress,
-			copies
+			copies,
+			setLoader
 		);
 		const data = { appId: appID, globalState: result };
 		console.log(
@@ -345,8 +350,15 @@ const createAuctionApp = async (
 		return err;
 	}
 };
-const setupAuctionApp = async (appid, nftID, accountaddress, copies) => {
+const setupAuctionApp = async (
+	appid,
+	nftID,
+	accountaddress,
+	copies,
+	setLoader
+) => {
 	try {
+		setLoader(true);
 		const app_address = algosdk.getApplicationAddress(appid);
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
@@ -453,7 +465,8 @@ const placeBidOnAlgorand = async (
 	ownerAddress,
 	appid,
 	nftID,
-	global_state
+	global_state,
+	setLoader
 ) => {
 	try {
 		const bidAmount = await algosdk.algosToMicroalgos(bid);
@@ -536,7 +549,8 @@ const placeBidOnAlgorand = async (
 		return new_global_state;
 	} catch (err) {
 		console.log(err, 'error while algorand bidding');
-		return err;
+		setLoader(false);
+		return err?.message;
 	}
 };
 

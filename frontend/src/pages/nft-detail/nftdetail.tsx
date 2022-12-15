@@ -666,7 +666,8 @@ const NFTDetail = (props: any) => {
 					ownerAddress,
 					auction?.sellId,
 					tokenId,
-					auction?.globalState
+					auction?.globalState,
+					setLoader
 				);
 			}
 			if (result) {

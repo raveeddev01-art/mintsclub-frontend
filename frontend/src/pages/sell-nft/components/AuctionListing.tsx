@@ -143,7 +143,8 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					1,
 					+price,
 					connectedAddress,
-					nftDetail?.creator?.address
+					nftDetail?.creator?.address,
+					setLoader
 				);
 			} else if (blockchainType === 'solana') {
 				result = await listItemForLiveAuction(
