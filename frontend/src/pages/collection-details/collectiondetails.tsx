@@ -129,13 +129,15 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		subHeading: 'Explore',
 		heading: name,
 	};
-	const volume = location.state.totalVolume;
+	// eslint-disable-next-line prettier/prettier
+	const volume = (location.state.totalVolume);
 	const floorTimedAuction = location.state.floorPriceForTimedAuction;
 	const floorFixedAuction = location.state.floorPriceForFixedAuction;
 	const floorPrice = Math.min(floorTimedAuction, floorFixedAuction);
-	const avgSale = location.state.avgSalePrice;
-	const item = location.state.nftDetail.length;
-	console.log(location.state, 'location.state=========');
+	// eslint-disable-next-line prettier/prettier
+	const avgSale = (location.state.avgSalePrice);
+	const item = location.state?.nftDetail?.length;
+	console.log(location.state, 'location.state==========');
 
 	return (
 		<>

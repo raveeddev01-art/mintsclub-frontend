@@ -194,7 +194,7 @@ const CreateNft = ({
 				const res = await handleRequest('put', 'nfts/updateNft', payload);
 				if (res.data.success) {
 					toast.success('NFT updated successfully');
-					props.history.push('/userprofile');
+					props.history.push(`/explore/nftdetail/${res.data.data._id}`);
 				}
 			} else {
 				const response = await updateNft(
@@ -213,7 +213,7 @@ const CreateNft = ({
 					const res = await handleRequest('put', 'nfts/updateNft', payload);
 					if (res.data.success) {
 						toast.success('NFT updated successfully');
-						props.history.push('/userprofile');
+						props.history.push(`/explore/nftdetail/${res.data.data._id}`);
 					}
 				}
 			}
@@ -230,7 +230,10 @@ const CreateNft = ({
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
 			nftInfo.stats = JSON.stringify(nftInfo.stats);
-			nftInfo.name = capitalize(nftInfo.name);
+			nftInfo.name = capitalize(
+				nftInfo.name,
+				!props.match.params.nftId ? true : false
+			);
 			nftInfo.blockchainType = props.blockchainType;
 			if (props.blockchainType === 'solana') {
 				nftInfo.sellerFeeBasisPoints = 500;

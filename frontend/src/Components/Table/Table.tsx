@@ -25,7 +25,7 @@ const Table: React.FC<TableInterface> = ({
 		} else {
 			formateActivityInfo();
 		}
-	}, [data]);
+	}, [data, exchangeRate]);
 
 	const getPercentageChange = (oldNumber: number, newNumber: number) => {
 		const decreaseValue = oldNumber - newNumber;
