@@ -133,7 +133,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	const floorPrice = Math.min(floorTimedAuction, floorFixedAuction);
 	const avgSale = (location.state.avgSalePrice);
 	const item = location.state.nftDetail.length;
-	console.log(location.state, 'location.state==========');
+	console.log(location.state, 'location.state=========');
 
 	return (
 		<>
