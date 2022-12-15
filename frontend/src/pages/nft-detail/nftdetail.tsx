@@ -393,6 +393,8 @@ const NFTDetail = (props: any) => {
 				nftDetail?.auction?.status === 'active' &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
 			) {
+				setLoader(true);
+
 				const { sellerTradeState } = nftDetail.auction || {};
 				if (sellerTradeState) {
 					const response: any = await cancelItemFromListing(
@@ -401,11 +403,13 @@ const NFTDetail = (props: any) => {
 					);
 					if (response) {
 						try {
-							cancelAuction({
+							await cancelAuction({
 								auctionId: nftDetail?.auction?._id,
 								txnHash: response?.signature,
 							});
+							setLoader(false);
 						} catch (error) {
+							setLoader(false);
 							toast.success('Something went wrong while cancel listing');
 						}
 					}
@@ -435,6 +439,7 @@ const NFTDetail = (props: any) => {
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
+				setLoader(true);
 				const result = await cancelListingForLiveAuction(
 					wallet,
 					nftDetail?.mint
@@ -442,11 +447,13 @@ const NFTDetail = (props: any) => {
 
 				if (result) {
 					try {
-						cancelAuction({
+						await cancelAuction({
 							auctionId: nftDetail?.auction?._id,
 							txnHash: result,
 						});
+						setLoader(false);
 					} catch (error) {
+						setLoader(false);
 						toast.success('Something went wrong while cancel listing');
 					}
 				}
