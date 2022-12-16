@@ -185,8 +185,19 @@ const handleFilesValidation = (
 	}
 };
 
-const capitalize = (word: string) => {
-	return word[0]?.toUpperCase() + word?.slice(1)?.toLowerCase();
+const capitalize = (words: string, caps: boolean) => {
+	if (!caps) {
+		return words;
+	}
+	return words
+		.split(' ')
+		.map((word) =>
+			[
+				word[0]?.toUpperCase(),
+				...word.slice(1, word.length).toLowerCase(),
+			]?.join('')
+		)
+		.join(' ');
 };
 const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 	const chaintype = blockchainType;

@@ -1080,7 +1080,7 @@ const NFTDetail = (props: any) => {
 
 	const { mutate: cancelAuction } = useInsertData('auctions/cancelList', () => {
 		toast.success('You have cancelled Listing successfully');
-		history.push('/explore/allNFT');
+		history.push('/userprofile');
 	});
 
 	const isOwnerLoggedIn = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './aboutus.scss';
 import Banner from '../../Components/Banner/Banner';
 import BannerBg from '../../assets/images/hero-bg.png';
@@ -6,9 +6,14 @@ import BannerImage from '../../assets/images/bannerimg2.png';
 import { aboutUsBanner, services, comingSoon } from '../../utils/exportData';
 
 const AboutUs = () => {
+	const [exploreMore, setExploreMore] = useState(false);
 	useEffect(() => {
 		window.scroll(0, 0);
 	}, []);
+
+	const handlePagination = () => {
+		setExploreMore(true);
+	};
 
 	return (
 		<>
@@ -101,32 +106,39 @@ const AboutUs = () => {
 							})}
 						</div>
 						<div className="text-center mt-5">
-							<button className="btn btn-linear-gradient about-btn-explore">
-								Explore More
+							<button
+								className="btn btn-linear-gradient about-btn-explore"
+								onClick={() => handlePagination()}
+							>
+								Explore More...
 							</button>
 						</div>
 					</div>
-					<div className="aboutus-content">
-						<h5>Coming Soon!</h5>
-						<h6>
-							MintsClub will be spreading its spotlight to the open multi-chains
-							in the future!
-						</h6>
-					</div>
-					<div className="aboutus-box-container">
-						<div className="row g-4">
-							{comingSoon.map((comingSoon, id) => {
-								return (
-									<div className="col-sm-6 col-lg-4 col-xl-3" key={id}>
-										<div className="aboutus-box">
-											<img src={comingSoon.img} alt="services" />
-											<p>{comingSoon.name}</p>
-										</div>
-									</div>
-								);
-							})}
+					{exploreMore ? (
+						<div>
+							<div className="aboutus-content">
+								<h5>Coming Soon!</h5>
+								<h6>
+									MintsClub will be spreading its spotlight to the open
+									multi-chains in the future!
+								</h6>
+							</div>
+							<div className="aboutus-box-container">
+								<div className="row g-4">
+									{comingSoon.map((comingSoon, id) => {
+										return (
+											<div className="col-sm-6 col-lg-4 col-xl-3" key={id}>
+												<div className="aboutus-box">
+													<img src={comingSoon.img} alt="services" />
+													<p>{comingSoon.name}</p>
+												</div>
+											</div>
+										);
+									})}
+								</div>
+							</div>
 						</div>
-					</div>
+					) : null}
 				</div>
 			</div>
 		</>

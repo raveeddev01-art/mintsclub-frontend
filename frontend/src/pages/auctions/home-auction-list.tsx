@@ -153,7 +153,9 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 									);
 								})
 							) : (
-								<p className="text-center mt-5">No Live Auctions Found</p>
+								<p className="text-center mt-5 text-color">
+									No Live Auctions Found
+								</p>
 							)}
 
 							<div className="col-12">

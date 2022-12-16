@@ -195,7 +195,10 @@ class CreateCollections extends Component<
 			const res: any = await handleRequest('post', 'collection/create', data);
 			if (res.data.success) {
 				toast.success(res.data.message);
-				this.props.history.push('/explore/exploreAll');
+				this.props.history.push({
+					pathname: `/collection/detailPage/${res.data.collection._id}`,
+					state: res.data.collection,
+				});
 			} else {
 				toast.error(res.data.message);
 				this.setState({ loader: false });
@@ -250,9 +253,13 @@ class CreateCollections extends Component<
 	editCollectionInfo = async (data: any) => {
 		try {
 			const res = await handleRequest('put', `collection/edit`, data);
+			console.log('This is response: ', res);
 			if (res.data.success) {
 				toast.success('collection updated successfully');
-				this.props.history.push('/my-collection');
+				this.props.history.push({
+					pathname: `/collection/detailPage/${res.data.collection._id}`,
+					state: res.data.collection,
+				});
 			} else {
 				toast.error(res.data.message);
 			}
@@ -553,6 +560,7 @@ class CreateCollections extends Component<
 									}
 									placeholder="Enter Name"
 									maxLength={25}
+									minLength={3}
 									autoComplete="off"
 								/>
 							</div>

@@ -41,7 +41,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const submit = (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
-			const [hours, minutes] = timedAuctionConfig.duration.startTime.split(':')
+			const [hours, minutes] = timedAuctionConfig.duration.startTime.split(':');
 			if (
 				moment().unix() >
 				timedAuctionConfig.duration.startDate
