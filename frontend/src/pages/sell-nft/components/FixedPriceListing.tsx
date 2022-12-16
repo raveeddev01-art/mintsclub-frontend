@@ -121,7 +121,7 @@ const FixedPriceListing = ({ data, blockchainType }: any) => {
 		} catch (err: any) {
 			console.log(err, 'error');
 			setLoader(false);
-			toast.error(err);
+			toast.error(err.message);
 		} finally {
 			setLoader(false);
 		}
