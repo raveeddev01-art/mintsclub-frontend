@@ -375,7 +375,7 @@ export const putonsale = async (
 		return sellId;
 	} catch (err) {
 		console.log(err, 'error');
-		throw new Error(err);
+		throw new Error(err.message);
 	}
 };
 
@@ -805,11 +805,10 @@ export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
 				});
 		}
 		if (result) {
-			console.log('its in result===');
 			return result;
 		}
 	} catch (err) {
 		setLoader(false);
-		throw new Error(err);
+		throw new Error(err.message);
 	}
 };
