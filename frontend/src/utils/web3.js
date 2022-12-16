@@ -250,7 +250,7 @@ export const editNFTUri = async (tokenId, metaData, collectionAddress) => {
 		return result;
 	} catch (err) {
 		console.log(err, 'error while updating token uri');
-		throw new Error(err);
+		throw new Error(err.message);
 	}
 };
 
