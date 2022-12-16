@@ -120,7 +120,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			const startTime = Math.floor(
 				new Date(auctionStartDate).getTime() / 1000.0
 			);
-			let result = null;
+			let result: any = null;
 			if (
 				blockchainType?.toLowerCase() !== 'solana' &&
 				blockchainType?.toLowerCase() !== 'algorand' &&
@@ -150,6 +150,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					startTime,
 					biddingTime
 				);
+
+				if (!result?.success) {
+					setLoader(false);
+					toast.error(result?.message);
+					return;
+				}
 			}
 
 			if (result) {
@@ -157,7 +163,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				// payload.sellId = Number(result);
 				payload.blockchainType = blockchainType;
 				if (blockchainType?.toLowerCase() === 'solana') {
-					payload.txnHash = result;
+					payload.txnHash = result?.txnHash;
 					payload.sellerPublicKey = wallet.publicKey?.toBase58();
 				} else {
 					payload.sellId = Number(result);
