@@ -339,12 +339,11 @@ const createAuctionApp = async (
 			copies,
 			setLoader
 		);
-		const data = { appId: appID, globalState: result };
-		console.log(
-			'🚀 ~ file: algorand.js ~ line 420 ~ setupAuctionApp ~ data',
-			data
-		);
-		return data;
+		if (result?.success) {
+			const data = { appId: appID, globalState: result?.global_state };
+			return data;
+		}
+		return result;
 	} catch (err) {
 		console.log('🚀 ~ file: algorand.js ~ line 339 ~ err', err);
 		return err;
@@ -416,10 +415,12 @@ const setupAuctionApp = async (
 			'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
 			sendGroupTransactions
 		);
-
-		const global_state = await getAppGlobalState(appid, accountaddress);
-
-		return global_state;
+		if (sendGroupTransactions.txId) {
+			const global_state = await getAppGlobalState(appid, accountaddress);
+			const data = { success: true, global_state };
+			return data;
+		}
+		return;
 	} catch (err) {
 		console.log(err, 'error while setting up app');
 		return err;
@@ -545,8 +546,11 @@ const placeBidOnAlgorand = async (
 			'🚀 ~ file: algorand.js ~ line 574 ~ new_global_state',
 			new_global_state
 		);
-
-		return new_global_state;
+		if (sendGroupTransactions?.txId) {
+			const data = { success: true, new_global_state };
+			return data;
+		}
+		return;
 	} catch (err) {
 		console.log(err, 'error while algorand bidding');
 		setLoader(false);
@@ -586,7 +590,11 @@ const closeAuction = async (appId, seller_address, nftID, appGlobalState) => {
 		const signedTxn = await myAlgoConnect.signTransaction(deleteTxn.toByte());
 
 		const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
-		return tx;
+		if (tx) {
+			const data = { success: true, tx };
+			return data;
+		}
+		return;
 	} catch (err) {
 		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
 		return err;
@@ -726,9 +734,11 @@ const createFixedPriceApp = async (
 			txnsArray,
 			algoLazyMinted
 		);
-		if (result) {
-			return appID;
+		if (result?.txId) {
+			const data = { success: true, appID };
+			return data;
 		}
+		return result;
 	} catch (err) {
 		console.log(
 			'🚀 ~ file: algorand.js ~ line 645 ~ createFixedPriceApp ~ err',

@@ -146,6 +146,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					nftDetail?.creator?.address,
 					setLoader
 				);
+
+				if (!result?.globalState) {
+					setLoader(false);
+					toast.error(result?.message);
+					return;
+				}
 			} else if (blockchainType === 'solana') {
 				result = await listItemForLiveAuction(
 					wallet,

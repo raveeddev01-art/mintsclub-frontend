@@ -95,7 +95,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				!nftDetail?.lazyMinted
 			) {
 				if (nftDetail?.appId === 0) {
-					res = await createFixedPriceApp(
+					const response: any = await createFixedPriceApp(
 						nftDetail?.tokenId,
 						nftDetail?.creator?.address,
 						connectedAddress,
@@ -103,9 +103,13 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						nftDetail?.algoLazyMinted
 					);
 
-					if (res) {
-						payload.sellId = res;
+					if (response?.success) {
+						payload.sellId = response.appID;
 						payload.sellerTradeState = connectedAddress;
+					} else {
+						setLoader(false);
+						toast.error(response?.message);
+						return;
 					}
 				} else {
 					const txnsArray: any = [];
@@ -117,13 +121,14 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						txnsArray,
 						nftDetail?.algoLazyMinted
 					);
-					console.log(
-						'🚀 ~ file: FixedPriceListing.tsx ~ line 115 ~ FixedPriceListing ~ res',
-						res
-					);
+
 					if (res.txId) {
 						payload.sellId = nftDetail?.appId;
 						payload.sellerTradeState = connectedAddress;
+					} else {
+						setLoader(false);
+						toast.error(res?.message);
+						return;
 					}
 				}
 			}

@@ -398,15 +398,18 @@ const NFTDetail = (props: any) => {
 				nftDetail?.auction?.status === 'claimNft' &&
 				nftDetail.activeAuction !== null
 			) {
-				const result = await closeAuction(
+				const result: any = await closeAuction(
 					nftDetail?.auction?.sellId,
 					nftDetail?.auction?.sellerPublicKey,
 					nftDetail?.tokenId,
 					nftDetail?.auction?.globalState
 				);
 
-				if (result) {
+				if (result?.success) {
 					EndAuctionFromBackend();
+				} else {
+					setLoader(false);
+					toast.error(result?.message);
 				}
 				return;
 			}
@@ -669,6 +672,12 @@ const NFTDetail = (props: any) => {
 					auction?.globalState,
 					setLoader
 				);
+
+				if (!result?.success) {
+					setLoader(false);
+					toast.error(result);
+					return;
+				}
 			}
 			if (result) {
 				const payload: any = {
@@ -683,7 +692,7 @@ const NFTDetail = (props: any) => {
 					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 				};
 				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
-					payload.globalState = result;
+					payload.globalState = result?.new_global_state;
 				}
 
 				props.beforeBid();
@@ -797,9 +806,10 @@ const NFTDetail = (props: any) => {
 							props.beforeOffer();
 							props.buyNow(payload);
 							createActivity('Transfer', false, props.connectedAddress);
+						} else {
+							setLoader(false);
+							toast.error(buyFixedPriceResponse?.message);
 						}
-
-						// TODO: Show pop-up with errors
 
 						return;
 					}
