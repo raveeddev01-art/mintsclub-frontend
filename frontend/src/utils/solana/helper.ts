@@ -345,8 +345,10 @@ const listItemForLiveAuction = async (
 			signedTransaction.serialize()
 			// { skipPreflight: true }
 		);
-
-		return txnHash;
+		if (txnHash) {
+			const data = { success: true, txnHash };
+			return data;
+		}
 	} catch (e) {
 		return e;
 	}
@@ -970,8 +972,10 @@ const cancelListingForLiveAuction = async (
 			signedTransaction.serialize(),
 			{ skipPreflight: false }
 		);
-
-		return txnHash;
+		if (txnHash) {
+			const data = { success: true, txnHash };
+			return data;
+		}
 	} catch (e) {
 		return e;
 	}
@@ -995,7 +999,7 @@ const updateNft = async (
 			name: name,
 			uri: tokenUri,
 		});
-		return editNft?.response?.signature;
+		return editNft;
 	} catch (err) {
 		return err;
 	}

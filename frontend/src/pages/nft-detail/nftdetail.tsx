@@ -401,17 +401,21 @@ const NFTDetail = (props: any) => {
 						wallet,
 						sellerTradeState
 					);
-					if (response) {
+
+					if (response?.response?.signature) {
 						try {
 							await cancelAuction({
 								auctionId: nftDetail?.auction?._id,
-								txnHash: response?.signature,
+								txnHash: response?.response?.signature,
 							});
 							setLoader(false);
 						} catch (error) {
 							setLoader(false);
-							toast.success('Something went wrong while cancel listing');
+							toast.error('Something went wrong while cancel listing');
 						}
+					} else {
+						setLoader(false);
+						toast.error(response?.message);
 					}
 				}
 				return;
@@ -440,22 +444,25 @@ const NFTDetail = (props: any) => {
 				bidCount.length === 0
 			) {
 				setLoader(true);
-				const result = await cancelListingForLiveAuction(
+				const result: any = await cancelListingForLiveAuction(
 					wallet,
 					nftDetail?.mint
 				);
 
-				if (result) {
+				if (result?.success) {
 					try {
 						await cancelAuction({
 							auctionId: nftDetail?.auction?._id,
-							txnHash: result,
+							txnHash: result?.txnHash,
 						});
 						setLoader(false);
 					} catch (error) {
 						setLoader(false);
-						toast.success('Something went wrong while cancel listing');
+						toast.error('Something went wrong while cancel listing');
 					}
+				} else {
+					setLoader(false);
+					toast.error(result?.message);
 				}
 				return;
 			}

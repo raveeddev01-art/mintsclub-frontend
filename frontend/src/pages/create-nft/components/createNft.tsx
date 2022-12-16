@@ -197,13 +197,13 @@ const CreateNft = ({
 					props.history.push(`/explore/nftdetail/${res.data.data._id}`);
 				}
 			} else {
-				const response = await updateNft(
+				const response: any = await updateNft(
 					metaData,
 					state.nftInfo.name,
 					state.nftInfo.mint,
 					wallet
 				);
-				if (response) {
+				if (response?.response?.signature) {
 					const payload = { ...data };
 					payload.nftId = `${props.match.params.nftId}`;
 					if (metaData) {
@@ -215,6 +215,9 @@ const CreateNft = ({
 						toast.success('NFT updated successfully');
 						props.history.push(`/explore/nftdetail/${res.data.data._id}`);
 					}
+				} else {
+					setLoader(false);
+					toast.error(response?.message);
 				}
 			}
 		} catch (err: any) {
