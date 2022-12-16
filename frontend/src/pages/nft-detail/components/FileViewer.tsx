@@ -44,6 +44,12 @@ const FileView = ({ data }: any) => {
 				</div>
 			) : fileType === 'video' ? (
 				<div className="nft-img-container nft-video-container mx-auto mx-lg-0">
+					<div className="minting-title">
+					<div className="imgdiv">
+						<img src={blockchainIcons.mintingIcon} alt="/" />
+					</div>
+					<p>Lazy Minted</p>
+				</div>
 					<div
 						style={{
 							display: `${contentLoader ? 'block' : 'none'}`,
