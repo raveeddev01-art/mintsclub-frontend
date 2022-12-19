@@ -101,7 +101,10 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
 											</div>
 										</div>
 									</div>
-									<div className="col-sm-6 order-2 order-sm-1 mt-3 mt-sm-0">
+									<div
+										className="col-sm-6 order-2 order-sm-1 mt-3 mt-sm-0"
+										style={{ position: 'relative' }}
+									>
 										<div className="bid-inp-container d-flex align-items-center">
 											<div className="ps-2">
 												<h6>Name:</h6>
@@ -120,14 +123,12 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
 												/>
 											</div>
 										</div>
-									</div>
-									{/* <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
-										<div className="inp-close text-end me-2">
+										<div className="btn-fix inp-close text-end me-2">
 											<span onClick={() => handleRemove(i, 'properties')}>
 												<img src={InputClose} alt="closemodal" />
 											</span>
 										</div>
-									</div> */}
+									</div>
 								</div>
 							);
 						})}
