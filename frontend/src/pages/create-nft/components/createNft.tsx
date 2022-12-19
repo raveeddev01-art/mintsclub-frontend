@@ -259,7 +259,14 @@ const CreateNft = ({
 				nftInfo.collectionId = nft.collectionId;
 				nftInfo.categoryId = nft.categoryId;
 				const res = await uploadDataOnIpfs(nftInfo);
-				toast.success('Data uploaded on IPFS');
+				console.log('This is response: ', res);
+				if (res.data.success) {
+					toast.success('Data uploaded on IPFS');
+				} else {
+					toast.error(res.data.message);
+					setLoader(false);
+				}
+
 				const { compressedFileUrl, image, dataInput } = res.data.data;
 				if (props.match.params.nftId) {
 					if (nftInfo?.fileType === 'image') {

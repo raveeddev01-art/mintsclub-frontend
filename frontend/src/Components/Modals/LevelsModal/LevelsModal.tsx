@@ -104,7 +104,10 @@ const LevelsModal: FC<any> = (props) => {
 											</div>
 										</div>
 									</div>
-									<div className="col-sm-6 order-2 order-sm-1 mt-3 mt-sm-0">
+									<div
+										className="col-sm-6 order-2 order-sm-1 mt-3 mt-sm-0"
+										style={{ position: 'relative' }}
+									>
 										<div className="d-flex align-items-center justify-content-between">
 											<div className="bid-inp-container modal-value-inp d-flex align-items-center">
 												<div className="ps-2">
@@ -146,18 +149,12 @@ const LevelsModal: FC<any> = (props) => {
 												</div>
 											</div>
 										</div>
-									</div>
-									{/* <div className="col-sm-1 order-0 order-sm-2 mb-2 mb-sm-0">
-										<div className="inp-close text-end me-2">
-											<span>
-												<img
-													src={InputClose}
-													alt="closemodal"
-													onClick={() => handleRemove(i, 'levels')}
-												/>
+										<div className="btn-fix inp-close text-end me-2">
+											<span onClick={() => handleRemove(i, 'levels')}>
+												<img src={InputClose} alt="closemodal" />
 											</span>
 										</div>
-									</div> */}
+									</div>
 								</div>
 							);
 						})}

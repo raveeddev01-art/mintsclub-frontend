@@ -15,6 +15,12 @@ const Banner: FC<BannerInterface> = ({
 	onEdit,
 	onDelete,
 }) => {
+	const confirmDelete = () => {
+		const deleteData = confirm('Are You Sure You want to delete');
+		if (deleteData) {
+			onDelete?.();
+		}
+	};
 	return (
 		<>
 			<div
@@ -36,7 +42,10 @@ const Banner: FC<BannerInterface> = ({
 									{content && <p className="">{content}</p>}
 									{btns && (
 										<div className="edit-buttons">
-											<button className="delete" onClick={() => onDelete?.()}>
+											<button
+												className="delete"
+												onClick={() => confirmDelete()}
+											>
 												<img src={editImage.deleteIcon} alt="/" />
 												<span>Delete</span>
 											</button>

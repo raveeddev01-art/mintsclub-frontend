@@ -259,7 +259,10 @@ const NFTDetail = (props: any) => {
 		if (props.createAuth) {
 			setLoader(false);
 			props.beforeBid();
-			history.push('/explore/allNFT');
+			window.scrollTo({
+				top: 1400,
+				behavior: 'smooth',
+			});
 		}
 	}, [props.createAuth]);
 
@@ -487,7 +490,6 @@ const NFTDetail = (props: any) => {
 								'x-auth-token': ENV.x_auth_token,
 							},
 						});
-
 						if (res.data) {
 							toast.success('You have claimed bid successfully');
 							history.push('/explore/allNFT');
