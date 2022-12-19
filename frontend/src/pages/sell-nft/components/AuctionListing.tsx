@@ -54,6 +54,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			}
 			if (
 				(nftDetail?.blockchainType !== 'solana' &&
+					nftDetail?.blockchainType !== 'algorand' &&
 					!nftDetail?.user?.isApproved &&
 					nftDetail?.isApproved) ||
 				!nftDetail.isApproved
@@ -139,10 +140,18 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					startTime,
 					biddingTime,
 					nftDetail?.tokenId,
-					+copies,
+					1,
 					+price,
-					connectedAddress
+					connectedAddress,
+					nftDetail?.creator?.address,
+					setLoader
 				);
+
+				if (!result?.globalState) {
+					setLoader(false);
+					toast.error(result?.message);
+					return;
+				}
 			} else if (blockchainType === 'solana') {
 				result = await listItemForLiveAuction(
 					wallet,
@@ -160,11 +169,14 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 			if (result) {
 				activityPayload.price = price;
-				// payload.sellId = Number(result);
 				payload.blockchainType = blockchainType;
 				if (blockchainType?.toLowerCase() === 'solana') {
 					payload.txnHash = result?.txnHash;
 					payload.sellerPublicKey = wallet.publicKey?.toBase58();
+				} else if (blockchainType?.toLowerCase() === 'algorand') {
+					payload.globalState = result?.globalState;
+					payload.sellId = Number(result?.appId);
+					payload.sellerPublicKey = nftDetail?.ownerAddress;
 				} else {
 					payload.sellId = Number(result);
 				}
@@ -224,7 +236,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						</div>
 					</div>
 				</div>
-				{blockchainType !== 'solana' && (
+				{blockchainType !== 'solana' && blockchainType !== 'algorand' && (
 					<div className="col-md-6">
 						<div className="sell-detail-box">
 							<h5>

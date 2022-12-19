@@ -14,6 +14,7 @@ import {
 	WalletProvider,
 } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { UseWalletChange } from './pages/wallet-change/wallet-change';
 import { clusterApiUrl } from '@solana/web3.js';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -60,6 +61,7 @@ const App = React.memo((props) => {
 							</div>
 						</Suspense>
 					</React.Fragment>
+					<UseWalletChange />
 				</WalletModalProvider>
 			</WalletProvider>
 		</ConnectionProvider>

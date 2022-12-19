@@ -519,10 +519,12 @@ class CreateNFT extends React.Component<
 							<div
 								className={`col-md-6 col-sm-12 ${
 									blockchainType !== 'solana' &&
+									blockchainType !== 'algorand' &&
 									this?.props?.match?.params?.nftId
 										? 'col-lg-12'
 										: blockchainType === 'solana' ||
-										  this?.props?.match?.params?.nftId
+										  this?.props?.match?.params?.nftId ||
+										  blockchainType === 'algorand'
 										? 'col-lg-6'
 										: 'col-lg-4'
 								}`}
@@ -558,6 +560,7 @@ class CreateNFT extends React.Component<
 							</div>
 
 							{blockchainType !== 'solana' &&
+								blockchainType !== 'algorand' &&
 								!this?.props?.match?.params?.nftId && (
 									<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
 										<label className="create-collection-label d-flex">
@@ -593,7 +596,8 @@ class CreateNFT extends React.Component<
 								<div
 									className={`col-md-6 mt-3 mt-lg-0 ${
 										blockchainType === 'solana' ||
-										this?.props?.match?.params?.nftId
+										this?.props?.match?.params?.nftId ||
+										blockchainType === 'algorand'
 											? 'col-lg-6'
 											: 'col-lg-4'
 									}`}

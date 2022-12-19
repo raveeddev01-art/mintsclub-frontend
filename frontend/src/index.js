@@ -15,6 +15,7 @@ import en from 'javascript-time-ago/locale/en.json';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { UseWalletChange } from './pages/wallet-change/wallet-change';
 
 const queryClient = new QueryClient();
 TimeAgo.addDefaultLocale(en);
@@ -33,6 +34,7 @@ ReactDOM.render(
 			<BrowserRouter>
 				<QueryClientProvider client={queryClient}>
 					<App />
+					{/* <UseWalletChange /> */}
 					{/* <h1>testing</h1> */}
 					<ReactQueryDevtools position="bottom-left" />
 				</QueryClientProvider>

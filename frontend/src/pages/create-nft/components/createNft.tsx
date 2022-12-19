@@ -110,6 +110,9 @@ const CreateNft = ({
 					image,
 					lazyMinted: state.isFreeMint,
 				};
+				if (props.blockchainType === 'algorand') {
+					paylaod.algoLazyMinted = state.isFreeMint;
+				}
 			}
 			await insertNFT(paylaod);
 		} catch (err: any) {
