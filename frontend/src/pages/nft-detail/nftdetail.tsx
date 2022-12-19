@@ -436,6 +436,7 @@ const NFTDetail = (props: any) => {
 			if (
 				blockchainType?.toLowerCase() === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 1 &&
+				nftDetail.lazyMinted === false &&
 				nftDetail?.auction?.status === 'active' &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
 			) {
@@ -466,6 +467,27 @@ const NFTDetail = (props: any) => {
 				}
 				return;
 			}
+			if (
+				blockchainType?.toLowerCase() === 'solana' &&
+				nftDetail?.auction?.sellingMethod === 1 &&
+				nftDetail.lazyMinted === true &&
+				nftDetail?.auction?.status === 'active' &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
+			) {
+				setLoader(true);
+				try {
+					await cancelAuction({
+						auctionId: nftDetail?.auction?._id,
+					});
+					setLoader(false);
+				} catch (error) {
+					setLoader(false);
+					toast.error('Something went wrong while cancel listing');
+				}
+
+				return;
+			}
+
 			if (
 				blockchainType === 'solana' &&
 				nftDetail?.auction?.sellingMethod === 2 &&
