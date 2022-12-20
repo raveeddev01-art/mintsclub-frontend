@@ -222,7 +222,7 @@ const Listing: FC<listingInt> = (props) => {
 				...prev,
 				buy: false,
 				auction: false,
-				new: false,
+				newest: false,
 			}));
 		} else if (id === 'item') {
 			setFilterationLoader(true);
@@ -247,7 +247,6 @@ const Listing: FC<listingInt> = (props) => {
 			setSelectedOption(null);
 			setFilterActive(null);
 			setKeyword('');
-			setFilterationLoader(true);
 			setIsActive(null);
 			setFilter({
 				collectionId: false,
@@ -266,6 +265,7 @@ const Listing: FC<listingInt> = (props) => {
 				created: false,
 				collected: false,
 				userOwned: ENV.getUserKeys('_id')._id,
+				keyword: props.initialKeyword ? props.initialKeyword : '',
 			});
 		}
 	};
