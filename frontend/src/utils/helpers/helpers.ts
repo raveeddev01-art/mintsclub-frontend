@@ -150,7 +150,11 @@ const verifyNFTStatus = (
 		status === 'active'
 	) {
 		return 'Place A Bid';
-	} else if (sellingMethod === 1 && auctionEnded === false) {
+	} else if (
+		sellingMethod === 1 &&
+		auctionEnded === false &&
+		ownerAddress?.toUpperCase() !== connectedAddress?.toUpperCase()
+	) {
 		return 'Buy Now';
 	} else {
 		return 'invalid detail';
