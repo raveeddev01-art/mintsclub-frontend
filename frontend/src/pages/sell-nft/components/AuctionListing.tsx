@@ -207,7 +207,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						<hr />
 						<div className="sell-inp-container d-flex align-items-center">
 							<input
-								type="text"
+								type="number"
 								name="timedAuctionConfig.startPrice.amount"
 								placeholder="Amount"
 								maxLength={8}

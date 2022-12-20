@@ -185,7 +185,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						<hr />
 						<div className="sell-inp-container d-flex align-items-center">
 							<input
-								type="text"
+								type="number"
 								name="fixedPriceConfig.price.amount"
 								placeholder="Amount"
 								style={{
