@@ -481,8 +481,12 @@ const bidForLiveAuction = async (
 			signedTransaction.serialize()
 			// { skipPreflight: true }
 		);
+		if (txnHash) {
+			const data = { success: true, txnHash };
+			return data;
+		}
 
-		return txnHash;
+		return;
 	} catch (e) {
 		return e;
 	}
@@ -734,8 +738,11 @@ const executeSaleForLiveAuction = async (
 			})
 			.remainingAccounts(remainingAccounts)
 			.rpc();
-		console.log('🚀 ~ file: helper.ts ~ line 732 ~ txSig', txSig);
-		return txSig;
+		if (txSig) {
+			const data = { success: true, txSig };
+			return data;
+		}
+		return;
 	} catch (e) {
 		return e;
 	}
