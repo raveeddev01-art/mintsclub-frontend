@@ -265,7 +265,7 @@ const Listing: FC<listingInt> = (props) => {
 				created: false,
 				collected: false,
 				userOwned: ENV.getUserKeys('_id')._id,
-				keyword: props.initialKeyword ? props.initialKeyword : '',
+				keyword: props.initialKeyword || '',
 			});
 		}
 	};
