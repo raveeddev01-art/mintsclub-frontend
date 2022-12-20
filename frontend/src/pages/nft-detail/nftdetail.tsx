@@ -727,6 +727,18 @@ const NFTDetail = (props: any) => {
 				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
 					payload.globalState = result?.new_global_state;
 				}
+				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
+					const bidIncrement = 0.1 + price;
+					setPrice(bidIncrement);
+				} else {
+					const currentBidAmount: any = price;
+					let fivePerc: any = '';
+					fivePerc = (5 / 100) * price;
+					fivePerc = parseFloat(fivePerc) + parseFloat(currentBidAmount);
+					fivePerc = fivePerc.toString().slice(0, 8);
+					setPrice(fivePerc);
+				}
+
 				props.beforeBid();
 				props.placeBid(payload);
 				createActivity('Bid', price);
