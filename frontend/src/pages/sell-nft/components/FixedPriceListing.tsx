@@ -16,7 +16,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
 		// submit,
 		onChange,
-		decimalNumberValidator,
+		decimalnumbervalidator,
 		fixedPriceConfig,
 		copiesError,
 		nftDetail,
@@ -198,7 +198,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 									}
 									onChange(e);
 								}}
-								onKeyDown={(e) => decimalNumberValidator(e)}
+								onKeyDown={(e) => decimalnumbervalidator(e)}
 								value={fixedPriceConfig.price.amount}
 								required
 								autoComplete="off"
@@ -246,7 +246,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 										setCopiesError(false);
 										setCopies(e.target.value);
 									}}
-									onKeyDown={(e) => decimalNumberValidator(e)}
+									onKeyDown={(e) => decimalnumbervalidator(e)}
 									value={copies}
 									required
 									autoComplete="off"

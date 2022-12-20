@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react';
 import './Listing.scss';
-import { decimalNumberValidator } from '../../utils/functions';
+import { decimalnumbervalidator } from '../../utils/functions';
 import { listingInt } from '../../interfaces/components';
 import SortFilter from '../Filters/SortFIlter';
 import OwnerFilters from '../Filters/OwnerFilters';
@@ -344,7 +344,7 @@ const Listing: FC<listingInt> = (props) => {
 							data={{
 								minValue,
 								maxValue,
-								decimalNumberValidator,
+								decimalnumbervalidator,
 								onChangeMinPrice,
 								onChangeMaxPrice,
 								applyMinMaxFilter,

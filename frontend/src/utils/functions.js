@@ -100,7 +100,7 @@ export const handleRequest = async (method, endpoint, data = null, qs) => {
 	});
 };
 
-export const decimalNumberValidator = (evt) => {
+export const decimalnumbervalidator = (evt) => {
 	let e = evt || window.event;
 
 	// Allow: backspace, delete, tab, escape, enter and .

@@ -15,7 +15,7 @@ import {
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import { connect } from 'react-redux';
 import { ENV } from '../../config/config';
-import { decimalNumberValidator } from '../../utils/functions';
+import { decimalnumbervalidator } from '../../utils/functions';
 import {
 	toggleLikeDislike,
 	beforeTogleLikeDislike,
@@ -622,7 +622,7 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const calculatePricePercantage = () => {
+	const calculatepricepercantage = () => {
 		let fivePerc: any;
 		let result: any;
 		const { highestBid } = nftDetail?.auction || {};
@@ -664,7 +664,7 @@ const NFTDetail = (props: any) => {
 
 		setPrice(result);
 	};
-	const handleModalSubmit = async () => {
+	const handlemodalsubmit = async ()  => {
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			setLoader(true);
 			if (nftDetail?.auction?.sellingMethod === 2) {
@@ -1458,14 +1458,14 @@ const NFTDetail = (props: any) => {
 
 			<BidModal
 				show={bidModalShow}
-				calculatePricePercantage={calculatePricePercantage}
-				handleModalSubmit={handleModalSubmit}
+				calculatepricepercantage={(calculatepricepercantage)}
+				handlemodalsubmit={handlemodalsubmit}
 				onChange={onChange}
-				decimalNumberValidator={decimalNumberValidator}
+				decimalnumbervalidator={decimalnumbervalidator}
 				balance={balance}
 				price={price}
 				onHide={async () => setBidModalShow(false)}
-				blockchainType={blockchainType}
+				blockchaintype={blockchainType}
 			/>
 		</>
 	);

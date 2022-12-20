@@ -18,7 +18,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
 		// submit,
 		onChange,
-		decimalNumberValidator,
+		decimalnumbervalidator,
 		timedAuctionConfig,
 		remainingCopies,
 		copiesError,
@@ -221,7 +221,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 										onChange(e);
 									}
 								}}
-								onKeyDown={(e) => decimalNumberValidator(e)}
+								onKeyDown={(e) => decimalnumbervalidator(e)}
 								value={timedAuctionConfig.startPrice.amount}
 								required
 								autoComplete="off"
@@ -272,7 +272,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 										setCopies(e.target.value);
 									}}
-									onKeyDown={(e) => decimalNumberValidator(e)}
+									onKeyDown={(e) => decimalnumbervalidator(e)}
 									value={copies}
 									required
 									autoComplete="off"

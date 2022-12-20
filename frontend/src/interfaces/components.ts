@@ -61,12 +61,12 @@ export interface ApprovalModalInt {
 }
 export interface BidModalInt {
 	onChange: (e: any) => any;
-	decimalNumberValidator: (e: any) => any;
-	handleModalSubmit: () => {};
-	calculatePricePercantage: () => any;
+	decimalnumbervalidator: (e: any) => any;
+	handlemodalsubmit: () => {};
+	calculatepricepercantage: () => any;
 	onHide: () => {};
 	balance: any;
-	blockchainType: string;
+	blockchaintype: string;
 	price: any;
 	show: boolean;
 }

@@ -3,7 +3,7 @@ import './SellNFT.scss';
 import { ENV } from '../../config/config';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import moment from 'moment';
-import { decimalNumberValidator } from '../../utils/functions';
+import { decimalnumbervalidator } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setApprovalForAll } from '../../utils/web3';
@@ -268,7 +268,7 @@ const SellNFT = (props: any) => {
 							<FixedPriceListing
 								data={{
 									onChange,
-									decimalNumberValidator,
+									decimalnumbervalidator,
 									fixedPriceConfig,
 									copiesError,
 									remainingCopies,
@@ -288,7 +288,7 @@ const SellNFT = (props: any) => {
 							<AuctionListing
 								data={{
 									onChange,
-									decimalNumberValidator,
+									decimalnumbervalidator,
 									timedAuctionConfig,
 									remainingCopies,
 									copiesError,

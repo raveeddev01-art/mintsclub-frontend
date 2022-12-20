@@ -183,6 +183,20 @@ const CreateNft = ({
 	) => {
 		try {
 			if (props.blockchainType !== 'solana') {
+				if (!state.nftInfo?.tokenId) {
+					const payload = { ...data };
+					payload.nftId = `${props.match.params.nftId}`;
+					if (metaData) {
+						payload.metaData = metaData;
+						payload.image = image;
+					}
+					const res = await handleRequest('put', 'nfts/updateNft', payload);
+					if (res.data.success) {
+						toast.success('NFT updated successfully');
+						props.history.push(`/explore/nftdetail/${res.data.data._id}`);
+					}
+					return;
+				}
 				await editNFTUri(
 					state.nftInfo.tokenId,
 					metaData,
