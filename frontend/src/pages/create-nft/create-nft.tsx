@@ -573,9 +573,10 @@ class CreateNFT extends React.Component<
 											className="create-collection-input mt-2"
 											name="copies"
 											placeholder="No. of Copies"
-											type="text"
+											type="number"
 											autoComplete="off"
 											required={true}
+											maxLength={1000000}
 											onKeyDown={(e) => decimalnumbervalidator(e)}
 											onChange={(e) => {
 												if (
