@@ -6,7 +6,7 @@ import '../PropertiesModal/PropertiesModal.scss';
 import '../BuyModal/BuyModal.scss';
 import { toast } from 'react-toastify';
 import {
-	decimalNumberValidator,
+	decimalnumbervalidator,
 	firstInputCharacterSpace,
 } from '../../../utils/functions';
 import { StatsInt } from '../../../interfaces/components';
@@ -118,7 +118,7 @@ const StatsModal: FC<any> = (props) => {
 															name="value"
 															min="1"
 															onKeyDown={(e) => {
-																decimalNumberValidator(e);
+																decimalnumbervalidator(e);
 															}}
 															value={item.value}
 															onChange={(e) => {

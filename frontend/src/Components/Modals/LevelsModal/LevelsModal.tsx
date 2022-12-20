@@ -6,7 +6,7 @@ import '../PropertiesModal/PropertiesModal.scss';
 import '../BuyModal/BuyModal.scss';
 import { toast } from 'react-toastify';
 import {
-	decimalNumberValidator,
+	decimalnumbervalidator,
 	firstInputCharacterSpace,
 } from '../../../utils/functions';
 import { Levels } from '../../../interfaces/components';
@@ -119,7 +119,7 @@ const LevelsModal: FC<any> = (props) => {
 														name="value"
 														value={item.value}
 														min="1"
-														onKeyDown={(e) => decimalNumberValidator(e)}
+														onKeyDown={(e) => decimalnumbervalidator(e)}
 														onChange={(e) => {
 															if (
 																+e.target.value > 5 ||

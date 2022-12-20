@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-	decimalNumberValidator,
+	decimalnumbervalidator,
 	firstInputCharacterSpace,
 	formatBytes,
 	handleRequest,
@@ -576,7 +576,7 @@ class CreateNFT extends React.Component<
 											type="text"
 											autoComplete="off"
 											required={true}
-											onKeyDown={(e) => decimalNumberValidator(e)}
+											onKeyDown={(e) => decimalnumbervalidator(e)}
 											onChange={(e) => {
 												if (
 													(e.target.value.length && e.target.value === '0') ||

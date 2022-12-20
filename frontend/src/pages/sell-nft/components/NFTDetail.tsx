@@ -1,7 +1,8 @@
 import React from 'react';
 
 const NFTDetail = ({ info }: any) => {
-	const { name, remainingCopies, nftDetail, description } = info;
+	const { name, remainingCopies, nftDetail, description } =  info;
+	const soldCopies = nftDetail?.copies - remainingCopies
 	return (
 		<div className="col-lg-6 col-xl-7">
 			<div className="nft-img-detail">
@@ -22,14 +23,14 @@ const NFTDetail = ({ info }: any) => {
 					<div className="col-6 col-sm-4 col-lg-6 col-xl-4 ">
 						<div className="nft-detail-rounded-box mb-0">
 							<p>
-								Sold: <span>{nftDetail?.copies - remainingCopies}</span>
+								Sold: <span>{ soldCopies || 0 }</span>
 							</p>
 						</div>
 					</div>
 					<div className="col-6 col-sm-4 col-lg-6 col-xl-4">
 						<div className="nft-detail-rounded-box mb-0">
 							<p>
-								Remaining: <span>{remainingCopies}</span>
+								Remaining: <span>{remainingCopies || 0}</span>
 							</p>
 						</div>
 					</div>

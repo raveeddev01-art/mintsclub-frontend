@@ -18,23 +18,23 @@ const BidModal: FC<BidModalInt> = (props) => {
 
 	const {
 		onChange,
-		decimalNumberValidator,
-		handleModalSubmit,
-		calculatePricePercantage,
+		decimalnumbervalidator,
+		handlemodalsubmit,
+		calculatepricepercantage,
 		onHide,
 		balance,
 		price,
-		blockchainType,
+		blockchaintype,
 		show,
-	} = props;
-
+	} = props
+	
 	useEffect(() => {
 		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
 		} else {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
 		}
-		const coin = currencyData[blockchainType];
+		const coin = currencyData[blockchaintype];
 		axios
 			.get(
 				`https://min-api.cryptocompare.com/data/price?fsym=${coin}&tsyms=${coin},USD`
@@ -43,7 +43,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, [currency, blockchainType]);
+	}, [currency, blockchaintype]);
 	return (
 		<Modal
 			{...props}
@@ -84,14 +84,13 @@ const BidModal: FC<BidModalInt> = (props) => {
 								name="nftConfig.price.amount"
 								style={{ borderRadius: '4px' }}
 								onChange={(e) => onChange(e)}
-								onKeyDown={(e) => decimalNumberValidator(e)}
-								defaultValue={calculatePricePercantage()}
+								onKeyDown={(e) => decimalnumbervalidator(e)}
 								value={price}
 							/>
 						</div>
 						<div className="dollar-rate text-end">
 							<p className="">
-								${price ? (price * exchangeRate).toFixed(2) : 0}
+								${price ? (price * exchangeRate ).toFixed(2) : 0}
 							</p>
 						</div>
 					</div>
@@ -99,7 +98,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						<h6>
 							{
 								CHAIN_CURRENCY[
-									blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+									blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE
 								]
 							}
 						</h6>
@@ -110,7 +109,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						Balance: {Number(balance).toFixed(4)}{' '}
 						{
 							CHAIN_CURRENCY[
-								blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+								blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE
 							]
 						}
 					</p>
@@ -158,11 +157,11 @@ const BidModal: FC<BidModalInt> = (props) => {
 				<button
 					className="btn btn-linear-gradient btn-bid-modal mt-2"
 					onClick={() => {
-						handleModalSubmit();
+						handlemodalsubmit();
 						onHide();
 					}}
 					disabled={
-						+price < calculatePricePercantage() ||
+						+price < calculatepricepercantage() ||
 						balance === 0 ||
 						!checkBox ||
 						+price > +balance

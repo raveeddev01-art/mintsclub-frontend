@@ -4,7 +4,7 @@ const PriceFilter = ({ data }: any) => {
 	const {
 		minValue,
 		maxValue,
-		decimalNumberValidator,
+		decimalnumbervalidator,
 		onChangeMinPrice,
 		onChangeMaxPrice,
 		applyMinMaxFilter,
@@ -22,7 +22,7 @@ const PriceFilter = ({ data }: any) => {
 						placeholder="Min"
 						className="mt-3 mt-sm-0 me-sm-2"
 						value={minValue}
-						onKeyDown={(e) => decimalNumberValidator(e)}
+						onKeyDown={(e) => decimalnumbervalidator(e)}
 						onChange={onChangeMinPrice}
 					></input>
 					<input
@@ -30,7 +30,7 @@ const PriceFilter = ({ data }: any) => {
 						placeholder="Max"
 						className="mt-3 mt-sm-0 me-sm-2"
 						value={maxValue}
-						onKeyDown={(e) => decimalNumberValidator(e)}
+						onKeyDown={(e) => decimalnumbervalidator(e)}
 						onChange={onChangeMaxPrice}
 					></input>
 				</div>
