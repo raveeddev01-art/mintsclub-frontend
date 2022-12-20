@@ -60,7 +60,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 		const price = Number(fixedConfig.price.amount);
 		if (price === 0) {
-			toast.error('Price should be greater then 0');
+			toast.error('Price should be greater than 0');
+			setLoader(false);
 			return '';
 		}
 		if (nftDetail?.blockchainType === 'solana') {

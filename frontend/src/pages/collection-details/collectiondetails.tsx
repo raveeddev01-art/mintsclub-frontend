@@ -64,6 +64,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 			setNfts(data.data.data.nfts);
 		} else {
 			setError(data.data.message);
+			setFilterationLoader(false);
 		}
 	};
 
