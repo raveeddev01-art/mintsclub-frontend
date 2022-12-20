@@ -424,13 +424,17 @@ const NFTDetail = (props: any) => {
 				connectedAddress?.toUpperCase() === highestBidder?.toUpperCase() &&
 				nftDetail.activeAuction !== null
 			) {
-				const result = await executeSaleForLiveAuction(
+				const result: any = await executeSaleForLiveAuction(
 					nftDetail?.auction?.sellerPublicKey,
 					nftDetail?.mint,
 					wallet,
 					nftDetail?.auction?.highestBid
 				);
-
+				if (!result?.success) {
+					toast.error(result?.message);
+					setLoader(false);
+					return;
+				}
 				if (result) {
 					EndAuctionFromBackend();
 				}
@@ -674,7 +678,7 @@ const NFTDetail = (props: any) => {
 		const { connectedAddress } = props;
 		const { auction, ownerAddress, _id, ownerId, tokenId, mint } = nftDetail;
 		try {
-			let result = undefined;
+			let result: any = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				result = await bidForLiveAuction(
 					wallet,
@@ -682,6 +686,11 @@ const NFTDetail = (props: any) => {
 					mint,
 					price
 				);
+				if (!result.success) {
+					toast.error(result?.message);
+					setLoader(false);
+					return;
+				}
 			} else if (
 				ENV.getUserKeys('blockchainType').blockchainType !== 'algorand'
 			) {
@@ -718,7 +727,6 @@ const NFTDetail = (props: any) => {
 				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
 					payload.globalState = result?.new_global_state;
 				}
-
 				props.beforeBid();
 				props.placeBid(payload);
 				createActivity('Bid', price);

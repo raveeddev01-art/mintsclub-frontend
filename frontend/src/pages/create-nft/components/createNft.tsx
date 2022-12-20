@@ -200,6 +200,20 @@ const CreateNft = ({
 					props.history.push(`/explore/nftdetail/${res.data.data._id}`);
 				}
 			} else {
+				if (!state.nftInfo?.mint) {
+					const payload = { ...data };
+					payload.nftId = `${props.match.params.nftId}`;
+					if (metaData) {
+						payload.metaData = metaData;
+						payload.image = image;
+					}
+					const res = await handleRequest('put', 'nfts/updateNft', payload);
+					if (res.data.success) {
+						toast.success('NFT updated successfully');
+						props.history.push(`/explore/nftdetail/${res.data.data._id}`);
+					}
+					return;
+				}
 				const response: any = await updateNft(
 					metaData,
 					state.nftInfo.name,
