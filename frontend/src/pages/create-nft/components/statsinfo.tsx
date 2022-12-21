@@ -26,13 +26,22 @@ const StatsInfo: FC<StatsInfoInterface> = ({
 		}
 		return unFilledArray;
 	};
+	const pathName = window.location.pathname;
+	const pathNames = pathName.split('/');
+	let crossButton = true;
+	if (pathNames[2] === 'nftdetail') {
+		crossButton = false;
+	}
 	return (
 		<div className="nft-info-container-wrap">
-			<img
-				src={InputClose}
-				alt="inputmodal"
-				onClick={() => handleRemove(index, 'stats', nft, handlers)}
-			/>
+			{crossButton ? (
+				<img
+					src={InputClose}
+					alt="inputmodal"
+					onClick={() => handleRemove(index, 'stats', nft, handlers)}
+				/>
+			) : null}
+
 			<div className="nft-info-container mx-1 mt-3">
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>

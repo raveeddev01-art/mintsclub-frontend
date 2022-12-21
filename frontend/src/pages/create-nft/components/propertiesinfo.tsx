@@ -10,15 +10,23 @@ const PropertiesInfo: FC<PropertiesInfoInterface> = ({
 	type,
 	handlers,
 }) => {
-	const { handleModalsRemove }: any = handlers;
+	const pathName = window.location.pathname;
+	const pathNames = pathName.split('/');
+	let crossButton = true;
+	if (pathNames[2] === 'nftdetail') {
+		crossButton = false;
+	}
 	return (
 		<>
 			<div className="nft-propinfo-container mx-1">
-				<img
-					src={InputClose}
-					alt="inputmodal"
-					onClick={() => handleRemove(index, 'properties', nft, handlers)}
-				/>
+				{crossButton ? (
+					<img
+						src={InputClose}
+						alt="inputmodal"
+						onClick={() => handleRemove(index, 'properties', nft, handlers)}
+					/>
+				) : null}
+
 				<div className="properties-content">
 					<p>
 						<span>Type: </span>
