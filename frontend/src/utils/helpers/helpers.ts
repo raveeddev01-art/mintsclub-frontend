@@ -119,7 +119,7 @@ const verifyNFTStatus = (
 		blockChainType === 'solana' &&
 		activeAuction !== null
 	) {
-		return 'Reclaim NFT';
+		return 'Cancel Listing';
 	} else if (
 		connectedAddress?.toUpperCase() === currentBidder?.toUpperCase() &&
 		sellingMethod === 2 &&
