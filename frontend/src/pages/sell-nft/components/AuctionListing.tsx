@@ -211,11 +211,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 								name="timedAuctionConfig.startPrice.amount"
 								placeholder="Amount"
 								maxLength={8}
+								min={0}
 								style={{
 									borderRadius: '4px',
 								}}
 								onChange={(e: any) => {
-									if (e.target.value === '00' || e.target.value.includes('-')) {
+									if (e.target.value === '00') {
 										return false;
 									} else {
 										onChange(e);
