@@ -672,7 +672,6 @@ const NFTDetail = (props: any) => {
 			closeOnClick: true,
 			pauseOnHover: true,
 			draggable: true,
-			progress: undefined,
 			theme: 'light',
 		});
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
@@ -811,7 +810,6 @@ const NFTDetail = (props: any) => {
 					closeOnClick: true,
 					pauseOnHover: true,
 					draggable: true,
-					progress: undefined,
 					theme: 'light',
 				});
 				setDisabled(true);

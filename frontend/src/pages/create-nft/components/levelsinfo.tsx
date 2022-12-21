@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import './nftinfo.scss';
 import InputClose from '../../../assets/images/inp-close.svg';
 import { LevelsInfoInterface } from '../../../interfaces/components';
+import { handleRemove } from '../../../utils/helpers/helpers';
 
 const LevelsInfo: FC<LevelsInfoInterface> = ({
 	name,
@@ -26,21 +27,21 @@ const LevelsInfo: FC<LevelsInfoInterface> = ({
 		}
 		return unFilledArray;
 	};
-	const { handleModalsRemove } = handlers;
-	const handleRemove = (i: number, status: string) => {
-		const newFormValues = [...nft.levels];
-		newFormValues.splice(i, 1);
-		const newNFTValues = [...nft.levels];
-		newNFTValues.splice(i, 1);
-		const nftUpdate = { ...nft, levels: newNFTValues };
-		handleModalsRemove('levels', newFormValues, nftUpdate);
-	};
+	// const { handleModalsRemove } = handlers;
+	// const handleRemove = (i: number, status: string) => {
+	// 	const newFormValues = [...nft.levels];
+	// 	newFormValues.splice(i, 1);
+	// 	const newNFTValues = [...nft.levels];
+	// 	newNFTValues.splice(i, 1);
+	// 	const nftUpdate = { ...nft, levels: newNFTValues };
+	// 	handleModalsRemove('levels', newFormValues, nftUpdate);
+	// };
 	return (
 		<div className="nft-info-container-wrap">
 			<img
 				src={InputClose}
 				alt="inputmodal"
-				onClick={() => handleRemove(index, 'levels')}
+				onClick={() => handleRemove(index, 'levels', nft, handlers)}
 			/>
 			<div className="nft-info-container mx-1 mt-3" key={i}>
 				<div className="content-heading  d-flex align-items-center justify-content-between">

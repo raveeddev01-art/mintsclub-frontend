@@ -39,8 +39,6 @@ const MetaData = ({ properties, stats, levels, nftInfo }: any) => {
 									name={item.name}
 									value={item.value}
 									key={index}
-									nft={undefined}
-									handlers={undefined}
 									index={index}
 								/>
 							);
@@ -60,10 +58,7 @@ const MetaData = ({ properties, stats, levels, nftInfo }: any) => {
 								<LevelsInfo
 									name={item.name}
 									value={item.value}
-									i={undefined}
 									key={index}
-									nft={undefined}
-									handlers={undefined}
 									index={index}
 								/>
 							);

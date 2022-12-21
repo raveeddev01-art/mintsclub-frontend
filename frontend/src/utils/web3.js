@@ -800,7 +800,6 @@ export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
 			closeOnClick: true,
 			pauseOnHover: true,
 			draggable: true,
-			progress: undefined,
 			theme: 'light',
 		});
 		if (sellingMethod === 2) {

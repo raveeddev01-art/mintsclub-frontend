@@ -304,42 +304,25 @@ const CreateNft = ({
 						nftInfo.compressedFile = state.nftInfo.compressedFile;
 					}
 					editNFT(nftInfo, dataInput.metaDataUrl, image);
-					if (state.isFreeMint === false) {
-						toast.warning(
-							"Please don't refresh/switch page during transaction.",
-							{
-								position: 'top-center',
-								autoClose: 5000,
-								hideProgressBar: false,
-								closeOnClick: true,
-								pauseOnHover: true,
-								draggable: true,
-								progress: undefined,
-								theme: 'light',
-							}
-						);
-					}
 				} else {
 					if (nftInfo?.fileType === 'image') {
 						nftInfo.compressedFile = compressedFileUrl;
 					}
-
 					mintNFT(nftInfo, dataInput, image);
-					if (state.isFreeMint === false) {
-						toast.warning(
-							"Please don't refresh/switch page during transaction.",
-							{
-								position: 'top-center',
-								autoClose: 5000,
-								hideProgressBar: false,
-								closeOnClick: true,
-								pauseOnHover: true,
-								draggable: true,
-								progress: undefined,
-								theme: 'light',
-							}
-						);
-					}
+				}
+				if (state.isFreeMint === false) {
+					toast.warning(
+						"Please don't refresh/switch page during transaction.",
+						{
+							position: 'top-center',
+							autoClose: 5000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							theme: 'light',
+						}
+					);
 				}
 			} else {
 				setError();

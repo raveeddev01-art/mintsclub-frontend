@@ -37,8 +37,6 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 								name={item.name}
 								value={item.value}
 								key={index}
-								nft={undefined}
-								handlers={undefined}
 								index={index}
 							/>
 						);
@@ -60,8 +58,6 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 									value={item.value}
 									i={i}
 									key={i}
-									nft={undefined}
-									handlers={undefined}
 									index={i}
 								/>
 							);

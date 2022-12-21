@@ -227,7 +227,6 @@ function CreateMultipleNFT(props: any) {
 			closeOnClick: true,
 			pauseOnHover: true,
 			draggable: true,
-			progress: undefined,
 			theme: 'light',
 		});
 		setLoader(true);
