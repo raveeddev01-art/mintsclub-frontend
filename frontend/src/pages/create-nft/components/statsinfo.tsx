@@ -7,7 +7,7 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 	const filled = () => {
 		const filledArray = [];
 		for (let i = 1; i <= value; i++) {
-			filledArray.push(<div className="level-filled"></div>);
+			filledArray.push(<div className="level-filled" key={i}></div>);
 		}
 		return filledArray;
 	};
@@ -15,7 +15,7 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 	const unFilled = () => {
 		const unFilledArray = [];
 		for (let i = 1; i <= 5 - value; i++) {
-			unFilledArray.push(<div className="level-unfilled"></div>);
+			unFilledArray.push(<div className="level-unfilled" key={i}></div>);
 		}
 		return unFilledArray;
 	};
