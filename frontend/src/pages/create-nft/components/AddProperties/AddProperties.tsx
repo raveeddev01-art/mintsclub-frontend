@@ -1,7 +1,7 @@
 import React from 'react';
 import PropertiesInfo from '../propertiesinfo';
 
-const AddProperties = ({ data }: any) => {
+const AddProperties = ({ data, handlers }: any) => {
 	const { showModal, AddIcon, nft } = data;
 
 	return (
@@ -26,7 +26,13 @@ const AddProperties = ({ data }: any) => {
 					{nft.properties.map((item: { name: any; type: any }, index: any) => {
 						return (
 							<div key={index} className="col-md-6">
-								<PropertiesInfo name={item.name} type={item.type} />
+								<PropertiesInfo
+									index={index}
+									nft={nft}
+									name={item.name}
+									type={item.type}
+									handlers={handlers}
+								/>
 							</div>
 						);
 					})}

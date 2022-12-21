@@ -215,6 +215,14 @@ const capitalize = (words: string, caps: boolean) => {
 		)
 		.join(' ');
 };
+const handleRemove = (i: number, status: string, nft: any, handlers: any) => {
+	const newFormValues = [...nft[status]];
+	newFormValues.splice(i, 1);
+	const newNFTValues = [...nft[status]];
+	newNFTValues.splice(i, 1);
+	const nftUpdate = { ...nft, [status]: newNFTValues };
+	handlers.handleModalsRemove(status, newFormValues, nftUpdate);
+};
 const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 	const chaintype = blockchainType;
 	const scansURL: any = {
@@ -235,4 +243,5 @@ export {
 	handleFilesValidation,
 	capitalize,
 	blockchainScanUrlData,
+	handleRemove,
 };

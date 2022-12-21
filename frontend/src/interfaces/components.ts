@@ -200,16 +200,25 @@ export interface LevelsInfoInterface {
 	name: string;
 	value: any;
 	i?: any;
+	nft?: any;
+	handlers?: any;
+	index: number;
 }
 
 export interface PropertiesInfoInterface {
 	name: string;
 	type: any;
+	nft: any;
+	handlers: any;
+	index: number;
 }
 
 export interface StatsInfoInterface {
 	name: string;
 	value: any;
+	nft?: any;
+	handlers?: any;
+	index: number;
 }
 export interface UploadInterface {
 	Images: any;

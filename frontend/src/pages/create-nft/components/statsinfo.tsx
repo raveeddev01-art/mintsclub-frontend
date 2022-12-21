@@ -2,8 +2,15 @@ import React, { FC } from 'react';
 import './nftinfo.scss';
 import { StatsInfoInterface } from '../../../interfaces/components';
 import InputClose from '../../../assets/images/inp-close.svg';
+import { handleRemove } from '../../../utils/helpers/helpers';
 
-const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
+const StatsInfo: FC<StatsInfoInterface> = ({
+	name,
+	value,
+	nft,
+	handlers,
+	index,
+}) => {
 	const filled = () => {
 		const filledArray = [];
 		for (let i = 1; i <= value; i++) {
@@ -19,9 +26,22 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 		}
 		return unFilledArray;
 	};
+	const pathName = window.location.pathname;
+	const pathNames = pathName.split('/');
+	let crossButton = true;
+	if (pathNames[2] === 'nftdetail') {
+		crossButton = false;
+	}
 	return (
 		<div className="nft-info-container-wrap">
-			<img src={InputClose} alt="inputmodal" />
+			{crossButton ? (
+				<img
+					src={InputClose}
+					alt="inputmodal"
+					onClick={() => handleRemove(index, 'stats', nft, handlers)}
+				/>
+			) : null}
+
 			<div className="nft-info-container mx-1 mt-3">
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>

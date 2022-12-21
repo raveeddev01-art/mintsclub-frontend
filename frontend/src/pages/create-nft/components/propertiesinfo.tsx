@@ -2,11 +2,31 @@ import React, { FC } from 'react';
 import './nftinfo.scss';
 import { PropertiesInfoInterface } from '../../../interfaces/components';
 import InputClose from '../../../assets/images/inp-close.svg';
-const PropertiesInfo: FC<PropertiesInfoInterface> = ({ name, type }) => {
+import { handleRemove } from '../../../utils/helpers/helpers';
+const PropertiesInfo: FC<PropertiesInfoInterface> = ({
+	index,
+	nft,
+	name,
+	type,
+	handlers,
+}) => {
+	const pathName = window.location.pathname;
+	const pathNames = pathName.split('/');
+	let crossButton = true;
+	if (pathNames[2] === 'nftdetail') {
+		crossButton = false;
+	}
 	return (
 		<>
 			<div className="nft-propinfo-container mx-1">
-				<img src={InputClose} alt="inputmodal" />
+				{crossButton ? (
+					<img
+						src={InputClose}
+						alt="inputmodal"
+						onClick={() => handleRemove(index, 'properties', nft, handlers)}
+					/>
+				) : null}
+
 				<div className="properties-content">
 					<p>
 						<span>Type: </span>

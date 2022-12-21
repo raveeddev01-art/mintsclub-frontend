@@ -2,8 +2,16 @@ import React, { FC } from 'react';
 import './nftinfo.scss';
 import InputClose from '../../../assets/images/inp-close.svg';
 import { LevelsInfoInterface } from '../../../interfaces/components';
+import { handleRemove } from '../../../utils/helpers/helpers';
 
-const LevelsInfo: FC<LevelsInfoInterface> = ({ name, value, i }) => {
+const LevelsInfo: FC<LevelsInfoInterface> = ({
+	name,
+	value,
+	i,
+	nft,
+	handlers,
+	index,
+}) => {
 	const filled = () => {
 		const filledArray = [];
 		for (let i = 1; i <= value; i++) {
@@ -19,9 +27,22 @@ const LevelsInfo: FC<LevelsInfoInterface> = ({ name, value, i }) => {
 		}
 		return unFilledArray;
 	};
+	const pathName = window.location.pathname;
+	const pathNames = pathName.split('/');
+	let crossButton = true;
+	if (pathNames[2] === 'nftdetail') {
+		crossButton = false;
+	}
 	return (
 		<div className="nft-info-container-wrap">
-			<img src={InputClose} alt="inputmodal" />
+			{crossButton ? (
+				<img
+					src={InputClose}
+					alt="inputmodal"
+					onClick={() => handleRemove(index, 'levels', nft, handlers)}
+				/>
+			) : null}
+
 			<div className="nft-info-container mx-1 mt-3" key={i}>
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>

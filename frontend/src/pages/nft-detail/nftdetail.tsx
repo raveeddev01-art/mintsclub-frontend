@@ -664,7 +664,16 @@ const NFTDetail = (props: any) => {
 
 		setPrice(result);
 	};
-	const handlemodalsubmit = async ()  => {
+	const handlemodalsubmit = async () => {
+		toast.warning("Please don't refresh/switch page during transaction.", {
+			position: 'top-center',
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			theme: 'light',
+		});
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			setLoader(true);
 			if (nftDetail?.auction?.sellingMethod === 2) {
@@ -794,6 +803,15 @@ const NFTDetail = (props: any) => {
 	const BuyNow = async () => {
 		try {
 			if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
+				toast.warning("Please don't refresh/switch page during transaction.", {
+					position: 'top-center',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					theme: 'light',
+				});
 				setDisabled(true);
 				if (nftDetail.lazyMinted) {
 					BuyLazyNft();
@@ -1470,7 +1488,7 @@ const NFTDetail = (props: any) => {
 
 			<BidModal
 				show={bidModalShow}
-				calculatepricepercantage={(calculatepricepercantage)}
+				calculatepricepercantage={calculatepricepercantage}
 				handlemodalsubmit={handlemodalsubmit}
 				onChange={onChange}
 				decimalnumbervalidator={decimalnumbervalidator}

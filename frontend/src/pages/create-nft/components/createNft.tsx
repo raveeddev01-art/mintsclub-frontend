@@ -308,8 +308,21 @@ const CreateNft = ({
 					if (nftInfo?.fileType === 'image') {
 						nftInfo.compressedFile = compressedFileUrl;
 					}
-
 					mintNFT(nftInfo, dataInput, image);
+				}
+				if (state.isFreeMint === false) {
+					toast.warning(
+						"Please don't refresh/switch page during transaction.",
+						{
+							position: 'top-center',
+							autoClose: 5000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							theme: 'light',
+						}
+					);
 				}
 			} else {
 				setError();

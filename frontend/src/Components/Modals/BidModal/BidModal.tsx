@@ -26,8 +26,8 @@ const BidModal: FC<BidModalInt> = (props) => {
 		price,
 		blockchaintype,
 		show,
-	} = props
-	
+	} = props;
+
 	useEffect(() => {
 		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
@@ -90,7 +90,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						</div>
 						<div className="dollar-rate text-end">
 							<p className="">
-								${price ? (price * exchangeRate ).toFixed(2) : 0}
+								${price ? (price * exchangeRate).toFixed(2) : 0}
 							</p>
 						</div>
 					</div>

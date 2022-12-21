@@ -74,6 +74,17 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 			copiesForAuction: copies,
 		};
 		openForSale(activityPayload, payload, fixedConfig, price);
+		if (nftDetail.lazyMinted === false) {
+			toast.warning("Please don't refresh/switch page during transaction.", {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				theme: 'light',
+			});
+		}
 	};
 
 	const openForSale = async (
