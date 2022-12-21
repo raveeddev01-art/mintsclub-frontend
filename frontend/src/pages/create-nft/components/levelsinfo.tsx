@@ -27,15 +27,6 @@ const LevelsInfo: FC<LevelsInfoInterface> = ({
 		}
 		return unFilledArray;
 	};
-	// const { handleModalsRemove } = handlers;
-	// const handleRemove = (i: number, status: string) => {
-	// 	const newFormValues = [...nft.levels];
-	// 	newFormValues.splice(i, 1);
-	// 	const newNFTValues = [...nft.levels];
-	// 	newNFTValues.splice(i, 1);
-	// 	const nftUpdate = { ...nft, levels: newNFTValues };
-	// 	handleModalsRemove('levels', newFormValues, nftUpdate);
-	// };
 	return (
 		<div className="nft-info-container-wrap">
 			<img

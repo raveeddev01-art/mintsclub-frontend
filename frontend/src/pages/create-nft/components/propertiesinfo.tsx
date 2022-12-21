@@ -11,14 +11,6 @@ const PropertiesInfo: FC<PropertiesInfoInterface> = ({
 	handlers,
 }) => {
 	const { handleModalsRemove }: any = handlers;
-	// const handleRemove = (i: number, status: string) => {
-	// 	const newFormValues = [...nft.properties];
-	// 	newFormValues.splice(i, 1);
-	// 	const newNFTValues = [...nft.properties];
-	// 	newNFTValues.splice(i, 1);
-	// 	const nftUpdate = { ...nft, properties: newNFTValues };
-	// 	handleModalsRemove('properties', newFormValues, nftUpdate);
-	// };
 	return (
 		<>
 			<div className="nft-propinfo-container mx-1">

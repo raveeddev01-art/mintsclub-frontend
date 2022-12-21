@@ -26,15 +26,6 @@ const StatsInfo: FC<StatsInfoInterface> = ({
 		}
 		return unFilledArray;
 	};
-	// const { handleModalsRemove } = handlers;
-	// const handleRemove = (i: number, status: string) => {
-	// 	const newFormValues = [...nft.stats];
-	// 	newFormValues.splice(i, 1);
-	// 	const newNFTValues = [...nft.stats];
-	// 	newNFTValues.splice(i, 1);
-	// 	const nftUpdate = { ...nft, stats: newNFTValues };
-	// 	handleModalsRemove('stats', newFormValues, nftUpdate);
-	// };
 	return (
 		<div className="nft-info-container-wrap">
 			<img
