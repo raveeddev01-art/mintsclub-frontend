@@ -211,6 +211,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 								name="timedAuctionConfig.startPrice.amount"
 								placeholder="Amount"
 								maxLength={8}
+								min={0}
 								style={{
 									borderRadius: '4px',
 								}}
