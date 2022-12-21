@@ -215,7 +215,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 									borderRadius: '4px',
 								}}
 								onChange={(e: any) => {
-									if (e.target.value === '00') {
+									if (e.target.value === '00' || e.target.value.includes('-')) {
 										return false;
 									} else {
 										onChange(e);
