@@ -793,6 +793,16 @@ export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
 		let connectedAddress = await getMetamaskConnectedAddress();
 		const contractM = await getContractMethods(abi, contractAddress);
 		let result;
+		toast.warning("Please don't refresh/switch page during transaction.", {
+			position: 'top-center',
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: 'light',
+		});
 		if (sellingMethod === 2) {
 			result = await contractM.methods.cancelAuction(listingId).send({
 				from: connectedAddress,

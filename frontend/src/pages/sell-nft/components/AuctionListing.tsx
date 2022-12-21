@@ -65,6 +65,16 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			setLoader(true);
 
 			handleAuction();
+			toast.warning("Please don't refresh/switch page during transaction.", {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+			});
 		}
 	};
 	const handleAuction = () => {

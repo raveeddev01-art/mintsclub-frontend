@@ -185,27 +185,29 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 								</p>
 							)}
 							<div className="col-12">
-								<div className="mt-5 d-flex justify-content-center align-items-center">
-									{!empty &&
-										collections?.length &&
-										!isLoadinCollections &&
-										pagination.totalRecords > collections.length && (
-											<button
-												className="btn btn-rounded-bordered px-5"
-												onClick={() => handlePagination()}
-											>
-												Load More...
-											</button>
-										)}
-									{!empty &&
-										collections?.length &&
-										isLoadinCollections &&
-										pagination.totalRecords > collections.length && (
-											<button className="btn btn-rounded-bordered px-5">
-												Loading...
-											</button>
-										)}
-								</div>
+								{collections?.length ? (
+									<div className="mt-5 d-flex justify-content-center align-items-center">
+										{!empty &&
+											collections?.length &&
+											!isLoadinCollections &&
+											pagination.totalRecords > collections.length && (
+												<button
+													className="btn btn-rounded-bordered px-5"
+													onClick={() => handlePagination()}
+												>
+													Load More...
+												</button>
+											)}
+										{!empty &&
+											collections?.length &&
+											isLoadinCollections &&
+											pagination.totalRecords > collections.length && (
+												<button className="btn btn-rounded-bordered px-5">
+													Loading...
+												</button>
+											)}
+									</div>
+								) : null}
 							</div>
 						</div>
 					</div>

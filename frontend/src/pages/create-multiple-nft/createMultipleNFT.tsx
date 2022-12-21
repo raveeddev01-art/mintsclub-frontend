@@ -220,6 +220,16 @@ function CreateMultipleNFT(props: any) {
 	};
 
 	const submit = async () => {
+		toast.warning("Please don't refresh/switch page during transaction.", {
+			position: 'top-center',
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: 'light',
+		});
 		setLoader(true);
 		if (selectedCollection === null) {
 			await createDefaultCollection();
