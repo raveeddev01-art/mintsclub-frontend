@@ -652,6 +652,7 @@ class CreateNFT extends React.Component<
 									AddIcon,
 									nft: this.state.nft,
 								}}
+								handlers={{ handleModalsRemove: this.handleModalsRemove }}
 							/>
 							<AddLevels
 								data={{
@@ -659,6 +660,7 @@ class CreateNFT extends React.Component<
 									AddIcon,
 									nft: this.state.nft,
 								}}
+								handlers={{ handleModalsRemove: this.handleModalsRemove }}
 							/>
 							<AddStats
 								data={{
@@ -666,6 +668,7 @@ class CreateNFT extends React.Component<
 									AddIcon,
 									nft: this.state.nft,
 								}}
+								handlers={{ handleModalsRemove: this.handleModalsRemove }}
 							/>
 							<FreeMintSwitch
 								nftId={this.props.match.params.nftId}

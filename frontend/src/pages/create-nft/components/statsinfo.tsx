@@ -3,7 +3,13 @@ import './nftinfo.scss';
 import { StatsInfoInterface } from '../../../interfaces/components';
 import InputClose from '../../../assets/images/inp-close.svg';
 
-const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
+const StatsInfo: FC<StatsInfoInterface> = ({
+	name,
+	value,
+	nft,
+	handlers,
+	index,
+}) => {
 	const filled = () => {
 		const filledArray = [];
 		for (let i = 1; i <= value; i++) {
@@ -19,9 +25,22 @@ const StatsInfo: FC<StatsInfoInterface> = ({ name, value }) => {
 		}
 		return unFilledArray;
 	};
+	const { handleModalsRemove } = handlers;
+	const handleRemove = (i: number, status: string) => {
+		const newFormValues = [...nft.stats];
+		newFormValues.splice(i, 1);
+		const newNFTValues = [...nft.stats];
+		newNFTValues.splice(i, 1);
+		const nftUpdate = { ...nft, stats: newNFTValues };
+		handleModalsRemove('stats', newFormValues, nftUpdate);
+	};
 	return (
 		<div className="nft-info-container-wrap">
-			<img src={InputClose} alt="inputmodal" />
+			<img
+				src={InputClose}
+				alt="inputmodal"
+				onClick={() => handleRemove(index, 'stats')}
+			/>
 			<div className="nft-info-container mx-1 mt-3">
 				<div className="content-heading  d-flex align-items-center justify-content-between">
 					<p>

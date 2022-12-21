@@ -2,11 +2,30 @@ import React, { FC } from 'react';
 import './nftinfo.scss';
 import { PropertiesInfoInterface } from '../../../interfaces/components';
 import InputClose from '../../../assets/images/inp-close.svg';
-const PropertiesInfo: FC<PropertiesInfoInterface> = ({ name, type }) => {
+const PropertiesInfo: FC<PropertiesInfoInterface> = ({
+	index,
+	nft,
+	name,
+	type,
+	handlers,
+}) => {
+	const { handleModalsRemove }: any = handlers;
+	const handleRemove = (i: number, status: string) => {
+		const newFormValues = [...nft.properties];
+		newFormValues.splice(i, 1);
+		const newNFTValues = [...nft.properties];
+		newNFTValues.splice(i, 1);
+		const nftUpdate = { ...nft, properties: newNFTValues };
+		handleModalsRemove('properties', newFormValues, nftUpdate);
+	};
 	return (
 		<>
 			<div className="nft-propinfo-container mx-1">
-				<img src={InputClose} alt="inputmodal" />
+				<img
+					src={InputClose}
+					alt="inputmodal"
+					onClick={() => handleRemove(index, 'properties')}
+				/>
 				<div className="properties-content">
 					<p>
 						<span>Type: </span>

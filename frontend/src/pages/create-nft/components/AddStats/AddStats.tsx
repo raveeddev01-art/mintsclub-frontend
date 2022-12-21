@@ -1,7 +1,7 @@
 import React from 'react';
 import StatsInfo from '../statsinfo';
 
-const AddStats = ({ data }: any) => {
+const AddStats = ({ data, handlers }: any) => {
 	const { showModal, AddIcon, nft } = data;
 	return (
 		<div className="col-12 col-lg-6 mt-3 ">
@@ -25,7 +25,16 @@ const AddStats = ({ data }: any) => {
 
 			<div className="nft-stat-container mx-2 mt-3">
 				{nft.stats.map((item: { name: any; value: any }, index: any) => {
-					return <StatsInfo name={item.name} value={item.value} key={index} />;
+					return (
+						<StatsInfo
+							nft={nft}
+							name={item.name}
+							value={item.value}
+							key={index}
+							handlers={handlers}
+							index={index}
+						/>
+					);
 				})}
 			</div>
 		</div>

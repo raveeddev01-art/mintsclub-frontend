@@ -1,7 +1,7 @@
 import React from 'react';
 import LevelsInfo from '../levelsinfo';
 
-const AddLevels = ({ data }: any) => {
+const AddLevels = ({ data, handlers }: any) => {
 	const { showModal, AddIcon, nft } = data;
 	return (
 		<div className="col-12 col-lg-6 mt-3 mt-lg-5">
@@ -23,7 +23,16 @@ const AddLevels = ({ data }: any) => {
 
 			<div className="nft-level-container mx-3 mt-3 ">
 				{nft.levels.map((item: { name: any; value: any }, index: any) => {
-					return <LevelsInfo name={item.name} value={item.value} key={index} />;
+					return (
+						<LevelsInfo
+							nft={nft}
+							name={item.name}
+							value={item.value}
+							key={index}
+							handlers={handlers}
+							index={index}
+						/>
+					);
 				})}
 			</div>
 		</div>

@@ -33,7 +33,14 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 				{stats && stats?.length > 0 ? (
 					stats.map((item: any, index: any) => {
 						return (
-							<StatsInfo name={item.name} value={item.value} key={index} />
+							<StatsInfo
+								name={item.name}
+								value={item.value}
+								key={index}
+								nft={undefined}
+								handlers={undefined}
+								index={index}
+							/>
 						);
 					})
 				) : (
@@ -48,7 +55,15 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 					{levels && levels.length > 0 ? (
 						levels.map((item: any, i: any) => {
 							return (
-								<LevelsInfo name={item.name} value={item.value} i={i} key={i} />
+								<LevelsInfo
+									name={item.name}
+									value={item.value}
+									i={i}
+									key={i}
+									nft={undefined}
+									handlers={undefined}
+									index={i}
+								/>
 							);
 						})
 					) : (
