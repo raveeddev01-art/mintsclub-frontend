@@ -202,10 +202,10 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 								style={{
 									borderRadius: '4px',
 								}}
-								maxLength={8}
 								min={0}
+								step={0.000001}
 								onChange={(e) => {
-									if (e.target.value === '00') {
+									if (e.target.value === '00' || e.target.value.length > 8) {
 										return '';
 									}
 									onChange(e);
