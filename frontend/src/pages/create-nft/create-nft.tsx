@@ -262,7 +262,7 @@ class CreateNFT extends React.Component<
 					nft,
 					properties: [...nft?.properties, ...this.state?.properties],
 					levels: [...nft?.levels, ...this.state?.levels],
-					stats: [...nft?.stats, ...this.state?.stats],
+					stats: [...nft?.stats, ...this.state?.stats]
 				});
 			} else {
 				toast.error(res.data.message);
