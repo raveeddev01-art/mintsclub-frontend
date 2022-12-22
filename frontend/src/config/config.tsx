@@ -48,7 +48,7 @@ export const ENV = {
 			icon: '/img/ethereum.svg',
 		},
 	],
-	serviceFee: 2.5,
+	serviceFee: 1.5,
 	// Headers
 	Authorization: `Bearer ${process.env.REACT_APP_AUTHORIZATION}`,
 	x_auth_token: process.env.REACT_APP_X_AUTH_TOKEN,

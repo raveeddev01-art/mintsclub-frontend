@@ -83,6 +83,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				pauseOnHover: true,
 				draggable: true,
 				theme: 'light',
+				closeButton: false,
 			});
 		}
 	};
@@ -282,7 +283,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 							<div>
 								<p>
 									Creator Royalty:
-									<span className="ms-2">2.5%</span>
+									<span className="ms-2">1.5%</span>
 								</p>
 							</div>
 						</div>

@@ -624,6 +624,7 @@ class CreateCollections extends Component<
 									className="create-collection-area mt-2"
 									name="description"
 									placeholder="Max 500 Characters"
+									minLength={3}
 									maxLength={500}
 									rows={3}
 									onChange={(e) => this.onChange(e)}
