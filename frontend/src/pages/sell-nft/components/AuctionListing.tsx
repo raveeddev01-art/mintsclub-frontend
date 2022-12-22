@@ -212,11 +212,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 								placeholder="Amount"
 								maxLength={8}
 								min={0}
+								step={0.000001}
 								style={{
 									borderRadius: '4px',
 								}}
 								onChange={(e: any) => {
-									if (e.target.value === '00') {
+									if (e.target.value === '00' || e.target.value.length > 8) {
 										return false;
 									} else {
 										onChange(e);
