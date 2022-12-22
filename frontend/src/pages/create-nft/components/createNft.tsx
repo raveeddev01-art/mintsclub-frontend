@@ -321,6 +321,7 @@ const CreateNft = ({
 							pauseOnHover: true,
 							draggable: true,
 							theme: 'light',
+							closeButton: false,
 						}
 					);
 				}

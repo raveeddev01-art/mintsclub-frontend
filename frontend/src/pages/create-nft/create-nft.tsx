@@ -636,6 +636,7 @@ class CreateNFT extends React.Component<
 									className="create-collection-area mt-2"
 									name="description"
 									rows={3}
+									minLength={3}
 									placeholder="Max 500 Characters"
 									maxLength={500}
 									onKeyDown={(e) =>

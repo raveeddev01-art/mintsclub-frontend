@@ -801,6 +801,7 @@ export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
 			pauseOnHover: true,
 			draggable: true,
 			theme: 'light',
+			closeButton: false,
 		});
 		if (sellingMethod === 2) {
 			result = await contractM.methods.cancelAuction(listingId).send({

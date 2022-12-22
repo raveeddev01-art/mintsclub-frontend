@@ -126,7 +126,7 @@ const BuyModal: FC<Buy> = (props) => {
 								<div className="col-6">
 									<div className="modal-nft-detail">
 										<h6>
-											Creator Fees: <span>5%</span>
+											Creator Fees: <span>1.5%</span>
 										</h6>
 									</div>
 								</div>
@@ -313,7 +313,7 @@ const BuyModal: FC<Buy> = (props) => {
 								<div className="col-6">
 									<div className="modal-nft-detail">
 										<h6>
-											Creator Fees: <span>5%</span>
+											Creator Fees: <span>1.5%</span>
 										</h6>
 									</div>
 								</div>
