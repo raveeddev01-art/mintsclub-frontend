@@ -546,8 +546,11 @@ class CreateCollections extends Component<
 								}}
 							/>
 
-							<div className="col-lg-4 col-md-6 col-sm-12">
-								<label className="create-collection-label">Name:*</label>
+							<div className="col-lg-4 col-md-6 col-sm-12 position-relative">
+								<label className="create-collection-label">Name:</label>
+								<span className="text-danger position-absolute top-0">
+									{this.validator.message('name', collection.name, 'min:3')}
+								</span>
 								<input
 									className="create-collection-input mt-2"
 									id="name"
@@ -562,6 +565,7 @@ class CreateCollections extends Component<
 									maxLength={25}
 									minLength={3}
 									autoComplete="off"
+									required={true}
 								/>
 							</div>
 
@@ -617,9 +621,15 @@ class CreateCollections extends Component<
 								</QueryClientHook>
 							</div>
 
-							<div className="col-12 mt-3 mt-lg-5">
-								<label className="create-collection-label">Description:*</label>
-
+							<div className="col-12 mt-3 mt-lg-5 position-relative">
+								<label className="create-collection-label">Description:</label>
+								<span className="text-danger position-absolute top-0">
+									{this.validator.message(
+										'description',
+										collection.description,
+										'min:3'
+									)}
+								</span>
 								<textarea
 									className="create-collection-area mt-2"
 									name="description"
@@ -632,6 +642,7 @@ class CreateCollections extends Component<
 										firstInputCharacterSpace(e, collection.description.length)
 									}
 									value={collection.description}
+									required={true}
 								></textarea>
 							</div>
 							{ENV.getUserKeys('blockchainType')?.blockchainType !==
