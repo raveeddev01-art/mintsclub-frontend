@@ -537,7 +537,7 @@ class CreateNFT extends React.Component<
 								<label className="create-collection-label d-flex">
 									Title:*{' '}
 									<span className="text-danger ms-2">
-										{this.validator.message('name', nft.name, 'required')}
+										{this.validator.message('name', nft.name, 'min:3')}
 									</span>
 								</label>
 								<input
@@ -632,7 +632,7 @@ class CreateNFT extends React.Component<
 										{this.validator.message(
 											'description',
 											nft.description,
-											'required'
+											'min:3'
 										)}
 									</span>
 								</label>
@@ -649,6 +649,7 @@ class CreateNFT extends React.Component<
 									}
 									onChange={(e) => this.onChange(e)}
 									value={nft.description}
+									required={true}
 								></textarea>
 							</div>
 
