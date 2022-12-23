@@ -1117,7 +1117,7 @@ const NFTDetail = (props: any) => {
 		if (currentDate < auctionStartDate) {
 			return 'Sale will start on ' + auctionEndTimeConversion(auctionStartDate);
 		} else {
-			return 'Sale ends ' + auctionEndTimeConversion(auctionEndDate);
+			return <span style={{fontWeight: 'bold'}}>{'Sale ends ' + auctionEndTimeConversion(auctionEndDate)}</span>;
 		}
 	};
 	const getBidsListOfAuction = async () => {
