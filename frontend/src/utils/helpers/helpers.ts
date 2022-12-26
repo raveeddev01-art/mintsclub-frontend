@@ -80,7 +80,7 @@ const verifyNFTStatus = (
 		auctionEnded === false &&
 		status === 'claimNft' &&
 		blockChainType === 'algorand' &&
-		activeAuction !== null &&
+		activeAuction &&
 		bidCount?.length > 0
 	) {
 		return 'Close Auction';
@@ -108,7 +108,7 @@ const verifyNFTStatus = (
 		auctionEnded === false &&
 		status === 'claimNft' &&
 		blockChainType === 'solana' &&
-		activeAuction !== null
+		activeAuction
 	) {
 		return 'Claim NFT';
 	} else if (
@@ -117,7 +117,7 @@ const verifyNFTStatus = (
 		auctionEnded === false &&
 		status === 'reclaimNft' &&
 		blockChainType === 'solana' &&
-		activeAuction !== null
+		activeAuction
 	) {
 		return 'Cancel Listing';
 	} else if (
@@ -140,7 +140,7 @@ const verifyNFTStatus = (
 	else if (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		blockChainType === blockchainType &&
-		activeAuction === null
+		!activeAuction
 	) {
 		return 'Sell';
 	} else if (
