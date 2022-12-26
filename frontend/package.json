@@ -56,6 +56,7 @@
     "ipfs-api": "^26.1.2",
     "javascript-time-ago": "^2.3.13",
     "jquery": "^3.6.0",
+    "jszip": "^3.10.1",
     "moment": "^2.29.1",
     "os": "^0.1.2",
     "os-browserify": "^0.3.0",
