@@ -290,7 +290,6 @@ const CreateNft = ({
 				nftInfo.collectionId = nft.collectionId;
 				nftInfo.categoryId = nft.categoryId;
 				const res = await uploadDataOnIpfs(nftInfo);
-				console.log('This is response: ', res);
 				if (res.data.success) {
 					toast.success('Data uploaded on IPFS');
 				} else {
@@ -301,7 +300,7 @@ const CreateNft = ({
 				const { compressedFileUrl, image, dataInput } = res.data.data;
 				if (props.match.params.nftId) {
 					if (nftInfo?.fileType === 'image') {
-						nftInfo.compressedFile = state.nftInfo.compressedFile;
+						nftInfo.compressedFile = state.nftInfo?.compressedFile;
 					}
 					editNFT(nftInfo, dataInput.metaDataUrl, image);
 				} else {
@@ -343,9 +342,9 @@ const CreateNft = ({
 	const uploadDataOnIpfs = async (nftInfo: any) => {
 		const { selectedCollection } = state;
 		nftInfo.collection = JSON.stringify({
-			name: selectedCollection.label,
-			id: selectedCollection.value,
-			categoryId: nftInfo.categoryId,
+			name: selectedCollection?.label,
+			id: selectedCollection?.value,
+			categoryId: nftInfo?.categoryId,
 		});
 		if (nftInfo.fileType === 'image') {
 			const compressedFile = await compressImage(nftInfo?.image);
@@ -360,7 +359,6 @@ const CreateNft = ({
 		}
 
 		const res = await handleRequest('post', 'nfts/upload/ipfs', formData);
-
 		return res;
 	};
 
