@@ -31,7 +31,7 @@ const Listing: FC<listingInt> = (props) => {
 		highToLow: false,
 		newest: false,
 		page: 1,
-		limit: props?.UserProfile ? 9999999999 : 9,
+		limit :9,   //props?.UserProfile ? 9999999999
 		buy: false,
 		auction: false,
 		latest: false,
@@ -139,7 +139,9 @@ const Listing: FC<listingInt> = (props) => {
 			setFilterationLoader(false);
 			setFilter((prev: any) => ({ ...prev, limit: filter.limit + 9 }));
 		} else {
-			getPaginatedData?.();
+			// getPaginatedData?.();
+			setFilter((prev: any) => ({ ...prev, limit: filter.limit + 9 }));
+
 		}
 	};
 
@@ -293,7 +295,6 @@ const Listing: FC<listingInt> = (props) => {
 		UserProfile,
 		refetchNFTs,
 	}: any = props;
-
 	return (
 		<div className="filterhoc-wrapper padding-wrapper">
 			<div className="container">
