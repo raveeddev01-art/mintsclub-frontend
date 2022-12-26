@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
 import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
+import JSZip from 'jszip';
 const bannerContent = {
 	subHeading: 'Get Started',
 	heading: 'Create Multiple NFT',
@@ -220,50 +221,78 @@ function CreateMultipleNFT(props: any) {
 	};
 
 	const submit = async () => {
-		setLoader(true);
-		if (selectedCollection === null) {
-			await createDefaultCollection();
-		}
-		if (validator.allValid() && batchFile?.collectionId !== '') {
-			if (!batchFile.file.name) {
-				toast.error('Zip file is required');
-				setLoader(false);
-				return;
+		try {
+			setLoader(true);
+
+			if (selectedCollection === null) {
+				await createDefaultCollection();
 			}
-			const uploadFile = await uploadToS3Bucket(
-				batchFile.file,
-				batchFile.file.name
-			);
-			const payload = {
-				key: uploadFile.key,
-				fileName: batchFile.file.name.substring(
-					0,
-					batchFile.file.name.indexOf('.')
-				),
-				collectionId: batchFile.collectionId,
-				blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
-				categoryId: batchFile.categoryId,
-				status: 'inProgress',
-				ownerAddress: props?.connectedAddress,
-				userId: ENV.getUserKeys('_id')._id,
-			};
-			uploadFiles(payload);
-		} else {
-			Object.keys(validator.fields).forEach(function (key) {
-				if (key === 'zip' && validator.fields[key] === false) {
-					toast.error('Zip file is required');
-					setLoader(false);
-				} else if (
-					key === 'collectionType' &&
-					validator.fields[key] === false
-				) {
-					toast.error('NFT Collection Type is required');
-					setLoader(false);
-				} else if (key === 'collectionId' && validator.fields[key] === false) {
-					toast.error('Collection is required');
-					setLoader(false);
+
+			if (!validator.allValid() && !batchFile?.collectionId) {
+				throw new Error('Zip file and collection is required.');
+			}
+
+			const acceptedFiles = ['png', 'jpg', 'jpeg', 'json'];
+
+			const zip = new JSZip();
+
+			const zipFileContent = await zip.loadAsync(batchFile.file);
+
+			let isFileContainsFolder = false;
+			let isSupportedFiles = true;
+
+			if (Object.entries(zipFileContent?.files)?.length > 0) {
+				Object.entries(zipFileContent.files).every(([key, value]) => {
+					if (value.dir === true) {
+						isFileContainsFolder = true;
+						return false;
+					}
+
+					const fileType = key.split('.').reverse()[0];
+
+					if (!acceptedFiles.find((file) => file === fileType)) {
+						isSupportedFiles = false;
+						return false;
+					}
+				});
+
+				if (isFileContainsFolder) {
+					throw new Error(
+						'This file contains directory, please make sure zip file only contains images and json files with only supported file types.'
+					);
 				}
-			});
+
+				if (!isSupportedFiles) {
+					throw new Error(
+						'This file contains un-supported files. Please make sure you have supported files in your zip files.'
+					);
+				}
+
+				const uploadFile = await uploadToS3Bucket(
+					batchFile.file,
+					batchFile.file.name
+				);
+				const payload = {
+					key: uploadFile.key,
+					fileName: batchFile.file.name.substring(
+						0,
+						batchFile.file.name.indexOf('.')
+					),
+					collectionId: batchFile.collectionId,
+					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
+					categoryId: batchFile.categoryId,
+					status: 'pending',
+					location: uploadFile?.location,
+					ownerAddress: props?.connectedAddress,
+					userId: ENV.getUserKeys('_id')._id,
+				};
+				uploadFiles(payload);
+			}
+		} catch (err: any) {
+			console.log('🚀 ~ file: createMultipleNFT.tsx:271 ~ submit ~ err ', err);
+			toast.error('Something went wrong ' + err.message);
+		} finally {
+			setLoader(false);
 		}
 	};
 	return (
