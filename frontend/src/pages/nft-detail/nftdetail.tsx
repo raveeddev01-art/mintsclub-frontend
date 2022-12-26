@@ -149,8 +149,8 @@ const NFTDetail = (props: any) => {
 			setBeforeGetActivities(true);
 
 			// Get Offers and Bids
-			if (nftDetailsData?.auction?.sellingMethod) {
-				if (nftDetailsData?.auction?.sellingMethod === 1) {
+			if (nftDetailsData?.activeAuction?.sellingMethod) {
+				if (nftDetailsData?.activeAuction?.sellingMethod === 1) {
 					setBeforeGetOffers(true);
 				} else {
 					setBeforeGetBids(true);
@@ -317,7 +317,7 @@ const NFTDetail = (props: any) => {
 
 		if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
 			let bidAmount: any = '';
-			const { highestBid } = data.auction || {};
+			const { highestBid } = data.activeAuction || {};
 
 			if (highestBid === 0 || highestBid === undefined) {
 				bidAmount = currentPrice + 0.1;
@@ -327,7 +327,7 @@ const NFTDetail = (props: any) => {
 			result = bidAmount;
 		} else {
 			let fivePerc: any = '';
-			const { highestBid } = data.auction || {};
+			const { highestBid } = data.activeAuction || {};
 			if (highestBid === 0 || highestBid === undefined) {
 				fivePerc = (5 / 100) * currentPrice;
 				fivePerc = fivePerc + currentPrice;
@@ -372,7 +372,7 @@ const NFTDetail = (props: any) => {
 				(blockchainType === 'polygon' ||
 					blockchainType === 'ethereum' ||
 					blockchainType === 'bsc') &&
-				nftDetail?.auction?.auctionEnded === false &&
+				nftDetail?.activeAuction?.auctionEnded === false &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
@@ -381,14 +381,14 @@ const NFTDetail = (props: any) => {
 					setLoader(true);
 
 					result = await cancelNFTListing(
-						nftDetail?.auction?.sellId,
-						nftDetail?.auction?.sellingMethod,
+						nftDetail?.activeAuction?.sellId,
+						nftDetail?.activeAuction?.sellingMethod,
 						setLoader
 					);
 				}
 				if (result || nftDetail?.lazyMinted) {
 					try {
-						cancelAuction({ auctionId: nftDetail?.auction?._id });
+						cancelAuction({ auctionId: nftDetail?.activeAuction?._id });
 					} catch (error) {
 						toast.success('Something went wrong while cancel listing');
 					}
@@ -397,16 +397,16 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				blockchainType === 'algorand' &&
-				nftDetail?.auction?.sellingMethod === 2 &&
-				nftDetail?.auction?.auctionEnded === false &&
-				nftDetail?.auction?.status === 'claimNft' &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.auctionEnded === false &&
+				nftDetail?.activeAuction?.status === 'claimNft' &&
 				nftDetail.activeAuction !== null
 			) {
 				const result: any = await closeAuction(
-					nftDetail?.auction?.sellId,
-					nftDetail?.auction?.sellerPublicKey,
+					nftDetail?.activeAuction?.sellId,
+					nftDetail?.activeAuction?.sellerPublicKey,
 					nftDetail?.tokenId,
-					nftDetail?.auction?.globalState
+					nftDetail?.activeAuction?.globalState
 				);
 
 				if (result?.success) {
@@ -419,17 +419,17 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				blockchainType === 'solana' &&
-				nftDetail?.auction?.sellingMethod === 2 &&
-				nftDetail?.auction?.auctionEnded === false &&
-				nftDetail?.auction?.status === 'claimNft' &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.auctionEnded === false &&
+				nftDetail?.activeAuction?.status === 'claimNft' &&
 				connectedAddress?.toUpperCase() === highestBidder?.toUpperCase() &&
 				nftDetail.activeAuction !== null
 			) {
 				const result: any = await executeSaleForLiveAuction(
-					nftDetail?.auction?.sellerPublicKey,
+					nftDetail?.activeAuction?.sellerPublicKey,
 					nftDetail?.mint,
 					wallet,
-					nftDetail?.auction?.highestBid
+					nftDetail?.activeAuction?.highestBid
 				);
 				if (!result?.success) {
 					toast.error(result?.message);
@@ -443,14 +443,14 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				blockchainType?.toLowerCase() === 'solana' &&
-				nftDetail?.auction?.sellingMethod === 1 &&
+				nftDetail?.activeAuction?.sellingMethod === 1 &&
 				nftDetail.lazyMinted === false &&
-				nftDetail?.auction?.status === 'active' &&
+				nftDetail?.activeAuction?.status === 'active' &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
 			) {
 				setLoader(true);
 
-				const { sellerTradeState } = nftDetail.auction || {};
+				const { sellerTradeState } = nftDetail.activeAuction || {};
 				if (sellerTradeState) {
 					const response: any = await cancelItemFromListing(
 						wallet,
@@ -460,7 +460,7 @@ const NFTDetail = (props: any) => {
 					if (response?.response?.signature) {
 						try {
 							await cancelAuction({
-								auctionId: nftDetail?.auction?._id,
+								auctionId: nftDetail?.activeAuction?._id,
 								txnHash: response?.response?.signature,
 							});
 							setLoader(false);
@@ -477,15 +477,15 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				blockchainType?.toLowerCase() === 'solana' &&
-				nftDetail?.auction?.sellingMethod === 1 &&
+				nftDetail?.activeAuction?.sellingMethod === 1 &&
 				nftDetail.lazyMinted === true &&
-				nftDetail?.auction?.status === 'active' &&
+				nftDetail?.activeAuction?.status === 'active' &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
 			) {
 				setLoader(true);
 				try {
 					await cancelAuction({
-						auctionId: nftDetail?.auction?._id,
+						auctionId: nftDetail?.activeAuction?._id,
 					});
 					setLoader(false);
 				} catch (error) {
@@ -498,13 +498,13 @@ const NFTDetail = (props: any) => {
 
 			if (
 				blockchainType === 'solana' &&
-				nftDetail?.auction?.sellingMethod === 2 &&
-				nftDetail?.auction?.auctionEnded === false &&
-				nftDetail?.auction?.status === 'reclaimNft'
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.auctionEnded === false &&
+				nftDetail?.activeAuction?.status === 'reclaimNft'
 			) {
 				try {
 					cancelAuction({
-						auctionId: nftDetail?.auction?._id,
+						auctionId: nftDetail?.activeAuction?._id,
 					});
 				} catch (error) {
 					toast.success('Something went wrong while reclaiming nft');
@@ -514,8 +514,8 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				blockchainType === 'solana' &&
-				nftDetail?.auction?.sellingMethod === 2 &&
-				nftDetail?.auction?.auctionEnded === false &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.auctionEnded === false &&
 				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 				bidCount.length === 0
 			) {
@@ -528,7 +528,7 @@ const NFTDetail = (props: any) => {
 				if (result?.success) {
 					try {
 						await cancelAuction({
-							auctionId: nftDetail?.auction?._id,
+							auctionId: nftDetail?.activeAuction?._id,
 							txnHash: result?.txnHash,
 						});
 						setLoader(false);
@@ -544,7 +544,7 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				blockchainType === 'solana' &&
-				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
 				bidStatus === 'claimable' &&
 				connectedAddress?.toUpperCase() !== highestBidder?.toUpperCase()
 			) {
@@ -575,7 +575,7 @@ const NFTDetail = (props: any) => {
 			}
 			if (
 				isOwner() &&
-				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
 				blockchainType !== 'solana' &&
 				nftDetail?.activeAuction !== null
 			) {
@@ -597,12 +597,12 @@ const NFTDetail = (props: any) => {
 
 	const openModals = () => {
 		if (
-			nftDetail?.auction?.sellingMethod === 2 &&
-			nftDetail?.auction?.status === 'active'
+			nftDetail?.activeAuction?.sellingMethod === 2 &&
+			nftDetail?.activeAuction?.status === 'active'
 		) {
 			setBidModalShow(true);
 		}
-		if (nftDetail?.auction?.sellingMethod === 1) {
+		if (nftDetail?.activeAuction?.sellingMethod === 1) {
 			setModalShow(true);
 		}
 	};
@@ -626,7 +626,7 @@ const NFTDetail = (props: any) => {
 	const calculatepricepercantage = () => {
 		let fivePerc: any;
 		let result: any;
-		const { highestBid } = nftDetail?.auction || {};
+		const { highestBid } = nftDetail?.activeAuction || {};
 		const { currentPrice } = nftDetail;
 		if (highestBid === 0 || highestBid === undefined) {
 			fivePerc = (5 / 100) * currentPrice;
@@ -678,7 +678,7 @@ const NFTDetail = (props: any) => {
 		});
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			setLoader(true);
-			if (nftDetail?.auction?.sellingMethod === 2) {
+			if (nftDetail?.activeAuction?.sellingMethod === 2) {
 				placeBid();
 			} else {
 				makeOffer();
@@ -687,13 +687,14 @@ const NFTDetail = (props: any) => {
 	};
 	const placeBid = async () => {
 		const { connectedAddress } = props;
-		const { auction, ownerAddress, _id, ownerId, tokenId, mint } = nftDetail;
+		const { activeAuction, ownerAddress, _id, ownerId, tokenId, mint } =
+			nftDetail;
 		try {
 			let result: any = undefined;
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				result = await bidForLiveAuction(
 					wallet,
-					auction?.sellerPublicKey,
+					activeAuction?.sellerPublicKey,
 					mint,
 					price
 				);
@@ -705,15 +706,15 @@ const NFTDetail = (props: any) => {
 			} else if (
 				ENV.getUserKeys('blockchainType').blockchainType !== 'algorand'
 			) {
-				result = await placeABid(price, auction?.sellId);
+				result = await placeABid(price, activeAuction?.sellId);
 			} else {
 				result = await placeBidOnAlgorand(
 					+price,
 					connectedAddress,
 					ownerAddress,
-					auction?.sellId,
+					activeAuction?.sellId,
 					tokenId,
-					auction?.globalState,
+					activeAuction?.globalState,
 					setLoader
 				);
 
@@ -726,7 +727,7 @@ const NFTDetail = (props: any) => {
 			if (result) {
 				const payload: any = {
 					ownerId: ownerId,
-					auctionId: auction?._id,
+					auctionId: activeAuction?._id,
 					bidAmount: price,
 					nftId: _id,
 					bidBy: ENV.getUserKeys('_id')._id,
@@ -823,7 +824,7 @@ const NFTDetail = (props: any) => {
 
 					if (blockchainType === 'solana') {
 						const { mint } = nftDetail;
-						const { sellerTradeState, sellingConfig } = nftDetail.auction;
+						const { sellerTradeState, sellingConfig } = nftDetail.activeAuction;
 						const buyFixedPriceResponse = await buyNowFixedPriceAuction(
 							wallet,
 							mint,
@@ -850,11 +851,11 @@ const NFTDetail = (props: any) => {
 					}
 					if (blockchainType === 'algorand') {
 						const { tokenId } = nftDetail;
-						const { sellerTradeState, sellingConfig } = nftDetail.auction;
+						const { sellerTradeState, sellingConfig } = nftDetail.activeAuction;
 						const buyFixedPriceResponse = await buyFixedPriceNFT(
 							sellingConfig?.price?.amount,
 							tokenId,
-							nftDetail?.auction?.sellId,
+							nftDetail?.activeAuction?.sellId,
 							connectedAddress,
 							nftDetail?.creator?.address,
 							sellerTradeState,
@@ -880,7 +881,7 @@ const NFTDetail = (props: any) => {
 					}
 					if (blockchainType !== 'algorand' && blockchainType !== 'solana') {
 						const currentPrice = nftDetail.currentPrice;
-						const nftToken = nftDetail?.auction?.sellId;
+						const nftToken = nftDetail?.activeAuction?.sellId;
 
 						const result = await BuyFixedPriceNFT(
 							currentPrice,
@@ -1083,10 +1084,10 @@ const NFTDetail = (props: any) => {
 	) => {
 		//check if i am owner
 
-		if (isOwner() || nftDetail?.auction?.sellingMethod === 1) {
+		if (isOwner() || nftDetail?.activeAuction?.sellingMethod === 1) {
 			return true;
 		}
-		if (startDate && endDate && nftDetail?.auction?.sellingMethod) {
+		if (startDate && endDate && nftDetail?.activeAuction?.sellingMethod) {
 			const currentDate = new Date();
 			const auctionStartDate = new Date(startDate);
 			const auctionEndDate = new Date(endDate);
@@ -1126,13 +1127,13 @@ const NFTDetail = (props: any) => {
 		}
 	};
 	const getBidsListOfAuction = async () => {
-		const auctionEndDate = new Date(nftDetail?.auction?.auctionEndDate);
+		const auctionEndDate = new Date(nftDetail?.activeAuction?.auctionEndDate);
 		const currentDate = new Date();
 		if (currentDate > auctionEndDate) {
 			if (!initial) {
 				let queryString: any = {
 					nftId: nftDetail._id,
-					// auctionId: nftDetail?.auction?._id,
+					// auctionId: nftDetail?.activeAuction?._id,
 				};
 				queryString = ENV.objectToQueryString(queryString);
 				let url = `${ENV.url}bid/list`;
@@ -1191,13 +1192,13 @@ const NFTDetail = (props: any) => {
 			nftDetail &&
 			(nftDetail.blockchainType === 'solana' ||
 				nftDetail.blockchainType === 'algorand') &&
-			nftDetail?.auction?.sellingMethod === 2
+			nftDetail?.activeAuction?.sellingMethod === 2
 		) {
 			await getBidsListOfAuction();
 		} else {
 			if (
 				nftDetail &&
-				nftDetail?.auction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
 				nftDetail?.activeAuction !== null
 			) {
 				await getBidsListOfAuction();
@@ -1209,7 +1210,7 @@ const NFTDetail = (props: any) => {
 		try {
 			setLoader(true);
 			const { ownerId } = nftDetail;
-			const { sellingMethod, sellId } = nftDetail?.auction || {};
+			const { sellingMethod, sellId } = nftDetail?.activeAuction || {};
 			if (userId === ownerId && sellingMethod === 2) {
 				const result = await endAuctionFromContract(sellId);
 				if (result) {
@@ -1242,7 +1243,7 @@ const NFTDetail = (props: any) => {
 		const res = await axios.post(
 			`${ENV.url}auctions/endAuction`,
 			{
-				auctionId: nftDetail?.auction?._id,
+				auctionId: nftDetail?.activeAuction?._id,
 			},
 			{
 				headers: headers,
@@ -1450,7 +1451,7 @@ const NFTDetail = (props: any) => {
 										<p>{description}</p>
 									</div>
 								</div>
-								{nftDetail?.auction?.sellingMethod === 2 && (
+								{nftDetail?.activeAuction?.sellingMethod === 2 && (
 									<Offers
 										data={{
 											bids,
