@@ -98,6 +98,7 @@ const NFTDetail = (props: any) => {
 	const [toggle, setToggle] = React.useState<boolean>(true);
 	const [likedNfts, setLikedNfts] = useState<any>();
 	const [nftDetail, setNftDetail] = useState<any>('');
+
 	const [nfts, setNFTs] = useState<any>([]);
 	const [activities, setActivities] = useState<any>([]);
 	const [loader, setLoader] = useState<boolean>(true);
@@ -1117,7 +1118,11 @@ const NFTDetail = (props: any) => {
 		if (currentDate < auctionStartDate) {
 			return 'Sale will start on ' + auctionEndTimeConversion(auctionStartDate);
 		} else {
-			return <span style={{fontWeight: 'bold'}}>{'Sale ends ' + auctionEndTimeConversion(auctionEndDate)}</span>;
+			return (
+				<span style={{ fontWeight: 'bold' }}>
+					{'Sale ends ' + auctionEndTimeConversion(auctionEndDate)}
+				</span>
+			);
 		}
 	};
 	const getBidsListOfAuction = async () => {
@@ -1323,9 +1328,9 @@ const NFTDetail = (props: any) => {
 		auctionEnded,
 		highestBidder,
 		status,
-	}: any = nftDetail?.auction || {};
+	}: any = nftDetail?.activeAuction || {};
 	const { connectedAddress } = props;
-	const bidCount = nftDetail?.auction?.bids;
+	const bidCount = nftDetail?.activeAuction?.bids;
 	const nftInfo: any = [
 		{
 			title: 'Contract Address',
