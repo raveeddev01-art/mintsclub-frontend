@@ -54,37 +54,19 @@ const UserProfile = (props: any) => {
 
 	const onSuccessNFTs = (data: any) => {
 		if (data?.data?.success) {
+			console.log('data?.data', data?.data);
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
-			setNFTs(data.data.data.nfts);
+			if (data.data.data.pagination?.page === 1) {
+				setNFTs(data.data.data.nfts);
+				return;
+			}
+			setNFTs([...nfts, ...data.data.data.nfts]);
 		} else {
 			setError(data.data.message);
 		}
 	};
-	// const onSuccessNFTs = (res: any) => {
-	// 	// eslint-disable-next-line no-unsafe-optional-chaining
-	// 	const { nfts } = res?.data?.data;
-	// 	const data: any = nfts;
-	// 	if (!menuFilter) {
-	// 		const Nfts = data?.filter((item: any) => item.ownerId === userId);
-	// 		if (Nfts?.length > 0) {
-	// 			setDisabled(false);
-	// 		} else {
-	// 			if (initial) {
-	// 				setDisabled(true);
-	// 			}
-	// 		}
-	// 		setNFTs(Nfts);
-	// 		setNFTPagination({ total: Nfts?.length });
-	// 	} else {
-	// 		setNFTPagination(data.length);
-	// 		handleNftFilter(menuFilter, data);
-	// 	}
-	// 	setInitial(false);
-	// 	setNFTsCopy(data);
-	// 	setLoader(false);
-	// 	setFilterationLoader(false);
-	// };
+
 	const { isLoading: isLoadingNFTs, refetch } = useGetNFTs(
 		filter,
 		onSuccessNFTs,
@@ -268,12 +250,13 @@ const UserProfile = (props: any) => {
 						</div>
 					</div>
 					<Listing
+						setNfts={setNFTs}
 						collections={collections}
 						disabled={disabled}
 						totalItems={nfts && nfts.length}
 						filterationLoader={filterationLoader}
 						setFilterationLoader={setFilterationLoader}
-						nfts={nfts?.slice(0, dataLimit)}
+						nfts={nfts}
 						loader={isLoadingNFTs}
 						likedNfts={likedNfts}
 						// handleLikesTogleApi={handleLikesTogleApi}
