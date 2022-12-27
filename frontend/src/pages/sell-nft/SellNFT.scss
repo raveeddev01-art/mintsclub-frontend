@@ -1,3 +1,4 @@
+@import url("https://cdn.syncfusion.com/ej2/material.css");
 .sell-nft {
   .nft-img-detail {
     margin-bottom: 17px;
@@ -196,10 +197,6 @@
     .sell-time-inp {
       input {
         color: var(--filter-heading);
-        background: var(--input-bg);
-        border: var(--nft-search-border);
-        box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-        border-radius: 55px;
         height: 45px;
         padding: 0 20px 0 25px;
         font-size: 12px;
@@ -223,5 +220,36 @@
   }
   .sell-btn-container {
     margin-top: 70px;
+  }
+}
+.btn-style{
+  width: 100%;
+  padding-right: 0px;
+  position: absolute;
+  position: relative;
+  border-radius: 50px;
+      // background-color: yellow !important;
+      color: var(--filter-heading);
+      background: var(--input-bg);
+      border: var(--nft-search-border);
+      box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+      border-radius: 55px;
+      height: 45px;
+      // background-color: yellow !important;
+      padding: 0 20px 0 25px;
+      font-size: 12px;
+  svg{
+    color: #1c6cfe;
+    padding-left: 0px;
+    position: absolute;
+    margin-right: 45px;
+    box-shadow: none;
+  }
+  fieldset{
+    border: none !important;
+    width: 100%;
+  }
+  label{
+    display: none;
   }
 }
