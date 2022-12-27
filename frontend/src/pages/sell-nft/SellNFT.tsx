@@ -283,6 +283,7 @@ const SellNFT = (props: any) => {
 									insertAuction,
 									setLoader,
 								}}
+								blockchainType={nftDetail?.blockchainType}
 							/>
 						) : (
 							<AuctionListing
@@ -305,6 +306,7 @@ const SellNFT = (props: any) => {
 									insertAuction,
 									setLoader,
 								}}
+								blockchainType={nftDetail?.blockchainType}
 							/>
 						)}
 					</div>
