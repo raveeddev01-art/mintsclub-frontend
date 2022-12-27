@@ -64,7 +64,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
 		if (limit) {
 			nftQS.limit = limit;
 		} else {
-			nftQS.limit = 10;
+			nftQS.limit = 9;
 		}
 	}
 	const qs = ENV.objectToQueryString(nftQS);

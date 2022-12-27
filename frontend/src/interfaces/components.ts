@@ -173,6 +173,7 @@ export interface listingInt {
 	collectionDetail?: any;
 	totalItems?: any;
 	refetchNFTs?: () => any;
+	setNfts?: any;
 }
 
 export interface CollectionSubLoaderInt {

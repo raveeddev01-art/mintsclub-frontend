@@ -29,7 +29,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 	const [likedNfts, setLikedNfts] = useState<any>(null);
 	const [likeButtonDisable, setLikeBtnDisable] = useState<boolean | null>(null);
 	const [disabled, setDisabled] = useState(false);
-	const [filter, setFilter] = useState<any>({ limit: 10, page: 1 });
+	const [filter, setFilter] = useState<any>({ limit: 9, page: 1 });
 	const { setError } = useContext(errorHandler);
 	const history = useHistory();
 
@@ -42,7 +42,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 			const searchQs: object | string = {
 				keyword: props.location.state,
 				page: 1,
-				limit: 10,
+				limit: 9,
 			};
 			setFilter(searchQs);
 			setFilterationLoader(true);
@@ -69,7 +69,11 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 		if (data?.data?.success) {
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
-			setNFTs(data.data.data.nfts);
+			if (data.data.data.pagination?.page === 1) {
+				setNFTs(data.data.data.nfts);
+				return;
+			}
+			setNFTs([...nfts, ...data.data.data.nfts]);
 		} else {
 			setError(data.data.message);
 		}
@@ -118,6 +122,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 					bannerImg={BannerImage}
 				/>
 				<Listing
+					setNfts={setNFTs}
 					collections={collections}
 					disabled={disabled}
 					totalItems={nfts && nfts.length}

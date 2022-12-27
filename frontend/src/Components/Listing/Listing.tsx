@@ -21,6 +21,10 @@ const Listing: FC<listingInt> = (props) => {
 	const [keyword, setKeyword] = useState<any>(
 		props.initialKeyword ? props.initialKeyword : ''
 	);
+
+	const [page, setPage] = useState<number>(1);
+	const [limit, setLimit] = useState<number>(9);
+
 	const [filter, setFilter] = useState<any>({
 		collectionId: false,
 		gtePrice: false,
@@ -30,8 +34,6 @@ const Listing: FC<listingInt> = (props) => {
 		lowToHigh: false,
 		highToLow: false,
 		newest: false,
-		page: 1,
-		limit :9,   //props?.UserProfile ? 9999999999
 		buy: false,
 		auction: false,
 		latest: false,
@@ -58,7 +60,18 @@ const Listing: FC<listingInt> = (props) => {
 
 	useEffect(() => {
 		fetchData(filter);
+	}, []);
+
+	useEffect(() => {
+		setPage(1);
+		props.setNfts([]);
+		fetchData(filter);
 	}, [filter]);
+
+	useEffect(() => {
+		fetchData({ ...filter, page, limit });
+	}, [page]);
+
 	const handleSelectChange = (selectedOption: any) => {
 		setSelectedOption(selectedOption);
 	};
@@ -133,16 +146,9 @@ const Listing: FC<listingInt> = (props) => {
 	};
 
 	const handlePagination = () => {
-		// window.scroll(0, 500);
-		if (!UserProfile) {
-			setInitial(false);
-			setFilterationLoader(false);
-			setFilter((prev: any) => ({ ...prev, limit: filter.limit + 9 }));
-		} else {
-			// getPaginatedData?.();
-			setFilter((prev: any) => ({ ...prev, limit: filter.limit + 9 }));
-
-		}
+		setInitial(false);
+		setFilterationLoader(false);
+		setPage(page + 1);
 	};
 
 	const applyMinMaxFilter = () => {
