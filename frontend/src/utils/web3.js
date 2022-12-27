@@ -128,6 +128,32 @@ const getLatestTokenId = async (methods) => {
 	return +id + 1;
 };
 
+export const checkIsApprovedForAll = async (walletAddress) => {
+	try {
+		const web3 = await getWeb3();
+		if (!web3) {
+			toast.error('No web3 instance found');
+			return false;
+		}
+
+		const { abi, contractAddress } = getMintContractInfo();
+		const { contractAddress: marketplaceContractAddress } =
+			getMarketPlaceContractInfo();
+		let connectedAddress = await connectMetamask();
+		const contract = await getContractMethods(abi, contractAddress);
+
+		const isApproved = await contract.methods
+			.isApprovedForAll(walletAddress, marketplaceContractAddress)
+			.call({ from: connectedAddress });
+
+		return isApproved;
+	} catch (err) {
+		console.log(err, 'error in mintNFT');
+		toast.error(err.message);
+		throw err;
+	}
+};
+
 export const mintNFt = async (
 	metaData,
 	amount,

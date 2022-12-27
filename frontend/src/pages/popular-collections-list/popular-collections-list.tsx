@@ -16,9 +16,10 @@ import {
 } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import './popular-collections-list.scss';
+import { POPULAR_COLLECTION } from '../../interfaces/allnfts/types';
 
 const Populars: FC<PopularCollectionlistInt> = (props) => {
-	const [popular, setpopular] = useState([]);
+	const [popular, setpopular] = useState<POPULAR_COLLECTION[]>([]);
 	const [isActive, setIsActive] = useState('All');
 	const [categoryId, setCategoryId] = useState('all');
 	const [page, setPage] = useState(1);
@@ -51,6 +52,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 		onErrorPopular,
 		onSuccessPopular,
 		categoryId,
+		page,
 		limit
 	);
 
@@ -78,75 +80,26 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 		if (data.collectionsList.length > 0) {
 			const collectionListing = data.collectionsList;
 			const pagination = data.pagination;
-
-			if (collectionListing) {
-				collectionListing.forEach((element: any, i: number) => {
-					if (element.likesCount.length > 0) {
-						const sumLikes = element.likesCount.reduce(function (
-							a: number,
-							b: number
-						) {
-							return a + b;
-						},
-						0);
-						collectionListing[i].likesCount = sumLikes;
-					}
-					collectionListing[i].likesCount = 0;
-
-					collectionListing[i].totalNfts = element.nftDetail[0].image
-						? element.nftDetail?.length
-						: 0;
-					if (element.soldCopies.length > 0) {
-						const soldCopiesSum = element.soldCopies.reduce(function (
-							a: number,
-							b: number
-						) {
-							return a + b;
-						},
-						0);
-						collectionListing[i].soldCopies = soldCopiesSum;
-					}
-
-					collectionListing[i].soldCopies = 0;
-				});
-			}
-
-			const finalCollectionListing = collectionListing.sort(
-				(a: any, b: any) =>
-					b.likesCount - a.likesCount || b.soldCopies - a.soldCopies
-			);
-
 			setPagination(pagination);
-			const userId = ENV.getUserKeys('_id')._id;
-			if (props.finalCollectionListing) {
-				const finalCollectionListing = props.finalCollectionListing.filter(
-					(item: any) => item.userId === userId
-				);
-				setpopular(finalCollectionListing);
-			} else {
-				if (finalCollectionListing === null) {
-					setEmpty(true);
-				} else {
-					setEmpty(false);
-				}
-				setpopular(finalCollectionListing);
+			if (pagination?.page === 1) {
+				setpopular(collectionListing);
+				return;
 			}
+
+			setpopular([...popular, ...collectionListing]);
 		} else {
 			setpopular([]);
 		}
 	};
 
 	const handlePagination = () => {
-		// window.scroll(0, 500);
-		setPage(page);
-		setLimit(limit + 12);
+		setPage(page + 1);
 	};
 
 	const handleFilterCategory = (category: string) => {
 		setCategoryId(category);
 		setLoader(true);
 		setPage(1);
-		setLimit(12);
 	};
 
 	const handleImage = (item: any, index: number) => {
@@ -163,7 +116,6 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 			return Images.imagePlaceholder;
 		}
 	};
-	console.log(pagination, 'This is pagination');
 
 	return (
 		<>
@@ -281,7 +233,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 										{!empty &&
 											popular?.length &&
 											!isFetchingPopular &&
-											pagination.totalRecords > popular.length && (
+											pagination.total > popular.length && (
 												<button
 													className="btn btn-rounded-bordered px-5"
 													onClick={() => handlePagination()}
@@ -292,7 +244,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 										{!empty &&
 											popular?.length &&
 											isFetchingPopular &&
-											pagination.totalRecords > popular.length && (
+											pagination.total > popular.length && (
 												<button className="btn btn-rounded-bordered px-5">
 													Loading...
 												</button>

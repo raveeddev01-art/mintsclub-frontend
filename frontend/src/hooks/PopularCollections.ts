@@ -24,6 +24,7 @@ export const useGetPopularCollections = (
 	onError: any,
 	onSuccess: any,
 	categoryId: string,
+	page?: number,
 	limit?: number
 ) => {
 	const { setError } = useContext(errorHandler);
@@ -32,6 +33,7 @@ export const useGetPopularCollections = (
 		const qs = ENV.objectToQueryString({
 			myFilter: categoryId,
 			...(limit && { limit }),
+			...(page && { page }),
 		});
 		const result = await axios.get(`${ENV.url}collection/popular?${qs}`);
 		return result;

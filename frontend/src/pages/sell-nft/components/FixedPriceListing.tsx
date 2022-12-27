@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { putonsale } from '../../../utils/web3';
+import { checkIsApprovedForAll, putonsale } from '../../../utils/web3';
 import { listItemForFixedPriceSolana } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ENV } from '../../../config/config';
@@ -36,18 +36,18 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet = useWallet();
-	const submit = (e: any) => {
+	const submit = async (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
-			if (
-				(blockchainType !== 'solana' &&
-					blockchainType !== 'algorand' &&
-					!nftDetail?.user?.isApproved &&
-					nftDetail?.isApproved) ||
-				!nftDetail.isApproved
-			) {
-				setShow(true);
-				return '';
+			if (blockchainType !== 'solana' && blockchainType !== 'algorand') {
+				const isApproved = await checkIsApprovedForAll(
+					ENV.getUserKeys('address')?.address
+				);
+
+				if (!isApproved) {
+					setShow(true);
+					return '';
+				}
 			}
 
 			handleFixedPriceAuction();

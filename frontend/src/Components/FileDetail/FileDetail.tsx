@@ -30,7 +30,6 @@ const FileDetail = ({ info }: any) => {
 		status,
 		bidCount,
 	}: any = info;
-
 	const buttonText = verifyNFTStatus(
 		ownerAddress,
 		connectedAddress,
@@ -96,30 +95,26 @@ const FileDetail = ({ info }: any) => {
 				)}
 				<div className="nft-detail-date d-flex align-items-center">
 					<p>
-						{sellingMethod && sellingMethod === 2 && (
+						{sellingMethod === 2 && (
 							<>
-								{auctionEndDate &&
-									checkIfAuctionStartedorEnded(
-										auctionStartDate,
-										auctionEndDate
-									) && (
-										<>
-											<img
-												src={Images.ClockIcon}
-												alt="clock-icon"
-												className="me-1"
-											/>
-											<span>
-												{checkIfAuctionIsStarted(
-													auctionStartDate,
-													auctionEndDate
-												)}{' '}
-												{/* {auctionEndTimeConversion(
+								{
+									<>
+										<img
+											src={Images.ClockIcon}
+											alt="clock-icon"
+											className="me-1"
+										/>
+										<span>
+											{checkIfAuctionIsStarted(
+												auctionStartDate,
+												auctionEndDate
+											)}{' '}
+											{/* {auctionEndTimeConversion(
                             new Date(auctionEndDate)
                           )}{" "} */}
-											</span>
-										</>
-									)}
+										</span>
+									</>
+								}
 							</>
 						)}
 					</p>
