@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import { CHAINS_INTERFACE } from '../../../interfaces/components';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
@@ -13,6 +13,13 @@ import { connect } from 'react-redux';
 import { createAuctionApp } from '../../../utils/algorand';
 import { listItemForLiveAuction } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
+import { ClockPicker } from '@mui/x-date-pickers/ClockPicker';
+import { TextField } from '@mui/material';
 
 const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -35,12 +42,37 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		insertAuction,
 		setLoader,
 	} = data;
+	// console.log('This is on Change: ', onChange);
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet: any = useWallet();
+
+	const [startValue, setStartValue] = useState(
+		// timedAuctionConfig.duration.startTime
+		new Date()
+	);
+	const [endValue, setEndValue] = useState(
+		// timedAuctionConfig.duration.endTime
+		new Date()
+	);
+
+	const handleStartTime = (e: any) => {
+		console.log('This is new Value: ', e);
+		setStartValue(e);
+		onChange(e);
+	};
+	const handleEndTime = (e: any) => {
+		setEndValue(e);
+		onChange(e);
+	};
+
 	const submit = (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
+			console.log(
+				'This is Start Time: ',
+				timedAuctionConfig.duration.startTime
+			);
 			const [hours, minutes] = timedAuctionConfig.duration.startTime.split(':');
 			if (
 				moment().unix() >
@@ -336,7 +368,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						</div>
 
 						<div className="sell-time-inp mx-auto my-3">
-							<input
+							{/* <input
 								type="time"
 								name="timedAuctionConfig.duration.startTime"
 								placeholder="Start Time"
@@ -345,10 +377,22 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 								defaultValue={timedAuctionConfig.duration.startTime}
 								required
 								autoComplete="off"
-							/>
+							/> */}
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<DesktopTimePicker
+									label="Start Time"
+									// ampm={false}
+									className="calender-btn"
+									value={startValue}
+									onChange={handleStartTime}
+									renderInput={(params) => {
+										return <TextField {...params} />;
+									}}
+								/>
+							</LocalizationProvider>
 						</div>
 						<div className="sell-time-inp mx-auto my-3">
-							<input
+							{/* <input
 								type="time"
 								name="timedAuctionConfig.duration.endTime"
 								placeholder="End Time"
@@ -357,7 +401,18 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 								defaultValue={timedAuctionConfig.duration.endTime}
 								required
 								autoComplete="off"
-							/>
+							/> */}
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<DesktopTimePicker
+									label="End Time"
+									className="calender-btn"
+									value={endValue}
+									onChange={handleEndTime}
+									renderInput={(params) => {
+										return <TextField {...params} />;
+									}}
+								/>
+							</LocalizationProvider>
 						</div>
 					</div>
 				</div>
