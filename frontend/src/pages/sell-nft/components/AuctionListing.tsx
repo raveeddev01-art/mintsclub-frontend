@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { ENV } from '../../../config/config';
-import { openNFTForBidding } from '../../../utils/web3';
+import { checkIsApprovedForAll, openNFTForBidding } from '../../../utils/web3';
 import { connect } from 'react-redux';
 import { createAuctionApp } from '../../../utils/algorand';
 import { listItemForLiveAuction } from '../../../utils/solana/helper';
@@ -38,7 +38,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet: any = useWallet();
-	const submit = (e: any) => {
+	const submit = async (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			const [hours, minutes] = timedAuctionConfig.duration.startTime.split(':');
@@ -52,16 +52,18 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				toast.error('Time Should be in future');
 				return;
 			}
-			if (
-				(nftDetail?.blockchainType !== 'solana' &&
-					nftDetail?.blockchainType !== 'algorand' &&
-					!nftDetail?.user?.isApproved &&
-					nftDetail?.isApproved) ||
-				!nftDetail.isApproved
-			) {
-				setShow(true);
-				return '';
+
+			if (blockchainType !== 'solana' && blockchainType !== 'algorand') {
+				const isApproved = await checkIsApprovedForAll(
+					ENV.getUserKeys('address')?.address
+				);
+
+				if (!isApproved) {
+					setShow(true);
+					return '';
+				}
 			}
+
 			setLoader(true);
 
 			handleAuction();
