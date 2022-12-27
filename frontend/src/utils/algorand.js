@@ -565,10 +565,13 @@ const closeAuction = async (appId, seller_address, nftID, appGlobalState) => {
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
 		params.flatFee = true;
-
+		let highestBidder = undefined;
 		if (appGlobalState['bid_account']) {
 			accounts.push(
 				algosdk.encodeAddress(appGlobalState['bid_account']['data'])
+			);
+			highestBidder = algosdk.encodeAddress(
+				appGlobalState['bid_account']['data']
 			);
 		}
 		if (appGlobalState['royalty_address']) {
@@ -576,6 +579,17 @@ const closeAuction = async (appId, seller_address, nftID, appGlobalState) => {
 				algosdk.encodeAddress(appGlobalState['royalty_address']['data'])
 			);
 		}
+
+		const changeManager =
+			await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
+				from: seller_address.toString(),
+				assetIndex: nftID,
+				manager: highestBidder.toString(),
+				clawback: highestBidder.toString(),
+				freeze: highestBidder.toString(),
+				suggestedParams: params,
+				strictEmptyAddressChecking: false,
+			});
 
 		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
 			from: seller_address,
@@ -587,11 +601,22 @@ const closeAuction = async (appId, seller_address, nftID, appGlobalState) => {
 			},
 		});
 
-		const signedTxn = await myAlgoConnect.signTransaction(deleteTxn.toByte());
+		let txnsArray = [changeManager, deleteTxn];
+		const groupID = algosdk.computeGroupID(txnsArray);
+		for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
 
-		const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
-		if (tx) {
-			const data = { success: true, tx };
+		const signedTxns = await myAlgoConnect.signTransaction(
+			txnsArray.map((txn) => txn.toByte())
+		);
+		let transactions = [];
+
+		signedTxns.forEach((element) => transactions.push(element.blob));
+		const sendGroupTransactions = await algodClient
+			.sendRawTransaction(transactions)
+			.do();
+
+		if (sendGroupTransactions?.txId) {
+			const data = { success: true, tx: sendGroupTransactions?.txId };
 			return data;
 		}
 		return;
@@ -1019,7 +1044,6 @@ const executeTransfer = async (
 };
 export {
 	signMessageFromUserForAlgorand,
-	createApp,
 	CheckBalance,
 	createNFT,
 	createAuctionApp,
