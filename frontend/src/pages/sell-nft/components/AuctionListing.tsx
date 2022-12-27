@@ -20,6 +20,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import { ClockPicker } from '@mui/x-date-pickers/ClockPicker';
 import { TextField } from '@mui/material';
+import { useFormControl } from '@mui/material/FormControl';
+
+import { readFile } from 'fs';
+import { format } from 'path';
 
 const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -47,41 +51,21 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const location: any = useLocation();
 	const wallet: any = useWallet();
 
-	const [startValue, setStartValue] = useState(
-		// timedAuctionConfig.duration.startTime
-		new Date()
-	);
-	const [endValue, setEndValue] = useState(
-		// timedAuctionConfig.duration.endTime
-		new Date()
-	);
+	const [startValue, setStartValue]: any = useState(moment());
+	const [endValue, setEndValue] = useState(moment().endOf('day'));
 
 	const handleStartTime = (e: any) => {
-		console.log('This is new Value: ', e);
 		setStartValue(e);
-		onChange(e);
 	};
 	const handleEndTime = (e: any) => {
 		setEndValue(e);
-		onChange(e);
 	};
 
 	const submit = (e: any) => {
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
-			console.log(
-				'This is Start Time: ',
-				timedAuctionConfig.duration.startTime
-			);
-			const [hours, minutes] = timedAuctionConfig.duration.startTime.split(':');
-			if (
-				moment().unix() >
-				timedAuctionConfig.duration.startDate
-					.set('hours', hours)
-					.set('minutes', minutes)
-					.unix()
-			) {
-				toast.error('Time Should be in future');
+			if (moment() > startValue) {
+				toast.error('Start Time Should be in future');
 				return;
 			}
 			if (
@@ -367,7 +351,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 							</DateRangePicker>
 						</div>
 
-						<div className="sell-time-inp mx-auto my-3">
+						<div className="sell-time-inp mx-auto my-3 calender-btn">
 							{/* <input
 								type="time"
 								name="timedAuctionConfig.duration.startTime"
@@ -379,16 +363,31 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 								autoComplete="off"
 							/> */}
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<DesktopTimePicker
-									label="Start Time"
-									// ampm={false}
-									className="calender-btn"
-									value={startValue}
-									onChange={handleStartTime}
-									renderInput={(params) => {
-										return <TextField {...params} />;
-									}}
-								/>
+								<div>
+									<DesktopTimePicker
+										label="Start Time"
+										className="calender-btn btn-style"
+										showToolbar={true}
+										toolbarTitle="Start Time"
+										value={startValue}
+										onChange={handleStartTime}
+										renderInput={(params) => {
+											return (
+												<div>
+													<TextField
+														className="text-field"
+														required={true}
+														{...params}
+														inputProps={{
+															...params.inputProps,
+															disabled: true,
+														}}
+													/>
+												</div>
+											);
+										}}
+									/>
+								</div>
 							</LocalizationProvider>
 						</div>
 						<div className="sell-time-inp mx-auto my-3">
@@ -405,11 +404,21 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DesktopTimePicker
 									label="End Time"
-									className="calender-btn"
+									className="calender-btn btn-style"
 									value={endValue}
+									showToolbar={true}
+									toolbarTitle="End Time"
 									onChange={handleEndTime}
+									ignoreInvalidInputs={false}
 									renderInput={(params) => {
-										return <TextField {...params} />;
+										return (
+											<TextField
+												className="text-field"
+												required={true}
+												{...params}
+												inputProps={{ ...params.inputProps, disabled: true }}
+											/>
+										);
 									}}
 								/>
 							</LocalizationProvider>
