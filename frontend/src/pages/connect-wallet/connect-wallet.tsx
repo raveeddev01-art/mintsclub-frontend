@@ -121,7 +121,6 @@ const ConnectWallet = (props: any) => {
 	///Validate
 	const onSuccessValidateUser = async (data: any) => {
 		const response = data.data;
-
 		let selectedBlockchainType = undefined;
 		if (response.success) {
 			if (
@@ -181,8 +180,24 @@ const ConnectWallet = (props: any) => {
 	///Sign up
 	const onSuccessSignUp = async (data: any) => {
 		if (data.data.success) {
-			const res = await handleSign(data?.data?.data?.nounce);
-			authenticate({ ...res, blockchainType: data?.data?.data.blockchainType });
+			if (
+				data?.data?.data?.blockchainType !== 'solana' &&
+				data?.data?.data?.blockchainType !== 'algorand'
+			) {
+				const res = await handleSign(data?.data?.data?.nounce);
+				authenticate({
+					...res,
+					blockchainType: data?.data?.data.blockchainType,
+				});
+			} else if (data?.data?.data?.blockchainType === 'solana') {
+				const res = await signMessageFromUserForSolana(
+					data?.data?.data?.nounce
+				);
+				authenticate({
+					...res,
+					blockchainType: data?.data?.data.blockchainType,
+				});
+			}
 		} else {
 			setError(data.data.message);
 		}
