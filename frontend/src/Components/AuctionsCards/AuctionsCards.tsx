@@ -11,8 +11,18 @@ import './AuctionsCard.scss';
 import { Images } from '../../assets/assets';
 import ImageLoader from '../ContentLoader/ImageLoader';
 import AuctionAudio from '../AuctionAudio/AuctionAudio';
-import { AuctionCardInterface } from '../../interfaces/components';
-import { verifyOwner } from '../../utils/helpers/helpers';
+import {
+	AuctionCardInterface,
+	CHAINS_INTERFACE,
+} from '../../interfaces/components';
+
+import {
+	verifyOwner,
+	CHAIN_CURRENCY,
+	CHAIN_LOGOS,
+	CHAIN_TITLE,
+} from '../../utils/helpers/helpers';
+
 const AuctionsCards: FC<AuctionCardInterface> = ({
 	ownerName,
 	userId,
@@ -48,6 +58,26 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 		<div className="card_wrap">
 			<Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
 				<div className="auction-img-wrapper">
+					<div className="nft-chain">
+						<img
+							src={
+								CHAIN_LOGOS[
+									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+							alt=""
+							className="icon"
+						/>
+						<span className="name">
+							{
+								CHAIN_TITLE[
+									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+						</span>
+					</div>
 					{fileType === 'image' ? (
 						<>
 							<div style={{ display: `${loader ? 'block' : 'none'}` }}>

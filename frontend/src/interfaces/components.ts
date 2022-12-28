@@ -10,6 +10,7 @@ export interface AuctionCardInterface {
 	connectedAddress: string;
 	ownerId?: string;
 	index?: number;
+	blockchainType?: string;
 }
 export interface BannerInterface {
 	subHeading?: string;
@@ -196,6 +197,7 @@ export interface VideoCardInterface {
 	copies: any;
 	remainingCopies: any;
 	ownerName: string;
+	blockchainType: string;
 }
 export interface LevelsInfoInterface {
 	name: string;

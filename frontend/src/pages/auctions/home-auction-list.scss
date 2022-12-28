@@ -22,3 +22,32 @@
 .text-color{
   color: var(--text-body-two);
 }
+.nft-chain {
+  z-index: 1;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  height: 28px;
+  background-color: #ffffff;
+  padding: 4px;
+  border-radius: 18px;
+  border: 0.2px solid #387fff;
+  display: flex;
+  align-items: center;
+  .icon {
+    height: 20px;
+    width: 20px;
+    &:hover + .name {
+      display: block;
+    }
+  }
+  .name {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #000000;
+    margin: 5px;
+    display: none;
+  }
+}

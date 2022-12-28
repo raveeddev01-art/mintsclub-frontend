@@ -2,8 +2,15 @@ import React, { useState, FC } from 'react';
 import { useHistory } from 'react-router';
 import ImageLoader from '../ContentLoader/HeroLoader';
 import { connect } from 'react-redux';
-import { HeroCardInt } from '../../interfaces/components';
+import { CHAINS_INTERFACE, HeroCardInt } from '../../interfaces/components';
 import './HeroCards.scss';
+import {
+	CHAIN_CURRENCY,
+	CHAIN_LOGOS,
+	CHAIN_TITLE,
+	verifyOwner,
+} from '../../utils/helpers/helpers';
+import nftdetail from '../../pages/nft-detail/nftdetail';
 
 const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 	const {
@@ -15,12 +22,33 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 		ownerAddress,
 		nftId,
 		compressedFile,
+		blockchainType,
 	} = data;
 	const [loader, setLoader] = useState<boolean>(true);
 	const history = useHistory();
 	return (
 		<div className="hero-new-card">
 			<div className="hero-img-container">
+				<div className="nft-chain">
+					<img
+						src={
+							CHAIN_LOGOS[
+								(data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+									'ethereum'
+							]
+						}
+						alt=""
+						className="icon"
+					/>
+					<span className="name">
+						{
+							CHAIN_TITLE[
+								(data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+									'ethereum'
+							]
+						}
+					</span>
+				</div>
 				<div style={{ display: `${loader ? 'block' : 'none'}` }}>
 					<ImageLoader />
 				</div>
