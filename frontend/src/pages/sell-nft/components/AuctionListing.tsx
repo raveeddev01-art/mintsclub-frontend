@@ -11,7 +11,10 @@ import { ENV } from '../../../config/config';
 import { checkIsApprovedForAll, openNFTForBidding } from '../../../utils/web3';
 import { connect } from 'react-redux';
 import { createAuctionApp } from '../../../utils/algorand';
-import { listItemForLiveAuction } from '../../../utils/solana/helper';
+import {
+	getSolanaBalance,
+	listItemForLiveAuction,
+} from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -165,6 +168,17 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					return;
 				}
 			} else if (blockchainType === 'solana') {
+				const walletBalance = await getSolanaBalance(wallet);
+
+				const gasFee: any = process.env.REACT_APP_SOLANA_MIN_BALANCE;
+
+				if (walletBalance < gasFee) {
+					toast.error(
+						'Insufficeint funds for this transaction. Please recharge your wallet.'
+					);
+					setLoader(false);
+					return;
+				}
 				result = await listItemForLiveAuction(
 					wallet,
 					nftDetail?.mint,
