@@ -720,17 +720,6 @@ const createFixedPriceApp = async (
 		);
 		const appAddr = algosdk.getApplicationAddress(appID);
 
-		//  Funding App
-		const amount = 200000;
-		const fundAppTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-			suggestedParams: {
-				...params,
-			},
-			from: connectedAddress.toString(),
-			to: appAddr.toString(),
-			amount: amount,
-		});
-
 		// Setting Clawback Address
 		const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
 			from: connectedAddress.toString(),
@@ -749,7 +738,7 @@ const createFixedPriceApp = async (
 			suggestedParams: params,
 		});
 
-		const txnsArray = [fundAppTxn, tx, optin];
+		const txnsArray = [tx, optin];
 
 		const result = await setupSale(
 			price,
@@ -795,6 +784,16 @@ const setupSale = async (
 			'🚀 ~ file: algorand.js ~ line 674 ~ setupSale ~ appAddr',
 			appAddr
 		);
+		//  Funding App
+		const amount = 200000;
+		const fundAppTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+			suggestedParams: {
+				...params,
+			},
+			from: connectedAddress.toString(),
+			to: appAddr.toString(),
+			amount: amount,
+		});
 		if (algoLazyMinted === true) {
 			const amount = (NFT_PRICE / 100) * 3.5;
 			console.log('🚀 ~ file: algorand.js ~ line 857 ~ amount', amount);
@@ -827,6 +826,7 @@ const setupSale = async (
 		);
 
 		txnsArray.push(setsale);
+		txnsArray.push(fundAppTxn);
 		console.log(
 			'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
 			txnsArray
