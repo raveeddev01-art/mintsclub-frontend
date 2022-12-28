@@ -2,7 +2,11 @@ import { CreateNftInterface } from '../../../interfaces/components';
 import { compressImage, handleRequest } from '../../../utils/functions';
 import { mintNFt, editNFTUri } from '../../../utils/web3';
 import { ENV } from '../../../config/config';
-import { mintSingleNft, updateNft } from '../../../utils/solana/helper';
+import {
+	getSolanaBalance,
+	mintSingleNft,
+	updateNft,
+} from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
@@ -101,7 +105,17 @@ const CreateNft = ({
 				}
 
 				if (props.blockchainType === 'solana') {
-					paylaod = await mintSolNFT(data, image);
+					const walletBalance = await getSolanaBalance(wallet);
+					const gasFee: any = process.env.REACT_APP_SOLANA_GAS_FEE;
+					if (walletBalance < gasFee) {
+						toast.error(
+							'Insufficeint funds for this transaction. Please recharge your wallet.'
+						);
+						setLoader(false);
+						return;
+					} else {
+						paylaod = await mintSolNFT(data, image);
+					}
 				}
 			} else {
 				paylaod = {
