@@ -64,7 +64,7 @@ const Listing: FC<listingInt> = (props) => {
 
 	useEffect(() => {
 		setPage(1);
-		props.setNfts([]);
+		props?.setNfts([]);
 		fetchData(filter);
 	}, [filter]);
 
