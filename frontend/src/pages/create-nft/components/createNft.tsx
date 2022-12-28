@@ -106,7 +106,7 @@ const CreateNft = ({
 
 				if (props.blockchainType === 'solana') {
 					const walletBalance = await getSolanaBalance(wallet);
-					const gasFee: any = process.env.REACT_APP_SOLANA_GAS_FEE;
+					const gasFee: any = process.env.REACT_APP_SOLANA_MIN_BALANCE;
 					if (walletBalance < gasFee) {
 						toast.error(
 							'Insufficeint funds for this transaction. Please recharge your wallet.'

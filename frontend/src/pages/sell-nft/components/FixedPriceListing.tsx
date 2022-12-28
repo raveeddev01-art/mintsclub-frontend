@@ -7,7 +7,10 @@ import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { checkIsApprovedForAll, putonsale } from '../../../utils/web3';
-import { listItemForFixedPriceSolana } from '../../../utils/solana/helper';
+import {
+	getSolanaBalance,
+	listItemForFixedPriceSolana,
+} from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ENV } from '../../../config/config';
 import { createFixedPriceApp, setupSale } from '../../../utils/algorand';
@@ -101,6 +104,17 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				blockchainType?.toLowerCase() === 'solana' &&
 				!nftDetail?.lazyMinted
 			) {
+				const walletBalance = await getSolanaBalance(wallet);
+
+				const gasFee: any = process.env.REACT_APP_SOLANA_MIN_BALANCE;
+
+				if (walletBalance < gasFee) {
+					toast.error(
+						'Insufficeint funds for this transaction. Please recharge your wallet.'
+					);
+					setLoader(false);
+					return;
+				}
 				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
 			}
 			if (
