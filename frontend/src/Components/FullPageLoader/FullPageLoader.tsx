@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import './FullPageLoader.scss';
+import { Typography } from '@mui/material';
 
-function FullPageLoader() {
+interface FULL_PAGE_LOADER {
+	message?: string;
+}
+
+function FullPageLoader({ message }: FULL_PAGE_LOADER) {
 	useEffect(() => {
 		AOS.init();
 	}, []);
@@ -18,6 +23,7 @@ function FullPageLoader() {
 					<div className="shadow"></div>
 					<div className="shadow"></div>
 				</div>
+				{message && <Typography>{message}</Typography>}
 			</div>
 		</React.Fragment>
 	);
