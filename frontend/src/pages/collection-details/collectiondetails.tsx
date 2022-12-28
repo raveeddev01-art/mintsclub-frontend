@@ -245,6 +245,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 					filterationLoader={filterationLoader}
 					setFilterationLoader={setFilterationLoader}
 					nfts={nfts}
+					setNfts={setNfts}
 					loader={isLoadingNFTs}
 					likedNfts={likedNfts}
 					nftPagination={nftPagination}
