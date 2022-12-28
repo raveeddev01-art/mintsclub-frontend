@@ -786,11 +786,6 @@ const NFTDetail = (props: any) => {
 			toast.error(err);
 		}
 	};
-	const getPercentageChange = (oldNumber: any, newNumber: any) => {
-		const decreaseValue = oldNumber - newNumber;
-
-		return (decreaseValue / oldNumber) * 100;
-	};
 
 	const auctionEndTimeConversion = (auctionEndDate: any) => {
 		const dateString = moment(new Date(auctionEndDate))
@@ -1316,7 +1311,7 @@ const NFTDetail = (props: any) => {
 		levels,
 		stats,
 		nftToken,
-		lowestNftPrice,
+		collectionFloorPriceNft,
 		fileType,
 		image,
 		user,
@@ -1464,7 +1459,7 @@ const NFTDetail = (props: any) => {
 										data={{
 											bids,
 											exchangeRate,
-											lowestNftPrice,
+											lowestNftPrice: collectionFloorPriceNft?.currentPrice,
 											sellingMethod,
 										}}
 									/>

@@ -90,21 +90,16 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const handleAuction = () => {
 		const timedConfig = JSON.parse(JSON.stringify(timedAuctionConfig));
 		const activityPayload = getActivityPayload();
-		const timedAuctionStartTime = new Date(timedConfig.duration.startDate);
-		const timedAuctionEndTime = new Date(timedConfig.duration.endDate);
+
 		//calculate end time
-		timedConfig.duration.endDate = calclateStartOrEndTime(
-			timedAuctionEndTime,
-			timedConfig.duration.endTime
-		);
+		timedConfig.duration.endDate = endValue.toString();
 
 		//calculate start time
-		timedConfig.duration.startDate = calclateStartOrEndTime(
-			timedAuctionStartTime,
-			timedConfig.duration.startTime
-		);
+		timedConfig.duration.startDate = startValue.toString();
+
 		setUpAuction(timedConfig, activityPayload);
 	};
+
 	const setUpAuction = (timedConfig: any, activityPayload: any) => {
 		const auctionConfig = JSON.parse(JSON.stringify(timedConfig));
 		delete auctionConfig.duration.startTime;
@@ -134,13 +129,10 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			const auctionEndDate = timedAuctionConfig.duration.endDate;
 			const auctionStartDate = timedAuctionConfig.duration.startDate;
 
-			const biddingTime = Math.floor(
-				new Date(auctionEndDate).getTime() / 1000.0
-			);
+			const biddingTime = moment(auctionEndDate).unix();
 
-			const startTime = Math.floor(
-				new Date(auctionStartDate).getTime() / 1000.0
-			);
+			const startTime = moment(auctionStartDate).unix();
+
 			let result: any = null;
 			if (
 				blockchainType?.toLowerCase() !== 'solana' &&

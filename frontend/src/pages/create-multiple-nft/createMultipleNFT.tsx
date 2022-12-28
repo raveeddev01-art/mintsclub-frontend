@@ -268,6 +268,20 @@ function CreateMultipleNFT(props: any) {
 					);
 				}
 
+				toast.warning(
+					"Please wait and don't refresh/switch page while uploading file.",
+					{
+						position: 'top-center',
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						theme: 'light',
+						closeButton: false,
+					}
+				);
+
 				const uploadFile = await uploadToS3Bucket(
 					batchFile.file,
 					batchFile.file.name
@@ -298,6 +312,7 @@ function CreateMultipleNFT(props: any) {
 	return (
 		<>
 			{loader && <FullPageLoader />}
+
 			<div className="create-multiple-nft">
 				<Banner
 					subHeading={bannerContent.subHeading}

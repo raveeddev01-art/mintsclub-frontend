@@ -28,9 +28,10 @@ const Table: React.FC<TableInterface> = ({
 	}, [data, exchangeRate]);
 
 	const getPercentageChange = (oldNumber: number, newNumber: number) => {
-		const decreaseValue = oldNumber - newNumber;
-
-		return (decreaseValue / oldNumber) * 100;
+		const diff =
+			Math.max(oldNumber, newNumber) - Math.min(oldNumber, newNumber);
+		const avg = (oldNumber + newNumber) / 2;
+		return (diff / avg) * 100;
 	};
 
 	const handleAcitivityIcon = (type: string) => {
@@ -51,15 +52,9 @@ const Table: React.FC<TableInterface> = ({
 				return {
 					item1: item.bidAmount,
 					item2: `$ ${(item.bidAmount * exchangeRate).toFixed(2)}`,
-					item3: `${
-						Number(
-							getPercentageChange(item.bidAmount, lowestNftPrice).toFixed(0)
-						) %
-							item.bidAmount >
-						lowestNftPrice
-							? 'above'
-							: 'below'
-					}`,
+					item3: `${getPercentageChange(item.bidAmount, lowestNftPrice).toFixed(
+						2
+					)}% ${item.bidAmount > lowestNftPrice ? 'above' : 'below'}`,
 					item4: `${
 						item.fromAddress.slice(0, 4) + '...' + item.fromAddress.slice(-4)
 					}`,
