@@ -18,8 +18,6 @@ const Hero: FC<HeroInt> = (props) => {
 	const heroSettings = ENV.heroSettings;
 
 	// react query code here
-
-	// react query code here
 	const onSuccessHero = (data: any) => {
 		if (data.data.success) {
 			const { auctions } = data.data.data;

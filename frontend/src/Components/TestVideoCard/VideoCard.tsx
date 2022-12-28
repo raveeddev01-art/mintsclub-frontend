@@ -7,7 +7,16 @@ import './VideoCard.scss';
 import useVideoPlayer from './Components/UseVideoPlayer';
 import { ENV } from '../../config/config';
 import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
-import { VideoCardInterface } from '../../interfaces/components';
+import {
+	VideoCardInterface,
+	CHAINS_INTERFACE,
+} from '../../interfaces/components';
+import {
+	CHAIN_CURRENCY,
+	CHAIN_LOGOS,
+	CHAIN_TITLE,
+	verifyOwner,
+} from '../../utils/helpers/helpers';
 
 const VideoCard: FC<VideoCardInterface> = ({
 	CardImg,
@@ -25,6 +34,7 @@ const VideoCard: FC<VideoCardInterface> = ({
 	copies,
 	remainingCopies,
 	ownerName,
+	blockchainType,
 }) => {
 	const history = useHistory();
 	const [toggle, setToggle] = React.useState(true);
@@ -71,6 +81,26 @@ const VideoCard: FC<VideoCardInterface> = ({
 		<div className="card_wrap">
 			<Card className="auction-card listing-card">
 				<div className="auction-img-wrapper">
+					<div className="nft-chain">
+						<img
+							src={
+								CHAIN_LOGOS[
+									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+							alt=""
+							className="icon"
+						/>
+						<span className="name">
+							{
+								CHAIN_TITLE[
+									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+						</span>
+					</div>
 					<div className="card-img-top">
 						<div className="video-wrapper">
 							<video src={CardImg} ref={videoElement} />
