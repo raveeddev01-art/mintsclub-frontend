@@ -85,6 +85,9 @@
   max-width: 500px;
   height: 500px;
   border-radius: 22px;
+  border-color: var(--nft-border-color);
+  border-width: .5px;
+  border-style: solid;
 }
 .text-highlighted {
   cursor: pointer;

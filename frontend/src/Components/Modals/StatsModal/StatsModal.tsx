@@ -68,7 +68,8 @@ const StatsModal: FC<any> = (props) => {
 
 				<div className="modal-close-container">
 					<button onClick={() => handleModalsOnHide('statsmodalShow')}>
-						<img src={ModalClose} alt="closemodal" />
+						{/* <img src={ModalClose} alt="closemodal" /> */}
+						<div className="close"></div>
 					</button>
 				</div>
 			</Modal.Header>

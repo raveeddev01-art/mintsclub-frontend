@@ -35,7 +35,8 @@ const ApprovalModal: FC<ApprovalModalInt> = ({
 						</Modal.Title>
 						<div className="modal-close-container" onClick={onHide}>
 							<button>
-								<img src={ModalClose} alt="closemodal" />
+								{/* <img src={ModalClose} alt="closemodal" /> */}
+								<div className="close"></div>
 							</button>
 						</div>
 					</Modal.Header>
