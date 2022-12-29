@@ -67,7 +67,8 @@ const PropertiesModal: FC<PropertiesInt> = (props) => {
 				</Modal.Title>
 				<div className="modal-close-container">
 					<button onClick={() => handleModalsOnHide('propertiesmodalShow')}>
-						<img src={ModalClose} alt="closemodal" />
+						{/* <img src={ModalClose} alt="closemodal" /> */}
+						<div className="close"></div>
 					</button>
 				</div>
 			</Modal.Header>

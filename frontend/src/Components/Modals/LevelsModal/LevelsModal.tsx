@@ -70,7 +70,8 @@ const LevelsModal: FC<any> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">Add Levels</Modal.Title>
 				<div className="modal-close-container">
 					<button onClick={() => handleModalsOnHide('levelsmodalShow')}>
-						<img src={ModalClose} alt="closemodal" />
+						{/* <img src={ModalClose} alt="closemodal" /> */}
+						<div className="close"></div>
 					</button>
 				</div>
 			</Modal.Header>

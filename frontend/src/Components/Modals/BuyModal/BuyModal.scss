@@ -26,7 +26,36 @@
         button {
           background-color: transparent;
           padding: 0;
-          border: none;
+          right: 15px;
+          top: 15px;
+          border-color: var(--cross-button-color);
+          border-radius: 50%;
+          border-width: .5px;
+          .close {
+            right: 15px;
+            top: 15px;
+            width: 31px;
+            height: 30px;
+            padding-top: 6px;
+          }
+          .close:before, .close:after {
+            position: absolute;
+            left: 17px;
+            content: ' ';
+            height: 33px;
+            width: 2px;
+            background-color: var(--cross-button-color);
+          }
+          .close:before {
+            transform: rotate(45deg);
+            height: 18px;
+            width: 0.5px;
+          }
+          .close:after {
+            transform: rotate(-45deg);
+            height: 18px;
+            width: 0.5px;
+          }
         }
       }
     }

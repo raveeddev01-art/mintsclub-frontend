@@ -54,7 +54,8 @@ const BuyModal: FC<Buy> = (props) => {
 				</p>
 				<div className="modal-close-container">
 					<Button onClick={onHide}>
-						<img src={ModalClose} alt="closemodal" />
+						{/* <img src={ModalClose} alt="closemodal" /> */}
+						<div className="close"></div>
 					</Button>
 				</div>
 				<div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
@@ -228,7 +229,8 @@ const BuyModal: FC<Buy> = (props) => {
 				</Modal.Title>
 				<div className="modal-close-container">
 					<Button onClick={props.onHide}>
-						<img src={ModalClose} alt="closemodal" />
+						{/* <img src={ModalClose} alt="closemodal" /> */}
+						<div className="close"></div>
 					</Button>
 				</div>
 				{transactionSuccess && (

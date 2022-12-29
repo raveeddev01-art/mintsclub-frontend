@@ -65,7 +65,8 @@ const BidModal: FC<BidModalInt> = (props) => {
 
 				<div className="modal-close-container">
 					<Button onClick={props.onHide}>
-						<img src={ModalClose} alt="closemodal" />
+						{/* <img src={ModalClose} alt="closemodal" /> */}
+						<div className="close"></div>
 					</Button>
 				</div>
 				<div className="buy-modal-subheadings-container d-flex align-items-center">
