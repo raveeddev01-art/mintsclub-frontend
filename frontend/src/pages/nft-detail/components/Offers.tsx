@@ -10,7 +10,7 @@ const Offers = ({ data }: any) => {
 				<hr />
 				<Table
 					data={bids}
-					titles={['Price', 'USD Price', 'Floor Difference', 'From', '']}
+					titles={['Price', 'USD Price', 'Floor Difference', 'From', 'Time']}
 					exchangeRate={exchangeRate}
 					lowestNftPrice={lowestNftPrice}
 					status="offer"

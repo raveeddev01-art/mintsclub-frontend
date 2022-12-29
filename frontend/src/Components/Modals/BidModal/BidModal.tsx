@@ -27,7 +27,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		blockchaintype,
 		show,
 	} = props;
-
+		
 	useEffect(() => {
 		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
@@ -86,6 +86,8 @@ const BidModal: FC<BidModalInt> = (props) => {
 								onChange={(e) => onChange(e)}
 								onKeyDown={(e) => decimalnumbervalidator(e)}
 								value={price}
+								min={0}
+								step={0.000001}
 							/>
 						</div>
 						<div className="dollar-rate text-end">
