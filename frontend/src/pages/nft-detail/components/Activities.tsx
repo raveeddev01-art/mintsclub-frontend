@@ -9,7 +9,7 @@ const Activities = ({ activities }: any) => {
 				{activities && activities.length > 0 && (
 					<Table
 						data={activities}
-						titles={['Event', 'Price', 'From', 'To', 'Date']}
+						titles={['Event', 'Price', 'From', 'To', 'Time']}
 						status="Activities"
 						lowestNftPrice={0}
 						exchangeRate={0}
