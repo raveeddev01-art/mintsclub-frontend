@@ -27,7 +27,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		blockchaintype,
 		show,
 	} = props;
-		
+
 	useEffect(() => {
 		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
 			setBlockchainType(ENV.getUserKeys('blockchainType').blockchainType);
