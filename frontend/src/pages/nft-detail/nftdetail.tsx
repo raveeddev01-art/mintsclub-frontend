@@ -324,7 +324,7 @@ const NFTDetail = (props: any) => {
 			} else {
 				bidAmount = 0.1 + highestBid;
 			}
-			result = bidAmount.toFixed(6);
+			result = bidAmount;
 		} else {
 			let fivePerc: any = '';
 			const { highestBid } = data.activeAuction || {};
@@ -335,7 +335,7 @@ const NFTDetail = (props: any) => {
 				fivePerc = (5 / 100) * highestBid;
 				fivePerc = fivePerc + highestBid;
 			}
-			result = fivePerc.toFixed(6);
+			result = fivePerc.toString().slice(0, 8);
 		}
 		setPrice(result);
 		validateIfLiked(likedNfts, data);

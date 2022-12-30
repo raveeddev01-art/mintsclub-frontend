@@ -234,13 +234,6 @@ const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 	};
 	return scansURL[chaintype];
 };
-  const getSpecialCharacterReplaced = (str: string) => {
-	console.log('this is rt-=====',str)
-	if (str?.includes("#")) {
-	  return str?.replace("#", "%23");
-	}
-	return str;
-  };
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
@@ -251,5 +244,4 @@ export {
 	capitalize,
 	blockchainScanUrlData,
 	handleRemove,
-	getSpecialCharacterReplaced,
 };
