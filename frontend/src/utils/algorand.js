@@ -174,7 +174,7 @@ const createAuctionApp = async (
 	setLoader
 ) => {
 	try {
-		startTime = startTime + 120;
+		startTime = startTime + 60;
 		setLoader(true);
 		let approvalProg = '';
 		let clearProg = '';
@@ -488,6 +488,21 @@ const closeAuction = async (
 			);
 		}
 
+		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
+			from: seller_address,
+			appIndex: appId,
+			accounts: accounts,
+			foreignAssets: [nftID],
+			suggestedParams: {
+				...params,
+			},
+		});
+
+		const signedTxn2 = await myAlgoConnect.signTransaction(deleteTxn.toByte());
+		const response2 = await algodClient
+			.sendRawTransaction(signedTxn2.blob)
+			.do();
+		console.log('🚀 ~ file: algorand.js:506 ~ response2', response2);
 		const changeManager =
 			await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
 				from: seller_address.toString(),
@@ -502,31 +517,10 @@ const closeAuction = async (
 		const signedTxn = await myAlgoConnect.signTransaction(
 			changeManager.toByte()
 		);
-		console.log('🚀 ~ file: algorand.js:604 ~ signedTxn', signedTxn);
 		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
 		console.log('🚀 ~ file: algorand.js:606 ~ response', response);
-
-		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
-			from: seller_address,
-			appIndex: appId,
-			accounts: accounts,
-			foreignAssets: [nftID],
-			suggestedParams: {
-				...params,
-			},
-		});
-
-		const signedTxn2 = await myAlgoConnect.signTransaction(
-			changeManager.toByte()
-		);
-		console.log('🚀 ~ file: algorand.js:604 ~ signedTxn', signedTxn2);
-		const response2 = await algodClient
-			.sendRawTransaction(signedTxn2.blob)
-			.do();
-		console.log('🚀 ~ file: algorand.js:606 ~ response', response);
-
-		if (response2?.txId) {
-			const data = { success: true, tx: response2?.txId };
+		if (response?.txId) {
+			const data = { success: true, tx: response?.txId };
 			return data;
 		}
 		return;
@@ -630,17 +624,6 @@ const createFixedPriceApp = async (
 		);
 		const appAddr = algosdk.getApplicationAddress(appID);
 
-		// Setting Clawback Address
-		const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
-			from: connectedAddress.toString(),
-			assetIndex: nftID,
-			clawback: appAddr,
-			freeze: appAddr,
-			suggestedParams: params,
-			strictEmptyAddressChecking: false,
-			manager: connectedAddress.toString(),
-		});
-
 		// Opt in
 		const optin = await algosdk.makeApplicationOptInTxnFromObject({
 			appIndex: appID,
@@ -648,7 +631,7 @@ const createFixedPriceApp = async (
 			suggestedParams: params,
 		});
 
-		const txnsArray = [tx, optin];
+		const txnsArray = [optin];
 
 		const result = await setupSale(
 			price,
@@ -721,7 +704,16 @@ const setupSale = async (
 		);
 		console.log('check appId===>', appID);
 		console.log('check nftId===>', nftID);
-
+		// Setting Clawback Address
+		const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
+			from: connectedAddress.toString(),
+			assetIndex: nftID,
+			clawback: appAddr,
+			freeze: appAddr,
+			suggestedParams: params,
+			strictEmptyAddressChecking: false,
+			manager: appAddr,
+		});
 		const setsale = algosdk.makeApplicationCallTxnFromObject({
 			appIndex: appID,
 			from: connectedAddress.toString(),
@@ -735,6 +727,7 @@ const setupSale = async (
 			setsale
 		);
 
+		txnsArray.push(tx);
 		txnsArray.push(setsale);
 		txnsArray.push(fundAppTxn);
 		console.log(
