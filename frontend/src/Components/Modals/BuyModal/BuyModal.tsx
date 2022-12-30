@@ -16,6 +16,7 @@ import { Buy, CHAINS_INTERFACE } from '../../../interfaces/components';
 import {
 	CHAIN_CURRENCY,
 	blockchainScanUrlData,
+	convertToExponential,
 } from '../../../utils/helpers/helpers';
 const BuyModal: FC<Buy> = (props) => {
 	const [purchase, setPurchase] = useState<any>(true);
@@ -133,7 +134,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${(price * exchangeRate).toExponential(2)}</p>
+										<p>${convertToExponential((price * exchangeRate))}</p>
 									</div>
 								</div>
 							</div>
@@ -321,7 +322,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${(price * exchangeRate).toExponential(2)}</p>
+										<p>${convertToExponential((price * exchangeRate))}</p>
 									</div>
 								</div>
 							</div>
@@ -346,7 +347,7 @@ const BuyModal: FC<Buy> = (props) => {
 									}
 								</span>
 							</h6>
-							<span>${(price * exchangeRate).toExponential(2)}</span>
+							<span>${convertToExponential((price * exchangeRate))}</span>
 						</div>
 					</div>
 				</div>

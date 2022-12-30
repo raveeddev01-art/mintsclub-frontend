@@ -11,6 +11,7 @@ import ReactTimeAgo from 'react-time-ago';
 
 import { TableInterface } from '../../interfaces/components';
 import moment from 'moment';
+import { convertToExponential } from '../../utils/helpers/helpers';
 const Table: React.FC<TableInterface> = ({
 	titles,
 	data,
@@ -51,7 +52,7 @@ const Table: React.FC<TableInterface> = ({
 			const formatedData = data.map((item: any) => {
 				return {
 					item1: item.bidAmount,
-					item2: `$ ${(item.bidAmount * exchangeRate).toExponential(2)}`,
+					item2: `$ ${convertToExponential((item.bidAmount * exchangeRate))}`,
 					item3: `${getPercentageChange(item.bidAmount, lowestNftPrice).toFixed(
 						2
 					)}% ${item.bidAmount > lowestNftPrice ? 'above' : 'below'}`,
