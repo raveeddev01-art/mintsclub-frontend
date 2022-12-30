@@ -48,6 +48,10 @@ const MyCollection = lazy(() =>
 	import('./pages/my-collections/my-collections')
 );
 
+const MyPendingBatch = lazy(() =>
+	import('./pages/my-pending-batch/my-pending-batch')
+);
+
 // routes
 const routes = [
 	{
@@ -197,6 +201,15 @@ const routes = [
 		title: 'My Collection',
 		layout: layout,
 		component: MyCollection,
+	},
+	{
+		// my-pending-batches
+		path: '/my-pending-batches',
+		access: false,
+		exact: true,
+		title: 'My Pending Batches',
+		layout: layout,
+		component: MyPendingBatch,
 	},
 	{
 		path: '/userprofile',

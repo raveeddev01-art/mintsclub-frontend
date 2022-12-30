@@ -5,6 +5,7 @@ import algoran from '../../assets/images/about-algoran.svg';
 import solana from '../../assets/images/about-solana.svg';
 import { ENV } from '../../config/config';
 import { formatBytes } from '../functions';
+import { STATUS_TYPE } from '../../interfaces/allnfts/types';
 const CHAIN_LOGOS = {
 	polygon: polygonIcon,
 	ethereum: ethereumIcon,
@@ -247,6 +248,21 @@ const convertToExponential = (value: number) => {
 		return value;
 	}
 };
+
+const STATUS_COLOR: STATUS_TYPE = {
+	completed: '#56f000',
+	pending: '#a4abb6',
+	processing: '#ffb301',
+	failed: '#ff3839',
+};
+
+const STATUS_TEXT: STATUS_TYPE = {
+	completed: 'Completed',
+	pending: 'Pending',
+	processing: 'Processing',
+	failed: 'Failed',
+};
+
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
@@ -259,4 +275,6 @@ export {
 	handleRemove,
 	getSpecialCharacterReplaced,
 	convertToExponential,
+	STATUS_COLOR,
+	STATUS_TEXT,
 };

@@ -42,6 +42,27 @@ export const useGetMyCollections = (
 	);
 };
 
+export const useGetMyPendingBatch = (
+	onSuccess: any,
+	enabled?: any,
+	qs?: any
+) => {
+	const { setError } = useContext(errorHandler);
+
+	return useQuery(
+		['MyAllBatch', qs && qs],
+		() => handleRequest('get', '/batchUpload/getBatchesByUser', null, qs),
+		{
+			onSuccess,
+			enabled,
+			onError: (error: any) => {
+				setError(error);
+			},
+			refetchOnWindowFocus: false,
+		}
+	);
+};
+
 export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
 	const nftQS: any = {};
 	if (filter) {
