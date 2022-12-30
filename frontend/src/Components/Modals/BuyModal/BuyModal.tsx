@@ -59,14 +59,14 @@ const BuyModal: FC<Buy> = (props) => {
 						<div className="close"></div>
 					</Button>
 				</div>
-				<div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
+				{/* <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
 					<div className="buy-modal-subheadings">
 						<p>Item</p>
 					</div>
 					<div className="buy-modal-subheadings">
 						<p>Subtotal</p>
 					</div>
-				</div>
+				</div> */}
 			</Modal.Header>
 			<Modal.Body>
 				<div className="row w-100 align-items-center justify-content-center g-4">
@@ -247,14 +247,14 @@ const BuyModal: FC<Buy> = (props) => {
 						</p>
 					</div>
 				)}
-				<div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
+				{/* <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
 					<div className="buy-modal-subheadings">
 						<p>Item</p>
 					</div>
 					<div className="buy-modal-subheadings">
 						<p>Subtotal</p>
 					</div>
-				</div>
+				</div> */}
 			</Modal.Header>
 			<Modal.Body>
 				<div className="row w-100 align-items-center justify-content-center g-4">
