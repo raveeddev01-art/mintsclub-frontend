@@ -134,7 +134,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${convertToExponential((price * exchangeRate))}</p>
+										<p>${convertToExponential(price * exchangeRate)}</p>
 									</div>
 								</div>
 							</div>
@@ -322,7 +322,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${convertToExponential((price * exchangeRate))}</p>
+										<p>${convertToExponential(price * exchangeRate)}</p>
 									</div>
 								</div>
 							</div>
@@ -347,7 +347,7 @@ const BuyModal: FC<Buy> = (props) => {
 									}
 								</span>
 							</h6>
-							<span>${convertToExponential((price * exchangeRate))}</span>
+							<span>${convertToExponential(price * exchangeRate)}</span>
 						</div>
 					</div>
 				</div>
