@@ -406,7 +406,8 @@ const NFTDetail = (props: any) => {
 					nftDetail?.activeAuction?.sellId,
 					nftDetail?.activeAuction?.sellerPublicKey,
 					nftDetail?.tokenId,
-					nftDetail?.activeAuction?.globalState
+					nftDetail?.activeAuction?.globalState,
+					nftDetail?.activeAuction?.highestBidder
 				);
 
 				if (result?.success) {
