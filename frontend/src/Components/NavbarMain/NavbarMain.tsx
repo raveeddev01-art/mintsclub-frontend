@@ -159,10 +159,17 @@ const NavbarMain = () => {
 								>
 									My Collection
 								</NavLink>
+								<NavLink
+									to="/my-pending-batches"
+									className={`nav-main-link main-nav-dd-items dropdown-item`}
+								>
+									Pending Batch
+								</NavLink>
 								<DarkModeButton
 									toggleTheme={toggleTheme}
 									defaultDark={defaultDark}
 								/>
+
 								<NavLink
 									to="/connect-wallet"
 									className={`nav-main-link main-nav-dd-items dropdown-item`}

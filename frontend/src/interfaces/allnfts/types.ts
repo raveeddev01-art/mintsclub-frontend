@@ -25,3 +25,34 @@ export type POPULAR_COLLECTION = {
 	username: string[];
 	_id: string;
 };
+
+type COLLECTION = {
+	_id: string;
+	name: string;
+	logo: string;
+	banner: string;
+};
+
+type PROCESSED_FILES = {
+	total: number;
+};
+
+export type PENDING_BATCH = {
+	message: string;
+	blockchainType: string;
+	categoryId: string;
+	collectionId: COLLECTION;
+	createdAt: string;
+	fileName: string;
+	processedFiles: PROCESSED_FILES;
+	status: string;
+	updatedAt: string;
+	userId: string;
+};
+
+export type STATUS_TYPE = {
+	completed: string;
+	pending: string;
+	processing: string;
+	failed: string;
+};

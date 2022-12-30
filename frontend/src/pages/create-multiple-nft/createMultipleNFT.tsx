@@ -35,6 +35,7 @@ function CreateMultipleNFT(props: any) {
 	const [error, setError] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<string>('');
 	const [selectedCollection, setSelectedCollection] = useState<any>(null);
+
 	const [selectedCollectionType, setSelectedCollectionType] =
 		useState<any>(null);
 	const [selectedChain, setSelectedChain] = useState<any>(null);
@@ -224,6 +225,20 @@ function CreateMultipleNFT(props: any) {
 		try {
 			setLoader(true);
 
+			const verificationResponse = await handleRequest(
+				'get',
+				'batchUpload/verifyFileAlreadyProcessed',
+				null,
+				ENV.objectToQueryString({
+					fileName: fileName.replace('.zip', ''),
+					userId: ENV.getUserKeys('_id')?._id,
+				})
+			);
+
+			const { message, success } = verificationResponse.data;
+
+			if (!success) throw new Error(message);
+
 			if (selectedCollection === null) {
 				await createDefaultCollection();
 			}
@@ -292,7 +307,7 @@ function CreateMultipleNFT(props: any) {
 						0,
 						batchFile.file.name.indexOf('.')
 					),
-					collectionId: batchFile.collectionId,
+					collectionId: selectedCollection?.value,
 					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 					categoryId: batchFile.categoryId,
 					status: 'pending',

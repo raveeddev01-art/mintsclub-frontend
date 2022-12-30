@@ -130,6 +130,14 @@ export const myCollectionBanner = {
 		' Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
 };
 
+// My Pending Batches
+export const myPendingBatch = {
+	subHeading: 'Explore',
+	heading: 'My Pending Batches',
+	content:
+		' Explore on the world’s best & largest NFT marketplace with our  beautiful NFT products. We want to be a part of your smile, success and future growth.',
+};
+
 //Create NFT
 export const createNFTbanner = {
 	subHeading: 'Get Started',

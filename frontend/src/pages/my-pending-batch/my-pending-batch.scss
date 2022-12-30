@@ -1,0 +1,22 @@
+.explore-collection-section {
+    .explore-collection-nav {
+      button {
+        border: none;
+        background-color: transparent;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        color: var(--explore-btn-clr);
+        min-width: 100px;
+        min-height: 40px;
+      }
+      .active-explore-nav {
+        border: 1px solid #3c66f3;
+        box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+        border-radius: 44px;
+        min-width: 100px;
+      }
+    }
+  }
+  
