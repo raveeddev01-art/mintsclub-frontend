@@ -20,6 +20,7 @@ import {
 import { useInsertData } from '../../../hooks/Common';
 import { useGetCollections } from '../../../hooks/AllNFTs';
 import errorHandler from '../../../context/errorHandler/ErrorHandlerContext';
+import { getSpecialCharacterReplaced } from '../../../utils/helpers/helpers';
 
 const AllNFT: FC<ALLNFTINT> = (props) => {
 	const [nftPagination, setNFTPagination] = useState<any>(null);
@@ -40,7 +41,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 	useEffect(() => {
 		if (props?.location?.state) {
 			const searchQs: object | string = {
-				keyword: props.location.state,
+				keyword: getSpecialCharacterReplaced(props?.location?.state),
 				page: 1,
 				limit: 9,
 			};

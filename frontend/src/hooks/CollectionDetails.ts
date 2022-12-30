@@ -4,6 +4,7 @@ import { ENV } from '../config/config';
 import { useLocation } from 'react-router-dom';
 import errorHandler from '../context/errorHandler/ErrorHandlerContext';
 import { useQuery } from 'react-query';
+import { getSpecialCharacterReplaced } from '../utils/helpers/helpers';
 
 export const useGetMyLikedNFTs = (qs: any, onSuccess: any, enabled?: any) => {
 	const { setError } = useContext(errorHandler);
@@ -52,7 +53,7 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
 		if (lowToHigh) nftQS.lowToHigh = lowToHigh;
 		if (highToLow) nftQS.highToLow = highToLow;
 		if (newest) nftQS.newest = newest;
-		if (keyword) nftQS.keyword = keyword;
+		if (keyword) nftQS.keyword = getSpecialCharacterReplaced(keyword);
 		if (buy) nftQS.buy = buy;
 		if (auction) nftQS.auction = auction;
 		if (latest) nftQS.latest = latest;

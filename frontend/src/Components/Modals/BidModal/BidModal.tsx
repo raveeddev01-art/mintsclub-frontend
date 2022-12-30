@@ -93,7 +93,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						</div>
 						<div className="dollar-rate text-end">
 							<p className="">
-								${price ? (price * exchangeRate).toFixed(2) : 0}
+								${price ? (price * exchangeRate).toExponential(2) : 0}
 							</p>
 						</div>
 					</div>
