@@ -82,7 +82,7 @@ const FileDetail = ({ info }: any) => {
 						<h2>{currentPrice}</h2>
 					</div>
 					<div className="price-in-dollar">
-						<p> ($ {(currentPrice * exchangeRate || 0).toExponential(2)})</p>
+						<p> ($ {(currentPrice * exchangeRate || 0).toFixed(2)})</p>
 					</div>
 				</div>
 				{blockchainType !== 'solana' && (

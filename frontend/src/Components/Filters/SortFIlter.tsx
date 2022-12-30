@@ -13,7 +13,7 @@ const SortFilter = ({ data }: any) => {
 		selectCustomStyles,
 		filterActive,
 		handleFilters,
-	} = data;	
+	} = data;
 	return (
 		<div className="col-12 order-0">
 			<div

@@ -133,7 +133,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${(price * exchangeRate).toExponential(2)}</p>
+										<p>${(price * exchangeRate).toFixed(2)}</p>
 									</div>
 								</div>
 							</div>
@@ -321,7 +321,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${(price * exchangeRate).toExponential(2)}</p>
+										<p>${(price * exchangeRate).toFixed(2)}</p>
 									</div>
 								</div>
 							</div>
@@ -346,7 +346,7 @@ const BuyModal: FC<Buy> = (props) => {
 									}
 								</span>
 							</h6>
-							<span>${(price * exchangeRate).toExponential(2)}</span>
+							<span>${(price * exchangeRate).toFixed(2)}</span>
 						</div>
 					</div>
 				</div>
