@@ -625,17 +625,6 @@ const createFixedPriceApp = async (
 		);
 		const appAddr = algosdk.getApplicationAddress(appID);
 
-		// Setting Clawback Address
-		const tx = await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
-			from: connectedAddress.toString(),
-			assetIndex: nftID,
-			clawback: appAddr,
-			freeze: appAddr,
-			suggestedParams: params,
-			strictEmptyAddressChecking: false,
-			manager: connectedAddress.toString(),
-		});
-
 		// Opt in
 		const optin = await algosdk.makeApplicationOptInTxnFromObject({
 			appIndex: appID,
@@ -643,7 +632,6 @@ const createFixedPriceApp = async (
 			suggestedParams: params,
 		});
 
-		const txnsArray = [tx, optin];
 		const txnsArray = [optin];
 
 		const result = await setupSale(
