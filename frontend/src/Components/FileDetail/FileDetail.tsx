@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ENV } from '../../config/config';
-import { verifyOwner, verifyNFTStatus } from '../../utils/helpers/helpers';
+import { verifyOwner, verifyNFTStatus, convertToExponential } from '../../utils/helpers/helpers';
 const FileDetail = ({ info }: any) => {
 	const {
 		name,
@@ -30,6 +30,7 @@ const FileDetail = ({ info }: any) => {
 		status,
 		bidCount,
 	}: any = info;
+	
 	const buttonText = verifyNFTStatus(
 		ownerAddress,
 		connectedAddress,
@@ -82,7 +83,7 @@ const FileDetail = ({ info }: any) => {
 						<h2>{currentPrice}</h2>
 					</div>
 					<div className="price-in-dollar">
-						<p> ($ {(currentPrice * exchangeRate || 0).toExponential(2)})</p>
+						<p> ($ {convertToExponential((currentPrice * exchangeRate || 0))})</p>
 					</div>
 				</div>
 				{blockchainType !== 'solana' && (
