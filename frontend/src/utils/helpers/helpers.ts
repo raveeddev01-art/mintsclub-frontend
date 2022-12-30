@@ -245,7 +245,7 @@ const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 	  return value.toExponential(2)
 	}
 	else{
-	return  value.toFixed(2)
+	return  value
 	}
   }
 export {
