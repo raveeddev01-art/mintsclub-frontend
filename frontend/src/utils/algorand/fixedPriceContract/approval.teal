@@ -95,7 +95,7 @@ assert
 gtxna 0 Accounts 1
 byte "AssetId"
 app_global_get
-callsub sub3
+callsub sub4
 gtxna 0 Accounts 1
 byte "Creator"
 app_global_get
@@ -110,7 +110,7 @@ global MinTxnFee
 -
 byte "royaltyFee"
 app_global_get
-callsub sub4
+callsub sub5
 main_l15:
 store 9
 int 18446744073709551615
@@ -151,8 +151,11 @@ byte "RoyaltyAddress"
 app_global_get
 load 9
 callsub sub1
+byte "AssetId"
+app_global_get
+callsub sub3
 gtxna 0 Accounts 1
-callsub sub6
+callsub sub7
 byte "collectedFees"
 byte "collectedFees"
 app_global_get
@@ -176,10 +179,6 @@ b main_l15
 main_l17:
 gtxn 0 NumAppArgs
 int 2
-==
-assert
-global GroupSize
-int 4
 ==
 assert
 gtxn 1 TypeEnum
@@ -215,7 +214,7 @@ callsub sub0
 gtxna 0 Accounts 1
 byte "AssetId"
 app_global_get
-callsub sub3
+callsub sub4
 gtxn 0 Sender
 gtxna 0 Accounts 1
 !=
@@ -326,7 +325,7 @@ assert
 gtxna 1 Accounts 1
 byte "AssetId"
 app_global_get
-callsub sub3
+callsub sub4
 gtxna 1 Accounts 1
 byte "Creator"
 app_global_get
@@ -341,7 +340,7 @@ global MinTxnFee
 -
 byte "royaltyFee"
 app_global_get
-callsub sub4
+callsub sub5
 main_l21:
 store 8
 int 18446744073709551615
@@ -382,8 +381,11 @@ byte "RoyaltyAddress"
 app_global_get
 load 8
 callsub sub1
+byte "AssetId"
+app_global_get
+callsub sub3
 gtxna 1 Accounts 1
-callsub sub6
+callsub sub7
 byte "collectedFees"
 byte "collectedFees"
 app_global_get
@@ -407,10 +409,6 @@ b main_l21
 main_l23:
 gtxn 1 NumAppArgs
 int 2
-==
-assert
-global GroupSize
-int 5
 ==
 assert
 gtxn 2 TypeEnum
@@ -446,7 +444,7 @@ callsub sub0
 gtxna 1 Accounts 1
 byte "AssetId"
 app_global_get
-callsub sub3
+callsub sub4
 gtxn 1 Sender
 gtxna 1 Accounts 1
 !=
@@ -502,7 +500,7 @@ assert
 txn Sender
 byte "AssetId"
 app_global_get
-callsub sub3
+callsub sub4
 txna ApplicationArgs 1
 btoi
 int 2
@@ -643,97 +641,114 @@ global MinTxnFee
 itxn_field Fee
 itxn_submit
 retsub
-sub3: // checkNFTBalance
-store 17
+sub3: // transferOwnership
 store 16
+itxn_begin
+int acfg
+itxn_field TypeEnum
 load 16
-load 17
-asset_holding_get AssetBalance
+itxn_field ConfigAsset
+txn Sender
+itxn_field ConfigAssetManager
+txn Sender
+itxn_field ConfigAssetReserve
+txn Sender
+itxn_field ConfigAssetFreeze
+txn Sender
+itxn_field ConfigAssetClawback
+itxn_submit
+retsub
+sub4: // checkNFTBalance
 store 18
-store 19
+store 17
+load 17
 load 18
-int 1
->=
-assert
+asset_holding_get AssetBalance
+store 19
+store 20
 load 19
 int 1
 >=
 assert
+load 20
+int 1
+>=
+assert
 retsub
-sub4: // computeRoyaltyFee
+sub5: // computeRoyaltyFee
+store 22
 store 21
-store 20
-load 20
 load 21
-callsub sub5
-load 20
+load 22
+callsub sub6
 load 21
+load 22
 *
 int 1000
 %
-store 22
-load 20
+store 23
 load 21
+load 22
 *
 int 1000
 /
-store 23
-load 21
+store 24
+load 22
 int 0
 ==
-load 23
+load 24
 int 0
 ==
 ||
-bnz sub4_l6
-load 21
+bnz sub5_l6
+load 22
 int 1000
 >=
-bnz sub4_l5
-load 22
+bnz sub5_l5
+load 23
 int 500
 >
-bnz sub4_l4
-load 23
-b sub4_l7
-sub4_l4:
-load 23
+bnz sub5_l4
+load 24
+b sub5_l7
+sub5_l4:
+load 24
 int 1
 +
-b sub4_l7
-sub4_l5:
-load 20
-b sub4_l7
-sub4_l6:
+b sub5_l7
+sub5_l5:
+load 21
+b sub5_l7
+sub5_l6:
 int 0
-sub4_l7:
+sub5_l7:
 retsub
-sub5: // checkRoyaltyFeeComputation
+sub6: // checkRoyaltyFeeComputation
+store 26
 store 25
-store 24
-load 24
+load 25
 int 0
 >
 assert
-load 25
+load 26
 int 18446744073709551615
-load 24
+load 25
 /
 <=
 assert
 retsub
-sub6: // closeAccountTo
-store 26
+sub7: // closeAccountTo
+store 27
 global CurrentApplicationAddress
 balance
 int 0
 !=
-bz sub6_l2
+bz sub7_l2
 itxn_begin
 int pay
 itxn_field TypeEnum
-load 26
+load 27
 itxn_field CloseRemainderTo
 itxn_submit
-sub6_l2:
+sub7_l2:
 retsub
