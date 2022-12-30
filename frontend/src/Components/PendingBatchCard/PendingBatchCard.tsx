@@ -23,8 +23,8 @@ const PendingBatchCard = ({
 					component="img"
 					height="140"
 					image={
-						batchInformation?.collectionId?.logo ||
-						batchInformation?.collectionId?.banner ||
+						batchInformation?.collectionId?.logo?.trim() ||
+						batchInformation?.collectionId?.banner?.trim() ||
 						CollectionImages?.mainImg3
 					}
 					alt="collectionCoverOrProfileImage"
