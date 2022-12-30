@@ -59,14 +59,14 @@ const BuyModal: FC<Buy> = (props) => {
 						<div className="close"></div>
 					</Button>
 				</div>
-				<div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
+				{/* <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
 					<div className="buy-modal-subheadings">
 						<p>Item</p>
 					</div>
 					<div className="buy-modal-subheadings">
 						<p>Subtotal</p>
 					</div>
-				</div>
+				</div> */}
 			</Modal.Header>
 			<Modal.Body>
 				<div className="row w-100 align-items-center justify-content-center g-4">
@@ -134,7 +134,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${convertToExponential((price * exchangeRate))}</p>
+										<p>${convertToExponential(price * exchangeRate)}</p>
 									</div>
 								</div>
 							</div>
@@ -247,14 +247,14 @@ const BuyModal: FC<Buy> = (props) => {
 						</p>
 					</div>
 				)}
-				<div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
+				{/* <div className="buy-modal-subheadings-container d-flex justify-content-between align-items-center">
 					<div className="buy-modal-subheadings">
 						<p>Item</p>
 					</div>
 					<div className="buy-modal-subheadings">
 						<p>Subtotal</p>
 					</div>
-				</div>
+				</div> */}
 			</Modal.Header>
 			<Modal.Body>
 				<div className="row w-100 align-items-center justify-content-center g-4">
@@ -322,7 +322,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${convertToExponential((price * exchangeRate))}</p>
+										<p>${convertToExponential(price * exchangeRate)}</p>
 									</div>
 								</div>
 							</div>
@@ -347,7 +347,7 @@ const BuyModal: FC<Buy> = (props) => {
 									}
 								</span>
 							</h6>
-							<span>${convertToExponential((price * exchangeRate))}</span>
+							<span>${convertToExponential(price * exchangeRate)}</span>
 						</div>
 					</div>
 				</div>

@@ -234,20 +234,19 @@ const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 	};
 	return scansURL[chaintype];
 };
-  const getSpecialCharacterReplaced = (str: string) => {
-	if (str?.includes("#")) {
-	  return str?.replace("#", "%23");
+const getSpecialCharacterReplaced = (str: string) => {
+	if (str?.includes('#')) {
+		return str?.replace('#', '%23');
 	}
 	return str;
-  };
-  const convertToExponential = (value :number)=>{
-	if(value?.toString().includes(".")){
-	  return value.toExponential(2)
+};
+const convertToExponential = (value: number) => {
+	if (value?.toString().includes('.')) {
+		return value.toExponential(2);
+	} else {
+		return value;
 	}
-	else{
-	return  value
-	}
-  }
+};
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,

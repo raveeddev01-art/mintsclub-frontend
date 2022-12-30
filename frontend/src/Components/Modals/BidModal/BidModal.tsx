@@ -7,7 +7,10 @@ import TickIcon from '../../assets/images/tick-checkbox.svg';
 import axios from 'axios';
 import { BidModalInt, CHAINS_INTERFACE } from '../../../interfaces/components';
 import { ENV } from '../../../config/config';
-import { CHAIN_CURRENCY, convertToExponential } from '../../../utils/helpers/helpers';
+import {
+	CHAIN_CURRENCY,
+	convertToExponential,
+} from '../../../utils/helpers/helpers';
 import { currency } from '../../../utils/exportData';
 
 const BidModal: FC<BidModalInt> = (props) => {
@@ -93,7 +96,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						</div>
 						<div className="dollar-rate text-end">
 							<p className="">
-								${price ? convertToExponential((price * exchangeRate)) : 0}
+								${price ? convertToExponential(price * exchangeRate) : 0}
 							</p>
 						</div>
 					</div>
