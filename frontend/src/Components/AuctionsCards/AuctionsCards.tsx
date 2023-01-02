@@ -148,12 +148,12 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 					) : (
 						' '
 					)}
-					<div className="auction-countdown d-flex flex-column justify-content-center align-items-center">
+					<div
+						className="auction-countdown d-flex flex-column justify-content-center align-items-center"
+						onClick={() => history.push(`explore/nftdetail/${nftId}`)}
+					>
 						<Countdown date={auctionEndDate} renderer={countDownRenderer} />
-						<div
-							className="auction-card-avatar-container d-flex align-items-center justify-content-between"
-							onClick={() => history.push(`explore/nftdetail/${nftId}`)}
-						>
+						<div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
 							<div className="auction-card-avatar d-flex align-items-center">
 								{bidsProfile &&
 									bidsProfile.length > 0 &&
