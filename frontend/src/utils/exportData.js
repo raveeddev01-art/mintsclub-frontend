@@ -81,20 +81,8 @@ export const services = [
 
 export const comingSoon = [
 	{
-		name: 'Binance',
-		img: aboutusImages.binance,
-	},
-	{
 		name: 'Cardano',
 		img: aboutusImages.cardano,
-	},
-	{
-		name: 'Solana',
-		img: aboutusImages.solana,
-	},
-	{
-		name: 'Algorand',
-		img: aboutusImages.algoran,
 	},
 ];
 

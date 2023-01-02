@@ -29,26 +29,28 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 	return (
 		<div className="hero-new-card">
 			<div className="hero-img-container">
-				<div className="nft-chain">
-					<img
-						src={
-							CHAIN_LOGOS[
-								(data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
-									'ethereum'
-							]
-						}
-						alt=""
-						className="icon"
-					/>
-					<span className="name">
-						{
-							CHAIN_TITLE[
-								(data?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
-									'ethereum'
-							]
-						}
-					</span>
-				</div>
+				{CHAIN_LOGOS && blockchainType && CHAIN_TITLE ? (
+					<div className="nft-chain">
+						<img
+							src={
+								CHAIN_LOGOS[
+									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+							alt=""
+							className="icon"
+						/>
+						<span className="name">
+							{
+								CHAIN_TITLE[
+									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+										'ethereum'
+								]
+							}
+						</span>
+					</div>
+				) : null}
 				<div style={{ display: `${loader ? 'block' : 'none'}` }}>
 					<ImageLoader />
 				</div>
