@@ -1137,8 +1137,8 @@ const NFTDetail = (props: any) => {
 		if (currentDate > auctionEndDate) {
 			if (!initial) {
 				let queryString: any = {
-					nftId: nftDetail._id,
-					// auctionId: nftDetail?.activeAuction?._id,
+					// nftId: nftDetail._id,
+					auctionId: nftDetail?.activeAuction?._id,
 				};
 				queryString = ENV.objectToQueryString(queryString);
 				let url = `${ENV.url}bid/list`;
