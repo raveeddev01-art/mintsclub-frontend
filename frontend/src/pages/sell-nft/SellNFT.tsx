@@ -141,8 +141,7 @@ const SellNFT = (props: any) => {
 						CHAIN_CURRENCY[props.blockchainType as keyof CHAINS_INTERFACE],
 				},
 			});
-		}
-		else {
+		} else {
 			setTimedAuctionConfig({
 				...data,
 				startPrice: {

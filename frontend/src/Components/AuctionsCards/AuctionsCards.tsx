@@ -58,26 +58,29 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 		<div className="card_wrap">
 			<Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
 				<div className="auction-img-wrapper">
-					<div className="nft-chain">
-						<img
-							src={
-								CHAIN_LOGOS[
-									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
-										'ethereum'
-								]
-							}
-							alt=""
-							className="icon"
-						/>
-						<span className="name">
-							{
-								CHAIN_TITLE[
-									(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
-										'ethereum'
-								]
-							}
-						</span>
-					</div>
+					{blockchainType ? (
+						<div className="nft-chain">
+							<img
+								src={
+									CHAIN_LOGOS[
+										(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+											'ethereum'
+									]
+								}
+								alt=""
+								className="icon"
+							/>
+							<span className="name">
+								{
+									CHAIN_TITLE[
+										(blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE) ||
+											'ethereum'
+									]
+								}
+							</span>
+						</div>
+					) : null}
+
 					{fileType === 'image' ? (
 						<>
 							<div style={{ display: `${loader ? 'block' : 'none'}` }}>
@@ -147,7 +150,10 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 					)}
 					<div className="auction-countdown d-flex flex-column justify-content-center align-items-center">
 						<Countdown date={auctionEndDate} renderer={countDownRenderer} />
-						<div className="auction-card-avatar-container d-flex align-items-center justify-content-between">
+						<div
+							className="auction-card-avatar-container d-flex align-items-center justify-content-between"
+							onClick={() => history.push(`explore/nftdetail/${nftId}`)}
+						>
 							<div className="auction-card-avatar d-flex align-items-center">
 								{bidsProfile &&
 									bidsProfile.length > 0 &&
@@ -179,10 +185,8 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 						</div>
 					</div>
 				</div>
-				<Card.Body>
-					<Card.Title
-						onClick={() => history.push(`explore/nftdetail/${nftId}`)}
-					>
+				<Card.Body onClick={() => history.push(`explore/nftdetail/${nftId}`)}>
+					<Card.Title>
 						<div>
 							{nftName && nftName.length > 15
 								? nftName.slice(0, 15) + '...'
@@ -214,10 +218,7 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 							</p>
 						</div>
 					</div>
-					<button
-						className="auction-bit-btn"
-						onClick={() => history.push(`explore/nftdetail/${nftId}`)}
-					>
+					<button className="auction-bit-btn">
 						{connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
 						ENV.getUserKeys('_id')?._id === userId
 							? 'View'

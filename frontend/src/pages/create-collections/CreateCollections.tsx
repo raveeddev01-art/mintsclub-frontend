@@ -547,7 +547,7 @@ class CreateCollections extends Component<
 							/>
 
 							<div className="col-lg-4 col-md-6 col-sm-12 position-relative">
-								<label className="create-collection-label">Name:</label>
+								<label className="create-collection-label">Name:*</label>
 								<span className="text-danger position-absolute top-0">
 									{this.validator.message('name', collection.name, 'min:3')}
 								</span>
@@ -622,7 +622,7 @@ class CreateCollections extends Component<
 							</div>
 
 							<div className="col-12 mt-3 mt-lg-5 position-relative">
-								<label className="create-collection-label">Description:</label>
+								<label className="create-collection-label">Description:*</label>
 								<span className="text-danger position-absolute top-0">
 									{this.validator.message(
 										'description',
