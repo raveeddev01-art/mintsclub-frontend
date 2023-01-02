@@ -217,7 +217,7 @@ const NFTDetail = (props: any) => {
 	const { isLoading: isLoadingBids } = useGetData(
 		'GetBids',
 		'bid/list',
-		ENV.objectToQueryString({ auction: nftDetail?.activeAuction?._id }),
+		ENV.objectToQueryString({ auctionId: nftDetail?.activeAuction?._id }),
 		onSuccessGetBids,
 		null,
 		beforeGetBids
