@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { BannerInterface } from '../../interfaces/components';
 import { editImage } from '../../assets/assets';
 import './Banner.scss';
+import { ENV } from '../../config/config';
 
 const Banner: FC<BannerInterface> = ({
 	subHeading,
@@ -21,6 +22,7 @@ const Banner: FC<BannerInterface> = ({
 			onDelete?.();
 		}
 	};
+	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	return (
 		<>
 			<div
@@ -49,10 +51,12 @@ const Banner: FC<BannerInterface> = ({
 												<img src={editImage.deleteIcon} alt="/" />
 												<span>Delete</span>
 											</button>
-											<button className="edit" onClick={() => onEdit?.()}>
-												<img src={editImage.editIcon} alt="/" />
-												<span>Edit</span>
-											</button>
+											{blockChainType !== 'algorand' && (
+												<button className="edit" onClick={() => onEdit?.()}>
+													<img src={editImage.editIcon} alt="/" />
+													<span>Edit</span>
+												</button>
+											)}
 										</div>
 									)}
 								</div>
