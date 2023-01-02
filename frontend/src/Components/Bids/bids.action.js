@@ -19,7 +19,7 @@ export const beforeBid = () => {
 export const placeBid = (body) => (dispatch) => {
 	const url = `${ENV.url}bid/create`;
 
-	fetch(url, {
+	const data = fetch(url, {
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json',
@@ -49,6 +49,7 @@ export const placeBid = (body) => (dispatch) => {
 					payload: data,
 				});
 			}
+			return data;
 		})
 		.catch((error) => {
 			//   console.log('listing', error)
@@ -61,6 +62,7 @@ export const placeBid = (body) => (dispatch) => {
 				payload: error,
 			});
 		});
+	return data;
 };
 export const getBidSByNftId =
 	(qs = '') =>

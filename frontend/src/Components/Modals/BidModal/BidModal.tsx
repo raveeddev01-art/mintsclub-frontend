@@ -12,14 +12,17 @@ import {
 	convertToExponential,
 } from '../../../utils/helpers/helpers';
 import { currency } from '../../../utils/exportData';
+import { Typography } from '@mui/material';
 
 const BidModal: FC<BidModalInt> = (props) => {
 	const currencyData: any = currency;
+
 	const [checkBox, setCheckBox] = useState<any>(false);
 	const [blockchainTypes, setBlockchainType] = useState<any>('');
 	const [exchangeRate, setExchangeRate] = useState<any>(0);
 
 	const {
+		messageProcessingBid,
 		onChange,
 		decimalnumbervalidator,
 		handlemodalsubmit,
@@ -29,6 +32,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		price,
 		blockchaintype,
 		show,
+		socketConnected,
 	} = props;
 
 	useEffect(() => {
@@ -47,6 +51,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				setExchangeRate(currentUSD);
 			});
 	}, [currency, blockchaintype]);
+
 	return (
 		<Modal
 			{...props}
@@ -162,11 +167,14 @@ const BidModal: FC<BidModalInt> = (props) => {
 				</div>
 				<button
 					className="btn btn-linear-gradient btn-bid-modal mt-2"
-					onClick={() => {
-						handlemodalsubmit();
+					onClick={async () => {
+						await handlemodalsubmit();
+
 						onHide();
 					}}
 					disabled={
+						messageProcessingBid?.placingBySomeone ||
+						!socketConnected ||
 						+price < calculatepricepercantage() ||
 						balance === 0 ||
 						!checkBox ||
@@ -175,6 +183,9 @@ const BidModal: FC<BidModalInt> = (props) => {
 				>
 					Confirm Checkout
 				</button>
+				{messageProcessingBid?.message && (
+					<Typography>{messageProcessingBid?.message}</Typography>
+				)}
 			</Modal.Footer>
 		</Modal>
 	);

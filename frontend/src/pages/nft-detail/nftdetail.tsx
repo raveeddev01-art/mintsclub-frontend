@@ -12,6 +12,9 @@ import {
 	getItemsListing,
 	beforeNFTByCollection,
 } from '../../Components/Nfts/nfts.action.js';
+
+import { io } from 'socket.io-client';
+
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import { connect } from 'react-redux';
 import { ENV } from '../../config/config';
@@ -91,7 +94,17 @@ import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Wallet } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 
+let socket: any;
+const ENDPOINT: any = ENV.url; //"http://localhost:5000/";
+
 const NFTDetail = (props: any) => {
+	// let ws: any = undefined;
+	const [socketConnected, setSocketConnected] = React.useState<boolean>(false);
+	const [messageProcessingBid, setMessageProcessingBid] = React.useState<any>({
+		placingBySomeone: false,
+		message: '',
+	});
+
 	const currencyData: any = currency;
 	const wallet = useWallet();
 	const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -101,9 +114,11 @@ const NFTDetail = (props: any) => {
 
 	const [nfts, setNFTs] = useState<any>([]);
 	const [activities, setActivities] = useState<any>([]);
+
 	const [loader, setLoader] = useState<boolean>(true);
 	const [price, setPrice] = useState<number>(0);
 	const [bids, setBids] = useState<any>(null);
+
 	const [settings, setSettings] = useState<any>(null);
 	const [offers, setOffers] = useState<any>(null);
 	const [modalShow, setModalShow] = useState<any>(false);
@@ -127,7 +142,7 @@ const NFTDetail = (props: any) => {
 	const [beforeGetOffers, setBeforeGetOffers] = useState<boolean>(false);
 	const [beforeGetBids, setBeforeGetBids] = useState<boolean>(false);
 	const nftId = props.match.params.id;
-	const userId = ENV.getUserKeys('_id')._id;
+	const userId = ENV.getUserKeys('_id')?._id;
 	const { darkMode } = useContext(darkModeContext);
 	const [currentBidder, setCurrentBidder] = useState<string>('');
 	const [bidStatus, setBidStatus] = useState<string>('pending');
@@ -178,14 +193,15 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const { isLoading: isLoadingActivity } = useGetData(
-		'GetActivities',
-		'activity/get',
-		ENV.objectToQueryString({ nftId: nftDetail._id }),
-		onSuccessGetActivities,
-		null,
-		beforeGetActivities
-	);
+	const { isLoading: isLoadingActivity, refetch: getLatestActivities } =
+		useGetData(
+			'GetActivities',
+			'activity/get',
+			ENV.objectToQueryString({ nftId: nftDetail?._id }),
+			onSuccessGetActivities,
+			null,
+			beforeGetActivities
+		);
 
 	//get offers
 	const onSuccessGetOffers = (data: any) => {
@@ -196,10 +212,10 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const { isLoading: isLoadingOffers } = useGetData(
+	const { isLoading: isLoadingOffers, refetch: getLatestOffers } = useGetData(
 		'GetOffers',
 		'offer/list',
-		ENV.objectToQueryString({ nftId: nftDetail._id }),
+		ENV.objectToQueryString({ nftId: nftDetail?._id }),
 		onSuccessGetOffers,
 		null,
 		beforeGetOffers
@@ -214,7 +230,7 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const { isLoading: isLoadingBids } = useGetData(
+	const { isLoading: isLoadingBids, refetch: getLatestBids } = useGetData(
 		'GetBids',
 		'bid/list',
 		ENV.objectToQueryString({ auctionId: nftDetail?.activeAuction?._id }),
@@ -350,7 +366,7 @@ const NFTDetail = (props: any) => {
 			let moreCollection = [];
 			if (props.nftsByCollection && props.nftsByCollection?.length) {
 				moreCollection = props.nftsByCollection.filter(
-					(item: any) => item._id !== nftDetail._id
+					(item: any) => item._id !== nftDetail?._id
 				);
 			}
 			setNFTs(moreCollection);
@@ -680,6 +696,12 @@ const NFTDetail = (props: any) => {
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			setLoader(true);
 			if (nftDetail?.activeAuction?.sellingMethod === 2) {
+				if (socket) {
+					socket.emit('placingBid', {
+						nftId: nftDetail?._id,
+						address: ENV.getUserKeys('address')?.address,
+					});
+				}
 				placeBid();
 			} else {
 				makeOffer();
@@ -692,6 +714,7 @@ const NFTDetail = (props: any) => {
 			nftDetail;
 		try {
 			let result: any = undefined;
+
 			if (ENV.getUserKeys('blockchainType').blockchainType === 'solana') {
 				result = await bidForLiveAuction(
 					wallet,
@@ -704,11 +727,16 @@ const NFTDetail = (props: any) => {
 					setLoader(false);
 					return;
 				}
-			} else if (
-				ENV.getUserKeys('blockchainType').blockchainType !== 'algorand'
+			}
+
+			if (
+				ENV.getUserKeys('blockchainType').blockchainType !== 'algorand' &&
+				ENV.getUserKeys('blockchainType').blockchainType !== 'solana'
 			) {
 				result = await placeABid(price, activeAuction?.sellId);
-			} else {
+			}
+
+			if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
 				result = await placeBidOnAlgorand(
 					+price,
 					connectedAddress,
@@ -725,41 +753,49 @@ const NFTDetail = (props: any) => {
 					return;
 				}
 			}
-			if (result) {
-				const payload: any = {
-					ownerId: ownerId,
-					auctionId: activeAuction?._id,
-					bidAmount: price,
-					nftId: _id,
-					bidBy: ENV.getUserKeys('_id')._id,
-					isAccepted: false,
-					toAddress: ownerAddress,
-					fromAddress: connectedAddress,
-					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
-				};
-				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
-					payload.globalState = result?.new_global_state;
-				}
 
-				props.beforeBid();
-				props.placeBid(payload);
-				createActivity('Bid', price);
-
-				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
-					const bidIncrement = 0.1 + price;
-					setPrice(bidIncrement);
-				} else {
-					const currentBidAmount: any = price;
-					let fivePerc: any = '';
-					fivePerc = (5 / 100) * price;
-					fivePerc = parseFloat(fivePerc) + parseFloat(currentBidAmount);
-					fivePerc = fivePerc.toString().toFixed(8);
-					setPrice(fivePerc);
-				}
+			if (!result) {
+				throw new Error('Something went wrong');
 			}
+
+			const payload: any = {
+				ownerId: ownerId,
+				auctionId: activeAuction?._id,
+				bidAmount: price,
+				nftId: _id,
+				bidBy: ENV.getUserKeys('_id')._id,
+				isAccepted: false,
+				toAddress: ownerAddress,
+				fromAddress: connectedAddress,
+				blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
+			};
+			if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
+				payload.globalState = result?.new_global_state;
+			}
+
+			props.beforeBid();
+
+			const [activityCreated, bidPlaced] = await Promise.all([
+				createActivity('Bid', price),
+				props.placeBid(payload),
+			]);
+
+			if (socket && bidPlaced?.success && activityCreated?.success) {
+				socket.emit('bidPlaced', {
+					price,
+					blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
+					nftId: _id,
+				});
+			}
+
+			Promise.all([getLatestActivities(), getLatestBids(), getLatestOffers()]);
 		} catch (err: any) {
 			setLoader(false);
 			toast.error(err);
+			setMessageProcessingBid({
+				placingBySomeone: false,
+				message: undefined,
+			});
 		}
 	};
 
@@ -1071,7 +1107,9 @@ const NFTDetail = (props: any) => {
 			toAddress,
 			price: price,
 		};
-		props.createActivity(activityPayload);
+		const response = await props.createActivity(activityPayload);
+
+		return response;
 	};
 
 	const checkIfAuctionStartedorEnded = (
@@ -1363,6 +1401,38 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
+
+	useEffect(() => {
+		socket = io('http://localhost:5000' || ENDPOINT);
+
+		socket.emit('setup', {
+			_id: ENV.getUserKeys('_id')?._id,
+			nftId: nftDetail?._id,
+		});
+
+		socket.on('connected', (info: any) => {
+			setSocketConnected(true);
+		});
+
+		socket.on('newBid', (bidDetails: any) => {
+			getLatestActivities();
+			getLatestBids();
+			getLatestOffers();
+			setPrice(parseFloat(bidDetails?.price));
+			setMessageProcessingBid({
+				placingBySomeone: false,
+				message: undefined,
+			});
+		});
+
+		socket.on('placingBidBySomeone', (someoneBidDetails: any) => {
+			setMessageProcessingBid({
+				placingBySomeone: true,
+				message: `Please wait, ${someoneBidDetails?.address} is placing bid.`,
+			});
+		});
+	}, [nftDetail?._id]);
+
 	return (
 		<>
 			<Banner
@@ -1500,11 +1570,13 @@ const NFTDetail = (props: any) => {
 			/>
 
 			<BidModal
+				messageProcessingBid={messageProcessingBid}
 				show={bidModalShow}
 				calculatepricepercantage={calculatepricepercantage}
 				handlemodalsubmit={handlemodalsubmit}
 				onChange={onChange}
 				decimalnumbervalidator={decimalnumbervalidator}
+				socketConnected={socketConnected}
 				balance={balance}
 				price={price}
 				onHide={async () => setBidModalShow(false)}

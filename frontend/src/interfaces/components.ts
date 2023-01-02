@@ -61,6 +61,7 @@ export interface ApprovalModalInt {
 	address: string;
 }
 export interface BidModalInt {
+	messageProcessingBid: any;
 	onChange: (e: any) => any;
 	decimalnumbervalidator: (e: any) => any;
 	handlemodalsubmit: () => {};
@@ -69,6 +70,7 @@ export interface BidModalInt {
 	balance: any;
 	blockchaintype: string;
 	price: any;
+	socketConnected: boolean;
 	show: boolean;
 }
 export interface Buy {

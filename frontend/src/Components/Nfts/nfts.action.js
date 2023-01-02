@@ -122,6 +122,7 @@ export const createActivity = (body) => async (dispatch) => {
 				payload: res.data,
 			});
 		}
+		return res.data;
 	} catch (error) {
 		dispatch({
 			type: GET_ERRORS,
