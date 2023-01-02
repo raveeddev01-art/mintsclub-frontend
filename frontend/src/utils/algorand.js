@@ -277,6 +277,7 @@ const setupAuctionApp = async (
 				to: app_address,
 				amount: fundingAmount,
 			});
+		console.log('🚀 ~ file: algorand.js:272 ~ fundAppTxn', fundAppTxn);
 
 		const setupTxn = await algosdk.makeApplicationCallTxnFromObject({
 			from: accountaddress.toString(),
@@ -286,6 +287,7 @@ const setupAuctionApp = async (
 			foreignAssets: [nftID],
 			suggestedParams: params,
 		});
+		console.log('🚀 ~ file: algorand.js:293 ~ setupTxn', setupTxn);
 
 		const fundNftTxn =
 			await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -295,6 +297,8 @@ const setupAuctionApp = async (
 				amount: copies,
 				suggestedParams: params,
 			});
+		console.log('🚀 ~ file: algorand.js:300 ~ fundNftTxn', fundNftTxn);
+
 		let txnsArray = [fundAppTxn, setupTxn, fundNftTxn];
 
 		console.log(
@@ -303,7 +307,7 @@ const setupAuctionApp = async (
 		);
 		const groupID = algosdk.computeGroupID(txnsArray);
 		console.log('Group ID', groupID);
-		for (let i = 0; i < 3; i++) txnsArray[i].group = groupID;
+		for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
 
 		const signedTxns = await myAlgoConnect.signTransaction(
 			txnsArray.map((txn) => txn.toByte())
@@ -444,7 +448,7 @@ const placeBidOnAlgorand = async (
 			sendGroupTransactions
 		);
 
-		await sleep(5000);
+		await sleep(15000);
 		const new_global_state = await getAppGlobalState(appid, ownerAddress);
 		console.log(
 			'🚀 ~ file: algorand.js ~ line 574 ~ new_global_state',
