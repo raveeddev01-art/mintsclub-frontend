@@ -4,7 +4,7 @@ const CryptoJS = require('crypto-js');
 const dataEncryptionKey = 'kalsaOOLLaASASAFFSSEE';
 const moment = require('moment');
 
-export const ENV = {
+export const ENV: any = {
 	// blockchain variables
 	goerliMintingContract: process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS,
 	polygonMintingContract:
@@ -22,6 +22,7 @@ export const ENV = {
 	batchMintLazyContract: process.env.REACT_APP_BATCHMINT_LAZY_CONTRACT,
 	// process variables
 	url: process.env.REACT_APP_BASE_URL,
+	WEBSOCKET_URL: process.env.REACT_APP_WEB_SOCKET_URL,
 	adminUrl: process.env.REACT_APP_ADMIN_BASE_URL,
 	// url:"https://v2-mintsclubapi.invo.zone/v1/front/",
 	chainId: 4,

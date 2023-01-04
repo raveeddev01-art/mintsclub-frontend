@@ -1,4 +1,11 @@
-import React, { Suspense, useEffect, useMemo } from 'react';
+import React, {
+	createContext,
+	Suspense,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import routes from './routes';
 import { PrivateRoute } from './privateRoute';
 import { Switch } from 'react-router-dom';
@@ -18,11 +25,15 @@ import { UseWalletChange } from './pages/wallet-change/wallet-change';
 import { clusterApiUrl } from '@solana/web3.js';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 require('@solana/wallet-adapter-react-ui/styles.css');
+import Socket from './utils/socket';
+import SocketContext from './contexts/SocketContext';
 
 const App = React.memo((props) => {
 	const network = 'devnet';
 	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 	const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+	const [socket, setSocket] = useState(undefined);
+	console.log('🚀 ~ file: App.js:36 ~ App ~ socket', socket);
 
 	useGaTracker();
 
@@ -34,37 +45,51 @@ const App = React.memo((props) => {
 		}
 	}, [ENV]);
 
+	useEffect(() => {
+		if (!socket) {
+			const connectedSocket = Socket.connectSocket();
+			setSocket(connectedSocket);
+		}
+		return () => {
+			if (socket) {
+				socket.disconnect();
+			}
+		};
+	}, []);
+
 	return (
-		<ConnectionProvider endpoint={endpoint}>
-			<WalletProvider wallets={wallets} autoConnect>
-				<WalletModalProvider>
-					<React.Fragment>
-						<Suspense fallback={<FullPageLoader />}>
-							<div>
-								<Switch>
-									{routes.map((route, index) => {
-										return (
-											<PrivateRoute
-												key={index}
-												path={route.path}
-												exact={route.exact}
-												access={route.access}
-												component={(props) => (
-													<route.layout {...props} title={route.title}>
-														<route.component {...props} />
-													</route.layout>
-												)}
-											/>
-										);
-									})}
-								</Switch>
-							</div>
-						</Suspense>
-					</React.Fragment>
-					<UseWalletChange />
-				</WalletModalProvider>
-			</WalletProvider>
-		</ConnectionProvider>
+		<SocketContext.Provider value={socket}>
+			<ConnectionProvider endpoint={endpoint}>
+				<WalletProvider wallets={wallets} autoConnect>
+					<WalletModalProvider>
+						<React.Fragment>
+							<Suspense fallback={<FullPageLoader />}>
+								<div>
+									<Switch>
+										{routes.map((route, index) => {
+											return (
+												<PrivateRoute
+													key={index}
+													path={route.path}
+													exact={route.exact}
+													access={route.access}
+													component={(props) => (
+														<route.layout {...props} title={route.title}>
+															<route.component {...props} />
+														</route.layout>
+													)}
+												/>
+											);
+										})}
+									</Switch>
+								</div>
+							</Suspense>
+						</React.Fragment>
+						<UseWalletChange />
+					</WalletModalProvider>
+				</WalletProvider>
+			</ConnectionProvider>
+		</SocketContext.Provider>
 	);
 });
 

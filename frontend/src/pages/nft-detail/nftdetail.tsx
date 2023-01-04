@@ -90,8 +90,12 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Wallet } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
+import SocketContext from '../../contexts/SocketContext';
 
 const NFTDetail = (props: any) => {
+	// const socket = useContext(props.);
+	const socket = useContext(SocketContext);
+	console.log('🚀 ~ file: nftdetail.tsx:98 ~ NFTDetail ~ socket', socket);
 	const currencyData: any = currency;
 	const wallet = useWallet();
 	const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -178,14 +182,15 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const { isLoading: isLoadingActivity } = useGetData(
-		'GetActivities',
-		'activity/get',
-		ENV.objectToQueryString({ nftId: nftDetail._id }),
-		onSuccessGetActivities,
-		null,
-		beforeGetActivities
-	);
+	const { isLoading: isLoadingActivity, refetch: getLatestActivities } =
+		useGetData(
+			'GetActivities',
+			'activity/get',
+			ENV.objectToQueryString({ nftId: nftDetail._id }),
+			onSuccessGetActivities,
+			null,
+			beforeGetActivities
+		);
 
 	//get offers
 	const onSuccessGetOffers = (data: any) => {
@@ -196,7 +201,7 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const { isLoading: isLoadingOffers } = useGetData(
+	const { isLoading: isLoadingOffers, refetch: getLatestOffers } = useGetData(
 		'GetOffers',
 		'offer/list',
 		ENV.objectToQueryString({ nftId: nftDetail._id }),
@@ -214,7 +219,7 @@ const NFTDetail = (props: any) => {
 		}
 	};
 
-	const { isLoading: isLoadingBids } = useGetData(
+	const { isLoading: isLoadingBids, refetch: getLatestBids } = useGetData(
 		'GetBids',
 		'bid/list',
 		ENV.objectToQueryString({ auctionId: nftDetail?.activeAuction?._id }),
@@ -630,13 +635,13 @@ const NFTDetail = (props: any) => {
 		const { highestBid } = nftDetail?.activeAuction || {};
 		const { currentPrice } = nftDetail;
 		if (highestBid === 0 || highestBid === undefined) {
-			fivePerc = (5 / 100) * currentPrice;
+			fivePerc = (10 / 100) * currentPrice;
 
 			result = fivePerc + currentPrice;
 
 			return result;
 		} else {
-			fivePerc = (5 / 100) * highestBid;
+			fivePerc = (10 / 100) * highestBid;
 			result = fivePerc + highestBid;
 			return result.toString().slice(0, 8);
 		}
@@ -667,6 +672,16 @@ const NFTDetail = (props: any) => {
 		setPrice(result);
 	};
 	const handlemodalsubmit = async () => {
+		if (socket) {
+			socket.emit('placingBid', {
+				walletAddress: ENV.getUserKeys('address').address,
+			});
+		}
+		// if(socket){
+		// 	socket.
+		// }
+		// if(Socket.socket)
+		// .emit('placingBid');
 		toast.warning("Please don't refresh/switch page during transaction.", {
 			position: 'top-center',
 			autoClose: 5000,
@@ -745,17 +760,17 @@ const NFTDetail = (props: any) => {
 				props.placeBid(payload);
 				createActivity('Bid', price);
 
-				if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
-					const bidIncrement = 0.1 + price;
-					setPrice(bidIncrement);
-				} else {
-					const currentBidAmount: any = price;
-					let fivePerc: any = '';
-					fivePerc = (5 / 100) * price;
-					fivePerc = parseFloat(fivePerc) + parseFloat(currentBidAmount);
-					fivePerc = fivePerc.toString().toFixed(8);
-					setPrice(fivePerc);
-				}
+				// if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
+				// 	const bidIncrement = 0.1 + price;
+				// 	setPrice(bidIncrement);
+				// } else {
+				// 	const currentBidAmount: any = price;
+				// 	let fivePerc: any = '';
+				// 	fivePerc = (5 / 100) * price;
+				// 	fivePerc = parseFloat(fivePerc) + parseFloat(currentBidAmount);
+				// 	fivePerc = fivePerc.toString().toFixed(8);
+				// 	setPrice(fivePerc);
+				// }
 			}
 		} catch (err: any) {
 			setLoader(false);
@@ -1192,6 +1207,28 @@ const NFTDetail = (props: any) => {
 		return () => clearInterval(interval);
 	}, [nftDetail, initial]);
 
+	useEffect(() => {
+		if (socket) {
+			socket.emit('join', nftDetail?._id);
+			console.log(
+				'socket==>',
+				socket,
+				'nftDetail?._id',
+				nftDetail?._id,
+				'nft-details',
+				nftDetail
+			);
+			socket.on('bidPlaced', ({ price }: any) => {
+				// alert('BidPlaced');
+				console.log('🚀 ~ file: nftdetail.tsx:1391 ~ socket.on ~ price', price);
+				getLatestActivities();
+				getLatestBids();
+				getLatestOffers();
+				setPrice(price);
+			});
+		}
+	}, [nftDetail?._id]);
+
 	const isAuctionEnded = async () => {
 		if (
 			nftDetail &&
@@ -1363,6 +1400,18 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
+
+	useEffect(() => {
+		// socket.on('bidPlaced', ({ price }: any) => {
+		// 	// alert('BidPlaced');
+		// 	console.log('🚀 ~ file: nftdetail.tsx:1391 ~ socket.on ~ price', price);
+		// 	getLatestActivities();
+		// 	getLatestBids();
+		// 	getLatestOffers();
+		// 	setPrice(price);
+		// });
+	}, [socket]);
+
 	return (
 		<>
 			<Banner

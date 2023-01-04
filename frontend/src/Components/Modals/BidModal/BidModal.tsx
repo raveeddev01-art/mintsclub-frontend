@@ -30,6 +30,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		blockchaintype,
 		show,
 	} = props;
+	console.log('🚀 ~ file: BidModal.tsx:33 ~ price', price);
 
 	useEffect(() => {
 		if (ENV.getUserKeys('blockchainType').blockchainType === 'ethereum') {
@@ -47,6 +48,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				setExchangeRate(currentUSD);
 			});
 	}, [currency, blockchaintype]);
+
 	return (
 		<Modal
 			{...props}
