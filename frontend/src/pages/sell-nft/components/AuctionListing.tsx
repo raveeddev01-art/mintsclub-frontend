@@ -41,11 +41,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		insertActivity,
 		insertAuction,
 		setLoader,
+		approvalStatus,
 	} = data;
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet: any = useWallet();
-
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 	const [startValue, setStartValue]: any = useState(moment());
 	const [endValue, setEndValue] = useState(moment().endOf('day'));
 
@@ -57,6 +58,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	};
 
 	const submit = async (e: any) => {
+		setIsButtonDisabled(true);
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (moment() > startValue) {
@@ -164,6 +166,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 				if (!result?.globalState) {
 					setLoader(false);
+					setIsButtonDisabled(false);
 					toast.error(result?.message);
 					return;
 				}
@@ -177,6 +180,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						'Insufficeint funds for this transaction. Please recharge your wallet.'
 					);
 					setLoader(false);
+					setIsButtonDisabled(false);
 					return;
 				}
 				result = await listItemForLiveAuction(
@@ -188,6 +192,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 				if (!result?.success) {
 					setLoader(false);
+					setIsButtonDisabled(false);
 					toast.error(result?.message);
 					return;
 				}
@@ -212,6 +217,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			}
 		} catch (err: any) {
 			setLoader(false);
+			setIsButtonDisabled(false);
 			toast.error(err);
 		}
 	};
@@ -428,6 +434,11 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				<div className="sell-btn-container d-flex justify-content-center justify-content-lg-start">
 					<button
 						className="btn btn-linear-gradient sell-btn-completed"
+						disabled={
+							approvalStatus === 'pending' ||
+							approvalStatus === 'in-progress' ||
+							isButtonDisabled
+						}
 						type="submit"
 					>
 						Complete Listing

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CHAINS_INTERFACE } from '../../../interfaces/components';
 import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../../utils/helpers/ethereum';
@@ -35,11 +35,12 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		setLoader,
 		approvalStatus,
 	} = data;
-
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet = useWallet();
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 	const submit = async (e: any) => {
+		setIsButtonDisabled(true);
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (blockchainType !== 'solana' && blockchainType !== 'algorand') {
@@ -65,6 +66,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		if (price === 0) {
 			toast.error('Price should be greater than 0');
 			setLoader(false);
+			setIsButtonDisabled(false);
 			return '';
 		}
 		if (nftDetail?.blockchainType === 'solana') {
@@ -113,6 +115,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						'Insufficeint funds for this transaction. Please recharge your wallet.'
 					);
 					setLoader(false);
+					setIsButtonDisabled(false);
 					return;
 				}
 				res = await listItemForFixedPriceSolana(wallet, price, nftDetail?.mint);
@@ -135,6 +138,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellerTradeState = connectedAddress;
 					} else {
 						setLoader(false);
+						setIsButtonDisabled(false);
 						toast.error(response?.message);
 						return;
 					}
@@ -154,6 +158,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellerTradeState = connectedAddress;
 					} else {
 						setLoader(false);
+						setIsButtonDisabled(false);
 						toast.error(res?.message);
 						return;
 					}
@@ -191,10 +196,12 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 			insertAuction(payload);
 		} catch (err: any) {
 			console.log(err, 'error');
+			setIsButtonDisabled(false);
 			setLoader(false);
 			toast.error(err.message);
 		} finally {
 			setLoader(false);
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -312,7 +319,9 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 					<button
 						className="btn btn-linear-gradient sell-btn-completed"
 						disabled={
-							approvalStatus === 'pending' && approvalStatus === 'in-progress'
+							approvalStatus === 'pending' ||
+							approvalStatus === 'in-progress' ||
+							isButtonDisabled
 						}
 						type="submit"
 					>
