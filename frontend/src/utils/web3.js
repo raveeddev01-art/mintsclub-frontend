@@ -815,7 +815,7 @@ export const cancelNFTListing = async (
 	listingId,
 	sellingMethod,
 	setLoader,
-	setDisableButton
+	setIsButtonDisabled
 ) => {
 	try {
 		const { abi, contractAddress } = getMarketPlaceContractInfo();
@@ -838,21 +838,21 @@ export const cancelNFTListing = async (
 			result = await contractM.methods.cancelAuction(listingId).send({
 				from: connectedAddress,
 			});
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		} else {
 			result = await contractM.methods
 				.cancellListingForFixedPRice(listingId)
 				.send({
 					from: connectedAddress,
 				});
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 		if (result) {
 			return result;
 		}
 	} catch (err) {
 		setLoader(false);
-		setDisableButton(false);
+		setIsButtonDisabled(false);
 		throw new Error(err.message);
 	}
 };

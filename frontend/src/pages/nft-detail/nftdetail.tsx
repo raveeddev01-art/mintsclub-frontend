@@ -133,7 +133,7 @@ const NFTDetail = (props: any) => {
 	const [bidStatus, setBidStatus] = useState<string>('pending');
 	const [claimBidPrice, setClaimBidPrice] = useState<number>(0);
 	const [claimBidId, setClaimBidId] = useState<string>('');
-	const [disableButton, setDisableButton] = useState(false);
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
 	useEffect(() => {
 		window.scroll(0, 600);
@@ -146,7 +146,7 @@ const NFTDetail = (props: any) => {
 			const nftDetailsData = data.data.data;
 			setNftDetail(nftDetailsData);
 			setLoader(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 			// Get Activities
 			setBeforeGetActivities(true);
 
@@ -271,7 +271,7 @@ const NFTDetail = (props: any) => {
 	useEffect(() => {
 		if (props.createAuth) {
 			setLoader(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 			props.beforeBid();
 			window.scrollTo({
 				top: 1400,
@@ -283,7 +283,7 @@ const NFTDetail = (props: any) => {
 	useEffect(() => {
 		if (props.buyAuth) {
 			setLoader(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 			setDisabled(false);
 			setTransactionSuccess(true);
 			props.getNFT(nftId);
@@ -303,7 +303,7 @@ const NFTDetail = (props: any) => {
 	useEffect(() => {
 		if (props.createAuthOffer) {
 			setLoader(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 			history.push('/explore/allNFT');
 		}
 	}, [props.createAuthOffer]);
@@ -372,7 +372,7 @@ const NFTDetail = (props: any) => {
 	const handleRouting = async () => {
 		//Validate if i am owner
 		//Todo for solana and algorand
-		setDisableButton(true);
+		setIsButtonDisabled(true);
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (
 				(blockchainType === 'polygon' ||
@@ -390,16 +390,16 @@ const NFTDetail = (props: any) => {
 						nftDetail?.activeAuction?.sellId,
 						nftDetail?.activeAuction?.sellingMethod,
 						setLoader,
-						setDisableButton
+						setIsButtonDisabled
 					);
 				}
 				if (result || nftDetail?.lazyMinted) {
 					try {
 						cancelAuction({ auctionId: nftDetail?.activeAuction?._id });
-						setDisableButton(false);
+						setIsButtonDisabled(false);
 					} catch (error) {
 						toast.success('Something went wrong while cancel listing');
-						setDisableButton(false);
+						setIsButtonDisabled(false);
 					}
 				}
 				return;
@@ -421,10 +421,10 @@ const NFTDetail = (props: any) => {
 
 				if (result?.success) {
 					EndAuctionFromBackend();
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 				} else {
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					toast.error(result?.message);
 				}
 				return;
@@ -446,7 +446,7 @@ const NFTDetail = (props: any) => {
 				if (!result?.success) {
 					toast.error(result?.message);
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					return;
 				}
 				if (result) {
@@ -477,16 +477,16 @@ const NFTDetail = (props: any) => {
 								txnHash: response?.response?.signature,
 							});
 							setLoader(false);
-							setDisableButton(false);
+							setIsButtonDisabled(false);
 						} catch (error) {
 							setLoader(false);
 							toast.error('Something went wrong while cancel listing');
-							setDisableButton(false);
+							setIsButtonDisabled(false);
 						}
 					} else {
 						setLoader(false);
 						toast.error(response?.message);
-						setDisableButton(false);
+						setIsButtonDisabled(false);
 					}
 				}
 				return;
@@ -504,11 +504,11 @@ const NFTDetail = (props: any) => {
 						auctionId: nftDetail?.activeAuction?._id,
 					});
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 				} catch (error) {
 					setLoader(false);
 					toast.error('Something went wrong while cancel listing');
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 				}
 
 				return;
@@ -524,10 +524,10 @@ const NFTDetail = (props: any) => {
 					cancelAuction({
 						auctionId: nftDetail?.activeAuction?._id,
 					});
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 				} catch (error) {
 					toast.success('Something went wrong while reclaiming nft');
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 				}
 
 				return;
@@ -552,16 +552,16 @@ const NFTDetail = (props: any) => {
 							txnHash: result?.txnHash,
 						});
 						setLoader(false);
-						setDisableButton(false);
+						setIsButtonDisabled(false);
 					} catch (error) {
 						setLoader(false);
 						toast.error('Something went wrong while cancel listing');
-						setDisableButton(false);
+						setIsButtonDisabled(false);
 					}
 				} else {
 					setLoader(false);
 					toast.error(result?.message);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 				}
 				return;
 			}
@@ -589,11 +589,11 @@ const NFTDetail = (props: any) => {
 						if (res.data) {
 							toast.success('You have claimed bid successfully');
 							history.push('/explore/allNFT');
-							setDisableButton(false);
+							setIsButtonDisabled(false);
 						}
 					} catch (error) {
 						toast.success('Something went wrong while claiming');
-						setDisableButton(false);
+						setIsButtonDisabled(false);
 					}
 				}
 				return;
@@ -626,11 +626,11 @@ const NFTDetail = (props: any) => {
 			nftDetail?.activeAuction?.status === 'active'
 		) {
 			setBidModalShow(true);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 		if (nftDetail?.activeAuction?.sellingMethod === 1) {
 			setModalShow(true);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -711,7 +711,7 @@ const NFTDetail = (props: any) => {
 				makeOffer();
 			}
 		}
-		setDisableButton(false);
+		setIsButtonDisabled(false);
 	};
 	const placeBid = async () => {
 		const { connectedAddress } = props;
@@ -729,7 +729,7 @@ const NFTDetail = (props: any) => {
 				if (!result.success) {
 					toast.error(result?.message);
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					return;
 				}
 			} else if (
@@ -750,7 +750,7 @@ const NFTDetail = (props: any) => {
 				if (!result?.success) {
 					setLoader(false);
 					toast.error(result);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					return;
 				}
 			}
@@ -789,7 +789,7 @@ const NFTDetail = (props: any) => {
 		} catch (err: any) {
 			setLoader(false);
 			toast.error(err);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -816,7 +816,7 @@ const NFTDetail = (props: any) => {
 			setLoader(false);
 
 			toast.error(err);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -903,7 +903,7 @@ const NFTDetail = (props: any) => {
 						} else {
 							setLoader(false);
 							toast.error(buyFixedPriceResponse?.message);
-							setDisableButton(false);
+							setIsButtonDisabled(false);
 						}
 
 						return;
@@ -943,7 +943,7 @@ const NFTDetail = (props: any) => {
 			toast.error(err);
 		} finally {
 			setDisabled(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -1247,7 +1247,7 @@ const NFTDetail = (props: any) => {
 	const EndAuction = async () => {
 		try {
 			setLoader(true);
-			setDisableButton(true);
+			setIsButtonDisabled(true);
 			const { ownerId } = nftDetail;
 			const { sellingMethod, sellId } = nftDetail?.activeAuction || {};
 			if (userId === ownerId && sellingMethod === 2) {
@@ -1265,7 +1265,7 @@ const NFTDetail = (props: any) => {
 			toast.error(err.message);
 		} finally {
 			setLoader(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -1475,7 +1475,7 @@ const NFTDetail = (props: any) => {
 										bidStatus,
 										status,
 										bidCount,
-										disableButton,
+										isButtonDisabled,
 									}}
 								/>
 								<MetaDataSmall
@@ -1514,7 +1514,7 @@ const NFTDetail = (props: any) => {
 				show={modalShow}
 				onHide={() => {
 					setModalShow(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					// setConfirmed(false);
 					// setModal(1);
 					// setTransactionSuccess(false);

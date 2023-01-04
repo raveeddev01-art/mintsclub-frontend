@@ -46,7 +46,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet: any = useWallet();
-	const [disableButton, setDisableButton] = useState(false);
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 	const [startValue, setStartValue]: any = useState(moment());
 	const [endValue, setEndValue] = useState(moment().endOf('day'));
 
@@ -58,7 +58,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	};
 
 	const submit = async (e: any) => {
-		setDisableButton(true);
+		setIsButtonDisabled(true);
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (moment() > startValue) {
@@ -166,7 +166,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 				if (!result?.globalState) {
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					toast.error(result?.message);
 					return;
 				}
@@ -180,7 +180,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						'Insufficeint funds for this transaction. Please recharge your wallet.'
 					);
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					return;
 				}
 				result = await listItemForLiveAuction(
@@ -192,7 +192,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 
 				if (!result?.success) {
 					setLoader(false);
-					setDisableButton(false);
+					setIsButtonDisabled(false);
 					toast.error(result?.message);
 					return;
 				}
@@ -217,7 +217,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			}
 		} catch (err: any) {
 			setLoader(false);
-			setDisableButton(false);
+			setIsButtonDisabled(false);
 			toast.error(err);
 		}
 	};
@@ -437,7 +437,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 						disabled={
 							approvalStatus === 'pending' ||
 							approvalStatus === 'in-progress' ||
-							disableButton
+							isButtonDisabled
 						}
 						type="submit"
 					>
