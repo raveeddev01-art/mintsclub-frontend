@@ -63,6 +63,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (moment() > startValue) {
 				toast.error('Start Time Should be in future');
+				setIsButtonDisabled(false);
 				return;
 			}
 
@@ -90,6 +91,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				theme: 'light',
 				closeButton: false,
 			});
+			setIsButtonDisabled(false);
 		}
 	};
 	const handleAuction = () => {
