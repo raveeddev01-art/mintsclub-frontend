@@ -33,6 +33,7 @@ const FileDetail = ({ info }: any) => {
 		bidStatus,
 		status,
 		bidCount,
+		disableButton,
 	}: any = info;
 
 	const buttonText = verifyNFTStatus(
@@ -152,7 +153,7 @@ const FileDetail = ({ info }: any) => {
 				) &&
 					!claimNFT &&
 					buttonText !== 'invalid detail' && (
-						<button onClick={() => handleRouting()}>
+						<button disabled={disableButton} onClick={() => handleRouting()}>
 							{verifyNFTStatus(
 								ownerAddress,
 								connectedAddress,
@@ -170,7 +171,9 @@ const FileDetail = ({ info }: any) => {
 					)}
 
 				{claimNFT && (
-					<button onClick={() => EndAuction()}>{'Claim NFT'}</button>
+					<button disabled={disableButton} onClick={() => EndAuction()}>
+						{'Claim NFT'}
+					</button>
 				)}
 			</div>
 		</div>

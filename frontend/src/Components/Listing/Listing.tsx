@@ -77,7 +77,7 @@ const Listing: FC<listingInt> = (props) => {
 	};
 	const selectCustomStyles = {};
 
-	const statusData = ['Buy Now', 'On Auction', 'New'];
+	const statusData = ['Buy Now', 'On Auction'];
 	const handleFilters = () => {
 		setFilterActive(!filterActive);
 	};

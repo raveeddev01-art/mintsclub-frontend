@@ -811,7 +811,12 @@ export const deployCollectionContract = async (bytecode) => {
 	});
 };
 
-export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
+export const cancelNFTListing = async (
+	listingId,
+	sellingMethod,
+	setLoader,
+	setDisableButton
+) => {
 	try {
 		const { abi, contractAddress } = getMarketPlaceContractInfo();
 
@@ -833,18 +838,21 @@ export const cancelNFTListing = async (listingId, sellingMethod, setLoader) => {
 			result = await contractM.methods.cancelAuction(listingId).send({
 				from: connectedAddress,
 			});
+			setDisableButton(false);
 		} else {
 			result = await contractM.methods
 				.cancellListingForFixedPRice(listingId)
 				.send({
 					from: connectedAddress,
 				});
+			setDisableButton(false);
 		}
 		if (result) {
 			return result;
 		}
 	} catch (err) {
 		setLoader(false);
+		setDisableButton(false);
 		throw new Error(err.message);
 	}
 };

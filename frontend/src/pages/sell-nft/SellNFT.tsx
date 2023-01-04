@@ -282,6 +282,7 @@ const SellNFT = (props: any) => {
 									insertActivity,
 									insertAuction,
 									setLoader,
+									approvalStatus,
 								}}
 								blockchainType={nftDetail?.blockchainType}
 							/>
@@ -305,6 +306,7 @@ const SellNFT = (props: any) => {
 									insertActivity,
 									insertAuction,
 									setLoader,
+									approvalStatus,
 								}}
 								blockchainType={nftDetail?.blockchainType}
 							/>
