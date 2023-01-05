@@ -235,6 +235,9 @@ const NavbarMain = () => {
               </div>
             </Link> */}
 					</div>
+					<div className="bell-notification" data-percent={'9+'}>
+						<i className="fa-solid fa-bell"></i>
+					</div>
 				</Navbar>
 			</Container>
 		</div>

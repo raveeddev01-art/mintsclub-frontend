@@ -48,10 +48,26 @@ const App = React.memo((props) => {
 	useEffect(() => {
 		if (!socket) {
 			const connectedSocket = Socket.connectSocket();
+
+			if (ENV.getUserKeys('_id')._id) {
+				connectedSocket.emit('join', ENV.getUserKeys('_id')._id);
+			}
+
+			connectedSocket.on('notification', (notification) => {
+				// TODO: Fetch Notifications and update redux
+				console.log(
+					'🚀 ~ file: App.js:59 ~ connectedSocket.on ~ notification',
+					notification
+				);
+			});
+
 			setSocket(connectedSocket);
 		}
 		return () => {
 			if (socket) {
+				if (ENV.getUserKeys('_id')._id) {
+					connectedSocket.emit('leave', ENV.getUserKeys('_id')._id);
+				}
 				socket.disconnect();
 			}
 		};
