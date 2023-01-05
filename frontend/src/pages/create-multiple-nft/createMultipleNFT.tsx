@@ -110,7 +110,7 @@ function CreateMultipleNFT(props: any) {
 			} else {
 				setLoader(false);
 				toast.success('your NFTs are added to the queue');
-				history.push('/userprofile');
+				history.push('/my-pending-batches');
 			}
 		}
 	);
