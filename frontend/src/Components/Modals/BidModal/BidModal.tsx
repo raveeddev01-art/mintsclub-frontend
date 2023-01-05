@@ -47,6 +47,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				setExchangeRate(currentUSD);
 			});
 	}, [currency, blockchaintype]);
+
 	return (
 		<Modal
 			{...props}
