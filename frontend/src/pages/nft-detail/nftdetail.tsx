@@ -93,7 +93,6 @@ import { PublicKey } from '@solana/web3.js';
 import SocketContext from '../../contexts/SocketContext';
 
 const NFTDetail = (props: any) => {
-	// const socket = useContext(props.);
 	const socket = useContext(SocketContext);
 	console.log('🚀 ~ file: nftdetail.tsx:98 ~ NFTDetail ~ socket', socket);
 	const currencyData: any = currency;
@@ -677,11 +676,7 @@ const NFTDetail = (props: any) => {
 				walletAddress: ENV.getUserKeys('address').address,
 			});
 		}
-		// if(socket){
-		// 	socket.
-		// }
-		// if(Socket.socket)
-		// .emit('placingBid');
+
 		toast.warning("Please don't refresh/switch page during transaction.", {
 			position: 'top-center',
 			autoClose: 5000,
@@ -759,18 +754,6 @@ const NFTDetail = (props: any) => {
 				props.beforeBid();
 				props.placeBid(payload);
 				createActivity('Bid', price);
-
-				// if (ENV.getUserKeys('blockchainType').blockchainType === 'algorand') {
-				// 	const bidIncrement = 0.1 + price;
-				// 	setPrice(bidIncrement);
-				// } else {
-				// 	const currentBidAmount: any = price;
-				// 	let fivePerc: any = '';
-				// 	fivePerc = (5 / 100) * price;
-				// 	fivePerc = parseFloat(fivePerc) + parseFloat(currentBidAmount);
-				// 	fivePerc = fivePerc.toString().toFixed(8);
-				// 	setPrice(fivePerc);
-				// }
 			}
 		} catch (err: any) {
 			setLoader(false);
@@ -1208,26 +1191,21 @@ const NFTDetail = (props: any) => {
 	}, [nftDetail, initial]);
 
 	useEffect(() => {
-		if (socket) {
+		if (socket && nftDetail?._id) {
 			socket.emit('join', nftDetail?._id);
-			console.log(
-				'socket==>',
-				socket,
-				'nftDetail?._id',
-				nftDetail?._id,
-				'nft-details',
-				nftDetail
-			);
+
 			socket.on('bidPlaced', ({ price }: any) => {
-				// alert('BidPlaced');
-				console.log('🚀 ~ file: nftdetail.tsx:1391 ~ socket.on ~ price', price);
 				getLatestActivities();
 				getLatestBids();
 				getLatestOffers();
 				setPrice(price);
 			});
 		}
-	}, [nftDetail?._id]);
+
+		return () => {
+			socket.emit('leave', nftDetail?._id);
+		};
+	}, [nftDetail?._id, socket]);
 
 	const isAuctionEnded = async () => {
 		if (
@@ -1400,17 +1378,6 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
-
-	useEffect(() => {
-		// socket.on('bidPlaced', ({ price }: any) => {
-		// 	// alert('BidPlaced');
-		// 	console.log('🚀 ~ file: nftdetail.tsx:1391 ~ socket.on ~ price', price);
-		// 	getLatestActivities();
-		// 	getLatestBids();
-		// 	getLatestOffers();
-		// 	setPrice(price);
-		// });
-	}, [socket]);
 
 	return (
 		<>
