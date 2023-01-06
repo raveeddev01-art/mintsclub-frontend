@@ -34,11 +34,12 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		insertAuction,
 		setLoader,
 		approvalStatus,
+		setIsButtonDisabled,
+		isButtonDisabled,
 	} = data;
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet = useWallet();
-	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 	const submit = async (e: any) => {
 		setIsButtonDisabled(true);
 		e.preventDefault();
