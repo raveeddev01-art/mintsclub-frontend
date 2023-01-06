@@ -440,7 +440,8 @@ export const BuyFixedPriceNFT = async (
 };
 export const setApprovalForAll = async (
 	setApprovalStatus,
-	collectionAddress = null
+	collectionAddress = null,
+	setIsButtonDisabled
 ) => {
 	console.log(collectionAddress, 'collection');
 	try {
@@ -479,12 +480,14 @@ export const setApprovalForAll = async (
 			.on('transactionHash', function (hash) {
 				// setTransactionHash(hash);
 				setApprovalStatus('in-progress');
+				setIsButtonDisabled(false);
 			});
 		if (result) {
 			return result;
 		}
 	} catch (err) {
 		toast.error(err.message);
+		setIsButtonDisabled(false);
 		throw new Error(err);
 	}
 };

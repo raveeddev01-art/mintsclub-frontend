@@ -42,11 +42,12 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		insertAuction,
 		setLoader,
 		approvalStatus,
+		isButtonDisabled,
+		setIsButtonDisabled,
 	} = data;
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet: any = useWallet();
-	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 	const [startValue, setStartValue]: any = useState(moment());
 	const [endValue, setEndValue] = useState(moment().endOf('day'));
 

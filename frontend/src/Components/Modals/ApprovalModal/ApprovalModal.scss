@@ -51,6 +51,11 @@ padding: 2.2rem 0rem;
   padding: 15px 34px !important;
   font-weight: 500 !important;
 }
+.approval-modal-content  .get-approved-btn:hover {
+  padding: 15px 34px !important;
+  font-weight: 500 !important;
+  color: black!important;
+}
 .approval-modal .approval-modal-content {
   border-radius: 10px;
 }
@@ -81,7 +86,7 @@ padding: 2.2rem 0rem;
     padding: 0;
     right: 15px;
     top: 10px;
-    border-color: var(--cross-button-color);
+    border-color: #000000;
     border-radius: 50%;
     border-width: .5px;
     .close {
@@ -97,7 +102,7 @@ padding: 2.2rem 0rem;
       content: ' ';
       height: 33px;
       width: 2px;
-      background-color: var(--cross-button-color);
+      background-color: #000000;
     }
     .close:before {
       transform: rotate(45deg);

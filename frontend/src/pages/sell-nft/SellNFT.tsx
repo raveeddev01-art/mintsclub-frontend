@@ -61,6 +61,7 @@ const SellNFT = (props: any) => {
 	const [address, setAddress] = useState<string>(props.connectedAddress);
 	const [collectionAddress, setcollectionAddress] = useState<string>('');
 	const [collectionId, setcollectionId] = useState<string>('');
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
 	const [copiesError, setCopiesError] = useState<boolean>(false);
 	const [contentLoader, setContentLoader] = useState<boolean>(true);
@@ -193,18 +194,22 @@ const SellNFT = (props: any) => {
 		const formData: any = new FormData();
 		payload.isApproved = true;
 		payload.userId = nftDetail.user._id;
+		setIsButtonDisabled(false);
 		if (!nftDetail.isApproved) {
 			payload.collectionId = nftDetail.collectionId;
 			payload.nftId = nftDetail._id;
+			setIsButtonDisabled(false);
 			// formData.append('collectionId', nftDetail.collectionId);
 			// formData.append('nftId', nftDetail._id);
 		}
 		try {
 			const accApproved = await setApprovalForAll(
 				setApprovalStatus,
-				nftDetail.contractAddress
+				nftDetail.contractAddress,
+				setIsButtonDisabled
 			);
 			if (!nftDetail.isApproved) {
+				setIsButtonDisabled(false);
 				return approveCollection(payload);
 			}
 
@@ -215,13 +220,16 @@ const SellNFT = (props: any) => {
 				updateProfile(payload);
 				setApprovalStatus('approved');
 				toast.success('Your Account is Approved!.');
+				setIsButtonDisabled(false);
 				return '';
 			}
 		} catch (err) {
 			setApprovalStatus('not-approved');
+			setIsButtonDisabled(false);
 			return '';
 		}
 	};
+
 	const { image, name, description, remainingCopies, fileType } = nftDetail;
 	return (
 		<>
@@ -283,6 +291,8 @@ const SellNFT = (props: any) => {
 									insertAuction,
 									setLoader,
 									approvalStatus,
+									isButtonDisabled,
+									setIsButtonDisabled,
 								}}
 								blockchainType={nftDetail?.blockchainType}
 							/>
@@ -307,6 +317,8 @@ const SellNFT = (props: any) => {
 									insertAuction,
 									setLoader,
 									approvalStatus,
+									isButtonDisabled,
+									setIsButtonDisabled,
 								}}
 								blockchainType={nftDetail?.blockchainType}
 							/>
@@ -317,7 +329,10 @@ const SellNFT = (props: any) => {
 					show={show}
 					approveAccount={approveAccount}
 					approvalStatus={approvalStatus}
-					onHide={async () => setShow(false)}
+					onHide={async () => {
+						setShow(false);
+						setIsButtonDisabled(false);
+					}}
 					address={props.connectedAddress}
 				/>
 			</section>
