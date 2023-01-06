@@ -1,7 +1,7 @@
 import React from 'react';
 import './Notification.scss';
 
-const Notification = (props: any) => {
+const Notification = () => {
 	return (
 		<div>
 			<div className="popup">

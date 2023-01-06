@@ -16,6 +16,7 @@ import { GET_SYSTEM_FEE } from '../../redux/types';
 import { useGetData } from '../../hooks/Common';
 import SocketContext from '../../contexts/SocketContext';
 import Notification from '../Notification/Notification';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 const NavbarMain = () => {
 	const socket = useContext(SocketContext);
@@ -83,7 +84,7 @@ const NavbarMain = () => {
 			setDarkMode(false);
 		}
 	};
-	const notificationenable = () => {
+	const notificationEnable = () => {
 		setEnableNotification(true);
 	};
 
@@ -274,12 +275,16 @@ const NavbarMain = () => {
 					<div className="bell-notification" data-percent={'9+'}>
 						<i
 							className="fa-solid fa-bell"
-							onClick={() => notificationenable()}
+							onClick={() => notificationEnable()}
 						></i>
 					</div>
-					{enableNotification === true ? (
-						<Notification data={enableNotification} />
-					) : null}
+					<OutsideClickHandler
+						onOutsideClick={() => {
+							setEnableNotification(false);
+						}}
+					>
+						{enableNotification === true ? <Notification /> : null}
+					</OutsideClickHandler>
 				</Navbar>
 			</Container>
 		</div>

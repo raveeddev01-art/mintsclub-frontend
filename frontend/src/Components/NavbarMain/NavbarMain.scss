@@ -204,7 +204,7 @@
 }
 
 .bell-notification{
-  color: black;
+  color: var(--menu-text);
   margin-top: 23px;
   margin-left: 10px;
   font-size: 25px;
@@ -237,7 +237,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--icon-bg);
   margin-top: 4px;
   margin-left: 15px;
   display: flex;
