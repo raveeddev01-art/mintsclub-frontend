@@ -58,7 +58,7 @@ const Hero: FC<HeroInt> = (props) => {
 			<ModalVideo
 				channel="youtube"
 				isOpen={isOpen}
-				videoId="L61p2uyiMSo"
+				videoId="JNvTXSyKKyk"
 				onClose={() => setOpen(false)}
 			/>
 			<section className="hero-section padding-wrapper">
