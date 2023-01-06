@@ -431,7 +431,7 @@ const placeBidOnAlgorand = async (
 		);
 		const groupID = algosdk.computeGroupID(txnsArray);
 		console.log('Group ID', groupID);
-		for (let i = 0; i < 3; i++) txnsArray[i].group = groupID;
+		for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
 
 		const signedTxns = await myAlgoConnect.signTransaction(
 			txnsArray.map((txn) => txn.toByte())
@@ -496,6 +496,7 @@ const closeAuction = async (
 			appIndex: appId,
 			accounts: accounts,
 			foreignAssets: [nftID],
+			onComplete: OnApplicationComplete.NoOpOC,
 			suggestedParams: {
 				...params,
 			},
@@ -506,6 +507,26 @@ const closeAuction = async (
 			.sendRawTransaction(signedTxn2.blob)
 			.do();
 		console.log('🚀 ~ file: algorand.js:506 ~ response2', response2);
+
+		const assetTransfer =
+			await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+				from: seller_address,
+				to: highestBidder,
+				amount: 1,
+				assetIndex: nftID,
+				suggestedParams: {
+					...params,
+				},
+			});
+
+		const signedTxn3 = await myAlgoConnect.signTransaction(
+			assetTransfer.toByte()
+		);
+		const response3 = await algodClient
+			.sendRawTransaction(signedTxn3.blob)
+			.do();
+		console.log('🚀 ~ file: algorand.js:506 ~ response2', response3);
+
 		const changeManager =
 			await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
 				from: seller_address.toString(),
@@ -523,6 +544,31 @@ const closeAuction = async (
 		console.log('🚀 ~ file: algorand.js:604 ~ signedTxn', signedTxn);
 		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
 		console.log('🚀 ~ file: algorand.js:606 ~ response', response);
+
+		// const txnsArray = [deleteTxn, assetTransfer, changeManager];
+
+		// console.log(
+		// 	'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
+		// 	txnsArray
+		// );
+		// const groupID = algosdk.computeGroupID(txnsArray);
+		// console.log('Group ID', groupID);
+		// for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
+
+		// const signedTxns = await myAlgoConnect.signTransaction(
+		// 	txnsArray.map((txn) => txn.toByte())
+		// );
+		// console.log('Setup app is completed: ', signedTxns);
+		// let transactions = [];
+
+		// signedTxns.forEach((element) => transactions.push(element.blob));
+		// const sendGroupTransactions = await algodClient
+		// 	.sendRawTransaction(transactions)
+		// 	.do();
+		// console.log(
+		// 	'🚀 ~ file: algorand.js ~ line 744 ~ sendGroupTransactions',
+		// 	sendGroupTransactions
+		// );
 
 		if (response?.txId) {
 			const data = { success: true, tx: response?.txId };
