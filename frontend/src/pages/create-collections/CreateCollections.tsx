@@ -352,10 +352,15 @@ class CreateCollections extends Component<
 	};
 
 	onChange(e: any) {
-		const { name, value } = e.target;
+		const { name, value, description } = e.target;
 		const userId = ENV.getUserKeys('_id')._id;
 		let { collection } = this.state;
-		collection = { ...collection, [name]: value, userId: userId };
+		collection = {
+			...collection,
+			[name]: value,
+			userId: userId,
+			// [description]: value,
+		};
 
 		this.setState({ collection });
 	}
@@ -627,7 +632,7 @@ class CreateCollections extends Component<
 									{this.validator.message(
 										'description',
 										collection.description,
-										'min:3'
+										['required', { min: 3 }, 'alpha_num_dash_space']
 									)}
 								</span>
 								<textarea

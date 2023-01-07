@@ -629,11 +629,11 @@ class CreateNFT extends React.Component<
 								<label className="create-collection-label d-flex">
 									Description:*{' '}
 									<span className="text-danger ms-2">
-										{this.validator.message(
-											'description',
-											nft.description,
-											'min:3'
-										)}
+										{this.validator.message('description', nft.description, [
+											'required',
+											{ min: 3 },
+											'alpha_num_dash_space',
+										])}
 									</span>
 								</label>
 
