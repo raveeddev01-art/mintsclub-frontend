@@ -352,14 +352,13 @@ class CreateCollections extends Component<
 	};
 
 	onChange(e: any) {
-		const { name, value, description } = e.target;
+		const { name, value } = e.target;
 		const userId = ENV.getUserKeys('_id')._id;
 		let { collection } = this.state;
 		collection = {
 			...collection,
 			[name]: value,
 			userId: userId,
-			// [description]: value,
 		};
 
 		this.setState({ collection });
