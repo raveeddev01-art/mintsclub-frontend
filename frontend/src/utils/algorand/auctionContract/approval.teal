@@ -60,8 +60,7 @@ return
 main_l12:
 byte "bid_amount"
 app_global_get
-byte "reserve_amount"
-app_global_get
+int 0
 >=
 bnz main_l14
 byte "nft_id"
@@ -131,18 +130,7 @@ app_global_get
 asset_holding_get AssetBalance
 store 0
 store 1
-txn GroupIndex
-int 1
--
-gtxns Amount
-byte "bid_amount"
-app_global_get
-byte "min_bid_inc"
-app_global_get
-+
->=
 load 0
-&&
 load 1
 int 0
 >
