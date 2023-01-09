@@ -508,24 +508,24 @@ const closeAuction = async (
 			.do();
 		console.log('🚀 ~ file: algorand.js:506 ~ response2', response2);
 
-		const assetTransfer =
-			await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-				from: seller_address,
-				to: highestBidder,
-				amount: 1,
-				assetIndex: nftID,
-				suggestedParams: {
-					...params,
-				},
-			});
+		// const assetTransfer =
+		// 	await algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+		// 		from: seller_address,
+		// 		to: highestBidder,
+		// 		amount: 1,
+		// 		assetIndex: nftID,
+		// 		suggestedParams: {
+		// 			...params,
+		// 		},
+		// 	});
 
-		const signedTxn3 = await myAlgoConnect.signTransaction(
-			assetTransfer.toByte()
-		);
-		const response3 = await algodClient
-			.sendRawTransaction(signedTxn3.blob)
-			.do();
-		console.log('🚀 ~ file: algorand.js:506 ~ response2', response3);
+		// const signedTxn3 = await myAlgoConnect.signTransaction(
+		// 	assetTransfer.toByte()
+		// );
+		// const response3 = await algodClient
+		// 	.sendRawTransaction(signedTxn3.blob)
+		// 	.do();
+		// console.log('🚀 ~ file: algorand.js:506 ~ response2', response3);
 
 		const changeManager =
 			await algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
