@@ -17,8 +17,10 @@ import Banner from '../../Components/Banner/Banner';
 import { myPendingBatch } from '../../utils/exportData';
 import PendingBatchCard from '../../Components/PendingBatchCard/PendingBatchCard';
 import { PENDING_BATCH } from '../../interfaces/allnfts/types';
+import SocketContext from '../../contexts/SocketContext';
 
 const MyCollections: FC<ExploreCollectionInt> = (props) => {
+	const socket = useContext(SocketContext);
 	const [pendingBatches, setPendingBatches] = useState<PENDING_BATCH[] | any[]>(
 		[]
 	);
@@ -61,6 +63,12 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 			userId: userId,
 		})
 	);
+
+	useEffect(() => {
+		socket.on('batchStatusUpdated', (batchStatusUpdateInformation: any) => {
+			getPendingBatches();
+		});
+	}, [socket]);
 
 	const handlePagination = () => {
 		setPage(page + 1);

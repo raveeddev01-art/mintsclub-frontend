@@ -40,8 +40,7 @@ const Table: React.FC<TableInterface> = ({
 			return <MdShoppingCart />;
 		} else if (type === 'List') {
 			return <BsTagFill />;
-		} 
-		else {
+		} else {
 			return <BiTransferAlt />;
 		}
 	};

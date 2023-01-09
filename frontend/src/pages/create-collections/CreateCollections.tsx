@@ -421,7 +421,11 @@ class CreateCollections extends Component<
 							}
 							formData.append('collectionId', `${this.props.match.params.id}`);
 							if (this.props.match.params.id) {
-								return await this.editCollectionInfo(formData);
+								const response: any = await this.editCollectionInfo(formData);
+								if (!response?.data?.success) {
+									this.setState({ loader: false });
+									throw new Error(response?.data?.message);
+								}
 							}
 							if (collection?.deploy) {
 								try {

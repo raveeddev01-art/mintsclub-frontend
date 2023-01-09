@@ -307,7 +307,7 @@ function CreateMultipleNFT(props: any) {
 						0,
 						batchFile.file.name.indexOf('.')
 					),
-					collectionId: selectedCollection?.value,
+					collectionId: selectedCollection?.value || batchFile?.collectionId,
 					blockchainType: ENV.getUserKeys('blockchainType').blockchainType,
 					categoryId: batchFile.categoryId,
 					status: 'pending',

@@ -112,6 +112,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 		onSuccessCollections,
 		nfts ? true : false
 	);
+
 	return (
 		<>
 			<section className="explore-collection-section padding-wrapper pt-0">

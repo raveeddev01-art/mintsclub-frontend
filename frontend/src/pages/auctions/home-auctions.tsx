@@ -20,6 +20,7 @@ import { HomeAuction } from '../../interfaces/home-auctions/interface';
 import { useGetCategories } from '../../hooks/PopularCollections';
 import { useGetLiveAuctions } from '../../hooks/HomeAuctions';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import SocketContext from '../../contexts/SocketContext';
 
 SwiperCore.use([Navigation, Pagination, Autoplay, Virtual]);
 const initData = {
@@ -29,6 +30,7 @@ const initData = {
 };
 
 const AuctionsOne: FC<HomeAuction> = () => {
+	const socket = useContext(SocketContext);
 	const [auctions, setAuctions] = useState<Array<object> | null>(null);
 	const [categories, setCategories] = useState<any | null>(null);
 	const [categoryId, setCategoryId] = useState('all');
@@ -80,31 +82,38 @@ const AuctionsOne: FC<HomeAuction> = () => {
 		}
 		setAuctionSettings(auctionCollectionsSettings);
 	};
-	const { isLoading: isLoadingLiveAuctions } = useGetLiveAuctions(
-		categoryId,
-		onSuccessLiveAuctions
-	);
+	const { isLoading: isLoadingLiveAuctions, refetch: getLiveAuctions } =
+		useGetLiveAuctions(categoryId, onSuccessLiveAuctions);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			checkIfAuctionEnded();
-		}, 3000);
-		return () => clearInterval(interval);
-	}, [auctions]);
+		socket.on('auctionLive', (liveAuctionInfromation: any) => {
+			getLiveAuctions();
+		});
+		socket.on('auctionUpdated', (auctionLiveInformation: any) => {
+			getLiveAuctions();
+		});
+	}, [socket]);
 
-	const checkIfAuctionEnded = () => {
-		if (auctions && auctions?.length > 0) {
-			auctions.forEach((item: any, index: number) => {
-				const auctionEndDate = new Date(item.auctionEndDate);
-				const currentDate = new Date();
-				if (currentDate > auctionEndDate) {
-					const updatedAuctions = [...auctions];
-					updatedAuctions.splice(index, 1);
-					setAuctions(updatedAuctions);
-				}
-			});
-		}
-	};
+	// useEffect(() => {
+	// 	const interval = setInterval(() => {
+	// 		checkIfAuctionEnded();
+	// 	}, 3000);
+	// 	return () => clearInterval(interval);
+	// }, [auctions]);
+
+	// const checkIfAuctionEnded = () => {
+	// 	if (auctions && auctions?.length > 0) {
+	// 		auctions.forEach((item: any, index: number) => {
+	// 			const auctionEndDate = new Date(item.auctionEndDate);
+	// 			const currentDate = new Date();
+	// 			if (currentDate > auctionEndDate) {
+	// 				const updatedAuctions = [...auctions];
+	// 				updatedAuctions.splice(index, 1);
+	// 				setAuctions(updatedAuctions);
+	// 			}
+	// 		});
+	// 	}
+	// };
 
 	const handleCategoryFilter = (desc: string) => {
 		setFilterationLoader(true);

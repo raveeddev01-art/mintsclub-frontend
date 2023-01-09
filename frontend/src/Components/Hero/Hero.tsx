@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect } from 'react';
+import React, { useState, FC, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './Hero.scss';
 import Play from '../../assets/images/play.svg';
@@ -10,8 +10,10 @@ import { WordsFamousNfts } from '../../utils/exportData';
 import { HeroInt } from '../../interfaces/components';
 import { connect } from 'react-redux';
 import ModalVideo from 'react-modal-video';
+import SocketContext from '../../contexts/SocketContext';
 
 const Hero: FC<HeroInt> = (props) => {
+	const socket = useContext(SocketContext);
 	const [isOpen, setOpen] = useState(false);
 	const [data, setData] = useState<any>(null);
 	const [status, setStatus] = useState<any>(null);
@@ -52,6 +54,15 @@ const Hero: FC<HeroInt> = (props) => {
 	useEffect(() => {
 		refetch();
 	}, []);
+
+	useEffect(() => {
+		socket.on('auctionLive', (auctionLiveInformation: any) => {
+			refetch();
+		});
+		socket.on('auctionUpdated', (auctionLiveInformation: any) => {
+			refetch();
+		});
+	}, [socket]);
 
 	return (
 		<>

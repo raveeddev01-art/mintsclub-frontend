@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { createNFT } from '../../../utils/algorand';
 import { blockchainIcons } from '../../../assets/assets';
 import { useToast } from 'react-toastify';
+import { getSpecialCharacterReplaced } from '../../../utils/helpers/helpers';
 
 const CreateNft = ({
 	props,
@@ -198,7 +199,7 @@ const CreateNft = ({
 	) => {
 		try {
 			if (props.blockchainType !== 'solana') {
-				if (!state.nftInfo?.tokenId) {
+				if (state.nftInfo?.lazyMinted) {
 					const payload = { ...data };
 					payload.nftId = `${props.match.params.nftId}`;
 					if (metaData) {
@@ -206,6 +207,11 @@ const CreateNft = ({
 						payload.image = image;
 					}
 					const res = await handleRequest('put', 'nfts/updateNft', payload);
+
+					if (!res.data?.success) {
+						throw new Error(res.data?.message);
+					}
+
 					if (res.data.success) {
 						toast.success('NFT updated successfully');
 						props.history.push(`/explore/nftdetail/${res.data.data._id}`);
@@ -275,12 +281,24 @@ const CreateNft = ({
 	const handleSubmit = async (e: any) => {
 		try {
 			const { nft, videoURL, audioUrl } = state;
+
 			const nftInfo: any = { ...nft };
 			setIsButtonDisabled(true);
-			console.log(
-				'🚀 ~ file: createNft.tsx: 278 ~ handleSubmit ~ nftInfo',
-				nftInfo
+
+			const checkNftAlreadyExists = await handleRequest(
+				'get',
+				'nfts/getNftByDetails',
+				null,
+				ENV.objectToQueryString({
+					nftId: props.match.params.nftId,
+					name: getSpecialCharacterReplaced(nftInfo.name),
+				})
 			);
+
+			if (!checkNftAlreadyExists?.data?.success) {
+				toast.error(checkNftAlreadyExists?.data?.message);
+				return;
+			}
 
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
@@ -352,7 +370,7 @@ const CreateNft = ({
 				window.scroll(0, 1000);
 				setIsButtonDisabled(false);
 			}
-		} catch (err) {
+		} catch (err: any) {
 			setLoading(false);
 			setIsButtonDisabled(false);
 

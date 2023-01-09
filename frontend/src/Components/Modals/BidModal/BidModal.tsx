@@ -29,6 +29,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		price,
 		blockchaintype,
 		show,
+		nftDetail,
 	} = props;
 
 	useEffect(() => {
@@ -47,6 +48,19 @@ const BidModal: FC<BidModalInt> = (props) => {
 				setExchangeRate(currentUSD);
 			});
 	}, [currency, blockchaintype]);
+
+	const getCurrentPriceOrHighestBid = () => {
+		// const { highestBid } = nftDetail?.activeAuction;
+		// const { currentPrice } = nftDetail;
+
+		return nftDetail?.activeAuction?.highestBid || nftDetail?.currentPrice;
+	};
+
+	console.log(
+		'parseFloat(price)',
+		parseFloat(price),
+		getCurrentPriceOrHighestBid()
+	);
 
 	return (
 		<Modal
@@ -168,10 +182,10 @@ const BidModal: FC<BidModalInt> = (props) => {
 						onHide();
 					}}
 					disabled={
-						+price < calculatepricepercantage() ||
+						parseFloat(price) < getCurrentPriceOrHighestBid() ||
 						balance === 0 ||
 						!checkBox ||
-						+price > +balance
+						parseFloat(price) > parseFloat(balance)
 					}
 				>
 					Confirm Checkout

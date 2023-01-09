@@ -9,7 +9,11 @@ import {
 } from '@mui/material';
 import { Images, CollectionImages } from '../../assets/assets';
 import { PENDING_BATCH_CARD_INTERFACE } from '../../interfaces/allnfts/interface';
-import { STATUS_COLOR, STATUS_TEXT } from '../../utils/helpers/helpers';
+import {
+	reduceString,
+	STATUS_COLOR,
+	STATUS_TEXT,
+} from '../../utils/helpers/helpers';
 import { STATUS_TYPE } from '../../interfaces/allnfts/types';
 
 const PendingBatchCard = ({
@@ -61,13 +65,16 @@ const PendingBatchCard = ({
 							<Typography component="div" className="information-item">
 								<Typography className="label">Collection Name: </Typography>
 								<Typography className="value">
-									{batchInformation?.collectionId?.name || 'No Name'}
+									{reduceString(
+										batchInformation?.collectionId?.name || 'No Name',
+										15
+									)}
 								</Typography>
 							</Typography>
 							<Typography component="div" className="information-item">
 								<Typography className="label">File Name: </Typography>
 								<Typography className="value">
-									{batchInformation?.fileName}
+									{reduceString(batchInformation?.fileName, 15)}
 								</Typography>
 							</Typography>
 							<Typography component="div" className="information-item">
@@ -81,7 +88,7 @@ const PendingBatchCard = ({
 									<Typography component="div" className="information-item">
 										<Typography className="label">Failure Reason: </Typography>
 										<Typography className="value">
-											{batchInformation?.message}
+											{reduceString(batchInformation?.message, 15)}
 										</Typography>
 									</Typography>
 								)}
