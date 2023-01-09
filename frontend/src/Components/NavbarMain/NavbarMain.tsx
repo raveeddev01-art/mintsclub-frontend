@@ -107,6 +107,12 @@ const NavbarMain = () => {
 		}
 	}, [ENV.getUserKeys('_id')?._id]);
 
+	useEffect(() => {
+		if (socket) {
+			socket.emit('join', ENV.getUserKeys('_id')?._id);
+		}
+	}, [ENV.getUserKeys('_id')?._id]);
+
 	return (
 		<div className="main-nav-section">
 			<Container className="main-nav-container">
