@@ -17,6 +17,10 @@ import { useGetData } from '../../hooks/Common';
 import SocketContext from '../../contexts/SocketContext';
 import Notification from '../Notification/Notification';
 import OutsideClickHandler from 'react-outside-click-handler';
+import axios, { AxiosResponse } from 'axios';
+import { handleRequest } from '../../utils/functions';
+import { useQuery, useMutation } from 'react-query';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 
 const NavbarMain = () => {
 	const socket = useContext(SocketContext);
@@ -28,6 +32,9 @@ const NavbarMain = () => {
 	const history = useHistory();
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 	const wallet = useWallet();
+	// let notificationData: never[] | AxiosResponse<any> = [];
+	const [notificationData, setNotificationData] = useState({});
+	const [seenNotification, setSeenNotification] = useState<any>({});
 
 	//Listen Metamask listeners
 	ListenMetaMaskAccs();
@@ -93,6 +100,8 @@ const NavbarMain = () => {
 			setDark();
 			setDarkMode(true);
 		}
+		getNotification();
+		getSeenNotification();
 	}, []);
 	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
@@ -120,6 +129,30 @@ const NavbarMain = () => {
 		}
 	}, [ENV.getUserKeys('_id')?._id]);
 
+	const getNotification = async () => {
+		const notifications = await handleRequest(
+			'get',
+			'notification/getUserAllNotification'
+		);
+		console.log('This is Notification', notifications);
+		setNotificationData(notifications);
+	};
+
+	const getSeenNotification = async () => {
+		const notifications = await handleRequest(
+			'get',
+			'notification/getUserUnseenNotification'
+		);
+		setSeenNotification(notifications);
+	};
+	console.log('seen Notification Data', notificationData);
+	const dataLength = seenNotification?.data?.length;
+	let count: any = '';
+	if (dataLength > 9) {
+		count = '9+';
+	} else {
+		count = dataLength;
+	}
 	return (
 		<div className="main-nav-section">
 			<Container className="main-nav-container">
@@ -272,7 +305,7 @@ const NavbarMain = () => {
               </div>
             </Link> */}
 					</div>
-					<div className="bell-notification" data-percent={'9+'}>
+					<div className="bell-notification" data-percent={count}>
 						<i
 							className="fa-solid fa-bell"
 							onClick={() => notificationEnable()}
@@ -283,7 +316,9 @@ const NavbarMain = () => {
 							setEnableNotification(false);
 						}}
 					>
-						{enableNotification === true ? <Notification /> : null}
+						{enableNotification === true ? (
+							<Notification notificationData={notificationData} />
+						) : null}
 					</OutsideClickHandler>
 				</Navbar>
 			</Container>
