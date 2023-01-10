@@ -9,7 +9,7 @@
 		background: var(--nft-search-bg);
 		border: var(--nft-search-border);
 		box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-		border-radius: 44px;
+		border-radius: 5px;
 		padding: 10px;
 		color: var(--nft-search-input-clr);
 		input {
@@ -29,7 +29,7 @@
 			height: 40px;
 			background: rgba(220, 27, 27, 0.09);
 			border: 1px solid #dc1b1b;
-			border-radius: 55px;
+			border-radius: 5px;
 			font-weight: 400;
 			font-size: 16px;
 			line-height: 19px;
@@ -43,7 +43,7 @@
 			height: 40px;
 			background: #387fff;
 			border: 1px solid #387fff;
-			border-radius: 55px;
+			border-radius: 5px;
 			font-weight: 400;
 			font-size: 16px;
 			line-height: 19px;
@@ -74,7 +74,7 @@
 				background: var(--nft-search-bg);
 				border: var(--nft-search-border);
 				box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-				border-radius: 44px;
+				border-radius: 5px;
 				div#react-select-2-placeholder {
 					color: var(--filter-heading);
 				}
@@ -121,7 +121,7 @@
 			background: #ffffff;
 			border: var(--nft-search-border);
 			box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-			border-radius: 44px;
+			border-radius: 5px;
 			&.active-hero-nav {
 				background: #387fff;
 				color: #ffffff;
@@ -143,7 +143,7 @@
 	.filter-container {
 		padding: 16px;
 		border: var(--filter-container-border);
-		border-radius: 12px;
+		border-radius: 5px;
 		min-height: 150px;
 		background-color: var(--ts-card-bg);
 		&.hoc-collections-container {
@@ -168,7 +168,7 @@
 			background: var(--filter-btn);
 			border: var(--nft-search-border);
 			box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-			border-radius: 44px;
+			border-radius: 5px;
 			margin-bottom: 16px;
 			word-break: break-all;
 			&.active-filter-btn {
@@ -183,7 +183,7 @@
 			font-size: 12px;
 			color: var(--clear-btn-clr);
 			background: var(--clear-btn-bg);
-			border-radius: 44px;
+			border-radius: 5px;
 			border: var(--clear-btn-border);
 			outline: none;
 		}
@@ -194,7 +194,7 @@
 				height: 30px;
 				background: var(--filter-btn);
 				border: var(--nft-search-border);
-				border-radius: 44px;
+				border-radius: 5px;
 				box-shadow: 0px 0px 0px 4px rgb(60 102 243 / 6%);
 				font-weight: 400;
 				font-size: 12px;
@@ -221,7 +221,7 @@
 				font-size: 12px;
 				color: #ffffff;
 				background: #387fff;
-				border-radius: 18px;
+				border-radius: 5px;
 			}
 		}
 	}
@@ -232,7 +232,7 @@
 			background: #ffffff;
 			border: 1px solid #c9daff;
 			box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-			border-radius: 44px;
+			border-radius: 5px;
 			padding: 7px;
 			font-weight: 700;
 			font-size: 16px;
@@ -258,6 +258,6 @@
 		font-size: 15px;
 		color: #ffffff;
 		background: #387fff;
-		border-radius: 18px;
+		border-radius: 5px;
 	}
 }

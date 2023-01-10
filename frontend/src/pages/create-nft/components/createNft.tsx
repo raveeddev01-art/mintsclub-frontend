@@ -275,6 +275,12 @@ const CreateNft = ({
 		try {
 			const { nft, videoURL, audioUrl } = state;
 			const nftInfo: any = { ...nft };
+
+			console.log(
+				'🚀 ~ file: createNft.tsx:278 ~ handleSubmit ~ nftInfo',
+				nftInfo
+			);
+
 			nftInfo.properties = JSON.stringify(nftInfo.properties);
 			nftInfo.levels = JSON.stringify(nftInfo.levels);
 			nftInfo.stats = JSON.stringify(nftInfo.stats);

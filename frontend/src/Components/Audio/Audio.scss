@@ -1,22 +1,22 @@
 .audio-container {
-  background: var(--create-nft-upload-bg);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 20px;
-  padding: 20px 0;
+	background: var(--create-nft-upload-bg);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 5px;
+	padding: 20px 0;
 }
 .audio-icon svg {
-  height: 7rem;
-  width: 7rem;
+	height: 7rem;
+	width: 7rem;
 }
 
 .sell-nft .audio-container {
-  min-height: 450px;
+	min-height: 450px;
 }
 
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display {
-  display: none;
+	display: none;
 }

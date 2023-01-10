@@ -2,7 +2,7 @@
 	padding: 10px;
 	cursor: pointer;
 	background-color: var(--pc-card-bg);
-	border-radius: 32px;
+	border-radius: 5px;
 	.nft-img-wrapper {
 		position: relative;
 		height: 310px;
@@ -14,7 +14,7 @@
 			height: 28px;
 			background-color: #ffffff;
 			padding: 4px;
-			border-radius: 18px;
+			border-radius: 5px;
 			border: 0.2px solid #387fff;
 			display: flex;
 			align-items: center;
@@ -38,7 +38,7 @@
 		.card-img-top {
 			width: 100%;
 			height: 310px;
-			border-radius: 30px;
+			border-radius: 5px;
 			object-fit: cover;
 			overflow: hidden;
 			.video-wrapper {
@@ -46,7 +46,7 @@
 				width: 100%;
 				position: relative;
 				overflow: hidden;
-				border-radius: 10px;
+				border-radius: 5px;
 				.controls {
 					position: absolute;
 					top: 0;
@@ -60,7 +60,7 @@
 					cursor: pointer;
 					width: 32px;
 					height: 32px;
-					border-radius: 50%;
+					border-radius: 5px;
 					display: flex;
 					align-items: center;
 					justify-content: center;
@@ -73,7 +73,7 @@
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
-				border-radius: 10px;
+				border-radius: 5px;
 			}
 		}
 	}
@@ -87,7 +87,7 @@
 			margin-bottom: 8px;
 			// background: var(--filter-btn);
 			// box-shadow: 7px 11px 22px 2px rgb(0 0 0 / 5%);
-			border-radius: 44px;
+			border-radius: 5px;
 			padding: 7px 10px;
 			display: flex;
 			align-items: center;
@@ -95,7 +95,7 @@
 			.nft-owner-price {
 				// background: #387fff;
 				// box-shadow: 7px 11px 22px 2px rgb(0 0 0 / 5%);
-				border-radius: 77px;
+				border-radius: 5px;
 				border: 1px solid #387fff;
 				color: #ffffff;
 				padding: 10px;
@@ -117,11 +117,11 @@
 			.nft-owner-avatar {
 				width: 40px;
 				height: 40px;
-				border-radius: 50%;
+				border-radius: 5px;
 				img {
 					width: 100%;
 					height: 100%;
-					border-radius: 50%;
+					border-radius: 25px;
 				}
 			}
 			.nft-owner-name {
@@ -130,10 +130,10 @@
 					font-weight: normal;
 					color: var(--nft-owner-name);
 					.name {
-            max-width: 115px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+						max-width: 115px;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
 					}
 					span {
 						color: var(--text-body);
@@ -145,7 +145,7 @@
 		.nft-bit-btn {
 			background: var(--btn-bg);
 			border: none;
-			border-radius: 55px;
+			border-radius: 5px;
 			// width: 100%;
 			padding: 10px 10px;
 			color: #fff;
@@ -161,7 +161,7 @@
 		.nft-status .status-info {
 			background: var(--filter-btn);
 			padding: 0.6rem 1.6rem;
-			border-radius: 44px;
+			border-radius: 5px;
 		}
 		.nft-status .status-info .status {
 			font-style: normal;

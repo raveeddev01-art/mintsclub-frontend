@@ -1,58 +1,58 @@
 .swiper-container {
-  list-style: none;
+	list-style: none;
 }
 
 .pagination {
-  bottom: 0;
-  padding-bottom: 4px;
+	bottom: 0;
+	padding-bottom: 4px;
 }
 
 .swiper-pagination {
-  position: absolute !important;
-  bottom: 0 !important;
+	position: absolute !important;
+	bottom: 0 !important;
 }
 .swiper-pagination-bullet {
-  background: antiquewhite;
+	background: antiquewhite;
 }
 .swiper-wrapper {
-  padding: 1rem !important;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: flex;
-  transition-property: transform;
-  box-sizing: content-box;
+	padding: 1rem !important;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	display: flex;
+	transition-property: transform;
+	box-sizing: content-box;
 }
 .image-over {
-  border-radius: 0.6rem !important;
+	border-radius: 5px !important;
 }
 
 .collection-category {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 16px;
 
-  color: #1a1a1a;
+	color: #1a1a1a;
 }
 .popular-collections-content-right .home-active-category {
-  color: #387fff;
+	color: #387fff;
 }
 
 .spinner-loader-wrapper {
-  min-height: 350px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	min-height: 350px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .home-auction-list .card.auction-card {
-  margin: 0 !important;
+	margin: 0 !important;
 }
 
 @media (max-width: 575.9px) {
-  .home-auction-list .card.auction-card {
-    margin: 0 auto !important;
-  }
+	.home-auction-list .card.auction-card {
+		margin: 0 auto !important;
+	}
 }

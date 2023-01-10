@@ -10,6 +10,7 @@ import routes from './routes';
 import { PrivateRoute } from './privateRoute';
 import { Switch } from 'react-router-dom';
 import FullPageLoader from './Components/FullPageLoader/FullPageLoader';
+import LoadingText from './context/loadingText/LoadingTextContext';
 import tawkTo from 'tawkto-react';
 import { ENV } from './config/config';
 import './App.scss';
@@ -33,6 +34,7 @@ const App = React.memo((props) => {
 	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 	const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
 	const [socket, setSocket] = useState(undefined);
+	const { loadingText } = useContext(LoadingText);
 	console.log('🚀 ~ file: App.js:36 ~ App ~ socket', socket);
 
 	useGaTracker();
@@ -63,7 +65,7 @@ const App = React.memo((props) => {
 				<WalletProvider wallets={wallets} autoConnect>
 					<WalletModalProvider>
 						<React.Fragment>
-							<Suspense fallback={<FullPageLoader />}>
+							<Suspense fallback={<FullPageLoader message={loadingText} />}>
 								<div>
 									<Switch>
 										{routes.map((route, index) => {

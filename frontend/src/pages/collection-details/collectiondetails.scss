@@ -7,7 +7,7 @@
 		.info-card {
 			background: var(--ts-card-bg);
 			box-shadow: 0px 4px 42px rgba(0, 0, 0, 0.08);
-			border-radius: 10px;
+			border-radius: 5px;
 			min-width: 230px;
 			padding: 0px 40px;
 			height: 84px;
@@ -59,7 +59,7 @@
 
 .collection-detail-content .collection-owner-avatar {
 	margin-top: -75px;
-	border-radius: 50%;
+	border-radius: 5px;
 	width: max-content;
 	height: max-content;
 }
@@ -67,7 +67,7 @@
 .collection-detail-content .collection-owner-avatar img {
 	width: 150px;
 	height: 150px;
-	border-radius: 50%;
+	border-radius: 5px;
 	object-fit: cover;
 	border: 10px solid var(--input-bg);
 	outline: 1px solid #2269ff;

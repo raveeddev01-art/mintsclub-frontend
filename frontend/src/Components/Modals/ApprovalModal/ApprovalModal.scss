@@ -1,227 +1,227 @@
 .approval-modal .approval-modal-dialog {
-  max-width: 700px;
+	max-width: 700px;
 }
 .acc-title {
-  font-style: normal;
-font-weight: 700;
-font-size: 22px;
-line-height: 26px;
-/* identical to box height */
+	font-style: normal;
+	font-weight: 700;
+	font-size: 22px;
+	line-height: 26px;
+	/* identical to box height */
 
-
-color: #343434;
+	color: #343434;
 }
 .pproval-modal-content .approve-msg {
-  font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 16px;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 16px;
 
-color: #3563FF;
+	color: #3563ff;
 }
 .approval-modal-content .processing-title {
-  font-style: normal;
-font-weight: 700;
-font-size: 16px;
-line-height: 19px;
-color: #1D1D1D;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+	color: #1d1d1d;
 }
 .success-icon {
-  width: 56px;
-height: 56px;
+	width: 56px;
+	height: 56px;
 }
 .approval-modal-content .acc-approved-container {
-  background: rgba(25, 175, 85, 0.12);
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-left: 2px solid #25DC6E;
+	background: rgba(25, 175, 85, 0.12);
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-left: 2px solid #25dc6e;
 }
 .acc-approved-container .acc-approved {
-  font-style: normal;
-font-weight: 700;
-font-size: 20px;
-line-height: 24px;
-color: #3FA26B;
-padding: 2.2rem 0rem;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 24px;
+	color: #3fa26b;
+	padding: 2.2rem 0rem;
 }
 
-.approval-modal-content  .get-approved-btn {
-  padding: 15px 34px !important;
-  font-weight: 500 !important;
+.approval-modal-content .get-approved-btn {
+	padding: 15px 34px !important;
+	font-weight: 500 !important;
 }
-.approval-modal-content  .get-approved-btn:hover {
-  padding: 15px 34px !important;
-  font-weight: 500 !important;
-  color: black!important;
+.approval-modal-content .get-approved-btn:hover {
+	padding: 15px 34px !important;
+	font-weight: 500 !important;
+	color: black !important;
 }
 .approval-modal .approval-modal-content {
-  border-radius: 10px;
+	border-radius: 5px;
 }
-.approve-spinner{
-  height: 1.5rem !important;
-  width: 1.5rem !important;
+.approve-spinner {
+	height: 1.5rem !important;
+	width: 1.5rem !important;
 }
 
 .approval-modal .approval-modal-content .modal-header {
-  position: relative;
-  border: none;
-  display: block;
-  text-align: center;
+	position: relative;
+	border: none;
+	display: block;
+	text-align: center;
 }
 
 .approval-modal .approval-modal-content .modal-header .modal-close-container {
-  position: absolute;
-  top: 10px;
-  right: 15px;
+	position: absolute;
+	top: 10px;
+	right: 15px;
 }
 
 .approval-modal
-  .approval-modal-content
-  .modal-header
-  .modal-close-container
-  button {
-    background-color: transparent;
-    padding: 0;
-    right: 15px;
-    top: 10px;
-    border-color: #000000;
-    border-radius: 50%;
-    border-width: .5px;
-    .close {
-      right: 15px;
-      top: 10px;
-      width: 32px;
-      height: 32px;
-      padding-top: 7px;
-    }
-    .close:before, .close:after {
-      position: absolute;
-      left: 17px;
-      content: ' ';
-      height: 33px;
-      width: 2px;
-      background-color: #000000;
-    }
-    .close:before {
-      transform: rotate(45deg);
-      height: 18px;
-      width: 0.5px;
-    }
-    .close:after {
-      transform: rotate(-45deg);
-      height: 18px;
-      width: 0.5px;
-    }
-  }
+	.approval-modal-content
+	.modal-header
+	.modal-close-container
+	button {
+	background-color: transparent;
+	padding: 0;
+	right: 15px;
+	top: 10px;
+	border-color: #000000;
+	border-radius: 5px;
+	border-width: 0.5px;
+	.close {
+		right: 15px;
+		top: 10px;
+		width: 32px;
+		height: 32px;
+		padding-top: 7px;
+	}
+	.close:before,
+	.close:after {
+		position: absolute;
+		left: 17px;
+		content: ' ';
+		height: 33px;
+		width: 2px;
+		background-color: #000000;
+	}
+	.close:before {
+		transform: rotate(45deg);
+		height: 18px;
+		width: 0.5px;
+	}
+	.close:after {
+		transform: rotate(-45deg);
+		height: 18px;
+		width: 0.5px;
+	}
+}
 
 .approval-modal .approval-modal-content .modal-header .modal-title.h4 {
-  /* color: #fff; */
-  font-family: Manrope;
-  font-size: 24px;
-  font-weight: 700;
+	/* color: #fff; */
+	font-family: Manrope;
+	font-size: 24px;
+	font-weight: 700;
 }
 
 .approval-modal .approval-modal-content .modal-header hr {
-  background-color: #252543;
-  margin-bottom: 0;
+	background-color: #252543;
+	margin-bottom: 0;
 }
 
 .approval-modal .approval-modal-content .modal-body {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .approval-modal .approval-modal-content .modal-footer {
-  border: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 30px;
+	border: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-top: 20px;
+	padding-bottom: 30px;
 }
 
 .approval-modal .modal-body .modal-nft-status {
-  margin: 0 auto;
-  background: #09080e;
-  border-radius: 10px;
-  padding: 10px 0;
-  word-break: break-all;
+	margin: 0 auto;
+	background: #09080e;
+	border-radius: 5px;
+	padding: 10px 0;
+	word-break: break-all;
 }
 
 .approval-modal .modal-body .modal-nft-status .modal-status-subheadings {
-  padding: 10px 40px 0;
+	padding: 10px 40px 0;
 }
 
 .approval-modal .modal-body .modal-nft-status .modal-status-subheadings p {
-  font-weight: 500;
-  font-size: 18px;
-  color: #fff;
-  margin-bottom: 0;
+	font-weight: 500;
+	font-size: 18px;
+	color: #fff;
+	margin-bottom: 0;
 }
 
 .approval-modal .modal-body .modal-nft-status .modal-status-address {
-  padding: 10px 40px;
+	padding: 10px 40px;
 }
 
 .approval-modal .modal-body .modal-nft-status .modal-status-address p {
-  font-weight: 600;
-  font-size: 18px;
-  color: #5666fe;
-  margin-bottom: 0;
+	font-weight: 600;
+	font-size: 18px;
+	color: #5666fe;
+	margin-bottom: 0;
 }
 
 .approval-modal .modal-body .modal-nft-status hr {
-  background-color: #1a1729;
+	background-color: #1a1729;
 }
 
 .approval-modal .modal-body .approval-container {
-  padding-bottom: 50px;
+	padding-bottom: 50px;
 }
 
 .approval-modal .modal-body .approval-container .approval-status {
-  margin: 30px auto;
+	margin: 30px auto;
 }
 
 .approval-modal .modal-body .approval-container .approval-status h4 {
-  font-weight: 600;
-  font-size: 32px;
+	font-weight: 600;
+	font-size: 32px;
 }
 
 .approval-modal .modal-body .approval-container .approval-status-address p {
-  font-weight: 400;
-  font-size: 20px;
-  color: #ffffff;
-  margin-bottom: 0;
+	font-weight: 400;
+	font-size: 20px;
+	color: #ffffff;
+	margin-bottom: 0;
 }
 
 .approval-modal
-  .modal-body
-  .approval-container
-  .approval-status-address
-  p:last-child {
-  color: #5666fe;
+	.modal-body
+	.approval-container
+	.approval-status-address
+	p:last-child {
+	color: #5666fe;
 }
 
 .approval-modal .modal-body .approval-container .approval-spinner div {
-  margin: 0 auto;
+	margin: 0 auto;
 }
 
 .approval-modal .modal-body .approval-container .approval-confirmed img {
-  width: 70px;
-  height: 70px;
+	width: 70px;
+	height: 70px;
 }
 
 @media (max-width: 567.9px) {
-  .approval-modal .modal-body .modal-nft-status .modal-status-subheadings {
-    padding: 10px 10px 0;
-  }
-  .approval-modal .modal-body .modal-nft-status .modal-status-address {
-    padding: 10px 10px;
-  }
-  .approval-modal .modal-body .approval-container .approval-status-address p {
-    font-size: 18px;
-  }
+	.approval-modal .modal-body .modal-nft-status .modal-status-subheadings {
+		padding: 10px 10px 0;
+	}
+	.approval-modal .modal-body .modal-nft-status .modal-status-address {
+		padding: 10px 10px;
+	}
+	.approval-modal .modal-body .approval-container .approval-status-address p {
+		font-size: 18px;
+	}
 }

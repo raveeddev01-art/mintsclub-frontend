@@ -1,147 +1,147 @@
 .create-multiple-nft {
-  .page-content {
-    padding: 70px 0;
-    label {
-      font-style: normal;
-      font-weight: 700;
-      font-size: 13px;
-      line-height: 15px;
-      color: var(--login-label);
-      margin-bottom: 7px;
-    }
-    .upload-icon-container {
-      background: var(--create-nft-upload-bg);
-      border: 1px dashed #c9daff;
-      box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-      border-radius: 18px;
-      padding: 44px;
-      margin-bottom: 24px;
-      position: relative;
-      * {
-        color: var(--login-label);
-      }
-      input[type="file"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 100;
-        opacity: 0;
-      }
-    }
-    .upload-file-wapper {
-      background: #142e5c;
-      border-radius: 12px;
-      padding: 20px 26px 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 50px;
-      p {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 14px;
-        color: #dae4fd;
-        span {
-          font-weight: 700;
-          color: #ffffff;
-        }
-      }
-      .progress {
-        --bs-progress-height: 0.5rem;
-      }
-      button {
-        border: none;
-        background: none;
-      }
-    }
-    .react-select-cls {
-      .react-select__control {
-        background-color: var(--nft-search-bg);
-        margin-top: 0.45rem;
-        border: 1px solid #c9daff;
-        box-shadow: 0px 0px 0px 4px rgb(60 102 243 / 6%);
-        border-radius: 44px;
-        .react-select__value-container {
-          max-height: 40px;
-          display: flex;
-          align-items: start;
-          color: var(--text-body-two);
-          padding: 8px;
-          padding-left: 24px;
-          .react-select__placeholder {
-            color: #9c9c9c;
-          }
-          .react-select__single-value{
-            color: var(--text-body-two);
-            }
-        }
-      }
-      .react-select__indicator-separator {
-        display: none;
-      }
-    }
-    .second-section {
-      margin-top: 50px;
-      h5 {
-        font-style: normal;
-        font-weight: 600;
-        font-size: 20px;
-        line-height: 24px;
-        color: var(--login-label);
-        margin-bottom: 20px;
-      }
-      ul {
-        padding-left: 20px;
-        li {
-          list-style-image: url(../../assets/images/li-bullet.svg);
-          padding: 7px 12px;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 18px;
-          line-height: 21px;
-          color: var(--login-label);
-        }
-      }
-      button.download {
-        font-style: normal;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 21px;
-        text-align: center;
-        border: 1px solid #387fff;
-        border-radius: 55px;
-        color: var(--login-label);
-        background-color: transparent;
-        padding: 17px 27px;
-        margin-top: 30px;
-      }
-      .checkbox-container {
-        p {
-          font-style: normal;
-          font-weight: 400;
-          font-size: 18px;
-          line-height: 21px;
-          color: var(--login-label);
-        }
-        .custom-check-box {
-          min-width: 20px;
-          height: 20px;
-          background: #d1e1ff;
-          border: 1px solid #387fff;
-          border-radius: 3px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-    }
-    .btn.btn-linear-gradient.upload {
-      width: 255px;
-      height: 55px;
-      border: 1px solid #387fff;
-    }
-  }
+	.page-content {
+		padding: 70px 0;
+		label {
+			font-style: normal;
+			font-weight: 700;
+			font-size: 13px;
+			line-height: 15px;
+			color: var(--login-label);
+			margin-bottom: 7px;
+		}
+		.upload-icon-container {
+			background: var(--create-nft-upload-bg);
+			border: 1px dashed #c9daff;
+			box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+			border-radius: 5px;
+			padding: 44px;
+			margin-bottom: 24px;
+			position: relative;
+			* {
+				color: var(--login-label);
+			}
+			input[type='file'] {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				z-index: 100;
+				opacity: 0;
+			}
+		}
+		.upload-file-wapper {
+			background: #142e5c;
+			border-radius: 5px;
+			padding: 20px 26px 20px 40px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 50px;
+			p {
+				font-style: normal;
+				font-weight: 500;
+				font-size: 12px;
+				line-height: 14px;
+				color: #dae4fd;
+				span {
+					font-weight: 700;
+					color: #ffffff;
+				}
+			}
+			.progress {
+				--bs-progress-height: 0.5rem;
+			}
+			button {
+				border: none;
+				background: none;
+			}
+		}
+		.react-select-cls {
+			.react-select__control {
+				background-color: var(--nft-search-bg);
+				margin-top: 0.45rem;
+				border: 1px solid #c9daff;
+				box-shadow: 0px 0px 0px 4px rgb(60 102 243 / 6%);
+				border-radius: 5px;
+				.react-select__value-container {
+					max-height: 40px;
+					display: flex;
+					align-items: start;
+					color: var(--text-body-two);
+					padding: 8px;
+					padding-left: 24px;
+					.react-select__placeholder {
+						color: #9c9c9c;
+					}
+					.react-select__single-value {
+						color: var(--text-body-two);
+					}
+				}
+			}
+			.react-select__indicator-separator {
+				display: none;
+			}
+		}
+		.second-section {
+			margin-top: 50px;
+			h5 {
+				font-style: normal;
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 24px;
+				color: var(--login-label);
+				margin-bottom: 20px;
+			}
+			ul {
+				padding-left: 20px;
+				li {
+					list-style-image: url(../../assets/images/li-bullet.svg);
+					padding: 7px 12px;
+					font-style: normal;
+					font-weight: 400;
+					font-size: 18px;
+					line-height: 21px;
+					color: var(--login-label);
+				}
+			}
+			button.download {
+				font-style: normal;
+				font-weight: 600;
+				font-size: 18px;
+				line-height: 21px;
+				text-align: center;
+				border: 1px solid #387fff;
+				border-radius: 5px;
+				color: var(--login-label);
+				background-color: transparent;
+				padding: 17px 27px;
+				margin-top: 30px;
+			}
+			.checkbox-container {
+				p {
+					font-style: normal;
+					font-weight: 400;
+					font-size: 18px;
+					line-height: 21px;
+					color: var(--login-label);
+				}
+				.custom-check-box {
+					min-width: 20px;
+					height: 20px;
+					background: #d1e1ff;
+					border: 1px solid #387fff;
+					border-radius: 5px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+		}
+		.btn.btn-linear-gradient.upload {
+			width: 255px;
+			height: 55px;
+			border: 1px solid #387fff;
+		}
+	}
 }

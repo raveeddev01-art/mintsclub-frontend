@@ -1,91 +1,90 @@
 .user-profile .logo-wrapper {
-  margin-bottom: 3rem;
-  position: relative;
+	margin-bottom: 3rem;
+	position: relative;
 }
 
 .user-profile.feature-image .feature-img-round .feature-img-round-info {
-  position: absolute;
-  right: 70px;
-  top: -10px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  color: #ffffff;
+	position: absolute;
+	right: 70px;
+	top: -10px;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 14px;
+	color: #ffffff;
 }
 .user-profile .logo-image {
-  border: 1px solid #2269ff;
-  width: max-content;
-
-  padding: 10px;
-  border-radius: 50%;
+	border: 1px solid #2269ff;
+	width: max-content;
+	padding: 10px;
+	border-radius: 100%;
 }
 .user-profile .logo-image .upload-icon {
-  cursor: pointer;
+	cursor: pointer;
 }
 .user-profile .upload-feature-icon-logo {
-  position: absolute;
-  left: 4;
-  bottom: 57px;
-  /* left: 16px; */
-  cursor: pointer;
+	position: absolute;
+	left: 4;
+	bottom: 57px;
+	/* left: 16px; */
+	cursor: pointer;
 }
 .user-profile .upload-feature-icon-logo img {
-  cursor: pointer;
+	cursor: pointer;
 }
 .user-profile .uploaded-logo-img {
-  width: 128.43px;
-  height: 128.43px;
-  border-radius: 50%;
+	width: 128.43px;
+	height: 128.43px;
+	border-radius: 100%;
 }
 .user-profile .feature-img-title {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 26px;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 22px;
+	line-height: 26px;
 
-  color: var(--text-body);
+	color: var(--text-body);
 }
 .user-profile .create-collection-input {
-  border: 1px solid #c9daff;
-  height: 42px;
-  border-radius: 44px;
-  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  color: var(--text-body);
-  outline: none;
+	border: 1px solid #c9daff;
+	height: 42px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+	color: var(--text-body);
+	outline: none;
 }
 .user-profile .create-collection-label {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 13px;
-  line-height: 15px;
-  color: var(--login-label);
-  margin-left: 1.5rem;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 13px;
+	line-height: 15px;
+	color: var(--login-label);
+	// margin-left: 1.5rem;
 }
 .user-profile .create-collection-area {
-  height: 208px;
-  background: var(--nft-search-bg);
-  border: 1px solid #c9daff;
-  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  border-radius: 18px;
-  color: var(--text-body);
-  resize: none;
+	height: 208px;
+	background: var(--nft-search-bg);
+	border: 1px solid #c9daff;
+	box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+	border-radius: 5px;
+	color: var(--text-body);
+	resize: none;
 }
-.fill-color{
-  color: #b5b5bb;
+.fill-color {
+	color: #b5b5bb;
 }
-.success-color{
-  color: #00da1d;
+.success-color {
+	color: #00da1d;
 }
-.error-color{
-  color: #f81818;
+.error-color {
+	color: #f81818;
 }
-.check-color{
-  color: #1882f8;
+.check-color {
+	color: #1882f8;
 }
-.text-message{
-  font-size: 11px;
+.text-message {
+	font-size: 11px;
 }
-.email-address{
-  height: 80px;
+.email-address {
+	height: 80px;
 }

@@ -1,79 +1,79 @@
 /* Custom Dark Mode Toggle Element */
 .toggle-theme-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 5px;
-  border-bottom: 1px solid #eff3fd;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 5px;
+	border-bottom: 1px solid #eff3fd;
 }
 
 .toggle-theme-wrapper p {
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--menu-text);
-  text-decoration: none;
-  transition: color 0s;
-  white-space: nowrap;
-  padding-right: 30px;
-  margin-bottom: 0;
+	font-weight: 400;
+	font-size: 16px;
+	color: var(--menu-text);
+	text-decoration: none;
+	transition: color 0s;
+	white-space: nowrap;
+	padding-right: 30px;
+	margin-bottom: 0;
 }
 .toggle-theme-wrapper p:hover {
-  font-weight: 700;
-  font-size: 16px;
-  color: #2269FF;
-  text-decoration: none;
-  transition: color 0s;
-  white-space: nowrap;
-  padding-right: 30px;
-  margin-bottom: 0;
+	font-weight: 700;
+	font-size: 16px;
+	color: #2269ff;
+	text-decoration: none;
+	transition: color 0s;
+	white-space: nowrap;
+	padding-right: 30px;
+	margin-bottom: 0;
 }
 
 .toggle-theme {
-  position: relative;
-  display: inline-block;
-  height: 34px;
-  width: 60px;
+	position: relative;
+	display: inline-block;
+	height: 34px;
+	width: 60px;
 }
 
 .toggle-theme input {
-  display: none;
+	display: none;
 }
 
 .slider {
-  background-color: #ccc;
-  position: absolute;
-  cursor: pointer;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  transition: 0.2s;
+	background-color: #ccc;
+	position: absolute;
+	cursor: pointer;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	transition: 0.2s;
 }
 
 .slider:before {
-  background-color: #fff;
-  bottom: 4px;
-  content: "";
-  height: 26px;
-  left: 4px;
-  position: absolute;
-  transition: 0.4s;
-  width: 26px;
+	background-color: #fff;
+	bottom: 4px;
+	content: '';
+	height: 26px;
+	left: 4px;
+	position: absolute;
+	transition: 0.4s;
+	width: 26px;
 }
 
 input:checked + .slider:before {
-  transform: translateX(26px);
+	transform: translateX(26px);
 }
 
 input:checked + .slider {
-  background-color: cornflowerblue;
+	background-color: cornflowerblue;
 }
 
 .slider.round {
-  border-radius: 34px;
+	border-radius: 5px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+	border-radius: 5px;
 }

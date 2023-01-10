@@ -1,137 +1,137 @@
 .auction-card.listing-card {
-  max-width: 205px;
-  width: 100%;
-  cursor: pointer;
+	max-width: 205px;
+	width: 100%;
+	cursor: pointer;
 }
 .heart-fill-icon {
-  color: white;
+	color: white;
 }
 .auction-card.listing-card.card .card-img-top {
-  min-height: unset;
-  height: 170px;
-  width: 100%;
+	min-height: unset;
+	height: 170px;
+	width: 100%;
 }
 
 .auction-card.listing-card.card .card-img-top img {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .auction-card.listing-card.card .card-body {
-  padding: 0;
+	padding: 0;
 }
 
 .auction-card.listing-card .card-body .card-title {
-  font-size: 14px;
-  font-weight: bold;
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .listing-card .hero-card-title-container .options-icon.like-icon img:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .listing-card .auction-bit-btn.listing-buy-btn {
-  background-color: black;
+	background-color: black;
 }
 
 .auction-card.listing-card.card .card-img-top .video-wrapper {
-  height: 170px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
+	height: 170px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	border-radius: 5px;
 }
 .auction-card.listing-card.card .card-img-top video {
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-  border-radius: 10px;
+	width: 100%;
+	height: 170px;
+	object-fit: cover;
+	border-radius: 5px;
 }
 
 .auction-card.listing-card.card .card-img-top .video-wrapper .controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 14px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 14px;
 }
 
 .auction-card.listing-card.card
-  .card-img-top
-  .video-wrapper
-  .actions
-  .play-pause-btn {
-  background: #fff;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	.card-img-top
+	.video-wrapper
+	.actions
+	.play-pause-btn {
+	background: #fff;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	width: 32px;
+	height: 32px;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .auction-card.listing-card.card
-  .card-img-top
-  .video-wrapper
-  .actions
-  .play-pause-btn
-  svg
-  path {
-  fill: #434343;
+	.card-img-top
+	.video-wrapper
+	.actions
+	.play-pause-btn
+	svg
+	path {
+	fill: #434343;
 }
 
 @media (min-width: 1399.9px) {
-  .auction-card.listing-card {
-    max-width: 100%;
-  }
+	.auction-card.listing-card {
+		max-width: 100%;
+	}
 }
 
 @media (max-width: 991.9px) {
-  .auction-card.listing-card {
-    max-width: 100%;
-  }
+	.auction-card.listing-card {
+		max-width: 100%;
+	}
 }
 
 @media (max-width: 575.9px) {
-  .auction-card.listing-card {
-    max-width: 350px;
-    width: 100%;
-  }
+	.auction-card.listing-card {
+		max-width: 350px;
+		width: 100%;
+	}
 }
 
 @media (max-width: 450px) {
-  .card.auction-card.listing-card {
-    padding: 8px;
-  }
+	.card.auction-card.listing-card {
+		padding: 8px;
+	}
 }
 .nft-chain {
-  z-index: 1;
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  height: 28px;
-  background-color: #ffffff;
-  padding: 4px;
-  border-radius: 18px;
-  border: 0.2px solid #387fff;
-  display: flex;
-  align-items: center;
-  .icon {
-    height: 20px;
-    width: 20px;
-    &:hover + .name {
-      display: block;
-    }
-  }
-  .name {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    color: #000000;
-    margin: 5px;
-    display: none;
-  }
+	z-index: 1;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	height: 28px;
+	background-color: #ffffff;
+	padding: 4px;
+	border-radius: 5px;
+	border: 0.2px solid #387fff;
+	display: flex;
+	align-items: center;
+	.icon {
+		height: 20px;
+		width: 20px;
+		&:hover + .name {
+			display: block;
+		}
+	}
+	.name {
+		font-style: normal;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 14px;
+		color: #000000;
+		margin: 5px;
+		display: none;
+	}
 }

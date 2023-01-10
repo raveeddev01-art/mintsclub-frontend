@@ -1,437 +1,436 @@
 .buy-modal {
-  .buy-modal-dialog {
-    max-width: 700px;
-  }
-  .buy-modal-content {
-    background-color: var(--modal-bg);
-    color: #343434;
-    border-radius: 16px;
-    border: var(--clear-btn-border);
-    box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-    .modal-header {
-      position: relative;
-      border: none;
-      display: block;
-      text-align: center;
-      .modal-title.h4 {
-        color: var(--login-label);
-        font-weight: 600;
-        font-size: 22px;
-        margin-top: 10px;
-      }
-      .modal-close-container {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        button {
-          background-color: transparent;
-          padding: 0;
-          right: 15px;
-          top: 10px;
-          border-color: var(--cross-button-color);
-          border-radius: 50%;
-          border-width: .5px;
-          .close {
-            right: 15px;
-            top: 15px;
-            width: 32px;
-            height: 32px;
-            padding-top: 7px;
-          }
-          .close:before, .close:after {
-            position: absolute;
-            left: 17px;
-            content: ' ';
-            height: 33px;
-            width: 2px;
-            background-color: var(--cross-button-color);
-          }
-          .close:before {
-            transform: rotate(45deg);
-            height: 18px;
-            width: 0.5px;
-          }
-          .close:after {
-            transform: rotate(-45deg);
-            height: 18px;
-            width: 0.5px;
-          }
-        }
-      }
-    }
-    .buy-modal-subheadings-container {
-      padding: 40px 0 15px 0;
-      border-bottom: 1px solid var(--hr-clr2);
-      margin: 0 1rem;
-      &.buy-modal-status {
-        border-bottom: 0;
-        border-top: 1px solid #e8e8e8;
-        padding: 20px 0 0 0;
-      }
-      .buy-modal-subheadings p {
-        font-weight: 400;
-        font-size: 18px;
-        color: var(--login-label);
-      }
-    }
-    .modal-body {
-      margin: 20px 0 0 0;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      .modal-nft-container {
-        width: 150px;
-        height: 150px;
-        padding: 10px;
-        border-radius: 12px;
-        background: var(--pc-card-bg);
-        .modal-nft-img {
-          width: 130px;
-          height: 130px;
-          .buy-media-wrapper {
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.79);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            svg {
-              width: 100px;
-              height: 100px;
-              path {
-                fill: #b9b9b9;
-              }
-            }
-          }
-          img {
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-          }
-        }
-      }
-    }
-  }
+	.buy-modal-dialog {
+		max-width: 700px;
+	}
+	.buy-modal-content {
+		background-color: var(--modal-bg);
+		color: #343434;
+		border-radius: 5px;
+		border: var(--clear-btn-border);
+		box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+		.modal-header {
+			position: relative;
+			border: none;
+			display: block;
+			text-align: center;
+			.modal-title.h4 {
+				color: var(--login-label);
+				font-weight: 600;
+				font-size: 22px;
+				margin-top: 10px;
+			}
+			.modal-close-container {
+				position: absolute;
+				top: 10px;
+				right: 15px;
+				button {
+					background-color: transparent;
+					padding: 0;
+					right: 15px;
+					top: 10px;
+					border-color: var(--cross-button-color);
+					border-radius: 5px;
+					border-width: 0.5px;
+					.close {
+						right: 15px;
+						top: 15px;
+						width: 32px;
+						height: 32px;
+						padding-top: 7px;
+					}
+					.close:before,
+					.close:after {
+						position: absolute;
+						left: 17px;
+						content: ' ';
+						height: 33px;
+						width: 2px;
+						background-color: var(--cross-button-color);
+					}
+					.close:before {
+						transform: rotate(45deg);
+						height: 18px;
+						width: 0.5px;
+					}
+					.close:after {
+						transform: rotate(-45deg);
+						height: 18px;
+						width: 0.5px;
+					}
+				}
+			}
+		}
+		.buy-modal-subheadings-container {
+			padding: 40px 0 15px 0;
+			border-bottom: 1px solid var(--hr-clr2);
+			margin: 0 1rem;
+			&.buy-modal-status {
+				border-bottom: 0;
+				border-top: 1px solid #e8e8e8;
+				padding: 20px 0 0 0;
+			}
+			.buy-modal-subheadings p {
+				font-weight: 400;
+				font-size: 18px;
+				color: var(--login-label);
+			}
+		}
+		.modal-body {
+			margin: 20px 0 0 0;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			.modal-nft-container {
+				width: 150px;
+				height: 150px;
+				padding: 10px;
+				border-radius: 5px;
+				background: var(--pc-card-bg);
+				.modal-nft-img {
+					width: 130px;
+					height: 130px;
+					.buy-media-wrapper {
+						width: 100%;
+						height: 100%;
+						background: rgba(0, 0, 0, 0.79);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						svg {
+							width: 100px;
+							height: 100px;
+							path {
+								fill: #b9b9b9;
+							}
+						}
+					}
+					img {
+						width: 100%;
+						height: 100%;
+						border-radius: 5px;
+					}
+				}
+			}
+		}
+	}
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-content p {
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 0;
-  font-weight: bold;
+	font-size: 14px;
+	color: #fff;
+	margin-bottom: 0;
+	font-weight: bold;
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-content p:first-child {
-  color: #5666fe;
+	color: #5666fe;
 }
 
 .buy-modal
-  .buy-modal-content
-  .modal-body
-  .modal-nft-content
-  .modal-nft-detail-heading
-  p {
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--nft-inner-detail-clr);
+	.buy-modal-content
+	.modal-body
+	.modal-nft-content
+	.modal-nft-detail-heading
+	p {
+	font-weight: 700;
+	font-size: 12px;
+	color: var(--nft-inner-detail-clr);
 }
 
 .buy-modal
-  .buy-modal-content
-  .modal-body
-  .modal-nft-content
-  .modal-nft-detail
-  span {
-  font-weight: 700;
-  font-size: 12px;
-  color: #1064ff;
-  margin-bottom: 0;
+	.buy-modal-content
+	.modal-body
+	.modal-nft-content
+	.modal-nft-detail
+	span {
+	font-weight: 700;
+	font-size: 12px;
+	color: #1064ff;
+	margin-bottom: 0;
 }
 
 .buy-modal
-  .buy-modal-content
-  .modal-body
-  .modal-nft-content
-  .modal-nft-detail
-  h6 {
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--text-body);
-  margin-bottom: 0;
+	.buy-modal-content
+	.modal-body
+	.modal-nft-content
+	.modal-nft-detail
+	h6 {
+	font-weight: 400;
+	font-size: 12px;
+	color: var(--text-body);
+	margin-bottom: 0;
 }
 
 .buy-modal
-  .buy-modal-content
-  .modal-body
-  .modal-nft-content
-  .modal-nft-detail
-  h6
-  span {
-  font-weight: 800;
-  color: var(--text-body);
+	.buy-modal-content
+	.modal-body
+	.modal-nft-content
+	.modal-nft-detail
+	h6
+	span {
+	font-weight: 800;
+	color: var(--text-body);
 }
 
 .buy-modal
-  .buy-modal-content
-  .modal-body
-  .modal-nft-content
-  .modal-nft-detail
-  p {
-  font-weight: 800;
-  font-size: 12px;
-  color: var(--nft-inner-detail-clr);
+	.buy-modal-content
+	.modal-body
+	.modal-nft-content
+	.modal-nft-detail
+	p {
+	font-weight: 800;
+	font-size: 12px;
+	color: var(--nft-inner-detail-clr);
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail h6 {
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--text-body);
-  margin-bottom: 0;
+	font-weight: 700;
+	font-size: 18px;
+	color: var(--text-body);
+	margin-bottom: 0;
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail h6 span {
-  font-weight: 700;
-  font-size: 18px;
-  color: #2759ff;
+	font-weight: 700;
+	font-size: 18px;
+	color: #2759ff;
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail p {
-  font-weight: 400;
-  font-size: 18px;
-  color: var(--login-label);
-  margin-bottom: 0;
+	font-weight: 400;
+	font-size: 18px;
+	color: var(--login-label);
+	margin-bottom: 0;
 }
 
 .buy-modal .buy-modal-content .modal-body .modal-nft-detail span {
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--nft-inner-detail-clr);
+	font-weight: 700;
+	font-size: 12px;
+	color: var(--nft-inner-detail-clr);
 }
 
 .buy-modal .buy-modal-content .modal-body .total-row {
-  border-top: 1px solid var(--hr-clr2);
-  padding: 20px 0;
+	border-top: 1px solid var(--hr-clr2);
+	padding: 20px 0;
 }
 
 .buy-modal .buy-modal-content .modal-footer {
-  border: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 0;
-  padding-bottom: 30px;
+	border: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-top: 0;
+	padding-bottom: 30px;
 }
 
 .buy-modal .buy-modal-content .modal-nft-footer .checkbox-container {
-  margin-bottom: 45px;
+	margin-bottom: 45px;
 }
 
 .buy-modal .buy-modal-content .modal-nft-footer .checkbox-container p {
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--text-body);
-  margin-bottom: 0;
-  .services-link{
-    font-size: 14px;
-  }
+	font-weight: 400;
+	font-size: 14px;
+	color: var(--text-body);
+	margin-bottom: 0;
+	.services-link {
+		font-size: 14px;
+	}
 }
 
-
 .buy-modal .buy-modal-content .modal-nft-footer .checkbox-container a {
-  font-weight: 400;
-  font-size: 12px;
-  color: #1c6cfe;
-  margin-bottom: 0;
-  text-decoration: underline;
+	font-weight: 400;
+	font-size: 12px;
+	color: #1c6cfe;
+	margin-bottom: 0;
+	text-decoration: underline;
 }
 
 .checkbox-container {
-  position: relative;
+	position: relative;
 }
 
 .custom-uncheck-box {
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #96bef3;
-  border-radius: 2px;
-  background-color: #eef5ff;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	border: 1px solid #96bef3;
+	border-radius: 5px;
+	background-color: #eef5ff;
 }
 
 .custom-checked-box {
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #1c6cfe;
-  border-radius: 3px;
-  background-color: #1c6cfe;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	border: 1px solid #1c6cfe;
+	border-radius: 5px;
+	background-color: #1c6cfe;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .social-icon {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .modal.buy-modal.purchase-modal .modal-body {
-  margin: 0 1rem;
+	margin: 0 1rem;
 }
 .insufienct-funds {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 
 .modal.buy-modal.purchase-modal .modal-nft-purchased {
-  width: 100%;
-  text-align: center;
-  padding: 20px 0;
-  background-color: rgba(25, 175, 85, 0.12);
-  border-left: 1px solid #25dc6e;
+	width: 100%;
+	text-align: center;
+	padding: 20px 0;
+	background-color: rgba(25, 175, 85, 0.12);
+	border-left: 1px solid #25dc6e;
 }
 
 .modal.buy-modal.purchase-modal .modal-nft-purchased p {
-  font-weight: 600;
-  font-size: 13px;
-  color: #1d8848;
-  margin-bottom: 0;
+	font-weight: 600;
+	font-size: 13px;
+	color: #1d8848;
+	margin-bottom: 0;
 }
 
 .modal-status-content {
-  width: 100%;
-  border-bottom: 1px solid #e8e8e8;
+	width: 100%;
+	border-bottom: 1px solid #e8e8e8;
 }
 
 .modal-status-content .status-address p {
-  font-weight: 500;
-  font-size: 12px;
-  color: #1064ff;
-  margin-bottom: 0;
+	font-weight: 500;
+	font-size: 12px;
+	color: #1064ff;
+	margin-bottom: 0;
 }
 .modal-status-content .status-process p {
-  color: var(--text-body);
+	color: var(--text-body);
 }
 
 .modal.buy-modal.purchase-modal .modal-footer {
-  align-items: flex-start;
-  margin: 0 16px;
+	align-items: flex-start;
+	margin: 0 16px;
 }
 
 .modal.buy-modal.purchase-modal .modal-nft-footer p {
-  font-weight: 400;
-  font-size: 18px;
-  color: var(--login-label);
-  margin-bottom: 0;
+	font-weight: 400;
+	font-size: 18px;
+	color: var(--login-label);
+	margin-bottom: 0;
 }
 
 .buy-modal.bid-modal .buy-modal-content .modal-body {
-  justify-content: start;
-  align-items: flex-start;
+	justify-content: start;
+	align-items: flex-start;
 }
 
 .buy-modal.bid-modal .modal-body .bid-inp-container {
-  border-radius: 10px;
-  height: 60px;
-  width: 100%;
-  border: 1px solid #c9daff;
-  box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
-  border-radius: 55px;
+	height: 60px;
+	width: 100%;
+	border: 1px solid #c9daff;
+	box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
+	border-radius: 5px;
 }
 
 .buy-modal.bid-modal .modal-body .bid-inp-container .inp-container {
-  width: 100%;
+	width: 100%;
 }
 
 .buy-modal.bid-modal .modal-body .bid-inp-container .inp-container input {
-  padding: 10px 22px;
-  border: none;
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--nft-inner-detail-clr);
-  background-color: transparent;
-  height: 40px;
+	padding: 10px 22px;
+	border: none;
+	font-weight: 700;
+	font-size: 12px;
+	color: var(--nft-inner-detail-clr);
+	background-color: transparent;
+	height: 40px;
 }
 
 /* Chrome, Safari, Edge, Opera */
 .buy-modal.bid-modal
-  .modal-body
-  .bid-inp-container
-  .inp-container
-  input::-webkit-outer-spin-button,
+	.modal-body
+	.bid-inp-container
+	.inp-container
+	input::-webkit-outer-spin-button,
 .buy-modal.bid-modal
-  .modal-body
-  .bid-inp-container
-  .inp-container
-  input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	.modal-body
+	.bid-inp-container
+	.inp-container
+	input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 /* Firefox */
 .buy-modal.bid-modal
-  .modal-body
-  .bid-inp-container
-  .inp-container
-  input[type="number"] {
-  -moz-appearance: textfield;
+	.modal-body
+	.bid-inp-container
+	.inp-container
+	input[type='number'] {
+	-moz-appearance: textfield;
 }
 
 .buy-modal.bid-modal .modal-body .bid-inp-container .inp-container p {
-  font-weight: 500;
-  font-size: 10px;
-  color: var(--pc-card-title-ob2);
-  margin: 0;
-  padding-right: 10px;
+	font-weight: 500;
+	font-size: 10px;
+	color: var(--pc-card-title-ob2);
+	margin: 0;
+	padding-right: 10px;
 }
 
 .buy-modal.bid-modal .modal-body .bid-inp-container .inp-currency {
-  background-color: #dfe9ff;
-  height: 60px;
-  border-left: 1px solid #3574fb;
-  width: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0px 55px 55px 0px;
+	background-color: #dfe9ff;
+	height: 60px;
+	border-left: 1px solid #3574fb;
+	width: 90px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0px 2px 2px 0px;
 }
 
 .buy-modal.bid-modal .modal-body .bid-inp-container .inp-currency h6 {
-  font-weight: 700;
-  font-size: 15px;
-  color: #1c6cfe;
-  margin: 0;
+	font-weight: 700;
+	font-size: 15px;
+	color: #1c6cfe;
+	margin: 0;
 }
 
 .buy-modal.bid-modal .modal-body .bid-balance {
-  margin-top: 20px;
-  padding-left: 22px;
+	margin-top: 20px;
+	padding-left: 22px;
 }
 
 .buy-modal.bid-modal .modal-body .bid-balance p {
-  font-weight: 400;
-  font-size: 11px;
-  color: var(--text-body);
+	font-weight: 400;
+	font-size: 11px;
+	color: var(--text-body);
 }
 
 .buy-modal.bid-modal .buy-modal-content {
-  min-height: 470px;
+	min-height: 470px;
 }
 
-.buy-modal .btn.btn-linear-gradient.btn-bid-modal  {
-  font-weight: 400;
-  font-size: 16px;
-  color: #ffffff;
+.buy-modal .btn.btn-linear-gradient.btn-bid-modal {
+	font-weight: 400;
+	font-size: 16px;
+	color: #ffffff;
 }
-.buy-modal .btn.btn-linear-gradient.btn-bid-modal:disabled  {
-  background: #387fff;
+.buy-modal .btn.btn-linear-gradient.btn-bid-modal:disabled {
+	background: #387fff;
 }
 
 @media (max-width: 575.9px) {
-  .modal.buy-modal.purchase-modal .modal-body {
-    padding: 1rem;
-  }
-  .buy-modal .buy-modal-content .modal-header .modal-close-container {
-    top: 5px;
-    right: 10px;
-  }
+	.modal.buy-modal.purchase-modal .modal-body {
+		padding: 1rem;
+	}
+	.buy-modal .buy-modal-content .modal-header .modal-close-container {
+		top: 5px;
+		right: 10px;
+	}
 }

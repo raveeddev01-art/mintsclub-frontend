@@ -23,7 +23,7 @@ const CollectionSubLoader: FC<CollectionSubLoaderInt> = ({ image }) => {
 				backgroundColor="#d9d9d9"
 				foregroundColor="#ededed"
 			>
-				<rect className="w-100 h-100" rx="12" ry="12" />
+				<rect className="w-100 h-100" rx="5" ry="5" />
 			</ContentLoader>
 		</>
 	);

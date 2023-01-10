@@ -1,57 +1,57 @@
 .buy-sell-section {
-  background: var(--alt-section-bg);
-  .buy-card,
-  .sell-card {
-    padding: 50px 0;
-    border-radius: 10px;
-    height: 100%;
-    @media (max-width: 767.9px) {
-      margin: 10px auto;
-    }
-  }
-  .buy-card-img {
-    max-width: 150px;
-    max-height: 150px;
-    margin: 0 auto;
-    @media (max-width: 767.9px) {
-      width: 100%;
-    }
-  }
-  .buy-card-content {
-    padding-left: 4%;
-    @media (max-width: 767.9px) {
-      width: 100%;
-      text-align: center;
-    }
-    h5 {
-      font-style: normal;
-      font-weight: 700;
-      font-size: 22px;
-      line-height: 26px;
-      color: var(--text-body-two);
-      @media (max-width: 767.9px) {
-        margin-top: 10px;
-      }
-    }
-    p {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 35px;
-      color: var(--text-body-two);
-    }
-    @media (max-width: 991.9px) {
-      padding-right: 5px;
-    }
-  }
+	background: var(--alt-section-bg);
+	.buy-card,
+	.sell-card {
+		padding: 50px 0;
+		border-radius: 5px;
+		height: 100%;
+		@media (max-width: 767.9px) {
+			margin: 10px auto;
+		}
+	}
+	.buy-card-img {
+		max-width: 150px;
+		max-height: 150px;
+		margin: 0 auto;
+		@media (max-width: 767.9px) {
+			width: 100%;
+		}
+	}
+	.buy-card-content {
+		padding-left: 4%;
+		@media (max-width: 767.9px) {
+			width: 100%;
+			text-align: center;
+		}
+		h5 {
+			font-style: normal;
+			font-weight: 700;
+			font-size: 22px;
+			line-height: 26px;
+			color: var(--text-body-two);
+			@media (max-width: 767.9px) {
+				margin-top: 10px;
+			}
+		}
+		p {
+			font-style: normal;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 35px;
+			color: var(--text-body-two);
+		}
+		@media (max-width: 991.9px) {
+			padding-right: 5px;
+		}
+	}
 }
 
 .btn.btn-rounded-bordered.btn-start-selling {
-  background: #3c66f3;
-  color: #ffffff;
+	background: #3c66f3;
+	color: #ffffff;
 }
 
 .btn.btn-rounded-bordered.btn-start-selling:hover {
-  background: transparent;
-  color: #000000;
+	background: transparent;
+	color: #000000;
 }
