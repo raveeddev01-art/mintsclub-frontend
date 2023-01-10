@@ -397,8 +397,17 @@ const CreateNft = ({
 				copies === '')
 		) {
 			return true;
+		} else if (!state.nftInfo) {
+			return false;
+		} else if (
+			state.nft.name === state.nftInfo.name &&
+			state.nft.image === state.nftInfo.image &&
+			state.nft.description === state.nftInfo.description
+		) {
+			return true;
+		} else {
+			return false;
 		}
-		return false;
 	};
 	return (
 		<div className="create-collection-btn-container">
