@@ -209,20 +209,26 @@
   margin-left: 10px;
   font-size: 25px;
   transform-origin: top;
-  animation: bell 1s linear infinite alternate-reverse;
+  animation: bell 1s linear ease alternate-reverse;
   padding-top: -22px;
   align-items: center;
   justify-content: center;
   position: relative;
   }
-  @keyframes bell {
-  0% {
-  transform: rotate(-10deg);
+  .bell-notification:hover{
+    transform-origin: top;
+    color: #2269ff;
+    animation: bell 1s linear infinite alternate-reverse;
+    @keyframes bell {
+      0% {
+      transform: rotate(-6deg);
+      }
+      100% {
+      transform: rotate(6deg);
+      }
+      }
   }
-  100% {
-  transform: rotate(10deg);
-  }
-  }
+  
   .bell-notification::after{
   content: attr(data-percent);
   font-size: 10px;
@@ -231,7 +237,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background-color: skyblue;
+  background-color: #ffffff;
   margin-top: 4px;
   margin-left: 15px;
   display: flex;

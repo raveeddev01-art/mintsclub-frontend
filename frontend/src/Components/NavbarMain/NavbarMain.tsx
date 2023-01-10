@@ -15,12 +15,14 @@ import { ListenMetaMaskAccs } from '../../utils/helpers/ethereum';
 import { GET_SYSTEM_FEE } from '../../redux/types';
 import { useGetData } from '../../hooks/Common';
 import SocketContext from '../../contexts/SocketContext';
+import Notification from '../Notification/Notification';
 
 const NavbarMain = () => {
 	const socket = useContext(SocketContext);
 	const dispatch = useDispatch();
 
 	const [searchactive, setSearchActive] = useState<any>(false);
+	const [enableNotification, setEnableNotification] = useState(false);
 	const [searchValue, setSearchValue] = useState<any>('');
 	const history = useHistory();
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
@@ -81,6 +83,10 @@ const NavbarMain = () => {
 			setDarkMode(false);
 		}
 	};
+	const notificationenable = () => {
+		setEnableNotification(true);
+	};
+
 	useEffect(() => {
 		if (defaultDark) {
 			setDark();
@@ -266,8 +272,14 @@ const NavbarMain = () => {
             </Link> */}
 					</div>
 					<div className="bell-notification" data-percent={'9+'}>
-						<i className="fa-solid fa-bell"></i>
+						<i
+							className="fa-solid fa-bell"
+							onClick={() => notificationenable()}
+						></i>
 					</div>
+					{enableNotification === true ? (
+						<Notification data={enableNotification} />
+					) : null}
 				</Navbar>
 			</Container>
 		</div>
