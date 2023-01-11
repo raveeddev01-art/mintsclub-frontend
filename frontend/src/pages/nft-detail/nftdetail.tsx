@@ -1422,6 +1422,7 @@ const NFTDetail = (props: any) => {
 				content={nftBanner.content}
 				bgImg={BannerBg}
 				bannerImg={BannerImage}
+				nftDetail={nftDetail}
 				btns={
 					isOwner() && !sellingMethod && copies - remainingCopies === 0
 						? true

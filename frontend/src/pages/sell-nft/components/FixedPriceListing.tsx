@@ -131,7 +131,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						nftDetail?.creator?.address,
 						connectedAddress,
 						price,
-						nftDetail?.algoLazyMinted
+						nftDetail?.algoLazyMinted,
+						setLoader
 					);
 
 					if (response?.success) {
@@ -151,7 +152,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						nftDetail?.tokenId,
 						connectedAddress,
 						txnsArray,
-						nftDetail?.algoLazyMinted
+						nftDetail?.algoLazyMinted,
+						setLoader
 					);
 
 					if (res.txId) {
