@@ -537,7 +537,11 @@ class CreateNFT extends React.Component<
 								<label className="create-collection-label d-flex">
 									Title:*{' '}
 									<span className="text-danger ms-2">
-										{this.validator.message('name', nft.name, 'min:3')}
+										{this.validator.message('name', nft.name, [
+											'required',
+											{ min: 3 },
+											'alpha_num_space',
+										])}
 									</span>
 								</label>
 								<input

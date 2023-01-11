@@ -25,6 +25,7 @@ const CreateNft = ({
 }: CreateNftInterface) => {
 	const wallet = useWallet();
 	const [loading, setLoading] = useState<boolean>(false);
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
 	const insertNFT = async (data: any) => {
 		try {
@@ -275,9 +276,9 @@ const CreateNft = ({
 		try {
 			const { nft, videoURL, audioUrl } = state;
 			const nftInfo: any = { ...nft };
-
+			setIsButtonDisabled(true);
 			console.log(
-				'🚀 ~ file: createNft.tsx:278 ~ handleSubmit ~ nftInfo',
+				'🚀 ~ file: createNft.tsx: 278 ~ handleSubmit ~ nftInfo',
 				nftInfo
 			);
 
@@ -312,9 +313,11 @@ const CreateNft = ({
 				const res = await uploadDataOnIpfs(nftInfo);
 				if (res.data.success) {
 					toast.success('Data uploaded on IPFS');
+					setIsButtonDisabled(false);
 				} else {
 					toast.error(res.data.message);
 					setLoader(false);
+					setIsButtonDisabled(false);
 				}
 
 				const { compressedFileUrl, image, dataInput } = res.data.data;
@@ -346,10 +349,13 @@ const CreateNft = ({
 				}
 			} else {
 				setError();
-				toast.error('Please fill all required fields in valid format.');
+				window.scroll(0, 1000);
+				setIsButtonDisabled(false);
 			}
 		} catch (err) {
 			setLoading(false);
+			setIsButtonDisabled(false);
+
 			console.log(
 				'🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err',
 				err
@@ -419,7 +425,7 @@ const CreateNft = ({
 		<div className="create-collection-btn-container">
 			<button
 				className="btn create-collection-btn btn-linear-gradient mt-5"
-				disabled={loading || handleValidation()}
+				disabled={loading || handleValidation() || isButtonDisabled}
 				onClick={(e) => handleSubmit(e)}
 			>
 				{getButtonText()}

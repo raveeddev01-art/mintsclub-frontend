@@ -456,6 +456,7 @@ class CreateCollections extends Component<
 						}
 					);
 				} else {
+					window.scroll(0, 1000);
 					this.validator.showMessages();
 					this.setState(
 						{
@@ -553,8 +554,12 @@ class CreateCollections extends Component<
 
 							<div className="col-lg-4 col-md-6 col-sm-12 position-relative">
 								<label className="create-collection-label">Name:*</label>
-								<span className="text-danger position-absolute top-0">
-									{this.validator.message('name', collection.name, 'min:3')}
+								<span className="text-danger position-absolute top-0 validator">
+									{this.validator.message('name', collection.name, [
+										'required',
+										{ min: 3 },
+										'alpha_num_space',
+									])}
 								</span>
 								<input
 									className="create-collection-input mt-2"
