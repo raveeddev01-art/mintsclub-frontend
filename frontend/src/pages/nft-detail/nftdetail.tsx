@@ -13,7 +13,7 @@ import {
 	beforeNFTByCollection,
 } from '../../Components/Nfts/nfts.action.js';
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { ENV } from '../../config/config';
 import { decimalnumbervalidator } from '../../utils/functions';
 import {
@@ -65,7 +65,7 @@ import MoreNFTs from './components/MoreNFTs/MoreNFTs';
 import Offers from './components/Offers';
 import Activities from './components/Activities';
 import FileViewer from './components/FileViewer';
-import { CHAIN_LOGOS, CHAIN_TITLE } from '../../utils/helpers/helpers';
+import { CHAIN_LOGOS, CHAIN_TITLE, mintingContractAddress } from '../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../utils/helpers/ethereum';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
 import {
@@ -91,6 +91,7 @@ import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { Wallet } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 import SocketContext from '../../contexts/SocketContext';
+import { sliderClasses } from '@mui/material';
 
 const NFTDetail = (props: any) => {
 	const socket = useContext(SocketContext);
@@ -319,7 +320,6 @@ const NFTDetail = (props: any) => {
 			props.beforeNFT();
 		}
 	}, [props.myLikedNftsStatus]);
-
 	const setNextBidFivePercHigh = (data: any) => {
 		let result: any = '';
 		const { currentPrice, collectionId } = data;
@@ -782,7 +782,6 @@ const NFTDetail = (props: any) => {
 
 				props.beforeBid();
 				props.placeBid(payload);
-				createActivity('Bid', price);
 			}
 		} catch (err: any) {
 			setLoader(false);
@@ -1061,7 +1060,8 @@ const NFTDetail = (props: any) => {
 					currentPrice,
 					contractAddress,
 					setTransactionHash,
-					setConfirmed
+					setConfirmed,
+					props.royalityFee
 				);
 				payload = {
 					userId,
@@ -1090,7 +1090,9 @@ const NFTDetail = (props: any) => {
 			price = currentPrice;
 		}
 
-		if (type === 'Transfer' || type === 'Bid') {
+		if (type === 'Transfer' 
+		|| type === 'Bid'
+		) {
 			toAddress = address;
 		}
 
@@ -1393,10 +1395,7 @@ const NFTDetail = (props: any) => {
 			value:
 				blockchainType === 'solana'
 					? ''
-					: ENV?.goerliMintingContract &&
-					  ENV.goerliMintingContract.slice(0, 6) +
-							'....' +
-							ENV.goerliMintingContract.slice(-6),
+					:mintingContractAddress(blockchainType)
 		},
 		{
 			title: blockchainType === 'solana' ? 'Mint' : 'Token ID',
@@ -1413,7 +1412,6 @@ const NFTDetail = (props: any) => {
 				'Ethereum',
 		},
 	];
-
 	return (
 		<>
 			<Banner
@@ -1590,6 +1588,7 @@ const mapStateToProps = (state: any) => ({
 	bidsByNftAuth: state.bid.bidsBYNftAuth,
 	togleLikeRes: state.explore.togleLikeRes,
 	connectedAddress: state.wallet.connectedAddress,
+	royalityFee:state.systemFee.royalityFee
 });
 
 export default connect(mapStateToProps, {

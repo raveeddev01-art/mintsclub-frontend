@@ -1,6 +1,10 @@
 import React from 'react';
 import StatsInfo from '../../pages/create-nft/components/statsinfo';
 import LevelsInfo from '../../pages/create-nft/components/levelsinfo';
+import { ENV } from '../../config/config';
+import { mintingAdressURL } from '../../../src/utils/helpers/helpers';
+const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+
 const MetaData = ({ properties, stats, levels, nftInfo }: any) => {
 	return (
 		<div className="col-lg-4 col-xl-3 order-1 order-lg-0 d-none d-lg-block">
@@ -82,10 +86,7 @@ const MetaData = ({ properties, stats, levels, nftInfo }: any) => {
 								onClick={() => {
 									// eslint-disable-next-line no-unused-expressions
 									item.title === 'Contract Address' &&
-										window.open(
-											'https://rinkeby.etherscan.io/address/0x328106925e0e5721725ec92fc256b7e6cbdd8e43',
-											'_blank'
-										);
+										window.open(mintingAdressURL(blockChainType), '_blank');
 								}}
 							>
 								<div className={`detail-rounded-name `}>

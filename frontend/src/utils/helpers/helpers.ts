@@ -235,6 +235,24 @@ const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 	};
 	return scansURL[chaintype];
 };
+const mintingAdressURL = (blockchainType: any) => {
+	const chaintype = blockchainType;
+	const mintAddress: any = {
+		ethereum: `${process.env.REACT_APP_ETH_CHAIN_ADDRESS}/${process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS}`,
+		polygon: `${process.env.REACT_APP_POLYGON_CHAIN_ADDRESS}/${process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS}`,
+		bsc: `${process.env.REACT_APP_BSC_CHAIN_ADDRESS}/${process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS}`,
+	};
+	return mintAddress[chaintype];
+};
+const mintingContractAddress = (blockchainType: any) => {
+	const chaintype = blockchainType;
+	const value: any = {
+		ethereum:(process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS)?.slice(0,6) + '...' + (process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS)?.slice(-6) ,
+		polygon:( process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS)?.slice(0,6) + '...' + ( process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS)?.slice(-6) ,
+		bsc: (process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS)?.slice(0,6) + '...' + (process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS?.slice(-6)),
+	};
+	return value[chaintype];
+};
 const getSpecialCharacterReplaced = (str: string) => {
 	if (str?.includes('#')) {
 		return str?.replace('#', '%23');
@@ -277,4 +295,6 @@ export {
 	convertToExponential,
 	STATUS_COLOR,
 	STATUS_TEXT,
+	mintingAdressURL,
+	mintingContractAddress
 };

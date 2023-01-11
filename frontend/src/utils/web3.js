@@ -198,7 +198,8 @@ export const lazyMint = async (
 	price,
 	collectionAddress = undefined,
 	setTransactionHash,
-	setConfirmed
+	setConfirmed,
+	royalityFee
 ) => {
 	let web3 = await getWeb3();
 	if (!web3) {
@@ -238,7 +239,7 @@ export const lazyMint = async (
 				+copies,
 				ownerAddress,
 				metaData,
-				150
+				royalityFee
 			)
 			.send({ from: connectedAddress, value: priceToMint })
 			.on('transactionHash', function (hash) {

@@ -91,6 +91,7 @@ export const ACCEPT_OFFER = 'ACCEPT_OFFER';
 // SYSTEM SETTING
 
 export const GET_SYSTEM_SETTINGS = 'GET_SYSTEM_SETTINGS';
+export const GET_SYSTEM_FEE = 'GET_SYSTEM_FEE';
 
 // BID
 export const BEFORE_BID = 'BEFORE_BID';
@@ -108,3 +109,4 @@ export const NFTALL = 'NFTALL';
 //Approvals
 export const GET_APPROVALS = 'GET_APPROVALS';
 export const EDIT_APPROVAL = 'EDIT_APPROVAL';
+
