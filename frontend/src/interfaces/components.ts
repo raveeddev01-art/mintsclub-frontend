@@ -20,6 +20,7 @@ export interface BannerInterface {
 	bgImg?: string;
 	bannerImg?: string;
 	bg?: boolean;
+	nftDetail?: any;
 	btns?: boolean;
 	onEdit?: () => void;
 	onDelete?: () => void;

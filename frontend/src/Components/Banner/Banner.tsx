@@ -12,6 +12,7 @@ const Banner: FC<BannerInterface> = ({
 	bgImg,
 	bannerImg,
 	bg,
+	nftDetail,
 	btns,
 	onEdit,
 	onDelete,
@@ -23,6 +24,7 @@ const Banner: FC<BannerInterface> = ({
 		}
 	};
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+	const loggedInUser = ENV.getUserKeys('_id')._id;
 	return (
 		<>
 			<div
@@ -51,12 +53,13 @@ const Banner: FC<BannerInterface> = ({
 												<img src={editImage.deleteIcon} alt="/" />
 												<span>Delete</span>
 											</button>
-											{blockChainType !== 'algorand' && (
-												<button className="edit" onClick={() => onEdit?.()}>
-													<img src={editImage.editIcon} alt="/" />
-													<span>Edit</span>
-												</button>
-											)}
+											{blockChainType !== 'algorand' &&
+												loggedInUser === nftDetail?.creatorId && (
+													<button className="edit" onClick={() => onEdit?.()}>
+														<img src={editImage.editIcon} alt="/" />
+														<span>Edit</span>
+													</button>
+												)}
 										</div>
 									)}
 								</div>
