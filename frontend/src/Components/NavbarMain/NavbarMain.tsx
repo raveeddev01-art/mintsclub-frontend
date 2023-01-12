@@ -100,8 +100,6 @@ const NavbarMain = () => {
 			setDark();
 			setDarkMode(true);
 		}
-		getNotification();
-		getSeenNotification();
 	}, []);
 	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
@@ -128,6 +126,11 @@ const NavbarMain = () => {
 			socket.emit('join', ENV.getUserKeys('_id')?._id);
 		}
 	}, [ENV.getUserKeys('_id')?._id]);
+
+	useEffect(() => {
+		getNotification();
+		getSeenNotification();
+	}, []);
 
 	const getNotification = async () => {
 		const notifications = await handleRequest(
