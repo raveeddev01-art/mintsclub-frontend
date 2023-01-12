@@ -2,11 +2,11 @@
 txn ApplicationID
 int 0
 ==
-bnz main_l25
+bnz main_l27
 txn OnCompletion
 int NoOp
 ==
-bnz main_l16
+bnz main_l18
 txn OnCompletion
 int DeleteApplication
 ==
@@ -28,41 +28,46 @@ main_l5:
 int 0
 return
 main_l6:
+byte "bid_account"
+app_global_get
+global ZeroAddress
+==
+bnz main_l17
 global LatestTimestamp
 byte "start"
 app_global_get
 <
-bnz main_l15
+bnz main_l16
 byte "end"
 app_global_get
 global LatestTimestamp
 <=
-bnz main_l9
+bnz main_l10
 int 0
 return
-main_l9:
+main_l10:
 byte "bid_account"
 app_global_get
 global ZeroAddress
 !=
-bnz main_l12
+bnz main_l13
 byte "nft_id"
 app_global_get
 byte "seller"
 app_global_get
 callsub sub0
-main_l11:
+main_l12:
 byte "seller"
 app_global_get
 callsub sub2
 int 1
 return
-main_l12:
+main_l13:
 byte "bid_amount"
 app_global_get
 int 0
 >=
-bnz main_l14
+bnz main_l15
 byte "nft_id"
 app_global_get
 byte "seller"
@@ -73,8 +78,8 @@ app_global_get
 byte "bid_amount"
 app_global_get
 callsub sub1
-b main_l11
-main_l14:
+b main_l12
+main_l15:
 byte "nft_id"
 app_global_get
 byte "bid_account"
@@ -90,8 +95,8 @@ byte "royalty_address"
 app_global_get
 load 2
 callsub sub5
-b main_l11
-main_l15:
+b main_l12
+main_l16:
 txn Sender
 byte "seller"
 app_global_get
@@ -111,19 +116,39 @@ app_global_get
 callsub sub2
 int 1
 return
-main_l16:
+main_l17:
+txn Sender
+byte "seller"
+app_global_get
+==
+txn Sender
+global CreatorAddress
+==
+||
+assert
+byte "nft_id"
+app_global_get
+byte "seller"
+app_global_get
+callsub sub0
+byte "seller"
+app_global_get
+callsub sub2
+int 1
+return
+main_l18:
 txna ApplicationArgs 0
 btoi
 int 5
 ==
-bnz main_l24
+bnz main_l26
 txna ApplicationArgs 0
 btoi
 int 6
 ==
-bnz main_l19
+bnz main_l21
 err
-main_l19:
+main_l21:
 global CurrentApplicationAddress
 byte "nft_id"
 app_global_get
@@ -174,16 +199,16 @@ byte "min_bid_inc"
 app_global_get
 +
 >=
-bnz main_l21
+bnz main_l23
 int 0
 return
-main_l21:
+main_l23:
 byte "bid_account"
 app_global_get
 global ZeroAddress
 !=
-bnz main_l23
-main_l22:
+bnz main_l25
+main_l24:
 byte "bid_amount"
 txn GroupIndex
 int 1
@@ -204,14 +229,14 @@ int 1
 app_global_put
 int 1
 return
-main_l23:
+main_l25:
 byte "bid_account"
 app_global_get
 byte "bid_amount"
 app_global_get
 callsub sub1
-b main_l22
-main_l24:
+b main_l24
+main_l26:
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -223,7 +248,7 @@ itxn_field AssetReceiver
 itxn_submit
 int 1
 return
-main_l25:
+main_l27:
 byte "seller"
 txna ApplicationArgs 0
 app_global_put

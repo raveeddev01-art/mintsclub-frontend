@@ -954,6 +954,55 @@ const executeTransfer = async (
 
 	return sendGroupTransactions;
 };
+
+const cancelListForLiveAuction = async (
+	appId,
+	seller_address,
+	nftID,
+	appGlobalState
+) => {
+	try {
+		let accounts = [];
+		accounts.push(seller_address);
+		const params = await algodClient.getTransactionParams().do();
+		params.fee = 1000;
+		params.flatFee = true;
+
+		if (appGlobalState['bid_account']) {
+			accounts.push(
+				algosdk.encodeAddress(appGlobalState['bid_account']['data'])
+			);
+		}
+		if (appGlobalState['royalty_address']) {
+			accounts.push(
+				algosdk.encodeAddress(appGlobalState['royalty_address']['data'])
+			);
+		}
+
+		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
+			from: seller_address,
+			appIndex: appId,
+			accounts: accounts,
+			foreignAssets: [nftID],
+			onComplete: OnApplicationComplete.NoOpOC,
+			suggestedParams: {
+				...params,
+			},
+		});
+
+		const signedTxn = await myAlgoConnect.signTransaction(deleteTxn.toByte());
+		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
+		console.log('🚀 ~ file: algorand.js:996 ~ response', response);
+
+		if (response) {
+			const data = { success: true, response };
+			return data;
+		}
+	} catch (err) {
+		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
+		return err;
+	}
+};
 export {
 	signMessageFromUserForAlgorand,
 	CheckBalance,
@@ -964,4 +1013,5 @@ export {
 	createFixedPriceApp,
 	buyFixedPriceNFT,
 	setupSale,
+	cancelListForLiveAuction,
 };
