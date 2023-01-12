@@ -98,7 +98,7 @@ const verifyNFTStatus = (
 		ownerAddress?.toUpperCase() === connectedAddress?.toUpperCase() &&
 		sellingMethod &&
 		auctionEnded === false &&
-		blockChainType === 'solana' &&
+		(blockChainType === 'solana' || blockChainType === 'algorand') &&
 		bidCount?.length === 0 &&
 		status !== 'reclaimNft'
 	) {
@@ -117,7 +117,7 @@ const verifyNFTStatus = (
 		sellingMethod === 2 &&
 		auctionEnded === false &&
 		status === 'reclaimNft' &&
-		blockChainType === 'solana' &&
+		(blockChainType === 'solana' || blockChainType === 'algorand') &&
 		activeAuction
 	) {
 		return 'Cancel Listing';

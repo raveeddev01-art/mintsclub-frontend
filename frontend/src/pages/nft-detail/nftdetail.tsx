@@ -81,6 +81,7 @@ import {
 } from '../../utils/solana/helper';
 import {
 	buyFixedPriceNFT,
+	cancelListForLiveAuction,
 	CheckBalance,
 	closeAuction,
 	createNFT,
@@ -554,6 +555,41 @@ const NFTDetail = (props: any) => {
 						await cancelAuction({
 							auctionId: nftDetail?.activeAuction?._id,
 							txnHash: result?.txnHash,
+						});
+						setLoader(false);
+						setIsButtonDisabled(false);
+					} catch (error) {
+						setLoader(false);
+						toast.error('Something went wrong while cancel listing');
+						setIsButtonDisabled(false);
+					}
+				} else {
+					setLoader(false);
+					toast.error(result?.message);
+					setIsButtonDisabled(false);
+				}
+				return;
+			}
+			if (
+				blockchainType === 'algorand' &&
+				nftDetail?.activeAuction?.sellingMethod === 2 &&
+				nftDetail?.activeAuction?.auctionEnded === false &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase() &&
+				bidCount.length === 0
+			) {
+				setLoader(true);
+				const result: any = await cancelListForLiveAuction(
+					nftDetail?.activeAuction?.sellId,
+					nftDetail?.activeAuction?.sellerPublicKey,
+					nftDetail?.tokenId,
+					nftDetail?.activeAuction?.globalState
+				);
+
+				if (result?.success) {
+					try {
+						await cancelAuction({
+							auctionId: nftDetail?.activeAuction?._id,
+							txnHash: result?.response?.txId,
 						});
 						setLoader(false);
 						setIsButtonDisabled(false);
@@ -1124,7 +1160,8 @@ const NFTDetail = (props: any) => {
 			if (
 				currentDate > auctionStartDate &&
 				currentDate < auctionEndDate &&
-				blockchainType !== 'solana'
+				blockchainType !== 'solana' &&
+				blockchainType !== 'algorand'
 			) {
 				return true;
 			} else if (
