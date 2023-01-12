@@ -78,6 +78,12 @@
 	font-size: 11px;
 	color: var(--text-collection);
 	word-break: break-all;
+	overflow: hidden;
+	 display: inline-block;
+	 text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100px;
+	
 }
 
 .new-nft-detail .nft-img-container {

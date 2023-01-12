@@ -6,6 +6,7 @@ import walletReducer from '../pages/wallet/wallet.reducer';
 import offersReducer from '../Components/Offers/offers.reducer';
 import bidsReducer from '../Components/Bids/bids.reducer';
 import exploreAllReducer from '../pages/all-nfts/explore.reducer';
+import systemfeeReducer from './Reducer/systemfee.reducer';
 
 export default combineReducers({
 	auction: auctionReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
 	offer: offersReducer,
 	bid: bidsReducer,
 	explore: exploreAllReducer,
+	systemFee: systemfeeReducer,
 });

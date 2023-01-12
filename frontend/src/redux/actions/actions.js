@@ -18,6 +18,7 @@ import {
 	SET_LEVELS,
 	SET_OTP_STATUS,
 	SET_OTP_EMAIL,
+	systemFee
 } from '../types/types';
 import { DARK_MODE } from '../types';
 
@@ -25,6 +26,7 @@ import { ENV } from '../../config/config';
 import { connectMetamaskCopy } from '../../utils/web3';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import systemSettingFee from '../Reducer/reducer';
 export const currentStepAction = () => (dispatch) => {
 	// alert("called")
 
@@ -67,6 +69,7 @@ export const setOtpEmail = (data) => (dispatch) => {
 		payload: data,
 	});
 };
+
 
 export const sendOtp = (data) => (dispatch) => {
 	const config = {
@@ -397,6 +400,7 @@ export const setContractInfo = () => (dispatch) => {
 		type: SET_CONTRACT_INFO,
 	});
 };
+
 
 export const connectWallet = () => (dispatch) => {
 	connectMetamaskCopy()

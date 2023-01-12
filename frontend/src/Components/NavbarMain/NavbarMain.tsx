@@ -6,14 +6,17 @@ import { ReactComponent as SearchIcon } from '../../assets/images/nav-search-ico
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { ENV } from '../../config/config';
 import './NavbarMain.scss';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import DarkModeButton from '../DarkModeButton/DarkModeButton';
 import { headerImages } from '../../assets/assets';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ListenMetaMaskAccs } from '../../utils/helpers/ethereum';
+import { GET_SYSTEM_FEE } from '../../redux/types';
+import { useGetData } from '../../hooks/Common';
 
 const NavbarMain = () => {
+	const dispatch =useDispatch()
 	const [searchactive, setSearchActive] = useState<any>(false);
 	const [searchValue, setSearchValue] = useState<any>('');
 	const history = useHistory();
@@ -75,13 +78,25 @@ const NavbarMain = () => {
 			setDarkMode(false);
 		}
 	};
-
 	useEffect(() => {
 		if (defaultDark) {
 			setDark();
 			setDarkMode(true);
 		}
 	}, []);
+	//SystemSetting for Admin Pannel 
+	const onSuccessSystemSetting = (data: any) => {
+		dispatch({
+            type: GET_SYSTEM_FEE,
+            payload: data.data,
+        });
+	};
+	const { refetch } = useGetData(
+		'systemSettings',
+		'systemSetting/getAllSystemSetting',
+		null,
+		onSuccessSystemSetting
+	);
 
 	return (
 		<div className="main-nav-section">
