@@ -247,9 +247,9 @@ const mintingAdressURL = (blockchainType: any) => {
 const mintingContractAddress = (blockchainType: any) => {
 	const chaintype = blockchainType;
 	const value: any = {
-		ethereum:(process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS)?.slice(0,6) + '...' + (process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS)?.slice(-6) ,
-		polygon:( process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS)?.slice(0,6) + '...' + ( process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS)?.slice(-6) ,
-		bsc: (process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS)?.slice(0,6) + '...' + (process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS?.slice(-6)),
+		ethereum:(process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS),
+		polygon:( process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS) ,
+		bsc: (process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS),
 	};
 	return value[chaintype];
 };

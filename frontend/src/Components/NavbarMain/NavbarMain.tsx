@@ -12,7 +12,8 @@ import { headerImages } from '../../assets/assets';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ListenMetaMaskAccs } from '../../utils/helpers/ethereum';
-import { setSystemFee } from '../../redux/Reducer/systemfee.action';
+import { GET_SYSTEM_FEE } from '../../redux/types';
+import { useGetData } from '../../hooks/Common';
 
 const NavbarMain = () => {
 	const dispatch =useDispatch()
@@ -82,8 +83,20 @@ const NavbarMain = () => {
 			setDark();
 			setDarkMode(true);
 		}
-		dispatch(setSystemFee())
 	}, []);
+	//SystemSetting for Admin Pannel 
+	const onSuccessSystemSetting = (data: any) => {
+		dispatch({
+            type: GET_SYSTEM_FEE,
+            payload: data.data,
+        });
+	};
+	const { refetch } = useGetData(
+		'systemSettings',
+		'systemSetting/getAllSystemSetting',
+		null,
+		onSuccessSystemSetting
+	);
 
 	return (
 		<div className="main-nav-section">

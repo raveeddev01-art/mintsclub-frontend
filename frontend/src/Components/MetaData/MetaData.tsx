@@ -80,7 +80,7 @@ const MetaData = ({ properties, stats, levels, nftInfo }: any) => {
 						return (
 							<div
 								key={index}
-								className={`detail-rounded-type d-flex align-items-center ${
+								className={`detail-rounded-type d-flex align-items-center  ${
 									item.title === 'Contract Address' ? 'text-highlighted' : ''
 								}`}
 								onClick={() => {
