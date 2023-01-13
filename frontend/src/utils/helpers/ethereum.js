@@ -81,6 +81,8 @@ export const verifyOwnerShip = (connectedAddress, addressToVerify) => {
 	}
 };
 export const isUserLoggedIn = (history, loggedInType) => {
+	const currentPath = window.location.href
+	const url = currentPath.split(currentPath.origin,1)
 	let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (blockChainType && loggedInType === blockChainType) {
 		return true;
@@ -95,7 +97,7 @@ export const isUserLoggedIn = (history, loggedInType) => {
 			}  to continue`
 		);
 
-		history.push('/connect-wallet');
+		history.push('/connect-wallet',url[1]);
 		return false;
 	}
 };
