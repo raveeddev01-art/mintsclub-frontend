@@ -1003,6 +1003,44 @@ const cancelListForLiveAuction = async (
 		return err;
 	}
 };
+
+const cancelItemForFixPriceListing = async (appId, seller_address, nftID) => {
+	try {
+		const params = await algodClient.getTransactionParams().do();
+		params.fee = 1000;
+		params.flatFee = true;
+		const note = enc.encode('cancel_listing');
+
+		const app_args = [
+			note,
+			algosdk.decodeAddress(seller_address.toString()).publicKey,
+		];
+
+		const execute = await algosdk.makeApplicationCallTxnFromObject({
+			appIndex: appId,
+			from: seller_address,
+			foreignAssets: [nftID],
+			onComplete: OnApplicationComplete.NoOpOC,
+			suggestedParams: params,
+			appArgs: app_args,
+		});
+
+		const signedTxn = await myAlgoConnect.signTransaction(execute.toByte());
+		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
+		console.log(
+			'🚀 ~ file: algorand.js:1029 ~ cancelItemForFixPriceListing ~ response',
+			response
+		);
+
+		if (response) {
+			const data = { success: true, response };
+			return data;
+		}
+	} catch (err) {
+		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
+		return err;
+	}
+};
 export {
 	signMessageFromUserForAlgorand,
 	CheckBalance,
@@ -1014,4 +1052,5 @@ export {
 	buyFixedPriceNFT,
 	setupSale,
 	cancelListForLiveAuction,
+	cancelItemForFixPriceListing,
 };
