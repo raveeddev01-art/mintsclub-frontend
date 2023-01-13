@@ -85,6 +85,7 @@ import {
 } from '../../utils/solana/helper';
 import {
 	buyFixedPriceNFT,
+	cancelItemForFixPriceListing,
 	cancelListForLiveAuction,
 	CheckBalance,
 	closeAuction,
@@ -508,6 +509,46 @@ const NFTDetail = (props: any) => {
 				}
 				return;
 			}
+			if (
+				blockchainType?.toLowerCase() === 'algorand' &&
+				nftDetail?.activeAuction?.sellingMethod === 1 &&
+				nftDetail.lazyMinted === false &&
+				nftDetail?.activeAuction?.status === 'active' &&
+				connectedAddress?.toUpperCase() === ownerAddress?.toUpperCase()
+			) {
+				setLoader(true);
+
+				const { sellerTradeState } = nftDetail.activeAuction || {};
+
+				if (sellerTradeState) {
+					const response: any = await cancelItemForFixPriceListing(
+						nftDetail?.activeAuction?.sellId,
+						nftDetail?.activeAuction?.sellerTradeState,
+						nftDetail?.tokenId
+					);
+
+					if (response?.success) {
+						try {
+							await cancelAuction({
+								auctionId: nftDetail?.activeAuction?._id,
+								txnHash: response?.response?.txId,
+							});
+							setLoader(false);
+							setIsButtonDisabled(false);
+						} catch (error) {
+							setLoader(false);
+							toast.error('Something went wrong while cancel listing');
+							setIsButtonDisabled(false);
+						}
+					} else {
+						setLoader(false);
+						toast.error(response?.message);
+						setIsButtonDisabled(false);
+					}
+				}
+				return;
+			}
+
 			if (
 				blockchainType?.toLowerCase() === 'solana' &&
 				nftDetail?.activeAuction?.sellingMethod === 1 &&
