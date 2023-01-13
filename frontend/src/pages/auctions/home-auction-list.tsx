@@ -12,7 +12,10 @@ import { useGetLiveAuctions } from '../../hooks/HomeAuctions';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import './home-auction-list.scss';
 
+import SocketContext from '../../contexts/SocketContext';
+
 const AuctionsList: FC<AuctionsListInt> = () => {
+	const socket = useContext(SocketContext);
 	const [isActive, setIsActive] = useState(0);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(12);
@@ -54,6 +57,17 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 			setError(data.data.message);
 		}
 	};
+
+	useEffect(() => {
+		socket.on('auctionLive', (newAuctionCreatedInformation: any) => {
+			refetchAuction();
+		});
+
+		socket.on('auctionUpdated', (auctionUpdated: any) => {
+			refetchAuction();
+		});
+	}, [socket]);
+
 	const { isLoading: isLoadingCategories } = useGetCategories(
 		null,
 		onSuccessCategories

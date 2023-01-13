@@ -109,4 +109,3 @@ export const NFTALL = 'NFTALL';
 //Approvals
 export const GET_APPROVALS = 'GET_APPROVALS';
 export const EDIT_APPROVAL = 'EDIT_APPROVAL';
-

@@ -71,6 +71,7 @@ export interface BidModalInt {
 	blockchaintype: string;
 	price: any;
 	show: boolean;
+	nftDetail: any;
 }
 export interface Buy {
 	blockchainType: string;

@@ -65,7 +65,11 @@ import MoreNFTs from './components/MoreNFTs/MoreNFTs';
 import Offers from './components/Offers';
 import Activities from './components/Activities';
 import FileViewer from './components/FileViewer';
-import { CHAIN_LOGOS, CHAIN_TITLE, mintingContractAddress } from '../../utils/helpers/helpers';
+import {
+	CHAIN_LOGOS,
+	CHAIN_TITLE,
+	mintingContractAddress,
+} from '../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../utils/helpers/ethereum';
 import { CHAINS_INTERFACE } from '../../interfaces/components';
 import {
@@ -338,9 +342,17 @@ const NFTDetail = (props: any) => {
 		} else {
 			let fivePerc: any = '';
 			const { highestBid } = data.activeAuction || {};
+			console.log(
+				'🚀 ~ file: nftdetail.tsx:340 ~ setNextBidFivePercHigh ~ highestBid',
+				highestBid
+			);
 			if (highestBid === 0 || highestBid === undefined) {
 				fivePerc = (5 / 100) * currentPrice;
 				fivePerc = fivePerc + currentPrice;
+				console.log(
+					'🚀 ~ file: nftdetail.tsx:347 ~ setNextBidFivePercHigh ~ fivePerc',
+					fivePerc
+				);
 			} else {
 				fivePerc = (5 / 100) * highestBid;
 				fivePerc = fivePerc + highestBid;
@@ -704,7 +716,7 @@ const NFTDetail = (props: any) => {
 		} else {
 			fivePerc = (10 / 100) * highestBid;
 			result = fivePerc + highestBid;
-			return result.toString().slice(0, 8);
+			return result.toFixed(8);
 		}
 	};
 	useEffect(() => {
@@ -718,6 +730,10 @@ const NFTDetail = (props: any) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
+
+		if (nftDetail) {
+			getBidsListOfAuction();
+		}
 	}, [currency, nftDetail]);
 
 	useEffect(() => {
@@ -1126,9 +1142,7 @@ const NFTDetail = (props: any) => {
 			price = currentPrice;
 		}
 
-		if (type === 'Transfer' 
-		|| type === 'Bid'
-		) {
+		if (type === 'Transfer' || type === 'Bid') {
 			toAddress = address;
 		}
 
@@ -1202,75 +1216,98 @@ const NFTDetail = (props: any) => {
 		}
 	};
 	const getBidsListOfAuction = async () => {
+		if (!nftDetail?.activeAuction) {
+			return;
+		}
+
 		const auctionEndDate = new Date(nftDetail?.activeAuction?.auctionEndDate);
 		const currentDate = new Date();
 		if (currentDate > auctionEndDate) {
-			if (!initial) {
-				let queryString: any = {
-					// nftId: nftDetail._id,
-					auctionId: nftDetail?.activeAuction?._id,
-				};
-				queryString = ENV.objectToQueryString(queryString);
-				let url = `${ENV.url}bid/list`;
-				url += `?${queryString}`;
-				const res = await axios.get(url);
-				const newBids = res.data.data.Bids;
+			// if (!initial) {
+			let queryString: any = {
+				// nftId: nftDetail._id,
+				auctionId: nftDetail?.activeAuction?._id,
+			};
+			queryString = ENV.objectToQueryString(queryString);
+			let url = `${ENV.url}bid/list`;
+			url += `?${queryString}`;
+			const res = await axios.get(url);
+			const newBids = res.data.data.Bids;
 
-				const getBidDataOfCurrentUser = newBids.filter(function (bid: {
-					fromAddress: any;
-				}) {
-					return bid?.fromAddress === connectedAddress;
-				});
+			const getBidDataOfCurrentUser = newBids.filter(function (bid: {
+				fromAddress: any;
+			}) {
+				return bid?.fromAddress === connectedAddress;
+			});
 
-				if (getBidDataOfCurrentUser.length > 0) {
-					setCurrentBidder(getBidDataOfCurrentUser[0]?.fromAddress);
-					setBidStatus(getBidDataOfCurrentUser[0]?.status);
-					setClaimBidPrice(getBidDataOfCurrentUser[0]?.bidAmount);
-					setClaimBidId(getBidDataOfCurrentUser[0]?._id);
-				}
+			if (getBidDataOfCurrentUser.length > 0) {
+				setCurrentBidder(getBidDataOfCurrentUser[0]?.fromAddress);
+				setBidStatus(getBidDataOfCurrentUser[0]?.status);
+				setClaimBidPrice(getBidDataOfCurrentUser[0]?.bidAmount);
+				setClaimBidId(getBidDataOfCurrentUser[0]?._id);
+			}
 
-				if (!initial) {
-					setInitial(true);
-				}
+			if (newBids?.length > 0) {
+				const highestBidByUser = newBids.reduce((max: any, obj: any) =>
+					max.bidAmount > obj.bidAmount ? max : obj
+				);
+				const blockChainType =
+					ENV.getUserKeys('blockchainType')?.blockchainType;
 
-				if (newBids?.length > 0) {
-					const highestBidByUser = newBids.reduce((max: any, obj: any) =>
-						max.bidAmount > obj.bidAmount ? max : obj
-					);
-					const blockChainType =
-						ENV.getUserKeys('blockchainType')?.blockchainType;
-
-					if (
-						highestBidByUser.fromAddress === connectedAddress &&
-						blockChainType !== 'solana' &&
-						blockChainType !== 'algorand'
-					) {
-						//
-						if (!claimNFT) {
-							setClaimNFT(true);
-						}
+				if (
+					highestBidByUser.fromAddress === connectedAddress &&
+					blockChainType !== 'solana' &&
+					blockChainType !== 'algorand'
+				) {
+					//
+					if (!claimNFT) {
+						setClaimNFT(true);
 					}
 				}
 			}
+			// }
 		}
 	};
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			isAuctionEnded();
-		}, 3000);
-		return () => clearInterval(interval);
-	}, [nftDetail, initial]);
 
 	useEffect(() => {
 		if (socket && nftDetail?._id) {
 			socket.emit('join', nftDetail?._id);
 
 			socket.on('bidPlaced', ({ price }: any) => {
+				refetch();
 				getLatestActivities();
-				getLatestBids();
+				if (nftDetail?.activeAuction?._id) {
+					getLatestBids();
+				}
 				getLatestOffers();
 				setPrice(price);
+			});
+
+			socket.on('auctionCancelled', (auctionCancelledInformation: any) => {
+				refetch();
+				getLatestActivities();
+			});
+
+			socket.on('auctionCreated', (auctionCreatedInformation: any) => {
+				refetch();
+			});
+
+			socket.on('auctionStarted', (auctionStartedInformation: any) => {
+				refetch();
+			});
+			socket.on('auctionEnded', (auctionEndedInformation: any) => {
+				refetch();
+			});
+
+			// auctionTimeEnded
+
+			socket.on('auctionTimeEnded', (auctionEndedInformation: any) => {
+				refetch();
+				getBidsListOfAuction();
+			});
+
+			socket.on('auctionUpdated', (auctionUpdated: any) => {
+				refetch();
 			});
 		}
 
@@ -1278,25 +1315,6 @@ const NFTDetail = (props: any) => {
 			socket.emit('leave', nftDetail?._id);
 		};
 	}, [nftDetail?._id, socket]);
-
-	const isAuctionEnded = async () => {
-		if (
-			nftDetail &&
-			(nftDetail.blockchainType === 'solana' ||
-				nftDetail.blockchainType === 'algorand') &&
-			nftDetail?.activeAuction?.sellingMethod === 2
-		) {
-			await getBidsListOfAuction();
-		} else {
-			if (
-				nftDetail &&
-				nftDetail?.activeAuction?.sellingMethod === 2 &&
-				nftDetail?.activeAuction !== null
-			) {
-				await getBidsListOfAuction();
-			}
-		}
-	};
 
 	const EndAuction = async () => {
 		try {
@@ -1432,7 +1450,7 @@ const NFTDetail = (props: any) => {
 			value:
 				blockchainType === 'solana'
 					? ''
-					:mintingContractAddress(blockchainType)
+					: mintingContractAddress(blockchainType),
 		},
 		{
 			title: blockchainType === 'solana' ? 'Mint' : 'Token ID',
@@ -1598,6 +1616,7 @@ const NFTDetail = (props: any) => {
 				price={price}
 				onHide={async () => setBidModalShow(false)}
 				blockchaintype={blockchainType}
+				nftDetail={nftDetail}
 			/>
 		</>
 	);
@@ -1625,7 +1644,7 @@ const mapStateToProps = (state: any) => ({
 	bidsByNftAuth: state.bid.bidsBYNftAuth,
 	togleLikeRes: state.explore.togleLikeRes,
 	connectedAddress: state.wallet.connectedAddress,
-	royalityFee:state.systemFee.royalityFee
+	royalityFee: state.systemFee.royalityFee,
 });
 
 export default connect(mapStateToProps, {

@@ -247,9 +247,9 @@ const mintingAdressURL = (blockchainType: any) => {
 const mintingContractAddress = (blockchainType: any) => {
 	const chaintype = blockchainType;
 	const value: any = {
-		ethereum:(process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS),
-		polygon:( process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS) ,
-		bsc: (process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS),
+		ethereum: process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS,
+		polygon: process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS,
+		bsc: process.env.REACT_APP_MintsClub_MINT_BSC_CONTRACT_ADDRESS,
 	};
 	return value[chaintype];
 };
@@ -281,6 +281,13 @@ const STATUS_TEXT: STATUS_TYPE = {
 	failed: 'Failed',
 };
 
+const reduceString = (text: string, size: number) => {
+	if (text.length > size) {
+		return `${text.slice(0, size)}...`;
+	}
+	return text;
+};
+
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
@@ -296,5 +303,6 @@ export {
 	STATUS_COLOR,
 	STATUS_TEXT,
 	mintingAdressURL,
-	mintingContractAddress
+	mintingContractAddress,
+	reduceString,
 };

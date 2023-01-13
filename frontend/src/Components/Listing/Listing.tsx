@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect, FC, useContext } from 'react';
 import './Listing.scss';
 import { decimalnumbervalidator } from '../../utils/functions';
 import { listingInt } from '../../interfaces/components';
@@ -9,7 +9,11 @@ import PriceFilter from '../Filters/PriceFilter';
 import CollectionFilter from '../Filters/CollectionFilter';
 import FilteredNftsList from '../Filters/FilteredNftsList';
 import { ENV } from '../../config/config';
+
+import SocketContext from '../../contexts/SocketContext';
+
 const Listing: FC<listingInt> = (props) => {
+	const socket = useContext(SocketContext);
 	const [minValue, setMinValue] = useState<any>('');
 	const [maxValue, setMaxValue] = useState<any>('');
 	const [statusActive, setStatusActive] = useState<any>(null);
@@ -61,6 +65,23 @@ const Listing: FC<listingInt> = (props) => {
 	useEffect(() => {
 		fetchData(filter);
 	}, []);
+
+	useEffect(() => {
+		socket.on('newAuctionCreated', (newAuctionCreatedInformation: any) => {
+			refetchNFTs();
+		});
+
+		socket.on('auctionUpdated', (auctionUpdatedInformation: any) => {
+			refetchNFTs();
+		});
+
+		socket.on('nftCreated', (nftCreatedInformation: any) => {
+			refetchNFTs();
+		});
+		socket.on('newNftAdded', (nftAddedInformation: any) => {
+			refetchNFTs();
+		});
+	}, [socket]);
 
 	useEffect(() => {
 		setPage(1);

@@ -14,9 +14,12 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { ListenMetaMaskAccs } from '../../utils/helpers/ethereum';
 import { GET_SYSTEM_FEE } from '../../redux/types';
 import { useGetData } from '../../hooks/Common';
+import SocketContext from '../../contexts/SocketContext';
 
 const NavbarMain = () => {
-	const dispatch =useDispatch()
+	const socket = useContext(SocketContext);
+	const dispatch = useDispatch();
+
 	const [searchactive, setSearchActive] = useState<any>(false);
 	const [searchValue, setSearchValue] = useState<any>('');
 	const history = useHistory();
@@ -84,12 +87,12 @@ const NavbarMain = () => {
 			setDarkMode(true);
 		}
 	}, []);
-	//SystemSetting for Admin Pannel 
+	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
 		dispatch({
-            type: GET_SYSTEM_FEE,
-            payload: data.data,
-        });
+			type: GET_SYSTEM_FEE,
+			payload: data.data,
+		});
 	};
 	const { refetch } = useGetData(
 		'systemSettings',
@@ -97,6 +100,12 @@ const NavbarMain = () => {
 		null,
 		onSuccessSystemSetting
 	);
+
+	useEffect(() => {
+		if (socket) {
+			socket.emit('join', ENV.getUserKeys('_id')?._id);
+		}
+	}, [ENV.getUserKeys('_id')?._id]);
 
 	return (
 		<div className="main-nav-section">
