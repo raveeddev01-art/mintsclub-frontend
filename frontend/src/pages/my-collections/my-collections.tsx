@@ -15,7 +15,6 @@ import { ExploreCollectionInt } from '../../interfaces/ExploreCollections/interf
 import { useGetMyCollections } from '../../hooks/AllNFTs';
 import { useGetCategories } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
-
 const MyCollections: FC<ExploreCollectionInt> = (props) => {
 	const [collections, setCollections] = useState<any[] | null>(null);
 	const [categories, setCategories] = useState<any[] | null>(null);

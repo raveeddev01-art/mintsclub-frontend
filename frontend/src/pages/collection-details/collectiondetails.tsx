@@ -125,7 +125,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 		totalVolume,
 		nftDetail,
 	}: any = location.state;
-
 	const bannerData = {
 		subHeading: 'Explore',
 		heading: name,
@@ -138,7 +137,6 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 	// eslint-disable-next-line prettier/prettier
 	const avgSale = (location.state.avgSalePrice);
 	const item = location.state?.nftDetail?.length;
-	console.log(location.state, 'location.state==========');
 
 	return (
 		<>
@@ -150,6 +148,7 @@ const CollectionDetailsPage: FC<CollectionDetailInt> = (props) => {
 					bgImg={darkMode ? BannerDark : BannerLight}
 					createdby={username?.[0] && username?.[0]}
 					bg={false}
+					nftDetail={nftDetail}
 					btns={isOwner()}
 					onDelete={() => handleDeleteCollection()}
 					onEdit={() => {
