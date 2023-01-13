@@ -24,7 +24,7 @@ const Notification = (props: any) => {
 		addBid: {
 			title: 'Bid Added',
 			descritption:
-				"'--formUserID--' have placed a bid on your auction of --nftId--",
+				"'--formUserID--' have placed a bid on your auction of --name--",
 		},
 		upBid: {
 			title: 'Up Bided',
@@ -32,11 +32,11 @@ const Notification = (props: any) => {
 		},
 		startAuction: {
 			title: 'Start Auction Time',
-			description: 'Aucton time started of --auctionId--',
+			descritption: 'Aucton time started of --name--',
 		},
 		endAuction: {
 			title: 'End Auction Time',
-			description: 'Aucton time ended of --auctionId--',
+			descritption: 'Aucton time ended of --name--',
 		},
 	};
 	let path = `explore/nftdetail/`;
@@ -55,12 +55,11 @@ const Notification = (props: any) => {
 	) => {
 		return NOTIFICATION_TEXT[types]?.descritption
 			.replace('--formUserID--', fromUserId)
-			.replace('--nftId--', nftId);
+			.replace('--name--', nftId);
 	};
 
 	const updateNotification = async (i: any) => {
 		history.push(`${path}${nftId[i]._id}`);
-		console.log('This is notificationId: ', notificationId[i]);
 		const payload: any = { _id: notificationId[i], isSeen: true };
 		const res = await handleRequest(
 			'put',
