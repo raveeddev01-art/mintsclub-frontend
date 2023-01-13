@@ -25,6 +25,8 @@ const Banner: FC<BannerInterface> = ({
 	};
 	const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	const loggedInUser = ENV.getUserKeys('_id')._id;
+	const getCollectionUrl = window.location.pathname;
+	const splitCollectionUrl = getCollectionUrl.split('/');
 	return (
 		<>
 			<div
@@ -54,12 +56,12 @@ const Banner: FC<BannerInterface> = ({
 												<span>Delete</span>
 											</button>
 											{blockChainType !== 'algorand' &&
-												loggedInUser === nftDetail?.creatorId && (
+												(loggedInUser === nftDetail?.creatorId || splitCollectionUrl[1]==="collection") && (
 													<button className="edit" onClick={() => onEdit?.()}>
 														<img src={editImage.editIcon} alt="/" />
 														<span>Edit</span>
 													</button>
-												)}
+											)}
 										</div>
 									)}
 								</div>
