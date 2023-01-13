@@ -550,7 +550,8 @@ const NFTDetail = (props: any) => {
 			}
 
 			if (
-				blockchainType?.toLowerCase() === 'solana' &&
+				(blockchainType?.toLowerCase() === 'solana' ||
+					blockchainType?.toLowerCase() === 'algorand') &&
 				nftDetail?.activeAuction?.sellingMethod === 1 &&
 				nftDetail.lazyMinted === true &&
 				nftDetail?.activeAuction?.status === 'active' &&
