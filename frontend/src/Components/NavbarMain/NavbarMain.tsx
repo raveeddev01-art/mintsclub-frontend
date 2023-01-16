@@ -21,11 +21,11 @@ import axios, { AxiosResponse } from 'axios';
 import { handleRequest } from '../../utils/functions';
 import { useQuery, useMutation } from 'react-query';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import { notificationSeen } from './variableTypes';
 
 const NavbarMain = () => {
 	const socket = useContext(SocketContext);
 	const dispatch = useDispatch();
-
 	const [searchactive, setSearchActive] = useState<any>(false);
 	const [enableNotification, setEnableNotification] = useState(false);
 	const [searchValue, setSearchValue] = useState<any>('');
@@ -33,9 +33,10 @@ const NavbarMain = () => {
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 	const wallet = useWallet();
 	// let notificationData: never[] | AxiosResponse<any> = [];
-	const [notificationData, setNotificationData] = useState({});
-	const [seenNotification, setSeenNotification] = useState<any>({});
-
+	const [notificationData, setNotificationData] = useState<object>({});
+	const [seenNotification, setSeenNotification] = useState<notificationSeen>(
+		{}
+	);
 	//Listen Metamask listeners
 	ListenMetaMaskAccs();
 
@@ -100,6 +101,8 @@ const NavbarMain = () => {
 			setDark();
 			setDarkMode(true);
 		}
+		getNotification();
+		getSeenNotification();
 	}, []);
 	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
@@ -127,17 +130,11 @@ const NavbarMain = () => {
 		}
 	}, [ENV.getUserKeys('_id')?._id]);
 
-	useEffect(() => {
-		getNotification();
-		getSeenNotification();
-	}, []);
-
 	const getNotification = async () => {
 		const notifications = await handleRequest(
 			'get',
 			'notification/getUserAllNotification'
 		);
-		console.log('This is Notification', notifications);
 		setNotificationData(notifications);
 	};
 
@@ -148,7 +145,6 @@ const NavbarMain = () => {
 		);
 		setSeenNotification(notifications);
 	};
-	console.log('seen Notification Data', notificationData);
 	const dataLength = seenNotification?.data?.length;
 	let count: any = '';
 	if (dataLength > 9) {
