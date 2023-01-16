@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import './nftdetail.scss';
 
 import {
@@ -15,7 +15,7 @@ import {
 import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 import { connect, useDispatch } from 'react-redux';
 import { ENV } from '../../config/config';
-import { decimalnumbervalidator } from '../../utils/functions';
+import { decimalnumbervalidator, handleRequest } from '../../utils/functions';
 import {
 	toggleLikeDislike,
 	beforeTogleLikeDislike,
@@ -99,6 +99,8 @@ import SocketContext from '../../contexts/SocketContext';
 import { sliderClasses } from '@mui/material';
 
 const NFTDetail = (props: any) => {
+	const params: any = useParams();
+
 	const socket = useContext(SocketContext);
 	console.log('🚀 ~ file: nftdetail.tsx:98 ~ NFTDetail ~ socket', socket);
 	const currencyData: any = currency;
@@ -135,7 +137,8 @@ const NFTDetail = (props: any) => {
 		useState<boolean>(false);
 	const [beforeGetOffers, setBeforeGetOffers] = useState<boolean>(false);
 	const [beforeGetBids, setBeforeGetBids] = useState<boolean>(false);
-	const nftId = props.match.params.id;
+
+	const [nftId, setNftId] = useState<string>(params.id);
 	const userId = ENV.getUserKeys('_id')._id;
 	const { darkMode } = useContext(darkModeContext);
 	const [currentBidder, setCurrentBidder] = useState<string>('');
@@ -144,41 +147,34 @@ const NFTDetail = (props: any) => {
 	const [claimBidId, setClaimBidId] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
+	console.log('NftDetails Id', nftDetail?._id, nftId);
+
 	useEffect(() => {
 		window.scroll(0, 600);
 		refetch();
 	}, []);
 
-	// Get NFT
-	const onSuccessGetNFT = (data: any) => {
-		if (data.data.success) {
-			const nftDetailsData = data.data.data;
-			setNftDetail(nftDetailsData);
-			setLoader(false);
-			setIsButtonDisabled(false);
-			// Get Activities
-			setBeforeGetActivities(true);
+	const refetch = async () => {
+		try {
+			setLoader(true);
+			const nftDetailsResponse = await handleRequest(
+				'get',
+				`nfts/get/${nftId}`,
+				null,
+				null
+			);
 
-			// Get Offers and Bids
-			if (nftDetailsData?.activeAuction?.sellingMethod) {
-				if (nftDetailsData?.activeAuction?.sellingMethod === 1) {
-					setBeforeGetOffers(true);
-				} else {
-					setBeforeGetBids(true);
-				}
-			}
-			setNextBidFivePercHigh(data.data.data);
-		} else {
-			setError(data.data.message);
+			const nftDetailsData = nftDetailsResponse?.data?.data;
+
+			setNftDetail(nftDetailsData);
+
+			setNextBidFivePercHigh(nftDetailsData);
+		} catch (err) {
+			console.log('🚀 ~ file: nftdetail.tsx:171 ~ refetch ~ err', err);
+		} finally {
+			setLoader(false);
 		}
 	};
-
-	const { isLoading: isLoadingNFT, refetch } = useGetData(
-		'GetNFT',
-		`nfts/get/${nftId}`,
-		null,
-		onSuccessGetNFT
-	);
 
 	//get activities
 	const onSuccessGetActivities = (data: any) => {
@@ -236,11 +232,11 @@ const NFTDetail = (props: any) => {
 	);
 	//get system Settings
 	const onSuccessGetSettings = (data: any) => {
-		if (data.data) {
-			setSettings(data.data);
-			return data.data;
+		if (data?.data) {
+			setSettings(data?.data);
+			return data?.data;
 		} else {
-			setError(data.data.message);
+			setError(data?.data?.message);
 		}
 	};
 
@@ -254,6 +250,7 @@ const NFTDetail = (props: any) => {
 	);
 
 	useEffect(() => {
+		setNftId(params?.id);
 		const getBannerData = async () => {
 			// props.beforeNFT();
 			// props.getNFT(nftId);
@@ -276,7 +273,7 @@ const NFTDetail = (props: any) => {
 			// setLoader(true);
 		};
 		getBannerData();
-	}, [props.match.params.id]);
+	}, [params.id]);
 
 	useEffect(() => {
 		if (props.createAuth) {
@@ -734,7 +731,7 @@ const NFTDetail = (props: any) => {
 		if (nftDetail) {
 			getBidsListOfAuction();
 		}
-	}, [currency, nftDetail]);
+	}, [currency, nftId]);
 
 	useEffect(() => {
 		if (props.togleLikeRes) {
@@ -1113,7 +1110,7 @@ const NFTDetail = (props: any) => {
 					contractAddress,
 					setTransactionHash,
 					setConfirmed,
-					props.royalityFee
+					props?.royalityFee || 150
 				);
 				payload = {
 					userId,
@@ -1375,7 +1372,7 @@ const NFTDetail = (props: any) => {
 		}
 	};
 	const { mutate: deleteNFT, isLoading } = useDeleteData(
-		`nfts/delete/${props.match.params.id}`,
+		`nfts/delete/${nftId}`,
 		(res: any) => {
 			if (res.data.success) {
 				toast.success('NFT Deleted successfully');
@@ -1486,7 +1483,7 @@ const NFTDetail = (props: any) => {
 						toast.info('Please sign in to edit NFT');
 						return history.push('/connect-wallet');
 					}
-					history.push(`/asset/edit/${props.match.params.id}`);
+					history.push(`/asset/edit/${nftId}`);
 				}}
 				onDelete={() => handleDelete()}
 			/>
@@ -1623,7 +1620,7 @@ const NFTDetail = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => ({
-	nftDetail: state.nft.nftsData,
+	nftDetails: state.nft.nftsData,
 	nftsAuth: state.nft.nftsAuth,
 	nftsByCollection: state.nft.nftsByCollection,
 	nftsByCollectionStatus: state.nft.nftsByCollectionStatus,

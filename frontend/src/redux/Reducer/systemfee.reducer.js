@@ -8,8 +8,8 @@ export default function (state = initialState, action) {
 		case GET_SYSTEM_FEE:
 			return {
 				...state,
-				platformFee: action.payload.platformFee,
-				royalityFee: action.payload.royalityFee,
+				platformFee: action?.payload?.platformFee,
+				royalityFee: action?.payload?.royalityFee,
 			};
 		default:
 			return state;
