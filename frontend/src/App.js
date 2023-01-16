@@ -28,6 +28,8 @@ import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 require('@solana/wallet-adapter-react-ui/styles.css');
 import Socket from './utils/socket';
 import SocketContext from './contexts/SocketContext';
+import { WagmiConfig } from 'wagmi';
+import { wagmiClient } from './utils/walletConnect';
 
 const App = React.memo((props) => {
 	const network = 'devnet';
@@ -61,36 +63,38 @@ const App = React.memo((props) => {
 
 	return (
 		<SocketContext.Provider value={socket}>
-			<ConnectionProvider endpoint={endpoint}>
-				<WalletProvider wallets={wallets} autoConnect>
-					<WalletModalProvider>
-						<React.Fragment>
-							<Suspense fallback={<FullPageLoader message={loadingText} />}>
-								<div>
-									<Switch>
-										{routes.map((route, index) => {
-											return (
-												<PrivateRoute
-													key={index}
-													path={route.path}
-													exact={route.exact}
-													access={route.access}
-													component={(props) => (
-														<route.layout {...props} title={route.title}>
-															<route.component {...props} />
-														</route.layout>
-													)}
-												/>
-											);
-										})}
-									</Switch>
-								</div>
-							</Suspense>
-						</React.Fragment>
-						<UseWalletChange />
-					</WalletModalProvider>
-				</WalletProvider>
-			</ConnectionProvider>
+			<WagmiConfig client={wagmiClient}>
+				<ConnectionProvider endpoint={endpoint}>
+					<WalletProvider wallets={wallets} autoConnect>
+						<WalletModalProvider>
+							<React.Fragment>
+								<Suspense fallback={<FullPageLoader message={loadingText} />}>
+									<div>
+										<Switch>
+											{routes.map((route, index) => {
+												return (
+													<PrivateRoute
+														key={index}
+														path={route.path}
+														exact={route.exact}
+														access={route.access}
+														component={(props) => (
+															<route.layout {...props} title={route.title}>
+																<route.component {...props} />
+															</route.layout>
+														)}
+													/>
+												);
+											})}
+										</Switch>
+									</div>
+								</Suspense>
+							</React.Fragment>
+							<UseWalletChange />
+						</WalletModalProvider>
+					</WalletProvider>
+				</ConnectionProvider>
+			</WagmiConfig>
 		</SocketContext.Provider>
 	);
 });

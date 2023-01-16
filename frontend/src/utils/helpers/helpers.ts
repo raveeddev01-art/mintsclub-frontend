@@ -33,6 +33,14 @@ const CHAIN_CURRENCY = {
 	bsc: 'BNB',
 };
 
+const CHAIN_NAME_BY_CHAIN_ID = {
+	80001: 'polygon',
+	137: 'polygon',
+	1: 'ethereum',
+	5: 'ethereum',
+	56: 'binance',
+};
+
 const verifyOwner = (
 	ownerAddress?: string,
 	connectedAddress?: string,
@@ -305,4 +313,5 @@ export {
 	mintingAdressURL,
 	mintingContractAddress,
 	reduceString,
+	CHAIN_NAME_BY_CHAIN_ID,
 };

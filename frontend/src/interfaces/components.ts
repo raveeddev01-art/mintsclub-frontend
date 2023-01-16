@@ -268,3 +268,11 @@ export interface CHAINS_INTERFACE {
 	binance: string;
 	algorand: string;
 }
+
+export interface CHAINS_ID_INTERFACE {
+	1: number;
+	5: number;
+	80001: number;
+	56: number;
+	137: number;
+}

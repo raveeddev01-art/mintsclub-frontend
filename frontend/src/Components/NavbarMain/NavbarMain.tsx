@@ -15,16 +15,19 @@ import { ListenMetaMaskAccs } from '../../utils/helpers/ethereum';
 import { GET_SYSTEM_FEE } from '../../redux/types';
 import { useGetData } from '../../hooks/Common';
 import SocketContext from '../../contexts/SocketContext';
+import { useAccount, useDisconnect } from 'wagmi';
 
 const NavbarMain = () => {
 	const socket = useContext(SocketContext);
 	const dispatch = useDispatch();
+	const { disconnectAsync } = useDisconnect();
 
 	const [searchactive, setSearchActive] = useState<any>(false);
 	const [searchValue, setSearchValue] = useState<any>('');
 	const history = useHistory();
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 	const wallet = useWallet();
+	const { isConnected } = useAccount();
 
 	//Listen Metamask listeners
 	ListenMetaMaskAccs();
@@ -43,6 +46,10 @@ const NavbarMain = () => {
 	};
 	const clearLocalStorage = async () => {
 		if (ENV?.getUserKeys('_id')?._id) {
+			if (isConnected) {
+				await disconnectAsync();
+			}
+
 			const blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 
 			if (wallet.connected && blockChainType !== 'solana') {

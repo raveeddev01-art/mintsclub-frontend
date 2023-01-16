@@ -26,6 +26,18 @@ import {
 	connectWallet,
 	signMessageFromUserForAlgorand,
 } from '../../utils/algorand';
+import { useWeb3Modal, useWeb3ModalNetwork, Web3Modal } from '@web3modal/react';
+import { ethereumClient } from '../../utils/walletConnect';
+import {
+	useAccount,
+	useDisconnect,
+	useEnsName,
+	useNetwork,
+	useSigner,
+	useSignMessage,
+} from 'wagmi';
+import { CHAIN_NAME_BY_CHAIN_ID } from '../../utils/helpers/helpers';
+import { CHAINS_ID_INTERFACE } from '../../interfaces/components';
 
 // require("@solana/wallet-adapter-react-ui/styles.css");
 
@@ -34,6 +46,26 @@ const ConnectWallet = (props: any) => {
 	const history = useHistory();
 	const location: any = useLocation();
 	const [connectedAddress, setConnectedAddres] = useState<any>(null);
+	const walletConnectModal = useWeb3Modal();
+	const { chain, chains } = useNetwork();
+
+	const { address, isConnected } = useAccount();
+	console.log(
+		'🚀 ~ file: connect-wallet.tsx:56 ~ ConnectWal ~ isConnected',
+		address,
+		isConnected
+	);
+	const { disconnectAsync } = useDisconnect();
+	const { isSuccess, isLoading, status, signMessageAsync } = useSignMessage();
+
+	console.log(
+		'🚀 ~ file: connect-wallet.tsx:45 ~ ConnectWal ~ { address, isConnected }',
+		address,
+		isConnected,
+
+		chain,
+		chains
+	);
 
 	const { setError } = useContext(errorHandler);
 
@@ -123,6 +155,30 @@ const ConnectWallet = (props: any) => {
 		const response = data.data;
 		let selectedBlockchainType = undefined;
 		if (response.success) {
+			if (isConnected && address) {
+				console.log('This is running... isConnected');
+
+				// signMessage({
+				// 	message: `I am signing my one-time nonce: ${100}`,
+				// });
+
+				const signMessageResponse = await signMessageAsync({
+					message: `I am signing my one-time nonce: ${response?.users[0].nounce}`,
+				});
+				console.log(
+					'🚀 ~ file: connect-wallet.tsx:171 ~ onSuccessValidateUser ~ response',
+					signMessageResponse
+				);
+
+				authenticate({
+					publicAddress: address,
+					signature: signMessageResponse,
+					blockchainType: data?.data?.data.blockchainType,
+				});
+
+				return;
+			}
+
 			if (
 				response.blockchainType === 'ethereum' ||
 				response.blockchainType === 'polygon' ||
@@ -180,6 +236,30 @@ const ConnectWallet = (props: any) => {
 	///Sign up
 	const onSuccessSignUp = async (data: any) => {
 		if (data.data.success) {
+			if (isConnected && address) {
+				console.log('This is running... isConnected');
+
+				// signMessage({
+				// 	message: `I am signing my one-time nonce: ${100}`,
+				// });
+
+				const response = await signMessageAsync({
+					message: `I am signing my one-time nonce: ${data?.data?.data?.nounce}`,
+				});
+				console.log(
+					'🚀 ~ file: connect-wallet.tsx:246 ~ onSuccessSignUp ~ response',
+					response
+				);
+
+				authenticate({
+					publicAddress: address,
+					signature: response,
+					blockchainType: data?.data?.data.blockchainType,
+				});
+
+				return;
+			}
+
 			if (
 				data?.data?.data?.blockchainType !== 'solana' &&
 				data?.data?.data?.blockchainType !== 'algorand'
@@ -245,6 +325,7 @@ const ConnectWallet = (props: any) => {
 				'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
 			);
 		}
+		await disconnectAsync();
 		const currentChainId = await getChainId();
 		if (chainId !== currentChainId) {
 			await switchNetworkToChainId(chainId);
@@ -257,7 +338,61 @@ const ConnectWallet = (props: any) => {
 		validateUser({ blockchainType: status });
 	};
 
+	const walletConnectFunctionality = async () => {
+		try {
+			await wallet.disconnect();
+
+			await walletConnectModal.open({ route: 'SelectNetwork' });
+
+			// const selectedChain =
+			// 	CHAIN_NAME_BY_CHAIN_ID[chain?.id as keyof CHAINS_ID_INTERFACE];
+			// console.log(
+			// 	'🚀 ~ file: connect-wallet.tsx:289 ~ walletConnectFunctionality ~ selectedChain',
+			// 	selectedChain
+			// );
+		} catch (err) {
+			console.log(
+				'🚀 ~ file: connect-wallet.tsx:266 ~ walletConnectFunctionality ~ err',
+				err
+			);
+		} finally {
+			console.log('Wallet Connect Finally');
+		}
+	};
+
+	useEffect(() => {
+		if (isConnected && address) {
+			console.log('Address', address);
+			setConnectedAddres(address);
+			props.setWalletAddress(address);
+			handleSignUp({
+				address,
+				blockchainType:
+					CHAIN_NAME_BY_CHAIN_ID[chain?.id as keyof CHAINS_ID_INTERFACE],
+			});
+			// validateUser({
+			// 	blockchainType:
+			// 		CHAIN_NAME_BY_CHAIN_ID[chain?.id as keyof CHAINS_ID_INTERFACE],
+			// });
+		}
+	}, [isConnected]);
+
 	const CHAINS = [
+		{
+			title: 'Wallet Connect',
+			key: 'walletConnect',
+			wallets: [
+				{
+					name: 'Wallet Connect',
+					icon: connectModal.wcImg,
+					functionality: async () => {
+						// await ethereumFunc('ethereum', 5);
+						// console.log('Implementing Wallet Connect');
+						await walletConnectFunctionality();
+					},
+				},
+			],
+		},
 		{
 			title: 'Ethereum',
 			key: 'ethereum',
@@ -271,6 +406,7 @@ const ConnectWallet = (props: any) => {
 				},
 			],
 		},
+
 		{
 			title: 'Polygon',
 			key: 'polygon',
@@ -368,6 +504,10 @@ const ConnectWallet = (props: any) => {
 
 			{/* <WalletDisconnectButton /> */}
 			{/* Your app's components go here, nested within the context providers. */}
+			<Web3Modal
+				ethereumClient={ethereumClient}
+				projectId={ENV.walletConnectAppId}
+			/>
 		</Container>
 	);
 };

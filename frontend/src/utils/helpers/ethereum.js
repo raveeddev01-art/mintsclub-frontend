@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 export const ListenMetaMaskAccs = () => {
 	const { darkMode } = useContext(darkModeContext);
 	const history = useHistory();
+
 	const location = useLocation();
 	useEffect(() => {
 		if (!window.ethereum) {
@@ -29,7 +30,9 @@ export const ListenMetaMaskAccs = () => {
 				blockChainType === 'bsc'
 			);
 		};
-		const logout = () => {
+		const logout = async () => {
+			disconnect();
+			console.log('🚀 ~ file: ethereum.js:36 ~ logout ~ response', response);
 			localStorage.clear();
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 			history.push('/connect-wallet');
@@ -81,8 +84,8 @@ export const verifyOwnerShip = (connectedAddress, addressToVerify) => {
 	}
 };
 export const isUserLoggedIn = (history, loggedInType) => {
-	const currentPath = window.location.href
-	const url = currentPath.split(currentPath.origin,1)
+	const currentPath = window.location.href;
+	const url = currentPath.split(currentPath.origin, 1);
 	let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (blockChainType && loggedInType === blockChainType) {
 		return true;
@@ -97,7 +100,7 @@ export const isUserLoggedIn = (history, loggedInType) => {
 			}  to continue`
 		);
 
-		history.push('/connect-wallet',url[1]);
+		history.push('/connect-wallet', url[1]);
 		return false;
 	}
 };

@@ -13,6 +13,8 @@ import { createNFT } from '../../../utils/algorand';
 import { blockchainIcons } from '../../../assets/assets';
 import { useToast } from 'react-toastify';
 import { getSpecialCharacterReplaced } from '../../../utils/helpers/helpers';
+import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
+import interactionConfig from '../../../utils/WalletConnect/mint';
 
 const CreateNft = ({
 	props,
@@ -24,9 +26,14 @@ const CreateNft = ({
 	blockchainType,
 	setError,
 }: CreateNftInterface) => {
+	const MINT_NFT_CONFIG = usePrepareContractWrite(
+		interactionConfig(props.blockchainType, 'mint')
+	);
+	const MINTING_INTERACTION = useContractWrite(MINT_NFT_CONFIG?.config as any);
 	const wallet = useWallet();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	const { address, isConnected } = useAccount();
 
 	const insertNFT = async (data: any) => {
 		try {
@@ -94,6 +101,16 @@ const CreateNft = ({
 		try {
 			let paylaod: any = {};
 			if (!state.isFreeMint) {
+				if (isConnected && address) {
+					console.log('Mint Using WalletConnect');
+					const response = await MINTING_INTERACTION?.writeAsync?.();
+					console.log(
+						'🚀 ~ file: createNft.tsx:107 ~ mintNFT ~ response',
+						response
+					);
+					return;
+				}
+
 				if (
 					blockchainType === 'ethereum' ||
 					blockchainType === 'polygon' ||
