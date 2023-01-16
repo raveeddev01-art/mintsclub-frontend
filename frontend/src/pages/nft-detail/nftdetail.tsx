@@ -168,6 +168,17 @@ const NFTDetail = (props: any) => {
 
 			setNftDetail(nftDetailsData);
 
+			setBeforeGetActivities(true);
+
+			// Get Offers and Bids
+			if (nftDetailsData?.activeAuction?.sellingMethod) {
+				if (nftDetailsData?.activeAuction?.sellingMethod === 1) {
+					setBeforeGetOffers(true);
+				} else {
+					setBeforeGetBids(true);
+				}
+			}
+
 			setNextBidFivePercHigh(nftDetailsData);
 		} catch (err) {
 			console.log('🚀 ~ file: nftdetail.tsx:171 ~ refetch ~ err', err);
