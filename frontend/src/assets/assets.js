@@ -66,6 +66,7 @@ import metaImg from './images/walletModal/metamskimg.png';
 import glowImg from './images/walletModal/glow.png';
 import coinBaseImg from './images/walletModal/coinbaseimg.png';
 import phantomImg from './images/walletModal/phantomimg.png';
+import solflareImg from './images/walletModal/solflareImg.png';
 import algorandImg from './images/walletModal/algorand-logo.png';
 import wcImg from './images/walletModal/walletconnect.png';
 
@@ -157,6 +158,7 @@ export const connectModal = {
 	glowImg,
 	coinBaseImg,
 	phantomImg,
+	solflareImg,
 	algorandImg,
 	wcImg,
 };

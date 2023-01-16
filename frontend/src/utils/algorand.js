@@ -41,9 +41,9 @@ export const connectWallet = async () => {
 		console.error(err);
 	}
 };
-const CheckBalance = async (accountaddress) => {
+const checkAlgoBalance = async (accountaddress) => {
 	let accountInfo = await algodClient.accountInformation(accountaddress).do();
-	return accountInfo.amount;
+	return accountInfo;
 };
 
 const sendAmount = async (accountaddress, to_address, amount) => {
@@ -679,6 +679,7 @@ const setupSale = async (
 	try {
 		setLoader(true);
 		let NFT_PRICE = await algosdk.algosToMicroalgos(price);
+
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
 		params.flatFee = true;
@@ -778,21 +779,9 @@ const buyFixedPriceNFT = async (
 	sellerAddress, //ownerAddress
 	algoLazyMinted
 ) => {
-	console.log('🚀 ~ file: algorand.js ~ line 805 ~ lazyMinted', algoLazyMinted);
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 803 ~ connectedAddress',
-		connectedAddress
-	);
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 803 ~ sellerAddress',
-		sellerAddress
-	);
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 803 ~ royaltyAddress',
-		royaltyAddress
-	);
 	try {
 		let NFT_PRICE = await algosdk.algosToMicroalgos(price);
+
 		let txnsArray = [];
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
@@ -866,6 +855,7 @@ const buyFixedPriceNFT = async (
 			to: appAddr, // app address will take from appId
 			amount: NFT_PRICE,
 		});
+
 		txnsArray.push(paymentTxn);
 
 		const transferAsset = await executeTransfer(
@@ -926,13 +916,12 @@ const executeTransfer = async (
 		appArgs: app_args,
 		accounts: [sellerAddress, royaltyAddress],
 	});
+
 	txnsArray.push(assetoptin);
 	txnsArray.push(execute);
+
 	// push sendAmount transaction in txnxArray
-	console.log(
-		'🚀 ~ file: algorand.js ~ line 809 ~ setupSale ~ txnsArray',
-		txnsArray
-	);
+
 	const groupID = algosdk.computeGroupID(txnsArray);
 	console.log('Group ID', groupID);
 	for (let i = 0; i < txnsArray.length; i++) txnsArray[i].group = groupID;
@@ -1043,7 +1032,7 @@ const cancelItemForFixPriceListing = async (appId, seller_address, nftID) => {
 };
 export {
 	signMessageFromUserForAlgorand,
-	CheckBalance,
+	checkAlgoBalance,
 	createNFT,
 	createAuctionApp,
 	placeBidOnAlgorand,

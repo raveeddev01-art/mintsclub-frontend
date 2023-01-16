@@ -25,21 +25,23 @@ const Buttons = ({ data }: any) => {
 				>
 					Fixed Price
 				</button>
-				{nftDetail && !nftDetail?.lazyMinted && (
-					<button
-						className={` ${
-							activeBtn === 1 ? 'sell-btn-active' : 'sell-btn-not-active'
-						} `}
-						onClick={() => {
-							setActiveBtn(1);
-							setSellingMethod(2);
-							setCopies('');
-							setCopiesError(false);
-						}}
-					>
-						Timed Auction
-					</button>
-				)}
+				{nftDetail &&
+					!nftDetail?.lazyMinted &&
+					nftDetail?.blockchainType !== 'solana' && (
+						<button
+							className={` ${
+								activeBtn === 1 ? 'sell-btn-active' : 'sell-btn-not-active'
+							} `}
+							onClick={() => {
+								setActiveBtn(1);
+								setSellingMethod(2);
+								setCopies('');
+								setCopiesError(false);
+							}}
+						>
+							Timed Auction
+						</button>
+					)}
 			</div>
 		</div>
 	);

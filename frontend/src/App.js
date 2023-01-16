@@ -24,7 +24,10 @@ import {
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { UseWalletChange } from './pages/wallet-change/wallet-change';
 import { clusterApiUrl } from '@solana/web3.js';
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import {
+	PhantomWalletAdapter,
+	SolflareWalletAdapter,
+} from '@solana/wallet-adapter-wallets';
 require('@solana/wallet-adapter-react-ui/styles.css');
 import Socket from './utils/socket';
 import SocketContext from './contexts/SocketContext';
@@ -32,7 +35,10 @@ import SocketContext from './contexts/SocketContext';
 const App = React.memo((props) => {
 	const network = 'devnet';
 	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-	const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+	const wallets = useMemo(
+		() => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+		[network]
+	);
 	const [socket, setSocket] = useState(undefined);
 	const { loadingText } = useContext(LoadingText);
 	console.log('🚀 ~ file: App.js:36 ~ App ~ socket', socket);

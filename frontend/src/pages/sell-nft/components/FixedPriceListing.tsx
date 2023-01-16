@@ -13,7 +13,11 @@ import {
 } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { ENV } from '../../../config/config';
-import { createFixedPriceApp, setupSale } from '../../../utils/algorand';
+import {
+	checkAlgoBalance,
+	createFixedPriceApp,
+	setupSale,
+} from '../../../utils/algorand';
 
 const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -125,6 +129,8 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				blockchainType?.toLowerCase() === 'algorand' &&
 				!nftDetail?.lazyMinted
 			) {
+				const accountInfo = await checkAlgoBalance(connectedAddress);
+
 				if (nftDetail?.appId === 0) {
 					const response: any = await createFixedPriceApp(
 						nftDetail?.tokenId,

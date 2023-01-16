@@ -87,7 +87,7 @@ import {
 	buyFixedPriceNFT,
 	cancelItemForFixPriceListing,
 	cancelListForLiveAuction,
-	CheckBalance,
+	checkAlgoBalance,
 	closeAuction,
 	createNFT,
 	placeBidOnAlgorand,
@@ -277,7 +277,8 @@ const NFTDetail = (props: any) => {
 			} else if (
 				ENV.getUserKeys('blockchainType').blockchainType === 'algorand'
 			) {
-				balance = await CheckBalance(connectedAddress);
+				const accountInfo = await checkAlgoBalance(connectedAddress);
+				balance = accountInfo.amount;
 			} else {
 				balance = await getBalance();
 			}

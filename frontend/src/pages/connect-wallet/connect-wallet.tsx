@@ -230,8 +230,17 @@ const ConnectWallet = (props: any) => {
 		props.setBlockchainType('algorand');
 		return addr?.[0];
 	};
-	const connectSolanaWallet = async () => {
+	const connectPhantomWallet = async () => {
 		await wallet.select(wallet.wallets[0].adapter.name);
+
+		if (wallet.publicKey && wallet.connected) {
+			props.setBlockchainType('solana');
+			props.setWalletAddress(wallet.publicKey?.toBase58());
+			setConnectedAddres(wallet.publicKey?.toBase58());
+		}
+	};
+	const connectSolflareWallet = async () => {
+		await wallet.select(wallet.wallets[1].adapter.name);
 
 		if (wallet.publicKey && wallet.connected) {
 			props.setBlockchainType('solana');
@@ -303,10 +312,22 @@ const ConnectWallet = (props: any) => {
 			key: 'solana',
 			wallets: [
 				{
-					name: 'Solana',
+					name: 'Phantom',
 					icon: connectModal.phantomImg,
 					functionality: async () => {
-						await connectSolanaWallet();
+						await connectPhantomWallet();
+						if (wallet.connected) {
+							validateUser({ blockchainType: 'solana' });
+						} else {
+							toast.error('Something went wrong.Please try again');
+						}
+					},
+				},
+				{
+					name: 'Solflare',
+					icon: connectModal.solflareImg,
+					functionality: async () => {
+						await connectSolflareWallet();
 						if (wallet.connected) {
 							validateUser({ blockchainType: 'solana' });
 						} else {
