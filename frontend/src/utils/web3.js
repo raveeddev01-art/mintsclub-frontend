@@ -740,7 +740,7 @@ export const switchNetworkToChainId = async (id) => {
 			return accounts[0];
 		} catch (err) {
 			toast.error(err.message);
-			throw new Error(err);
+			throw new Error(err.message);
 		}
 	}
 };

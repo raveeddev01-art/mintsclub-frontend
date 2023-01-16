@@ -1662,7 +1662,7 @@ const NFTDetail = (props: any) => {
 				handlemodalsubmit={handlemodalsubmit}
 				onChange={onChange}
 				decimalnumbervalidator={decimalnumbervalidator}
-				balance={balance}
+				balance={Number(balance).toFixed(4)}
 				price={price}
 				onHide={async () => setBidModalShow(false)}
 				blockchaintype={blockchainType}
