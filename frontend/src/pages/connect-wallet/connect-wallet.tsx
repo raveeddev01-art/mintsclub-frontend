@@ -165,6 +165,7 @@ const ConnectWallet = (props: any) => {
 			}
 
 			if(connectedAddress){
+				
 				handleSignUp({
 					address: connectedAddress,
 					blockchainType: props.blockchainType,
