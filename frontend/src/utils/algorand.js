@@ -556,6 +556,9 @@ const createFixedPriceApp = async (
 	setLoader
 ) => {
 	try {
+		const platformFee = process.env.REACT_APP_ALGORAND_PLATFORM_FEE;
+		const platformFeeAccount = process.env.REACT_APP_ALGORAND_ADMIN_ACCOUNT;
+
 		let approvalProg = '';
 		let clearProg = '';
 		await fetch(fixed_approval_program)
@@ -587,6 +590,8 @@ const createFixedPriceApp = async (
 			algosdk.encodeUint64(royaltyfee),
 			algosdk.encodeUint64(waiting_time),
 			algosdk.decodeAddress(royaltyaddress.toString()).publicKey,
+			algosdk.encodeUint64(parseInt(platformFee)),
+			algosdk.decodeAddress(platformFeeAccount.toString()).publicKey,
 		];
 
 		const txn = await algosdk.makeApplicationCreateTxn(
@@ -597,8 +602,8 @@ const createFixedPriceApp = async (
 			clear_teal,
 			3,
 			0,
-			4,
-			2,
+			5,
+			3,
 			app_args,
 			undefined,
 			undefined,
@@ -780,6 +785,7 @@ const buyFixedPriceNFT = async (
 	algoLazyMinted
 ) => {
 	try {
+		const platformFeeAccount = process.env.REACT_APP_ALGORAND_ADMIN_ACCOUNT;
 		let NFT_PRICE = await algosdk.algosToMicroalgos(price);
 
 		let txnsArray = [];
@@ -842,7 +848,7 @@ const buyFixedPriceNFT = async (
 			foreignAssets: [nftID],
 			onComplete: OnApplicationComplete.NoOpOC,
 			suggestedParams: params,
-			accounts: [sellerAddress, royaltyAddress],
+			accounts: [sellerAddress, royaltyAddress, platformFeeAccount],
 		});
 		console.log('🚀 ~ file: algorand.js ~ line 818 ~ buy', buy);
 		txnsArray.push(buy);
@@ -865,7 +871,8 @@ const buyFixedPriceNFT = async (
 			sellerAddress,
 			royaltyAddress,
 			txnsArray,
-			isAccountOptIn
+			isAccountOptIn,
+			platformFeeAccount
 		);
 		if (transferAsset) {
 			return transferAsset;
@@ -882,7 +889,8 @@ const executeTransfer = async (
 	sellerAddress,
 	royaltyAddress,
 	txnsArray,
-	isAccountOptIn
+	isAccountOptIn,
+	platformFeeAccount
 ) => {
 	const params = await algodClient.getTransactionParams().do();
 	params.fee = 1000;
@@ -914,7 +922,7 @@ const executeTransfer = async (
 		onComplete: OnApplicationComplete.NoOpOC,
 		suggestedParams: params,
 		appArgs: app_args,
-		accounts: [sellerAddress, royaltyAddress],
+		accounts: [sellerAddress, royaltyAddress, platformFeeAccount],
 	});
 
 	txnsArray.push(assetoptin);
