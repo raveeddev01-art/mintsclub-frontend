@@ -21,7 +21,7 @@ const MoreNFTs = ({ info }: any) => {
 										<NftCard
 											data={nft}
 											likedNfts={likedNfts}
-											owner={nft?.owner[0]}
+											owner={nft?.userId}
 											path="/explore/nftdetail/"
 										/>
 									}
