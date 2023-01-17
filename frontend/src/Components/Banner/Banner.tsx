@@ -56,12 +56,13 @@ const Banner: FC<BannerInterface> = ({
 												<span>Delete</span>
 											</button>
 											{blockChainType !== 'algorand' &&
-												(loggedInUser === nftDetail?.creatorId || splitCollectionUrl[1]==="collection") && (
+												(loggedInUser === nftDetail?.creatorId ||
+													splitCollectionUrl[1] === 'collection') && (
 													<button className="edit" onClick={() => onEdit?.()}>
 														<img src={editImage.editIcon} alt="/" />
 														<span>Edit</span>
 													</button>
-											)}
+												)}
 										</div>
 									)}
 								</div>

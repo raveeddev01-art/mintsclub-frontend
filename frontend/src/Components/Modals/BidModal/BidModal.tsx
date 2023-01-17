@@ -26,6 +26,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 		calculatepricepercantage,
 		onHide,
 		balance,
+		balanceLoader,
 		price,
 		blockchaintype,
 		show,
@@ -76,10 +77,15 @@ const BidModal: FC<BidModalInt> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">
 					Place a Bid
 				</Modal.Title>
-
-				<p className="text-danger text-center mt-1 mb-0 insufienct-funds">
-					{+price > +balance && 'Insufficient funds to place bid!'}
-				</p>
+				{balanceLoader === true ? (
+					<p className="text-primary text-center mt-1 mb-0 insufienct-funds">
+						{'Balance is loading...'}
+					</p>
+				) : (
+					<p className="text-danger text-center mt-1 mb-0 insufienct-funds">
+						{+price > +balance && 'Insufficient funds to place bid!'}
+					</p>
+				)}
 
 				<div className="modal-close-container">
 					<Button onClick={props.onHide}>
