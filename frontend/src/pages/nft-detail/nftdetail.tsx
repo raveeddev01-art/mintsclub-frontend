@@ -958,7 +958,7 @@ const NFTDetail = (props: any) => {
 					if (blockchainType === 'solana') {
 						const { mint } = nftDetail;
 						const { sellerTradeState, sellingConfig } = nftDetail.activeAuction;
-						const buyFixedPriceResponse = await buyNowFixedPriceAuction(
+						const buyFixedPriceResponse: any = await buyNowFixedPriceAuction(
 							wallet,
 							mint,
 							sellerTradeState,
@@ -966,7 +966,7 @@ const NFTDetail = (props: any) => {
 							setConfirmed
 						);
 
-						if (buyFixedPriceResponse) {
+						if (buyFixedPriceResponse?.buyerTradeState) {
 							const payload = {
 								userId,
 								nftId,
@@ -976,9 +976,11 @@ const NFTDetail = (props: any) => {
 							props.buyNow(payload);
 							createActivity('Transfer', false, props.connectedAddress);
 							return;
+						} else {
+							setLoader(false);
+							toast.error(buyFixedPriceResponse?.message);
+							setIsButtonDisabled(false);
 						}
-
-						// TODO: Show pop-up with errors
 
 						return;
 					}

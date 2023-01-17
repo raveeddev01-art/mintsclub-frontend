@@ -331,8 +331,6 @@ const ConnectWallet = (props: any) => {
 						await connectSolflareWallet();
 						if (wallet.connected) {
 							validateUser({ blockchainType: 'solana' });
-						} else {
-							toast.error('Something went wrong.Please try again');
 						}
 					},
 				},
