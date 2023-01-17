@@ -126,6 +126,7 @@ const NFTDetail = (props: any) => {
 	const [transactionSuccess, setTransactionSuccess] = useState<any>(false);
 	const [bidModalShow, setBidModalShow] = useState<any>(false);
 	const [balance, setBalance] = useState<any>('');
+	const [balanceLoader, setBalanceLoader] = useState<boolean>(true);
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const history = useHistory();
 	const videoElement = React.useRef(null);
@@ -154,6 +155,11 @@ const NFTDetail = (props: any) => {
 		window.scroll(0, 600);
 		refetch();
 	}, []);
+	useEffect(() => {
+		if (balance !== '') {
+			setBalanceLoader(false);
+		}
+	}, [balance]);
 
 	const refetch = async () => {
 		try {
@@ -287,7 +293,6 @@ const NFTDetail = (props: any) => {
 		};
 		getBannerData();
 	}, [params.id]);
-
 	useEffect(() => {
 		if (props.createAuth) {
 			setLoader(false);
@@ -1664,6 +1669,7 @@ const NFTDetail = (props: any) => {
 				onChange={onChange}
 				decimalnumbervalidator={decimalnumbervalidator}
 				balance={Number(balance).toFixed(4)}
+				balanceLoader={balanceLoader}
 				price={price}
 				onHide={async () => setBidModalShow(false)}
 				blockchaintype={blockchainType}

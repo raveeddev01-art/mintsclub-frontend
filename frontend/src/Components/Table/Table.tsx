@@ -50,7 +50,9 @@ const Table: React.FC<TableInterface> = ({
 			const formatedData = data.map((item: any) => {
 				return {
 					item1: item.bidAmount,
-					item2: `$ ${convertToExponential(item.bidAmount * exchangeRate || 0)}`,
+					item2: `$ ${convertToExponential(
+						item.bidAmount * exchangeRate || 0
+					)}`,
 					item3: `${getPercentageChange(item.bidAmount, lowestNftPrice).toFixed(
 						2
 					)}% ${item.bidAmount > lowestNftPrice ? 'above' : 'below'}`,

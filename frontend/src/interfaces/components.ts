@@ -68,6 +68,7 @@ export interface BidModalInt {
 	calculatepricepercantage: () => any;
 	onHide: () => {};
 	balance: any;
+	balanceLoader: any;
 	blockchaintype: string;
 	price: any;
 	show: boolean;
