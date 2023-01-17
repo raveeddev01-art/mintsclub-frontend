@@ -6,6 +6,7 @@ const moment = require('moment');
 
 export const ENV: any = {
 	// blockchain variables
+	websocketURL: process.env.REACT_APP_WEB_SOCKET_URL,
 	goerliMintingContract: process.env.REACT_APP_MintsClub_MINT_CONTRACT_ADDRESS,
 	polygonMintingContract:
 		process.env.REACT_APP_MintsClub_MINT_POLYGON_CONTRACT_ADDRESS,

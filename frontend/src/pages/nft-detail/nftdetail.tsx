@@ -155,9 +155,12 @@ const NFTDetail = (props: any) => {
 		refetch();
 	}, []);
 
-	const refetch = async () => {
+	const refetch = async (loader = true) => {
 		try {
-			setLoader(true);
+			if (loader) {
+				setLoader(true);
+			}
+
 			const nftDetailsResponse = await handleRequest(
 				'get',
 				`nfts/get/${nftId}`,
@@ -179,12 +182,13 @@ const NFTDetail = (props: any) => {
 					setBeforeGetBids(true);
 				}
 			}
-
 			setNextBidFivePercHigh(nftDetailsData);
 		} catch (err) {
 			console.log('🚀 ~ file: nftdetail.tsx:171 ~ refetch ~ err', err);
 		} finally {
-			setLoader(false);
+			if (loader) {
+				setLoader(false);
+			}
 		}
 	};
 
@@ -771,7 +775,7 @@ const NFTDetail = (props: any) => {
 		}
 	};
 	useEffect(() => {
-		const bct: any = nftDetail.blockchainType;
+		const bct: any = nftDetail?.blockchainType;
 		const coin = currencyData[bct];
 		axios
 			.get(
@@ -781,11 +785,11 @@ const NFTDetail = (props: any) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-
-		if (nftDetail) {
-			getBidsListOfAuction();
-		}
 	}, [currency, nftId]);
+
+	useEffect(() => {
+		getBidsListOfAuction();
+	}, [nftDetail?.activeAuction]);
 
 	useEffect(() => {
 		if (props.togleLikeRes) {
@@ -1325,7 +1329,7 @@ const NFTDetail = (props: any) => {
 			socket.emit('join', nftDetail?._id);
 
 			socket.on('bidPlaced', ({ price }: any) => {
-				refetch();
+				refetch(false);
 				getLatestActivities();
 				if (nftDetail?.activeAuction?._id) {
 					getLatestBids();
@@ -1335,30 +1339,30 @@ const NFTDetail = (props: any) => {
 			});
 
 			socket.on('auctionCancelled', (auctionCancelledInformation: any) => {
-				refetch();
+				refetch(false);
 				getLatestActivities();
 			});
 
 			socket.on('auctionCreated', (auctionCreatedInformation: any) => {
-				refetch();
+				refetch(false);
 			});
 
 			socket.on('auctionStarted', (auctionStartedInformation: any) => {
-				refetch();
+				refetch(false);
 			});
 			socket.on('auctionEnded', (auctionEndedInformation: any) => {
-				refetch();
+				refetch(false);
 			});
 
 			// auctionTimeEnded
 
 			socket.on('auctionTimeEnded', (auctionEndedInformation: any) => {
-				refetch();
+				refetch(false);
 				getBidsListOfAuction();
 			});
 
 			socket.on('auctionUpdated', (auctionUpdated: any) => {
-				refetch();
+				refetch(false);
 			});
 		}
 
