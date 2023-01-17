@@ -9,7 +9,7 @@ import {
 } from '../../../utils/solana/helper';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { useState } from 'react';
-import { createNFT } from '../../../utils/algorand';
+import { checkAlgoBalance, createNFT } from '../../../utils/algorand';
 import { blockchainIcons } from '../../../assets/assets';
 import { useToast } from 'react-toastify';
 import { getSpecialCharacterReplaced } from '../../../utils/helpers/helpers';
@@ -103,7 +103,18 @@ const CreateNft = ({
 				}
 
 				if (props.blockchainType === 'algorand') {
-					paylaod = await mintAlgoNFT(metaData, data, image);
+					const accountInfo = await checkAlgoBalance(props.connectedAddress);
+					const minBalance = accountInfo['min-balance'] + 100000;
+
+					if (accountInfo.amount <= minBalance) {
+						toast.error(
+							'Insufficeint funds for this transaction. Please recharge your wallet.'
+						);
+						setLoader(false);
+						return;
+					} else {
+						paylaod = await mintAlgoNFT(metaData, data, image);
+					}
 				}
 
 				if (props.blockchainType === 'solana') {
