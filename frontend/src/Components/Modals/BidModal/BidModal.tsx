@@ -111,7 +111,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 						</div>
 						<div className="dollar-rate text-end">
 							<p className="">
-								${price ? convertToExponential(price * exchangeRate) : 0}
+								${price ? convertToExponential(price * exchangeRate || 0) : 0}
 							</p>
 						</div>
 					</div>
@@ -127,7 +127,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				</div>
 				<div className="bid-balance text-start">
 					<p>
-						Balance: {Number(balance).toFixed(4)}{' '}
+						Balance: {balance}{' '}
 						{
 							CHAIN_CURRENCY[
 								blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE

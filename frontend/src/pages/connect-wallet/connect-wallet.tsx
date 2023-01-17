@@ -129,7 +129,7 @@ const ConnectWallet = (props: any) => {
 				response.blockchainType === 'bsc'
 			) {
 				selectedBlockchainType = 'ethereum';
-				if (response?.users?.length > 0) {
+				if (response?.users?.length > 0  ) {
 					const res = await handleSign(response?.users[0].nounce);
 					authenticate({
 						...res,
@@ -164,12 +164,14 @@ const ConnectWallet = (props: any) => {
 				}
 			}
 
-			handleSignUp({
-				address: connectedAddress,
-				blockchainType: props.blockchainType,
-			});
+			if(connectedAddress){
+				
+				handleSignUp({
+					address: connectedAddress,
+					blockchainType: props.blockchainType,
+				});
+			}
 		}
-
 		return setError(response.message);
 	};
 	const { mutate: validateUser } = useInsertData(
