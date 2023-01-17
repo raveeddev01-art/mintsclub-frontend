@@ -727,7 +727,46 @@ export const connectWithMetamask = async () => {
 		toast.error(err.message);
 	}
 };
-
+const addNetworkAutomatically = async(id)=>{
+		const chainid = id
+		//For Binance Test net
+	if(chainid ===97){
+		 return await window.ethereum.request({
+			method: 'wallet_addEthereumChain',
+			params: [{
+			chainId: Web3.utils.toHex(id) ,
+			chainName: 'Binance Smart Chain',
+			nativeCurrency: {
+				name: 'Binance Coin',
+				symbol: 'tBNB',
+				decimals: 18
+			},
+			rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+			blockExplorerUrls: ['https://testnet.bscscan.com']
+			}]
+			})
+	}
+	//For Mumbai test net
+	else if(chainid ===80001){
+		console.log('its inn polygonn')
+		return await window.ethereum.request({
+			method: 'wallet_addEthereumChain',
+			params: [
+				{
+				  chainId: Web3.utils.toHex(id),
+				  rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
+				  chainName: "Mumbai",
+				  nativeCurrency: {
+					name: "Polygon",
+					symbol: "MATIC",
+					decimals: 18,
+				  },
+				  blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+				},
+			  ],
+			})
+	}
+}
 export const switchNetworkToChainId = async (id) => {
 	if (window.ethereum) {
 		try {
@@ -739,6 +778,8 @@ export const switchNetworkToChainId = async (id) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
+			// console.log("🚀 ~ file: web3.js:747 ~ switchNetworkToChainId ~ chainId", Web3.utils.toHex(id),'ooooo',id)
+			addNetworkAutomatically(id)
 			toast.error(err.message);
 			throw new Error(err.message);
 		}
