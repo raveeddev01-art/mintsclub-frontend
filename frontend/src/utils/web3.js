@@ -9,6 +9,12 @@ import binanceMintAbi from './abis/binance/mint.json';
 import binanceMarketPlaceContract from './abis/binance/marketPlace.json';
 import typedDataV4 from './typeDatav4';
 import batchMintAbi from './abis/batchMint-abi.json';
+import {
+	mumbaiTest,
+	binanceTest,
+	binanceMainnet,
+	polygonMainnet,
+} from './exportData';
 const goerliMintingContract = ENV.goerliMintingContract;
 const polygonMintingContract = ENV.polygonMintingContract;
 const binanceMintingContract = ENV.bscMintingContract;
@@ -736,14 +742,14 @@ const addNetworkAutomatically = async (id) => {
 			params: [
 				{
 					chainId: Web3.utils.toHex(id),
-					chainName: 'Binance Smart Chain',
+					chainName: binanceTest.chainName,
 					nativeCurrency: {
-						name: 'Binance Coin',
-						symbol: 'tBNB',
-						decimals: 18,
+						name: binanceTest.name,
+						symbol: binanceTest.symbol,
+						decimals: binanceTest.decimals,
 					},
-					rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-					blockExplorerUrls: ['https://testnet.bscscan.com'],
+					rpcUrls: binanceTest.rpcUrls,
+					blockExplorerUrls: binanceTest.blockExplorerUrls,
 				},
 			],
 		});
@@ -755,14 +761,52 @@ const addNetworkAutomatically = async (id) => {
 			params: [
 				{
 					chainId: Web3.utils.toHex(id),
-					rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
-					chainName: 'Mumbai',
+					rpcUrls: mumbaiTest.rpcUrls,
+					chainName: mumbaiTest.chainName,
 					nativeCurrency: {
-						name: 'Polygon',
-						symbol: 'MATIC',
-						decimals: 18,
+						name: mumbaiTest.name,
+						symbol: mumbaiTest.symbol,
+						decimals: mumbaiTest.decimals,
 					},
-					blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+					blockExplorerUrls: mumbaiTest.blockExplorerUrls,
+				},
+			],
+		});
+	}
+	// Binance Smart Chain Mainnet
+	else if (chainid === 56) {
+		return await window.ethereum.request({
+			method: 'wallet_addEthereumChain',
+			params: [
+				{
+					chainId: Web3.utils.toHex(id),
+					rpcUrls: binanceMainnet.rpcUrls,
+					chainName: binanceMainnet.chainName,
+					nativeCurrency: {
+						name: binanceMainnet.name,
+						symbol: binanceMainnet.symbol,
+						decimals: binanceMainnet.decimals,
+					},
+					blockExplorerUrls: binanceMainnet.blockExplorerUrls,
+				},
+			],
+		});
+	}
+	// Mumbai/Polygon Mainnet
+	else if (chainid === 137) {
+		return await window.ethereum.request({
+			method: 'wallet_addEthereumChain',
+			params: [
+				{
+					chainId: Web3.utils.toHex(id),
+					rpcUrls: polygonMainnet.rpcUrls,
+					chainName: polygonMainnet.chainName,
+					nativeCurrency: {
+						name: polygonMainnet.name,
+						symbol: polygonMainnet.symbol,
+						decimals: polygonMainnet.decimals,
+					},
+					blockExplorerUrls: polygonMainnet.blockExplorerUrls,
 				},
 			],
 		});
@@ -781,6 +825,7 @@ export const switchNetworkToChainId = async (id) => {
 		} catch (err) {
 			// console.log("🚀 ~ file: web3.js:747 ~ switchNetworkToChainId ~ chainId", Web3.utils.toHex(id),'ooooo',id)
 			addNetworkAutomatically(id);
+			console.log('This is Chain ID:', id);
 			throw new Error(err.message);
 		}
 	}
