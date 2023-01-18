@@ -9,12 +9,7 @@ import binanceMintAbi from './abis/binance/mint.json';
 import binanceMarketPlaceContract from './abis/binance/marketPlace.json';
 import typedDataV4 from './typeDatav4';
 import batchMintAbi from './abis/batchMint-abi.json';
-import {
-	mumbaiTest,
-	binanceTest,
-	binanceMainnet,
-	polygonMainnet,
-} from './exportData';
+import { NETWORK_CONFIG } from './exportData';
 const goerliMintingContract = ENV.goerliMintingContract;
 const polygonMintingContract = ENV.polygonMintingContract;
 const binanceMintingContract = ENV.bscMintingContract;
@@ -734,83 +729,10 @@ export const connectWithMetamask = async () => {
 	}
 };
 const addNetworkAutomatically = async (id) => {
-	const chainid = id;
-	//For Binance Test net
-	if (chainid === 97) {
-		return await window.ethereum.request({
-			method: 'wallet_addEthereumChain',
-			params: [
-				{
-					chainId: Web3.utils.toHex(id),
-					chainName: binanceTest.chainName,
-					nativeCurrency: {
-						name: binanceTest.name,
-						symbol: binanceTest.symbol,
-						decimals: binanceTest.decimals,
-					},
-					rpcUrls: binanceTest.rpcUrls,
-					blockExplorerUrls: binanceTest.blockExplorerUrls,
-				},
-			],
-		});
-	}
-	//For Mumbai test net
-	else if (chainid === 80001) {
-		return await window.ethereum.request({
-			method: 'wallet_addEthereumChain',
-			params: [
-				{
-					chainId: Web3.utils.toHex(id),
-					rpcUrls: mumbaiTest.rpcUrls,
-					chainName: mumbaiTest.chainName,
-					nativeCurrency: {
-						name: mumbaiTest.name,
-						symbol: mumbaiTest.symbol,
-						decimals: mumbaiTest.decimals,
-					},
-					blockExplorerUrls: mumbaiTest.blockExplorerUrls,
-				},
-			],
-		});
-	}
-	// Binance Smart Chain Mainnet
-	else if (chainid === 56) {
-		return await window.ethereum.request({
-			method: 'wallet_addEthereumChain',
-			params: [
-				{
-					chainId: Web3.utils.toHex(id),
-					rpcUrls: binanceMainnet.rpcUrls,
-					chainName: binanceMainnet.chainName,
-					nativeCurrency: {
-						name: binanceMainnet.name,
-						symbol: binanceMainnet.symbol,
-						decimals: binanceMainnet.decimals,
-					},
-					blockExplorerUrls: binanceMainnet.blockExplorerUrls,
-				},
-			],
-		});
-	}
-	// Mumbai/Polygon Mainnet
-	else if (chainid === 137) {
-		return await window.ethereum.request({
-			method: 'wallet_addEthereumChain',
-			params: [
-				{
-					chainId: Web3.utils.toHex(id),
-					rpcUrls: polygonMainnet.rpcUrls,
-					chainName: polygonMainnet.chainName,
-					nativeCurrency: {
-						name: polygonMainnet.name,
-						symbol: polygonMainnet.symbol,
-						decimals: polygonMainnet.decimals,
-					},
-					blockExplorerUrls: polygonMainnet.blockExplorerUrls,
-				},
-			],
-		});
-	}
+	return await window.ethereum.request({
+		method: 'wallet_addEthereumChain',
+		params: [NETWORK_CONFIG[id]],
+	});
 };
 export const switchNetworkToChainId = async (id) => {
 	if (window.ethereum) {
@@ -824,9 +746,15 @@ export const switchNetworkToChainId = async (id) => {
 			return accounts[0];
 		} catch (err) {
 			// console.log("🚀 ~ file: web3.js:747 ~ switchNetworkToChainId ~ chainId", Web3.utils.toHex(id),'ooooo',id)
-			addNetworkAutomatically(id);
 			console.log('This is Chain ID:', id);
-			throw new Error(err.message);
+			if (err.code === 4902) {
+				try {
+					await addNetworkAutomatically(id);
+					return true;
+				} catch (err) {
+					return false;
+				}
+			}
 		}
 	}
 };
