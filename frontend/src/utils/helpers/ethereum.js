@@ -81,8 +81,7 @@ export const verifyOwnerShip = (connectedAddress, addressToVerify) => {
 	}
 };
 export const isUserLoggedIn = (history, loggedInType) => {
-	const currentPath = window.location.href;
-	const url = currentPath.split(currentPath.origin, 1);
+	const currentPath = window.location.pathname;
 	let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 	if (blockChainType && loggedInType === blockChainType) {
 		return true;
@@ -91,13 +90,13 @@ export const isUserLoggedIn = (history, loggedInType) => {
 			`please login ${
 				loggedInType !== blockChainType && blockChainType === 'bsc'
 					? ' with binance network'
-					: !blockChainType
+					: blockChainType
 					? ''
 					: `with ${loggedInType} network`
 			}  to continue`
 		);
 
-		history.push('/connect-wallet', url[1]);
+		history.push('/connect-wallet', currentPath);
 		return false;
 	}
 };
