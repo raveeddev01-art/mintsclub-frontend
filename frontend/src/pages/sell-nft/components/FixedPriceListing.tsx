@@ -129,8 +129,15 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				blockchainType?.toLowerCase() === 'algorand' &&
 				!nftDetail?.lazyMinted
 			) {
-				const accountInfo = await checkAlgoBalance(connectedAddress);
+				// const response = await checkAlgoBalance(connectedAddress);
 
+				// if (response.amount <= response?.minBalance) {
+				// 	toast.error(
+				// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
+				// 	);
+				// 	setLoader(false);
+				// 	return;
+				// }
 				if (nftDetail?.appId === 0) {
 					const response: any = await createFixedPriceApp(
 						nftDetail?.tokenId,

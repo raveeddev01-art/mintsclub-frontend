@@ -43,7 +43,22 @@ export const connectWallet = async () => {
 };
 const checkAlgoBalance = async (accountaddress) => {
 	let accountInfo = await algodClient.accountInformation(accountaddress).do();
-	return accountInfo;
+	console.log(
+		'🚀 ~ file: algorand.js:46 ~ checkAlgoBalance ~ accountInfo',
+		accountInfo
+	);
+	let totalAssetsBalance =
+		(accountInfo['total-apps-opted-in'] +
+			accountInfo['total-assets-opted-in'] +
+			accountInfo['total-created-apps'] +
+			accountInfo['total-created-assets']) *
+		0.1;
+
+	totalAssetsBalance = await algosdk.algosToMicroalgos(totalAssetsBalance);
+	const minBalance = accountInfo['min-balance'] + totalAssetsBalance + 600000;
+	const algoFundsInWallet = algosdk.microalgosToAlgos(minBalance);
+	const data = { amount: accountInfo?.amount, minBalance, algoFundsInWallet };
+	return data;
 };
 
 const sendAmount = async (accountaddress, to_address, amount) => {
@@ -168,12 +183,13 @@ const createAuctionApp = async (
 	endTime,
 	nftID,
 	copies,
-	price,
 	connectedAddress,
 	royaltyAddress,
 	setLoader
 ) => {
 	try {
+		const platformFee = process.env.REACT_APP_ALGORAND_PLATFORM_FEE;
+		const platformFeeAccount = process.env.REACT_APP_ALGORAND_ADMIN_ACCOUNT;
 		setLoader(true);
 		let approvalProg = '';
 		let clearProg = '';
@@ -207,6 +223,8 @@ const createAuctionApp = async (
 			algosdk.encodeUint64(minBidIncrement),
 			algosdk.encodeUint64(royaltyfee),
 			algosdk.decodeAddress(royaltyAddress.toString()).publicKey,
+			algosdk.encodeUint64(parseInt(platformFee)),
+			algosdk.decodeAddress(platformFeeAccount.toString()).publicKey,
 		];
 
 		const txn = await algosdk.makeApplicationCreateTxn(
@@ -217,8 +235,8 @@ const createAuctionApp = async (
 			clear_teal,
 			0,
 			0,
-			8,
-			3,
+			9,
+			4,
 			app_args
 		);
 		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
@@ -490,6 +508,8 @@ const closeAuction = async (
 				algosdk.encodeAddress(appGlobalState['royalty_address']['data'])
 			);
 		}
+		const platformFeeAccount = process.env.REACT_APP_ALGORAND_ADMIN_ACCOUNT;
+		accounts.push(platformFeeAccount);
 
 		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
 			from: seller_address,
@@ -959,27 +979,13 @@ const cancelListForLiveAuction = async (
 	appGlobalState
 ) => {
 	try {
-		let accounts = [];
-		accounts.push(seller_address);
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
 		params.flatFee = true;
 
-		if (appGlobalState['bid_account']) {
-			accounts.push(
-				algosdk.encodeAddress(appGlobalState['bid_account']['data'])
-			);
-		}
-		if (appGlobalState['royalty_address']) {
-			accounts.push(
-				algosdk.encodeAddress(appGlobalState['royalty_address']['data'])
-			);
-		}
-
 		const deleteTxn = await algosdk.makeApplicationDeleteTxnFromObject({
 			from: seller_address,
 			appIndex: appId,
-			accounts: accounts,
 			foreignAssets: [nftID],
 			onComplete: OnApplicationComplete.NoOpOC,
 			suggestedParams: {
