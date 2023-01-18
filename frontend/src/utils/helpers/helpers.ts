@@ -230,7 +230,7 @@ const blockchainScanUrlData = (blockchainType: any, transactionHash: any) => {
 		ethereum: `${process.env.REACT_APP_ETH_CHAIN_SCAN}/${transactionHash}`,
 		polygon: `${process.env.REACT_APP_POLYGON_CHAIN_SCAN}/${transactionHash}`,
 		bsc: `${process.env.REACT_APP_BSC_CHAIN_SCAN}/${transactionHash}`,
-		solana: `${process.env.REACT_APP_SOLANA_CHAIN_SCAN}/${transactionHash}?${process.env.REACT_APP_DEVNET}`,
+		solana: `${process.env.REACT_APP_SOLANA_CHAIN_SCAN}/${transactionHash}?'cluster=${process.env.REACT_APP_SOLANA_CLUSTER}`,
 		algorand: `${process.env.REACT_APP_ALGORAND_CHAIN_SCAN}/${transactionHash}`,
 	};
 	return scansURL[chaintype];

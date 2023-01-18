@@ -33,7 +33,7 @@ import Socket from './utils/socket';
 import SocketContext from './contexts/SocketContext';
 
 const App = React.memo((props) => {
-	const network = 'devnet';
+	const network = ENV.networkCluster;
 	const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 	const wallets = useMemo(
 		() => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],

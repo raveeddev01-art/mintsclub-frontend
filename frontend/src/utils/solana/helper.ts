@@ -28,6 +28,7 @@ import {
 import e from 'express';
 import idl from './idl.json';
 import { compressImage, handleRequest } from '../functions';
+import { ENV } from '../../config/config';
 
 const AUCTION_HOUSE_ADDRESS = 'HGLp7o4LTbKCsrLPRLogfwmLVFN7LzpuCgpgJ3W6sNVP';
 
@@ -221,7 +222,7 @@ const listItemForLiveAuction = async (
 ) => {
 	try {
 		const MINT = new PublicKey(mintAddress);
-		const connection = new Connection(clusterApiUrl('devnet'));
+		const connection = new Connection(clusterApiUrl(ENV.networkCluster));
 		const metaplex = getMetaplex();
 
 		const [auctioneerAuthority, bump] = await PublicKey.findProgramAddress(
@@ -363,7 +364,7 @@ const bidForLiveAuction = async (
 	try {
 		const amountToBid = price * LAMPORTS_PER_SOL;
 		const metaplex = getMetaplex();
-		const connection = new Connection(clusterApiUrl('devnet'));
+		const connection = new Connection(clusterApiUrl(ENV.networkCluster));
 		metaplex.use(walletAdapterIdentity(wallet));
 
 		const auctioneerAuthority = await PublicKey.findProgramAddress(
@@ -493,7 +494,7 @@ const bidForLiveAuction = async (
 };
 
 const getSolanaBalance = async (wallet: any) => {
-	const connection = new Connection(clusterApiUrl('devnet'));
+	const connection = new Connection(clusterApiUrl(ENV.networkCluster));
 	const balance = await connection.getBalance(wallet.publicKey);
 	const lamportBalance = balance / LAMPORTS_PER_SOL;
 	return lamportBalance;
@@ -508,9 +509,8 @@ const executeSaleForLiveAuction = async (
 	try {
 		const MINT = new PublicKey(mintAddress);
 		const buyerPrice = bidPrice * LAMPORTS_PER_SOL;
-		const connection = new anchor.web3.Connection(
-			'https://api.devnet.solana.com'
-		);
+		const rpcURL = `https://api.${ENV.networkCluster}.solana.com`;
+		const connection = new anchor.web3.Connection(rpcURL);
 		const options = anchor.AnchorProvider.defaultOptions();
 		//@ts-ignore
 		const provider = new anchor.AnchorProvider(connection, wallet, options);
@@ -827,7 +827,7 @@ const claimBidsForLiveAuction = async (wallet: any, bidPrice: number) => {
 		};
 
 		const withdrawInstruction = createWithdrawInstruction(accounts, args);
-		const connection = new Connection(clusterApiUrl('devnet'));
+		const connection = new Connection(clusterApiUrl(ENV.networkCluster));
 
 		const transaction = new Transaction();
 		transaction.add(withdrawInstruction);
@@ -859,7 +859,7 @@ const cancelListingForLiveAuction = async (
 		const MINT = new PublicKey(mintAddress);
 
 		const options = anchor.AnchorProvider.defaultOptions();
-		const connection = new Connection(clusterApiUrl('devnet'));
+		const connection = new Connection(clusterApiUrl(ENV.networkCluster));
 
 		//@ts-ignore
 		const provider = new anchor.AnchorProvider(connection, wallet, options);
