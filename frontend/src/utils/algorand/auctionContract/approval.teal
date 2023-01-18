@@ -95,6 +95,16 @@ byte "royalty_address"
 app_global_get
 load 2
 callsub sub5
+byte "bid_amount"
+app_global_get
+byte "platform_fee"
+app_global_get
+callsub sub4
+store 3
+byte "platform_address"
+app_global_get
+load 3
+callsub sub5
 b main_l12
 main_l16:
 txn Sender
@@ -282,6 +292,13 @@ app_global_put
 byte "royalty_address"
 txna ApplicationArgs 7
 app_global_put
+byte "platform_fee"
+txna ApplicationArgs 8
+btoi
+app_global_put
+byte "platform_address"
+txna ApplicationArgs 9
+app_global_put
 global LatestTimestamp
 txna ApplicationArgs 2
 btoi
@@ -297,43 +314,48 @@ app_global_get
 int 1000
 <=
 &&
+byte "platform_fee"
+app_global_get
+int 1000
+<=
+&&
 assert
 int 1
 return
 sub0: // closeNFTTo
-store 4
-store 3
-global CurrentApplicationAddress
-load 3
-asset_holding_get AssetBalance
 store 5
+store 4
+global CurrentApplicationAddress
+load 4
+asset_holding_get AssetBalance
 store 6
-load 5
+store 7
+load 6
 bz sub0_l2
 itxn_begin
 int axfer
 itxn_field TypeEnum
-load 3
-itxn_field XferAsset
 load 4
+itxn_field XferAsset
+load 5
 itxn_field AssetCloseTo
 itxn_submit
 sub0_l2:
 retsub
 sub1: // repayPreviousLeadBidder
+store 9
 store 8
-store 7
 itxn_begin
 int pay
 itxn_field TypeEnum
-load 8
+load 9
 itxn_field Amount
-load 7
+load 8
 itxn_field Receiver
 itxn_submit
 retsub
 sub2: // closeAccountTo
-store 9
+store 10
 global CurrentApplicationAddress
 balance
 int 0
@@ -342,82 +364,82 @@ bz sub2_l2
 itxn_begin
 int pay
 itxn_field TypeEnum
-load 9
+load 10
 itxn_field CloseRemainderTo
 itxn_submit
 sub2_l2:
 retsub
 sub3: // checkRoyaltyFeeComputation
+store 16
 store 15
-store 14
-load 14
+load 15
 int 0
 >
 assert
-load 15
+load 16
 int 18446744073709551615
-load 14
+load 15
 /
 <=
 assert
 retsub
 sub4: // computeRoyaltyFee
+store 12
 store 11
-store 10
-load 10
 load 11
+load 12
 callsub sub3
-load 10
 load 11
+load 12
 *
 int 1000
 %
-store 12
-load 10
+store 13
 load 11
+load 12
 *
 int 1000
 /
-store 13
-load 11
+store 14
+load 12
 int 0
 ==
-load 13
+load 14
 int 0
 ==
 ||
 bnz sub4_l6
-load 11
+load 12
 int 1000
 >=
 bnz sub4_l5
-load 12
+load 13
 int 500
 >
 bnz sub4_l4
-load 13
+load 14
 b sub4_l7
 sub4_l4:
-load 13
+load 14
 int 1
 +
 b sub4_l7
 sub4_l5:
-load 10
+load 11
 b sub4_l7
 sub4_l6:
 int 0
 sub4_l7:
 retsub
 sub5: // sendRoyaltyFee
+store 18
 store 17
-store 16
 itxn_begin
 int pay
 itxn_field TypeEnum
-load 17
+load 18
 itxn_field Amount
-load 16
+load 17
 itxn_field Receiver
 itxn_submit
 retsub

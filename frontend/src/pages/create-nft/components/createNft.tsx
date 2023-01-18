@@ -103,18 +103,17 @@ const CreateNft = ({
 				}
 
 				if (props.blockchainType === 'algorand') {
-					const accountInfo = await checkAlgoBalance(props.connectedAddress);
-					const minBalance = accountInfo['min-balance'] + 100000;
+					// const response = await checkAlgoBalance(props.connectedAddress);
 
-					if (accountInfo.amount <= minBalance) {
-						toast.error(
-							'Insufficeint funds for this transaction. Please recharge your wallet.'
-						);
-						setLoader(false);
-						return;
-					} else {
-						paylaod = await mintAlgoNFT(metaData, data, image);
-					}
+					// if (response.amount <= response?.minBalance) {
+					// 	toast.error(
+					// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
+					// 	);
+					// 	setLoader(false);
+					// 	return;
+					// } else {
+					paylaod = await mintAlgoNFT(metaData, data, image);
+					// }
 				}
 
 				if (props.blockchainType === 'solana') {

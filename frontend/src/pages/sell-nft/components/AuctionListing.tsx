@@ -10,7 +10,7 @@ import { useHistory } from 'react-router';
 import { ENV } from '../../../config/config';
 import { checkIsApprovedForAll, openNFTForBidding } from '../../../utils/web3';
 import { connect } from 'react-redux';
-import { createAuctionApp } from '../../../utils/algorand';
+import { checkAlgoBalance, createAuctionApp } from '../../../utils/algorand';
 import {
 	getSolanaBalance,
 	listItemForLiveAuction,
@@ -156,12 +156,20 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					nftDetail?.contractAddress
 				);
 			} else if (blockchainType === 'algorand') {
+				// const response = await checkAlgoBalance(connectedAddress);
+
+				// if (response.amount <= response?.minBalance) {
+				// 	toast.error(
+				// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
+				// 	);
+				// 	setLoader(false);
+				// 	return;
+				// }
 				result = await createAuctionApp(
 					startTime,
 					biddingTime,
 					nftDetail?.tokenId,
 					1,
-					+price,
 					connectedAddress,
 					nftDetail?.creator?.address,
 					setLoader
