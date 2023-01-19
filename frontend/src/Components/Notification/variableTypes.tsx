@@ -13,3 +13,6 @@ export type notificationIsSeen = {
 export type notificationId = {
 	_id?: string;
 };
+export type notificationTime = {
+	createdAt?: string;
+};
