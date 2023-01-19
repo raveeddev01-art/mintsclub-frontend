@@ -43,22 +43,7 @@ export const connectWallet = async () => {
 };
 const checkAlgoBalance = async (accountaddress) => {
 	let accountInfo = await algodClient.accountInformation(accountaddress).do();
-	console.log(
-		'🚀 ~ file: algorand.js:46 ~ checkAlgoBalance ~ accountInfo',
-		accountInfo
-	);
-	let totalAssetsBalance =
-		(accountInfo['total-apps-opted-in'] +
-			accountInfo['total-assets-opted-in'] +
-			accountInfo['total-created-apps'] +
-			accountInfo['total-created-assets']) *
-		0.1;
-
-	totalAssetsBalance = await algosdk.algosToMicroalgos(totalAssetsBalance);
-	const minBalance = accountInfo['min-balance'] + totalAssetsBalance + 600000;
-	const algoFundsInWallet = algosdk.microalgosToAlgos(minBalance);
-	const data = { amount: accountInfo?.amount, minBalance, algoFundsInWallet };
-	return data;
+	return accountInfo;
 };
 
 const sendAmount = async (accountaddress, to_address, amount) => {
@@ -103,59 +88,63 @@ const keypress = async () => {
 // The Algorand TestNet Dispenser is located here:
 // https://dispenser.testnet.aws.algodev.network/
 async function createAsset(algodClient, inputFields) {
-	console.log('==> CREATE ASSET');
-	const { assetName, total, metaData, connectedAddress } = inputFields;
-	console.log({ assetName, total, metaData, connectedAddress });
-	const params = await algodClient.getTransactionParams().do();
-	const decimals = 0;
-	const defaultFrozen = false;
+	try {
+		console.log('==> CREATE ASSET');
+		const { assetName, total, metaData, connectedAddress } = inputFields;
+		console.log({ assetName, total, metaData, connectedAddress });
+		const params = await algodClient.getTransactionParams().do();
+		const decimals = 0;
+		const defaultFrozen = false;
 
-	const unitName = assetName.substring(0, 6);
+		const unitName = assetName.substring(0, 6);
 
-	const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
-		assetName: assetName,
-		assetURL: metaData.metaDataUrl,
-		decimals: decimals,
-		defaultFrozen: defaultFrozen,
-		from: connectedAddress.toString(),
-		suggestedParams: params,
-		total: 1,
-		unitName: unitName,
-		manager: connectedAddress.toString(),
-		freeze: connectedAddress.toString(),
-		clawback: connectedAddress.toString(),
-	});
-	console.log(txn, 'txn');
-	const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-	console.log(signedTxn, 'signedTxn');
+		const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
+			assetName: assetName,
+			assetURL: metaData.metaDataUrl,
+			decimals: decimals,
+			defaultFrozen: defaultFrozen,
+			from: connectedAddress.toString(),
+			suggestedParams: params,
+			total: 1,
+			unitName: unitName,
+			manager: connectedAddress.toString(),
+			freeze: connectedAddress.toString(),
+			clawback: connectedAddress.toString(),
+		});
+		console.log(txn, 'txn');
+		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+		console.log(signedTxn, 'signedTxn');
 
-	const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
-	let nftID = null;
-	// wait for transaction to be confirmed
-	const confirmedTxn = await algosdk.waitForConfirmation(
-		algodClient,
-		tx.txId,
-		4
-	);
-	//Get the completed Transaction
-	console.log(
-		'Transaction ' +
-			tx.txId +
-			' confirmed in round ' +
-			confirmedTxn['confirmed-round']
-	);
-	nftID = confirmedTxn['asset-index'];
-	console.log(nftID);
+		const tx = await algodClient.sendRawTransaction(signedTxn.blob).do();
+		let nftID = null;
+		// wait for transaction to be confirmed
+		const confirmedTxn = await algosdk.waitForConfirmation(
+			algodClient,
+			tx.txId,
+			4
+		);
+		//Get the completed Transaction
+		console.log(
+			'Transaction ' +
+				tx.txId +
+				' confirmed in round ' +
+				confirmedTxn['confirmed-round']
+		);
+		nftID = confirmedTxn['asset-index'];
+		const data = { success: true, nftID };
 
-	return { nftID };
+		return { data };
+	} catch (err) {
+		return err;
+	}
 }
 
 async function createNFT(inputFields) {
 	try {
 		// CREATE ASSET
-		const { nftID } = await createAsset(algodClient, inputFields);
-		console.log(nftID, 'assetId========>');
-		return nftID;
+		const response = await createAsset(algodClient, inputFields);
+		console.log(response, 'assetId========>');
+		return response;
 	} catch (err) {
 		console.log('err', err);
 	}
@@ -476,11 +465,10 @@ const placeBidOnAlgorand = async (
 			const data = { success: true, new_global_state };
 			return data;
 		}
-		return;
 	} catch (err) {
 		console.log(err, 'error while algorand bidding');
 		setLoader(false);
-		return err?.message;
+		return err;
 	}
 };
 

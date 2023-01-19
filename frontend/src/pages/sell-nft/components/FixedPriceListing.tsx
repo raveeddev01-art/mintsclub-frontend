@@ -18,6 +18,7 @@ import {
 	createFixedPriceApp,
 	setupSale,
 } from '../../../utils/algorand';
+import algosdk from 'algosdk';
 
 const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -129,15 +130,6 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				blockchainType?.toLowerCase() === 'algorand' &&
 				!nftDetail?.lazyMinted
 			) {
-				// const response = await checkAlgoBalance(connectedAddress);
-
-				// if (response.amount <= response?.minBalance) {
-				// 	toast.error(
-				// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
-				// 	);
-				// 	setLoader(false);
-				// 	return;
-				// }
 				if (nftDetail?.appId === 0) {
 					const response: any = await createFixedPriceApp(
 						nftDetail?.tokenId,
@@ -152,10 +144,26 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellId = response.appID;
 						payload.sellerTradeState = connectedAddress;
 					} else {
-						setLoader(false);
-						setIsButtonDisabled(false);
-						toast.error(response?.message);
-						return;
+						const errorMessage = response?.message;
+						if (errorMessage.includes('below min')) {
+							const match = errorMessage.match(
+								/balance\s(\d+)\sbelow\smin\s(\d+)/
+							);
+							const accountInfo = await checkAlgoBalance(connectedAddress);
+							let minBalance = accountInfo.amount + parseInt(match[2]);
+							minBalance = await algosdk.microalgosToAlgos(minBalance);
+							setLoader(false);
+							toast.error(
+								`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
+							);
+							setIsButtonDisabled(false);
+							return;
+						} else {
+							setLoader(false);
+							toast.error(errorMessage);
+							setIsButtonDisabled(false);
+							return;
+						}
 					}
 				} else {
 					const txnsArray: any = [];
@@ -173,10 +181,26 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellId = nftDetail?.appId;
 						payload.sellerTradeState = connectedAddress;
 					} else {
-						setLoader(false);
-						setIsButtonDisabled(false);
-						toast.error(res?.message);
-						return;
+						const errorMessage = res?.message;
+						if (errorMessage.includes('below min')) {
+							const match = errorMessage.match(
+								/balance\s(\d+)\sbelow\smin\s(\d+)/
+							);
+							const accountInfo = await checkAlgoBalance(connectedAddress);
+							let minBalance = accountInfo.amount + parseInt(match[2]);
+							minBalance = await algosdk.microalgosToAlgos(minBalance);
+							setLoader(false);
+							toast.error(
+								`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
+							);
+							setIsButtonDisabled(false);
+							return;
+						} else {
+							setLoader(false);
+							toast.error(errorMessage);
+							setIsButtonDisabled(false);
+							return;
+						}
 					}
 				}
 			}

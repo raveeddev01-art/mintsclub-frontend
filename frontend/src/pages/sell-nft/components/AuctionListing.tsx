@@ -20,6 +20,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { TextField } from '@mui/material';
+import algosdk from 'algosdk';
 
 const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -156,15 +157,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 					nftDetail?.contractAddress
 				);
 			} else if (blockchainType === 'algorand') {
-				// const response = await checkAlgoBalance(connectedAddress);
-
-				// if (response.amount <= response?.minBalance) {
-				// 	toast.error(
-				// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
-				// 	);
-				// 	setLoader(false);
-				// 	return;
-				// }
 				result = await createAuctionApp(
 					startTime,
 					biddingTime,
@@ -176,10 +168,26 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				);
 
 				if (!result?.globalState) {
-					setLoader(false);
-					setIsButtonDisabled(false);
-					toast.error(result?.message);
-					return;
+					const errorMessage = result?.message;
+					if (errorMessage.includes('below min')) {
+						const match = errorMessage.match(
+							/balance\s(\d+)\sbelow\smin\s(\d+)/
+						);
+						const accountInfo = await checkAlgoBalance(connectedAddress);
+						let minBalance = accountInfo.amount + parseInt(match[2]);
+						minBalance = await algosdk.microalgosToAlgos(minBalance);
+						setLoader(false);
+						toast.error(
+							`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
+						);
+						setIsButtonDisabled(false);
+						return;
+					} else {
+						setLoader(false);
+						toast.error(errorMessage);
+						setIsButtonDisabled(false);
+						return;
+					}
 				}
 			} else if (blockchainType === 'solana') {
 				const walletBalance = await getSolanaBalance(wallet);
