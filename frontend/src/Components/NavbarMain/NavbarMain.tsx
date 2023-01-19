@@ -304,12 +304,14 @@ const NavbarMain = () => {
               </div>
             </Link> */}
 					</div>
-					<div className="bell-notification" data-percent={count}>
-						<i
-							className="fa-solid fa-bell"
-							onClick={() => notificationEnable()}
-						></i>
-					</div>
+					{count ? (
+						<div className="bell-notification" data-percent={count}>
+							<i
+								className="fa-solid fa-bell"
+								onClick={() => notificationEnable()}
+							></i>
+						</div>
+					) : null}
 					<OutsideClickHandler
 						onOutsideClick={() => {
 							setEnableNotification(false);
