@@ -178,22 +178,13 @@ const CreateNft = ({
 				lazyMinted: false,
 			};
 		} else {
-			const errorMessage = res?.message;
-			if (errorMessage.includes('below min')) {
-				const match = errorMessage.match(/balance\s(\d+)\sbelow\smin\s(\d+)/);
-				const accountInfo = await checkAlgoBalance(props.connectedAddress);
-				let minBalance = accountInfo.amount + parseInt(match[2]);
-				minBalance = await algosdk.microalgosToAlgos(minBalance);
-				setLoader(false);
-				toast.error(
-					`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
-				);
-				setIsButtonDisabled(false);
-			} else {
-				setLoader(false);
-				toast.error(errorMessage);
-				setIsButtonDisabled(false);
-			}
+			const response = await checkAlgoBalance(
+				props.connectedAddress,
+				res?.message
+			);
+			setLoader(false);
+			toast.error(response?.err);
+			setIsButtonDisabled(false);
 		}
 	};
 	const mintSolNFT = async (data: any, image: string) => {

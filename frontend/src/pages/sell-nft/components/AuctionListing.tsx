@@ -168,26 +168,14 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				);
 
 				if (!result?.globalState) {
-					const errorMessage = result?.message;
-					if (errorMessage.includes('below min')) {
-						const match = errorMessage.match(
-							/balance\s(\d+)\sbelow\smin\s(\d+)/
-						);
-						const accountInfo = await checkAlgoBalance(connectedAddress);
-						let minBalance = accountInfo.amount + parseInt(match[2]);
-						minBalance = await algosdk.microalgosToAlgos(minBalance);
-						setLoader(false);
-						toast.error(
-							`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
-						);
-						setIsButtonDisabled(false);
-						return;
-					} else {
-						setLoader(false);
-						toast.error(errorMessage);
-						setIsButtonDisabled(false);
-						return;
-					}
+					const response = await checkAlgoBalance(
+						connectedAddress,
+						result?.message
+					);
+					setLoader(false);
+					toast.error(response?.err);
+					setIsButtonDisabled(false);
+					return;
 				}
 			} else if (blockchainType === 'solana') {
 				const walletBalance = await getSolanaBalance(wallet);

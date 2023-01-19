@@ -41,7 +41,21 @@ export const connectWallet = async () => {
 		console.error(err);
 	}
 };
-const checkAlgoBalance = async (accountaddress) => {
+const checkAlgoBalance = async (accountaddress, errorMessage) => {
+	let accountInfo = await algodClient.accountInformation(accountaddress).do();
+	let err = undefined;
+	if (errorMessage.includes('below min')) {
+		const match = errorMessage.match(/balance\s(\d+)\sbelow\smin\s(\d+)/);
+		let minBalance = accountInfo.amount + parseInt(match[2]);
+		minBalance = await algosdk.microalgosToAlgos(minBalance);
+		err = `Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`;
+	} else {
+		err = errorMessage;
+	}
+	const data = { amount: accountInfo?.amount, err };
+	return data;
+};
+const getAlgoBalance = async (accountaddress) => {
 	let accountInfo = await algodClient.accountInformation(accountaddress).do();
 	return accountInfo;
 };
@@ -1044,4 +1058,5 @@ export {
 	setupSale,
 	cancelListForLiveAuction,
 	cancelItemForFixPriceListing,
+	getAlgoBalance,
 };

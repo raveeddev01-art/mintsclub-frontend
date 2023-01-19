@@ -90,6 +90,7 @@ import {
 	checkAlgoBalance,
 	closeAuction,
 	createNFT,
+	getAlgoBalance,
 	placeBidOnAlgorand,
 } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -288,7 +289,7 @@ const NFTDetail = (props: any) => {
 			} else if (
 				ENV.getUserKeys('blockchainType').blockchainType === 'algorand'
 			) {
-				const accountInfo = await checkAlgoBalance(connectedAddress);
+				const accountInfo = await getAlgoBalance(connectedAddress);
 				balance = await algosdk.microalgosToAlgos(accountInfo?.amount);
 			} else {
 				balance = await getBalance();
@@ -870,26 +871,14 @@ const NFTDetail = (props: any) => {
 				);
 
 				if (!result?.success) {
-					const errorMessage = result?.message;
-					if (errorMessage.includes('below min')) {
-						const match = errorMessage.match(
-							/balance\s(\d+)\sbelow\smin\s(\d+)/
-						);
-						const accountInfo = await checkAlgoBalance(connectedAddress);
-						let minBalance = accountInfo.amount + parseInt(match[2]);
-						minBalance = await algosdk.microalgosToAlgos(minBalance);
-						setLoader(false);
-						toast.error(
-							`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
-						);
-						setIsButtonDisabled(false);
-						return;
-					} else {
-						setLoader(false);
-						toast.error(errorMessage);
-						setIsButtonDisabled(false);
-						return;
-					}
+					const response = await checkAlgoBalance(
+						connectedAddress,
+						result?.message
+					);
+					setLoader(false);
+					toast.error(response?.err);
+					setIsButtonDisabled(false);
+					return;
 				}
 			}
 			if (result) {
@@ -1028,24 +1017,13 @@ const NFTDetail = (props: any) => {
 							props.buyNow(payload);
 							createActivity('Transfer', false, props.connectedAddress);
 						} else {
-							const errorMessage = buyFixedPriceResponse?.message;
-							if (errorMessage.includes('below min')) {
-								const match = errorMessage.match(
-									/balance\s(\d+)\sbelow\smin\s(\d+)/
-								);
-								const accountInfo = await checkAlgoBalance(connectedAddress);
-								let minBalance = accountInfo.amount + parseInt(match[2]);
-								minBalance = await algosdk.microalgosToAlgos(minBalance);
-								setLoader(false);
-								toast.error(
-									`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
-								);
-								setIsButtonDisabled(false);
-							} else {
-								setLoader(false);
-								toast.error(errorMessage);
-								setIsButtonDisabled(false);
-							}
+							const response = await checkAlgoBalance(
+								props.connectedAddress,
+								buyFixedPriceResponse?.message
+							);
+							setLoader(false);
+							toast.error(response?.err);
+							setIsButtonDisabled(false);
 						}
 
 						return;

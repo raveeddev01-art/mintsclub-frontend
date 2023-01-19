@@ -144,26 +144,14 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellId = response.appID;
 						payload.sellerTradeState = connectedAddress;
 					} else {
-						const errorMessage = response?.message;
-						if (errorMessage.includes('below min')) {
-							const match = errorMessage.match(
-								/balance\s(\d+)\sbelow\smin\s(\d+)/
-							);
-							const accountInfo = await checkAlgoBalance(connectedAddress);
-							let minBalance = accountInfo.amount + parseInt(match[2]);
-							minBalance = await algosdk.microalgosToAlgos(minBalance);
-							setLoader(false);
-							toast.error(
-								`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
-							);
-							setIsButtonDisabled(false);
-							return;
-						} else {
-							setLoader(false);
-							toast.error(errorMessage);
-							setIsButtonDisabled(false);
-							return;
-						}
+						const res = await checkAlgoBalance(
+							connectedAddress,
+							response?.message
+						);
+						setLoader(false);
+						toast.error(res?.err);
+						setIsButtonDisabled(false);
+						return;
 					}
 				} else {
 					const txnsArray: any = [];
@@ -181,26 +169,14 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellId = nftDetail?.appId;
 						payload.sellerTradeState = connectedAddress;
 					} else {
-						const errorMessage = res?.message;
-						if (errorMessage.includes('below min')) {
-							const match = errorMessage.match(
-								/balance\s(\d+)\sbelow\smin\s(\d+)/
-							);
-							const accountInfo = await checkAlgoBalance(connectedAddress);
-							let minBalance = accountInfo.amount + parseInt(match[2]);
-							minBalance = await algosdk.microalgosToAlgos(minBalance);
-							setLoader(false);
-							toast.error(
-								`Insufficeint funds.Minimum balance for this transaction should be atleast ${minBalance} ALGOs`
-							);
-							setIsButtonDisabled(false);
-							return;
-						} else {
-							setLoader(false);
-							toast.error(errorMessage);
-							setIsButtonDisabled(false);
-							return;
-						}
+						const response = await checkAlgoBalance(
+							connectedAddress,
+							res?.message
+						);
+						setLoader(false);
+						toast.error(response?.err);
+						setIsButtonDisabled(false);
+						return;
 					}
 				}
 			}
