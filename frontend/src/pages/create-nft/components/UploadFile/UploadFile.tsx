@@ -37,7 +37,7 @@ const UploadFile = ({ data }: any) => {
 									type="file"
 									style={{ display: 'none' }}
 									onChange={(e) => onFileChange(e, 'onChange')}
-									accept=".mp4, .png,.jpeg"
+									accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 									name="image"
 								/>
 							</label>
@@ -94,7 +94,7 @@ const UploadFile = ({ data }: any) => {
 											type="file"
 											style={{ display: 'none' }}
 											onChange={(e) => onFileChange(e, 'onChange')}
-											accept=".mp4, .png,.jpeg,.mp3"
+											accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 											name="image"
 										/>
 									</label>
@@ -149,7 +149,7 @@ const UploadFile = ({ data }: any) => {
 											type="file"
 											style={{ display: 'none' }}
 											onChange={(e) => onFileChange(e, 'onChange')}
-											accept=".mp4, .png,.jpeg,.mp3"
+											accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 											name="image"
 										/>
 									</label>
@@ -198,7 +198,7 @@ const UploadFile = ({ data }: any) => {
 								type="file"
 								style={{ display: 'none' }}
 								onChange={(e) => onFileChange(e, 'onChange')}
-								accept=".mp4, .png,.jpeg,.mp3"
+								accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 								name="image"
 							/>
 							<span className="btn btn-linear-gradient upload-nft-btn text-white mt-3">

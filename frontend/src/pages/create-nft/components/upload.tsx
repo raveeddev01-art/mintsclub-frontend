@@ -58,7 +58,7 @@ const Upload: FC<UploadInterface> = ({
 									type="file"
 									style={{ display: 'none' }}
 									onChange={onFileChange}
-									accept=".mp4, .png,.jpeg"
+									accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 									name="image"
 								/>
 							</div>
@@ -78,7 +78,7 @@ const Upload: FC<UploadInterface> = ({
 									type="file"
 									style={{ display: 'none' }}
 									onChange={onFileChange}
-									accept=".mp4, .png,.jpeg"
+									accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 									name="image"
 								/>
 							</div>
@@ -94,7 +94,7 @@ const Upload: FC<UploadInterface> = ({
 									type="file"
 									style={{ display: 'none' }}
 									onChange={onFileChange}
-									accept=".mp4, .png,.jpeg"
+									accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 									name="image"
 								/>
 							</div>
@@ -114,7 +114,7 @@ const Upload: FC<UploadInterface> = ({
 									type="file"
 									style={{ display: 'none' }}
 									onChange={(e) => onFileChange(e, 'onChange')}
-									accept=".mp4, .png,.jpeg"
+									accept=".mp4, .png, .jpeg, .webp, .jpg, .mp3"
 									name="image"
 								/>
 							</>
