@@ -568,7 +568,7 @@ export const getCurrentAddress = async (wallet) => {
 	return address;
 };
 
-export const handleSign = async (nounce) => {
+export const handleSign = async (nounce, setIsButtonDisabled) => {
 	const web3 = new Web3(Web3.givenProvider);
 	const publicAddress = await connectMetamask();
 	return new Promise((resolve, reject) =>
@@ -577,6 +577,7 @@ export const handleSign = async (nounce) => {
 			publicAddress?.toLowerCase(),
 			(err, signature) => {
 				console.log(signature, 'signature==>');
+				setIsButtonDisabled(false);
 				if (err) return reject(err);
 				return resolve({ publicAddress, signature });
 			}
@@ -734,7 +735,7 @@ const addNetworkAutomatically = async (id) => {
 		params: [NETWORK_CONFIG[id]],
 	});
 };
-export const switchNetworkToChainId = async (id) => {
+export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 	if (window.ethereum) {
 		try {
 			let web3 = await getWeb3();
@@ -742,6 +743,7 @@ export const switchNetworkToChainId = async (id) => {
 				method: 'wallet_switchEthereumChain',
 				params: [{ chainId: Web3.utils.toHex(id) }],
 			});
+			setIsButtonDisabled(false);
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
@@ -753,6 +755,7 @@ export const switchNetworkToChainId = async (id) => {
 					return false;
 				}
 			}
+			setIsButtonDisabled(false);
 		}
 	}
 };

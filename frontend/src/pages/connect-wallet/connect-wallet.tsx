@@ -34,6 +34,7 @@ const ConnectWallet = (props: any) => {
 	const history = useHistory();
 	const location: any = useLocation();
 	const [connectedAddress, setConnectedAddres] = useState<any>(null);
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
 	const { setError } = useContext(errorHandler);
 
@@ -130,7 +131,10 @@ const ConnectWallet = (props: any) => {
 			) {
 				selectedBlockchainType = 'ethereum';
 				if (response?.users?.length > 0) {
-					const res = await handleSign(response?.users[0].nounce);
+					const res = await handleSign(
+						response?.users[0].nounce,
+						setIsButtonDisabled
+					);
 					authenticate({
 						...res,
 						blockchainType: response?.users[0]?.blockchainType,
@@ -185,7 +189,10 @@ const ConnectWallet = (props: any) => {
 				data?.data?.data?.blockchainType !== 'solana' &&
 				data?.data?.data?.blockchainType !== 'algorand'
 			) {
-				const res = await handleSign(data?.data?.data?.nounce);
+				const res = await handleSign(
+					data?.data?.data?.nounce,
+					setIsButtonDisabled
+				);
 				authenticate({
 					...res,
 					blockchainType: data?.data?.data.blockchainType,
@@ -225,7 +232,7 @@ const ConnectWallet = (props: any) => {
 
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
-		const addr = await connectWallet();
+		const addr = await connectWallet(setIsButtonDisabled);
 		setConnectedAddres(addr?.[0]);
 		props.setWalletAddress(addr?.[0]);
 		props.setBlockchainType('algorand');
@@ -238,6 +245,9 @@ const ConnectWallet = (props: any) => {
 			props.setBlockchainType('solana');
 			props.setWalletAddress(wallet.publicKey?.toBase58());
 			setConnectedAddres(wallet.publicKey?.toBase58());
+			setIsButtonDisabled(false);
+		} else {
+			setIsButtonDisabled(false);
 		}
 	};
 	const connectSolflareWallet = async () => {
@@ -247,17 +257,24 @@ const ConnectWallet = (props: any) => {
 			props.setBlockchainType('solana');
 			props.setWalletAddress(wallet.publicKey?.toBase58());
 			setConnectedAddres(wallet.publicKey?.toBase58());
+			setIsButtonDisabled(false);
+		} else {
+			setIsButtonDisabled(false);
 		}
 	};
 	const ethereumFunc = async (status: any, chainId: any) => {
 		if (detectMobile() && !window?.ethereum) {
+			setIsButtonDisabled(false);
 			return window.open(
 				'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
 			);
 		}
 		const currentChainId = await getChainId();
 		if (chainId !== currentChainId) {
-			const switchNetworkResponse = await switchNetworkToChainId(chainId);
+			const switchNetworkResponse = await switchNetworkToChainId(
+				chainId,
+				setIsButtonDisabled
+			);
 			if (!switchNetworkResponse) {
 				return false;
 			}
@@ -381,8 +398,12 @@ const ConnectWallet = (props: any) => {
 								{chain.wallets?.map((wallet) => (
 									<div className="tab-inner-content" key={chain.key}>
 										<button
+											disabled={isButtonDisabled}
 											className="wallet-button"
-											onClick={wallet.functionality}
+											onClick={() => {
+												wallet.functionality();
+												setIsButtonDisabled(true);
+											}}
 										>
 											<img src={wallet.icon} alt="wallet-icon" />
 											{wallet.name}
