@@ -90,6 +90,7 @@ import {
 	checkAlgoBalance,
 	closeAuction,
 	createNFT,
+	getAlgoBalance,
 	placeBidOnAlgorand,
 } from '../../utils/algorand';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -98,6 +99,7 @@ import { Wallet } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 import SocketContext from '../../contexts/SocketContext';
 import { sliderClasses } from '@mui/material';
+import algosdk from 'algosdk';
 
 const NFTDetail = (props: any) => {
 	const params: any = useParams();
@@ -287,8 +289,8 @@ const NFTDetail = (props: any) => {
 			} else if (
 				ENV.getUserKeys('blockchainType').blockchainType === 'algorand'
 			) {
-				const accountInfo = await checkAlgoBalance(connectedAddress);
-				balance = accountInfo.amount;
+				const accountInfo = await getAlgoBalance(connectedAddress);
+				balance = await algosdk.microalgosToAlgos(accountInfo?.amount);
 			} else {
 				balance = await getBalance();
 			}
@@ -869,8 +871,12 @@ const NFTDetail = (props: any) => {
 				);
 
 				if (!result?.success) {
+					const response = await checkAlgoBalance(
+						connectedAddress,
+						result?.message
+					);
 					setLoader(false);
-					toast.error(result);
+					toast.error(response?.err);
 					setIsButtonDisabled(false);
 					return;
 				}
@@ -1011,8 +1017,12 @@ const NFTDetail = (props: any) => {
 							props.buyNow(payload);
 							createActivity('Transfer', false, props.connectedAddress);
 						} else {
+							const response = await checkAlgoBalance(
+								props.connectedAddress,
+								buyFixedPriceResponse?.message
+							);
 							setLoader(false);
-							toast.error(buyFixedPriceResponse?.message);
+							toast.error(response?.err);
 							setIsButtonDisabled(false);
 						}
 

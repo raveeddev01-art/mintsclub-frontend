@@ -18,6 +18,7 @@ import {
 	createFixedPriceApp,
 	setupSale,
 } from '../../../utils/algorand';
+import algosdk from 'algosdk';
 
 const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -129,15 +130,6 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 				blockchainType?.toLowerCase() === 'algorand' &&
 				!nftDetail?.lazyMinted
 			) {
-				// const response = await checkAlgoBalance(connectedAddress);
-
-				// if (response.amount <= response?.minBalance) {
-				// 	toast.error(
-				// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
-				// 	);
-				// 	setLoader(false);
-				// 	return;
-				// }
 				if (nftDetail?.appId === 0) {
 					const response: any = await createFixedPriceApp(
 						nftDetail?.tokenId,
@@ -152,9 +144,13 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellId = response.appID;
 						payload.sellerTradeState = connectedAddress;
 					} else {
+						const res = await checkAlgoBalance(
+							connectedAddress,
+							response?.message
+						);
 						setLoader(false);
+						toast.error(res?.err);
 						setIsButtonDisabled(false);
-						toast.error(response?.message);
 						return;
 					}
 				} else {
@@ -173,9 +169,13 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						payload.sellId = nftDetail?.appId;
 						payload.sellerTradeState = connectedAddress;
 					} else {
+						const response = await checkAlgoBalance(
+							connectedAddress,
+							res?.message
+						);
 						setLoader(false);
+						toast.error(response?.err);
 						setIsButtonDisabled(false);
-						toast.error(res?.message);
 						return;
 					}
 				}

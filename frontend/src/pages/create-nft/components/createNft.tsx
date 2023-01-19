@@ -13,6 +13,7 @@ import { checkAlgoBalance, createNFT } from '../../../utils/algorand';
 import { blockchainIcons } from '../../../assets/assets';
 import { useToast } from 'react-toastify';
 import { getSpecialCharacterReplaced } from '../../../utils/helpers/helpers';
+import algosdk from 'algosdk';
 
 const CreateNft = ({
 	props,
@@ -103,17 +104,7 @@ const CreateNft = ({
 				}
 
 				if (props.blockchainType === 'algorand') {
-					// const response = await checkAlgoBalance(props.connectedAddress);
-
-					// if (response.amount <= response?.minBalance) {
-					// 	toast.error(
-					// 		`Insufficeint funds for this transaction. Please recharge your wallet. Minimum balance should be atleast ${response?.algoFundsInWallet} ALGOs`
-					// 	);
-					// 	setLoader(false);
-					// 	return;
-					// } else {
 					paylaod = await mintAlgoNFT(metaData, data, image);
-					// }
 				}
 
 				if (props.blockchainType === 'solana') {
@@ -140,7 +131,9 @@ const CreateNft = ({
 					paylaod.algoLazyMinted = state.isFreeMint;
 				}
 			}
-			await insertNFT(paylaod);
+			if (paylaod) {
+				await insertNFT(paylaod);
+			}
 		} catch (err: any) {
 			console.log(err, 'error');
 			toast.error(err);
@@ -170,20 +163,28 @@ const CreateNft = ({
 	};
 	const mintAlgoNFT = async (metaData: string, data: any, image: string) => {
 		const { name, copies } = state.nft;
-		const tokenId = await createNFT({
+		const res: any = await createNFT({
 			assetName: name,
 			total: copies,
 			metaData,
 			connectedAddress: props.connectedAddress,
 		});
 
-		if (tokenId) {
+		if (res?.data?.success) {
 			return {
-				nftToken: tokenId,
+				nftToken: res?.data?.nftID,
 				data: { ...data, blockchainType: props.blockchainType },
 				image,
 				lazyMinted: false,
 			};
+		} else {
+			const response = await checkAlgoBalance(
+				props.connectedAddress,
+				res?.message
+			);
+			setLoader(false);
+			toast.error(response?.err);
+			setIsButtonDisabled(false);
 		}
 	};
 	const mintSolNFT = async (data: any, image: string) => {
