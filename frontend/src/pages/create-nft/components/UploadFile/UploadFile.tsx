@@ -46,7 +46,7 @@ const UploadFile = ({ data }: any) => {
 								<img src={UploadWhiteIcon} alt="upload" className="mb-1 mt-4" />
 								<h6 className="mb-1 text-white">Drag and drop your files</h6>
 								<p className="mb-1 text-white">
-									PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+									PNG, JPEG, JPG, GIF, WEBP, MP4 or MP3. Max 100mb.
 								</p>
 								<div className="mx-3 my-1">
 									<span className="text-white">|</span>
@@ -109,7 +109,7 @@ const UploadFile = ({ data }: any) => {
 											Drag and drop your files
 										</h6>
 										<p className="mb-1 text-white">
-											PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+											PNG, JPEG, JPG, GIF, WEBP, MP4 or MP3. Max 100mb.
 										</p>
 										<div className="mx-3 my-1">
 											<span className="text-white">|</span>
@@ -164,7 +164,7 @@ const UploadFile = ({ data }: any) => {
 											Drag and drop your files
 										</h6>
 										<p className="mb-1 text-white">
-											PNG, GIF, WEBP, MP4 or MP3. Max 100mb.
+											PNG, JPEG, JPG, GIF, WEBP, MP4 or MP3. Max 100mb.
 										</p>
 										<div className="mx-3 my-1">
 											<span className="text-white">|</span>
@@ -187,7 +187,9 @@ const UploadFile = ({ data }: any) => {
 						<div className="upload-icon-container text-center ">
 							<img src={UploadIcon} alt="upload" className="mb-2" />
 							<h6 className="mb-2">Drag and drop your files</h6>
-							<p className="mb-2">PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+							<p className="mb-2">
+								PNG, JPEG, JPG, GIF, WEBP, MP4 or MP3. Max 100mb.
+							</p>
 							<div className="">
 								<span>|</span>
 								<h6>OR</h6>

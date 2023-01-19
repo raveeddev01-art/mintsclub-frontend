@@ -729,7 +729,8 @@ export const connectWithMetamask = async () => {
 		toast.error(err.message);
 	}
 };
-const addNetworkAutomatically = async (id) => {
+const addNetworkAutomatically = async (id, setIsButtonDisabled) => {
+	setIsButtonDisabled(false);
 	return await window.ethereum.request({
 		method: 'wallet_addEthereumChain',
 		params: [NETWORK_CONFIG[id]],
@@ -749,7 +750,7 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 		} catch (err) {
 			if (err.code === 4902) {
 				try {
-					await addNetworkAutomatically(id);
+					await addNetworkAutomatically(id, setIsButtonDisabled);
 					return true;
 				} catch (err) {
 					return false;
