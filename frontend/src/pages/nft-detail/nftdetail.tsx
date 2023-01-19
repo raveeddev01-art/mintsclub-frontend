@@ -790,8 +790,7 @@ const NFTDetail = (props: any) => {
 				const currentUSD = res.data.USD;
 				setExchangeRate(currentUSD);
 			});
-	}, [currency, nftId]);
-
+	}, [currency, nftId, nftDetail?.blockchainType]);
 	useEffect(() => {
 		getBidsListOfAuction();
 	}, [nftDetail?.activeAuction]);
