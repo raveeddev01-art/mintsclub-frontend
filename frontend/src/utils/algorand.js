@@ -23,12 +23,13 @@ const algodPort = '';
 
 let algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
 
-export const connectWallet = async () => {
+export const connectWallet = async (setIsButtonDisabled) => {
 	try {
 		const accounts = await myAlgoConnect.connect(settings);
 		const sk = await accounts.map((account) => account.sk);
 		const address = accounts.map((account) => account.address);
 		const name = accounts.map((account) => account.name);
+		setIsButtonDisabled(false);
 		// let account_mnemonic = algosdk.secretKeyToMnemonic(accounts[0].sk);
 		// console.log("Account Mnemonic = " + account_mnemonic);
 		// console.log(address + " " + sk);
@@ -38,6 +39,7 @@ export const connectWallet = async () => {
 		// let account_mnemonic = algosdk.secretKeyToMnemonic(nemonic.sk);
 		// setnemonic(account_mnemonic);
 	} catch (err) {
+		setIsButtonDisabled(false);
 		console.error(err);
 	}
 };
