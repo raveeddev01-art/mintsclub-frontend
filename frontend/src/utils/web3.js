@@ -9,6 +9,7 @@ import binanceMintAbi from './abis/binance/mint.json';
 import binanceMarketPlaceContract from './abis/binance/marketPlace.json';
 import typedDataV4 from './typeDatav4';
 import batchMintAbi from './abis/batchMint-abi.json';
+import { NETWORK_CONFIG } from './exportData';
 const goerliMintingContract = ENV.goerliMintingContract;
 const polygonMintingContract = ENV.polygonMintingContract;
 const binanceMintingContract = ENV.bscMintingContract;
@@ -727,7 +728,12 @@ export const connectWithMetamask = async () => {
 		toast.error(err.message);
 	}
 };
-
+const addNetworkAutomatically = async (id) => {
+	return await window.ethereum.request({
+		method: 'wallet_addEthereumChain',
+		params: [NETWORK_CONFIG[id]],
+	});
+};
 export const switchNetworkToChainId = async (id) => {
 	if (window.ethereum) {
 		try {
@@ -739,8 +745,14 @@ export const switchNetworkToChainId = async (id) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
-			toast.error(err.message);
-			throw new Error(err.message);
+			if (err.code === 4902) {
+				try {
+					await addNetworkAutomatically(id);
+					return true;
+				} catch (err) {
+					return false;
+				}
+			}
 		}
 	}
 };

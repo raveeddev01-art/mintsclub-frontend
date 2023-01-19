@@ -257,7 +257,10 @@ const ConnectWallet = (props: any) => {
 		}
 		const currentChainId = await getChainId();
 		if (chainId !== currentChainId) {
-			await switchNetworkToChainId(chainId);
+			const switchNetworkResponse = await switchNetworkToChainId(chainId);
+			if (!switchNetworkResponse) {
+				return false;
+			}
 		}
 		await wallet.disconnect();
 		props.setBlockchainType(status);
@@ -276,7 +279,10 @@ const ConnectWallet = (props: any) => {
 					name: 'Metamask Ethereum',
 					icon: connectModal.metaImg,
 					functionality: async () => {
-						await ethereumFunc('ethereum', 5);
+						await ethereumFunc(
+							'ethereum',
+							ENV.environment === 'development' ? 5 : 1
+						);
 					},
 				},
 			],
@@ -290,7 +296,10 @@ const ConnectWallet = (props: any) => {
 					icon: connectModal.metaImg,
 					// eslint-disable-next-line @typescript-eslint/no-empty-function
 					functionality: async () => {
-						await ethereumFunc('polygon', 80001);
+						await ethereumFunc(
+							'polygon',
+							ENV.environment === 'development' ? 80001 : 137
+						);
 					},
 				},
 			],
@@ -303,7 +312,10 @@ const ConnectWallet = (props: any) => {
 					name: 'Metamask BSC',
 					icon: connectModal.metaImg,
 					functionality: async () => {
-						await ethereumFunc('bsc', 97);
+						await ethereumFunc(
+							'bsc',
+							ENV.environment === 'development' ? 97 : 56
+						);
 					},
 				},
 			],
