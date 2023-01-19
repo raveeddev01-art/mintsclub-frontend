@@ -745,8 +745,6 @@ export const switchNetworkToChainId = async (id) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
-			// console.log("🚀 ~ file: web3.js:747 ~ switchNetworkToChainId ~ chainId", Web3.utils.toHex(id),'ooooo',id)
-			console.log('This is Chain ID:', id);
 			if (err.code === 4902) {
 				try {
 					await addNetworkAutomatically(id);
