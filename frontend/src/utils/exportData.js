@@ -54,7 +54,7 @@ export const NETWORK_CONFIG = {
 	//For Binance test net
 	97: {
 		chainId: '0x61',
-		chainName: 'Binance Smart Chain',
+		chainName: 'Binance Smart Chain Testnet',
 		nativeCurrency: {
 			name: 'Binance Coin',
 			symbol: 'tBNB',
