@@ -696,8 +696,9 @@ export const getWalletAddress = async () => {
 	let accounts = await web3.eth.getAccounts();
 	return accounts[0];
 };
-export const connectMetamask = async () => {
+export const connectMetamask = async (setIsButtonDisabled) => {
 	if (window.ethereum) {
+		setIsButtonDisabled(false);
 		let web3 = await getWeb3();
 		let accounts = await web3.eth.getAccounts();
 		if (accounts?.length === 0) {
@@ -710,6 +711,7 @@ export const connectMetamask = async () => {
 		return accounts[0];
 	} else {
 		toast.error('Please install metamask to connect to the Marketplace');
+		setIsButtonDisabled(false);
 	}
 };
 export const connectWithMetamask = async () => {

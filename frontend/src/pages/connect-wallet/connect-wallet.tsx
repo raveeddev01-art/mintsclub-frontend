@@ -270,6 +270,12 @@ const ConnectWallet = (props: any) => {
 			);
 		}
 		const currentChainId = await getChainId();
+		await wallet.disconnect();
+		props.setBlockchainType(status);
+		const publicAddress: any = await connectMetamask(setIsButtonDisabled);
+		setConnectedAddres(publicAddress);
+		props.setWalletAddress(publicAddress);
+		validateUser({ blockchainType: status });
 		if (chainId !== currentChainId) {
 			const switchNetworkResponse = await switchNetworkToChainId(
 				chainId,
@@ -279,12 +285,6 @@ const ConnectWallet = (props: any) => {
 				return false;
 			}
 		}
-		await wallet.disconnect();
-		props.setBlockchainType(status);
-		const publicAddress: any = await connectMetamask();
-		setConnectedAddres(publicAddress);
-		props.setWalletAddress(publicAddress);
-		validateUser({ blockchainType: status });
 	};
 
 	const CHAINS = [
