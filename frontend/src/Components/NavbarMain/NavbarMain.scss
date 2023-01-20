@@ -209,7 +209,7 @@
   margin-left: 10px;
   font-size: 25px;
   transform-origin: top;
-  animation: bell 1s linear ease alternate-reverse;
+//   animation: bell 1s linear ease alternate-reverse;
   padding-top: -22px;
   align-items: center;
   justify-content: center;
@@ -218,7 +218,7 @@
   .bell-notification:hover{
     transform-origin: top;
     color: #2269ff;
-    animation: bell 1s linear infinite alternate-reverse;
+    // animation: bell 1s linear infinite alternate-reverse;
     @keyframes bell {
       0% {
       transform: rotate(-6deg);

@@ -33,12 +33,11 @@ const Notification = (props: any) => {
 	const notificationTime = props.notificationData.data.map(
 		(notification: notificationTime) => notification.createdAt
 	);
-	console.log('This is Props:', notificationTime);
 	let path = `explore/nftdetail/`;
 	const pathName = window.location.pathname;
 	const pathNames = pathName.split('/');
 	if (pathNames[1] === 'explore' && pathNames[2] === 'nftdetail') {
-		path = '/';
+		path = '';
 	} else if (pathNames[1] === 'explore') {
 		path = 'nftdetail/';
 	}
