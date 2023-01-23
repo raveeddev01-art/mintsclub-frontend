@@ -3,6 +3,8 @@ import { useHistory } from 'react-router';
 import ImageLoader from '../ContentLoader/HeroLoader';
 import { connect } from 'react-redux';
 import { CHAINS_INTERFACE, HeroCardInt } from '../../interfaces/components';
+import { ReactComponent as AudioIcon } from '../../assets/images/audio-icon.svg';
+import useVideoPlayer from '../TestVideoCard/Components/UseVideoPlayer';
 import './HeroCards.scss';
 import {
 	CHAIN_CURRENCY,
@@ -11,6 +13,7 @@ import {
 	verifyOwner,
 } from '../../utils/helpers/helpers';
 import nftdetail from '../../pages/nft-detail/nftdetail';
+import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 
 const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 	const {
@@ -26,6 +29,8 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 	} = data;
 	const [loader, setLoader] = useState<boolean>(true);
 	const history = useHistory();
+	const videoElement = React.useRef(null);
+	const { playerState, togglePlay } = useVideoPlayer(videoElement);
 	return (
 		<div className="hero-new-card">
 			<div className="hero-img-container">
@@ -54,18 +59,80 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 				<div style={{ display: `${loader ? 'block' : 'none'}` }}>
 					<ImageLoader />
 				</div>
-				<img
-					src={
-						status === 'nfts'
-							? data.img
-							: compressedFile
-							? compressedFile
-							: nftImage
-					}
-					onLoad={() => setLoader(false)}
-					alt="heroImg"
-					style={{ display: `${!loader ? 'block' : 'none'}` }}
-				/>
+				{data.fileType === 'video' ? (
+					<>
+						<div
+							className="controls"
+							style={{ display: `${!loader ? 'block' : 'none'}` }}
+						>
+							<div className="actions">
+								<button
+									className="play-pause-btn d-flex align-items-center justify-content-center"
+									onClick={togglePlay}
+								>
+									{playerState.isPlaying ? (
+										<BsFillPauseFill />
+									) : (
+										<BsFillPlayFill />
+									)}
+								</button>
+							</div>
+						</div>
+						<video
+							src={
+								status === 'nfts'
+									? data.img
+									: compressedFile
+									? compressedFile
+									: nftImage
+							}
+							onEnded={() => {
+								togglePlay();
+							}}
+							onCanPlay={() => {
+								setLoader(false);
+							}}
+							ref={videoElement}
+							style={{ display: `${!loader ? 'block' : 'none'}` }}
+							onClick={() => history.push(`explore/nftdetail/${nftId}`)}
+						/>
+					</>
+				) : data.fileType === 'audio' ? (
+					<>
+						<div className="auction-audio-icon">
+							<AudioIcon />
+						</div>
+						<audio
+							controls
+							controlsList="nodownload noplaybackrate"
+							style={{ display: `${!loader ? 'block' : 'none'}` }}
+							onLoadedData={() => setLoader(false)}
+						>
+							<source
+								src={
+									status === 'nfts'
+										? data.img
+										: compressedFile
+										? compressedFile
+										: nftImage
+								}
+							/>
+						</audio>
+					</>
+				) : (
+					<img
+						src={
+							status === 'nfts'
+								? data.img
+								: compressedFile
+								? compressedFile
+								: nftImage
+						}
+						onLoad={() => setLoader(false)}
+						alt="heroImg"
+						style={{ display: `${!loader ? 'block' : 'none'}` }}
+					/>
+				)}
 				{status !== 'nfts' && (
 					<>
 						<div className="hero-owner text-center">

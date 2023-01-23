@@ -26,9 +26,7 @@ const Hero: FC<HeroInt> = (props) => {
 			let updatedAuctions = [];
 			if (auctions && auctions.length > 1) {
 				setStatus('auctions');
-				updatedAuctions = auctions.filter(
-					(item: any) => item.fileType === 'image'
-				);
+				updatedAuctions = auctions.filter((item: any) => item);
 				if (updatedAuctions?.length > 6) {
 					updatedAuctions = updatedAuctions.slice(0, 6);
 				}
