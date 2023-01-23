@@ -61,7 +61,10 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 				</div>
 				{data.fileType === 'video' ? (
 					<>
-						<div className="controls">
+						<div
+							className="controls"
+							style={{ display: `${!loader ? 'block' : 'none'}` }}
+						>
 							<div className="actions">
 								<button
 									className="play-pause-btn d-flex align-items-center justify-content-center"
