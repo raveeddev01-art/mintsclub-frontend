@@ -304,7 +304,7 @@ const NavbarMain = () => {
               </div>
             </Link> */}
 					</div>
-					{count ? (
+					{count !== undefined ? (
 						<div className="bell-notification" data-percent={count}>
 							<i
 								className="fa-solid fa-bell"
