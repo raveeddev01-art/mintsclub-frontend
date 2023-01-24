@@ -1,6 +1,6 @@
 .popup{
     min-height: 70px;
-    max-height: 250px;
+    max-height: 260px;
     width: 250px;
     background-color: #ffffff;
     position: absolute;
@@ -58,13 +58,14 @@
 }
 .changeBackgroud{
     background-color: white;
-    margin: 3px;
+    margin: 6px;
     font-size: 12px;
     border-style: solid;
     border-radius: 5px;
     border-color: none;
     // border-width: 1px;
     cursor: pointer;
+    padding: 3px;
 }
 
 .Notification-Title{
@@ -84,4 +85,16 @@
     font-size: 9px;
     margin-right: 5px;
     padding: 3px;
+    width: 100%;
+}
+.seen-notification{
+    text-align: left;
+    font-size: 9px;
+    margin-left: 5px;
+    padding: 3px;
+    width: 50%;
+}
+.wrape-content{
+    display: flex;
+    justify-content: space-between;
 }

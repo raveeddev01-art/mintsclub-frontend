@@ -90,8 +90,14 @@ const Notification = (props: any) => {
 										nftId[i].name
 									)}
 								</div>
-								<div className="Notification-Time">
-									{moment(notificationTime[i]).format('llll')}
+								<div className="wrape-content">
+									{isSeen[i] === true ? (
+										<div className="seen-notification">seen</div>
+									) : null}
+
+									<div className="Notification-Time">
+										{moment(notificationTime[i]).format('llll')}
+									</div>
 								</div>
 							</div>
 						))
