@@ -15,17 +15,28 @@ import { ListenMetaMaskAccs } from '../../utils/helpers/ethereum';
 import { GET_SYSTEM_FEE } from '../../redux/types';
 import { useGetData } from '../../hooks/Common';
 import SocketContext from '../../contexts/SocketContext';
+import Notification from '../Notification/Notification';
+import OutsideClickHandler from 'react-outside-click-handler';
+import axios, { AxiosResponse } from 'axios';
+import { handleRequest } from '../../utils/functions';
+import { useQuery, useMutation } from 'react-query';
+import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import { notificationSeen } from './variableTypes';
 
 const NavbarMain = () => {
 	const socket = useContext(SocketContext);
 	const dispatch = useDispatch();
-
 	const [searchactive, setSearchActive] = useState<any>(false);
+	const [enableNotification, setEnableNotification] = useState(false);
 	const [searchValue, setSearchValue] = useState<any>('');
 	const history = useHistory();
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 	const wallet = useWallet();
-
+	// let notificationData: never[] | AxiosResponse<any> = [];
+	const [notificationData, setNotificationData] = useState<object>({});
+	const [seenNotification, setSeenNotification] = useState<notificationSeen>(
+		{}
+	);
 	//Listen Metamask listeners
 	ListenMetaMaskAccs();
 
@@ -81,11 +92,17 @@ const NavbarMain = () => {
 			setDarkMode(false);
 		}
 	};
+	const notificationEnable = () => {
+		setEnableNotification(true);
+	};
+
 	useEffect(() => {
 		if (defaultDark) {
 			setDark();
 			setDarkMode(true);
 		}
+		getNotification();
+		getSeenNotification();
 	}, []);
 	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
@@ -107,6 +124,34 @@ const NavbarMain = () => {
 		}
 	}, [ENV.getUserKeys('_id')?._id]);
 
+	useEffect(() => {
+		if (socket) {
+			socket.emit('join', ENV.getUserKeys('_id')?._id);
+		}
+	}, [ENV.getUserKeys('_id')?._id]);
+
+	const getNotification = async () => {
+		const notifications = await handleRequest(
+			'get',
+			'notification/getUserAllNotification'
+		);
+		setNotificationData(notifications);
+	};
+
+	const getSeenNotification = async () => {
+		const notifications = await handleRequest(
+			'get',
+			'notification/getUserUnseenNotification'
+		);
+		setSeenNotification(notifications);
+	};
+	const dataLength = seenNotification?.data?.length;
+	let count: any = '';
+	if (dataLength > 9) {
+		count = '9+';
+	} else {
+		count = dataLength;
+	}
 	return (
 		<div className="main-nav-section">
 			<Container className="main-nav-container">
@@ -259,6 +304,23 @@ const NavbarMain = () => {
               </div>
             </Link> */}
 					</div>
+					{count ? (
+						<div className="bell-notification" data-percent={count}>
+							<i
+								className="fa-solid fa-bell"
+								onClick={() => notificationEnable()}
+							></i>
+						</div>
+					) : null}
+					<OutsideClickHandler
+						onOutsideClick={() => {
+							setEnableNotification(false);
+						}}
+					>
+						{enableNotification === true ? (
+							<Notification notificationData={notificationData} />
+						) : null}
+					</OutsideClickHandler>
 				</Navbar>
 			</Container>
 		</div>

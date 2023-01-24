@@ -288,6 +288,30 @@ const reduceString = (text: string, size: number) => {
 	return text;
 };
 
+const NOTIFICATION_TEXT: any = {
+	addBid: {
+		title: 'Bid Added',
+		descritption:
+			"'--formUserID--' have placed a bid on your auction of --name--",
+	},
+	upBid: {
+		title: 'Up Bided',
+		descritption: "'--formUserID--' have placed bid from last higher bid",
+	},
+	startAuction: {
+		title: 'Start Auction Time',
+		descritption: 'Aucton time started of --name--',
+	},
+	endAuction: {
+		title: 'End Auction Time',
+		descritption: 'Aucton time ended of --name--',
+	},
+	claimNft: {
+		title: 'Claim NFT',
+		descritption: 'Aucton time ended You Can Claim NFT --name--',
+	},
+};
+
 export {
 	CHAIN_CURRENCY,
 	CHAIN_LOGOS,
@@ -305,4 +329,5 @@ export {
 	mintingAdressURL,
 	mintingContractAddress,
 	reduceString,
+	NOTIFICATION_TEXT,
 };

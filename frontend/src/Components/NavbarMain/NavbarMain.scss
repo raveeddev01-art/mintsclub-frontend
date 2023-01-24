@@ -203,6 +203,47 @@
 	fill: #000;
 }
 
+.bell-notification{
+  color: var(--menu-text);
+  margin-top: 23px;
+  margin-left: 10px;
+  font-size: 25px;
+  transform-origin: top;
+//   animation: bell 1s linear ease alternate-reverse;
+  padding-top: -22px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  }
+  .bell-notification:hover{
+    transform-origin: top;
+    color: #2269ff;
+    // animation: bell 1s linear infinite alternate-reverse;
+    @keyframes bell {
+      0% {
+      transform: rotate(-6deg);
+      }
+      100% {
+      transform: rotate(6deg);
+      }
+      }
+  }
+  
+  .bell-notification::after{
+  content: attr(data-percent);
+  font-size: 10px;
+  position: absolute;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: var(--icon-bg);
+  margin-top: 4px;
+  margin-left: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
 @media (max-width: 1199.9px) {
 	.main-nav-container {
 		position: relative;

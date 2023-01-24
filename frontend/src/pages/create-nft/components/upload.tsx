@@ -108,7 +108,7 @@ const Upload: FC<UploadInterface> = ({
 								/>
 								<div className="upload-details text-center mt-2">
 									<p>Drag and drop your file</p>
-									<p>PNG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
+									<p>PNG, JPEG, JPG, GIF, WEBP, MP4 or MP3. Max 100mb.</p>
 								</div>
 								<input
 									type="file"

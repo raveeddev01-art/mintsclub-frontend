@@ -269,6 +269,12 @@ const ConnectWallet = (props: any) => {
 				'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
 			);
 		}
+		await wallet.disconnect();
+		props.setBlockchainType(status);
+		const publicAddress: any = await connectMetamask();
+		if (!publicAddress) {
+			setIsButtonDisabled(false);
+		}
 		const currentChainId = await getChainId();
 		if (chainId !== currentChainId) {
 			const switchNetworkResponse = await switchNetworkToChainId(
@@ -279,9 +285,6 @@ const ConnectWallet = (props: any) => {
 				return false;
 			}
 		}
-		await wallet.disconnect();
-		props.setBlockchainType(status);
-		const publicAddress: any = await connectMetamask();
 		setConnectedAddres(publicAddress);
 		props.setWalletAddress(publicAddress);
 		validateUser({ blockchainType: status });
