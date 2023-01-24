@@ -398,21 +398,23 @@ const ConnectWallet = (props: any) => {
 					<Tabs defaultActiveKey="ethereum" id="uncontrolled-tab-example">
 						{CHAINS.map((chain) => (
 							<Tab eventKey={chain.key} key={chain.key} title={chain.title}>
-								{chain.wallets?.map((wallet) => (
-									<div className="tab-inner-content" key={chain.key}>
-										<button
-											disabled={isButtonDisabled}
-											className="wallet-button"
-											onClick={() => {
-												wallet.functionality();
-												setIsButtonDisabled(true);
-											}}
-										>
-											<img src={wallet.icon} alt="wallet-icon" />
-											{wallet.name}
-										</button>
-									</div>
-								))}
+								<div className="wrap-content">
+									{chain.wallets?.map((wallet) => (
+										<div className="tab-inner-content" key={chain.key}>
+											<button
+												disabled={isButtonDisabled}
+												className="wallet-button"
+												onClick={() => {
+													wallet.functionality();
+													setIsButtonDisabled(true);
+												}}
+											>
+												<img src={wallet.icon} alt="wallet-icon" />
+												{wallet.name}
+											</button>
+										</div>
+									))}
+								</div>
 							</Tab>
 						))}
 					</Tabs>
