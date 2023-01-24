@@ -67,7 +67,7 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 						>
 							<div className="actions">
 								<button
-									className="play-pause-btn d-flex align-items-center justify-content-center"
+									className="play-pause-button d-flex align-items-center justify-content-center"
 									onClick={togglePlay}
 								>
 									{playerState.isPlaying ? (
