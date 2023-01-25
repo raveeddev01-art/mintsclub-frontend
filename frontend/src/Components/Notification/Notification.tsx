@@ -14,24 +14,24 @@ import {
 } from './variableTypes';
 const Notification = (props: any) => {
 	const history = useHistory();
-	const types = props.notificationData.data.map(
-		(notification: notificationType) => notification.type
+	const types = props?.notificationData?.data.map(
+		(notification: notificationType) => notification?.type
 	);
 	console.log('This is Props:', props);
-	const fromUserId = props.notificationData.data.map(
-		(notification: notificationFromUserId) => notification.fromUserId
+	const fromUserId = props?.notificationData?.data.map(
+		(notification: notificationFromUserId) => notification?.fromUserId
 	);
-	const nftId = props.notificationData.data.map(
-		(notification: notificationNftId) => notification.nftId
+	const nftId = props?.notificationData?.data.map(
+		(notification: notificationNftId) => notification?.nftId
 	);
-	const isSeen = props.notificationData.data.map(
-		(notification: notificationIsSeen) => notification.isSeen
+	const isSeen = props?.notificationData?.data.map(
+		(notification: notificationIsSeen) => notification?.isSeen
 	);
-	const notificationId = props.notificationData.data.map(
-		(notification: notificationId) => notification._id
+	const notificationId = props?.notificationData?.data.map(
+		(notification: notificationId) => notification?._id
 	);
-	const notificationTime = props.notificationData.data.map(
-		(notification: notificationTime) => notification.createdAt
+	const notificationTime = props?.notificationData?.data.map(
+		(notification: notificationTime) => notification?.createdAt
 	);
 	let path = `explore/nftdetail/`;
 	const pathName = window.location.pathname;
@@ -56,7 +56,7 @@ const Notification = (props: any) => {
 	};
 
 	const updateNotification = async (i: number) => {
-		history.push(`${path}${nftId[i]._id}`);
+		history.push(`${path}${nftId[i]?._id}`);
 		const payload: any = { _id: notificationId[i], isSeen: true };
 		const res = await handleRequest(
 			'put',
@@ -71,7 +71,7 @@ const Notification = (props: any) => {
 		<div>
 			<div className="popup">
 				<div className="notification-data">
-					{types ? (
+					{notificationId.length ? (
 						types.map((type: string, i: number) => (
 							<div
 								className={
@@ -102,7 +102,7 @@ const Notification = (props: any) => {
 							</div>
 						))
 					) : (
-						<div>No Record Found...</div>
+						<div className="no-notification">No Record Found...</div>
 					)}
 				</div>
 			</div>
