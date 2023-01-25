@@ -86,8 +86,8 @@ const Notification = (props: any) => {
 								<div className="Notification-Description">
 									{getNotificationDescription(
 										type,
-										fromUserId[i].address,
-										nftId[i].name
+										fromUserId[i]?.address,
+										nftId[i]?.name
 									)}
 								</div>
 								<div className="wrape-content">
@@ -102,7 +102,7 @@ const Notification = (props: any) => {
 							</div>
 						))
 					) : (
-						<div className="no-notification">No Record Found...</div>
+						<div className="no-notification">No Notification Found...</div>
 					)}
 				</div>
 			</div>
