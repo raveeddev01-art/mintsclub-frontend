@@ -107,6 +107,7 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 							controlsList="nodownload noplaybackrate"
 							style={{ display: `${!loader ? 'block' : 'none'}` }}
 							onLoadedData={() => setLoader(false)}
+							className="audio-controls"
 						>
 							<source
 								src={

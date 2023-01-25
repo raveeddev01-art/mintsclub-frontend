@@ -55,8 +55,8 @@
 	padding-left: 40%;
 	position: absolute;
 }
-audio::-webkit-media-controls {
-	padding-bottom: 40px !important;
+.audio-controls::-webkit-media-controls {
+	padding-bottom: 50px !important;
   }
 .hero-new-card .hero-img-container .hero-owner {
 	margin: 0 auto;
