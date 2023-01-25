@@ -310,6 +310,15 @@ const NOTIFICATION_TEXT: any = {
 		title: 'Claim NFT',
 		descritption: 'Aucton time ended You Can Claim NFT --name--',
 	},
+	buyNft: {
+		title: 'Successfully Purchased',
+		description:
+			"Congratulations, '--formUserID--' have successfully purchased a --name-- nft",
+	},
+	batchUploaded: {
+		title: 'Batch Uploaded',
+		description: 'Congratulations, Batch has successfully Uploaded',
+	},
 };
 
 export {
