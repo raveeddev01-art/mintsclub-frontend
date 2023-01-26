@@ -465,8 +465,8 @@ class CreateNFT extends React.Component<
 	};
 
 	handleBtnDisable = () => {
-		const { image, description, copies, categoryId } = this.state.nft;
-		if (!image || !description || !copies || !categoryId) {
+		const { image, name, description, copies, categoryId } = this.state.nft;
+		if (!image || !name || !description || !copies || !categoryId) {
 			return true;
 		} else {
 			return false;
@@ -575,7 +575,11 @@ class CreateNFT extends React.Component<
 										<label className="create-collection-label d-flex">
 											No. of Copies:* (Max 1M)
 											<span className="text-danger ms-2">
-												{this.validator.message('name', nft.copies, 'required')}
+												{this.validator.message(
+													'copies',
+													nft.copies,
+													'required'
+												)}
 											</span>
 										</label>
 										<input
