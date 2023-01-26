@@ -79,7 +79,12 @@ const VideoCard: FC<VideoCardInterface> = ({
 
 	return (
 		<div className="card_wrap">
-			<Card className="auction-card listing-card">
+			<Card
+				className="auction-card listing-card"
+				onClick={(e: any) => {
+					history.push(`/nftdetail/${id}`);
+				}}
+			>
 				<div className="auction-img-wrapper">
 					<div className="nft-chain">
 						<img
@@ -108,7 +113,10 @@ const VideoCard: FC<VideoCardInterface> = ({
 								<div className="actions">
 									<button
 										className="play-pause-btn d-flex align-items-center justify-content-center"
-										onClick={togglePlay}
+										onClick={(e: any) => {
+											e.stopPropagation();
+											togglePlay();
+										}}
 									>
 										{playerState.isPlaying && playerState.progress !== 100 ? (
 											<BsFillPauseFill />

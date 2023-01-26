@@ -56,7 +56,11 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 
 	return (
 		<div className="card_wrap">
-			<Card key={key} className={`auction-card ${cardBg} mx-auto mx-sm-2`}>
+			<Card
+				key={key}
+				className={`auction-card ${cardBg} mx-auto mx-sm-2`}
+				// onClick={() => history.push(`explore/nftdetail/${nftId}`)}
+			>
 				<div className="auction-img-wrapper">
 					{blockchainType ? (
 						<div className="nft-chain">
@@ -120,7 +124,10 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 									<div className="actions">
 										<button
 											className="play-pause-btn d-flex align-items-center justify-content-center"
-											onClick={togglePlay}
+											onClick={(e: any) => {
+												e.stopPropagation();
+												togglePlay();
+											}}
 										>
 											{playerState.isPlaying ? (
 												<BsFillPauseFill />
