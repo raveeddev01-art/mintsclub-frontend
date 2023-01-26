@@ -17,7 +17,6 @@ const Notification = (props: any) => {
 	const types = props?.notificationData?.data.map(
 		(notification: notificationType) => notification?.type
 	);
-	console.log('This is Props:', props);
 	const fromUserId = props?.notificationData?.data.map(
 		(notification: notificationFromUserId) => notification?.fromUserId
 	);
