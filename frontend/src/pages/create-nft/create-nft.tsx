@@ -170,7 +170,7 @@ class CreateNFT extends React.Component<
 				const obj = {
 					value: item._id,
 					label: item.name,
-					categoryId: item.categoryId,
+					categoryId: item?.categoryId,
 					isApproved: item?.isApproved,
 					contractAddress: item?.contractAddress,
 				};
@@ -235,7 +235,7 @@ class CreateNFT extends React.Component<
 					levels,
 					stats,
 					copies,
-					categoryId: collection.categoryId,
+					categoryId: collection?.categoryId,
 					image,
 					collectionId: collectionId,
 				};
@@ -309,7 +309,7 @@ class CreateNFT extends React.Component<
 		nft = {
 			...nft,
 			collectionId: value.value,
-			categoryId: value.categoryId,
+			categoryId: value?.categoryId,
 			contractAddress: value?.contractAddress ? value?.contractAddress : null,
 			isApproved: value?.isApproved ? value?.isApproved : false,
 		};
