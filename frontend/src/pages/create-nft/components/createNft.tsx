@@ -317,6 +317,7 @@ const CreateNft = ({
 
 			if (!checkNftAlreadyExists?.data?.success) {
 				toast.error(checkNftAlreadyExists?.data?.message);
+				setIsButtonDisabled(false);
 				return;
 			}
 

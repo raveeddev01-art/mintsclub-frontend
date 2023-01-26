@@ -69,7 +69,13 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		const activityPayload = getActivityPayload();
 
 		const price = Number(fixedConfig.price.amount);
-		if (price === 0) {
+		if ( blockchainType=== 'algorand' && price < 0.005) {
+			toast.error('Price should be greater than 0.005');
+			setLoader(false);
+			setIsButtonDisabled(false);
+			return '';
+		}
+		if ((blockchainType !=='algorand') && price === 0) {
 			toast.error('Price should be greater than 0');
 			setLoader(false);
 			setIsButtonDisabled(false);

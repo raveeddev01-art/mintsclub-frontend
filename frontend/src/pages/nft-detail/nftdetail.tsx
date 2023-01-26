@@ -150,7 +150,6 @@ const NFTDetail = (props: any) => {
 	const [claimBidPrice, setClaimBidPrice] = useState<number>(0);
 	const [claimBidId, setClaimBidId] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-
 	console.log('NftDetails Id', nftDetail?._id, nftId);
 
 	useEffect(() => {
@@ -396,7 +395,7 @@ const NFTDetail = (props: any) => {
 					(item: any) => item._id !== nftDetail._id
 				);
 			}
-			setNFTs(moreCollection);
+			setNFTs(moreCollection);		
 		}
 	}, [props.nftsByCollectionStatus]);
 
@@ -1240,7 +1239,7 @@ const NFTDetail = (props: any) => {
 		}
 		if (startDate && endDate && nftDetail?.activeAuction?.sellingMethod) {
 			const currentDate = new Date();
-			const auctionStartDate = new Date(startDate);
+			 const auctionStartDate = new Date(startDate);
 			const auctionEndDate = new Date(endDate);
 			if (
 				currentDate > auctionStartDate &&
@@ -1376,7 +1375,9 @@ const NFTDetail = (props: any) => {
 				refetch(false);
 				getBidsListOfAuction();
 			});
-
+			socket.on('newNftAdded', (newNftAdded: any) => {
+				refetch(false);
+			})
 			socket.on('auctionUpdated', (auctionUpdated: any) => {
 				refetch(false);
 			});

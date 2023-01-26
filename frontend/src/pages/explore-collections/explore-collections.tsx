@@ -14,6 +14,8 @@ import { ExploreCollectionInt } from '../../interfaces/ExploreCollections/interf
 import { useGetCollections } from '../../hooks/AllNFTs';
 import { useGetCategories } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import SocketContext from '../../contexts/SocketContext';
+
 
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const [isActive, setIsActive] = useState('All');
@@ -25,25 +27,27 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const [empty, setEmpty] = useState(false);
 	const [pagination, setPagination] = useState<any>(null);
 	const { setError } = useContext(errorHandler);
+	const socket = useContext(SocketContext);
+
 
 	useEffect(() => {
 		window.scroll(0, 0);
 	}, []);
+	const onSuccessCollections = async (data: any) => {
 
-	const onSuccessCollections = (data: any) => {
 		if (data.data.success) {
 			const { collections, pagination } = data.data.data;
 			if (collections.length > 0) {
 				setEmpty(false);
 			}
-			setCollections(collections);
+			 setCollections(collections);
 			setPagination(pagination);
 		} else {
 			setError(data.data.message);
 		}
 	};
-	const { isLoading: isLoadinCollections } = useGetCollections(
-		onSuccessCollections,
+	const { isLoading: isLoadinCollections , refetch } = useGetCollections(
+		 onSuccessCollections,
 		true,
 		ENV.objectToQueryString({
 			page: page,
@@ -86,6 +90,18 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 			return Images.imagePlaceholder;
 		}
 	};
+	useEffect(() => {
+		if (socket && collections) {
+			socket.emit('join',"collections");
+			socket.on('collectionCreated', (collectionCreatedinformation: any) => {
+				refetch()
+
+		});
+		}
+		return () => {
+			socket.emit('leave',collections);
+		};
+	}, [socket,collections]);
 	return (
 		<>
 			{isCategoryLoading && isLoadinCollections ? (
