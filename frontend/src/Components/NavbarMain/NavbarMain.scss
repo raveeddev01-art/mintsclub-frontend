@@ -249,10 +249,25 @@
 	.main-nav-container {
 		position: relative;
 	}
+	.main-nav-container button.Navbar-droptown {
+		position: absolute;
+		right: 0;
+		top: 0;
+		margin-top: 1.5rem;
+	}
 	.main-nav-container .main-nav-right {
 		position: absolute;
-		top: 24px;
-		right: 70px;
+		top: 0px;
+		right: 102px;
+	}
+	.main-nav-container .navbar-main-custom .navbar-brand-logo {
+		margin-top: 0px !important;
+	}
+	.main-nav-container .bell-notification {
+		position: absolute;
+		top: 0;
+		right: 77px;
+		margin-top: 1.7rem !important;
 	}
 	.main-nav-container .search-box:hover > .search-txt {
 		width: 170px;
