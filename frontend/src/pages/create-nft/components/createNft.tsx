@@ -76,12 +76,12 @@ const CreateNft = ({
 				const obj = {
 					value: item._id,
 					label: item.name,
-					categoryId: item.categoryId,
+					categoryId: item?.categoryId,
 				};
 				updatedCollections.push(obj);
 			}
 			state.selectedCollection = updatedCollections[0];
-			state.nft.categoryId = updatedCollections[0].categoryId;
+			state.nft.categoryId = updatedCollections[0]?.categoryId;
 			state.nft.collectionId = updatedCollections[0].value;
 			state.collections = updatedCollections;
 		}
@@ -338,7 +338,7 @@ const CreateNft = ({
 			if (validator.allValid()) {
 				setLoader(true);
 				nftInfo.collectionId = nft.collectionId;
-				nftInfo.categoryId = nft.categoryId;
+				nftInfo.categoryId = nft?.categoryId;
 				const res = await uploadDataOnIpfs(nftInfo);
 				if (res.data.success) {
 					toast.success('Data uploaded on IPFS');
