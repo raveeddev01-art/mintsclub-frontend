@@ -188,19 +188,28 @@ const CreateNft = ({
 		}
 	};
 	const mintSolNFT = async (data: any, image: string) => {
-		const response = await mintSingleNft(wallet, data.metaData, data.name, 500);
-		if (response?.response.signature) {
-			return {
-				nftToken: -1,
-				data: {
-					...data,
-					blockchainType: blockchainType,
-					mint: response?.mintAddress.toBase58(),
-					txnHash: response?.response.signature,
-				},
-				image,
-				lazyMinted: false,
-			};
+		try {
+			const response = await mintSingleNft(
+				wallet,
+				data.metaData,
+				data.name,
+				500
+			);
+			if (response?.response.signature) {
+				return {
+					nftToken: -1,
+					data: {
+						...data,
+						blockchainType: blockchainType,
+						mint: response?.mintAddress.toBase58(),
+						txnHash: response?.response.signature,
+					},
+					image,
+					lazyMinted: false,
+				};
+			}
+		} catch (err) {
+			console.log(err, 'Error while minting nft ');
 		}
 	};
 	const editNFT = async (
