@@ -576,7 +576,7 @@ class CreateNFT extends React.Component<
 											No. of Copies:* (Max 1M)
 											<span className="text-danger ms-2">
 												{this.validator.message(
-													'number',
+													'copies',
 													nft.copies,
 													'required'
 												)}
