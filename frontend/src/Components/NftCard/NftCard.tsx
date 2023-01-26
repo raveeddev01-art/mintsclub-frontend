@@ -108,7 +108,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 
 	return (
 		<div className="card_wrap">
-			<Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
+			<Card
+				className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}
+				onClick={() => history.push(`${props.path}${_id}`)}
+			>
 				<div className="nft-img-wrapper">
 					<div className="nft-chain">
 						<img
@@ -167,7 +170,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 									<div className="actions">
 										<button
 											className="play-pause-btn d-flex align-items-center justify-content-center"
-											onClick={togglePlay}
+											onClick={(e: any) => {
+												e.stopPropagation();
+												togglePlay();
+											}}
 										>
 											{playerState.isPlaying ? (
 												<BsFillPauseFill />
