@@ -8,6 +8,7 @@ import {
 	Tooltip,
 	Typography,
 } from '@mui/material';
+import { toast } from 'react-toastify';
 import { Images, CollectionImages } from '../../assets/assets';
 import { PENDING_BATCH_CARD_INTERFACE } from '../../interfaces/allnfts/interface';
 import {
@@ -66,6 +67,9 @@ const PendingBatchCard = ({
 										{` ${
 											STATUS_TEXT[batchInformation?.status as keyof STATUS_TYPE]
 										}`}
+										{batchInformation?.status === 'completed'
+											? toast.success('Your batch is uploaded successfully')
+											: ''}
 									</Typography>
 								</Typography>
 								<Typography component="div" className="information-item">

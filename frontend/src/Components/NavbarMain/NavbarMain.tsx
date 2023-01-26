@@ -93,7 +93,11 @@ const NavbarMain = () => {
 		}
 	};
 	const notificationEnable = () => {
-		setEnableNotification(true);
+		{
+			enableNotification === true
+				? setEnableNotification(false)
+				: setEnableNotification(true);
+		}
 	};
 
 	useEffect(() => {
@@ -152,6 +156,7 @@ const NavbarMain = () => {
 	} else {
 		count = dataLength;
 	}
+	console.log('This is Notification Data: ', notificationData);
 	return (
 		<div className="main-nav-section">
 			<Container className="main-nav-container">
@@ -304,22 +309,25 @@ const NavbarMain = () => {
               </div>
             </Link> */}
 					</div>
-					{count !== undefined ? (
-						<div className="bell-notification" data-percent={count}>
-							<i
-								className="fa-solid fa-bell"
-								onClick={() => notificationEnable()}
-							></i>
-						</div>
-					) : null}
 					<OutsideClickHandler
 						onOutsideClick={() => {
 							setEnableNotification(false);
 						}}
 					>
-						{enableNotification === true ? (
-							<Notification notificationData={notificationData} />
+						{count !== undefined ? (
+							<div
+								className="bell-notification"
+								data-percent={count}
+								onClick={() => notificationEnable()}
+							>
+								<i className="fa-solid fa-bell"></i>
+							</div>
 						) : null}
+						{enableNotification ? (
+							<Notification notificationData={notificationData} />
+						) : (
+							''
+						)}
 					</OutsideClickHandler>
 				</Navbar>
 			</Container>
