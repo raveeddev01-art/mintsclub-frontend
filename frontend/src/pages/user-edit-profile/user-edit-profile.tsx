@@ -15,6 +15,7 @@ import { useEditData } from '../../hooks/Common';
 import { useGetUserDataById } from '../../hooks/UserProfile';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import { compressImage } from '../../utils/functions';
+import SocketContext from '../../contexts/SocketContext';
 
 const EditProfile = (props: any) => {
 	const [loader, setLoader] = useState<boolean>(false);
@@ -32,6 +33,7 @@ const EditProfile = (props: any) => {
 	const [_id, setUserId] = useState<string>('');
 	const { setError } = useContext(errorHandler);
 	const [message, setMessage] = useState(true);
+	const socket = useContext(SocketContext);
 
 	const history = useHistory();
 	useEffect(() => {

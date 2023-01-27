@@ -187,6 +187,7 @@ export const beforeNFTByCollection = () => (dispatch) => {
 export const getNFTsByCollection = (id) => async (dispatch) => {
 	//// dispatch(emptyError());
 	try {
+		console.log('here its in collection nftt=====')
 		let payload = {
 			collectionId: id,
 		};

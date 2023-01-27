@@ -51,7 +51,7 @@ const Hero: FC<HeroInt> = (props) => {
 		ENV.objectToQueryString({
 			myFilter: 'all',
 		}),
-		onSuccessHero
+		onSuccessHero,
 	);
 
 	useEffect(() => {

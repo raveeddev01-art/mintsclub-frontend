@@ -239,7 +239,8 @@ const ConnectWallet = (props: any) => {
 		return addr?.[0];
 	};
 	const connectPhantomWallet = async () => {
-		await wallet.select(wallet.wallets[0].adapter.name);
+		try {
+			await wallet.select(wallet.wallets[0].adapter.name);
 
 		if (wallet.publicKey && wallet.connected) {
 			props.setBlockchainType('solana');
@@ -247,7 +248,10 @@ const ConnectWallet = (props: any) => {
 			setConnectedAddres(wallet.publicKey?.toBase58());
 			setIsButtonDisabled(false);
 		} else {
-			setIsButtonDisabled(false);
+			return setIsButtonDisabled(false);
+		}
+		} catch (error :any) {
+			toast.error(error.message)
 		}
 	};
 	const connectSolflareWallet = async () => {
