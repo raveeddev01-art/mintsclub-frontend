@@ -86,6 +86,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		}
 		const payload = {
 			nftId: location.state._id,
+			userId: ENV.getUserKeys('_id')._id,
 			sellingMethod,
 			sellingConfig: JSON.stringify(fixedConfig),
 			copiesForAuction: copies,
