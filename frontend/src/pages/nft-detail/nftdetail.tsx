@@ -1345,6 +1345,7 @@ const NFTDetail = (props: any) => {
 
 			socket.on('bidPlaced', ({ price }: any) => {
 				refetch(false);
+				refetch()
 				getLatestActivities();
 				if (nftDetail?.activeAuction?._id) {
 					getLatestBids();
@@ -1352,7 +1353,6 @@ const NFTDetail = (props: any) => {
 				getLatestOffers();
 				setPrice(price);
 			});
-
 			socket.on('auctionCancelled', (auctionCancelledInformation: any) => {
 				refetch(false);
 				getLatestActivities();
@@ -1380,6 +1380,7 @@ const NFTDetail = (props: any) => {
 			})
 			socket.on('auctionUpdated', (auctionUpdated: any) => {
 				refetch(false);
+				getLatestActivities()
 			});
 		}
 
