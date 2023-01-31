@@ -161,9 +161,7 @@ const HeroCards: FC<HeroCardInt> = ({ data, connectedAddress, status }) => {
 				{status !== 'nfts' ? (
 					<h6>
 						{data.Totalbids > 0
-							? `${data.Totalbids} ${
-									data.Totalbids >= 4 ? '+' : ''
-							  } People Placed Bid`
+							? `${data.Totalbids} ${data.Totalbids >= 4 ? '+' : ''} Bid Placed`
 							: 'No Bids Found'}
 					</h6>
 				) : (

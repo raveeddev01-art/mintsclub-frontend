@@ -184,9 +184,11 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 								<span className={`${Totalbids === 0 ? '' : 'ms-2'}`}>
 									{Totalbids === 0
 										? 'No bid found'
+										: Totalbids === 1
+										? Totalbids + ' bid placed'
 										: Totalbids < 4
-										? Totalbids + ' people placed bid'
-										: Totalbids - 1 + '+ people placed bid'}
+										? Totalbids + ' bids placed'
+										: Totalbids - 1 + '+ bids placed'}
 								</span>
 							</div>
 						</div>
