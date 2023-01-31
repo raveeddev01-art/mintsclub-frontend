@@ -62,25 +62,25 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const submit = async (e: any) => {
 		setIsButtonDisabled(true);
 		e.preventDefault();
-		const price = Number(timedAuctionConfig.startPrice.amount)
+		const price = Number(timedAuctionConfig.startPrice.amount);
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (moment() > startValue) {
 				toast.error('Start Time Should be in future');
 				setIsButtonDisabled(false);
 				return;
 			}
-		if ( blockchainType=== 'algorand' && price < 0.005) {
-			toast.error('Price should be greater than 0.005');
-			setLoader(false);
-			setIsButtonDisabled(false);
-			return false;
-		}
-		if ((blockchainType !=='algorand') && price === 0) {
-			toast.error('Price should be greater than 0');
-			setLoader(false);
-			setIsButtonDisabled(false);
-			return '';
-		}
+			if (blockchainType === 'algorand' && price < 0.005) {
+				toast.error('Price should be greater than 0.005');
+				setLoader(false);
+				setIsButtonDisabled(false);
+				return false;
+			}
+			if (blockchainType !== 'algorand' && price === 0) {
+				toast.error('Price should be greater than 0');
+				setLoader(false);
+				setIsButtonDisabled(false);
+				return '';
+			}
 
 			if (blockchainType !== 'solana' && blockchainType !== 'algorand') {
 				const isApproved = await checkIsApprovedForAll(

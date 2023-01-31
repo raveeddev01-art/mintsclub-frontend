@@ -395,7 +395,7 @@ const NFTDetail = (props: any) => {
 					(item: any) => item._id !== nftDetail._id
 				);
 			}
-			setNFTs(moreCollection);		
+			setNFTs(moreCollection);
 		}
 	}, [props.nftsByCollectionStatus]);
 
@@ -1239,7 +1239,7 @@ const NFTDetail = (props: any) => {
 		}
 		if (startDate && endDate && nftDetail?.activeAuction?.sellingMethod) {
 			const currentDate = new Date();
-			 const auctionStartDate = new Date(startDate);
+			const auctionStartDate = new Date(startDate);
 			const auctionEndDate = new Date(endDate);
 			if (
 				currentDate > auctionStartDate &&
@@ -1345,7 +1345,7 @@ const NFTDetail = (props: any) => {
 
 			socket.on('bidPlaced', ({ price }: any) => {
 				refetch(false);
-				refetch()
+				refetch();
 				getLatestActivities();
 				if (nftDetail?.activeAuction?._id) {
 					getLatestBids();
@@ -1377,10 +1377,10 @@ const NFTDetail = (props: any) => {
 			});
 			socket.on('newNftAdded', (newNftAdded: any) => {
 				refetch(false);
-			})
+			});
 			socket.on('auctionUpdated', (auctionUpdated: any) => {
 				refetch(false);
-				getLatestActivities()
+				getLatestActivities();
 			});
 		}
 

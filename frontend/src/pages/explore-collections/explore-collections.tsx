@@ -16,7 +16,6 @@ import { useGetCategories } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import SocketContext from '../../contexts/SocketContext';
 
-
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const [isActive, setIsActive] = useState('All');
 	const [collections, setCollections] = useState<any[] | null>(null);
@@ -29,25 +28,23 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const { setError } = useContext(errorHandler);
 	const socket = useContext(SocketContext);
 
-
 	useEffect(() => {
 		window.scroll(0, 0);
 	}, []);
 	const onSuccessCollections = async (data: any) => {
-
 		if (data.data.success) {
 			const { collections, pagination } = data.data.data;
 			if (collections.length > 0) {
 				setEmpty(false);
 			}
-			 setCollections(collections);
+			setCollections(collections);
 			setPagination(pagination);
 		} else {
 			setError(data.data.message);
 		}
 	};
-	const { isLoading: isLoadinCollections , refetch } = useGetCollections(
-		 onSuccessCollections,
+	const { isLoading: isLoadinCollections, refetch } = useGetCollections(
+		onSuccessCollections,
 		true,
 		ENV.objectToQueryString({
 			page: page,
@@ -92,16 +89,15 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	};
 	useEffect(() => {
 		if (socket && collections) {
-			socket.emit('join',"collections");
+			socket.emit('join', 'collections');
 			socket.on('collectionCreated', (collectionCreatedinformation: any) => {
-				refetch()
-
-		});
+				refetch();
+			});
 		}
 		return () => {
-			socket.emit('leave',collections);
+			socket.emit('leave', collections);
 		};
-	}, [socket,collections]);
+	}, [socket, collections]);
 	return (
 		<>
 			{isCategoryLoading && isLoadinCollections ? (
