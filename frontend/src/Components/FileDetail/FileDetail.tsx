@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ENV } from '../../config/config';
+import './FileDetail.scss';
 import {
 	verifyOwner,
 	verifyNFTStatus,
@@ -82,7 +83,7 @@ const FileDetail = ({ info }: any) => {
 						</div>
 					</div>
 				</div>
-				<div className="nft-detail-price d-flex align-items-center  mb-3">
+				<div className="nft-detail-price d-flex align-items-center  mb-3 current-price">
 					<div className="d-flex align-items-center me-2">
 						<img src={Images.onsale} className="me-3" />
 						<h2>{currentPrice}</h2>
