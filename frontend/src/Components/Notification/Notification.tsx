@@ -46,7 +46,7 @@ const Notification = (props: any) => {
 		address: string,
 		name: string
 	) => {
-		return NOTIFICATION_TEXT[types]?.descritption
+		return NOTIFICATION_TEXT[types]?.description
 			.replace('--formUserID--', address)
 			.replace('--name--', name);
 	};

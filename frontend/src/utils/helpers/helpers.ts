@@ -291,30 +291,30 @@ const reduceString = (text: string, size: number) => {
 const NOTIFICATION_TEXT: any = {
 	addBid: {
 		title: 'Bid Added',
-		descritption:
+		description:
 			"'--formUserID--' have placed a bid on your auction of --name--",
 	},
 	upBid: {
 		title: 'Up Bided',
-		descritption: "'--formUserID--' have placed bid from last higher bid",
+		description: "'--formUserID--' have placed bid from last higher bid",
 	},
 	startAuction: {
 		title: 'Start Auction Time',
-		descritption: 'Aucton time started of --name--',
+		description: 'Aucton time started of --name--',
 	},
 	endAuction: {
 		title: 'End Auction Time',
-		descritption: 'Aucton time ended of --name--',
+		description: 'Aucton time ended of --name--',
 	},
 	claimNft: {
 		title: 'Claim NFT',
-		descritption: 'Aucton time ended You Can Claim NFT --name--',
+		description: 'Aucton time ended You Can Claim NFT --name--',
 	},
-	// buyNft: {
-	// 	title: 'Successfully Purchased',
-	// 	description:
-	// 		"Congratulations, '--formUserID--' have successfully purchased a --name-- nft",
-	// },
+	buyNft: {
+		title: 'Successfully Purchased',
+		description:
+			"Congratulations, '--formUserID--' have successfully purchased a --name-- nft",
+	},
 	batchUploaded: {
 		title: 'Batch Uploaded',
 		description: 'Congratulations, Batch has successfully Uploaded',
