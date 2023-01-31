@@ -134,6 +134,33 @@ const NavbarMain = () => {
 		}
 	}, [ENV.getUserKeys('_id')?._id]);
 
+	useEffect(() => {
+		socket.on('addBid', (addBidInformation: any) => {
+			getNotification();
+			getSeenNotification();
+		});
+		socket.on('upBid', (addBidInformation: any) => {
+			getNotification();
+			getSeenNotification();
+		});
+		socket.on('endAuction', (addBidInformation: any) => {
+			getNotification();
+			getSeenNotification();
+		});
+		socket.on('startAuction', (addBidInformation: any) => {
+			getNotification();
+			getSeenNotification();
+		});
+		socket.on('claimNft', (addBidInformation: any) => {
+			getNotification();
+			getSeenNotification();
+		});
+		socket.on('buyNft', (addBidInformation: any) => {
+			getNotification();
+			getSeenNotification();
+		});
+	}, [socket]);
+
 	const getNotification = async () => {
 		const notifications = await handleRequest(
 			'get',

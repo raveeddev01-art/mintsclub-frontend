@@ -74,7 +74,7 @@ const mintSingleNft = async (
 		});
 
 		return mintNftResponse;
-	} catch (err:any) {
+	} catch (err: any) {
 		throw new Error(err);
 	}
 };
