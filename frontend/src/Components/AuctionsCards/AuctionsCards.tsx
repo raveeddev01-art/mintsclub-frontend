@@ -185,10 +185,10 @@ const AuctionsCards: FC<AuctionCardInterface> = ({
 									{Totalbids === 0
 										? 'No bid found'
 										: Totalbids === 1
-										? Totalbids + ' bid placed'
+										? Totalbids + ' Bid Placed'
 										: Totalbids < 4
-										? Totalbids + ' bids placed'
-										: Totalbids - 1 + '+ bids placed'}
+										? Totalbids + ' Bids Placed'
+										: Totalbids - 1 + '+ Bids Placed'}
 								</span>
 							</div>
 						</div>
