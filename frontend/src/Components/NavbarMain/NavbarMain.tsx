@@ -155,10 +155,10 @@ const NavbarMain = () => {
 			getNotification();
 			getSeenNotification();
 		});
-		socket.on('buyNft', (addBidInformation: any) => {
-			getNotification();
-			getSeenNotification();
-		});
+		// socket.on('buyNft', (addBidInformation: any) => {
+		// 	getNotification();
+		// 	getSeenNotification();
+		// });
 	}, [socket]);
 
 	const getNotification = async () => {
