@@ -69,6 +69,11 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				setIsButtonDisabled(false);
 				return;
 			}
+			if (endValue < startValue) {
+				toast.error('Ending Time Should be Greater than Start Time');
+				setIsButtonDisabled(false);
+				return;
+			}
 			if (blockchainType === 'algorand' && price < 0.005) {
 				toast.error('Price should be greater than 0.005');
 				setLoader(false);

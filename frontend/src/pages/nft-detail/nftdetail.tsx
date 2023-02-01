@@ -1345,7 +1345,7 @@ const NFTDetail = (props: any) => {
 
 			socket.on('bidPlaced', ({ price }: any) => {
 				refetch(false);
-				refetch();
+				refetch(false);
 				getLatestActivities();
 				if (nftDetail?.activeAuction?._id) {
 					getLatestBids();
