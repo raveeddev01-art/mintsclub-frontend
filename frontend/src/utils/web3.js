@@ -333,8 +333,8 @@ export const openNFTForBidding = async (
 		console.log(sellId, 'sellId');
 		return sellId;
 	} catch (err) {
-		console.log(err, 'error');
-		throw new Error(err);
+		console.log(err, 'error=====');
+		throw new Error(err.message);
 	}
 };
 
@@ -402,7 +402,7 @@ export const putonsale = async (
 		console.log({ sellId, whole: result.events.OfferSale }, 'sRellId');
 		return sellId;
 	} catch (err) {
-		console.log(err, 'error');
+		console.log(err, 'error=======');
 		throw new Error(err.message);
 	}
 };
