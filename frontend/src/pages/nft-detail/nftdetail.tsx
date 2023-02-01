@@ -392,7 +392,7 @@ const NFTDetail = (props: any) => {
 			let moreCollection = [];
 			if (props.nftsByCollection && props.nftsByCollection?.length) {
 				moreCollection = props.nftsByCollection.filter(
-					(item: any) => item._id !== nftDetail._id
+					(item: any) => ((item._id !== nftDetail._id) && (item.activeAuction !== null) )
 				);
 			}
 			setNFTs(moreCollection);

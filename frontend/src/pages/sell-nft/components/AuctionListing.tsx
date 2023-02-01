@@ -51,7 +51,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const wallet: any = useWallet();
 	const [startValue, setStartValue]: any = useState(moment());
 	const [endValue, setEndValue] = useState(moment().endOf('day'));
-
 	const handleStartTime = (e: any) => {
 		setStartValue(e);
 	};
@@ -243,7 +242,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		} catch (err: any) {
 			setLoader(false);
 			setIsButtonDisabled(false);
-			toast.error(err);
+			toast.error(err.message);
 		}
 	};
 	const calclateStartOrEndTime = (auctionConfig: any, startOrEndTime: any) => {
