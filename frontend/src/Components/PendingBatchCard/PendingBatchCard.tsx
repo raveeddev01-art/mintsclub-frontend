@@ -67,9 +67,6 @@ const PendingBatchCard = ({
 										{` ${
 											STATUS_TEXT[batchInformation?.status as keyof STATUS_TYPE]
 										}`}
-										{batchInformation?.status === 'completed'
-											? toast.success('Your batch is uploaded successfully')
-											: ''}
 									</Typography>
 								</Typography>
 								<Typography component="div" className="information-item">
