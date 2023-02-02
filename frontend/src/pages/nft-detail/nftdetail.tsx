@@ -1389,7 +1389,7 @@ const NFTDetail = (props: any) => {
 			socket.emit('leave', nftDetail?._id);
 		};
 	}, [nftDetail?._id, socket]);
-
+	
 	const EndAuction = async () => {
 		try {
 			setLoader(true);
