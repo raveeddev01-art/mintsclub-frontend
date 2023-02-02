@@ -18,7 +18,11 @@ import {
 	SET_LEVELS,
 	SET_OTP_STATUS,
 	SET_OTP_EMAIL,
-	systemFee
+	systemFee,
+	SET_COLLECTION_PAGINATION,
+	SET_COLLECTION_LIMIT,
+	SET_NFT_PAGINATION,
+	SET_NFT_LIMIT,
 } from '../types/types';
 import { DARK_MODE } from '../types';
 
@@ -26,7 +30,7 @@ import { ENV } from '../../config/config';
 import { connectMetamaskCopy } from '../../utils/web3';
 import axios from 'axios';
 import dotenv from 'dotenv';
-import systemSettingFee from '../Reducer/reducer';
+import systemSettingFee from '../Reducer/systemfee.reducer';
 export const currentStepAction = () => (dispatch) => {
 	// alert("called")
 
@@ -69,7 +73,6 @@ export const setOtpEmail = (data) => (dispatch) => {
 		payload: data,
 	});
 };
-
 
 export const sendOtp = (data) => (dispatch) => {
 	const config = {
@@ -401,7 +404,6 @@ export const setContractInfo = () => (dispatch) => {
 	});
 };
 
-
 export const connectWallet = () => (dispatch) => {
 	connectMetamaskCopy()
 		.then((address) =>
@@ -455,4 +457,27 @@ export const hometest = () => (dispatch) => {
 	// payload: error
 	// })
 	// })
+};
+
+export const setAllCollectionPagination = () => {
+	return {
+		type: SET_COLLECTION_PAGINATION,
+	};
+};
+export const setAllCollectionLimit = () => {
+	return {
+		type: SET_COLLECTION_LIMIT,
+	};
+};
+
+export const setAllNFTPagination = () => {
+	return {
+		type: SET_NFT_PAGINATION,
+	};
+};
+
+export const setAllNFTLimit = () => {
+	return {
+		type: SET_NFT_LIMIT,
+	};
 };

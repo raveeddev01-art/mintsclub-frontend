@@ -26,3 +26,9 @@ export const SET_OTP_EMAIL = 'SET_OTP_EMAIL';
 
 //otp verificaiton
 export const SET_OTP_STATUS = 'SET_OTP_STATUS';
+
+// all pagination
+export const SET_COLLECTION_PAGINATION = 'SET_COLLECTION_PAGINATION';
+export const SET_COLLECTION_LIMIT = 'SET_COLLECTION_LIMIT';
+export const SET_NFT_PAGINATION = 'SET_NFT_PAGINATION';
+export const SET_NFT_LIMIT = 'SET_NFT_LIMIT';

@@ -157,6 +157,10 @@ export interface HeroCardInt {
 export interface footerInt {}
 
 export interface listingInt {
+	numOfPages: any;
+	setAllNFTPagination: any;
+	setAllNFTLimit: any;
+	numOfLimit: any;
 	collections?: any[];
 	disabled?: boolean;
 	menuData?: any[] | undefined;
