@@ -15,12 +15,16 @@ import { useGetCollections } from '../../hooks/AllNFTs';
 import { useGetCategories } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import SocketContext from '../../contexts/SocketContext';
+import {
+	setAllCollectionPagination,
+	setAllCollectionLimit,
+} from '../../redux/actions/actions';
 
 const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	const [isActive, setIsActive] = useState('All');
-	const [collections, setCollections] = useState<any[] | null>(null);
-	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(12);
+	const [collections, setCollections] = useState<any>([]);
+	const [page, setPage] = useState(props.numOfPages);
+	const [limit, setLimit] = useState(props.numOfLimit);
 	const [selectedCategory, setSelectedCategory] = useState('');
 	const [categories, setCategories] = useState<any[] | null>(null);
 	const [empty, setEmpty] = useState(false);
@@ -33,11 +37,16 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	}, []);
 	const onSuccessCollections = async (data: any) => {
 		if (data.data.success) {
-			const { collections, pagination } = data.data.data;
-			if (collections.length > 0) {
+			const { collections: newCollections, pagination } = data.data.data;
+			if (newCollections.length > 0) {
 				setEmpty(false);
 			}
-			setCollections(collections);
+			if (pagination.page === 1) {
+				setCollections(newCollections);
+			} else {
+				setCollections([...collections, ...newCollections]);
+			}
+
 			setPagination(pagination);
 		} else {
 			setError(data.data.message);
@@ -47,8 +56,8 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 		onSuccessCollections,
 		true,
 		ENV.objectToQueryString({
-			page: page,
-			limit: limit,
+			// page: props.numOfPages,
+			limit: props.numOfLimit,
 			myFilter: selectedCategory,
 		})
 	);
@@ -70,8 +79,10 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 
 	const handlePagination = () => {
 		// window.scroll(0, 500);
-		setPage(page);
-		setLimit(limit + 12);
+		props.setAllCollectionPagination();
+		props.setAllCollectionLimit();
+		setPage(props.numOfPages);
+		setLimit(props.numOfLimit);
 	};
 	const handleImage = (item: any, index: number) => {
 		if (item?.nftDetail[index]?.image) {
@@ -230,7 +241,16 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 	);
 };
 const mapStateToProps = (state: any) => ({
+	numOfPages: state.collectionPagination.numOfPages,
+	numOfLimit: state.collectionPagination.numOfLimit,
 	connectedAddress: state.wallet.connectedAddress,
 });
 
-export default connect(mapStateToProps, {})(ExploreCollections);
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setAllCollectionPagination: () => dispatch(setAllCollectionPagination()),
+		setAllCollectionLimit: () => dispatch(setAllCollectionLimit()),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExploreCollections);

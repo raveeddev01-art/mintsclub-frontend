@@ -17,6 +17,7 @@ export const useGetCollections = (onSuccess: any, enabled?: any, qs?: any) => {
 				setError(error);
 			},
 			refetchOnWindowFocus: false,
+			cacheTime: Infinity,
 		}
 	);
 };
@@ -38,6 +39,7 @@ export const useGetMyCollections = (
 				setError(error);
 			},
 			refetchOnWindowFocus: false,
+			cacheTime: Infinity,
 		}
 	);
 };
@@ -59,6 +61,7 @@ export const useGetMyPendingBatch = (
 				setError(error);
 			},
 			refetchOnWindowFocus: false,
+			cacheTime: Infinity,
 		}
 	);
 };
@@ -115,7 +118,10 @@ export const useGetNFTs = (filter: any, onSuccess: any, defaultLimit: any) => {
 	return useQuery(
 		['nfts', nftQS],
 		() => handleRequest('get', 'nfts/list', null, qs),
-		{ onSuccess }
+		{
+			onSuccess,
+			cacheTime: Infinity,
+		}
 	);
 };
 
@@ -123,6 +129,9 @@ export const useGetNFTbyId = (nftId: any, onSuccess: any) => {
 	return useQuery(
 		['getNFTById'],
 		() => handleRequest('get', `nfts/get/${nftId}`),
-		{ onSuccess }
+		{
+			onSuccess,
+			cacheTime: Infinity,
+		}
 	);
 };

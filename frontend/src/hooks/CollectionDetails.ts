@@ -77,6 +77,6 @@ export const useGetNFTs = (filter: any, onSuccess: any) => {
 			qs,
 		],
 		() => handleRequest('get', 'nfts/list', null, qs),
-		{ onSuccess, staleTime: 0, cacheTime: 0 }
+		{ onSuccess, staleTime: 0, cacheTime: Infinity }
 	);
 };

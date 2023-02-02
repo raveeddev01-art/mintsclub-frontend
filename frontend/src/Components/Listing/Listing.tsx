@@ -9,8 +9,13 @@ import PriceFilter from '../Filters/PriceFilter';
 import CollectionFilter from '../Filters/CollectionFilter';
 import FilteredNftsList from '../Filters/FilteredNftsList';
 import { ENV } from '../../config/config';
+import { connect } from 'react-redux';
 
 import SocketContext from '../../contexts/SocketContext';
+import {
+	setAllNFTPagination,
+	setAllNFTLimit,
+} from '../../redux/actions/actions';
 
 const Listing: FC<listingInt> = (props) => {
 	const socket = useContext(SocketContext);
@@ -26,8 +31,8 @@ const Listing: FC<listingInt> = (props) => {
 		props.initialKeyword ? props.initialKeyword : ''
 	);
 
-	const [page, setPage] = useState<number>(1);
-	const [limit, setLimit] = useState<number>(9);
+	const [page, setPage] = useState<number>(props.numOfPages);
+	const [limit, setLimit] = useState<number>(props.numOfLimit);
 
 	const [filter, setFilter] = useState<any>({
 		collectionId: false,
@@ -84,14 +89,22 @@ const Listing: FC<listingInt> = (props) => {
 	}, [socket]);
 
 	useEffect(() => {
-		setPage(1);
+		setPage(props.numOfPages);
 		props?.setNfts([]);
 		fetchData(filter);
 	}, [filter]);
 
 	useEffect(() => {
-		fetchData({ ...filter, page, limit });
-	}, [page]);
+		fetchData({ ...filter, limit: props.numOfLimit });
+	}, [page, props.numOfPages]);
+
+	const handlePagination = () => {
+		props.setAllNFTPagination();
+		props.setAllNFTLimit();
+		setInitial(false);
+		setFilterationLoader(false);
+		setPage(props.numOfPages);
+	};
 
 	const handleSelectChange = (selectedOption: any) => {
 		setSelectedOption(selectedOption);
@@ -164,12 +177,6 @@ const Listing: FC<listingInt> = (props) => {
 	};
 	const onChangeMaxPrice = (e: any) => {
 		setMaxValue(e.target.value);
-	};
-
-	const handlePagination = () => {
-		setInitial(false);
-		setFilterationLoader(false);
-		setPage(page + 1);
 	};
 
 	const applyMinMaxFilter = () => {
@@ -416,4 +423,16 @@ const Listing: FC<listingInt> = (props) => {
 	);
 };
 
-export default Listing;
+const mapStateToProps = (state: any) => ({
+	numOfPages: state.nftPagination.numOfPages,
+	numOfLimit: state.nftPagination.numOfLimit,
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		setAllNFTPagination: () => dispatch(setAllNFTPagination()),
+		setAllNFTLimit: () => dispatch(setAllNFTLimit()),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Listing);
