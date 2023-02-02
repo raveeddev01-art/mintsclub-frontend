@@ -56,7 +56,7 @@ const Hero: FC<HeroInt> = (props) => {
 
 	useEffect(() => {
 		refetch();
-	}, []);
+	}, [refetch()]);
 
 	useEffect(() => {
 		socket.on('auctionLive', (auctionLiveInformation: any) => {
