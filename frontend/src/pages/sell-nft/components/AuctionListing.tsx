@@ -57,18 +57,31 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const handleEndTime = (e: any) => {
 		setEndValue(e);
 	};
+	const startDate = new Date(startValue);
+
+	const endDate = new Date(endValue.toString());
+	const userStartDate = moment(timedAuctionConfig.duration.startDate).date();
+	const userEndDate = moment(timedAuctionConfig.duration.endDate).date();
+	const newStartDate = new Date(startDate.setDate(userStartDate));
+	const newEndDate = new Date(endDate.setDate(userEndDate));
+	const updatedStartDate = moment(newStartDate);
+	const updatedEndDate = moment(newEndDate);
 
 	const submit = async (e: any) => {
 		setIsButtonDisabled(true);
 		e.preventDefault();
 		const price = Number(timedAuctionConfig.startPrice.amount);
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
-			if (moment() > startValue) {
+			if (moment().unix() > updatedStartDate.unix()) {
 				toast.error('Start Time Should be in future');
 				setIsButtonDisabled(false);
 				return;
 			}
-			if (endValue < startValue) {
+			if (updatedEndDate.unix() < updatedStartDate.unix()) {
+				console.log(
+					'🚀 ~ file: AuctionListing.tsx:76 ~ submit ~ endValue',
+					endValue
+				);
 				toast.error('Ending Time Should be Greater than Start Time');
 				setIsButtonDisabled(false);
 				return;
@@ -118,11 +131,11 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		const activityPayload = getActivityPayload();
 
 		//calculate end time
-		timedConfig.duration.endDate = endValue.toString();
+		timedConfig.duration.endDate = updatedEndDate.toString();
 
 		//calculate start time
-		timedConfig.duration.startDate = startValue.toString();
-
+		// timedConfig.duration.startDate = startValue.toString();
+		timedConfig.duration.startDate = updatedStartDate.toString();
 		setUpAuction(timedConfig, activityPayload);
 	};
 
@@ -152,11 +165,14 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	) => {
 		const formData = new FormData();
 		try {
-			const auctionEndDate = timedAuctionConfig.duration.endDate;
-			const auctionStartDate = timedAuctionConfig.duration.startDate;
-
+			const auctionEndDate = updatedEndDate;
+			console.log(
+				'🚀 ~ file: AuctionListing.tsx:169 ~ AuctionListing ~ auctionEndDate',
+				auctionEndDate
+			);
+			// const auctionStartDate = timedAuctionConfig.duration.startDate;
+			const auctionStartDate = updatedStartDate;
 			const biddingTime = moment(auctionEndDate).unix();
-
 			const startTime = moment(auctionStartDate).unix();
 
 			let result: any = null;
