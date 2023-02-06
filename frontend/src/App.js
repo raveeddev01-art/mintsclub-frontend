@@ -31,6 +31,8 @@ import {
 require('@solana/wallet-adapter-react-ui/styles.css');
 import Socket from './utils/socket';
 import SocketContext from './contexts/SocketContext';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-xxxxxxxxx-x');
 
 const App = React.memo((props) => {
 	const network = ENV.networkCluster;
@@ -41,7 +43,6 @@ const App = React.memo((props) => {
 	);
 	const [socket, setSocket] = useState(undefined);
 	const { loadingText } = useContext(LoadingText);
-	console.log('🚀 ~ file: App.js:36 ~ App ~ socket', socket);
 
 	useGaTracker();
 

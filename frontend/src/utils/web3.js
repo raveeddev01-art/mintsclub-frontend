@@ -31,7 +31,6 @@ export const getWeb3 = async () => {
 };
 
 const getContractMethods = async (abiJson, contract) => {
-	console.log(contract, 'contract');
 	let web3 = await getWeb3();
 	const contractM = new web3.eth.Contract(abiJson, contract);
 	return contractM;
@@ -54,7 +53,6 @@ export const getNetworkNameByChainId = async () => {
 		let web3 = await getWeb3();
 		let chainId = await web3.eth.getChainId();
 		let currentNetwork = getNetworkName(chainId);
-		console.log(currentNetwork, 'currentNetwork');
 		return currentNetwork;
 	}
 };
@@ -167,7 +165,6 @@ export const mintNFt = async (
 	}
 	const nftAmount = Number(amount);
 	const { abi, contractAddress } = getMintContractInfo();
-	console.log({ abi, contractAddress, nftAmount, metaData, collectionAddress });
 
 	try {
 		let connectedAddress = await connectMetamask();
@@ -209,7 +206,6 @@ export const lazyMint = async (
 	}
 
 	const { abi, contractAddress } = getMintContractInfo();
-	console.log(contractAddress, 'contractAddress');
 	const priceToMint = Number(BigInt(Web3.utils.toWei(`${price}`, 'ether')));
 
 	try {
@@ -221,18 +217,6 @@ export const lazyMint = async (
 		);
 		const latestTokenId = await getLatestTokenId(contractM.methods);
 
-		console.log(
-			{
-				connectedAddress,
-				tokenId,
-				copies,
-				ownerAddress,
-				metaData,
-				latestTokenId,
-				contractAddress,
-			},
-			'testing'
-		);
 		let result = await contractM.methods
 			.Lazymint(
 				connectedAddress,
@@ -247,7 +231,6 @@ export const lazyMint = async (
 				setTransactionHash(hash);
 				setConfirmed(true);
 			});
-		console.log(result, 'result==>');
 		return latestTokenId;
 	} catch (err) {
 		setConfirmed(false);
@@ -260,7 +243,6 @@ export const lazyMint = async (
 export const editNFTUri = async (tokenId, metaData, collectionAddress) => {
 	try {
 		let web3 = await getWeb3();
-		console.log({ tokenId, metaData });
 		if (!web3) {
 			toast.error('No web3 instance found');
 			return false;
@@ -274,7 +256,6 @@ export const editNFTUri = async (tokenId, metaData, collectionAddress) => {
 		let result = await contractM.methods
 			.EditNFTUri(+tokenId, metaData)
 			.send({ from: connectedAddress });
-		console.log(result, 'result');
 		return result;
 	} catch (err) {
 		console.log(err, 'error while updating token uri');
@@ -306,16 +287,6 @@ export const openNFTForBidding = async (
 		const intPrice = web3.utils.toWei(`${initialPrice}`, 'ether');
 
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
-		console.log({
-			intPrice,
-			biddingStartTime,
-			biddingEndTime,
-			fee: 150,
-			id,
-			copies,
-			collectionAddress,
-			connectedAddress,
-		});
 		const result = await contractM.methods
 			.listItemForAuction(
 				web3.utils.toBN(intPrice),
@@ -330,10 +301,8 @@ export const openNFTForBidding = async (
 		let sellId = await Number(
 			result.events.AuctionStart.returnValues._auctionid
 		);
-		console.log(sellId, 'sellId');
 		return sellId;
 	} catch (err) {
-		console.log(err, 'error=====');
 		throw new Error(err.message);
 	}
 };
@@ -381,10 +350,6 @@ export const putonsale = async (
 		let weiAmount = BigInt(Web3.utils.toWei(`${price}`, 'ether'));
 		let web3 = await getWeb3();
 		let id = Number(tokenId);
-		console.log(
-			{ abi, contractAddress, collectionAddress, id, amount, NFTAdddress },
-			'check bro'
-		);
 		const result = await contractM.methods
 			.listItemForFixedPrice(
 				id,
@@ -397,9 +362,7 @@ export const putonsale = async (
 			.send({
 				from: connectedAddress,
 			});
-		console.log(result, 'result==>');
 		let sellId = Number(result.events.OfferSale.returnValues._fixeditemid);
-		console.log({ sellId, whole: result.events.OfferSale }, 'sRellId');
 		return sellId;
 	} catch (err) {
 		console.log(err, 'error=======');
@@ -445,7 +408,6 @@ export const setApprovalForAll = async (
 	collectionAddress = null,
 	setIsButtonDisabled
 ) => {
-	console.log(collectionAddress, 'collection');
 	try {
 		let abi = null;
 		let contractAddress = null;
@@ -525,7 +487,6 @@ export const endAuctionFromContract = async (tokenId) => {
 			// gasPrice: web3.utils.toHex(web3.utils.toWei("10", "gwei")),
 		});
 		if (result) {
-			// console.log(result, "result");
 			return result;
 		}
 	} catch (err) {
@@ -576,7 +537,6 @@ export const handleSign = async (nounce, setIsButtonDisabled) => {
 			web3.utils.fromUtf8(`I am signing my one-time nonce: ${nounce}`),
 			publicAddress?.toLowerCase(),
 			(err, signature) => {
-				console.log(signature, 'signature==>');
 				setIsButtonDisabled(false);
 				if (err) return reject(err);
 				return resolve({ publicAddress, signature });
@@ -606,7 +566,6 @@ export const createVoucher = async (tokenId, amount, uri, price) => {
 					if (err) {
 						resolve({ success: false, data: err });
 					}
-					console.log(result.result, 'result');
 					resolve({ success: true, data: result.result });
 				}
 			);

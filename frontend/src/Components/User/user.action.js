@@ -108,7 +108,7 @@ export const signup = (payload) => (dispatch) => {
 			}
 		})
 		.catch((errors) => {
-			// console.log(errors, 'register resonse');
+			console.log(errors, 'register resonse');
 			dispatch({
 				type: GET_ERRORS,
 				payload: errors,
@@ -151,7 +151,7 @@ export const updateProfile = (body) => (dispatch) => {
 			}
 		})
 		.catch((errors) => {
-			// console.log(errors, 'update profile response');
+			console.log(errors, 'update profile response');
 			dispatch({
 				type: GET_ERRORS,
 				payload: errors,
@@ -230,7 +230,6 @@ export const getTopSellers =
 	(qs = null) =>
 	(dispatch) => {
 		// dispatch(emptyError());
-		//console.log('query string', qs);
 
 		let url = `${ENV.url}users/top-sellers`;
 

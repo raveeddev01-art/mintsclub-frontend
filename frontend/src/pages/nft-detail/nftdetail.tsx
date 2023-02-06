@@ -105,7 +105,6 @@ const NFTDetail = (props: any) => {
 	const params: any = useParams();
 
 	const socket = useContext(SocketContext);
-	console.log('🚀 ~ file: nftdetail.tsx:98 ~ NFTDetail ~ socket', socket);
 	const currencyData: any = currency;
 	const wallet = useWallet();
 	const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -150,7 +149,6 @@ const NFTDetail = (props: any) => {
 	const [claimBidPrice, setClaimBidPrice] = useState<number>(0);
 	const [claimBidId, setClaimBidId] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-	console.log('NftDetails Id', nftDetail?._id, nftId);
 
 	useEffect(() => {
 		window.scroll(0, 600);
@@ -362,17 +360,9 @@ const NFTDetail = (props: any) => {
 		} else {
 			let fivePerc: any = '';
 			const { highestBid } = data.activeAuction || {};
-			console.log(
-				'🚀 ~ file: nftdetail.tsx:340 ~ setNextBidFivePercHigh ~ highestBid',
-				highestBid
-			);
 			if (highestBid === 0 || highestBid === undefined) {
 				fivePerc = (5 / 100) * currentPrice;
 				fivePerc = fivePerc + currentPrice;
-				console.log(
-					'🚀 ~ file: nftdetail.tsx:347 ~ setNextBidFivePercHigh ~ fivePerc',
-					fivePerc
-				);
 			} else {
 				fivePerc = (5 / 100) * highestBid;
 				fivePerc = fivePerc + highestBid;
@@ -1389,7 +1379,7 @@ const NFTDetail = (props: any) => {
 			socket.emit('leave', nftDetail?._id);
 		};
 	}, [nftDetail?._id, socket]);
-	
+
 	const EndAuction = async () => {
 		try {
 			setLoader(true);

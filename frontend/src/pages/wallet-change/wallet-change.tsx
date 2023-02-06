@@ -10,12 +10,7 @@ export const UseWalletChange = (connectedAddress: any) => {
 	const location = useLocation();
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 
-	console.log(
-		'🚀 ~ file: wallet-change.tsx ~ line 6 ~ useWalletChange ~ wallet',
-		wallet
-	);
 	useEffect(() => {
-		console.log('wallet.publicKey===>', wallet.publicKey?.toBase58());
 		if (
 			wallet.publicKey?.toBase58() &&
 			connectedAddress &&
@@ -32,11 +27,6 @@ export const UseWalletChange = (connectedAddress: any) => {
 
 	useEffect(() => {
 		// const interval = setInterval(() => {
-		// 	console.log('interval==>', {
-		// 		connected: wallet.connected,
-		// 		key: wallet.publicKey?.toBase58(),
-		// 		blockchainType: ENV.getUserKeys('blockchainType')?.blockchainType,
-		// 	});
 		// 	if (
 		// 		!wallet.connected &&
 		// 		ENV.getUserKeys('blockchainType')?.blockchainType === 'solana'

@@ -47,7 +47,6 @@ export const useGetData = (
 	enabled?: any
 ) => {
 	const { setError } = useContext(errorHandler);
-	//   console.log(qs,"qs")
 	return useQuery([key, qs && qs], () => handleRequest('get', url, null, qs), {
 		enabled,
 		onSuccess,
