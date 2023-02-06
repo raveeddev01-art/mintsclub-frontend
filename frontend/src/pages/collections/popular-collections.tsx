@@ -13,7 +13,6 @@ import {
 	useGetPopularCollections,
 } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
-import './popular-collections.scss';
 const initData = {
 	pre_heading: 'Most Popular',
 	heading: 'Popular Collections',
