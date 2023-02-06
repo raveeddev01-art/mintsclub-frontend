@@ -63,7 +63,7 @@ const Notification = (props: any) => {
 			payload
 		);
 		if (res.data.success) {
-			console.log('Is Seen updated successfully');
+			// console.log('Is Seen updated successfully');
 		}
 	};
 	return (

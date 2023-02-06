@@ -85,8 +85,6 @@ export const sendOtp = (data) => (dispatch) => {
 
 	axios.post(url, data, config).then(
 		(res) => {
-			//  alert("email sent")
-			// console.log(res);
 			if (res.status === 200) {
 				//  toast.success("Otp Verification Code sent to ")
 			}
@@ -119,7 +117,6 @@ export const verifyOtp = (email, otp) => (dispatch) => {
 	};
 
 	let url = `${ENV.url}otpVerification/verify`;
-	// console.log(url);
 
 	axios.post(url, data, config).then(
 		(res) => {
@@ -149,7 +146,6 @@ export const verifyOtp = (email, otp) => (dispatch) => {
 					});
 				}
 			} else {
-				// console.log("error")
 				toast.error(res.data.message);
 			}
 		},
@@ -172,12 +168,10 @@ export const deployContract = (data, address, supply) => (dispatch) => {
 	};
 
 	let url = `${ENV.url}/users/createUser`;
-	// console.log(url);
 	axios
 		.post(url, data, config)
 		.then(
 			(res) => {
-				// console.log(res, "response from backendfdkfd");
 				const abi = res.data.data.abi;
 				if (res.data.status === true) {
 					let metaDataList = [];
@@ -260,7 +254,6 @@ export const deployContract = (data, address, supply) => (dispatch) => {
 						type: LOADER,
 						payload: false,
 					});
-					// console.log(res, "dkfjdkfjkdjfkd");
 					toast.error(res.data.data);
 
 					// dispatch({
@@ -268,16 +261,13 @@ export const deployContract = (data, address, supply) => (dispatch) => {
 					//   payload: res.data,
 					// });
 				}
-				// console.log(res);
 			},
 			(error) => {
-				// console.log(error, 'error handle');
 				toast.error(error.response.data.data);
 				dispatch({
 					type: LOADER,
 					payload: false,
 				});
-				// console.log(error, "error==dfjdkf");
 				dispatch({
 					type: CONTRACT_ERROR_MESSAGE,
 					payload: error,
@@ -291,7 +281,7 @@ export const deployContract = (data, address, supply) => (dispatch) => {
 			}
 		)
 		.catch((err) => {
-			// console.log(err, 'error later==>');
+			console.log(err, 'error later==>');
 		});
 };
 
@@ -300,13 +290,11 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
 		type: LOADER,
 		payload: true,
 	});
-	// console.log('here is data', data)
 	dispatch({
 		type: CONNECT_WELLET,
 		payload: address,
 	});
 	let metaDataList = [];
-	// console.log(data, "data=====>");
 	let metaData = '';
 	if (!data.data) {
 		metaData = data;
@@ -322,16 +310,13 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
 			// 'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
 		},
 	};
-	// console.log("metaDataList", metaDataList);
 
 	try {
 		const web3 = new Web3(Web3.givenProvider);
-		// console.log('web3', web3);
 		const contractM = new web3.eth.Contract(
 			data.data.abi,
 			data.contractAddress
 		);
-		// console.log("metaDataList", metaDataList);
 		contractM.methods
 			.batchMint(address, metaDataList, supply)
 			.send({
@@ -339,11 +324,9 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
 				// gas: 5000000,
 			})
 			.then((response) => {
-				// console.log(response, "res of createNFT===>");
 				handleEmailRequest(email);
 				let count = localStorage.getItem(address);
 				if (count) {
-					console.log(typeof (+count * 1), 'issueee');
 					localStorage.setItem(address, +count * 1 + 1);
 				} else {
 					localStorage.setItem(address, 1);
@@ -407,7 +390,6 @@ export const setContractInfo = () => (dispatch) => {
 export const connectWallet = () => (dispatch) => {
 	connectMetamaskCopy()
 		.then((address) =>
-			// console.log(address,"address"),
 			dispatch({
 				type: CONNECT_WELLET,
 				payload: address,

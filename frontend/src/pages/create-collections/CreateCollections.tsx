@@ -253,7 +253,6 @@ class CreateCollections extends Component<
 	editCollectionInfo = async (data: any) => {
 		try {
 			const res = await handleRequest('put', `collection/edit`, data);
-			console.log('This is response: ', res);
 			if (res.data.success) {
 				toast.success('collection updated successfully');
 				this.props.history.push({
@@ -430,18 +429,10 @@ class CreateCollections extends Component<
 							if (collection?.deploy) {
 								try {
 									const response = await this.deployCollection();
-									console.log(
-										response?.contractAddress,
-										'response?.contractAddress'
-									);
 									formData.append('isApproved', false);
 									formData.append(
 										'contractAddress',
 										`${response?.contractAddress}`
-									);
-									console.log(
-										'🚀 ~ file: CreateCollections.tsx ~ line 423 ~ formData before time',
-										formData
 									);
 
 									this.insertCollection(formData);
@@ -449,10 +440,6 @@ class CreateCollections extends Component<
 									return toast.error(err?.message);
 								}
 							} else {
-								console.log(
-									'🚀 ~ file: CreateCollections.tsx ~ line 427 ~ formData',
-									formData
-								);
 								formData.append('isApproved', true);
 
 								this.insertCollection(formData);

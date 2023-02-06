@@ -58,7 +58,6 @@ export const ListenMetaMaskAccs = () => {
 		// window.ethereum.request({ method: "eth_requestAccounts" }).then(
 		//   (accounts) => {
 		//     // setWallet(accounts[0]);
-		//     console.log("accounts");
 		//   },
 		//   (error) => {}
 		// );

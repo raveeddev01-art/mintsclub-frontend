@@ -237,7 +237,6 @@ const Listing: FC<listingInt> = (props) => {
 		setInitial(false);
 		setFilterationLoader(true);
 		if (id === 'Collected') {
-			// console.log('This is collected,id', filter.collected);
 			setFilter((prev: any) => ({
 				...prev,
 				collected: ENV.getUserKeys('_id')._id,

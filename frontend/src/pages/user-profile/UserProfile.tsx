@@ -54,7 +54,6 @@ const UserProfile = (props: any) => {
 
 	const onSuccessNFTs = (data: any) => {
 		if (data?.data?.success) {
-			console.log('data?.data', data?.data);
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
 			if (data.data.data.pagination?.page === 1) {

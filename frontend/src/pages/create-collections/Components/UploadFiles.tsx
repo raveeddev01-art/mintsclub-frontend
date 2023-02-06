@@ -16,7 +16,6 @@ const UploadFiles = ({ data }: any) => {
 			toast.info('This file is not Supported ');
 		}
 	};
-	console.log(data, 'data');
 	return (
 		<div className="upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0">
 			<div className="logo-wrapper">

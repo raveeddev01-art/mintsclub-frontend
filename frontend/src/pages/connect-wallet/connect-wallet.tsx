@@ -69,7 +69,6 @@ const ConnectWallet = (props: any) => {
 	//       }
 	//     }
 	//     login(connectedAddress);
-	//     console.log(connectedAddress, "connectedAddress");
 	//   }
 	// };
 

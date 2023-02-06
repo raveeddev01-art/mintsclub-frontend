@@ -76,7 +76,6 @@ const Table: React.FC<TableInterface> = ({
 	const formateActivityInfo = () => {
 		if (data && data.length > 0) {
 			const formatedData: any = data.map((item: any) => {
-				console.log('this is moment data', moment(item.createdAt).toDate());
 				return {
 					item1: (
 						<div className="d-flex align-items-center">

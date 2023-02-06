@@ -57,12 +57,6 @@ const BidModal: FC<BidModalInt> = (props) => {
 		return nftDetail?.activeAuction?.highestBid || nftDetail?.currentPrice;
 	};
 
-	console.log(
-		'parseFloat(price)',
-		parseFloat(price),
-		getCurrentPriceOrHighestBid()
-	);
-
 	return (
 		<Modal
 			{...props}

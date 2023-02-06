@@ -5,17 +5,7 @@ import { ENV } from '../../config/config';
 
 const getMetaplex = (ENDPOINT = ENV.networkCluster) => {
 	const connection = new Connection(clusterApiUrl(ENDPOINT));
-	console.log(
-		'🚀 ~ file: config.ts ~ line 6 ~ getMetaplex ~ connection',
-		connection
-	);
-
 	const metaplex = new Metaplex(connection);
-	console.log(
-		'🚀 ~ file: config.ts ~ line 12 ~ getMetaplex ~ metaplex',
-		metaplex
-	);
-
 	return metaplex;
 };
 

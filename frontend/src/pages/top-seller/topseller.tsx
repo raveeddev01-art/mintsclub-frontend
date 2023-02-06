@@ -52,7 +52,6 @@ const TopSeller = (props: any) => {
 					</div>
 				</div>
 				<div className="row g-3 items">
-					{/* {console.log(sellers, 'these are the top sellers')} */}
 					{isLoading ? (
 						<div className="top-seller spinner-loader-wrapper">
 							<div className="spinner-border text-secondary" role="status">
@@ -61,7 +60,6 @@ const TopSeller = (props: any) => {
 						</div>
 					) : sellers && sellers.length ? (
 						sellers.map((author: any, idx: any) => {
-							// console.log(author.totalETH);
 							if (author.totalETH >= 0.01) {
 								return (
 									<div

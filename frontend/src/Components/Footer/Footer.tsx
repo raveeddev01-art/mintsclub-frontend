@@ -14,7 +14,6 @@ const Footer: FC<footerInt> = () => {
 	const { isLoading, mutate: subscribeUser } = useInsertData(
 		'users/subscribe',
 		(res: any) => {
-			console.log(res, 'res');
 			if (res.data.success) {
 				toast.success('Subscribed successfully');
 			} else {

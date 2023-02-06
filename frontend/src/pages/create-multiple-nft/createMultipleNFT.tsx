@@ -71,7 +71,6 @@ function CreateMultipleNFT(props: any) {
 	const onDrop = (e: any) => {
 		e.nativeEvent.preventDefault();
 		if (!e) return;
-		console.log(e.dataTransfer.files[0], 'e.dataTransfer.files[0]');
 		onFileChange(e, 'onDrag');
 	};
 
@@ -87,7 +86,6 @@ function CreateMultipleNFT(props: any) {
 		}),
 		(res: any) => {
 			if (res.data.success) {
-				console.log(res.data.data.collections, 'collections');
 				const collectionsOptions = res?.data?.data?.collections.Collections.map(
 					(item: any) => {
 						return {
