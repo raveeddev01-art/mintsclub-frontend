@@ -402,8 +402,8 @@ const ConnectWallet = (props: any) => {
 						{CHAINS.map((chain) => (
 							<Tab eventKey={chain.key} key={chain.key} title={chain.title}>
 								<div className="wrap-content">
-									{chain.wallets?.map((wallet) => (
-										<div className="tab-inner-content" key={chain.key}>
+									{chain.wallets?.map((wallet, index) => (
+										<div className="tab-inner-content" key={index}>
 											<button
 												disabled={isButtonDisabled}
 												className="wallet-button"

@@ -37,7 +37,7 @@ App = {
 		}
 		// Legacy dapp browsers...
 		else if (window.web3) {
-			App.web3Provider = window.web3.currentProvider;
+			App.web3Provider = window.ethereum;
 		}
 		// If no injected web3 instance is detected, fall back to Ganache
 		else {
