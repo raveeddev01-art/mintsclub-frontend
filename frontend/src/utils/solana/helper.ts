@@ -67,11 +67,14 @@ const mintSingleNft = async (
 		const metaplex = getMetaplex();
 
 		metaplex.use(walletAdapterIdentity(wallet));
-		const mintNftResponse: any = await metaplex.nfts().create({
-			uri: tokenUri,
-			sellerFeeBasisPoints,
-			name,
-		});
+		const mintNftResponse: any = await metaplex.nfts().create(
+			{
+				uri: tokenUri,
+				sellerFeeBasisPoints,
+				name,
+			},
+			{ commitment: 'finalized' }
+		);
 
 		return mintNftResponse;
 	} catch (err: any) {
@@ -114,11 +117,14 @@ const listItemForFixedPriceSolana = async (
 
 	const { listing, sellerTradeState, receipt } = await metaplex
 		.auctionHouse()
-		.list({
-			auctionHouse,
-			price: sol(price),
-			mintAccount: new PublicKey(mintAddress),
-		});
+		.list(
+			{
+				auctionHouse,
+				price: sol(price),
+				mintAccount: new PublicKey(mintAddress),
+			},
+			{ commitment: 'finalized' }
+		);
 
 	return sellerTradeState.toBase58();
 };
@@ -139,10 +145,13 @@ const cancelItemFromListing = async (
 			auctionHouse,
 		});
 
-		const cancelListing = await metaplex.auctionHouse().cancelListing({
-			listing,
-			auctionHouse,
-		});
+		const cancelListing = await metaplex.auctionHouse().cancelListing(
+			{
+				listing,
+				auctionHouse,
+			},
+			{ commitment: 'finalized' }
+		);
 
 		return cancelListing;
 	} catch (err) {
@@ -171,18 +180,24 @@ const buyNowFixedPriceAuction = async (
 			auctionHouse,
 		});
 
-		const bid = await metaplex.auctionHouse().bid({
-			auctionHouse: auctionHouse,
-			buyer: wallet,
-			mintAccount: new PublicKey(mintAddress),
-			price: sol(price),
-		});
+		const bid = await metaplex.auctionHouse().bid(
+			{
+				auctionHouse: auctionHouse,
+				buyer: wallet,
+				mintAccount: new PublicKey(mintAddress),
+				price: sol(price),
+			},
+			{ commitment: 'finalized' }
+		);
 
-		const purchase = await metaplex.auctionHouse().executeSale({
-			auctionHouse,
-			bid: bid.bid,
-			listing,
-		});
+		const purchase = await metaplex.auctionHouse().executeSale(
+			{
+				auctionHouse,
+				bid: bid.bid,
+				listing,
+			},
+			{ commitment: 'finalized' }
+		);
 		setConfirmed(true);
 		return purchase;
 	} catch (err) {
