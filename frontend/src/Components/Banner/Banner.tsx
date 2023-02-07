@@ -17,6 +17,7 @@ const Banner: FC<BannerInterface> = ({
 	onEdit,
 	onDelete,
 }) => {
+	console.log("🚀 ~ file: Banner.tsx:20 ~ nftDetail", nftDetail)
 	const confirmDelete = () => {
 		const deleteData = confirm('Are You Sure You want to delete');
 		if (deleteData) {
@@ -56,7 +57,7 @@ const Banner: FC<BannerInterface> = ({
 												<span>Delete</span>
 											</button>
 											{blockChainType !== 'algorand' &&
-												(loggedInUser === nftDetail?.creatorId ||
+												((loggedInUser === nftDetail?.creatorId && nftDetail.isSold !=true) || 
 													splitCollectionUrl[1] === 'collection') && (
 													<button className="edit" onClick={() => onEdit?.()}>
 														<img src={editImage.editIcon} alt="/" />
