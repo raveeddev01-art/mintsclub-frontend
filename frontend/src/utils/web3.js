@@ -21,8 +21,8 @@ let requiredChainId = parseInt(process.env.REACT_APP_REQUIRED_CHAIN);
 export const getWeb3 = async () => {
 	let instance;
 	if (window.ethereum) {
-		await window.web3.currentProvider.enable();
-		instance = new Web3(window.web3.currentProvider);
+		await window.ethereum.enable();
+		instance = new Web3(window.ethereum);
 	} else {
 		instance = new Web3('http://localhost:7545');
 	}
@@ -271,13 +271,6 @@ export const openNFTForBidding = async (
 	initialPrice,
 	collectionAddress = null
 ) => {
-	console.log({
-		biddingStartTime,
-		biddingEndTime,
-		tokenId,
-		copies,
-		initialPrice,
-	});
 	try {
 		const { abi, contractAddress, NFTAdddress } = getMarketPlaceContractInfo();
 		let web3 = await getWeb3();
@@ -287,16 +280,6 @@ export const openNFTForBidding = async (
 		const intPrice = web3.utils.toWei(`${initialPrice}`, 'ether');
 
 		// const intPrice=web3.utils.toHex(web3.utils.toWei(`${initialPrice}`, "ether"))
-		console.log({
-			intPrice,
-			biddingStartTime,
-			biddingEndTime,
-			fee: 150,
-			id,
-			copies,
-			collectionAddress,
-			connectedAddress,
-		},'');
 		const result = await contractM.methods
 			.listItemForAuction(
 				web3.utils.toBN(intPrice),
