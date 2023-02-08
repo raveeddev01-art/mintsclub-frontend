@@ -6,6 +6,7 @@ import solana from '../../assets/images/about-solana.svg';
 import { ENV } from '../../config/config';
 import { formatBytes } from '../functions';
 import { STATUS_TYPE } from '../../interfaces/allnfts/types';
+import { toast } from 'react-toastify';
 const CHAIN_LOGOS = {
 	polygon: polygonIcon,
 	ethereum: ethereumIcon,
@@ -320,6 +321,36 @@ const NOTIFICATION_TEXT: any = {
 		description: 'Congratulations, Batch has successfully Uploaded',
 	},
 };
+const internetSpeedCheck = ():any => {
+	  
+	  const connection = (navigator as any).connection || (navigator as any).mozConnection|| (navigator as any).webkitConnection
+	// if(!navigator.onLine){
+	// 	toast.error('No Internet Connection')
+	// 	return false 
+		
+	// }
+	  if (connection) {
+		const { effectiveType, rtt } = connection;
+		console.log("🚀 ~ file: helpers.ts:334 ~ internetSpeedCheck ~ effectiveType", effectiveType)
+		console.log("🚀 ~ file: helpers.ts:334 ~ internetSpeedCheck ~ rtt", rtt)
+		if (effectiveType === '2g') {
+			toast.error('Slow Internet , it may take some time', {
+				position: 'top-left',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				theme: 'light',
+				// closeButton: false,
+			})
+			return false
+		} else {
+			return true
+		}
+	  }
+	  
+};
 
 export {
 	CHAIN_CURRENCY,
@@ -339,4 +370,5 @@ export {
 	mintingContractAddress,
 	reduceString,
 	NOTIFICATION_TEXT,
+	internetSpeedCheck
 };

@@ -68,6 +68,7 @@ import FileViewer from './components/FileViewer';
 import {
 	CHAIN_LOGOS,
 	CHAIN_TITLE,
+	internetSpeedCheck,
 	mintingContractAddress,
 } from '../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../utils/helpers/ethereum';
@@ -805,7 +806,7 @@ const NFTDetail = (props: any) => {
 				walletAddress: ENV.getUserKeys('address').address,
 			});
 		}
-
+		internetSpeedCheck()
 		toast.warning("Please don't refresh/switch page during transaction.", {
 			position: 'top-center',
 			autoClose: 5000,
@@ -949,6 +950,7 @@ const NFTDetail = (props: any) => {
 					closeButton: false,
 				});
 				setDisabled(true);
+				internetSpeedCheck()
 				if (nftDetail.lazyMinted) {
 					BuyLazyNft();
 				} else {
