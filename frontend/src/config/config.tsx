@@ -5,7 +5,8 @@ const dataEncryptionKey = 'kalsaOOLLaASASAFFSSEE';
 const moment = require('moment');
 
 export const ENV: any = {
-	WDS_SOCKET_PORT: 443,
+	REACT_APP_WDS_SOCKET_PORT: 0,
+	WDS_SOCKET_PORT: 0,
 	// blockchain variables
 	networkCluster: process.env.REACT_APP_SOLANA_CLUSTER,
 	environment: process.env.NODE_ENV,
