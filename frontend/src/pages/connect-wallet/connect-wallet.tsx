@@ -266,31 +266,39 @@ const ConnectWallet = (props: any) => {
 		}
 	};
 	const ethereumFunc = async (status: any, chainId: any) => {
-		if (detectMobile() && !window?.ethereum) {
-			setIsButtonDisabled(false);
-			return window.open(
-				'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
-			);
-		}
-		await wallet.disconnect();
-		props.setBlockchainType(status);
-		const publicAddress: any = await connectMetamask();
-		if (!publicAddress) {
-			setIsButtonDisabled(false);
-		}
-		const currentChainId = await getChainId();
-		if (chainId !== currentChainId) {
-			const switchNetworkResponse = await switchNetworkToChainId(
-				chainId,
-				setIsButtonDisabled
-			);
-			if (!switchNetworkResponse) {
-				return false;
+		try {
+			if (detectMobile() && !window?.ethereum) {
+				setIsButtonDisabled(false);
+				return window.open(
+					'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
+				);
 			}
+			await wallet.disconnect();
+			props.setBlockchainType(status);
+			const publicAddress: any = await connectMetamask();
+			if (!publicAddress) {
+				setIsButtonDisabled(false);
+			}
+			const currentChainId = await getChainId();
+			if (chainId !== currentChainId) {
+				const switchNetworkResponse = await switchNetworkToChainId(
+					chainId,
+					setIsButtonDisabled
+				);
+				if (!switchNetworkResponse) {
+					return false;
+				}
+			}
+			setConnectedAddres(publicAddress);
+			props.setWalletAddress(publicAddress);
+			validateUser({ blockchainType: status });
+		} catch (error: any) {
+			setIsButtonDisabled(false);
+			console.log(
+				'🚀 ~ file: connect-wallet.tsx:298 ~ ethereumFunc ~ error',
+				error.message
+			);
 		}
-		setConnectedAddres(publicAddress);
-		props.setWalletAddress(publicAddress);
-		validateUser({ blockchainType: status });
 	};
 
 	const CHAINS = [
