@@ -64,7 +64,7 @@ const App = React.memo((props) => {
 				socket.disconnect();
 			}
 		};
-	}, [ENV.websocketURL]);
+	}, [ENV.WEBSOCKET_URL]);
 
 	return (
 		<SocketContext.Provider value={socket}>
