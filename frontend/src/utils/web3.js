@@ -10,6 +10,7 @@ import binanceMarketPlaceContract from './abis/binance/marketPlace.json';
 import typedDataV4 from './typeDatav4';
 import batchMintAbi from './abis/batchMint-abi.json';
 import { NETWORK_CONFIG } from './exportData';
+import {internetSpeedCheck} from './helpers/helpers'
 const goerliMintingContract = ENV.goerliMintingContract;
 const polygonMintingContract = ENV.polygonMintingContract;
 const binanceMintingContract = ENV.bscMintingContract;
@@ -807,6 +808,7 @@ export const cancelNFTListing = async (
 			theme: 'light',
 			closeButton: false,
 		});
+		internetSpeedCheck()
 		if (sellingMethod === 2) {
 			result = await contractM.methods.cancelAuction(listingId).send({
 				from: connectedAddress,

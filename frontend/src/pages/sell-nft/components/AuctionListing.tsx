@@ -1,8 +1,8 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import { CHAINS_INTERFACE } from '../../../interfaces/components';
-import { CHAIN_CURRENCY } from '../../../utils/helpers/helpers';
+import { CHAIN_CURRENCY, internetSpeedCheck } from '../../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../../utils/helpers/ethereum';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
@@ -111,7 +111,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 			}
 
 			setLoader(true);
-
+			internetSpeedCheck()
 			handleAuction();
 			toast.warning("Please don't refresh/switch page during transaction.", {
 				position: 'top-center',
