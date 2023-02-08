@@ -38,7 +38,6 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 		compressedFile,
 		blockchainType,
 	} = props.data;
-
 	const [nftLikes, SetNftLikes] = useState(likeCount);
 	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
 	const [likesbyUser, setLikesbyUser] = useState<boolean>(false);
@@ -108,10 +107,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 
 	return (
 		<div className="card_wrap">
-			<Card
-				className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}
-				onClick={() => history.push(`${props.path}${_id}`)}
-			>
+			<Card className={`nft-card ${cardBg} m-1 mx-auto mx-sm-1`}>
 				<div className="nft-img-wrapper">
 					<div className="nft-chain">
 						<img
@@ -206,7 +202,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 				</div>
 				<Card.Body>
 					<Card.Title>
-						<div>
+						<div
+							style={{ width: '100%' }}
+							onClick={() => history.push(`${props.path}${_id}`)}
+						>
 							{name && name.length > 25 ? name.slice(0, 25) + '...' : name}
 						</div>
 						<div className="nft-owner-price d-flex align-items-center">
@@ -259,7 +258,10 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 						</div>
 					</div>
 					<div className="d-flex align-items-center justify-content-between nft-bottom">
-						<div className="nft-card-owner-container d-flex align-items-center">
+						<div
+							className="nft-card-owner-container d-flex align-items-center"
+							onClick={() => history.push(`${props.path}${_id}`)}
+						>
 							<div className="nft-owner-avatar">
 								<img
 									src={
