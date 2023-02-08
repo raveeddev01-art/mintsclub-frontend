@@ -160,6 +160,7 @@ const NFTCard: FC<NFTCardInt> = (props) => {
 										setLoader(false);
 									}}
 									style={{ display: `${!loader ? 'block' : 'none'}` }}
+									onClick={() => history.push(`${props.path}${_id}`)}
 								/>
 
 								<div className="controls">
