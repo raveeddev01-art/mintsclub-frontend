@@ -91,8 +91,10 @@ const ConnectWallet = (props: any) => {
 				navigator.userAgent
 			)
 		) {
+			setIsButtonDisabled(false);
 			return true;
 		} else {
+			setIsButtonDisabled(false);
 			return false;
 		}
 	};
