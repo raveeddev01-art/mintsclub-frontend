@@ -12,7 +12,10 @@ import React, { useState } from 'react';
 import { checkAlgoBalance, createNFT } from '../../../utils/algorand';
 import { blockchainIcons } from '../../../assets/assets';
 import { useToast } from 'react-toastify';
-import { getSpecialCharacterReplaced, internetSpeedCheck } from '../../../utils/helpers/helpers';
+import {
+	getSpecialCharacterReplaced,
+	internetSpeedCheck,
+} from '../../../utils/helpers/helpers';
 import algosdk from 'algosdk';
 
 const CreateNft = ({
@@ -372,7 +375,7 @@ const CreateNft = ({
 					mintNFT(nftInfo, dataInput, image);
 				}
 				if (state.isFreeMint === false) {
-					internetSpeedCheck()
+					internetSpeedCheck();
 					toast.warning(
 						"Please don't refresh/switch page during transaction.",
 						{

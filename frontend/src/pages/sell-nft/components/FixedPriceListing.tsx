@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { CHAINS_INTERFACE } from '../../../interfaces/components';
-import { CHAIN_CURRENCY, internetSpeedCheck } from '../../../utils/helpers/helpers';
+import {
+	CHAIN_CURRENCY,
+	internetSpeedCheck,
+} from '../../../utils/helpers/helpers';
 import { isUserLoggedIn } from '../../../utils/helpers/ethereum';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
@@ -47,7 +50,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const wallet = useWallet();
 	const submit = async (e: any) => {
 		setIsButtonDisabled(true);
-		internetSpeedCheck()
+		internetSpeedCheck();
 		e.preventDefault();
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (blockchainType !== 'solana' && blockchainType !== 'algorand') {
@@ -66,7 +69,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	};
 	const handleFixedPriceAuction = () => {
 		setLoader(true);
-		internetSpeedCheck()
+		internetSpeedCheck();
 		const fixedConfig = { ...fixedPriceConfig };
 		const activityPayload = getActivityPayload();
 

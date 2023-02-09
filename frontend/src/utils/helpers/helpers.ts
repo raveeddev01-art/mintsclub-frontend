@@ -321,18 +321,18 @@ const NOTIFICATION_TEXT: any = {
 		description: 'Congratulations, Batch has successfully Uploaded',
 	},
 };
-const internetSpeedCheck = ():any => {
-	  
-	  const connection = (navigator as any).connection || (navigator as any).mozConnection|| (navigator as any).webkitConnection
+const internetSpeedCheck = (): any => {
+	const connection =
+		(navigator as any).connection ||
+		(navigator as any).mozConnection ||
+		(navigator as any).webkitConnection;
 	// if(!navigator.onLine){
 	// 	toast.error('No Internet Connection')
-	// 	return false 
-		
+	// 	return false
+
 	// }
-	  if (connection) {
+	if (connection) {
 		const { effectiveType, rtt } = connection;
-		console.log("🚀 ~ file: helpers.ts:334 ~ internetSpeedCheck ~ effectiveType", effectiveType)
-		console.log("🚀 ~ file: helpers.ts:334 ~ internetSpeedCheck ~ rtt", rtt)
 		if (effectiveType === '2g') {
 			toast.error('Slow Internet , it may take some time', {
 				position: 'top-left',
@@ -343,13 +343,12 @@ const internetSpeedCheck = ():any => {
 				draggable: true,
 				theme: 'light',
 				// closeButton: false,
-			})
-			return false
+			});
+			return false;
 		} else {
-			return true
+			return true;
 		}
-	  }
-	  
+	}
 };
 
 export {
@@ -370,5 +369,5 @@ export {
 	mintingContractAddress,
 	reduceString,
 	NOTIFICATION_TEXT,
-	internetSpeedCheck
+	internetSpeedCheck,
 };
