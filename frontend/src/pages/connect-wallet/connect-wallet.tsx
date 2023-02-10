@@ -86,6 +86,7 @@ const ConnectWallet = (props: any) => {
 	const { mutate: auth } = useInsertData('auth/login/', onSuccessLogin);
 
 	const detectMobile = async () => {
+		setIsButtonDisabled(false);
 		if (
 			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 				navigator.userAgent
