@@ -35,7 +35,7 @@ function ChooseType() {
 						>
 							<TypeOne />
 							<div>
-								<h4>Create Single NFT</h4>
+								<h4>Create Single NFT....</h4>
 								<p>
 									If you want to highlight the uniqueness and individuality of
 									your item
