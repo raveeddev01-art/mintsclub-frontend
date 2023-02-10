@@ -85,7 +85,7 @@ const ConnectWallet = (props: any) => {
 
 	const { mutate: auth } = useInsertData('auth/login/', onSuccessLogin);
 
-	const detectMobile = () => {
+	const detectMobile = async () => {
 		if (
 			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 				navigator.userAgent
@@ -269,11 +269,15 @@ const ConnectWallet = (props: any) => {
 	};
 	const ethereumFunc = async (status: any, chainId: any) => {
 		try {
-			if (detectMobile() && !window?.ethereum) {
+			if ((await detectMobile()) && !window?.ethereum) {
 				setIsButtonDisabled(false);
-				return window.open(
+				const connected = window.open(
 					'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
 				);
+				if (connected) {
+					setIsButtonDisabled(false);
+				}
+				return connected;
 			}
 			await wallet.disconnect();
 			props.setBlockchainType(status);
