@@ -729,12 +729,14 @@ const buyFixedPriceNFT = async (
 			.accountInformation(connectedAddress.toString())
 			.do();
 
-		const isAccountOptIn = accountInfo.assets.some((element) => {
-			if (element['asset-id'] === nftID) {
+		const createdApps = accountInfo['apps-local-state'];
+		const isAccountOptIn = createdApps.some((element) => {
+			if (element['id'] === appIndex) {
 				return true;
 			}
 			return false;
 		});
+
 		if (!isAccountOptIn) {
 			const appoptin = await algosdk.makeApplicationOptInTxnFromObject({
 				appIndex: appIndex,
@@ -743,7 +745,6 @@ const buyFixedPriceNFT = async (
 			});
 			txnsArray.push(appoptin);
 		}
-
 		const enc = new TextEncoder();
 
 		let note = enc.encode('buy');
