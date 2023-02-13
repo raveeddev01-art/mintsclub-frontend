@@ -242,6 +242,19 @@ const ConnectWallet = (props: any) => {
 	};
 	const connectPhantomWallet = async () => {
 		try {
+			if (await detectMobile()) {
+				const connected = window.open(
+					'https://phantom.app/ul/v22.04.11/mintsclub-v3-marketplace.invo.zone/'
+				);
+				if (!connected) {
+					toast.info(
+						"Oops. seems like you haven't installed Phantom App. Please install and sync.. this with Phantom"
+					);
+				}
+
+				setIsButtonDisabled(false);
+				return connected;
+			}
 			await wallet.select(wallet.wallets[0].adapter.name);
 
 			if (wallet.publicKey && wallet.connected) {
@@ -257,15 +270,19 @@ const ConnectWallet = (props: any) => {
 		}
 	};
 	const connectSolflareWallet = async () => {
-		await wallet.select(wallet.wallets[1].adapter.name);
+		try {
+			await wallet.select(wallet.wallets[1].adapter.name);
 
-		if (wallet.publicKey && wallet.connected) {
-			props.setBlockchainType('solana');
-			props.setWalletAddress(wallet.publicKey?.toBase58());
-			setConnectedAddres(wallet.publicKey?.toBase58());
-			setIsButtonDisabled(false);
-		} else {
-			setIsButtonDisabled(false);
+			if (wallet.publicKey && wallet.connected) {
+				props.setBlockchainType('solana');
+				props.setWalletAddress(wallet.publicKey?.toBase58());
+				setConnectedAddres(wallet.publicKey?.toBase58());
+				setIsButtonDisabled(false);
+			} else {
+				setIsButtonDisabled(false);
+			}
+		} catch (error: any) {
+			toast.error(error.message);
 		}
 	};
 	const ethereumFunc = async (status: any, chainId: any) => {
@@ -370,8 +387,6 @@ const ConnectWallet = (props: any) => {
 						await connectPhantomWallet();
 						if (wallet.connected) {
 							validateUser({ blockchainType: 'solana' });
-						} else {
-							toast.error('Something went wrong.Please try again');
 						}
 					},
 				},
