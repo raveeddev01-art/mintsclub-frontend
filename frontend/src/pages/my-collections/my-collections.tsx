@@ -81,6 +81,7 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 			return Images.imagePlaceholder;
 		}
 	};
+
 	return (
 		<>
 			{categoryIsLoading && isLoadinCollections ? (
@@ -108,7 +109,7 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 									return (
 										<div className="col-sm-6 col-md-4 col-xl-3" key={index}>
 											<CollectionsCard
-												CardImg={collection.featuredImg}
+												CardImg={collection.featuredImg || Images.imagePlaceholder}
 												Subimg1={handleImage(collection, 0)}
 												Subimg2={handleImage(collection, 1)}
 												Subimg3={handleImage(collection, 2)}
