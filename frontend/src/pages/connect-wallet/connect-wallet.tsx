@@ -274,6 +274,7 @@ const ConnectWallet = (props: any) => {
 				setIsButtonDisabled(false);
 				const connected = window.open(
 					'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
+					// 'https://metamask.app.link/dapp/localhost:3000/'
 				);
 				if (connected) {
 					setIsButtonDisabled(false);
