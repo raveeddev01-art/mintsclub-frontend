@@ -229,8 +229,10 @@ const UserProfile = (props: any) => {
 																	onMouseOver={() => {
 																		setCopy(true);
 																	}}
-																	onClick={() => {
-																		navigator.clipboard.writeText(user.address);
+																	onClick={async () => {
+																		await navigator.clipboard.writeText(
+																			user.address
+																		);
 																		setAddressCopied(true);
 																		ChangeTooltip();
 																	}}
