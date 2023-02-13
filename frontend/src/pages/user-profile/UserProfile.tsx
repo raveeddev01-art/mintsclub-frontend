@@ -55,7 +55,6 @@ const UserProfile = (props: any) => {
 	}, []);
 
 	const onSuccessNFTs = (data: any) => {
-		console.log('thisis data',data)
 		if (data?.data?.success) {
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
@@ -146,20 +145,17 @@ const UserProfile = (props: any) => {
 		heading: 'User Profile',
 	};
 	useEffect(() => {
-		if (socket ) {
-			socket.emit('join', 'unique');
-			socket.on('nftBought', (nftBoughtInformation: any) => {
-				alert('helo')
+		if (socket && 'userProfileRefetch') {
+			socket.emit('join', 'userProfileRefetch');
+			socket.on('fixedPrice', (fixedPriceInformation: any) => {
 				refetch();
-				getNFTs();
 			});
-			
 		}
 
 		return () => {
-			socket.emit('leave',"unique");
+			socket.emit('leave', 'userProfileRefetch');
 		};
-	}, ['unique', socket]);
+	}, ['userProfileRefetch', socket]);
 	const menuData = ['Collected', 'Created'];
 	if (
 		props.connectedAddress === '' ||
