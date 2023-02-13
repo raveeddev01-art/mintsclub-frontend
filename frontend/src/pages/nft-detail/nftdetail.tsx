@@ -1375,10 +1375,6 @@ const NFTDetail = (props: any) => {
 				refetch(false);
 				getLatestActivities();
 			});
-			socket.on('nftBought', (nftBoughtInformation: any) => {
-				refetch();
-				// getLatestActivities();
-			});
 		}
 
 		return () => {
