@@ -24,6 +24,7 @@ import { useGetCollections, useGetNFTs } from '../../hooks/AllNFTs';
 import { useGetUserDataById } from '../../hooks/UserProfile';
 import { useInsertData } from '../../hooks/Common';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import SocketContext from '../../contexts/SocketContext';
 const UserProfile = (props: any) => {
 	const [isAddressCopied, setAddressCopied] = useState<boolean>(false);
 	const [nfts, setNFTs] = useState<any>([]); // NFTs for explore section
@@ -48,6 +49,7 @@ const UserProfile = (props: any) => {
 	const [filter, setFilter] = useState({ page: 1, limit: 9 });
 	const userId = ENV.getUserKeys('_id')._id;
 	const history = useHistory();
+	const socket = useContext(SocketContext);
 	useEffect(() => {
 		window.scroll(0, 0);
 	}, []);
@@ -71,7 +73,6 @@ const UserProfile = (props: any) => {
 		onSuccessNFTs,
 		9
 	);
-
 	const onSuccessUser = (data: any) => {
 		if (data.data.success) {
 			setUser(data.data.data);
@@ -143,8 +144,19 @@ const UserProfile = (props: any) => {
 		subHeading: '',
 		heading: 'User Profile',
 	};
-	const menuData = ['Collected', 'Created'];
+	useEffect(() => {
+		if (socket && 'userProfileRefetch') {
+			socket.emit('join', 'userProfileRefetch');
+			socket.on('fixedPrice', (fixedPriceInformation: any) => {
+				refetch();
+			});
+		}
 
+		return () => {
+			socket.emit('leave', 'userProfileRefetch');
+		};
+	}, ['userProfileRefetch', socket]);
+	const menuData = ['Collected', 'Created'];
 	if (
 		props.connectedAddress === '' ||
 		ENV.getUserKeys('address')?.address?.toUpperCase() ===
