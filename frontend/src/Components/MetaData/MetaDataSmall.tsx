@@ -24,7 +24,7 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 						);
 					})
 				) : (
-					<p className="text-center">No Properties Foud</p>
+					<p className="text-center">No Properties Found</p>
 				)}
 			</div>
 			<div className="detail-box">
@@ -42,7 +42,7 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 						);
 					})
 				) : (
-					<p className="text-center">No Stats Foud</p>
+					<p className="text-center">No Stats Found</p>
 				)}
 			</div>
 
@@ -63,7 +63,7 @@ const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 							);
 						})
 					) : (
-						<p className="text-center">No Levels Foud</p>
+						<p className="text-center">No Levels Found</p>
 					)}
 				</div>
 			</div>
