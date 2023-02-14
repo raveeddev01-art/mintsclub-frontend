@@ -702,14 +702,21 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
-			toast.error(err.code, 'error');
 			if (err.code === 4902 || -32603) {
 				try {
-					toast.error(detectMobile());
 					if (detectMobile()) {
-						return toast.info(
-							`Please add ${getNetworkName(id)} into your wallet`
+						toast.info(
+							`Please add ${
+								id === 97
+									? 'binance test network'
+									: id === 80001
+									? 'mumbai test network'
+									: id === 5
+									? 'goerli test network'
+									: getNetworkName(id)
+							}into your wallet`
 						);
+						return false;
 					}
 					await addNetworkAutomatically(id, setIsButtonDisabled);
 					return true;
