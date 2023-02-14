@@ -5,6 +5,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { setWalletAddress, setBlockchainType } from '../wallet/wallet.action';
 import { login } from '../../Components/User/user.action';
 import { useHistory, useLocation } from 'react-router-dom';
+import FullPageLoader from '../../Components/FullPageLoader/FullPageLoader';
 
 import './connect-wallet.scss';
 import { connectModal } from '../../assets/assets';
@@ -173,11 +174,10 @@ const ConnectWallet = (props: any) => {
 		}
 		return setError(response.message);
 	};
-	const { mutate: validateUser } = useInsertData(
+	const { mutate: validateUser, isLoading } = useInsertData(
 		`users/validate/${connectedAddress}`,
 		onSuccessValidateUser
 	);
-
 	///Sign up
 	const onSuccessSignUp = async (data: any) => {
 		if (data.data.success) {
@@ -228,11 +228,15 @@ const ConnectWallet = (props: any) => {
 
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
-		const addr = await connectWallet(setIsButtonDisabled);
-		setConnectedAddres(addr?.[0]);
-		props.setWalletAddress(addr?.[0]);
-		props.setBlockchainType('algorand');
-		return addr?.[0];
+		try {
+			const addr = await connectWallet(setIsButtonDisabled);
+			setConnectedAddres(addr?.[0]);
+			props.setWalletAddress(addr?.[0]);
+			props.setBlockchainType('algorand');
+			return addr?.[0];
+		} catch (error: any) {
+			toast.error(error.message);
+		}
 	};
 	const connectPhantomWallet = async () => {
 		try {
@@ -411,6 +415,7 @@ const ConnectWallet = (props: any) => {
 
 	return (
 		<Container>
+			{isLoading === true ? <FullPageLoader /> : null}
 			<div className="connect-wallet-container">
 				<h3 className="modal-title">Connect Your Wallet</h3>
 				<p className="modal-description">
@@ -445,7 +450,6 @@ const ConnectWallet = (props: any) => {
 					)}
 				</div>
 			</div>
-
 			{/* <WalletDisconnectButton /> */}
 			{/* Your app's components go here, nested within the context providers. */}
 		</Container>
