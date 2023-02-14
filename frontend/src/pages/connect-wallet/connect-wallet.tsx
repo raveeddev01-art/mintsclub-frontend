@@ -237,17 +237,8 @@ const ConnectWallet = (props: any) => {
 	const connectPhantomWallet = async () => {
 		try {
 			if (await detectMobile()) {
-				const connected = window.open(
-					'https://phantom.app/ul/v22.04.11/mintsclub-v3-marketplace.invo.zone/'
-				);
-				if (!connected) {
-					toast.info(
-						"Oops. seems like you haven't installed Phantom App. Please install and sync.. this with Phantom"
-					);
-				}
-
+				toast.info('Phantom is coming soon for Mobile & I-Pad');
 				setIsButtonDisabled(false);
-				return connected;
 			}
 			await wallet.select(wallet.wallets[0].adapter.name);
 
@@ -265,6 +256,10 @@ const ConnectWallet = (props: any) => {
 	};
 	const connectSolflareWallet = async () => {
 		try {
+			if (await detectMobile()) {
+				toast.info('Solflare is coming soon for Mobile & I-Pad');
+				setIsButtonDisabled(false);
+			}
 			await wallet.select(wallet.wallets[1].adapter.name);
 
 			if (wallet.publicKey && wallet.connected) {
@@ -285,7 +280,6 @@ const ConnectWallet = (props: any) => {
 				setIsButtonDisabled(false);
 				const connected = window.open(
 					'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
-					// 'https://metamask.app.link/dapp/localhost:3000/'
 				);
 				if (connected) {
 					setIsButtonDisabled(false);
