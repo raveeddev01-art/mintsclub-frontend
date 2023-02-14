@@ -224,7 +224,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 										Subimg2={handleImage(collection, 1)}
 										Subimg3={handleImage(collection, 2)}
 										collection={collection}
-										CardImg={collection.featuredImg}
+										CardImg={collection.featuredImg || Images.imagePlaceholder}
 										name={collection.name}
 										id={collection._id}
 										userName={collection.username[0]}
