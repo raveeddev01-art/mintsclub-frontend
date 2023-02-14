@@ -714,8 +714,9 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 									: id === 5
 									? 'goerli test network'
 									: getNetworkName(id)
-							}into your wallet`
+							} into your wallet`
 						);
+						setIsButtonDisabled(false);
 						return false;
 					}
 					await addNetworkAutomatically(id, setIsButtonDisabled);
