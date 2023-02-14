@@ -36,6 +36,7 @@ const BuyModal: FC<Buy> = (props) => {
 		disabled,
 		balance,
 		fileType,
+		balanceLoader,
 	} = props;
 	return confirmed === '' || confirmed === false || confirmed === 'pending' ? (
 		<Modal
@@ -50,9 +51,15 @@ const BuyModal: FC<Buy> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">
 					Complete Checkout
 				</Modal.Title>
-				<p className="text-danger text-center mt-1 mb-0 insufienct-funds">
-					{+price > +balance && 'Insufficient funds to buy this NFT'}
-				</p>
+				{balanceLoader === true ? (
+					<p className="text-primary text-center mt-1 mb-0 insufienct-funds">
+						{'Balance is loading...'}
+					</p>
+				) : (
+					<p className="text-danger text-center mt-1 mb-0 insufienct-funds">
+						{+price > +balance && 'Insufficient funds to place bid!'}
+					</p>
+				)}
 				<div className="modal-close-container">
 					<Button onClick={onHide}>
 						{/* <img src={ModalClose} alt="closemodal" /> */}

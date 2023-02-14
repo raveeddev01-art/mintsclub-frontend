@@ -1675,6 +1675,7 @@ const NFTDetail = (props: any) => {
 				balance={balance}
 				fileType={fileType}
 				blockchainType={blockchainType}
+				balanceLoader={balanceLoader}
 			/>
 
 			<BidModal
