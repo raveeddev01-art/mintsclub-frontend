@@ -702,6 +702,7 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
+			toast.info(err.code);
 			if (err.code === 4902 || -32603) {
 				try {
 					if (detectMobile()) {
