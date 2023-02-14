@@ -11,6 +11,7 @@ import typedDataV4 from './typeDatav4';
 import batchMintAbi from './abis/batchMint-abi.json';
 import { NETWORK_CONFIG } from './exportData';
 import { internetSpeedCheck } from './helpers/helpers';
+import { detectMobile } from './functions';
 const goerliMintingContract = ENV.goerliMintingContract;
 const polygonMintingContract = ENV.polygonMintingContract;
 const binanceMintingContract = ENV.bscMintingContract;
@@ -703,6 +704,11 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 		} catch (err) {
 			if (err.code === 4902) {
 				try {
+					if (detectMobile()) {
+						return toast.info(
+							`Please add ${getNetworkName(id)} into your wallet`
+						);
+					}
 					await addNetworkAutomatically(id, setIsButtonDisabled);
 					return true;
 				} catch (err) {

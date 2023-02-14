@@ -86,18 +86,12 @@ const ConnectWallet = (props: any) => {
 	const { mutate: auth } = useInsertData('auth/login/', onSuccessLogin);
 
 	const detectMobile = async () => {
-		setIsButtonDisabled(false);
-		if (
+		const isMobile =
 			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 				navigator.userAgent
-			)
-		) {
-			setIsButtonDisabled(false);
-			return true;
-		} else {
-			setIsButtonDisabled(false);
-			return false;
-		}
+			);
+		setIsButtonDisabled(false);
+		return isMobile;
 	};
 
 	const signMessageFromUserForSolana = async (nounce: number) => {
