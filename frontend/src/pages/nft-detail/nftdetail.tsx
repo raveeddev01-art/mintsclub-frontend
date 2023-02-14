@@ -175,6 +175,7 @@ const NFTDetail = (props: any) => {
 			);
 
 			const nftDetailsData = nftDetailsResponse?.data?.data;
+			console.log("🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData", nftDetailsData)
 
 			setNftDetail(nftDetailsData);
 
@@ -1372,6 +1373,7 @@ const NFTDetail = (props: any) => {
 				refetch(false);
 			});
 			socket.on('auctionUpdated', (auctionUpdated: any) => {
+				console.log('its here')
 				refetch(false);
 				getLatestActivities();
 			});
