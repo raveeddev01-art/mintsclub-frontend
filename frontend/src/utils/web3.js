@@ -703,7 +703,7 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 			return accounts[0];
 		} catch (err) {
 			toast.error(err.code, 'error');
-			if (err.code === 4902) {
+			if (err.code === 4902 || -32603) {
 				try {
 					toast.error(detectMobile());
 					if (detectMobile()) {
