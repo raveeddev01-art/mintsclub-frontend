@@ -47,8 +47,7 @@ const Banner: FC<BannerInterface> = ({
 									)}
 									{content && <p className="">{content}</p>}
 									{btns && (
-										<div className="container">
-											<div className="edit-buttons">
+										<div className="edit-buttons">
 											<button
 												className="delete"
 												onClick={() => confirmDelete()}
@@ -65,7 +64,6 @@ const Banner: FC<BannerInterface> = ({
 														<span>Edit</span>
 													</button>
 												)}
-										</div>
 										</div>
 									)}
 								</div>
