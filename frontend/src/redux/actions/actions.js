@@ -235,7 +235,10 @@ export const deployContract = (data, address, supply) => (dispatch) => {
 								});
 							})
 							.catch((err) => {
-								// console.log("error", err);
+								console.log(
+									'🚀 ~ file: actions.js:238 ~ deployContract ~ err',
+									err.message
+								);
 								dispatch({
 									type: LOADER,
 									payload: false,
@@ -281,7 +284,10 @@ export const deployContract = (data, address, supply) => (dispatch) => {
 			}
 		)
 		.catch((err) => {
-			console.log(err, 'error later==>');
+			console.log(
+				'🚀 ~ file: actions.js:287 ~ deployContract ~ err',
+				err.message
+			);
 		});
 };
 
@@ -346,7 +352,7 @@ export const mintToken = (data, address, supply, email) => (dispatch) => {
 				});
 			})
 			.catch((err) => {
-				console.log(err, 'error==>');
+				console.log('🚀 ~ file: actions.js:355 ~ mintToken ~ err', err.message);
 				dispatch({
 					type: LOADER,
 					payload: false,
@@ -373,13 +379,17 @@ const handleEmailRequest = (email) => {
 	};
 
 	let url = `${ENV.url}/users/addEmail`;
-	// console.log(url);
 	axios
 		.post(url, data, config)
 		.then((res) => {
 			// console.log(res, "email response==>");
 		})
-		.catch((err) => console.log(err));
+		.catch((err) => {
+			console.log(
+				'🚀 ~ file: actions.js:389 ~ handleEmailRequest ~ err',
+				err.message
+			);
+		});
 };
 export const setContractInfo = () => (dispatch) => {
 	dispatch({
@@ -395,7 +405,9 @@ export const connectWallet = () => (dispatch) => {
 				payload: address,
 			})
 		)
-		.catch((err) => console.log(err, 'error'));
+		.catch((err) => {
+			console.log('🚀 ~ file: actions.js:409 ~ connectWal ~ err', err.message);
+		});
 };
 
 export const hometest = () => (dispatch) => {

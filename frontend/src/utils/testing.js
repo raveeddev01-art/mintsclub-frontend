@@ -90,8 +90,8 @@ App = {
 					}
 				}
 			})
-			.catch(function (err) {
-				// console.log(err.message);
+			.catch((err) => {
+				console.log('🚀 ~ file: testing.js:94 ~ err', err.message);
 			});
 	},
 
@@ -120,7 +120,7 @@ App = {
 					return App.markAdopted();
 				})
 				.catch(function (err) {
-					// console.log(err.message);
+					console.log('🚀 ~ file: testing.js:123 ~ err', err.message);
 				});
 		});
 	},

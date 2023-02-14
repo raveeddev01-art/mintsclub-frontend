@@ -175,10 +175,6 @@ const NFTDetail = (props: any) => {
 			);
 
 			const nftDetailsData = nftDetailsResponse?.data?.data;
-			console.log(
-				'🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData',
-				nftDetailsData
-			);
 
 			setNftDetail(nftDetailsData);
 
@@ -193,8 +189,8 @@ const NFTDetail = (props: any) => {
 				}
 			}
 			setNextBidFivePercHigh(nftDetailsData);
-		} catch (err) {
-			console.log('🚀 ~ file: nftdetail.tsx:171 ~ refetch ~ err', err);
+		} catch (err: any) {
+			console.log('🚀 ~ file: nftdetail.tsx:171 ~ refetch ~ err', err.message);
 		} finally {
 			if (loader) {
 				setLoader(false);
@@ -726,6 +722,8 @@ const NFTDetail = (props: any) => {
 
 			//If i am not owner
 			return openModals();
+		} else {
+			setIsButtonDisabled(false);
 		}
 	};
 
@@ -943,6 +941,7 @@ const NFTDetail = (props: any) => {
 	const BuyNow = async () => {
 		try {
 			if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
+				setIsButtonDisabled(false);
 				toast.warning("Please don't refresh/switch page during transaction.", {
 					position: 'top-center',
 					autoClose: 5000,
@@ -1376,7 +1375,6 @@ const NFTDetail = (props: any) => {
 				refetch(false);
 			});
 			socket.on('auctionUpdated', (auctionUpdated: any) => {
-				console.log('its here');
 				refetch(false);
 				getLatestActivities();
 			});

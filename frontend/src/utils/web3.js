@@ -149,7 +149,10 @@ export const checkIsApprovedForAll = async (walletAddress) => {
 
 		return isApproved;
 	} catch (err) {
-		console.log(err, 'error in mintNFT');
+		console.log(
+			'🚀 ~ file: web3.js:152 ~ checkIsApprovedForAll ~ error in mintNFT',
+			err
+		);
 		toast.error(err.message);
 		throw err;
 	}
@@ -184,7 +187,7 @@ export const mintNFt = async (
 			.send({ from: connectedAddress });
 		return id;
 	} catch (err) {
-		console.log(err, 'error in mintNFT');
+		console.log('🚀 ~ file: web3.js:190 ~ error in mintNFT', err);
 		toast.error(err.message);
 		throw new Error(err);
 	}
@@ -235,8 +238,8 @@ export const lazyMint = async (
 			});
 		return latestTokenId;
 	} catch (err) {
+		console.log('🚀 ~ file: web3.js:241 ~ error in mintNFT', err);
 		setConfirmed(false);
-		console.log(err, 'error in mintNFT');
 		toast.error(err.message);
 		throw new Error(err);
 	}
@@ -260,7 +263,10 @@ export const editNFTUri = async (tokenId, metaData, collectionAddress) => {
 			.send({ from: connectedAddress });
 		return result;
 	} catch (err) {
-		console.log(err, 'error while updating token uri');
+		console.log(
+			'🚀 ~ file: web3.js:266 ~ editNFTUri ~ error while updating token uri',
+			err
+		);
 		throw new Error(err.message);
 	}
 };
@@ -321,7 +327,7 @@ export const placeABid = async (amount, tokenId) => {
 			return result;
 		}
 	} catch (err) {
-		console.log(err, 'error');
+		console.log('🚀 ~ file: web3.js:330 ~ placeABid ~ err', err);
 		if (err?.message) {
 			toast.error(err.message);
 		} else {
@@ -360,7 +366,7 @@ export const putonsale = async (
 		let sellId = Number(result.events.OfferSale.returnValues._fixeditemid);
 		return sellId;
 	} catch (err) {
-		console.log(err, 'error=======');
+		console.log('🚀 ~ file: web3.js:369 ~ err', err);
 		throw new Error(err.message);
 	}
 };
@@ -392,9 +398,8 @@ export const BuyFixedPriceNFT = async (
 			return result;
 		}
 	} catch (err) {
+		console.log('🚀 ~ file: web3.js:401 ~ err', err);
 		setConfirmed(false);
-		console.log(err);
-
 		throw new Error(err);
 	}
 };
@@ -603,7 +608,7 @@ export const redeemVoucher = async (
 			});
 		return result;
 	} catch (err) {
-		console.log(err, 'error');
+		console.log('🚀 ~ file: web3.js:611 ~ err', err);
 		setConfirmed(false);
 		throw new Error(err);
 	}
@@ -759,8 +764,8 @@ const handleSignMessage = (address) => {
 					return resolve(signature);
 				}
 			);
-		} catch (e) {
-			// console.log(e);
+		} catch (err) {
+			console.log('🚀 ~ file: web3.js:768 ~ returnnewPromise ~ err', err);
 		}
 	});
 };
@@ -797,7 +802,7 @@ export const deployCollectionContract = async (bytecode) => {
 					reject(err);
 				});
 		} catch (err) {
-			console.log('error', err);
+			console.log('🚀 ~ file: web3.js:805 ~ returnnewPromise ~ err', err);
 			throw new Error(err);
 		}
 	});

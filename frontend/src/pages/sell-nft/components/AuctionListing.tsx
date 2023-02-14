@@ -81,10 +81,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				return;
 			}
 			if (updatedEndDate.unix() < updatedStartDate.unix()) {
-				console.log(
-					'🚀 ~ file: AuctionListing.tsx:76 ~ submit ~ endValue',
-					endValue
-				);
 				toast.error('Ending Time Should be Greater than Start Time');
 				setIsButtonDisabled(false);
 				return;
@@ -169,10 +165,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		const formData = new FormData();
 		try {
 			const auctionEndDate = updatedEndDate;
-			console.log(
-				'🚀 ~ file: AuctionListing.tsx:169 ~ AuctionListing ~ auctionEndDate',
-				auctionEndDate
-			);
 			// const auctionStartDate = timedAuctionConfig.duration.startDate;
 			const auctionStartDate = updatedStartDate;
 			const biddingTime = moment(auctionEndDate).unix();

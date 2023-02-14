@@ -51,7 +51,6 @@ export const placeBid = (body) => (dispatch) => {
 			}
 		})
 		.catch((error) => {
-			//   console.log('listing', error)
 			if (error.response && error.response.data) {
 				const { data } = error.response;
 				if (data.message) toast.error(data.message);
@@ -186,7 +185,6 @@ export const deleteBid = (bidId) => (dispatch) => {
 			}
 		})
 		.catch((error) => {
-			// console.log(error,"delete bid error")
 			if (error.response && error.response.data) {
 				const { data } = error.response;
 				if (data.message) toast.error(data.message);
