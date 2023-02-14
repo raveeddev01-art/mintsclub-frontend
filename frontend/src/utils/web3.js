@@ -702,21 +702,22 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
-			toast.info(err.code);
-			if (err.code === 4902 || -32603) {
+			if ([4902, -32603].includes(err.code)) {
 				try {
 					if (detectMobile()) {
-						toast.info(
-							`Please add ${
-								id === 97
-									? 'binance test network'
-									: id === 80001
-									? 'mumbai test network'
-									: id === 5
-									? 'goerli test network'
-									: getNetworkName(id)
-							} into your wallet`
-						);
+						if (err.code !== 4001) {
+							toast.info(
+								`Please add ${
+									id === 97
+										? 'binance test network'
+										: id === 80001
+										? 'mumbai test network'
+										: id === 5
+										? 'goerli test network'
+										: getNetworkName(id)
+								} into your wallet`
+							);
+						}
 						setIsButtonDisabled(false);
 						return false;
 					}
