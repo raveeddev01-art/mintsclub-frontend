@@ -92,6 +92,7 @@ export interface Buy {
 	show: boolean;
 	modal: number;
 	setModal: any;
+	balanceLoader: boolean;
 }
 export interface Levels {
 	show: boolean;
