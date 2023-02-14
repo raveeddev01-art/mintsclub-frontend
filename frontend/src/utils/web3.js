@@ -702,8 +702,10 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 			let accounts = await web3.eth.getAccounts();
 			return accounts[0];
 		} catch (err) {
+			toast.error(err.code, 'error');
 			if (err.code === 4902) {
 				try {
+					toast.error(detectMobile());
 					if (detectMobile()) {
 						return toast.info(
 							`Please add ${getNetworkName(id)} into your wallet`
