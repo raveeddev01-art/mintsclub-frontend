@@ -35,7 +35,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 	const history = useHistory();
 
 	useEffect(() => {
-		window.scroll(0, 0);
+		window.history.scrollRestoration = 'manual';
 	}, []);
 
 	useEffect(() => {
