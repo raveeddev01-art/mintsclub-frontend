@@ -75,7 +75,6 @@ const mintSingleNft = async (
 			},
 			{ commitment: 'finalized' }
 		);
-
 		return mintNftResponse;
 	} catch (err: any) {
 		throw new Error(err);
