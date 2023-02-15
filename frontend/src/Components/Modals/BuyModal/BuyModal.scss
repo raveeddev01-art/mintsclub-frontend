@@ -9,7 +9,6 @@
 		border: var(--clear-btn-border);
 		box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
 		.modal-header {
-			position: relative;
 			border: none;
 			display: block;
 			text-align: center;
@@ -432,5 +431,17 @@
 	.buy-modal .buy-modal-content .modal-header .modal-close-container {
 		top: 5px;
 		right: 10px;
+	}
+}
+@media (max-width: 400px) {
+	.buy-modal-content{
+		align-items: center;
+	}
+	.buy-modal-content .modal-header .modal-title.h4 {
+		color: var(--login-label);
+		font-weight: 600;
+		font-size: 22px;
+		margin-top: 10px;
+		width: 225px;
 	}
 }
