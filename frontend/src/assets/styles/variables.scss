@@ -66,6 +66,9 @@
   --icon-bg: #ffffff;
   --sidelist-bg: rgba(255, 255, 255, 0.95);
   --time-color: #000000;
+  --notification-background: #ffffff;
+  --notification-text: #000000;
+  --notification-bg-color: #F5F5F5;
 }
 
 [data-theme="dark"] {
@@ -136,4 +139,7 @@
   --icon-bg: #A8C7FF;
   --sidelist-bg: rgba(24, 35, 56, 0.95);
   --time-color: #ffffff;
+  --notification-background: #31384E;
+  --notification-text: #ffffff;
+  --notification-bg-color: #464956;
 }
