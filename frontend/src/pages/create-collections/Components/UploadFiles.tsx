@@ -20,7 +20,7 @@ const UploadFiles = ({ data }: any) => {
 		<div className="upload-container flex-md-row flex-column align-items-center align-items-md-end ps-md-5 ps-0">
 			<div className="logo-wrapper">
 				<div className="logo-image">
-					{collection?.logoUrl && collection?.logoUrl != ' ' ? (
+					{collection?.logoUrl && collection?.logoUrl !== ' ' ? (
 						<img className="uploaded-logo-img" src={collection?.logoUrl} />
 					) : (
 						<label>

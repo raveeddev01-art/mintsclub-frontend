@@ -107,10 +107,10 @@ const ConnectWallet = (props: any) => {
 				const signatureBase64 = Buffer.from(signature).toString('base64');
 				return { publicAddress: connectedAddress, signature: signatureBase64 };
 			}
-		} catch (err) {
+		} catch (err: any) {
 			console.log(
 				'🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err',
-				err
+				err.message
 			);
 		}
 	};

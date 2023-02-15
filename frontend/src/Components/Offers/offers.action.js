@@ -52,7 +52,6 @@ export const makeOffer = (body) => (dispatch) => {
 			}
 		})
 		.catch((error) => {
-			// console.log(error,"error")
 			if (error.response && error.response.data) {
 				const { data } = error.response;
 				if (data.message) toast.error(data.message);

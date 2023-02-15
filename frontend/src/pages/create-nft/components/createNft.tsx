@@ -138,7 +138,7 @@ const CreateNft = ({
 				await insertNFT(paylaod);
 			}
 		} catch (err: any) {
-			console.log(err, 'error');
+			console.log('🚀 ~ file: createNft.tsx:141 ~ mintNFT ~ err', err.message);
 			toast.error(err);
 			setLoader(false);
 		}
@@ -211,8 +211,11 @@ const CreateNft = ({
 					lazyMinted: false,
 				};
 			}
-		} catch (err) {
-			console.log(err, 'Error while minting nft ');
+		} catch (err: any) {
+			console.log(
+				'🚀 ~ file: createNft.tsx:215 ~ mintSolNFT ~ err Error while minting nft',
+				err.message
+			);
 		}
 	};
 	const editNFT = async (
@@ -401,7 +404,7 @@ const CreateNft = ({
 
 			console.log(
 				'🚀 ~ file: createNft.tsx ~ line 255 ~ handleSubmit ~ err',
-				err
+				err.message
 			);
 		} finally {
 			setLoading(false);

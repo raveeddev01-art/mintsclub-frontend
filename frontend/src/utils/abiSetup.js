@@ -17,7 +17,7 @@ try {
 		'0xE400E3fb41B83a2f8161A8d6F34b7B3023441AF5'
 	);
 } catch (err) {
-	console.log(err, 'error in abiSetup');
+	console.log('🚀 ~ file: abiSetup.js:20 ~ error in abiSetup', err.message);
 }
 
 export { liveAuction };

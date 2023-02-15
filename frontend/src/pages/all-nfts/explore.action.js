@@ -20,6 +20,9 @@ export const toggleLikeDislike = (body) => (dispatch) => {
 			});
 		})
 		.catch(function (error) {
-			// console.log(error);
+			console.log(
+				'🚀 ~ file: explore.action.js:23 ~ toggleLikeDislike ~ error',
+				error.message
+			);
 		});
 };

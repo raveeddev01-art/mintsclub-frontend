@@ -144,7 +144,7 @@ async function createNFT(inputFields) {
 		const response = await createAsset(algodClient, inputFields);
 		return response;
 	} catch (err) {
-		console.log('err', err);
+		console.log('🚀 ~ file: algorand.js:147 ~ createNFT ~ err', err.message);
 	}
 }
 
@@ -251,7 +251,7 @@ const createAuctionApp = async (
 		}
 		return result;
 	} catch (err) {
-		console.log('🚀 ~ file: algorand.js ~ line 339 ~ err', err);
+		console.log('🚀 ~ file: algorand.js ~ line 339 ~ err', err.message);
 		return err;
 	}
 };
@@ -319,7 +319,10 @@ const setupAuctionApp = async (
 		}
 		return;
 	} catch (err) {
-		console.log(err, 'error while setting up app');
+		console.log(
+			'🚀 ~ file: algorand.js:322 ~ error while setting up app',
+			err.message
+		);
 		return err;
 	}
 };
@@ -433,7 +436,10 @@ const placeBidOnAlgorand = async (
 			return data;
 		}
 	} catch (err) {
-		console.log(err, 'error while algorand bidding');
+		console.log(
+			'🚀 ~ file: algorand.js:439 ~ error while algorand bidding',
+			err.message
+		);
 		setLoader(false);
 		return err;
 	}
@@ -509,7 +515,10 @@ const closeAuction = async (
 		}
 		return;
 	} catch (err) {
-		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err',
+			err.message
+		);
 		return err;
 	}
 };
@@ -621,7 +630,7 @@ const createFixedPriceApp = async (
 	} catch (err) {
 		console.log(
 			'🚀 ~ file: algorand.js ~ line 645 ~ createFixedPriceApp ~ err',
-			err
+			err.message
 		);
 		return err;
 	}
@@ -702,7 +711,10 @@ const setupSale = async (
 
 		return sendGroupTransactions;
 	} catch (err) {
-		console.log('🚀 ~ file: algorand.js ~ line 751 ~ setupSale ~ err', err);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 751 ~ setupSale ~ err',
+			err.message
+		);
 		return err;
 	}
 };
@@ -801,7 +813,7 @@ const buyFixedPriceNFT = async (
 			return transferAsset;
 		}
 	} catch (err) {
-		console.log('🚀 ~ file: algorand.js ~ line 848 ~ err', err);
+		console.log('🚀 ~ file: algorand.js ~ line 848 ~ err', err.message);
 		return err;
 	}
 };
@@ -898,7 +910,10 @@ const cancelListForLiveAuction = async (
 			return data;
 		}
 	} catch (err) {
-		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err',
+			err.message
+		);
 		return err;
 	}
 };
@@ -932,7 +947,10 @@ const cancelItemForFixPriceListing = async (appId, seller_address, nftID) => {
 			return data;
 		}
 	} catch (err) {
-		console.log('🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err', err);
+		console.log(
+			'🚀 ~ file: algorand.js ~ line 579 ~ closeAuction ~ err',
+			err.message
+		);
 		return err;
 	}
 };

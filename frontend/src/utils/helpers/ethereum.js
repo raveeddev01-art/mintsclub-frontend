@@ -86,18 +86,16 @@ export const isUserLoggedIn = (history, loggedInType) => {
 		return true;
 	} else {
 		toast.info(
-			`please login ${
-				loggedInType !== blockChainType && blockChainType !== 'bsc'
-					? ' with binance network'
-					: blockChainType
+			`Please login ${
+				loggedInType !== blockChainType
 					? `with ${loggedInType} network`
-					: `with ${blockChainType} network`
+					: !blockChainType
+					? `with ${loggedInType} network`
+					: `with ${loggedInType} network`
 			}  to continue`
 		);
-		{
-			!blockChainType
-				? history.push('/connect-wallet', currentPath)
-				: history.push(currentPath);
+		if (!blockChainType) {
+			history.push('/connect-wallet', currentPath);
 		}
 
 		return false;
