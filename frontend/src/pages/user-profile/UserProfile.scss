@@ -8,16 +8,18 @@
 			position: relative;
 			.user-owner-avatar {
 				margin-top: -75px;
-				border-radius: 100px;
 				width: max-content;
 				height: max-content;
+				border: 1px solid var(--input-bg);
+				border-radius: 5px;
+				outline: 1px solid #2269ff;
 				img {
 					width: 150px;
 					height: 150px;
-					border-radius: 100px;
+					border-radius: 5px !important;
 					object-fit: cover;
-					border: 10px solid var(--input-bg);
-					outline: 1px solid #2269ff;
+					border: 1px solid transparent;
+					margin: 5px;
 				}
 			}
 			.user-avatar-container {

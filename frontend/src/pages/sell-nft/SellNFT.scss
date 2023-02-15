@@ -179,7 +179,7 @@
 			justify-content: space-between;
 			font-weight: 400;
 			font-size: 12px;
-			color: var(--filter-heading);
+			color: var(--time-color) !important;
 			background: var(--input-bg);
 			border: var(--nft-search-border);
 			box-shadow: 0px 0px 0px 4px rgba(60, 102, 243, 0.06);
@@ -196,7 +196,7 @@
 		}
 		.sell-time-inp {
 			input {
-				color: var(--filter-heading);
+				color: var(--time-color) !important;
 				height: 45px;
 				padding: 0 20px 0 25px;
 				font-size: 12px;

@@ -65,6 +65,7 @@
   --input-bg: #ffffff;
   --icon-bg: #ffffff;
   --sidelist-bg: rgba(255, 255, 255, 0.95);
+  --time-color: #000000;
 }
 
 [data-theme="dark"] {
@@ -134,4 +135,5 @@
   --input-bg: transparent;
   --icon-bg: #A8C7FF;
   --sidelist-bg: rgba(24, 35, 56, 0.95);
+  --time-color: #ffffff;
 }
