@@ -2,7 +2,7 @@
     min-height: 70px;
     max-height: 260px;
     width: 250px;
-    background-color: #ffffff;
+    background-color: var(--notification-background);
     position: absolute;
     border-radius: 5px;
     margin-left: -215px;
@@ -52,11 +52,11 @@
     border-color: none;
     cursor: pointer;
     // border-width: 1px;
-    background-color: #F5F5F5;
+    background-color: var(--notification-bg-color);
     padding: 3px;
 }
 .changeBackgroud{
-    background-color: white;
+    background-color: var(--notification-background);
     margin: 6px;
     font-size: 12px;
     border-style: solid;
@@ -73,11 +73,13 @@
     font-size: 13px;
     font-weight: bold;
     padding: 3px;
+    color: var(--notification-text);
 }
 .Notification-Description{
     text-align: left;
     margin-left: 5px;
     padding: 3px;
+    color: var(--notification-text);
 }
 .Notification-Time{
     text-align: right;
@@ -85,6 +87,7 @@
     margin-right: 5px;
     padding: 3px;
     width: 100%;
+    color: var(--notification-text);
 }
 .seen-notification{
     text-align: left;
@@ -92,6 +95,7 @@
     margin-left: 5px;
     padding: 3px;
     width: 50%;
+    color: var(--notification-text);
 }
 .wrape-content{
     display: flex;
@@ -103,4 +107,14 @@
     justify-content: center;
     height: 100%;
     margin-top: 17px;
+    color: var(--notification-text);
+}
+
+.Notification-Title:hover{
+    text-align: left;
+    margin-left: 5px;
+    font-size: 14px;
+    font-weight: bolder;
+    padding: 3px;
+    color: #387fff;
 }
