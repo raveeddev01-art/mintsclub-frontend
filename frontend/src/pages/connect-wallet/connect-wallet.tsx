@@ -243,16 +243,17 @@ const ConnectWallet = (props: any) => {
 			if (await detectMobile()) {
 				toast.info('Phantom is coming soon for Mobile & I-Pad');
 				setIsButtonDisabled(false);
-			}
-			await wallet.select(wallet.wallets[0].adapter.name);
-
-			if (wallet.publicKey && wallet.connected) {
-				props.setBlockchainType('solana');
-				props.setWalletAddress(wallet.publicKey?.toBase58());
-				setConnectedAddres(wallet.publicKey?.toBase58());
-				setIsButtonDisabled(false);
 			} else {
-				return setIsButtonDisabled(false);
+				await wallet.select(wallet.wallets[0].adapter.name);
+
+				if (wallet.publicKey && wallet.connected) {
+					props.setBlockchainType('solana');
+					props.setWalletAddress(wallet.publicKey?.toBase58());
+					setConnectedAddres(wallet.publicKey?.toBase58());
+					setIsButtonDisabled(false);
+				} else {
+					return setIsButtonDisabled(false);
+				}
 			}
 		} catch (error: any) {
 			toast.error(error.message);
@@ -263,16 +264,17 @@ const ConnectWallet = (props: any) => {
 			if (await detectMobile()) {
 				toast.info('Solflare is coming soon for Mobile & I-Pad');
 				setIsButtonDisabled(false);
-			}
-			await wallet.select(wallet.wallets[1].adapter.name);
-
-			if (wallet.publicKey && wallet.connected) {
-				props.setBlockchainType('solana');
-				props.setWalletAddress(wallet.publicKey?.toBase58());
-				setConnectedAddres(wallet.publicKey?.toBase58());
-				setIsButtonDisabled(false);
 			} else {
-				setIsButtonDisabled(false);
+				await wallet.select(wallet.wallets[1].adapter.name);
+
+				if (wallet.publicKey && wallet.connected) {
+					props.setBlockchainType('solana');
+					props.setWalletAddress(wallet.publicKey?.toBase58());
+					setConnectedAddres(wallet.publicKey?.toBase58());
+					setIsButtonDisabled(false);
+				} else {
+					setIsButtonDisabled(false);
+				}
 			}
 		} catch (error: any) {
 			toast.error(error.message);
