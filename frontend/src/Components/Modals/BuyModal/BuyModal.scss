@@ -250,8 +250,10 @@
 
 .custom-uncheck-box {
 	cursor: pointer;
-	width: 16px;
-	height: 16px;
+	width: 18px;
+	height: 18px;
+	min-height: 18px;
+	min-width: 18px;
 	border: 1px solid #96bef3;
 	border-radius: 5px;
 	background-color: #eef5ff;
@@ -443,5 +445,18 @@
 		font-size: 22px;
 		margin-top: 10px;
 		width: 225px;
+	}
+}
+@media (max-width: 463px) {
+	.custom-uncheck-box {
+		cursor: pointer;
+		width: 18px;
+		height: 18px;
+		min-height: 18px;
+		min-width: 18px;
+		border: 1px solid #96bef3;
+		border-radius: 5px;
+		background-color: #eef5ff;
+		margin-bottom: 21px;
 	}
 }
