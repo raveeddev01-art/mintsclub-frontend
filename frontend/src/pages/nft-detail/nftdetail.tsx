@@ -175,10 +175,6 @@ const NFTDetail = (props: any) => {
 			);
 
 			const nftDetailsData = nftDetailsResponse?.data?.data;
-			console.log(
-				'🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData',
-				nftDetailsData
-			);
 
 			setNftDetail(nftDetailsData);
 
@@ -946,6 +942,7 @@ const NFTDetail = (props: any) => {
 		try {
 			if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 				setIsButtonDisabled(false);
+				setLoader(true);
 				toast.warning("Please don't refresh/switch page during transaction.", {
 					position: 'top-center',
 					autoClose: 5000,

@@ -208,6 +208,7 @@ const BuyModal: FC<Buy> = (props) => {
 				<button
 					onClick={() => {
 						buynow();
+						onHide();
 					}}
 					disabled={!checkBox || disabled || +price > +balance}
 					className="btn btn-linear-gradient btn-bid-modal mt-2"
