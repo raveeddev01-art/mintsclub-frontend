@@ -104,6 +104,12 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 			socket.on('collectionCreated', (collectionCreatedinformation: any) => {
 				refetch();
 			});
+			socket.on('collectionEdited', (collectionEditedinformation: any) => {
+				refetch();
+			});
+			socket.on('collectionDeleted', (collectionDeletedinformation: any) => {
+				refetch();
+			});
 		}
 		return () => {
 			socket.emit('leave', collections);
