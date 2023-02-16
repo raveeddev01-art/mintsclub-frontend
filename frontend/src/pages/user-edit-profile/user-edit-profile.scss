@@ -17,10 +17,13 @@
 	border: 1px solid #2269ff;
 	width: max-content;
 	padding: 10px;
-	border-radius: 100%;
+	border-radius: 5px;
 }
 .user-profile .logo-image .upload-icon {
 	cursor: pointer;
+	background: var(--profile-image-background);
+	border-radius: 5px;
+	padding: 5px;
 }
 .user-profile .upload-feature-icon-logo {
 	position: absolute;

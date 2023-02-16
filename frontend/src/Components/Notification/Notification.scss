@@ -59,12 +59,11 @@
     background-color: var(--notification-background);
     margin: 6px;
     font-size: 12px;
-    border-style: solid;
-    border-radius: 5px;
     border-color: none;
-    // border-width: 1px;
     cursor: pointer;
     padding: 3px;
+    border-bottom: 0.001em solid var(--notification-bottom-border);
+
 }
 
 .Notification-Title{
