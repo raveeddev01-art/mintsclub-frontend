@@ -23,14 +23,13 @@ const BidModal: FC<BidModalInt> = (props) => {
 		onChange,
 		decimalnumbervalidator,
 		handlemodalsubmit,
-		calculatepricepercantage,
 		onHide,
 		balance,
-		balanceLoader,
+		balanceloader,
 		price,
 		blockchaintype,
 		show,
-		nftDetail,
+		nftdetail,
 	} = props;
 
 	useEffect(() => {
@@ -51,10 +50,10 @@ const BidModal: FC<BidModalInt> = (props) => {
 	}, [currency, blockchaintype]);
 
 	const getCurrentPriceOrHighestBid = () => {
-		// const { highestBid } = nftDetail?.activeAuction;
-		// const { currentPrice } = nftDetail;
+		// const { highestBid } = nftdetail?.activeAuction;
+		// const { currentPrice } = nftdetail;
 
-		return nftDetail?.activeAuction?.highestBid || nftDetail?.currentPrice;
+		return nftdetail?.activeAuction?.highestBid || nftdetail?.currentPrice;
 	};
 
 	return (
@@ -71,7 +70,7 @@ const BidModal: FC<BidModalInt> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">
 					Place a Bid
 				</Modal.Title>
-				{balanceLoader === true ? (
+				{balanceloader ? (
 					<p className="text-primary text-center mt-1 mb-0 insufienct-funds">
 						{'Balance is loading...'}
 					</p>

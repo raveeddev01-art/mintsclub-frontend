@@ -65,34 +65,33 @@ export interface BidModalInt {
 	onChange: (e: any) => any;
 	decimalnumbervalidator: (e: any) => any;
 	handlemodalsubmit: () => {};
-	calculatepricepercantage: () => any;
 	onHide: () => {};
 	balance: any;
-	balanceLoader: any;
+	balanceloader: any;
 	blockchaintype: string;
 	price: any;
 	show: boolean;
-	nftDetail: any;
+	nftdetail: any;
 }
 export interface Buy {
-	blockchainType: string;
+	blockchaintype: string;
 	name: string;
 	image: string;
 	price: any;
-	exchangeRate: number;
-	tokenId: any;
-	buyNow: () => any;
+	exchangerate: number;
+	tokenid: any;
+	buynow: () => any;
 	confirmed: any;
-	transactionHash: string;
-	transactionSuccess: string;
+	transactionhash: string;
+	transactionsuccess: string;
 	onHide: () => any;
 	disabled: boolean;
 	balance: number;
-	fileType: string;
+	filetype: string;
 	show: boolean;
 	modal: number;
-	setModal: any;
-	balanceLoader: any;
+	setmodal: any;
+	balanceloader: any;
 }
 export interface Levels {
 	show: boolean;
