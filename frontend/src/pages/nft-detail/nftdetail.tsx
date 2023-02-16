@@ -175,7 +175,10 @@ const NFTDetail = (props: any) => {
 			);
 
 			const nftDetailsData = nftDetailsResponse?.data?.data;
-			console.log("🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData", nftDetailsData)
+			console.log(
+				'🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData',
+				nftDetailsData
+			);
 
 			setNftDetail(nftDetailsData);
 
