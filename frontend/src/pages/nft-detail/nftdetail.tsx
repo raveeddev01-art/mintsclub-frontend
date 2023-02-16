@@ -175,7 +175,10 @@ const NFTDetail = (props: any) => {
 			);
 
 			const nftDetailsData = nftDetailsResponse?.data?.data;
-			console.log("🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData", nftDetailsData)
+			console.log(
+				'🚀 ~ file: nftdetail.tsx:178 ~ refetch ~ nftDetailsData',
+				nftDetailsData
+			);
 
 			setNftDetail(nftDetailsData);
 
@@ -1662,33 +1665,32 @@ const NFTDetail = (props: any) => {
 				name={name}
 				price={currentPrice}
 				image={image}
-				exchangeRate={exchangeRate}
-				tokenId={tokenId}
+				exchangerate={exchangeRate}
+				tokenid={tokenId}
 				modal={modal}
-				setModal={setModal}
-				buyNow={BuyNow}
+				setmodal={setModal}
+				buynow={BuyNow}
 				confirmed={confirmed}
-				transactionHash={transactionHash}
-				transactionSuccess={transactionSuccess}
+				transactionhash={transactionHash}
+				transactionsuccess={transactionSuccess}
 				disabled={disabled}
 				balance={balance}
-				fileType={fileType}
-				blockchainType={blockchainType}
-				balanceLoader={balanceLoader}
+				filetype={fileType}
+				blockchaintype={blockchainType}
+				balanceloader={balanceLoader}
 			/>
 
 			<BidModal
 				show={bidModalShow}
-				calculatepricepercantage={calculatepricepercantage}
 				handlemodalsubmit={handlemodalsubmit}
 				onChange={onChange}
 				decimalnumbervalidator={decimalnumbervalidator}
 				balance={Number(balance).toFixed(4)}
-				balanceLoader={balanceLoader}
+				balanceloader={balanceLoader}
 				price={price}
 				onHide={async () => setBidModalShow(false)}
 				blockchaintype={blockchainType}
-				nftDetail={nftDetail}
+				nftdetail={nftDetail}
 			/>
 		</>
 	);

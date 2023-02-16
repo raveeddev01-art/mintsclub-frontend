@@ -18,6 +18,27 @@ import {
 } from '../../redux/actions/actions';
 
 const Listing: FC<listingInt> = (props) => {
+	const {
+		collections,
+		disabled,
+		menuData,
+		// handleNftFilter,
+		setMenuFilter,
+		filterationLoader,
+		setFilterationLoader,
+		nfts,
+		loader,
+		totalItems,
+		likedNfts,
+		nftPagination,
+		handleLikesTogleApi,
+		fetchData,
+		path,
+		getPaginatedData,
+		UserProfile,
+		refetchNFTs,
+	}: any = props;
+
 	const socket = useContext(SocketContext);
 	const [minValue, setMinValue] = useState<any>('');
 	const [maxValue, setMaxValue] = useState<any>('');
@@ -308,26 +329,6 @@ const Listing: FC<listingInt> = (props) => {
 		return word[0].toUpperCase() + word.slice(1).toLowerCase();
 	};
 
-	const {
-		collections,
-		disabled,
-		menuData,
-		// handleNftFilter,
-		setMenuFilter,
-		filterationLoader,
-		setFilterationLoader,
-		nfts,
-		loader,
-		totalItems,
-		likedNfts,
-		nftPagination,
-		handleLikesTogleApi,
-		fetchData,
-		path,
-		getPaginatedData,
-		UserProfile,
-		refetchNFTs,
-	}: any = props;
 	return (
 		<div className="filterhoc-wrapper padding-wrapper">
 			<div className="container">

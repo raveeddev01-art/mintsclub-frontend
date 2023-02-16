@@ -22,21 +22,21 @@ const BuyModal: FC<Buy> = (props) => {
 	const [purchase, setPurchase] = useState<any>(true);
 	const [checkBox, setCheckBox] = useState<any>(false);
 	const {
-		blockchainType,
+		blockchaintype,
 		name,
 		image,
 		price,
-		exchangeRate,
-		tokenId,
-		buyNow,
+		exchangerate,
+		tokenid,
+		buynow,
 		confirmed,
-		transactionHash,
-		transactionSuccess,
+		transactionhash,
+		transactionsuccess,
 		onHide,
 		disabled,
 		balance,
-		fileType,
-		balanceLoader,
+		filetype,
+		balanceloader,
 	} = props;
 	return confirmed === '' || confirmed === false || confirmed === 'pending' ? (
 		<Modal
@@ -51,7 +51,7 @@ const BuyModal: FC<Buy> = (props) => {
 				<Modal.Title id="contained-modal-title-vcenter">
 					Complete Checkout
 				</Modal.Title>
-				{balanceLoader === true ? (
+				{balanceloader === true ? (
 					<p className="text-primary text-center mt-1 mb-0 insufienct-funds">
 						{'Balance is loading...'}
 					</p>
@@ -80,13 +80,13 @@ const BuyModal: FC<Buy> = (props) => {
 					<div className="col-md-3">
 						<div className="modal-nft-container mx-auto mx-md-0">
 							<div className="modal-nft-img">
-								{fileType === 'image' ? (
+								{filetype === 'image' ? (
 									<img src={image} alt="nft-img" />
-								) : fileType === 'video' ? (
+								) : filetype === 'video' ? (
 									<div className="buy-media-wrapper">
 										<VideoIcon />
 									</div>
-								) : fileType === 'audio' ? (
+								) : filetype === 'audio' ? (
 									<div className="buy-media-wrapper">
 										<AudioIcon />
 									</div>
@@ -114,7 +114,7 @@ const BuyModal: FC<Buy> = (props) => {
 											{name && name.length > 10
 												? name.slice(0, 10) + '...'
 												: name}{' '}
-											# {tokenId}
+											# {tokenid}
 										</span>
 									</div>
 								</div>
@@ -125,7 +125,7 @@ const BuyModal: FC<Buy> = (props) => {
 											<span>
 												{
 													CHAIN_CURRENCY[
-														blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+														blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE
 													]
 												}
 											</span>
@@ -141,7 +141,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${convertToExponential(price * exchangeRate)}</p>
+										<p>${convertToExponential(price * exchangerate)}</p>
 									</div>
 								</div>
 							</div>
@@ -161,12 +161,12 @@ const BuyModal: FC<Buy> = (props) => {
 								<span>
 									{
 										CHAIN_CURRENCY[
-											blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+											blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE
 										]
 									}
 								</span>
 							</h6>
-							<span>${(price * exchangeRate).toFixed(2)}</span>
+							<span>${(price * exchangerate).toFixed(2)}</span>
 						</div>
 					</div>
 				</div>
@@ -207,7 +207,7 @@ const BuyModal: FC<Buy> = (props) => {
 				</div>
 				<button
 					onClick={() => {
-						buyNow();
+						buynow();
 					}}
 					disabled={!checkBox || disabled || +price > +balance}
 					className="btn btn-linear-gradient btn-bid-modal mt-2"
@@ -231,7 +231,7 @@ const BuyModal: FC<Buy> = (props) => {
 		>
 			<Modal.Header>
 				<Modal.Title id="contained-modal-title-vcenter">
-					{!transactionSuccess
+					{!transactionsuccess
 						? 'Your Purchase is Processing'
 						: 'Your Purchase has processed!'}
 				</Modal.Title>
@@ -241,7 +241,7 @@ const BuyModal: FC<Buy> = (props) => {
 						<div className="close"></div>
 					</Button>
 				</div>
-				{transactionSuccess && (
+				{transactionsuccess && (
 					<div className="modal-nft-purchased  mt-3">
 						<p>
 							<span className="me-4">
@@ -268,13 +268,13 @@ const BuyModal: FC<Buy> = (props) => {
 					<div className="col-md-3">
 						<div className="modal-nft-container mx-auto mx-md-0">
 							<div className="modal-nft-img">
-								{fileType === 'image' ? (
+								{filetype === 'image' ? (
 									<img src={image} alt="nft-img" />
-								) : fileType === 'video' ? (
+								) : filetype === 'video' ? (
 									<div className="buy-media-wrapper">
 										<VideoIcon />
 									</div>
-								) : fileType === 'audio' ? (
+								) : filetype === 'audio' ? (
 									<div className="buy-media-wrapper">
 										<AudioIcon />
 									</div>
@@ -302,7 +302,7 @@ const BuyModal: FC<Buy> = (props) => {
 											{name && name.length > 10
 												? name.slice(0, 10) + '...'
 												: name}
-											# {tokenId}
+											# {tokenid}
 										</span>
 									</div>
 								</div>
@@ -313,7 +313,7 @@ const BuyModal: FC<Buy> = (props) => {
 											<span>
 												{
 													CHAIN_CURRENCY[
-														blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+														blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE
 													]
 												}
 											</span>
@@ -329,7 +329,7 @@ const BuyModal: FC<Buy> = (props) => {
 								</div>
 								<div className="col-6">
 									<div className="modal-nft-detail text-end">
-										<p>${convertToExponential(price * exchangeRate)}</p>
+										<p>${convertToExponential(price * exchangerate)}</p>
 									</div>
 								</div>
 							</div>
@@ -349,12 +349,12 @@ const BuyModal: FC<Buy> = (props) => {
 								<span>
 									{
 										CHAIN_CURRENCY[
-											blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+											blockchaintype?.toLowerCase() as keyof CHAINS_INTERFACE
 										]
 									}
 								</span>
 							</h6>
-							<span>${convertToExponential(price * exchangeRate)}</span>
+							<span>${convertToExponential(price * exchangerate)}</span>
 						</div>
 					</div>
 				</div>
@@ -368,7 +368,7 @@ const BuyModal: FC<Buy> = (props) => {
 				</div>
 				<div className="modal-status-content d-flex align-items-center justify-content-between mt-2 pb-5">
 					<div className="status-process d-flex align-items-center">
-						{!transactionSuccess ? (
+						{!transactionsuccess ? (
 							<>
 								<Spinner
 									animation="border"
@@ -389,15 +389,15 @@ const BuyModal: FC<Buy> = (props) => {
 						className="status-address"
 						onClick={() => {
 							window.open(
-								blockchainScanUrlData(blockchainType, transactionHash),
+								blockchainScanUrlData(blockchaintype, transactionhash),
 								'_blank'
 							);
 						}}
 					>
 						<p>
-							{transactionHash.slice(0, 6) +
+							{transactionhash.slice(0, 6) +
 								'.....' +
-								transactionHash.slice(-6)}
+								transactionhash.slice(-6)}
 						</p>
 					</div>
 				</div>
