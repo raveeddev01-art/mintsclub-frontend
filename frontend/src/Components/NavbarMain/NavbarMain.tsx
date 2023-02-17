@@ -159,6 +159,11 @@ const NavbarMain = () => {
 			getNotification();
 			getSeenNotification();
 		});
+		socket.on('deleteNFT', (addBidInformation: any) => {
+			alert('OK');
+			getNotification();
+			getSeenNotification();
+		});
 	}, [socket]);
 
 	const getNotification = async () => {
