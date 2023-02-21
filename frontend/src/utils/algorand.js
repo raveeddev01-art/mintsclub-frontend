@@ -172,12 +172,11 @@ const createAuctionApp = async (
 	copies,
 	connectedAddress,
 	royaltyAddress,
-	setLoader
+	setIsLoading
 ) => {
 	try {
 		const platformFee = process.env.REACT_APP_ALGORAND_PLATFORM_FEE;
 		const platformFeeAccount = process.env.REACT_APP_ALGORAND_ADMIN_ACCOUNT;
-		setLoader(true);
 		let approvalProg = '';
 		let clearProg = '';
 		await fetch(approval_program)
@@ -228,7 +227,6 @@ const createAuctionApp = async (
 		);
 		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
 		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
-		setLoader(true);
 
 		let appID = null;
 		const confirmedTxn = await algosdk.waitForConfirmation(
@@ -243,7 +241,7 @@ const createAuctionApp = async (
 			nftID,
 			connectedAddress,
 			copies,
-			setLoader
+			setIsLoading
 		);
 		if (result?.success) {
 			const data = { appId: appID, globalState: result?.global_state };
@@ -251,6 +249,7 @@ const createAuctionApp = async (
 		}
 		return result;
 	} catch (err) {
+		setIsLoading(false);
 		console.log('🚀 ~ file: algorand.js ~ line 339 ~ err', err.message);
 		return err;
 	}
@@ -260,10 +259,9 @@ const setupAuctionApp = async (
 	nftID,
 	accountaddress,
 	copies,
-	setLoader
+	setIsLoading
 ) => {
 	try {
-		setLoader(true);
 		const app_address = algosdk.getApplicationAddress(appid);
 		const params = await algodClient.getTransactionParams().do();
 		params.fee = 1000;
@@ -319,6 +317,7 @@ const setupAuctionApp = async (
 		}
 		return;
 	} catch (err) {
+		setIsLoading(false);
 		console.log(
 			'🚀 ~ file: algorand.js:322 ~ error while setting up app',
 			err.message

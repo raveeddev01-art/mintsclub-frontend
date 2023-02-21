@@ -315,7 +315,6 @@ const SellNFT = (props: any) => {
 									sellingMethod,
 									insertActivity,
 									insertAuction,
-									setLoader,
 									approvalStatus,
 									isButtonDisabled,
 									setIsButtonDisabled,
