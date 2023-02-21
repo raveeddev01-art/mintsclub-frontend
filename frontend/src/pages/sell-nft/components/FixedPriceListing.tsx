@@ -68,34 +68,37 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 			handleFixedPriceAuction();
 		}
 	};
-	const handleFixedPriceAuction = async () => {
+	const handleFixedPriceAuction =  async () => {
 		setLoader(true);
 		internetSpeedCheck();
 		const fixedConfig = { ...fixedPriceConfig };
 		const activityPayload = getActivityPayload();
-		const balance = await getBalance()
-		const solanaBalance = await getSolanaBalance(wallet)
-		const algoBalance = await getAlgoBalance(connectedAddress);
+		const balance =  await getBalance()
+		// const solanaBalance =   getSolanaBalance(wallet)
+
+		// const algoBalance =  getAlgoBalance(connectedAddress);
 		const price = Number(fixedConfig.price.amount);
+		console.log("🚀 ~ file: FixedPriceListing.tsx:80 ~ handleFixedPriceAuction ~ price", price)
 		if((blockchainType === 'bsc'  || 'ethereum' || 'polygon') && (Number(balance) < price) ){
+			console.log('its here isss')
 			toast.error('You have Insuffient Balance')
 			setLoader(false);
 			setIsButtonDisabled(false);
 			return false
 		}
-		if((blockchainType === 'solana') && (Number(solanaBalance) < price) ){
-			console.log('its here in price compare')
-			toast.error('You have Insuffient Balance')
-			setLoader(false);
-			setIsButtonDisabled(false);
-			return false
-		}
-		if((blockchainType === 'algorand') && (Number(algoBalance) < price) ){
-			toast.error('You have Insuffient Balance')
-			setLoader(false);
-			setIsButtonDisabled(false);
-			return false
-		}
+		// if((blockchainType === 'solana') && (Number(await getSolanaBalance(wallet)) < price) ){
+		// 	console.log('its here in solana')
+		// 	toast.error('You have Insuffient Balance')
+		// 	setLoader(false);
+		// 	setIsButtonDisabled(false);
+		// 	return false
+		// }
+		// if((blockchainType === 'algorand') && (Number(algoBalance) < price) ){
+		// 	toast.error('You have Insuffient Balance')
+		// 	setLoader(false);
+		// 	setIsButtonDisabled(false);
+		// 	return false
+		// }
 		if (blockchainType === 'algorand' && price < 0.005) {
 			toast.error('Price should be greater than 0.005');
 			setLoader(false);
