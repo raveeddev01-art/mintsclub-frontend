@@ -709,7 +709,7 @@ export const switchNetworkToChainId = async (id, setIsButtonDisabled) => {
 		} catch (err) {
 			if ([4902, -32603].includes(err.code)) {
 				try {
-					if (detectMobile()) {
+					if (await detectMobile()) {
 						if (err.code !== 4001) {
 							toast.info(
 								`Please add ${

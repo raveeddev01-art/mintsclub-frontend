@@ -105,7 +105,10 @@ const ConnectWallet = (props: any) => {
 					wallet.signMessage && (await wallet.signMessage(data));
 
 				const signatureBase64 = Buffer.from(signature).toString('base64');
-				return { publicAddress: connectedAddress, signature: signatureBase64 };
+				return {
+					publicAddress: await connectedAddress,
+					signature: signatureBase64,
+				};
 			}
 		} catch (err: any) {
 			console.log(
@@ -156,16 +159,15 @@ const ConnectWallet = (props: any) => {
 				selectedBlockchainType = 'algorand';
 				if (response?.users?.length > 0) {
 					const res = await signMessageFromUserForAlgorand(
-						response?.users[0].nounce,
-						props.connectedAddress
+						await response?.users[0].nounce,
+						await props.connectedAddress
 					);
-
 					authenticate({ ...res, blockchainType: 'algorand' });
 					return;
 				}
 			}
 
-			if (connectedAddress) {
+			if (await connectedAddress) {
 				handleSignUp({
 					address: connectedAddress,
 					blockchainType: props.blockchainType,
@@ -223,19 +225,22 @@ const ConnectWallet = (props: any) => {
 	const { mutate: authenticate } = useInsertData(
 		'users/authenticate',
 		onSuccessAuthentication,
-		(err: any) => toast.error(err?.message)
+		(err: any) => {
+			toast.error(err?.message);
+		}
 	);
 
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
 		try {
 			const addr = await connectWallet(setIsButtonDisabled);
-			setConnectedAddres(addr?.[0]);
-			props.setWalletAddress(addr?.[0]);
-			props.setBlockchainType('algorand');
+			await setConnectedAddres(addr?.[0]);
+			await props.setWalletAddress(addr?.[0]);
+			await props.setBlockchainType('algorand');
 			return addr?.[0];
 		} catch (error: any) {
 			toast.error(error.message);
+			setIsButtonDisabled(false);
 		}
 	};
 	const connectPhantomWallet = async () => {
@@ -244,15 +249,19 @@ const ConnectWallet = (props: any) => {
 				toast.info('Phantom is coming soon for Mobile & I-Pad');
 				setIsButtonDisabled(false);
 			} else {
-				await wallet.select(wallet.wallets[0].adapter.name);
-
-				if (wallet.publicKey && wallet.connected) {
-					props.setBlockchainType('solana');
-					props.setWalletAddress(wallet.publicKey?.toBase58());
-					setConnectedAddres(wallet.publicKey?.toBase58());
+				if (wallet.wallets[0].readyState === 'NotDetected') {
+					toast.error('Please install Phantom to connect to the Marketplace');
 					setIsButtonDisabled(false);
 				} else {
-					return setIsButtonDisabled(false);
+					await wallet.select(wallet.wallets[0].adapter.name);
+					if (wallet.publicKey && wallet.connected) {
+						props.setBlockchainType('solana');
+						props.setWalletAddress(wallet.publicKey?.toBase58());
+						setConnectedAddres(wallet.publicKey?.toBase58());
+						setIsButtonDisabled(false);
+					} else {
+						return setIsButtonDisabled(false);
+					}
 				}
 			}
 		} catch (error: any) {
@@ -408,6 +417,9 @@ const ConnectWallet = (props: any) => {
 						const res = await connectAlgoWallet();
 						if (res) {
 							validateUser({ blockchainType: 'algorand' });
+						} else {
+							toast.error('Something went wrong Please try again');
+							setIsButtonDisabled(false);
 						}
 					},
 				},
