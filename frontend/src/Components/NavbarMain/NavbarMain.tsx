@@ -108,6 +108,10 @@ const NavbarMain = () => {
 		getNotification();
 		getSeenNotification();
 	}, []);
+	useEffect(() => {
+		getNotification();
+		getSeenNotification();
+	}, [ENV.getUserKeys('_id')._id]);
 	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
 		dispatch({
@@ -345,7 +349,7 @@ const NavbarMain = () => {
 							setEnableNotification(false);
 						}}
 					>
-						{count !== undefined ? (
+						{ENV.getUserKeys('_id')._id ? (
 							<div
 								className="bell-notification"
 								data-percent={count}

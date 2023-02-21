@@ -163,6 +163,7 @@ const ConnectWallet = (props: any) => {
 						await props.connectedAddress
 					);
 					authenticate({ ...res, blockchainType: 'algorand' });
+					history.push(location?.state ? location.state : '/');
 					return;
 				}
 			}
@@ -216,8 +217,8 @@ const ConnectWallet = (props: any) => {
 	///Authenticate
 	const onSuccessAuthentication = (data: any) => {
 		if (data.data.success) {
-			ENV.encryptUserData(data.data.data);
 			history.push(location?.state ? location.state : '/');
+			ENV.encryptUserData(data.data.data);
 		} else {
 			setError(data.data.message);
 		}
