@@ -11,9 +11,9 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { ENV } from '../../../config/config';
-import { checkIsApprovedForAll, openNFTForBidding } from '../../../utils/web3';
+import { checkIsApprovedForAll, getBalance, openNFTForBidding } from '../../../utils/web3';
 import { connect } from 'react-redux';
-import { checkAlgoBalance, createAuctionApp } from '../../../utils/algorand';
+import { checkAlgoBalance, createAuctionApp, getAlgoBalance } from '../../../utils/algorand';
 import {
 	getSolanaBalance,
 	listItemForLiveAuction,
@@ -74,6 +74,9 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		setIsButtonDisabled(true);
 		e.preventDefault();
 		const price = Number(timedAuctionConfig.startPrice.amount);
+		const balance = await getBalance()
+		const solanaBalance = await getSolanaBalance(wallet)
+		const algoBalance = await getAlgoBalance(connectedAddress);
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (moment().unix() > updatedStartDate.unix()) {
 				toast.error('Start Time Should be in future');
@@ -84,6 +87,25 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				toast.error('Ending Time Should be Greater than Start Time');
 				setIsButtonDisabled(false);
 				return;
+			}
+			if((blockchainType === 'algorand' || 'solana' || 'bsc' || 'polygon' || 'ethereum') && (Number(balance) < price) ){
+				toast.error('You have Insuffient Balance')
+				setLoader(false);
+				setIsButtonDisabled(false);
+				return false
+			}
+			// 	COMMENTED FOR FUTURE USE 
+			// if((blockchainType === 'solana') && (Number(solanaBalance) < price) ){
+			// 	toast.error('You have Insuffient Balance')
+			// 	setLoader(false);
+			// 	setIsButtonDisabled(false);
+			// 	return false
+			// }
+			if((blockchainType === 'algorand') && (Number(algoBalance) < price) ){
+				toast.error('You have Insuffient Balance')
+				setLoader(false);
+				setIsButtonDisabled(false);
+				return false
 			}
 			if (blockchainType === 'algorand' && price < 0.005) {
 				toast.error('Price should be greater than 0.005');
