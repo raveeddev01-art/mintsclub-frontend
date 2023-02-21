@@ -73,32 +73,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		internetSpeedCheck();
 		const fixedConfig = { ...fixedPriceConfig };
 		const activityPayload = getActivityPayload();
-		const balance =  await getBalance()
-		// const solanaBalance =   getSolanaBalance(wallet)
-
-		// const algoBalance =  getAlgoBalance(connectedAddress);
 		const price = Number(fixedConfig.price.amount);
-		console.log("🚀 ~ file: FixedPriceListing.tsx:80 ~ handleFixedPriceAuction ~ price", price)
-		if((blockchainType === 'bsc'  || 'ethereum' || 'polygon') && (Number(balance) < price) ){
-			console.log('its here isss')
-			toast.error('You have Insuffient Balance')
-			setLoader(false);
-			setIsButtonDisabled(false);
-			return false
-		}
-		// if((blockchainType === 'solana') && (Number(await getSolanaBalance(wallet)) < price) ){
-		// 	console.log('its here in solana')
-		// 	toast.error('You have Insuffient Balance')
-		// 	setLoader(false);
-		// 	setIsButtonDisabled(false);
-		// 	return false
-		// }
-		// if((blockchainType === 'algorand') && (Number(algoBalance) < price) ){
-		// 	toast.error('You have Insuffient Balance')
-		// 	setLoader(false);
-		// 	setIsButtonDisabled(false);
-		// 	return false
-		// }
 		if (blockchainType === 'algorand' && price < 0.005) {
 			toast.error('Price should be greater than 0.005');
 			setLoader(false);
