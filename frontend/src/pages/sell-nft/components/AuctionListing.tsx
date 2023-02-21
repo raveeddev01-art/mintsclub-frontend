@@ -74,9 +74,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 		setIsButtonDisabled(true);
 		e.preventDefault();
 		const price = Number(timedAuctionConfig.startPrice.amount);
-		const balance = await getBalance()
-		// const solanaBalance = await getSolanaBalance(wallet)
-		// const algoBalance = await getAlgoBalance(connectedAddress);
 		if (isUserLoggedIn(history, nftDetail?.blockchainType)) {
 			if (moment().unix() > updatedStartDate.unix()) {
 				toast.error('Start Time Should be in future');
@@ -88,25 +85,6 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 				setIsButtonDisabled(false);
 				return;
 			}
-			if((blockchainType === 'algorand' || 'solana' || 'bsc' || 'polygon' || 'ethereum') && (Number(balance) < price) ){
-				toast.error('You have Insuffient Balance')
-				setLoader(false);
-				setIsButtonDisabled(false);
-				return false
-			}
-			// 	COMMENTED FOR FUTURE USE 
-			// if((blockchainType === 'solana') && (Number(solanaBalance) < price) ){
-			// 	toast.error('You have Insuffient Balance')
-			// 	setLoader(false);
-			// 	setIsButtonDisabled(false);
-			// 	return false
-			// }
-			// if((blockchainType === 'algorand') && (Number(algoBalance) < price) ){
-			// 	toast.error('You have Insuffient Balance')
-			// 	setLoader(false);
-			// 	setIsButtonDisabled(false);
-			// 	return false
-			// }
 			if (blockchainType === 'algorand' && price < 0.005) {
 				toast.error('Price should be greater than 0.005');
 				setLoader(false);
