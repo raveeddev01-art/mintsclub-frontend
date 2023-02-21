@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { checkIsApprovedForAll, putonsale } from '../../../utils/web3';
+import { checkIsApprovedForAll, getBalance, putonsale } from '../../../utils/web3';
 import {
 	getSolanaBalance,
 	listItemForFixedPriceSolana,
@@ -19,6 +19,7 @@ import { ENV } from '../../../config/config';
 import {
 	checkAlgoBalance,
 	createFixedPriceApp,
+	getAlgoBalance,
 	setupSale,
 } from '../../../utils/algorand';
 import algosdk from 'algosdk';
@@ -67,13 +68,34 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 			handleFixedPriceAuction();
 		}
 	};
-	const handleFixedPriceAuction = () => {
+	const handleFixedPriceAuction = async () => {
 		setLoader(true);
 		internetSpeedCheck();
 		const fixedConfig = { ...fixedPriceConfig };
 		const activityPayload = getActivityPayload();
-
+		const balance = await getBalance()
+		const solanaBalance = await getSolanaBalance(wallet)
+		const algoBalance = await getAlgoBalance(connectedAddress);
 		const price = Number(fixedConfig.price.amount);
+		if((blockchainType === 'bsc'  || 'ethereum' || 'polygon') && (Number(balance) < price) ){
+			toast.error('You have Insuffient Balance')
+			setLoader(false);
+			setIsButtonDisabled(false);
+			return false
+		}
+		if((blockchainType === 'solana') && (Number(solanaBalance) < price) ){
+			console.log('its here in price compare')
+			toast.error('You have Insuffient Balance')
+			setLoader(false);
+			setIsButtonDisabled(false);
+			return false
+		}
+		if((blockchainType === 'algorand') && (Number(algoBalance) < price) ){
+			toast.error('You have Insuffient Balance')
+			setLoader(false);
+			setIsButtonDisabled(false);
+			return false
+		}
 		if (blockchainType === 'algorand' && price < 0.005) {
 			toast.error('Price should be greater than 0.005');
 			setLoader(false);
