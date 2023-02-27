@@ -71,6 +71,7 @@
   --notification-bg-color: #F5F5F5;
   --notification-bottom-border: #EFF3FD;
   --profile-image-background: #F6F6F6;
+  --icon-border-color: #000000 !important;
 }
 
 [data-theme="dark"] {
@@ -146,4 +147,7 @@
   --notification-bg-color: #464956;
   --notification-bottom-border: #ffffff;
   --profile-image-background: #2F4051;
+  --icon-border-color: #ffffff !important;
+  --navbar-icon-brightness: 100%;
+  --navbar-icon-invert: 100%;
 }

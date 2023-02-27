@@ -419,7 +419,6 @@ const ConnectWallet = (props: any) => {
 						if (res) {
 							validateUser({ blockchainType: 'algorand' });
 						} else {
-							toast.error('Something went wrong Please try again');
 							setIsButtonDisabled(false);
 						}
 					},
