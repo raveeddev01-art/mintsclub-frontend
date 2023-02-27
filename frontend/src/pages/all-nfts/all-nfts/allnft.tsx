@@ -71,7 +71,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 			setFilterationLoader(false);
 			setNFTPagination(data.data.data.pagination);
 			if (data.data.data.pagination?.page === 1) {
-				setNFTs(data.data.data.nfts);
+				setNFTs(data?.data?.data?.nfts);
 				return;
 			}
 			setNFTs([...nfts, ...data.data.data.nfts]);
@@ -138,6 +138,7 @@ const AllNFT: FC<ALLNFTINT> = (props) => {
 					fetchData={fetchData}
 					initialKeyword={props?.location?.state}
 					path="/explore/nftdetail/"
+					key={nfts._id}
 				/>
 			</section>
 			<OwnCollectionToday />
