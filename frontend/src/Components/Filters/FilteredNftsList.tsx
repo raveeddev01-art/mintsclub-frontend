@@ -27,7 +27,7 @@ const FilteredNftsList = ({ data }: any) => {
 					nfts.map((nft: any, index: number) => {
 						return (
 							<div
-								key={index}
+								key={nft?._id}
 								className="col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4"
 							>
 								{
@@ -36,7 +36,7 @@ const FilteredNftsList = ({ data }: any) => {
 										likedNfts={likedNfts}
 										owner={nft.owner}
 										path={path}
-										index={index}
+										index={nft._id}
 									/>
 								}
 							</div>
