@@ -400,7 +400,7 @@ export const BuyFixedPriceNFT = async (
 	} catch (err) {
 		console.log('🚀 ~ file: web3.js:401 ~ err', err);
 		setConfirmed(false);
-		throw new Error(err);
+		throw new Error(err.message);
 	}
 };
 export const setApprovalForAll = async (

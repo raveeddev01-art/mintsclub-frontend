@@ -1056,7 +1056,9 @@ const NFTDetail = (props: any) => {
 				}
 			}
 		} catch (err: any) {
-			toast.error(err);
+			toast.error(err.message);
+			setLoader(false);
+
 		} finally {
 			setDisabled(false);
 			setIsButtonDisabled(false);
