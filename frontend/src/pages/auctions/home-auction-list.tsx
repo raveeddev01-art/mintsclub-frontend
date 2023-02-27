@@ -173,25 +173,29 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 							)}
 
 							<div className="col-12">
-								<div className="mt-5 text-center">
-									{auctions?.length &&
-										!isFetchingAuction &&
-										pagination.total > auctions.length && (
-											<button
-												className="btn btn-linear-gradient px-5"
-												onClick={() => handlePagination()}
-											>
-												Load More...
-											</button>
-										)}
-									{auctions?.length &&
-										isFetchingAuction &&
-										pagination.total > auctions.length && (
-											<button className="btn btn-linear-gradient px-5">
-												Loading...
-											</button>
-										)}
-								</div>
+								{!auctions?.length ? (
+									<div className="text-center">0</div>
+								) : (
+									<div className="mt-5 text-center">
+										{auctions?.length &&
+											!isFetchingAuction &&
+											pagination.total > auctions.length && (
+												<button
+													className="btn btn-linear-gradient px-5"
+													onClick={() => handlePagination()}
+												>
+													Load More...
+												</button>
+											)}
+										{auctions?.length &&
+											isFetchingAuction &&
+											pagination.total > auctions.length && (
+												<button className="btn btn-linear-gradient px-5">
+													Loading...
+												</button>
+											)}
+									</div>
+								)}
 							</div>
 						</div>
 					</div>
