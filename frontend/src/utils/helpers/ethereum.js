@@ -39,7 +39,7 @@ export const ListenMetaMaskAccs = () => {
 			'accountsChanged',
 			accountWasChanged
 		);
-		setAccountDetail(changeAccount);
+		setAccountDetail(changeAccount?.selectedAddress);
 		await window.ethereum.on('chainChanged', (_chainId) => {
 			if (location.pathname !== '/connect-wallet' && validateChain()) {
 				toast.info('please login with new connected network');
