@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import darkModeContext from '../../context/darkmode/DarkModeContext';
 import { toast } from 'react-toastify';
@@ -10,6 +10,7 @@ export const ListenMetaMaskAccs = () => {
 	const { darkMode } = useContext(darkModeContext);
 	const history = useHistory();
 	const location = useLocation();
+	const [accountDetail, setAccountDetail] = useState(null);
 	useEffect(async () => {
 		if (!window.ethereum) {
 			return;
@@ -34,7 +35,11 @@ export const ListenMetaMaskAccs = () => {
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 			history.push('/connect-wallet');
 		};
-		await window.ethereum.on('accountsChanged', accountWasChanged);
+		const changeAccount = await window.ethereum.on(
+			'accountsChanged',
+			accountWasChanged
+		);
+		setAccountDetail(changeAccount);
 		await window.ethereum.on('chainChanged', (_chainId) => {
 			if (location.pathname !== '/connect-wallet' && validateChain()) {
 				toast.info('please login with new connected network');
@@ -64,7 +69,7 @@ export const ListenMetaMaskAccs = () => {
 		return () => {
 			// unexpected empty errow function
 		};
-	}, []);
+	}, [accountDetail]);
 };
 
 export const verifyOwnerShip = (connectedAddress, addressToVerify) => {
