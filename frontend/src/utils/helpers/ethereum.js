@@ -10,7 +10,7 @@ export const ListenMetaMaskAccs = () => {
 	const { darkMode } = useContext(darkModeContext);
 	const history = useHistory();
 	const location = useLocation();
-	useEffect(() => {
+	useEffect(async () => {
 		if (!window.ethereum) {
 			return;
 		}
@@ -34,8 +34,8 @@ export const ListenMetaMaskAccs = () => {
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 			history.push('/connect-wallet');
 		};
-		window.ethereum.on('accountsChanged', accountWasChanged);
-		window.ethereum.on('chainChanged', (_chainId) => {
+		await window.ethereum.on('accountsChanged', accountWasChanged);
+		await window.ethereum.on('chainChanged', (_chainId) => {
 			if (location.pathname !== '/connect-wallet' && validateChain()) {
 				toast.info('please login with new connected network');
 				logout();
