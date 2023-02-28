@@ -290,7 +290,7 @@ const NFTDetail = (props: any) => {
 				const accountInfo = await getAlgoBalance(connectedAddress);
 				balance = await algosdk.microalgosToAlgos(accountInfo?.amount);
 			} else {
-				balance = await getBalance();				
+				balance = await getBalance();
 			}
 			setBalance(balance);
 			// setLoader(true);
@@ -1057,11 +1057,10 @@ const NFTDetail = (props: any) => {
 			}
 		} catch (err: any) {
 			toast.error(err.message);
-			setLoader(false);
-
 		} finally {
 			setDisabled(false);
 			setIsButtonDisabled(false);
+			setLoader(false);
 		}
 	};
 
