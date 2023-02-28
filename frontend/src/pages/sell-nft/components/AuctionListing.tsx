@@ -11,9 +11,17 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { ENV } from '../../../config/config';
-import { checkIsApprovedForAll, getBalance, openNFTForBidding } from '../../../utils/web3';
+import {
+	checkIsApprovedForAll,
+	getBalance,
+	openNFTForBidding,
+} from '../../../utils/web3';
 import { connect } from 'react-redux';
-import { checkAlgoBalance, createAuctionApp, getAlgoBalance } from '../../../utils/algorand';
+import {
+	checkAlgoBalance,
+	createAuctionApp,
+	getAlgoBalance,
+} from '../../../utils/algorand';
 import {
 	getSolanaBalance,
 	listItemForLiveAuction,

@@ -9,7 +9,11 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { checkIsApprovedForAll, getBalance, putonsale } from '../../../utils/web3';
+import {
+	checkIsApprovedForAll,
+	getBalance,
+	putonsale,
+} from '../../../utils/web3';
 import {
 	getSolanaBalance,
 	listItemForFixedPriceSolana,
@@ -68,7 +72,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 			handleFixedPriceAuction();
 		}
 	};
-	const handleFixedPriceAuction =  async () => {
+	const handleFixedPriceAuction = async () => {
 		setLoader(true);
 		internetSpeedCheck();
 		const fixedConfig = { ...fixedPriceConfig };
