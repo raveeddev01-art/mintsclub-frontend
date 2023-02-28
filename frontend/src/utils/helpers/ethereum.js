@@ -14,14 +14,15 @@ export const ListenMetaMaskAccs = () => {
 		if (!window.ethereum) {
 			return;
 		}
-		const accountWasChanged = async () => {
-			if (location.pathname !== '/connect-wallet' && (await validateChain())) {
+		const accountWasChanged = () => {
+			if (location.pathname !== '/connect-wallet' && validateChain()) {
 				toast.info('Please login with new connected address');
 				logout();
 			}
 		};
 		const validateChain = async () => {
-			let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
+			let blockChainType = await ENV.getUserKeys('blockchainType')
+				?.blockchainType;
 
 			return (
 				blockChainType === 'ethereum' ||
@@ -29,7 +30,7 @@ export const ListenMetaMaskAccs = () => {
 				blockChainType === 'bsc'
 			);
 		};
-		const logout = async () => {
+		const logout = () => {
 			localStorage.clear();
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 			history.push('/connect-wallet');
