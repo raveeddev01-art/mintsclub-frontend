@@ -20,9 +20,8 @@ export const ListenMetaMaskAccs = () => {
 				logout();
 			}
 		};
-		const validateChain = async () => {
-			let blockChainType = await ENV.getUserKeys('blockchainType')
-				?.blockchainType;
+		const validateChain = () => {
+			let blockChainType = ENV.getUserKeys('blockchainType')?.blockchainType;
 
 			return (
 				blockChainType === 'ethereum' ||
