@@ -295,7 +295,7 @@ const ConnectWallet = (props: any) => {
 			if ((await detectMobile()) && !window?.ethereum) {
 				setIsButtonDisabled(false);
 				const connected = window.open(
-					'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/connect-wallet'
+					'https://metamask.app.link/dapp/mintsclub-v3-marketplace.invo.zone/'
 				);
 				if (connected) {
 					setIsButtonDisabled(false);
