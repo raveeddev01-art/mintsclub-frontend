@@ -532,7 +532,7 @@ const createFixedPriceApp = async (
 	connectedAddress,
 	price,
 	algoLazyMinted,
-	setLoader
+	setIsLoading
 ) => {
 	try {
 		const platformFee = process.env.REACT_APP_ALGORAND_PLATFORM_FEE;
@@ -590,10 +590,10 @@ const createFixedPriceApp = async (
 		);
 
 		const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-		setLoader(true);
+		setIsLoading(true);
 
 		const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
-		setLoader(true);
+		setIsLoading(true);
 
 		const confirmedTxn = await algosdk.waitForConfirmation(
 			algodClient,
@@ -619,7 +619,7 @@ const createFixedPriceApp = async (
 			connectedAddress,
 			txnsArray,
 			algoLazyMinted,
-			setLoader
+			setIsLoading
 		);
 		if (result?.txId) {
 			const data = { success: true, appID };
@@ -641,10 +641,10 @@ const setupSale = async (
 	connectedAddress,
 	txnsArray,
 	algoLazyMinted,
-	setLoader
+	setIsLoading
 ) => {
 	try {
-		setLoader(true);
+		setIsLoading(true);
 		let NFT_PRICE = await algosdk.algosToMicroalgos(price);
 
 		const params = await algodClient.getTransactionParams().do();

@@ -27,6 +27,7 @@ import {
 	setupSale,
 } from '../../../utils/algorand';
 import algosdk from 'algosdk';
+import FullPageLoader from '../../../Components/FullPageLoader/FullPageLoader';
 
 const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const {
@@ -50,6 +51,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		setIsButtonDisabled,
 		isButtonDisabled,
 	} = data;
+	const [isLoading, setIsLoading] = useState(false);
 	const history: any = useHistory();
 	const location: any = useLocation();
 	const wallet = useWallet();
@@ -73,20 +75,20 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		}
 	};
 	const handleFixedPriceAuction = async () => {
-		setLoader(true);
+		setIsLoading(true);
 		internetSpeedCheck();
 		const fixedConfig = { ...fixedPriceConfig };
 		const activityPayload = getActivityPayload();
 		const price = Number(fixedConfig.price.amount);
 		if (blockchainType === 'algorand' && price < 0.005) {
 			toast.error('Price should be greater than 0.005');
-			setLoader(false);
+			setIsLoading(false);
 			setIsButtonDisabled(false);
 			return '';
 		}
 		if (blockchainType !== 'algorand' && price === 0) {
 			toast.error('Price should be greater than 0');
-			setLoader(false);
+			setIsLoading(false);
 			setIsButtonDisabled(false);
 			return '';
 		}
@@ -136,7 +138,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 					toast.error(
 						'Insufficeint funds for this transaction. Please recharge your wallet.'
 					);
-					setLoader(false);
+					setIsLoading(false);
 					setIsButtonDisabled(false);
 					return;
 				}
@@ -153,7 +155,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						connectedAddress,
 						price,
 						nftDetail?.algoLazyMinted,
-						setLoader
+						setIsLoading
 					);
 
 					if (response?.success) {
@@ -164,7 +166,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 							connectedAddress,
 							response?.message
 						);
-						setLoader(false);
+						setIsLoading(false);
 						toast.error(res?.err);
 						setIsButtonDisabled(false);
 						return;
@@ -178,7 +180,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 						connectedAddress,
 						txnsArray,
 						nftDetail?.algoLazyMinted,
-						setLoader
+						setIsLoading
 					);
 
 					if (res.txId) {
@@ -189,7 +191,7 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 							connectedAddress,
 							res?.message
 						);
-						setLoader(false);
+						setIsLoading(false);
 						toast.error(response?.err);
 						setIsButtonDisabled(false);
 						return;
@@ -229,139 +231,142 @@ const FixedPriceListing = ({ data, blockchainType, connectedAddress }: any) => {
 		} catch (err: any) {
 			console.log(err, 'error');
 			setIsButtonDisabled(false);
-			setLoader(false);
+			setIsLoading(false);
 			toast.error(err.message);
 		} finally {
-			setLoader(false);
+			setIsLoading(false);
 			setIsButtonDisabled(false);
 		}
 	};
 
 	return (
-		<form onSubmit={submit}>
-			<div className="row g-4 g-xl-5">
-				<div
-					className={` ${
-						blockchainType === 'solana' ? 'col-md-12' : 'col-md-6'
-					}`}
-				>
-					<div className="sell-detail-box">
-						<h5>Price:*</h5>
-						<hr />
-						<div className="sell-inp-container d-flex align-items-center">
-							<input
-								type="number"
-								name="fixedPriceConfig.price.amount"
-								placeholder="Amount"
-								style={{
-									borderRadius: '4px',
-								}}
-								min={0}
-								step={0.000001}
-								onChange={(e) => {
-									if (
-										e.target.value === '00' ||
-										e.target.value.length > 8 ||
-										(e.target.value.includes('.') &&
-											e.target.value.toString().split('.')[1].length > 6)
-									) {
-										return '';
-									}
-									onChange(e);
-								}}
-								onKeyDown={(e) => decimalnumbervalidator(e)}
-								value={fixedPriceConfig.price.amount}
-								required
-								autoComplete="off"
-							/>
-							<div className="inp-tag">
-								{
-									CHAIN_CURRENCY[
-										nftDetail?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
-									]
-								}
-							</div>
-						</div>
-					</div>
-				</div>
-				{blockchainType !== 'solana' && blockchainType !== 'algorand' && (
-					<div className="col-md-6">
+		<div>
+			{isLoading && <FullPageLoader />}
+			<form onSubmit={submit}>
+				<div className="row g-4 g-xl-5">
+					<div
+						className={` ${
+							blockchainType === 'solana' ? 'col-md-12' : 'col-md-6'
+						}`}
+					>
 						<div className="sell-detail-box">
-							<h5>
-								No. of Copies:*{' '}
-								{copiesError && (
-									<span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
-								)}
-							</h5>
+							<h5>Price:*</h5>
 							<hr />
 							<div className="sell-inp-container d-flex align-items-center">
 								<input
 									type="number"
-									name="copies"
-									placeholder="Copies"
+									name="fixedPriceConfig.price.amount"
+									placeholder="Amount"
 									style={{
 										borderRadius: '4px',
 									}}
-									min={'1'}
-									onChange={(e: any) => {
-										if (+e.target.value > remainingCopies) {
-											setCopiesError(true);
-											return false;
-										}
+									min={0}
+									step={0.000001}
+									onChange={(e) => {
 										if (
-											(e.target.value === 0 && copies === '') ||
-											e.target.value.includes('.')
+											e.target.value === '00' ||
+											e.target.value.length > 8 ||
+											(e.target.value.includes('.') &&
+												e.target.value.toString().split('.')[1].length > 6)
 										) {
-											return false;
+											return '';
 										}
-										setCopiesError(false);
-										setCopies(e.target.value);
+										onChange(e);
 									}}
 									onKeyDown={(e) => decimalnumbervalidator(e)}
-									value={copies}
+									value={fixedPriceConfig.price.amount}
 									required
 									autoComplete="off"
 								/>
-								<div className="inp-tag">Copies</div>
+								<div className="inp-tag">
+									{
+										CHAIN_CURRENCY[
+											nftDetail?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+										]
+									}
+								</div>
 							</div>
 						</div>
 					</div>
-				)}
-				<div className="col-md-6">
-					<div className="sell-detail-box">
-						<h5>Fees:</h5>
-						<hr />
-						<div className="fee-details d-flex align-items-center justify-content-between">
-							<div>
-								<p>
-									Service Fee:
-									<span className="ms-2">2.5%</span>
-								</p>
+					{blockchainType !== 'solana' && blockchainType !== 'algorand' && (
+						<div className="col-md-6">
+							<div className="sell-detail-box">
+								<h5>
+									No. of Copies:*{' '}
+									{copiesError && (
+										<span className="text-danger ms-2 error-msg">{`This NFT has only ${remainingCopies} copies`}</span>
+									)}
+								</h5>
+								<hr />
+								<div className="sell-inp-container d-flex align-items-center">
+									<input
+										type="number"
+										name="copies"
+										placeholder="Copies"
+										style={{
+											borderRadius: '4px',
+										}}
+										min={'1'}
+										onChange={(e: any) => {
+											if (+e.target.value > remainingCopies) {
+												setCopiesError(true);
+												return false;
+											}
+											if (
+												(e.target.value === 0 && copies === '') ||
+												e.target.value.includes('.')
+											) {
+												return false;
+											}
+											setCopiesError(false);
+											setCopies(e.target.value);
+										}}
+										onKeyDown={(e) => decimalnumbervalidator(e)}
+										value={copies}
+										required
+										autoComplete="off"
+									/>
+									<div className="inp-tag">Copies</div>
+								</div>
 							</div>
-							<div>
-								<p>
-									Creator Royalty:
-									<span className="ms-2">1.5%</span>
-								</p>
+						</div>
+					)}
+					<div className="col-md-6">
+						<div className="sell-detail-box">
+							<h5>Fees:</h5>
+							<hr />
+							<div className="fee-details d-flex align-items-center justify-content-between">
+								<div>
+									<p>
+										Service Fee:
+										<span className="ms-2">2.5%</span>
+									</p>
+								</div>
+								<div>
+									<p>
+										Creator Royalty:
+										<span className="ms-2">1.5%</span>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
+					<div className="sell-btn-container d-flex justify-content-center justify-content-lg-start">
+						<button
+							className="btn btn-linear-gradient sell-btn-completed"
+							disabled={
+								approvalStatus === 'pending' ||
+								approvalStatus === 'in-progress' ||
+								isButtonDisabled
+							}
+							type="submit"
+						>
+							Complete Listing
+						</button>
+					</div>
 				</div>
-				<div className="sell-btn-container d-flex justify-content-center justify-content-lg-start">
-					<button
-						className="btn btn-linear-gradient sell-btn-completed"
-						disabled={
-							approvalStatus === 'pending' ||
-							approvalStatus === 'in-progress' ||
-							isButtonDisabled
-						}
-						type="submit"
-					>
-						Complete Listing
-					</button>
-				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	);
 };
 const mapStateToProps = (state: any) => ({
