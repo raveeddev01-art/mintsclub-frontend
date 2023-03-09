@@ -107,6 +107,10 @@ const Listing: FC<listingInt> = (props) => {
 		socket.on('newNftAdded', (nftAddedInformation: any) => {
 			refetchNFTs();
 		});
+		socket.on('updateNFT', (updateNFT: any) => {
+			fetchData(filter);
+			refetchNFTs();
+		});
 	}, [socket]);
 
 	useEffect(() => {

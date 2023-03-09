@@ -151,7 +151,9 @@ const UserProfile = (props: any) => {
 				refetch();
 			});
 		}
-
+		socket.on('updateNFT', (updateNFT: any) => {
+			refetch();
+		});
 		return () => {
 			socket.emit('leave', 'userProfileRefetch');
 		};
