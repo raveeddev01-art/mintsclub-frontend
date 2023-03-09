@@ -206,7 +206,8 @@ const SellNFT = (props: any) => {
 			const accApproved = await setApprovalForAll(
 				setApprovalStatus,
 				nftDetail.contractAddress,
-				setIsButtonDisabled
+				setIsButtonDisabled,
+				setLoader
 			);
 			if (!nftDetail.isApproved) {
 				setIsButtonDisabled(false);
@@ -221,11 +222,13 @@ const SellNFT = (props: any) => {
 				setApprovalStatus('approved');
 				toast.success('Your Account is Approved!.');
 				setIsButtonDisabled(false);
+				setLoader(false);
 				return '';
 			}
 		} catch (err) {
 			setApprovalStatus('not-approved');
 			setIsButtonDisabled(false);
+			setLoader(false);
 			return '';
 		}
 	};

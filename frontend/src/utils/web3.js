@@ -406,7 +406,8 @@ export const BuyFixedPriceNFT = async (
 export const setApprovalForAll = async (
 	setApprovalStatus,
 	collectionAddress = null,
-	setIsButtonDisabled
+	setIsButtonDisabled,
+	setLoader
 ) => {
 	try {
 		let abi = null;
@@ -445,6 +446,7 @@ export const setApprovalForAll = async (
 				// setTransactionHash(hash);
 				setApprovalStatus('in-progress');
 				setIsButtonDisabled(false);
+				setLoader(false);
 			});
 		if (result) {
 			return result;
