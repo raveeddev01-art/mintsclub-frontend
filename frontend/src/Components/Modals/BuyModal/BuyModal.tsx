@@ -57,7 +57,7 @@ const BuyModal: FC<Buy> = (props) => {
 					</p>
 				) : (
 					<p className="text-danger text-center mt-1 mb-0 insufienct-funds">
-						{+price > +balance && 'Insufficient funds to place bid!'}
+						{+price > +balance && 'Insufficient funds to buy NFT!'}
 					</p>
 				)}
 				<div className="modal-close-container">
