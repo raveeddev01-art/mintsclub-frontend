@@ -1380,6 +1380,15 @@ const NFTDetail = (props: any) => {
 				refetch(false);
 				getLatestActivities();
 			});
+			socket.on('updateNFT', (updateNFT: any) => {
+				refetch(false);
+				getLatestActivities();
+				if (nftDetail?.activeAuction?._id) {
+					getLatestBids();
+				}
+				getLatestOffers();
+				setPrice(price);
+			});
 		}
 
 		return () => {
