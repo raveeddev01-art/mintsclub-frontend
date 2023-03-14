@@ -99,7 +99,7 @@ const ExploreCollections: FC<ExploreCollectionInt> = (props) => {
 		}
 	};
 	useEffect(() => {
-		if (socket && collections) {
+		if (socket || collections) {
 			socket.emit('join', 'collections');
 			socket.on('collectionCreated', (collectionCreatedinformation: any) => {
 				refetch();

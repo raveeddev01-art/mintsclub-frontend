@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { useHistory } from 'react-router';
 import { Card } from 'react-bootstrap';
 import { Images } from '../../assets/assets';
@@ -25,6 +25,9 @@ const CollectionsCard: FC<CollectionCardInt> = ({
 }) => {
 	const [loader, setLoader] = useState<any>(true);
 	const history = useHistory();
+	useEffect(() => {
+		setLoader(true);
+	}, [id]);
 	return (
 		<div className="card_wrap">
 			<Card
