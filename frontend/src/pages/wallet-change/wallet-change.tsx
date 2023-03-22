@@ -9,6 +9,16 @@ export const UseWalletChange = (connectedAddress: any) => {
 	const history = useHistory();
 	const location = useLocation();
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
+	const currentPath = window.location.pathname;
+	useEffect(() => {
+		if (
+			wallet.connected === false &&
+			ENV.getUserKeys('blockchainType')?.blockchainType === 'solana'
+		) {
+			localStorage.clear();
+			return history.push('/connect-wallet', currentPath);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (
