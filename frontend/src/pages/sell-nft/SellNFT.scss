@@ -197,6 +197,11 @@
 		.sell-time-inp {
 			input {
 				color: var(--time-color) !important;
+				-webkit-text-fill-color: var(--time-color) !important; 
+				opacity: 1;
+				color: inherit; 
+				text-decoration: none;
+				background: var(--input-bg);
 				height: 45px;
 				padding: 0 20px 0 25px;
 				font-size: 12px;
@@ -244,7 +249,8 @@
 		color: #1c6cfe;
 		padding-left: 0px;
 		position: absolute;
-		margin-right: 45px;
+		margin-right: 45px !important;
+		right: -25px;
 	}
 	fieldset {
 		border: none !important;
