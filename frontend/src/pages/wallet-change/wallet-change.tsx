@@ -13,10 +13,28 @@ export const UseWalletChange = (connectedAddress: any) => {
 	useEffect(() => {
 		if (
 			wallet.connected === false &&
+			wallet.wallet?.adapter.name === 'Phantom' &&
 			ENV.getUserKeys('blockchainType')?.blockchainType === 'solana'
 		) {
 			localStorage.clear();
 			toast.info('Your Phantom wallet is disconnected please login again', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				theme: 'light',
+				closeButton: true,
+			});
+			return history.push('/connect-wallet', currentPath);
+		} else if (
+			wallet.connected === false &&
+			wallet.wallet?.adapter.name === 'Solflare' &&
+			ENV.getUserKeys('blockchainType')?.blockchainType === 'solana'
+		) {
+			localStorage.clear();
+			toast.info('Your Solflare wallet is disconnected please login again', {
 				position: 'top-right',
 				autoClose: 5000,
 				hideProgressBar: false,
