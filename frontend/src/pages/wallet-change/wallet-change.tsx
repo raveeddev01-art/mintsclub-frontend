@@ -17,7 +17,9 @@ export const UseWalletChange = (connectedAddress: any) => {
 		) {
 			localStorage.clear();
 			toast.info(
-				`Your ${wallet.wallet?.adapter.name} wallet is disconnected please login again`,
+				`Your ${
+					wallet.wallet?.adapter.name ? wallet.wallet?.adapter.name : 'Solane'
+				} wallet is disconnected please login again`,
 				{
 					position: 'top-right',
 					autoClose: 5000,
