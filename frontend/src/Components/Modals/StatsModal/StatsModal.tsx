@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { useState, FC } from 'react';
 import { Modal } from 'react-bootstrap';
 import ModalClose from '../../../assets/images/modal-close.svg';
 import InputClose from '../../../assets/images/inp-close.svg';
@@ -10,6 +10,7 @@ import {
 	firstInputCharacterSpace,
 } from '../../../utils/functions';
 import { StatsInt } from '../../../interfaces/components';
+import SimpleReactValidator from 'simple-react-validator';
 const StatsModal: FC<any> = (props) => {
 	const { stats, show, nftInfo, addMore, handlers } = props;
 	const {
@@ -40,18 +41,34 @@ const StatsModal: FC<any> = (props) => {
 		handleModalsAddMore('stats', addState);
 	};
 	const handleSubmit = () => {
-		if (stats && stats.length > 0) {
-			const isEmpty = stats.filter(
-				(item: any) => item.name === '' || item.value === ''
-			);
-			if (isEmpty.length > 0) {
-				toast.error('Please Fill Empty Fields ');
-				return '';
-			} else {
-				onSave('stats');
+		if (!validator.allValid()) {
+			toast.error('Name may only contain letters numbers, and spaces');
+		} else {
+			if (stats && stats.length > 0) {
+				const isEmpty = stats.filter(
+					(item: any) => item.name === '' || item.value === ''
+				);
+				if (isEmpty.length > 0) {
+					toast.error('Please Fill Empty Fields ');
+					return '';
+				} else {
+					onSave('stats');
+				}
 			}
 		}
 	};
+	const useForceUpdate = () => {
+		const [value, setValue] = useState(0);
+		return () => setValue((value) => value + 1);
+	};
+	const forceUpdate = useForceUpdate();
+	const validator = new SimpleReactValidator({
+		autoForceUpdate: forceUpdate,
+		messages: {
+			required: 'This field is required.',
+		},
+	});
+
 	return (
 		<Modal
 			{...props}
@@ -88,6 +105,11 @@ const StatsModal: FC<any> = (props) => {
 											<div className="bid-inp-container d-flex align-items-center mt-0">
 												<div className="ps-2">
 													<h6>Name:</h6>
+													<span>
+														{validator.message('name', item.name, [
+															'alpha_num_space',
+														])}
+													</span>
 												</div>
 												<div className="inp-container">
 													<input
