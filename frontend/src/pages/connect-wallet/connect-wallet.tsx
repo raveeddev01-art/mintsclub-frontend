@@ -105,12 +105,18 @@ const ConnectWallet = (props: any) => {
 					wallet.signMessage && (await wallet.signMessage(data));
 
 				const signatureBase64 = Buffer.from(signature).toString('base64');
+				history.push(location?.state ? location.state : '/');
+				console.log(
+					'🚀 ~ file: connect-wallet.tsx:109 ~ signMessageFromUserForSolana ~ state:'
+				);
+
 				return {
 					publicAddress: await connectedAddress,
 					signature: signatureBase64,
 				};
 			}
 		} catch (err: any) {
+			toast.error(err.message);
 			console.log(
 				'🚀 ~ file: connect-wallet.tsx ~ line 146 ~ signMessageFromUser ~ err',
 				err.message
@@ -254,18 +260,33 @@ const ConnectWallet = (props: any) => {
 					toast.error('Please install Phantom to connect to the Marketplace');
 					setIsButtonDisabled(false);
 				} else {
+					localStorage.clear();
 					await wallet.select(wallet.wallets[0].adapter.name);
 					if (wallet.publicKey && wallet.connected) {
+						setConnectedAddres(wallet.publicKey?.toBase58());
 						props.setBlockchainType('solana');
 						props.setWalletAddress(wallet.publicKey?.toBase58());
-						setConnectedAddres(wallet.publicKey?.toBase58());
 						setIsButtonDisabled(false);
 					} else {
+						toast.info('Something went wrong Please Click Again to continue', {
+							position: 'top-right',
+							autoClose: 5000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: true,
+							draggable: true,
+							theme: 'light',
+							closeButton: true,
+						});
 						return setIsButtonDisabled(false);
 					}
 				}
 			}
 		} catch (error: any) {
+			console.log(
+				'🚀 ~ file: connect-wallet.tsx:269 ~ connectPhantomWal ~ error:',
+				error
+			);
 			toast.error(error.message);
 		}
 	};
@@ -275,6 +296,7 @@ const ConnectWallet = (props: any) => {
 				toast.info('Solflare is coming soon for Mobile & I-Pad');
 				setIsButtonDisabled(false);
 			} else {
+				localStorage.clear();
 				await wallet.select(wallet.wallets[1].adapter.name);
 
 				if (wallet.publicKey && wallet.connected) {
@@ -283,6 +305,16 @@ const ConnectWallet = (props: any) => {
 					setConnectedAddres(wallet.publicKey?.toBase58());
 					setIsButtonDisabled(false);
 				} else {
+					toast.info('Something went wrong Please Click Again to continue', {
+						position: 'top-right',
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						theme: 'light',
+						closeButton: true,
+					});
 					setIsButtonDisabled(false);
 				}
 			}
@@ -302,25 +334,39 @@ const ConnectWallet = (props: any) => {
 				}
 				return connected;
 			}
-			await wallet.disconnect();
-			props.setBlockchainType(status);
-			const publicAddress: any = await connectMetamask();
-			if (!publicAddress) {
-				setIsButtonDisabled(false);
-			}
-			const currentChainId = await getChainId();
-			if (chainId !== currentChainId) {
-				const switchNetworkResponse = await switchNetworkToChainId(
-					chainId,
-					setIsButtonDisabled
-				);
-				if (!switchNetworkResponse) {
-					return false;
+			if (wallet.connected) {
+				toast.info('Something went wrong Please refresh the Page to continue', {
+					position: 'top-right',
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					theme: 'light',
+					closeButton: true,
+				});
+				localStorage.clear();
+			} else {
+				await wallet.disconnect();
+				props.setBlockchainType(status);
+				const publicAddress: any = await connectMetamask();
+				if (!publicAddress) {
+					setIsButtonDisabled(false);
 				}
+				const currentChainId = await getChainId();
+				if (chainId !== currentChainId) {
+					const switchNetworkResponse = await switchNetworkToChainId(
+						chainId,
+						setIsButtonDisabled
+					);
+					if (!switchNetworkResponse) {
+						return false;
+					}
+				}
+				setConnectedAddres(publicAddress);
+				props.setWalletAddress(publicAddress);
+				validateUser({ blockchainType: status });
 			}
-			setConnectedAddres(publicAddress);
-			props.setWalletAddress(publicAddress);
-			validateUser({ blockchainType: status });
 		} catch (error: any) {
 			setIsButtonDisabled(false);
 			console.log(
