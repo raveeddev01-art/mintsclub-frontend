@@ -31,7 +31,7 @@ export const UseWalletChange = (connectedAddress: any) => {
 					closeButton: true,
 				}
 			);
-			return history.push('/connect-wallet', currentPath);
+			return history.push('/connect-wallet');
 		}
 	}, []);
 

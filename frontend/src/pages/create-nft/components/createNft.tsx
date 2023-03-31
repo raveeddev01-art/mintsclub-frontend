@@ -217,6 +217,7 @@ const CreateNft = ({
 			}
 		} catch (err: any) {
 			setLoader(false);
+			toast.error(err.message);
 			console.log(
 				'🚀 ~ file: createNft.tsx:215 ~ mintSolNFT ~ err Error while minting nft',
 				err.message
