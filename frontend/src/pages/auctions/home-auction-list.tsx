@@ -11,6 +11,7 @@ import { useGetCategories } from '../../hooks/PopularCollections';
 import { useGetLiveAuctions } from '../../hooks/HomeAuctions';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
 import './home-auction-list.scss';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 import SocketContext from '../../contexts/SocketContext';
 
@@ -25,6 +26,12 @@ const AuctionsList: FC<AuctionsListInt> = () => {
 	const [empty, setEmpty] = useState(false);
 	const [pagination, setPagination] = useState<any>(null);
 	const { setError } = useContext(errorHandler);
+	const wallet = useWallet();
+
+	localStorage.setItem(
+		'walletName',
+		wallet.wallet?.adapter.name ? wallet.wallet.adapter.name : 'Solane'
+	);
 
 	const onSuccessLiveAuctions = (data: any) => {
 		if (data.data.success) {

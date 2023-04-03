@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -15,10 +16,16 @@ export const UseWalletChange = (connectedAddress: any) => {
 			wallet.connected === false &&
 			ENV.getUserKeys('blockchainType')?.blockchainType === 'solana'
 		) {
-			localStorage.clear();
+			const itemToKeep = 'walletName';
+			for (const key in localStorage) {
+				if (localStorage.hasOwnProperty(key) && key !== itemToKeep) {
+					localStorage.removeItem(key);
+				}
+			}
+			const walletsName = localStorage.getItem('walletName');
 			toast.info(
 				`Your ${
-					wallet.wallet?.adapter.name ? wallet.wallet?.adapter.name : 'Solane'
+					walletsName ? walletsName : 'Solane'
 				} wallet is disconnected please login again`,
 				{
 					position: 'top-right',
@@ -44,7 +51,13 @@ export const UseWalletChange = (connectedAddress: any) => {
 			ENV?.getUserKeys('blockchainType')?.blockchainType === 'solana'
 		) {
 			// toast.info('Please login with new connected wallet');
-			localStorage.clear();
+			// localStorage.clear();
+			const itemToKeep = 'walletName';
+			for (const key in localStorage) {
+				if (localStorage.hasOwnProperty(key) && key !== itemToKeep) {
+					localStorage.removeItem(key);
+				}
+			}
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 			return history.push('/connect-wallet');
 		}
