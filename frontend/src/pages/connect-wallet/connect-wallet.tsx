@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import React, { useState, useEffect, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Tab from 'react-bootstrap/Tab';
@@ -260,7 +261,13 @@ const ConnectWallet = (props: any) => {
 					toast.error('Please install Phantom to connect to the Marketplace');
 					setIsButtonDisabled(false);
 				} else {
-					localStorage.clear();
+					// localStorage.clear();
+					const itemToKeep = 'walletName';
+					for (const key in localStorage) {
+						if (localStorage.hasOwnProperty(key) && key !== itemToKeep) {
+							localStorage.removeItem(key);
+						}
+					}
 					await wallet.select(wallet.wallets[0].adapter.name);
 					if (wallet.publicKey && wallet.connected) {
 						setConnectedAddres(wallet.publicKey?.toBase58());
@@ -296,26 +303,44 @@ const ConnectWallet = (props: any) => {
 				toast.info('Solflare is coming soon for Mobile & I-Pad');
 				setIsButtonDisabled(false);
 			} else {
-				localStorage.clear();
-				await wallet.select(wallet.wallets[1].adapter.name);
-
-				if (wallet.publicKey && wallet.connected) {
-					props.setBlockchainType('solana');
-					props.setWalletAddress(wallet.publicKey?.toBase58());
-					setConnectedAddres(wallet.publicKey?.toBase58());
-					setIsButtonDisabled(false);
+				if (wallet.wallets[1].readyState === 'Loadable') {
+					toast.info(
+						'Please install Solflare Wallet or Continue with Web-Wallet to connect to the Marketplace'
+					);
+					// localStorage.clear();
+					const itemToKeep = 'walletName';
+					for (const key in localStorage) {
+						if (localStorage.hasOwnProperty(key) && key !== itemToKeep) {
+							localStorage.removeItem(key);
+						}
+					}
+					await wallet.select(wallet.wallets[1].adapter.name);
+					if (wallet.publicKey && wallet.connected) {
+						props.setBlockchainType('solana');
+						props.setWalletAddress(wallet.publicKey?.toBase58());
+						setConnectedAddres(wallet.publicKey?.toBase58());
+						setIsButtonDisabled(false);
+					} else {
+						setIsButtonDisabled(false);
+					}
 				} else {
-					toast.info('Something went wrong Please Click Again to continue', {
-						position: 'top-right',
-						autoClose: 5000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						theme: 'light',
-						closeButton: true,
-					});
-					setIsButtonDisabled(false);
+					// localStorage.clear();
+					const itemToKeep = 'walletName';
+					for (const key in localStorage) {
+						if (localStorage.hasOwnProperty(key) && key !== itemToKeep) {
+							localStorage.removeItem(key);
+						}
+					}
+					await wallet.select(wallet.wallets[1].adapter.name);
+
+					if (wallet.publicKey && wallet.connected) {
+						props.setBlockchainType('solana');
+						props.setWalletAddress(wallet.publicKey?.toBase58());
+						setConnectedAddres(wallet.publicKey?.toBase58());
+						setIsButtonDisabled(false);
+					} else {
+						setIsButtonDisabled(false);
+					}
 				}
 			}
 		} catch (error: any) {
@@ -348,7 +373,7 @@ const ConnectWallet = (props: any) => {
 				localStorage.clear();
 			} else {
 				await wallet.disconnect();
-				props.setBlockchainType(status);
+				await props.setBlockchainType(status);
 				const publicAddress: any = await connectMetamask();
 				if (!publicAddress) {
 					setIsButtonDisabled(false);
@@ -364,7 +389,7 @@ const ConnectWallet = (props: any) => {
 					}
 				}
 				setConnectedAddres(publicAddress);
-				props.setWalletAddress(publicAddress);
+				await props.setWalletAddress(publicAddress);
 				validateUser({ blockchainType: status });
 			}
 		} catch (error: any) {

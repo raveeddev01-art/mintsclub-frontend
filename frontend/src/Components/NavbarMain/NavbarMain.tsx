@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import React, { useEffect, useState, useContext, FC } from 'react';
 import { Link, useHistory, useLocation, NavLink } from 'react-router-dom';
 import MintsClub from '../../assets/images/main-logo.svg';
@@ -59,7 +60,13 @@ const NavbarMain = () => {
 			if (wallet.connected && blockChainType !== 'solana') {
 				await wallet.disconnect();
 			}
-			localStorage.clear();
+			// localStorage.clear();
+			const itemToKeep = 'walletName';
+			for (const key in localStorage) {
+				if (localStorage.hasOwnProperty(key) && key !== itemToKeep) {
+					localStorage.removeItem(key);
+				}
+			}
 			localStorage.setItem('theme', darkMode ? 'dark' : 'light');
 
 			history.push('/connect-wallet');
