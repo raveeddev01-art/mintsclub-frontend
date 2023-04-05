@@ -628,7 +628,7 @@ class CreateCollections extends Component<
 									{this.validator.message(
 										'description',
 										collection.description,
-										['required', { min: 3 }, 'alpha_num_dash_space']
+										['required', 'between:3,500', 'alpha_num_dash_space']
 									)}
 								</span>
 								<textarea
