@@ -1366,6 +1366,9 @@ const NFTDetail = (props: any) => {
 			socket.on('auctionEnded', (auctionEndedInformation: any) => {
 				refetch(false);
 			});
+			socket.on('updateProfile', (updateProfile: any) => {
+				refetch(false);
+			});
 
 			// auctionTimeEnded
 

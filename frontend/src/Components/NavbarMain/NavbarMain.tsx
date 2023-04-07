@@ -174,6 +174,10 @@ const NavbarMain = () => {
 			getNotification();
 			getSeenNotification();
 		});
+		socket.on('updateProfile', (updateProfile: any) => {
+			getNotification();
+			getSeenNotification();
+		});
 	}, [socket]);
 
 	const getNotification = async () => {
@@ -289,7 +293,7 @@ const NavbarMain = () => {
 								<NavLink
 									to="/connect-wallet"
 									className={`nav-main-link main-nav-dd-items dropdown-item`}
-									onClick={() => clearLocalStorage()}
+									onClick={async () => await clearLocalStorage()}
 								>
 									{ENV.getUserKeys('_id')._id ? 'Logout' : 'Login'}
 								</NavLink>
