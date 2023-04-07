@@ -111,6 +111,10 @@ const Listing: FC<listingInt> = (props) => {
 			fetchData(filter);
 			refetchNFTs();
 		});
+		socket.on('updateProfile', (updateProfile: any) => {
+			fetchData(filter);
+			refetchNFTs();
+		});
 	}, [socket]);
 
 	useEffect(() => {
