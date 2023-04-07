@@ -275,16 +275,17 @@ const ConnectWallet = (props: any) => {
 						props.setWalletAddress(wallet.publicKey?.toBase58());
 						setIsButtonDisabled(false);
 					} else {
-						toast.info('Something went wrong Please Click Again to continue', {
-							position: 'top-right',
-							autoClose: 5000,
-							hideProgressBar: false,
-							closeOnClick: true,
-							pauseOnHover: true,
-							draggable: true,
-							theme: 'light',
-							closeButton: true,
-						});
+						toast.info(
+							'Please Click Again on Wallet-Icon to Approve the account',
+							{
+								position: 'top-center',
+								autoClose: 4000,
+								hideProgressBar: false,
+								pauseOnHover: true,
+								draggable: true,
+								theme: 'light',
+							}
+						);
 						return setIsButtonDisabled(false);
 					}
 				}
@@ -317,6 +318,17 @@ const ConnectWallet = (props: any) => {
 					setConnectedAddres(wallet.publicKey?.toBase58());
 					setIsButtonDisabled(false);
 				} else {
+					toast.info(
+						'Please Click Again on Wallet-Icon to Approve the account',
+						{
+							position: 'top-center',
+							autoClose: 4000,
+							hideProgressBar: false,
+							pauseOnHover: true,
+							draggable: true,
+							theme: 'light',
+						}
+					);
 					setIsButtonDisabled(false);
 				}
 			}
