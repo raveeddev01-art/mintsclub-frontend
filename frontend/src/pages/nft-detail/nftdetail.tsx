@@ -123,7 +123,7 @@ const NFTDetail = (props: any) => {
 	const [modalShow, setModalShow] = useState<any>(false);
 	const [likeButtonDisable, setLikeBtnDisable] = useState<any>(null);
 	const [modal, setModal] = useState<number>(1);
-	const [confirmed, setConfirmed] = useState<string>('');
+	const [confirmed, setConfirmed] = useState<any>('');
 	const [transactionHash, setTransactionHash] = useState<string>('');
 	const [transactionSuccess, setTransactionSuccess] = useState<any>(false);
 	const [bidModalShow, setBidModalShow] = useState<any>(false);
@@ -1057,10 +1057,11 @@ const NFTDetail = (props: any) => {
 			}
 		} catch (err: any) {
 			toast.error(err.message);
+			setLoader(false);
 		} finally {
 			setDisabled(false);
 			setIsButtonDisabled(false);
-			setLoader(false);
+			// setLoader(false);
 		}
 	};
 
@@ -1076,6 +1077,7 @@ const NFTDetail = (props: any) => {
 			} = nftDetail;
 			let payload: any = '';
 			setConfirmed('pending');
+			setLoader(true);
 			if (
 				nftDetail.blockchainType === 'solana' ||
 				nftDetail.blockchainType === 'algorand'
@@ -1134,7 +1136,7 @@ const NFTDetail = (props: any) => {
 
 				const res = await uploadDataOnIpfs(nftInfo);
 				if (res?.data?.data) {
-					const tokenUri = res.data.data.dataInput.metaDataUrl;
+					const tokenUri = await res.data.data.dataInput.metaDataUrl;
 
 					if (nftDetail?.blockchainType === 'solana') {
 						const response = await singleLazyMint(
@@ -1142,7 +1144,8 @@ const NFTDetail = (props: any) => {
 							tokenUri,
 							nftDetail?.name,
 							creators,
-							settingsData?.data.data?.sellerFeeBasisPoints
+							settingsData?.data.data?.sellerFeeBasisPoints,
+							setConfirmed
 						);
 						if (response?.response.signature) {
 							payload = {
@@ -1195,6 +1198,8 @@ const NFTDetail = (props: any) => {
 			props.beforeOffer();
 			props.buyNow(payload);
 		} catch (err: any) {
+			setConfirmed(false);
+			setLoader(false);
 			setDisabled(false);
 			toast.error(err);
 		}
