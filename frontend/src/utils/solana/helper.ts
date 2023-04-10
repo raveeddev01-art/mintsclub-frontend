@@ -1043,9 +1043,11 @@ const singleLazyMint = async (
 	tokenUri: string,
 	name: string,
 	creators: any,
-	sellerFeeBasisPoints = 200
+	sellerFeeBasisPoints = 200,
+	setConfirmed: any
 ) => {
 	try {
+		setConfirmed('pending');
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 
@@ -1055,9 +1057,10 @@ const singleLazyMint = async (
 			name,
 			creators,
 		});
-
+		setConfirmed(true);
 		return mintNftResponse;
 	} catch (err) {
+		setConfirmed(false);
 		return err;
 	}
 };
