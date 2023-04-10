@@ -628,16 +628,16 @@ class CreateCollections extends Component<
 									{this.validator.message(
 										'description',
 										collection.description,
-										['required', 'between:3,500', 'alpha_num_dash_space']
+										['required', { min: 3 }, 'alpha_num_dash_space']
 									)}
 								</span>
 								<textarea
 									className="create-collection-area mt-2"
 									name="description"
 									placeholder="Max 500 Characters"
+									rows={3}
 									minLength={3}
 									maxLength={500}
-									rows={3}
 									onChange={(e) => this.onChange(e)}
 									onKeyDown={(e) =>
 										firstInputCharacterSpace(e, collection.description.length)
