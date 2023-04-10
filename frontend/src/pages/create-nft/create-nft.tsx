@@ -639,7 +639,7 @@ class CreateNFT extends React.Component<
 									<span className="text-danger ms-2">
 										{this.validator.message('description', nft.description, [
 											'required',
-											'between:3,500',
+											{ min: 3 },
 											'alpha_num_dash_space',
 										])}
 									</span>
