@@ -1198,6 +1198,7 @@ const NFTDetail = (props: any) => {
 			props.beforeOffer();
 			props.buyNow(payload);
 		} catch (err: any) {
+			console.log('🚀 ~ file: nftdetail.tsx:1204 ~ BuyLazyNft ~ err:', err);
 			setConfirmed(false);
 			setLoader(false);
 			setDisabled(false);

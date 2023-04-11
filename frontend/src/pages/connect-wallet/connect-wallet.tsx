@@ -275,17 +275,17 @@ const ConnectWallet = (props: any) => {
 						props.setWalletAddress(wallet.publicKey?.toBase58());
 						setIsButtonDisabled(false);
 					} else {
-						toast.info(
-							'Please Click Again on Wallet-Icon to Approve the account',
-							{
-								position: 'top-center',
-								autoClose: 4000,
-								hideProgressBar: false,
-								pauseOnHover: true,
-								draggable: true,
-								theme: 'light',
-							}
-						);
+						// toast.info(
+						// 	'Please Click Again on Wallet-Icon to Approve the account',
+						// 	{
+						// 		position: 'top-center',
+						// 		autoClose: 4000,
+						// 		hideProgressBar: false,
+						// 		pauseOnHover: true,
+						// 		draggable: true,
+						// 		theme: 'light',
+						// 	}
+						// );
 						return setIsButtonDisabled(false);
 					}
 				}
