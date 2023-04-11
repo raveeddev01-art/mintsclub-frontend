@@ -1060,6 +1060,7 @@ const singleLazyMint = async (
 		setConfirmed(true);
 		return mintNftResponse;
 	} catch (err) {
+		console.log('🚀 ~ file: helper.ts:1063 ~ err:', err);
 		setConfirmed(false);
 		return err;
 	}
