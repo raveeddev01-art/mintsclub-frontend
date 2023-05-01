@@ -95,7 +95,17 @@ export const isUserLoggedIn = (history, loggedInType) => {
 					: !blockChainType
 					? `with ${loggedInType} network`
 					: `with ${loggedInType} network`
-			}  to continue`
+			}  to continue`,
+			{
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				theme: 'light',
+				closeButton: true,
+			}
 		);
 		if (!blockChainType) {
 			history.push('/connect-wallet', currentPath);
