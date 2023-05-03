@@ -1060,7 +1060,6 @@ const singleLazyMint = async (
 			},
 			{ commitment: 'finalized' }
 		);
-		console.log('This is mintNftResponse', mintNftResponse);
 		setConfirmed(true);
 		return mintNftResponse;
 	} catch (err) {
