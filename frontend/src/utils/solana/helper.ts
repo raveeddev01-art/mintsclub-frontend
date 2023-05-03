@@ -1051,12 +1051,16 @@ const singleLazyMint = async (
 		const metaplex = getMetaplex();
 		metaplex.use(walletAdapterIdentity(wallet));
 
-		const mintNftResponse: any = await metaplex.nfts().create({
-			uri: tokenUri,
-			sellerFeeBasisPoints,
-			name,
-			creators,
-		});
+		const mintNftResponse: any = await metaplex.nfts().create(
+			{
+				uri: tokenUri,
+				sellerFeeBasisPoints,
+				name,
+				creators,
+			},
+			{ commitment: 'finalized' }
+		);
+		console.log('This is mintNftResponse', mintNftResponse);
 		setConfirmed(true);
 		return mintNftResponse;
 	} catch (err) {
