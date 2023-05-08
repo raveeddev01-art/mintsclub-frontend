@@ -100,7 +100,7 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 								);
 							})
 						) : (
-							<p className="text-center not-found-title mt-5">
+							<p className="text-center not-found-title mt-5 no-found">
 								No pending batch found
 							</p>
 						)}

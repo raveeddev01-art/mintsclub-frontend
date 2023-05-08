@@ -223,7 +223,7 @@ const Populars: FC<PopularCollectionlistInt> = (props) => {
 										);
 									})
 								) : (
-									<p className="text-center  not-found-title mt-5">
+									<p className="text-center  not-found-title mt-5 no-found">
 										No popular collection found
 									</p>
 								)}

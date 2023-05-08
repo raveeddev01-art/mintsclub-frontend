@@ -13,6 +13,7 @@ import {
 	useGetPopularCollections,
 } from '../../hooks/PopularCollections';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import './popular-collections.scss';
 const initData = {
 	pre_heading: 'Most Popular',
 	heading: 'Popular Collections',
@@ -239,7 +240,7 @@ const PopularCollections: FC<PopularCollectionInt> = (props) => {
 							})}
 						</CardSlider>
 					) : (
-						<p className="text-center not-found-title mt-5 py-5">
+						<p className="text-center not-found-title mt-5 py-5 no-found">
 							No popular collection found
 						</p>
 					)}
