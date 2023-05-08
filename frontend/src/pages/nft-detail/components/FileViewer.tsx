@@ -16,16 +16,16 @@ const FileView = ({ data }: any) => {
 	} = data;
 	return (
 		<div className="col-xl-6 position-relative">
-			{nftDetail?.lazyMinted && (
-				<div className="minting-title">
-					<div className="imgdiv">
-						<img src={blockchainIcons.mintingIcon} alt="/" />
-					</div>
-					<p>Lazy Minted</p>
-				</div>
-			)}
 			{fileType === 'image' ? (
 				<div className="nft-img-container mx-auto mx-lg-0">
+					{nftDetail?.lazyMinted && (
+						<div className="minting-title">
+							<div className="imgdiv">
+								<img src={blockchainIcons.mintingIcon} alt="/" />
+							</div>
+							<p>Lazy Minted</p>
+						</div>
+					)}
 					<div
 						style={{
 							display: `${contentLoader ? 'block' : 'none'}`,
