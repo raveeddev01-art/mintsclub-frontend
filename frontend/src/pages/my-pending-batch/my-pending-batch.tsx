@@ -78,6 +78,20 @@ const MyCollections: FC<ExploreCollectionInt> = (props) => {
 		getPendingBatches();
 	}, [page]);
 
+	const pathName = window.location.pathname;
+	const pathNames = pathName.split('/');
+	if (pathNames[1] === 'my-pending-batches') {
+		window.addEventListener('online', () => {
+			console.log('I am connected to the internet');
+			location.reload();
+		});
+
+		window.addEventListener('offline', () => {
+			console.log('Disconnected...so sad!!!');
+			location.reload();
+		});
+	}
+
 	return (
 		<>
 			<section className="explore-collection-section padding-wrapper pt-0">
