@@ -466,7 +466,10 @@ const CreateNft = ({
 		} else if (
 			state.nft.name === state.nftInfo.name &&
 			state.nft.image === state.nftInfo.image &&
-			state.nft.description === state.nftInfo.description
+			state.nft.description === state.nftInfo.description &&
+			state.nft.properties === state.nftInfo.properties &&
+			state.nft.levels === state.nftInfo.levels &&
+			state.nft.stats === state.nftInfo.stats
 		) {
 			return true;
 		} else {
