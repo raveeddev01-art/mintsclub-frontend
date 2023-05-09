@@ -1,6 +1,7 @@
 import React from 'react';
 import StatsInfo from '../../pages/create-nft/components/statsinfo';
 import LevelsInfo from '../../pages/create-nft/components/levelsinfo';
+import './MetaDataSmall.scss';
 const MetaDataSmall = ({ properties, stats, levels, nftInfo }: any) => {
 	return (
 		<div className="col-12 d-block d-lg-none">
