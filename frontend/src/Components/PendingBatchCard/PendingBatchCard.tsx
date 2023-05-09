@@ -43,7 +43,7 @@ const PendingBatchCard = ({
 						<Typography component="div">
 							<Typography component="div" className="batch-info">
 								<Typography component="div" className="information-item">
-									<Typography className="label">Status: </Typography>
+									<Typography className="label no-found">Status: </Typography>
 
 									<Typography
 										className="value"
@@ -70,9 +70,11 @@ const PendingBatchCard = ({
 									</Typography>
 								</Typography>
 								<Typography component="div" className="information-item">
-									<Typography className="label">Collection Name: </Typography>
+									<Typography className="label no-found">
+										Collection Name:{' '}
+									</Typography>
 									<Tooltip title={batchInformation?.collectionId?.name}>
-										<Typography className="value">
+										<Typography className="value batch-color">
 											{reduceString(
 												batchInformation?.collectionId?.name || 'No Name',
 												15
@@ -81,16 +83,20 @@ const PendingBatchCard = ({
 									</Tooltip>
 								</Typography>
 								<Typography component="div" className="information-item">
-									<Typography className="label">File Name: </Typography>
+									<Typography className="label no-found">
+										File Name:{' '}
+									</Typography>
 									<Tooltip title={batchInformation?.fileName}>
-										<Typography className="value">
+										<Typography className="value batch-color">
 											{reduceString(batchInformation?.fileName, 15)}
 										</Typography>
 									</Tooltip>
 								</Typography>
 								<Typography component="div" className="information-item">
-									<Typography className="label">Files Processed: </Typography>
-									<Typography className="value">
+									<Typography className="label no-found">
+										Files Processed:{' '}
+									</Typography>
+									<Typography className="value batch-color">
 										{`${batchInformation?.processedFiles?.total || 0} Files`}
 									</Typography>
 								</Typography>
