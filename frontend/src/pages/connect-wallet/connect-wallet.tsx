@@ -493,6 +493,10 @@ const ConnectWallet = (props: any) => {
 												onClick={() => {
 													wallet.functionality();
 													setIsButtonDisabled(true);
+													if (window.navigator.onLine === false) {
+														setIsButtonDisabled(false);
+														console.log('Disconnected...so sad!!!');
+													}
 												}}
 											>
 												<img src={wallet.icon} alt="wallet-icon" />
