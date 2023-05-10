@@ -1157,7 +1157,7 @@ const NFTDetail = (props: any) => {
 							};
 						}
 					} else {
-						const assetId = await createNFT({
+						const assetId: any = await createNFT({
 							assetName: nftDetail?.name,
 							total: copies,
 							metaData: tokenUri,
@@ -1168,7 +1168,7 @@ const NFTDetail = (props: any) => {
 								userId,
 								nftId,
 								ownerAddress: props.connectedAddress,
-								assetId,
+								assetId: assetId.data.nftID,
 								metaData: tokenUri,
 							};
 						}
