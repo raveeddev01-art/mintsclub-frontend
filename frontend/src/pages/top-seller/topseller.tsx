@@ -7,6 +7,13 @@ import './topseller.scss';
 import { Images } from '../../assets/assets';
 import { useGetTopSellers } from '../../hooks/TopSellers';
 import errorHandler from '../../context/errorHandler/ErrorHandlerContext';
+import {
+	verifyOwner,
+	CHAIN_CURRENCY,
+	CHAIN_LOGOS,
+	CHAIN_TITLE,
+} from '../../utils/helpers/helpers';
+import { CHAINS_INTERFACE } from '../../interfaces/components';
 
 const TopSeller = (props: any) => {
 	const [sellers, setSellers] = useState<any>([]);
@@ -25,7 +32,6 @@ const TopSeller = (props: any) => {
 		}
 	};
 	const { isLoading } = useGetTopSellers(onSuccessTopSellers);
-
 	return (
 		<section className="top-seller-area padding-wrapper">
 			<div className="container">
@@ -95,6 +101,13 @@ const TopSeller = (props: any) => {
 													<span className="text-end">
 														{' '}
 														{author?.totalETH?.toFixed(2)}
+													</span>
+													<span className="text-end">
+														{
+															CHAIN_CURRENCY[
+																author?.blockchainType?.toLowerCase() as keyof CHAINS_INTERFACE
+															]
+														}
 													</span>
 												</div>
 											</div>
