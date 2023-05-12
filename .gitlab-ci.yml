@@ -8,8 +8,8 @@ mintsclub-v3:
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo "Deploy to mintsclub-v3 server"
-    - ssh-add <(echo "$SSH_KEY_V3")
+    - echo "Deploy to Production Server"
+    - ssh-add <(echo "$SSH_PROD_MINTSCLUB")
     - rm -rf .git
     - ssh -o StrictHostKeyChecking=no mintsclub@95.217.251.82 -p 2226 "cd /home/mintsclub-new-prod/frontend-v2/frontend; git reset --hard;  git pull origin mintsclub-v3; yarn install; if [ '${isclean}' == 'true' ]; then npm run clean; else echo 'Cache Not Cleaned...'; fi; npm run build; pm2 restart frontend; exit"
   only:
