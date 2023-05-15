@@ -522,7 +522,7 @@ class CreateNFT extends React.Component<
 								}}
 							/>
 							<div
-								className={`col-md-6 col-sm-12 ${
+								className={`col-md-6 mt-3 mt-lg-0 ${
 									blockchainType !== 'solana' &&
 									blockchainType !== 'algorand' &&
 									this?.props?.match?.params?.nftId
