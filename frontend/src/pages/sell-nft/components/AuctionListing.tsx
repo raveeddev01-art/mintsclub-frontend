@@ -30,6 +30,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { TextField } from '@mui/material';
 import algosdk from 'algosdk';
 import FullPageLoader from '../../../Components/FullPageLoader/FullPageLoader';
@@ -73,8 +74,16 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 	const endDate = new Date(endValue.toString());
 	const userStartDate = moment(timedAuctionConfig.duration.startDate).date();
 	const userEndDate = moment(timedAuctionConfig.duration.endDate).date();
-	const newStartDate = new Date(startDate.setDate(userStartDate));
-	const newEndDate = new Date(endDate.setDate(userEndDate));
+	const userStartMonth = moment(timedAuctionConfig.duration.startDate).month();
+	const userEndMonth = moment(timedAuctionConfig.duration.endDate).month();
+	const userStartYear = moment(timedAuctionConfig.duration.startDate).year();
+	const userEndYear = moment(timedAuctionConfig.duration.endDate).year();
+	const newStartDate = new Date(
+		startDate.setFullYear(userStartYear, userStartMonth, userStartDate)
+	);
+	const newEndDate = new Date(
+		endDate.setFullYear(userEndYear, userEndMonth, userEndDate)
+	);
 	const updatedStartDate = moment(newStartDate);
 	const updatedEndDate = moment(newEndDate);
 	const [isLoading, setIsLoading] = useState(false);
@@ -408,7 +417,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 							<div className="sell-time-inp mx-auto my-3 calender-btn">
 								<LocalizationProvider dateAdapter={AdapterDayjs}>
 									<div>
-										<DesktopTimePicker
+										<TimePicker
 											label="Start Time"
 											className="calender-btn btn-style"
 											showToolbar={true}
@@ -436,7 +445,7 @@ const AuctionListing = ({ data, blockchainType, connectedAddress }: any) => {
 							</div>
 							<div className="sell-time-inp mx-auto my-3">
 								<LocalizationProvider dateAdapter={AdapterDayjs}>
-									<DesktopTimePicker
+									<TimePicker
 										label="End Time"
 										className="calender-btn btn-style"
 										value={endValue}
