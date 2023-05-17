@@ -571,7 +571,7 @@ class CreateNFT extends React.Component<
 							{blockchainType !== 'solana' &&
 								blockchainType !== 'algorand' &&
 								!this?.props?.match?.params?.nftId && (
-									<div className="col-lg-4 col-md-6 mt-3 mt-md-0">
+									<div className="col-lg-4 col-md-6 md-0 mt-3 mt-lg-0">
 										<label className="create-collection-label d-flex">
 											No. of Copies:* (Max 1M)
 											<span className="text-danger ms-2">
