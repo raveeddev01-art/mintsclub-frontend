@@ -14,22 +14,22 @@ import {
 } from './variableTypes';
 const Notification = (props: any) => {
 	const history = useHistory();
-	const types = props?.notificationData?.data.map(
+	const types = props?.notificationData?.data?.map(
 		(notification: notificationType) => notification?.type
 	);
-	const fromUserId = props?.notificationData?.data.map(
+	const fromUserId = props?.notificationData?.data?.map(
 		(notification: notificationFromUserId) => notification?.fromUserId
 	);
-	const nftId = props?.notificationData?.data.map(
+	const nftId = props?.notificationData?.data?.map(
 		(notification: notificationNftId) => notification?.nftId
 	);
-	const isSeen = props?.notificationData?.data.map(
+	const isSeen = props?.notificationData?.data?.map(
 		(notification: notificationIsSeen) => notification?.isSeen
 	);
-	const notificationId = props?.notificationData?.data.map(
+	const notificationId = props?.notificationData?.data?.map(
 		(notification: notificationId) => notification?._id
 	);
-	const notificationTime = props?.notificationData?.data.map(
+	const notificationTime = props?.notificationData?.data?.map(
 		(notification: notificationTime) => notification?.createdAt
 	);
 	let path = `explore/nftdetail/`;

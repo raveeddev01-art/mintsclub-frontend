@@ -313,12 +313,33 @@
 		right: 77px;
 		margin-top: 1.7rem !important;
 	}
+	.main-nav-container .notification-loader {
+		top: 0;
+		margin-right: 77px;
+		margin-top: 0px;
+	}
 	.main-nav-container .search-box:hover > .search-txt {
 		width: 170px;
 	}
 	.main-nav-container .search-box .search-txt.activeSearch {
 		width: 170px;
 	}
+}
+
+.notification-loader{
+	color: var(--menu-text);
+  margin-top: 23px;
+  left: 5px;
+  font-size: 25px;
+  transform-origin: top;
+  cursor: pointer;
+//   animation: bell 1s linear ease alternate-reverse;
+  padding-top: -22px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 5px;
+
 }
 
 @media (max-width: 991.9px) {

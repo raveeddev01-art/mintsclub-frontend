@@ -34,10 +34,8 @@ const NavbarMain = () => {
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 	const wallet = useWallet();
 	// let notificationData: never[] | AxiosResponse<any> = [];
-	const [notificationData, setNotificationData] = useState<object>({});
-	const [seenNotification, setSeenNotification] = useState<notificationSeen>(
-		{}
-	);
+	const [notificationData, setNotificationData] = useState<any>();
+	const [seenNotification, setSeenNotification] = useState<any>();
 	//Listen Metamask listeners
 	ListenMetaMaskAccs();
 
@@ -360,7 +358,15 @@ const NavbarMain = () => {
 							setEnableNotification(false);
 						}}
 					>
-						{ENV.getUserKeys('_id')._id ? (
+						{!ENV.getUserKeys('_id')._id ? null : !notificationData &&
+						  !seenNotification ? (
+							<div
+								className="spinner-grow text-primary notification-loader"
+								role="status"
+							>
+								<span className="sr-only">Loading...</span>
+							</div>
+						) : (
 							<div
 								className="bell-notification"
 								data-percent={count}
@@ -368,7 +374,7 @@ const NavbarMain = () => {
 							>
 								<i className="fa-solid fa-bell"></i>
 							</div>
-						) : null}
+						)}
 						{enableNotification ? (
 							<Notification notificationData={notificationData} />
 						) : (
