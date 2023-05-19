@@ -375,7 +375,7 @@ const NavbarMain = () => {
 								<i className="fa-solid fa-bell"></i>
 							</div>
 						)}
-						{enableNotification ? (
+						{enableNotification && notificationData && seenNotification ? (
 							<Notification notificationData={notificationData} />
 						) : (
 							''
