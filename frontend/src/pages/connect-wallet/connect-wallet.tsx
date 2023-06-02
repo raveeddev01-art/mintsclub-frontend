@@ -224,8 +224,8 @@ const ConnectWallet = (props: any) => {
 	///Authenticate
 	const onSuccessAuthentication = (data: any) => {
 		if (data.data.success) {
-			history.push(location?.state ? location.state : '/');
 			ENV.encryptUserData(data.data.data);
+			history.push(location?.state ? location.state : '/');
 		} else {
 			setError(data.data.message);
 		}

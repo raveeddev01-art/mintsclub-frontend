@@ -36,7 +36,7 @@ ReactDOM.render(
 					<App />
 					{/* <UseWalletChange /> */}
 					{/* <h1>testing</h1> */}
-					<ReactQueryDevtools position="bottom-left" />
+					{/* <ReactQueryDevtools position="bottom-left" /> */}
 				</QueryClientProvider>
 			</BrowserRouter>
 		</AppContextProvider>
