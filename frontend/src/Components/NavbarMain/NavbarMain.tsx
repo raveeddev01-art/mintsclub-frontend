@@ -34,8 +34,8 @@ const NavbarMain = () => {
 	const { darkMode, setDarkMode } = useContext(darkModeContext);
 	const wallet = useWallet();
 	// let notificationData: never[] | AxiosResponse<any> = [];
-	const [notificationData, setNotificationData] = useState<any>();
-	const [seenNotification, setSeenNotification] = useState<any>();
+	const [notificationData, setNotificationData] = useState<any>(null);
+	const [seenNotification, setSeenNotification] = useState<any>(null);
 	//Listen Metamask listeners
 	ListenMetaMaskAccs();
 
@@ -110,12 +110,16 @@ const NavbarMain = () => {
 			setDark();
 			setDarkMode(true);
 		}
-		getNotification();
-		getSeenNotification();
+		if (ENV.getUserKeys('_id')._id) {
+			getNotification();
+			getSeenNotification();
+		}
 	}, []);
 	useEffect(() => {
-		getNotification();
-		getSeenNotification();
+		if (ENV.getUserKeys('_id')._id) {
+			getNotification();
+			getSeenNotification();
+		}
 	}, [ENV.getUserKeys('_id')._id]);
 	//SystemSetting for Admin Pannel
 	const onSuccessSystemSetting = (data: any) => {
