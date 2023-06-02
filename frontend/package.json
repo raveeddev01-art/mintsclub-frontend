@@ -60,6 +60,7 @@
     "jquery": "^3.6.0",
     "jszip": "^3.10.1",
     "moment": "^2.29.1",
+    "network-speed": "^2.1.1",
     "os": "^0.1.2",
     "os-browserify": "^0.3.0",
     "path": "^0.12.7",

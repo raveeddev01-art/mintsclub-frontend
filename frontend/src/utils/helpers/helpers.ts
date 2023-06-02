@@ -7,6 +7,9 @@ import { ENV } from '../../config/config';
 import { formatBytes } from '../functions';
 import { STATUS_TYPE } from '../../interfaces/allnfts/types';
 import { toast } from 'react-toastify';
+import NetworkSpeed from 'network-speed';
+const testNetworkSpeed = new NetworkSpeed();
+
 const CHAIN_LOGOS = {
 	polygon: polygonIcon,
 	ethereum: ethereumIcon,
@@ -322,18 +325,14 @@ const NOTIFICATION_TEXT: any = {
 	},
 };
 const internetSpeedCheck = (): any => {
-	const connection =
-		(navigator as any).connection ||
-		(navigator as any).mozConnection ||
-		(navigator as any).webkitConnection;
-	// if(!navigator.onLine){
-	// 	toast.error('No Internet Connection')
-	// 	return false
-
-	// }
-	if (connection) {
-		const { effectiveType, rtt } = connection;
-		if (effectiveType === '2g') {
+	async function getNetworkDownloadSpeed() {
+		const baseUrl = 'https://eu.httpbin.org/stream-bytes/500000';
+		const fileSizeInBytes = 500000;
+		const speed = await testNetworkSpeed.checkDownloadSpeed(
+			baseUrl,
+			fileSizeInBytes
+		);
+		if (Number(speed.mbps) <= 0.2) {
 			toast.error('Slow Internet , it may take some time', {
 				position: 'top-left',
 				autoClose: 5000,
@@ -349,6 +348,7 @@ const internetSpeedCheck = (): any => {
 			return true;
 		}
 	}
+	getNetworkDownloadSpeed();
 };
 
 export {
