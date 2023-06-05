@@ -22,13 +22,14 @@ const algodPort = '';
 
 let algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
 
-export const connectWallet = async (setIsButtonDisabled) => {
+export const connectWallet = async (setIsButtonDisabled, setIsLoader) => {
 	try {
 		const accounts = await myAlgoConnect.connect(settings);
 		const sk = await accounts.map((account) => account.sk);
 		const address = accounts.map((account) => account.address);
 		const name = accounts.map((account) => account.name);
 		setIsButtonDisabled(false);
+		setIsLoader(false);
 		// let account_mnemonic = algosdk.secretKeyToMnemonic(accounts[0].sk);
 		return address;
 
@@ -37,6 +38,7 @@ export const connectWallet = async (setIsButtonDisabled) => {
 		// setnemonic(account_mnemonic);
 	} catch (err) {
 		setIsButtonDisabled(false);
+		setIsLoader(flase);
 		console.error(err);
 	}
 };

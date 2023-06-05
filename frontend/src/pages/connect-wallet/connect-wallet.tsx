@@ -37,6 +37,7 @@ const ConnectWallet = (props: any) => {
 	const location: any = useLocation();
 	const [connectedAddress, setConnectedAddres] = useState<any>(null);
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+	const [isLoader, setIsLoader] = useState<boolean>(false);
 
 	const { setError } = useContext(errorHandler);
 
@@ -241,7 +242,8 @@ const ConnectWallet = (props: any) => {
 	// CONNECT ALGO WALLET
 	const connectAlgoWallet = async () => {
 		try {
-			const addr = await connectWallet(setIsButtonDisabled);
+			setIsLoader(true);
+			const addr = await connectWallet(setIsButtonDisabled, setIsLoader);
 			await setConnectedAddres(addr?.[0]);
 			await props.setWalletAddress(addr?.[0]);
 			await props.setBlockchainType('algorand');
@@ -249,6 +251,7 @@ const ConnectWallet = (props: any) => {
 		} catch (error: any) {
 			toast.error(error.message);
 			setIsButtonDisabled(false);
+			setIsLoader(false);
 		}
 	};
 	const connectPhantomWallet = async () => {
@@ -474,7 +477,7 @@ const ConnectWallet = (props: any) => {
 
 	return (
 		<Container>
-			{isLoading === true ? <FullPageLoader /> : null}
+			{isLoading === true || isLoader === true ? <FullPageLoader /> : null}
 			<div className="connect-wallet-container">
 				<h3 className="modal-title">Connect Your Wallet</h3>
 				<p className="modal-description">
